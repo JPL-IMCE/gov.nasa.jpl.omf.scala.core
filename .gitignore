@@ -1,0 +1,6 @@
+.cache
+bin
+coreLibs
+project/target
+target
+
