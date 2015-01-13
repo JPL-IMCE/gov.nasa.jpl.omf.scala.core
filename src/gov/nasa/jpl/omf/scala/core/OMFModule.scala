@@ -47,11 +47,7 @@ trait OMFModule {
 }
 
 trait OMFOpsModule extends OMFModule {
+  
   implicit val ops: OMFOps[omf]
   
-  def findTerminologyGraph(iri: omf#IRI): Option[omf#ModelTerminologyGraph]
-  def getTerminologyGraphs(): Iterable[(omf#IRI, omf#ModelTerminologyGraph)]
-  
-  def findInstanceGraph(iri: omf#IRI): Option[omf#ModelInstanceGraph]
-  def getInstanceGraphs(): Iterable[(omf#IRI, omf#ModelInstanceGraph)]
 }

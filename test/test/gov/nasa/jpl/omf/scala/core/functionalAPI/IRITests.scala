@@ -40,7 +40,6 @@
 package test.gov.nasa.jpl.omf.scala.core.functionalAPI
 
 import gov.nasa.jpl.omf.scala.core._
-import gov.nasa.jpl.omf.scala.core.functionalAPI._
 import gov.nasa.jpl.omf.scala.core.RelationshipCharacteristics._
 
 import scala.language.implicitConversions

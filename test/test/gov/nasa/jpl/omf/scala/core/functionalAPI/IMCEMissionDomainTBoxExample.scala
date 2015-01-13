@@ -40,7 +40,6 @@
 package test.gov.nasa.jpl.omf.scala.core.functionalAPI
 
 import gov.nasa.jpl.omf.scala.core._
-import gov.nasa.jpl.omf.scala.core.functionalAPI._
 import gov.nasa.jpl.omf.scala.core.RelationshipCharacteristics._
 
 import scala.language.implicitConversions
@@ -48,56 +47,59 @@ import scala.language.postfixOps
 import org.scalatest._
 import scalaz.Scalaz._
 
-abstract class IMCEMissionDomainTBoxExample[omf <: OMF]()( implicit ops: OMFOps[omf] )
-extends WordSpec with Matchers {
+abstract class IMCEMissionDomainTBoxExample[omf <: OMF]()( implicit ops: OMFOps[omf], store: omf#Store )
+  extends WordSpec with Matchers {
 
   import ops._
 
-  val i_m: omf#IRI = makeIRI("http://imce.jpl.nasa.gov/foundation/mission/mission")
-  val i_c = makeIRI("http://imce.jpl.nasa.gov/foundation/mission/mission#Component")
-  val i_f = makeIRI("http://imce.jpl.nasa.gov/foundation/mission/mission#Function")
-  val i_p = makeIRI("http://imce.jpl.nasa.gov/foundation/mission/mission#Performs")
-
-  val c_c = makeEntityConcept(i_c)
-  val c_f = makeEntityConcept(i_f)
-  val r_cPf = makeEntityRelationship(i_p, c_c, c_f, isAsymmetric, isInverseFunctional)
-
-  val t0 = makeTerminologyGraph(i_m);
-
-  val t1 = t0 withConcept(c_c);
-
-  val t2 = makeTerminologyGraph(i_m) withConcept c_c withEntityRelationship r_cPf;
-
-  val t3 = makeTerminologyGraph(i_m) withConcept makeEntityConcept(i_c) withEntityRelationship r_cPf;
-
-  val t4 = (
-    makeTerminologyGraph(i_m)
-    withConcept makeEntityConcept(i_c)
-    withEntityRelationship r_cPf)
+  val i_m0: omf#IRI = makeIRI( "http://imce.jpl.nasa.gov/foundation/mission/mission0" )
+  val i_m1: omf#IRI = makeIRI( "http://imce.jpl.nasa.gov/foundation/mission/mission1" )
 
   "basic construction tests" when {
     "empty tbox should be empty" in {
-      val (iri, c, r, sc, st, sdr, edr, ax) = ops.fromTerminologyGraph(t0)
-      c.isEmpty should be(true)
-      r.isEmpty should be(true)
-      sc.isEmpty should be(true)
-      st.isEmpty should be(true)
-      sdr.isEmpty should be(true)
-      edr.isEmpty should be(true)
-      ax.isEmpty should be(true)
+
+      val t0 = makeTerminologyGraph( i_m0 )
+      t0.isSuccess should be( true )
+
+      val ( iri, i, c, r, sc, st, sdr, edr, ax ) = ops.fromTerminologyGraph( t0.get )
+      i.isEmpty should be( true )
+      c.isEmpty should be( true )
+      r.isEmpty should be( true )
+      sc.isEmpty should be( true )
+      st.isEmpty should be( true )
+      sdr.isEmpty should be( true )
+      edr.isEmpty should be( true )
+      ax.isEmpty should be( true )
     }
-    
-    "lookup should find contents" in {
-      t2.tbox should be a 'success
-      val g2 = t2.graph.tgraph
-      g2 containsEntityConcept c_c should be(true)
-      g2 containsEntityConcept c_f should be(false)
-    }
-    
-    "equivalent constructions should be isomorphic" in {
-       t2.tbox should be a 'success
-       t4.tbox should be a 'success
-       t2.graph isIsomorphicWith t4.graph
+
+    "simple construction & lookup" in {
+
+      val t1 = makeTerminologyGraph( i_m1 )
+      t1.isSuccess should be( true )
+
+      val g = t1.get
+
+      val component = addEntityConcept( g, "Component" )
+      component.isSuccess should be( true )
+
+      val function = addEntityConcept( g, "Function" )
+      function.isSuccess should be( true )
+
+      val ( iri, _i, _c, _r, _sc, _st, _sdr, _edr, _ax ) = fromTerminologyGraph( g )
+      iri should be( i_m1 )
+      _i.isEmpty should be( true )
+
+      _c.nonEmpty should be( true )
+      _c.iterator.size should be( 2 )
+      _c.iterator.contains( component.get ) should be( true )
+      _c.iterator.contains( function.get ) should be( true )
+
+      _r.isEmpty should be( true )
+      _sc.isEmpty should be( true )
+      _st.isEmpty should be( true )
+      _sdr.isEmpty should be( true )
+      _edr.isEmpty should be( true )
+      _ax.isEmpty should be( true )
     }
   }
 

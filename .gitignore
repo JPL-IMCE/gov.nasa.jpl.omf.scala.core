@@ -1,6 +1,7 @@
 .cache
 bin
 coreLibs
+project/project
 project/target
 target
 

@@ -84,6 +84,11 @@ package gov.nasa.jpl.omf.scala.core
  */
 trait OMF {
   
+  /**
+   * The type of an OMF storage provider. An instance of a Store is an implicit parameter for the construction-related operations in OMFDSL.
+   */
+  type Store
+  
   type IRI
     
   // types for IMCE T-Box ontologies
