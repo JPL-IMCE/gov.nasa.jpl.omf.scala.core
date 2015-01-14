@@ -1,0 +1,17 @@
+Version 0.3: January 14, 2015
+
+New unit test: 'OMFVocabularyTest' based on patterns found in the IMCE foundation ontologies
+New concrete type: 'ModelEntityAspect' (e.g., base:IdentifiedElement)
+New concrete axiom: 'EntityDefinitionAspectSubClassAxiom'
+Add support for specifying 'abstract' concepts & relationships
+Add support for specifying the names of the unreified relationship and, optionally, of the unreified inverse relationship
+
+Version 0.2: January 13, 2015
+
+Refactor the API for a factory-oriented paradigm for construction.
+Previously, the API had "make..." constructors which were difficult
+to binding to factory-oriented APIs like OWLAPI or MD's UML.
+
+Version 0.1: January 12, 2015
+
+Initial contribution.

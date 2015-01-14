@@ -2,7 +2,7 @@ import com.banno.license.Plugin.LicenseKeys._
 
 name := "gov.nasa.jpl.omf.scala.core"
 
-version := "0.1"
+version := "0.3"
 
 organization := "JPL, Caltech"
 

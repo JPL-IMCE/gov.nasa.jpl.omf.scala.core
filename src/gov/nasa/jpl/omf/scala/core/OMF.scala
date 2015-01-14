@@ -55,8 +55,9 @@ package gov.nasa.jpl.omf.scala.core
  * 
  * 1 concrete type of TBox: ModelTerminologyGraph
  * 
- * 6 concrete types of TBox terms: ModelTypeTerm
+ * 7 concrete types of TBox terms: ModelTypeTerm
  * 
+ * ModelEntityAspect
  * ModelEntityConcept
  * ModelEntityRelationship
  * ModelScalarDataType
@@ -64,8 +65,9 @@ package gov.nasa.jpl.omf.scala.core
  * ModelStructuredDataRelationship
  * ModelEntityDataRelationship
  * 
- * 4 concrete types of TBox axioms: ModelTermAxiom
+ * 5 concrete types of TBox axioms: ModelTermAxiom
  * 
+ * EntityDefinitionAspectSubClassAxiom
  * EntityConceptSubClassAxiom
  * EntityConceptRestrictionAxiom
  * EntityRelationshipSubClassAxiom
@@ -98,6 +100,7 @@ trait OMF {
   type ModelTypeTerm
   
   type ModelEntityDefinition <: ModelTypeTerm
+  type ModelEntityAspect <: ModelEntityDefinition  
   type ModelEntityConcept <: ModelEntityDefinition
   type ModelEntityRelationship <: ModelEntityDefinition
     
@@ -111,11 +114,12 @@ trait OMF {
   
   type ModelTermAxiom
   
-  type EntityConceptSubClassAxiom <: ModelTermAxiom				// (sub, sup)
-  type EntityConceptRestrictionAxiom <: ModelTermAxiom			// (sub, rel, range) = ObjectAllValuesFrom
-  type EntityRelationshipSubClassAxiom <: ModelTermAxiom	  // (sub, sup)
+  type EntityDefinitionAspectSubClassAxiom <: ModelTermAxiom  // (sub, sup)
+  type EntityConceptSubClassAxiom <: ModelTermAxiom				  // (sub, sup)
+  type EntityConceptRestrictionAxiom <: ModelTermAxiom			  // (sub, rel, range) = ObjectAllValuesFrom
+  type EntityRelationshipSubClassAxiom <: ModelTermAxiom	    // (sub, sup)
   
-  type ScalarDataTypeFacetRestriction <: ModelTermAxiom    // (sup, sup, [facet, literal]+)
+  type ScalarDataTypeFacetRestriction <: ModelTermAxiom      // (sup, sup, [facet, literal]+)
   
   // types for IMCE A-Box ontologies
   

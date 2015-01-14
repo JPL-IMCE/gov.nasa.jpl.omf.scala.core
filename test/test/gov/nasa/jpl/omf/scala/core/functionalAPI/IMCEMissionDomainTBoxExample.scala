@@ -58,11 +58,12 @@ abstract class IMCEMissionDomainTBoxExample[omf <: OMF]()( implicit ops: OMFOps[
   "basic construction tests" when {
     "empty tbox should be empty" in {
 
-      val t0 = makeTerminologyGraph( i_m0 )
+      val t0 = makeTerminologyGraph( i_m0, Nil )
       t0.isSuccess should be( true )
 
-      val ( iri, i, c, r, sc, st, sdr, edr, ax ) = ops.fromTerminologyGraph( t0.get )
+      val ( iri, i, f, c, r, sc, st, sdr, edr, ax ) = ops.fromTerminologyGraph( t0.get )
       i.isEmpty should be( true )
+      f.isEmpty should be( true )
       c.isEmpty should be( true )
       r.isEmpty should be( true )
       sc.isEmpty should be( true )
@@ -74,7 +75,7 @@ abstract class IMCEMissionDomainTBoxExample[omf <: OMF]()( implicit ops: OMFOps[
 
     "simple construction & lookup" in {
 
-      val t1 = makeTerminologyGraph( i_m1 )
+      val t1 = makeTerminologyGraph( i_m1, Nil )
       t1.isSuccess should be( true )
 
       val g = t1.get
@@ -85,9 +86,10 @@ abstract class IMCEMissionDomainTBoxExample[omf <: OMF]()( implicit ops: OMFOps[
       val function = addEntityConcept( g, "Function" )
       function.isSuccess should be( true )
 
-      val ( iri, _i, _c, _r, _sc, _st, _sdr, _edr, _ax ) = fromTerminologyGraph( g )
+      val ( iri, _i, _f, _c, _r, _sc, _st, _sdr, _edr, _ax ) = fromTerminologyGraph( g )
       iri should be( i_m1 )
       _i.isEmpty should be( true )
+      _f.isEmpty should be( true )
 
       _c.nonEmpty should be( true )
       _c.iterator.size should be( 2 )
