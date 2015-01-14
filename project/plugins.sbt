@@ -1,6 +1,6 @@
-//resolvers += Resolver.url("sbt-license-plugin-releases", url("http://dl.bintray.com/banno/oss"))(Resolver.ivyStylePatterns)
+resolvers += Resolver.url("sbt-license-plugin-releases", url("http://dl.bintray.com/banno/oss"))(Resolver.ivyStylePatterns)
 
-addSbtPlugin("com.banno" % "sbt-license-plugin" % "0.1.1-SNAPSHOT")
+addSbtPlugin("com.banno" % "sbt-license-plugin" % "0.1.4")
 
 resolvers += "jgit-repo" at "http://download.eclipse.org/jgit/maven"
 

@@ -1,3 +1,7 @@
+Version 0.4: January 14, 2015
+
+Use sbt-license-plugin, version 0.1.4, which incorporates the functionality to format the license header for all sources
+
 Version 0.3: January 14, 2015
 
 New unit test: 'OMFVocabularyTest' based on patterns found in the IMCE foundation ontologies

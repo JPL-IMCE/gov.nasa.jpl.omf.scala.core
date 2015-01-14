@@ -37,7 +37,7 @@ To install SBT, use a package manager for your system (Linux, MacOSX, Windows,..
 
 ### SBT Plugins used in this project
 
-- [sbt-license-plugin](https://github.com/Banno/sbt-license-plugin), with enhancement for formatting all sources (scala, java) involved in compilation & testing, see: [JPL MBEE's sbt-license-plugin](https://github.com/Open-MBEE/sbt-license-plugin/tree/formatAll)
+- [sbt-license-plugin](https://github.com/Banno/sbt-license-plugin)
 
 ## Building the OMF Scala Core
 
