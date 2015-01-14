@@ -221,7 +221,7 @@ trait OMFOps[omf <: OMF]
 
   // entity aspect
 
-  def fromEntityASpect( t: omf#ModelEntityAspect ): omf#IRI
+  def fromEntityAspect( t: omf#ModelEntityAspect ): omf#IRI
   
   // entity definition
 
