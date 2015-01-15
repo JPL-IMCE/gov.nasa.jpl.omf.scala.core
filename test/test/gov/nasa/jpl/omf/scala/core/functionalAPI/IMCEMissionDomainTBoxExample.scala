@@ -61,15 +61,17 @@ abstract class IMCEMissionDomainTBoxExample[omf <: OMF]()( implicit ops: OMFOps[
       val t0 = makeTerminologyGraph( i_m0, Nil )
       t0.isSuccess should be( true )
 
-      val ( iri, i, f, c, r, sc, st, sdr, edr, ax ) = ops.fromTerminologyGraph( t0.get )
+      val ( iri, i, f, c, r, sc, st, esc, est, ssc, sst, ax ) = ops.fromTerminologyGraph( t0.get )
       i.isEmpty should be( true )
       f.isEmpty should be( true )
       c.isEmpty should be( true )
       r.isEmpty should be( true )
       sc.isEmpty should be( true )
       st.isEmpty should be( true )
-      sdr.isEmpty should be( true )
-      edr.isEmpty should be( true )
+      esc.isEmpty should be( true )
+      est.isEmpty should be( true )
+      ssc.isEmpty should be( true )
+      sst.isEmpty should be( true )
       ax.isEmpty should be( true )
     }
 
@@ -86,7 +88,7 @@ abstract class IMCEMissionDomainTBoxExample[omf <: OMF]()( implicit ops: OMFOps[
       val function = addEntityConcept( g, "Function" )
       function.isSuccess should be( true )
 
-      val ( iri, _i, _f, _c, _r, _sc, _st, _sdr, _edr, _ax ) = fromTerminologyGraph( g )
+      val ( iri, _i, _f, _c, _r, _sc, _st, _esc, _est, _ssc, _sst, _ax ) = fromTerminologyGraph( g )
       iri should be( i_m1 )
       _i.isEmpty should be( true )
       _f.isEmpty should be( true )
@@ -99,8 +101,10 @@ abstract class IMCEMissionDomainTBoxExample[omf <: OMF]()( implicit ops: OMFOps[
       _r.isEmpty should be( true )
       _sc.isEmpty should be( true )
       _st.isEmpty should be( true )
-      _sdr.isEmpty should be( true )
-      _edr.isEmpty should be( true )
+      _esc.isEmpty should be( true )
+      _est.isEmpty should be( true )
+      _ssc.isEmpty should be( true )
+      _sst.isEmpty should be( true )
       _ax.isEmpty should be( true )
     }
   }

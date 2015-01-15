@@ -1,3 +1,25 @@
+Version 0.5: January 15, 2015
+
+Change the modeling of data relationships:
+
+Previously: ModelEntityDataRelationship, ModelStructuredDataRelationship
+- These 2 types were intended for data relationships from an entity or structured data type respectively to a datatype (scalar or structured)
+  This would complicate the binding to OWL where the distinction between scalar vs. structured datatype matters (OWL DataType vs. OWL Class)
+
+Now: Distinguish data relationships from entities vs. structured data types and to scala vs. structured datatypes
+
+- This results in 4 kinds of relationships at the TBox level:
+ModelDataRelationshipFromEntityToScalar
+ModelDataRelationshipFromEntityToStructure
+ModelDataRelationshipFromStructureToScalar
+ModelDataRelationshipFromStructureToStructure
+
+- and 4 at the ABox level:
+ModelInstanceDataRelationshipFromEntityToScalar
+ModelInstanceDataRelationshipFromEntityToStructure
+ModelInstanceDataRelationshipFromStructureToScalar
+ModelInstanceDataRelationshipFromStructureToStructure
+
 Version 0.4: January 14, 2015
 
 Use sbt-license-plugin, version 0.1.4, which incorporates the functionality to format the license header for all sources

@@ -91,40 +91,54 @@ trait OMFOps[omf <: OMF]
 
   def fromTerminologyGraph( graph: omf#ModelTerminologyGraph ): ( omf#IRI, Iterable[omf#ModelTerminologyGraph], 
       Iterable[omf#ModelEntityAspect], 
-      Iterable[omf#ModelEntityConcept], Iterable[omf#ModelEntityRelationship], Iterable[omf#ModelScalarDataType], Iterable[omf#ModelStructuredDataType], Iterable[omf#ModelStructuredDataRelationship], Iterable[omf#ModelEntityDataRelationship], Iterable[omf#ModelTermAxiom] )
+      Iterable[omf#ModelEntityConcept],
+      Iterable[omf#ModelEntityRelationship], 
+      Iterable[omf#ModelScalarDataType], 
+      Iterable[omf#ModelStructuredDataType], 
+      Iterable[omf#ModelDataRelationshipFromEntityToScalar], 
+      Iterable[omf#ModelDataRelationshipFromEntityToStructure],
+      Iterable[omf#ModelDataRelationshipFromStructureToScalar],
+      Iterable[omf#ModelDataRelationshipFromStructureToStructure],
+      Iterable[omf#ModelTermAxiom] )
 
   def isEntityDefinitionAssertedInTerminologyGraph( t: omf#ModelTypeTerm, graph: omf#ModelTerminologyGraph ): Boolean = {
-    val ( iri, _i, _f, _c, _r, _sc, _st, _sdr, _edr, _ax ) = fromTerminologyGraph( graph )
+    val ( iri, _i, _f, _c, _r, _sc, _st, _esc, _est, _ssc, _sst, _ax ) = fromTerminologyGraph( graph )
     ( _c.toSet contains t ) || ( _r.toSet contains t )
   }
 
   def isEntityDefinitionImportedInTerminologyGraph( t: omf#ModelTypeTerm, graph: omf#ModelTerminologyGraph ): Boolean = {
     !isEntityDefinitionAssertedInTerminologyGraph( t, graph ) && {
-      val ( iri, _i, _f, _c, _r, _sc, _st, _sdr, _edr, _ax ) = fromTerminologyGraph( graph )
+      val ( iri, _i, _f, _c, _r, _sc, _st, _esc, _est, _ssc, _sst, _ax ) = fromTerminologyGraph( graph )
       _i.exists( ig => isEntityDefinitionAssertedInTerminologyGraph( t, ig ) || isEntityDefinitionImportedInTerminologyGraph( t, ig ) )
     }
   }
 
-  def isEntityDataRelationshipAssertedInTerminologyGraph( t: omf#ModelTypeTerm, graph: omf#ModelTerminologyGraph ): Boolean = {
-    val ( iri, _i, _f, _c, _r, _sc, _st, _sdr, _edr, _ax ) = fromTerminologyGraph( graph )
-    ( _edr.toSet contains t )
+  def isEntityDataRelationshipFromEntityToScalarAssertedInTerminologyGraph( t: omf#ModelTypeTerm, graph: omf#ModelTerminologyGraph ): Boolean = {
+    val( iri, _i, _f, _c, _r, _sc, _st, _esc, _est, _ssc, _sst, _ax ) = fromTerminologyGraph( graph )
+    ( _esc.toSet contains t )
   }
 
-  def isDataDefinitionAssertedInTerminologyGraph( t: omf#ModelTypeTerm, graph: omf#ModelTerminologyGraph ): Boolean = {
-    val ( iri, _i, _f, _c, _r, _sc, _st, _sdr, _edr, _ax ) = fromTerminologyGraph( graph )
-    ( _sc.toSet contains t ) || ( _st.toSet contains t )
+  def isEntityDataRelationshipFromEntityToStructureAssertedInTerminologyGraph( t: omf#ModelTypeTerm, graph: omf#ModelTerminologyGraph ): Boolean = {
+    val( iri, _i, _f, _c, _r, _sc, _st, _esc, _est, _ssc, _sst, _ax ) = fromTerminologyGraph( graph )
+    ( _est.toSet contains t )
+  }
+  
+  def isEntityDataRelationshipFromStructureToScalarAssertedInTerminologyGraph( t: omf#ModelTypeTerm, graph: omf#ModelTerminologyGraph ): Boolean = {
+    val( iri, _i, _f, _c, _r, _sc, _st, _esc, _est, _ssc, _sst, _ax ) = fromTerminologyGraph( graph )
+    ( _ssc.toSet contains t )
   }
 
-  def isStructuredDataRelationshipAssertedInTerminologyGraph( t: omf#ModelTypeTerm, graph: omf#ModelTerminologyGraph ): Boolean = {
-    val ( iri, _i, _f, _c, _r, _sc, _st, _sdr, _edr, _ax ) = fromTerminologyGraph( graph )
-    ( _sdr.toSet contains t )
+  def isEntityDataRelationshipFromStructureToStructureAssertedInTerminologyGraph( t: omf#ModelTypeTerm, graph: omf#ModelTerminologyGraph ): Boolean = {
+    val( iri, _i, _f, _c, _r, _sc, _st, _esc, _est, _ssc, _sst, _ax ) = fromTerminologyGraph( graph )
+    ( _sst.toSet contains t )
   }
-
+  
   def isTypeTermAssertedInTerminologyGraph( t: omf#ModelTypeTerm, graph: omf#ModelTerminologyGraph ): Boolean =
     isEntityDefinitionAssertedInTerminologyGraph( t, graph ) ||
-      isEntityDataRelationshipAssertedInTerminologyGraph( t, graph ) ||
-      isDataDefinitionAssertedInTerminologyGraph( t, graph ) ||
-      isStructuredDataRelationshipAssertedInTerminologyGraph( t, graph )
+      isEntityDataRelationshipFromEntityToScalarAssertedInTerminologyGraph( t, graph ) ||
+      isEntityDataRelationshipFromEntityToStructureAssertedInTerminologyGraph( t, graph ) ||
+      isEntityDataRelationshipFromStructureToScalarAssertedInTerminologyGraph( t, graph ) ||
+      isEntityDataRelationshipFromStructureToStructureAssertedInTerminologyGraph( t, graph )
 
   def lookupTypeTerm( graph: omf#ModelTerminologyGraph, iri: omf#IRI ): Option[omf#ModelTypeTerm]
 
@@ -133,8 +147,10 @@ trait OMFOps[omf <: OMF]
   def lookupEntityRelationship( graph: omf#ModelTerminologyGraph, iri: omf#IRI ): Option[omf#ModelEntityRelationship]
   def lookupScalarDataType( graph: omf#ModelTerminologyGraph, iri: omf#IRI ): Option[omf#ModelScalarDataType]
   def lookupStructuredDataType( graph: omf#ModelTerminologyGraph, iri: omf#IRI ): Option[omf#ModelStructuredDataType]
-  def lookupStructuredDataRelationship( graph: omf#ModelTerminologyGraph, iri: omf#IRI ): Option[omf#ModelStructuredDataRelationship]
-  def lookupEntityDataRelationship( graph: omf#ModelTerminologyGraph, iri: omf#IRI ): Option[omf#ModelEntityDataRelationship]
+  def lookupEntityDataRelationshipFromEntityToScalar( graph: omf#ModelTerminologyGraph, iri: omf#IRI ): Option[omf#ModelDataRelationshipFromEntityToScalar]
+  def lookupEntityDataRelationshipFromEntityToStructure( graph: omf#ModelTerminologyGraph, iri: omf#IRI ): Option[omf#ModelDataRelationshipFromEntityToStructure]
+  def lookupEntityDataRelationshipFromStructureToScalar( graph: omf#ModelTerminologyGraph, iri: omf#IRI ): Option[omf#ModelDataRelationshipFromStructureToScalar]
+  def lookupEntityDataRelationshipFromStructureToStructure( graph: omf#ModelTerminologyGraph, iri: omf#IRI ): Option[omf#ModelDataRelationshipFromStructureToStructure]
 
   /**
    * Add to a terminology graph a new ModelEntityAspect
@@ -189,17 +205,29 @@ trait OMFOps[omf <: OMF]
     graph: omf#ModelTerminologyGraph,
     fragment: String )( implicit store: omf#Store ): Try[omf#ModelStructuredDataType]
 
-  def addStructuredDataRelationship(
-    graph: omf#ModelTerminologyGraph,
-    source: omf#ModelStructuredDataType,
-    target: omf#ModelDataTypeDefinition,
-    fragment: String )( implicit store: omf#Store ): Try[omf#ModelStructuredDataRelationship]
-
-  def addEntityDataRelationship(
+  def addDataRelationshipFromEntityToScalar(
     graph: omf#ModelTerminologyGraph,
     source: omf#ModelEntityDefinition,
-    target: omf#ModelDataTypeDefinition,
-    fragment: String )( implicit store: omf#Store ): Try[omf#ModelEntityDataRelationship]
+    target: omf#ModelScalarDataType,
+    dataRelationshipName: String )( implicit store: omf#Store ): Try[omf#ModelDataRelationshipFromEntityToScalar]
+
+  def addDataRelationshipFromEntityToStructure(
+    graph: omf#ModelTerminologyGraph,
+    source: omf#ModelEntityDefinition,
+    target: omf#ModelStructuredDataType,
+    dataRelationshipName: String )( implicit store: omf#Store ): Try[omf#ModelDataRelationshipFromEntityToStructure]
+  
+  def addDataRelationshipFromStructureToScalar(
+    graph: omf#ModelTerminologyGraph,
+    source: omf#ModelStructuredDataType,
+    target: omf#ModelScalarDataType,
+    dataRelationshipName: String )( implicit store: omf#Store ): Try[omf#ModelDataRelationshipFromStructureToScalar]
+
+  def addDataRelationshipFromStructureToStructure(
+    graph: omf#ModelTerminologyGraph,
+    source: omf#ModelStructuredDataType,
+    target: omf#ModelStructuredDataType,
+    dataRelationshipName: String )( implicit store: omf#Store ): Try[omf#ModelDataRelationshipFromStructureToStructure]
 
   def getTerms( graph: omf#ModelTerminologyGraph ): ( omf#IRI, Iterable[omf#ModelTypeTerm] )
 
@@ -208,16 +236,20 @@ trait OMFOps[omf <: OMF]
     funEntityRelationship: omf#ModelEntityRelationship => T,
     funScalarDataType: omf#ModelScalarDataType => T,
     funStructuredDataType: omf#ModelStructuredDataType => T,
-    funStructuredDataRelationship: omf#ModelStructuredDataRelationship => T,
-    funEntityDataRelationship: omf#ModelEntityDataRelationship => T ): T
+    funDataRelationshipFromEntityToScalar: omf#ModelDataRelationshipFromEntityToScalar => T,
+    funDataRelationshipFromEntityToStructure: omf#ModelDataRelationshipFromEntityToStructure => T,
+    funDataRelationshipFromStructureToScalar: omf#ModelDataRelationshipFromStructureToScalar => T,
+    funDataRelationshipFromStructureToStructure: omf#ModelDataRelationshipFromStructureToStructure => T ): T
 
   def fromTerm( t: omf#ModelTypeTerm ): omf#IRI = foldTerm[omf#IRI]( t )(
     ( ec: omf#ModelEntityConcept ) => fromEntityConcept( ec ),
     ( er: omf#ModelEntityRelationship ) => fromEntityRelationship( er )._1,
     ( sc: omf#ModelScalarDataType ) => fromScalarDataType( sc ),
     ( sd: omf#ModelStructuredDataType ) => fromStructuredDataType( sd ),
-    ( sdr: omf#ModelStructuredDataRelationship ) => fromStructuredDataRelationship( sdr )._1,
-    ( edr: omf#ModelEntityDataRelationship ) => fromEntityDataRelationship( edr )._1 )
+    ( esc: omf#ModelDataRelationshipFromEntityToScalar ) => fromDataRelationshipFromEntityToScalar( esc )._1,
+    ( est: omf#ModelDataRelationshipFromEntityToStructure ) => fromDataRelationshipFromEntityToStructure( est )._1 ,
+    ( ssc: omf#ModelDataRelationshipFromStructureToScalar ) => fromDataRelationshipFromStructureToScalar( ssc )._1,
+    ( sst: omf#ModelDataRelationshipFromStructureToStructure ) => fromDataRelationshipFromStructureToStructure( sst )._1 )
 
   // entity aspect
 
@@ -275,27 +307,23 @@ trait OMFOps[omf <: OMF]
     d.isEmpty
   }
 
-  // structured data relationship
+  // data relationship from entity to scalar
 
-  def fromStructuredDataRelationship( sd: omf#ModelStructuredDataRelationship ): ( omf#IRI, omf#ModelStructuredDataType, omf#ModelDataTypeDefinition )
+  def fromDataRelationshipFromEntityToScalar( esc: omf#ModelDataRelationshipFromEntityToScalar ): ( omf#IRI, omf#ModelEntityDefinition, omf#ModelScalarDataType )
 
-  def equivalentStructuredDataRelationships( sdr1: Iterable[omf#ModelStructuredDataRelationship], sdr2: Iterable[omf#ModelStructuredDataRelationship] ): Boolean = {
-    val left = sdr1.map { c => val ( i, s, r ) = fromStructuredDataRelationship( c ); ( i, fromStructuredDataType( s ), fromDataTypeDefinition( r ) ) } toSet
-    val right = sdr2.map { c => val ( i, s, r ) = fromStructuredDataRelationship( c ); ( i, fromStructuredDataType( s ), fromDataTypeDefinition( r ) ) } toSet
-    val d = left.diff( right )
-    d.isEmpty
-  }
+  // data relationship from entity to structure
 
-  // entity data relationship
+  def fromDataRelationshipFromEntityToStructure( est: omf#ModelDataRelationshipFromEntityToStructure ): ( omf#IRI, omf#ModelEntityDefinition, omf#ModelStructuredDataType )
 
-  def fromEntityDataRelationship( ed: omf#ModelEntityDataRelationship ): ( omf#IRI, omf#ModelEntityDefinition, omf#ModelDataTypeDefinition )
 
-  def equivalentEntityDataRelationships( edr1: Iterable[omf#ModelEntityDataRelationship], edr2: Iterable[omf#ModelEntityDataRelationship] ): Boolean = {
-    val left = edr1.map { c => val ( i, s, r ) = fromEntityDataRelationship( c ); ( i, fromEntityDefinition( s ), fromDataTypeDefinition( r ) ) } toSet
-    val right = edr2.map { c => val ( i, s, r ) = fromEntityDataRelationship( c ); ( i, fromEntityDefinition( s ), fromDataTypeDefinition( r ) ) } toSet
-    val d = left.diff( right )
-    d.isEmpty
-  }
+  // data relationship from structure to scalar
+
+  def fromDataRelationshipFromStructureToScalar( esc: omf#ModelDataRelationshipFromStructureToScalar ): ( omf#IRI, omf#ModelStructuredDataType, omf#ModelScalarDataType )
+
+  // data relationship from structure to structure
+
+  def fromDataRelationshipFromStructureToStructure( est: omf#ModelDataRelationshipFromStructureToStructure ): ( omf#IRI, omf#ModelStructuredDataType, omf#ModelStructuredDataType )
+
 
   // model term axiom
 
@@ -354,7 +382,18 @@ trait OMFOps[omf <: OMF]
 
   def getInstanceGraphIRI( graph: omf#ModelInstanceGraph ): omf#IRI
 
-  def fromInstanceGraph( graph: omf#ModelInstanceGraph ): ( omf#IRI, Iterable[omf#ModelTerminologyGraph], Iterable[omf#ModelInstanceGraph], Iterable[omf#ModelInstanceObject], Iterable[omf#ModelInstanceRelation], Iterable[omf#ModelInstanceDataLiteral], Iterable[omf#ModelInstanceDataStructure], Iterable[omf#ModelStructuredDataProperty], Iterable[omf#ModelEntityDataProperty] )
+  def fromInstanceGraph( graph: omf#ModelInstanceGraph ): ( 
+      omf#IRI, 
+      Iterable[omf#ModelTerminologyGraph], 
+      Iterable[omf#ModelInstanceGraph], 
+      Iterable[omf#ModelInstanceObject], 
+      Iterable[omf#ModelInstanceRelation], 
+      Iterable[omf#ModelInstanceDataLiteral], 
+      Iterable[omf#ModelInstanceDataStructure], 
+      Iterable[omf#ModelInstanceDataRelationshipFromEntityToScalar],
+      Iterable[omf#ModelInstanceDataRelationshipFromEntityToStructure],
+      Iterable[omf#ModelInstanceDataRelationshipFromStructureToScalar],
+      Iterable[omf#ModelInstanceDataRelationshipFromStructureToStructure])
 
   // instance object
 
@@ -394,24 +433,44 @@ trait OMFOps[omf <: OMF]
 
   def fromDataStructure( ds: omf#ModelInstanceDataStructure ): ( omf#IRI, omf#ModelStructuredDataType )
 
-  // structured data property
+  // data relationship from entity to scalar
 
-  def addStructuredDataProperty(
+  def addInstanceDataRelationshipFromEntityToScalar(
     graph: omf#ModelInstanceGraph,
-    ds: omf#ModelInstanceDataStructure,
-    structuredDataRelationshipType: omf#ModelStructuredDataRelationship,
-    value: omf#ModelDataInstance )( implicit store: omf#Store ): Try[omf#ModelStructuredDataProperty]
+    ei: omf#ModelEntityInstance,
+    e2sc: omf#ModelDataRelationshipFromEntityToScalar,
+    value: omf#ModelInstanceDataLiteral )( implicit store: omf#Store ): Try[omf#ModelInstanceDataRelationshipFromEntityToScalar]
 
-  def fromStructuredDataProperty( sdp: omf#ModelStructuredDataProperty ): ( omf#ModelInstanceDataStructure, omf#ModelStructuredDataRelationship, omf#ModelDataInstance )
+  def fromInstanceDataRelationshipFromEntityToScalar( e2sc: omf#ModelInstanceDataRelationshipFromEntityToScalar ): ( omf#ModelEntityInstance, omf#ModelDataRelationshipFromEntityToScalar, omf#ModelInstanceDataLiteral )
 
-  // entity data property
+  // data relationship from entity to structure
 
-  def addEntityDataProperty(
+  def addInstanceDataRelationshipFromEntityToStructure(
     graph: omf#ModelInstanceGraph,
-    e: omf#ModelEntityInstance,
-    entityDataRelationshipType: omf#ModelEntityDataRelationship,
-    value: omf#ModelDataInstance )( implicit store: omf#Store ): Try[omf#ModelEntityDataProperty]
+    ei: omf#ModelEntityInstance,
+    e2st: omf#ModelDataRelationshipFromEntityToStructure,
+    value: omf#ModelInstanceDataStructure )( implicit store: omf#Store ): Try[omf#ModelInstanceDataRelationshipFromEntityToStructure]
 
-  def fromEntityDataProperty( edp: omf#ModelEntityDataProperty ): ( omf#ModelEntityInstance, omf#ModelEntityDataRelationship, omf#ModelDataInstance )
+  def fromInstanceDataRelationshipFromEntityToStructure( e2sc: omf#ModelInstanceDataRelationshipFromEntityToStructure): ( omf#ModelEntityInstance, omf#ModelDataRelationshipFromEntityToStructure, omf#ModelInstanceDataStructure )
+
+  // data relationship from structure to scalar
+
+  def addInstanceDataRelationshipFromStructureToScalar(
+    graph: omf#ModelInstanceGraph,
+    ei: omf#ModelEntityInstance,
+    e2sc: omf#ModelDataRelationshipFromEntityToScalar,
+    value: omf#ModelInstanceDataLiteral )( implicit store: omf#Store ): Try[omf#ModelInstanceDataRelationshipFromEntityToScalar]
+
+  def fromInstanceDataRelationshipFromStructureToScalar( e2sc: omf#ModelInstanceDataRelationshipFromStructureToScalar ): ( omf#ModelEntityInstance, omf#ModelDataRelationshipFromStructureToScalar, omf#ModelInstanceDataLiteral )
+
+  // data relationship from structure to structure
+
+  def addInstanceDataRelationshipFromStructureToStructure(
+    graph: omf#ModelInstanceGraph,
+    ei: omf#ModelEntityInstance,
+    e2st: omf#ModelDataRelationshipFromStructureToStructure,
+    value: omf#ModelInstanceDataStructure )( implicit store: omf#Store ): Try[omf#ModelInstanceDataRelationshipFromStructureToStructure]
+
+  def fromInstanceDataRelationshipFromStructureToStructure( e2sc: omf#ModelInstanceDataRelationshipFromStructureToStructure): ( omf#ModelEntityInstance, omf#ModelDataRelationshipFromStructureToStructure, omf#ModelInstanceDataStructure )
 
 }

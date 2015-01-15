@@ -55,15 +55,17 @@ package gov.nasa.jpl.omf.scala.core
  * 
  * 1 concrete type of TBox: ModelTerminologyGraph
  * 
- * 7 concrete types of TBox terms: ModelTypeTerm
+ * 9 concrete types of TBox terms: ModelTypeTerm
  * 
  * ModelEntityAspect
  * ModelEntityConcept
  * ModelEntityRelationship
  * ModelScalarDataType
  * ModelStructuredDataType
- * ModelStructuredDataRelationship
- * ModelEntityDataRelationship
+ * ModelDataRelationshipFromEntityToScalar
+ * ModelDataRelationshipFromEntityToStructure
+ * ModelDataRelationshipFromStructureToScalar
+ * ModelDataRelationshipFromStructureToStructure
  * 
  * 5 concrete types of TBox axioms: ModelTermAxiom
  * 
@@ -75,14 +77,16 @@ package gov.nasa.jpl.omf.scala.core
  * 
  * 1 concrete type of ABox: ModelInstanceGraph
  * 
- * 6 concrete types of ABox assertions: ModelInstanceAssertion
+ * 8 concrete types of ABox assertions: ModelInstanceAssertion
  * 
  * ModelInstanceObject
  * ModelInstanceRelation
  * ModelInstanceDataLiteral
  * ModelInstanceDataStructure
- * ModelStructuredDataProperty
- * ModelEntityDataProperty
+ * ModelInstanceDataRelationshipFromEntityToScalar
+ * ModelInstanceDataRelationshipFromEntityToStructure
+ * ModelInstanceDataRelationshipFromStructureToScalar
+ * ModelInstanceDataRelationshipFromStructureToStructure
  */
 trait OMF {
   
@@ -108,9 +112,11 @@ trait OMF {
   type ModelScalarDataType <: ModelDataTypeDefinition
   type ModelStructuredDataType <: ModelDataTypeDefinition
     
-  type ModelStructuredDataRelationship <: ModelTypeTerm
-  
-  type ModelEntityDataRelationship <: ModelTypeTerm
+  type ModelDataRelationship <: ModelTypeTerm
+  type ModelDataRelationshipFromEntityToScalar <: ModelDataRelationship
+  type ModelDataRelationshipFromEntityToStructure <: ModelDataRelationship
+  type ModelDataRelationshipFromStructureToScalar <: ModelDataRelationship
+  type ModelDataRelationshipFromStructureToStructure <: ModelDataRelationship  
   
   type ModelTermAxiom
   
@@ -137,10 +143,9 @@ trait OMF {
   type ModelInstanceDataLiteral <: ModelDataInstance
   type ModelInstanceDataStructure <: ModelNamedIndividual with ModelDataInstance
   
-  type ModelInstanceProperty <: ModelInstanceAssertion
+  type ModelInstanceDataRelationshipFromEntityToScalar <: ModelInstanceAssertion
+  type ModelInstanceDataRelationshipFromEntityToStructure <: ModelInstanceAssertion
+  type ModelInstanceDataRelationshipFromStructureToScalar <: ModelInstanceAssertion
+  type ModelInstanceDataRelationshipFromStructureToStructure <: ModelInstanceAssertion
   
-  type ModelStructuredDataProperty <: ModelInstanceProperty
-  
-  type ModelEntityDataProperty <: ModelInstanceProperty
-
 }
