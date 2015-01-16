@@ -457,20 +457,20 @@ trait OMFOps[omf <: OMF]
 
   def addInstanceDataRelationshipFromStructureToScalar(
     graph: omf#ModelInstanceGraph,
-    ei: omf#ModelEntityInstance,
-    e2sc: omf#ModelDataRelationshipFromEntityToScalar,
-    value: omf#ModelInstanceDataLiteral )( implicit store: omf#Store ): Try[omf#ModelInstanceDataRelationshipFromEntityToScalar]
+    di: omf#ModelInstanceDataStructure,
+    e2sc: omf#ModelDataRelationshipFromStructureToScalar,
+    value: omf#ModelInstanceDataLiteral )( implicit store: omf#Store ): Try[omf#ModelInstanceDataRelationshipFromStructureToScalar]
 
-  def fromInstanceDataRelationshipFromStructureToScalar( e2sc: omf#ModelInstanceDataRelationshipFromStructureToScalar ): ( omf#ModelEntityInstance, omf#ModelDataRelationshipFromStructureToScalar, omf#ModelInstanceDataLiteral )
+  def fromInstanceDataRelationshipFromStructureToScalar( e2sc: omf#ModelInstanceDataRelationshipFromStructureToScalar ): ( omf#ModelInstanceDataStructure, omf#ModelDataRelationshipFromStructureToScalar, omf#ModelInstanceDataLiteral )
 
   // data relationship from structure to structure
 
   def addInstanceDataRelationshipFromStructureToStructure(
     graph: omf#ModelInstanceGraph,
-    ei: omf#ModelEntityInstance,
+    di: omf#ModelInstanceDataStructure,
     e2st: omf#ModelDataRelationshipFromStructureToStructure,
     value: omf#ModelInstanceDataStructure )( implicit store: omf#Store ): Try[omf#ModelInstanceDataRelationshipFromStructureToStructure]
 
-  def fromInstanceDataRelationshipFromStructureToStructure( e2sc: omf#ModelInstanceDataRelationshipFromStructureToStructure): ( omf#ModelEntityInstance, omf#ModelDataRelationshipFromStructureToStructure, omf#ModelInstanceDataStructure )
+  def fromInstanceDataRelationshipFromStructureToStructure( e2sc: omf#ModelInstanceDataRelationshipFromStructureToStructure): ( omf#ModelInstanceDataStructure, omf#ModelDataRelationshipFromStructureToStructure, omf#ModelInstanceDataStructure )
 
 }
