@@ -52,6 +52,17 @@ extends WordSpec with Matchers {
 
   import ops._
 
+  "IRI backbone tests" when {
+    "is backbone" in {
+      val iris = Seq( 
+          "http://imce.jpl.nasa.gov/backbone/imce.jpl.nasa.gov/foundation/mission/mission#Thing"
+          )
+          
+      for { iri <- iris } {
+        isBackboneIRI( makeIRI( iri ) ) should be (true)
+      }
+    }
+  }
   "IRI construction tests" when {
     "fromIRI(makeIRI(s)) == s" in {
       

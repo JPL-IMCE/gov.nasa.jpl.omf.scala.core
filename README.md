@@ -76,3 +76,41 @@ Build the Scala project as usual with Eclipse
 Just as the OMF Scala Core is a parameterized functional API, the unit tests are also parameterized.
 This means that the unit tests cannot be executed in the OMF Scala Core project as-is.
 However, these unit tests can be executed by binding the type parameter; see the OMF Scala binding projects for details.
+
+## Schedule (as of January 16, 2015)
+
+### OMF/Core
+
+	- [ ] Write unit tests for TBox structured datatypes
+	- [ ] Write unit tests for ABox graphs
+
+Completion criteria: unit tests should cover all of the OMF API (types & operations)
+
+	- [ ] Select a Scala-aware code coverage tool
+	Choices:
+    		* http://scoverage.org
+    		* Semmle .QL
+
+### OMF/Binding/OWLAPI
+
+	- [ ] Finish implementing the OMF API construction operations (OWLAPIOps: 12)
+	- [ ] Finish implementing the OMF API loadTerminologyGraph
+	- [ ] Finish implementing the OMF API loadInstanceGraph
+	- [ ] Develop additional roundtrip unit tests loading/saving IMCE ontologies
+
+### OMF/Binding/UML & SysML
+
+	- [ ] An OMF model can be represented in several ways in UML/SysML
+
+		- An ontology of UML (as implemented in a particular tool)
+		- An ontology of SysML (as implemented in a particular tool, e.g., as a Profile)
+		- An ontology of QUDV (as implemented in a particular tool, e.g., as a UML/SysML library)
+		- An ontology of ISO 80K (as implemented in a particular tool, e.g., as a UML/SysML library)
+		
+		From an OMF perspective, all 4 cases above are OMF ModelTerminologyGraphs:
+		- The TBox of the OMF model for UML includes OMF concepts (UML metaclasses) and OMF relationships (UML Associations); note that OMF's EntityConceptSubClassAxioms are simply UML Generalizations
+		- The TBox of the OMF model for SysML includes OMF concepts (SysML stereotypes) and OMF relationships (UML Associations); note that OMF's EntityConceptSubClassAxioms can be either:
+			- A UML Generalization between Stereotypes
+			- A UML Extension between a Stereotype & a metaclass
+		- The TBox of the OMF model for QUDV includes OMF concepts (SysML Blocks) and OMF relationships (UML associations); OMF's EntityConceptSubClassAxioms are the same as the case for the OMF model of UML
+		- The TBox of the OMF model for ISO 80K includes OMF concepts (UML InstanceSpecifications classified by QUDV Blocks) and OMF relationships (UML InstanceSpecifications); OMF's EntityConceptSubClassAxioms are UML InstanceSpecifications classified by QUDV's Association for modeling generalization relationships between QUDV Units or QUDV QuantityKinds.

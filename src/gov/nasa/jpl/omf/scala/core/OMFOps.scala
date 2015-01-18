@@ -71,6 +71,8 @@ trait OMFOps[omf <: OMF]
 
   def fromIRI( iri: omf#IRI ): String
 
+  def isBackboneIRI( iri: omf#IRI ): Boolean
+  
   def toBackboneIRI( iri: omf#IRI ): omf#IRI
 
   def toObjectPropertyIRI( iri: omf#IRI ): omf#IRI
@@ -82,6 +84,8 @@ trait OMFOps[omf <: OMF]
   // terminology graph
 
   def loadTerminologyGraph( iri: omf#IRI )( implicit store: omf#Store ): Try[omf#ModelTerminologyGraph]
+
+  def saveTerminologyGraph( g: omf#ModelTerminologyGraph )( implicit store: omf#Store ): Try[Unit]
 
   def makeTerminologyGraph(
     iri: omf#IRI,
@@ -143,6 +147,7 @@ trait OMFOps[omf <: OMF]
   def lookupTypeTerm( graph: omf#ModelTerminologyGraph, iri: omf#IRI ): Option[omf#ModelTypeTerm]
 
   def lookupEntityDefinition( graph: omf#ModelTerminologyGraph, iri: omf#IRI ): Option[omf#ModelEntityDefinition]
+  def lookupEntityAspect( graph: omf#ModelTerminologyGraph, iri: omf#IRI ): Option[omf#ModelEntityAspect]
   def lookupEntityConcept( graph: omf#ModelTerminologyGraph, iri: omf#IRI ): Option[omf#ModelEntityConcept]
   def lookupEntityRelationship( graph: omf#ModelTerminologyGraph, iri: omf#IRI ): Option[omf#ModelEntityRelationship]
   def lookupScalarDataType( graph: omf#ModelTerminologyGraph, iri: omf#IRI ): Option[omf#ModelScalarDataType]
@@ -272,11 +277,11 @@ trait OMFOps[omf <: OMF]
 
   // entity relationship
 
-  def fromEntityRelationship( r: omf#ModelEntityRelationship ): ( omf#IRI, omf#ModelEntityDefinition, omf#ModelEntityDefinition, Iterable[RelationshipCharacteristics] )
+  def fromEntityRelationship( r: omf#ModelEntityRelationship ): ( omf#IRI, omf#ModelEntityDefinition, omf#ModelEntityDefinition, Iterable[RelationshipCharacteristics], Boolean )
 
   def equivalentEntityRelationships( r1: Iterable[omf#ModelEntityRelationship], r2: Iterable[omf#ModelEntityRelationship] ): Boolean = {
-    val left = r1.map { r => val ( i, s, t, c ) = fromEntityRelationship( r ); ( i, fromEntityDefinition( s ), fromEntityDefinition( t ), relationshipCharacteristicsSummary( c ) ) } toSet
-    val right = r2.map { r => val ( i, s, t, c ) = fromEntityRelationship( r ); ( i, fromEntityDefinition( s ), fromEntityDefinition( t ), relationshipCharacteristicsSummary( c ) ) } toSet
+    val left = r1.map { r => val ( i, s, t, c, a ) = fromEntityRelationship( r ); ( i, fromEntityDefinition( s ), fromEntityDefinition( t ), relationshipCharacteristicsSummary( c ) ) } toSet
+    val right = r2.map { r => val ( i, s, t, c, a ) = fromEntityRelationship( r ); ( i, fromEntityDefinition( s ), fromEntityDefinition( t ), relationshipCharacteristicsSummary( c ) ) } toSet
     val d = left.diff( right )
     d.isEmpty
   }
@@ -374,6 +379,8 @@ trait OMFOps[omf <: OMF]
   // instance graph
 
   def loadInstanceGraph( iri: omf#IRI )( implicit store: omf#Store ): Try[omf#ModelInstanceGraph]
+
+  def saveInstanceGraph( g: omf#ModelInstanceGraph )( implicit store: omf#Store ): Try[Unit]
 
   def makeInstanceGraph(
     iri: omf#IRI,

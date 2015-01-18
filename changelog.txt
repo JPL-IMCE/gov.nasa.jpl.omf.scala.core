@@ -1,3 +1,9 @@
+Version 0.6: January 18, 2015
+
+Added operation to check whether an IRI is a backbone IRI
+Added operations to save instance & terminology graphs
+Updated OWLVocabularyTest to save terminology graphs constructed & verify the construction after loading them back
+
 Version 0.5: January 15, 2015
 
 Change the modeling of data relationships:

@@ -47,14 +47,18 @@ import scala.language.postfixOps
 import org.scalatest._
 import scalaz.Scalaz._
 
-abstract class OMFVocabularyTest[omf <: OMF]()( implicit ops: OMFOps[omf], store: omf#Store )
+abstract class OMFVocabularyTest[omf <: OMF]( 
+    saveStore: omf#Store, saveOps: OMFOps[omf],
+    loadStore: omf#Store, loadOps: OMFOps[omf])
   extends WordSpec with Matchers {
 
-  import ops._
-  
-  "vocabulary coverage test" when {
+  "vocabulary roundtrip test" when {
     
-    "empty tbox should be empty" in {
+    "construct tboxes and save them" in {
+      
+      implicit val store = saveStore
+      implicit val ops = saveOps
+      import ops._
       
       val xsd = loadTerminologyGraph( makeIRI( "http://www.w3.org/2001/XMLSchema") ) 
       xsd should be a 'success
@@ -110,7 +114,8 @@ abstract class OMFVocabularyTest[omf <: OMF]()( implicit ops: OMFOps[omf], store
           characteristics=List( isAsymmetric, isIrreflexive, isInverseFunctional ),
           reifiedRelationshipName="Performs", 
           unreifiedRelationshipName="performs", 
-          unreifiedInverseRelationshipName=Some( "isPerformedBy" ))
+          unreifiedInverseRelationshipName=Some( "isPerformedBy" ),
+          isAbstract=false)
       component_performs_function should be a 'success
             
       val item = addEntityConcept( mission.get, "Item" )
@@ -128,7 +133,60 @@ abstract class OMFVocabularyTest[omf <: OMF]()( implicit ops: OMFOps[omf], store
       val materialItem_extends_item = addEntityConceptSubClassAxiom( mission.get, materialItem.get, item.get )
       materialItem_extends_item should be a 'success
 
+      val baseSaved = saveTerminologyGraph( base.get )
+      baseSaved should be a 'success
+      
+      val missionSaved = saveTerminologyGraph( mission.get )
+      missionSaved should be a 'success
+            
     }
+    
+    "read tboxes and check them" in {
+      
+      implicit val store = loadStore
+      implicit val ops = loadOps
+      import ops._
+            
+      val xsd = loadTerminologyGraph( makeIRI( "http://www.w3.org/2001/XMLSchema") ) 
+      xsd should be a 'success
+      
+      val integer = lookupScalarDataType( xsd.get, makeIRI( "http://www.w3.org/2001/XMLSchema#integer" ) )
+      integer.isDefined should be(true)
+            
+      val string = lookupScalarDataType( xsd.get, makeIRI( "http://www.w3.org/2001/XMLSchema#string" ) )
+      string.isDefined should be(true)
+      
+      val base = loadTerminologyGraph( makeIRI( "http://imce.jpl.nasa.gov/foundation/base/base" ) )      
+      base should be a 'success
+      
+      val identifiedElement = lookupEntityAspect( base.get, makeIRI( "http://imce.jpl.nasa.gov/foundation/base/base#IdentifiedElement" ))
+      identifiedElement.isDefined should be(true)
+            
+      val hasIdentifier = lookupEntityDataRelationshipFromEntityToScalar( base.get, makeIRI( "http://imce.jpl.nasa.gov/foundation/base/base#hasIdentifier" ))
+      hasIdentifier.isDefined should be(true)
+      
+      val ( _, hasIdentifierSource, hasIdentifierTarget ) = fromDataRelationshipFromEntityToScalar( hasIdentifier.get )
+      identifiedElement.get should be ( hasIdentifierSource )
+      string.get should be ( hasIdentifierTarget )
+                     
+      val mission = loadTerminologyGraph( makeIRI( "http://imce.jpl.nasa.gov/foundation/mission/mission" ) )      
+      mission should be a 'success
+      
+      val component = lookupEntityConcept( mission.get, makeIRI( "http://imce.jpl.nasa.gov/foundation/mission/mission#Component" ))
+      component.isDefined should be(true)
+      
+      val function = lookupEntityConcept( mission.get, makeIRI( "http://imce.jpl.nasa.gov/foundation/mission/mission#Function" ))
+      function.isDefined should be(true)
+            
+      val component_performs_function = lookupEntityRelationship( mission.get, makeIRI( "http://imce.jpl.nasa.gov/foundation/mission/mission#Performs" ))
+      component_performs_function.isDefined should be(true)
+      
+      val ( _, component_performs_functionSource, component_performs_functionTarget, characteristics, component_performs_functionIsAbstract ) = fromEntityRelationship( component_performs_function.get )
+      component.get should be ( component_performs_functionSource )
+      function.get should be ( component_performs_functionTarget )
+      component_performs_functionIsAbstract should be (false)
+    }
+    
   }
 
 }
