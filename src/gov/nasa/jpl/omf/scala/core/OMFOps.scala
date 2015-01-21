@@ -55,12 +55,8 @@ object OMFOps {
 
 }
 
-/**
- * @author Nicolas.F.Rouquette@jpl.nasa.gov
- */
-trait OMFOps[omf <: OMF]
-  extends OMFDSL[omf] {
-
+trait IRIOps[omf <: OMF] {
+  
   // IRI
 
   def makeIRI( s: String ): omf#IRI
@@ -81,8 +77,10 @@ trait OMFOps[omf <: OMF]
 
   def toTargetIRI( iri: omf#IRI ): omf#IRI
 
-  // terminology graph
+}
 
+trait TerminologyGraphOps[omf <: OMF] {
+  
   def loadTerminologyGraph( iri: omf#IRI )( implicit store: omf#Store ): Try[omf#ModelTerminologyGraph]
 
   def saveTerminologyGraph( g: omf#ModelTerminologyGraph )( implicit store: omf#Store ): Try[Unit]
@@ -376,8 +374,10 @@ trait OMFOps[omf <: OMF]
     funEntityRelationshipSubClassAxiom: omf#EntityRelationshipSubClassAxiom => T,
     funScalarDataTypeFacetRestriction: omf#ScalarDataTypeFacetRestriction => T ): T
 
-  // instance graph
+}
 
+trait InstanceGraphOps[omf <: OMF] {
+  
   def loadInstanceGraph( iri: omf#IRI )( implicit store: omf#Store ): Try[omf#ModelInstanceGraph]
 
   def saveInstanceGraph( g: omf#ModelInstanceGraph )( implicit store: omf#Store ): Try[Unit]
@@ -481,3 +481,8 @@ trait OMFOps[omf <: OMF]
   def fromInstanceDataRelationshipFromStructureToStructure( e2sc: omf#ModelInstanceDataRelationshipFromStructureToStructure): ( omf#ModelInstanceDataStructure, omf#ModelDataRelationshipFromStructureToStructure, omf#ModelInstanceDataStructure )
 
 }
+
+trait OMFOps[omf <: OMF]
+extends IRIOps[omf] 
+with TerminologyGraphOps[omf] 
+with InstanceGraphOps[omf] 

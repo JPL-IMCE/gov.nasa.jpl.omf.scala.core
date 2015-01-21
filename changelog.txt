@@ -1,3 +1,7 @@
+Version 0.6.1: January 18, 2015
+
+Refactoring based on Semmle static analysis
+
 Version 0.6: January 18, 2015
 
 Added operation to check whether an IRI is a backbone IRI
