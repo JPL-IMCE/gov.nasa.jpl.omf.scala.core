@@ -88,9 +88,9 @@ package gov.nasa.jpl.omf.scala.core
  * ModelInstanceDataRelationshipFromStructureToScalar
  * ModelInstanceDataRelationshipFromStructureToStructure
  */
-trait OMF extends OMFStore with OMFIRI with OMFTBox with OMFABox
+trait OMF extends OMFstore with OMFiri with OMFtbox with OMFabox
   
-trait OMFStore {
+trait OMFstore {
   /**
    * The type of an OMF storage provider. An instance of a Store is an implicit parameter for the construction-related operations in OMFDSL.
    */
@@ -98,7 +98,7 @@ trait OMFStore {
   
 }
   
-trait OMFIRI {
+trait OMFiri {
   
   type IRI     
 }
@@ -106,9 +106,11 @@ trait OMFIRI {
 /**
  *  types for IMCE T-Box ontologies  
  */
-trait OMFTBox {
+trait OMFtbox {
   
   type ModelTerminologyGraph
+  type ImmutableModelTerminologyGraph <: ModelTerminologyGraph
+  type MutableModelTerminologyGraph <: ModelTerminologyGraph
   
   type ModelTypeTerm
   
@@ -132,8 +134,7 @@ trait OMFTBox {
   type EntityDefinitionAspectSubClassAxiom <: ModelTermAxiom  // (sub, sup)
   type EntityConceptSubClassAxiom <: ModelTermAxiom				  // (sub, sup)
   type EntityConceptRestrictionAxiom <: ModelTermAxiom			  // (sub, rel, range) = ObjectAllValuesFrom
-  type EntityRelationshipSubClassAxiom <: ModelTermAxiom	    // (sub, sup)
-  
+  type EntityRelationshipSubClassAxiom <: ModelTermAxiom	    // (sub, sup)  
   type ScalarDataTypeFacetRestriction <: ModelTermAxiom      // (sup, sup, [facet, literal]+)
   
 }
@@ -141,9 +142,11 @@ trait OMFTBox {
 /**
  *  types for IMCE A-Box ontologies
  */
-trait OMFABox {
+trait OMFabox {
   
   type ModelInstanceGraph
+  type ImmutableModelInstanceGraph <: ModelInstanceGraph
+  type MutableModelInstanceGraph <: ModelInstanceGraph
   
   type ModelInstanceAssertion
   

@@ -84,9 +84,12 @@ abstract class OMFVocabularyTest[omf <: OMF](
           dataRelationshipName="hasIdentifier")
       hasIdentifier should be a 'success       
       
+      val ibase = asImmutableTerminologyGraph( base.get )
+      ibase should be a 'success
+      
       val mission = makeTerminologyGraph( 
           makeIRI( "http://imce.jpl.nasa.gov/foundation/mission/mission" ), 
-          extendedTGraphs=List( base.get ) )
+          extendedTGraphs=List( ibase.get ) )
       mission should be a 'success
        
       val component = addEntityConcept( mission.get, "Component" )
