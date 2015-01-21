@@ -1,4 +1,8 @@
-Version 0.6.1: January 18, 2015
+Version 0.6.2: January 21, 2015
+
+Refactoring based on Semmle static analysis
+
+Version 0.6.1: January 20, 2015
 
 Refactoring based on Semmle static analysis
 

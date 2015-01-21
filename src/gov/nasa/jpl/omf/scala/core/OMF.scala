@@ -88,16 +88,25 @@ package gov.nasa.jpl.omf.scala.core
  * ModelInstanceDataRelationshipFromStructureToScalar
  * ModelInstanceDataRelationshipFromStructureToStructure
  */
-trait OMF {
+trait OMF extends OMFStore with OMFIRI with OMFTBox with OMFABox
   
+trait OMFStore {
   /**
    * The type of an OMF storage provider. An instance of a Store is an implicit parameter for the construction-related operations in OMFDSL.
    */
   type Store
   
-  type IRI
-    
-  // types for IMCE T-Box ontologies
+}
+  
+trait OMFIRI {
+  
+  type IRI     
+}
+
+/**
+ *  types for IMCE T-Box ontologies  
+ */
+trait OMFTBox {
   
   type ModelTerminologyGraph
   
@@ -127,7 +136,12 @@ trait OMF {
   
   type ScalarDataTypeFacetRestriction <: ModelTermAxiom      // (sup, sup, [facet, literal]+)
   
-  // types for IMCE A-Box ontologies
+}
+
+/**
+ *  types for IMCE A-Box ontologies
+ */
+trait OMFABox {
   
   type ModelInstanceGraph
   

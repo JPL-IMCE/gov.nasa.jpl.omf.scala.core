@@ -55,7 +55,7 @@ object OMFOps {
 
 }
 
-trait IRIOps[omf <: OMF] {
+trait IRIOps[omf <: OMFIRI] {
   
   // IRI
 
@@ -79,7 +79,7 @@ trait IRIOps[omf <: OMF] {
 
 }
 
-trait TerminologyGraphOps[omf <: OMF] {
+trait TerminologyGraphOps[omf <: OMFIRI with OMFTBox with OMFStore] {
   
   def loadTerminologyGraph( iri: omf#IRI )( implicit store: omf#Store ): Try[omf#ModelTerminologyGraph]
 
@@ -376,7 +376,7 @@ trait TerminologyGraphOps[omf <: OMF] {
 
 }
 
-trait InstanceGraphOps[omf <: OMF] {
+trait InstanceGraphOps[omf <: OMFIRI with OMFABox with OMFTBox with OMFStore] {
   
   def loadInstanceGraph( iri: omf#IRI )( implicit store: omf#Store ): Try[omf#ModelInstanceGraph]
 
