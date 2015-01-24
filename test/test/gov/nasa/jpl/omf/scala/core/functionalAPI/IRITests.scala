@@ -62,6 +62,27 @@ extends WordSpec with Matchers {
         isBackboneIRI( makeIRI( iri ) ) should be (true)
       }
     }
+    
+    "to backbone" in {
+      val iri2bs = Map( 
+           "http://imce.jpl.nasa.gov/foundation/mission/mission" -> "http://imce.jpl.nasa.gov/backbone/imce.jpl.nasa.gov/foundation/mission/mission",
+           "http://imce.jpl.nasa.gov/foundation/mission/mission#" -> "http://imce.jpl.nasa.gov/backbone/imce.jpl.nasa.gov/foundation/mission/mission#",
+           "http://imce.jpl.nasa.gov/foundation/mission/mission#Thing" -> "http://imce.jpl.nasa.gov/backbone/imce.jpl.nasa.gov/foundation/mission/mission#Thing",
+           "http://www.omg.org/spec/UML/20110701/UML" -> "http://imce.jpl.nasa.gov/backbone/www.omg.org/spec/UML/20110701/UML",
+           "http://www.omg.org/spec/UML/20110701/UML#" -> "http://imce.jpl.nasa.gov/backbone/www.omg.org/spec/UML/20110701/UML#",
+           "http://www.omg.org/spec/UML/20110701/UML#Thing" -> "http://imce.jpl.nasa.gov/backbone/www.omg.org/spec/UML/20110701/UML#Thing" 
+          )
+          
+      for { 
+        ( i, b ) <- iri2bs 
+        iri = makeIRI( i )
+        b_iri = makeIRI( b )
+      } {
+        isBackboneIRI( iri ) should be (false)
+        isBackboneIRI( b_iri ) should be (true)
+        toBackboneIRI( iri ) should equal( b_iri )
+      }
+    }
   }
   "IRI construction tests" when {
     "fromIRI(makeIRI(s)) == s" in {

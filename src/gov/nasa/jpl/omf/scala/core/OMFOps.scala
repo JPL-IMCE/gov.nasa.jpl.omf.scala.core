@@ -67,14 +67,37 @@ trait IRIOps[omf <: OMFiri] {
 
   def fromIRI( iri: omf#IRI ): String
 
+  /**
+   * @param iri of the form: <scheme><userInfo><host><port><path><query><fragment>
+   * @return true if <host> == imce.jpl.nasa.gov and <path> starts with /backbone 
+   */
   def isBackboneIRI( iri: omf#IRI ): Boolean
   
+  /**
+   * @param iri of the form: <scheme><userInfo><host><port><path><query><fragment> 
+   * @return a new IRI of the form: <scheme><userInfo><host'><port><path'><query><fragment>
+   * where:
+   * <host'> = imce.jpl.nasa.gov
+   * <path'> = /backbone/<host><path>
+   */
   def toBackboneIRI( iri: omf#IRI ): omf#IRI
 
-  def toObjectPropertyIRI( iri: omf#IRI ): omf#IRI
-
+  /**
+   * Produces the canonical "has...Source" IRI from the IRI of an entity relationship or data relationship to a structure
+   * @param iri of a reified object property class the form: <scheme><userInfo><host><port><path><query><fragment> 
+   * @return a new IRI of the form: <scheme><userInfo><host><port><path><query><fragment'>
+   * where:
+   * <fragment'> = has<fragment>Source
+   */
   def toSourceIRI( iri: omf#IRI ): omf#IRI
 
+  /**
+   * Produces the canonical "has...Target" IRI for the IRI of an entity relationship or data relationship to a structure
+   * @param iri of a reified object property class the form: <scheme><userInfo><host><port><path><query><fragment> 
+   * @return a new IRI of the form: <scheme><userInfo><host><port><path><query><fragment'>
+   * where:
+   * <fragment'> = has<fragment>Target
+   */
   def toTargetIRI( iri: omf#IRI ): omf#IRI
 
 }

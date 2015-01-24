@@ -1,3 +1,9 @@
+Version 0.8: January 28, 2015
+
+updated IRI operations (removed toObjectPropertyIRI because the naming convention is not a strict requirement for the reification pattern)
+updated test: IRITests (iri => backbone conversions)
+new test: IMCEFoundationLoadTest
+
 Version 0.7: January 21, 2015
 
 Separate the operations for immutable vs. mutable graphs to simplify bindings.
