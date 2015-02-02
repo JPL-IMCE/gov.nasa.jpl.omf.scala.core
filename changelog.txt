@@ -1,3 +1,7 @@
+Version 0.8.1: February 2, 2015
+
+scalaz-stream dependency
+
 Version 0.8: January 28, 2015
 
 updated IRI operations (removed toObjectPropertyIRI because the naming convention is not a strict requirement for the reification pattern)

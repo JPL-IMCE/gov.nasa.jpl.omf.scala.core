@@ -11,7 +11,7 @@ object OMFCore extends Build {
     val scalaCheck = "1.12.1"
     val scalaTest = "2.2.2"
     val specs2 = "2.4.15"
-    val scalaz_stream = "0.5a"
+    val scalaz_stream = "0.6"
     val scalaz = "7.1.0"
   }
     
@@ -29,6 +29,7 @@ object OMFCore extends Build {
           "org.scalaz" %% "scalaz-core" % Versions.scalaz % "compile" withSources() withJavadoc(),
           "org.scalaz" %% "scalaz-effect" % Versions.scalaz % "compile" withSources() withJavadoc()
         ),
+        resolvers += "Scalaz Bintray Repo" at "http://dl.bintray.com/scalaz/releases",
         ( mappings in pack ) := { extraPackFun.value } )
       )
       
