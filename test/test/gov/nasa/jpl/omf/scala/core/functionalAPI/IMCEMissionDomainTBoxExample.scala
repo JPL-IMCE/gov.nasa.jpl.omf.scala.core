@@ -41,6 +41,7 @@ package test.gov.nasa.jpl.omf.scala.core.functionalAPI
 
 import gov.nasa.jpl.omf.scala.core._
 import gov.nasa.jpl.omf.scala.core.RelationshipCharacteristics._
+import gov.nasa.jpl.omf.scala.core.TerminologyKind._
 
 import scala.language.implicitConversions
 import scala.language.postfixOps
@@ -58,10 +59,10 @@ abstract class IMCEMissionDomainTBoxExample[omf <: OMF]()( implicit ops: OMFOps[
   "basic construction tests" when {
     "empty tbox should be empty" in {
 
-      val t0 = makeTerminologyGraph( i_m0, Nil )
+      val t0 = makeTerminologyGraph( i_m0, isDefinition, Nil )
       t0.isSuccess should be( true )
 
-      val ( iri, i, f, c, r, sc, st, esc, est, ssc, sst, ax ) = ops.fromTerminologyGraph( t0.get )
+      val ( iri, k, i, f, c, r, sc, st, esc, est, ssc, sst, ax ) = ops.fromTerminologyGraph( t0.get )
       i.isEmpty should be( true )
       f.isEmpty should be( true )
       c.isEmpty should be( true )
@@ -77,7 +78,7 @@ abstract class IMCEMissionDomainTBoxExample[omf <: OMF]()( implicit ops: OMFOps[
 
     "simple construction & lookup" in {
 
-      val t1 = makeTerminologyGraph( i_m1, Nil )
+      val t1 = makeTerminologyGraph( i_m1, isDefinition, Nil )
       t1.isSuccess should be( true )
 
       val g = t1.get
@@ -88,7 +89,7 @@ abstract class IMCEMissionDomainTBoxExample[omf <: OMF]()( implicit ops: OMFOps[
       val function = addEntityConcept( g, "Function" )
       function.isSuccess should be( true )
 
-      val ( iri, _i, _f, _c, _r, _sc, _st, _esc, _est, _ssc, _sst, _ax ) = fromTerminologyGraph( g )
+      val ( iri, _k, _i, _f, _c, _r, _sc, _st, _esc, _est, _ssc, _sst, _ax ) = fromTerminologyGraph( g )
       iri should be( i_m1 )
       _i.isEmpty should be( true )
       _f.isEmpty should be( true )

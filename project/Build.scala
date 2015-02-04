@@ -11,7 +11,7 @@ object OMFCore extends Build {
     val scalaCheck = "1.12.1"
     val scalaTest = "2.2.2"
     val specs2 = "2.4.15"
-    val scalaz_stream = "0.6"
+    val scalaz_stream = "0.6a"
     val scalaz = "7.1.0"
   }
     

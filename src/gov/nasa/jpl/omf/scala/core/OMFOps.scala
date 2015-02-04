@@ -40,6 +40,7 @@
 package gov.nasa.jpl.omf.scala.core
 
 import gov.nasa.jpl.omf.scala.core.RelationshipCharacteristics._
+import gov.nasa.jpl.omf.scala.core.TerminologyKind._
 
 import scala.language.postfixOps
 import scala.util.Try
@@ -108,7 +109,10 @@ trait ImmutableTerminologyGraphOps[omf <: OMFiri with OMFtbox with OMFstore] {
 
   def getTerminologyGraphIRI( graph: omf#ModelTerminologyGraph ): omf#IRI
 
-  def fromTerminologyGraph( graph: omf#ModelTerminologyGraph ): ( omf#IRI, Iterable[omf#ModelTerminologyGraph], 
+  def getTerminologyGraphKind( graph: omf#ModelTerminologyGraph ): TerminologyKind
+
+  def fromTerminologyGraph( graph: omf#ModelTerminologyGraph ): ( omf#IRI, TerminologyKind,
+      Iterable[omf#ModelTerminologyGraph], 
       Iterable[omf#ModelEntityAspect], 
       Iterable[omf#ModelEntityConcept],
       Iterable[omf#ModelEntityRelationship], 
@@ -121,34 +125,34 @@ trait ImmutableTerminologyGraphOps[omf <: OMFiri with OMFtbox with OMFstore] {
       Iterable[omf#ModelTermAxiom] )
 
   def isEntityDefinitionAssertedInTerminologyGraph( t: omf#ModelTypeTerm, graph: omf#ModelTerminologyGraph ): Boolean = {
-    val ( iri, _i, _f, _c, _r, _sc, _st, _esc, _est, _ssc, _sst, _ax ) = fromTerminologyGraph( graph )
+    val ( iri, _k, _i, _f, _c, _r, _sc, _st, _esc, _est, _ssc, _sst, _ax ) = fromTerminologyGraph( graph )
     ( _c.toSet contains t ) || ( _r.toSet contains t )
   }
 
   def isEntityDefinitionImportedInTerminologyGraph( t: omf#ModelTypeTerm, graph: omf#ModelTerminologyGraph ): Boolean = {
     !isEntityDefinitionAssertedInTerminologyGraph( t, graph ) && {
-      val ( iri, _i, _f, _c, _r, _sc, _st, _esc, _est, _ssc, _sst, _ax ) = fromTerminologyGraph( graph )
+      val ( iri, _k, _i, _f, _c, _r, _sc, _st, _esc, _est, _ssc, _sst, _ax ) = fromTerminologyGraph( graph )
       _i.exists( ig => isEntityDefinitionAssertedInTerminologyGraph( t, ig ) || isEntityDefinitionImportedInTerminologyGraph( t, ig ) )
     }
   }
 
   def isEntityDataRelationshipFromEntityToScalarAssertedInTerminologyGraph( t: omf#ModelTypeTerm, graph: omf#ModelTerminologyGraph ): Boolean = {
-    val( iri, _i, _f, _c, _r, _sc, _st, _esc, _est, _ssc, _sst, _ax ) = fromTerminologyGraph( graph )
+    val( iri, _k, _i, _f, _c, _r, _sc, _st, _esc, _est, _ssc, _sst, _ax ) = fromTerminologyGraph( graph )
     ( _esc.toSet contains t )
   }
 
   def isEntityDataRelationshipFromEntityToStructureAssertedInTerminologyGraph( t: omf#ModelTypeTerm, graph: omf#ModelTerminologyGraph ): Boolean = {
-    val( iri, _i, _f, _c, _r, _sc, _st, _esc, _est, _ssc, _sst, _ax ) = fromTerminologyGraph( graph )
+    val( iri, _k, _i, _f, _c, _r, _sc, _st, _esc, _est, _ssc, _sst, _ax ) = fromTerminologyGraph( graph )
     ( _est.toSet contains t )
   }
   
   def isEntityDataRelationshipFromStructureToScalarAssertedInTerminologyGraph( t: omf#ModelTypeTerm, graph: omf#ModelTerminologyGraph ): Boolean = {
-    val( iri, _i, _f, _c, _r, _sc, _st, _esc, _est, _ssc, _sst, _ax ) = fromTerminologyGraph( graph )
+    val( iri, _k, _i, _f, _c, _r, _sc, _st, _esc, _est, _ssc, _sst, _ax ) = fromTerminologyGraph( graph )
     ( _ssc.toSet contains t )
   }
 
   def isEntityDataRelationshipFromStructureToStructureAssertedInTerminologyGraph( t: omf#ModelTypeTerm, graph: omf#ModelTerminologyGraph ): Boolean = {
-    val( iri, _i, _f, _c, _r, _sc, _st, _esc, _est, _ssc, _sst, _ax ) = fromTerminologyGraph( graph )
+    val( iri, _k, _i, _f, _c, _r, _sc, _st, _esc, _est, _ssc, _sst, _ax ) = fromTerminologyGraph( graph )
     ( _sst.toSet contains t )
   }
   
@@ -304,6 +308,7 @@ trait MutableTerminologyGraphOps[omf <: OMFiri with OMFtbox with OMFstore] exten
   
   def makeTerminologyGraph(
     iri: omf#IRI,
+    kind: TerminologyKind,
     extendedTGraphs: Iterable[omf#ImmutableModelTerminologyGraph] )( implicit store: omf#Store ): Try[omf#MutableModelTerminologyGraph]
 
   def saveTerminologyGraph( g: omf#MutableModelTerminologyGraph )( implicit store: omf#Store ): Try[Unit]

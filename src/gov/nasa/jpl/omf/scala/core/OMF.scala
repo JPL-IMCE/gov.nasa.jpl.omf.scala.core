@@ -124,10 +124,20 @@ trait OMFtbox {
   type ModelStructuredDataType <: ModelDataTypeDefinition
     
   type ModelDataRelationship <: ModelTypeTerm
-  type ModelDataRelationshipFromEntityToScalar <: ModelDataRelationship
-  type ModelDataRelationshipFromEntityToStructure <: ModelDataRelationship
-  type ModelDataRelationshipFromStructureToScalar <: ModelDataRelationship
-  type ModelDataRelationshipFromStructureToStructure <: ModelDataRelationship  
+  type ModelDataRelationshipFrom <: ModelDataRelationship
+  type ModelDataRelationshipTo <: ModelDataRelationship
+  
+  type ModelDataRelationshipFromEntity <: ModelDataRelationshipFrom
+  type ModelDataRelationshipFromStructure <: ModelDataRelationshipFrom
+  
+  type ModelDataRelationshipToScalar <: ModelDataRelationshipTo
+  type ModelDataRelationshipToStructure <: ModelDataRelationshipTo
+
+  type ModelDataRelationshipFromEntityToScalar <: ModelDataRelationshipFromEntity with ModelDataRelationshipToScalar
+  type ModelDataRelationshipFromEntityToStructure <: ModelDataRelationshipFromEntity with ModelDataRelationshipToStructure
+
+  type ModelDataRelationshipFromStructureToScalar <: ModelDataRelationshipFromStructure with ModelDataRelationshipToScalar
+  type ModelDataRelationshipFromStructureToStructure <: ModelDataRelationshipFromStructure with ModelDataRelationshipToStructure  
   
   type ModelTermAxiom
   

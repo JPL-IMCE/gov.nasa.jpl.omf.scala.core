@@ -41,6 +41,7 @@ package test.gov.nasa.jpl.omf.scala.core.functionalAPI
 
 import gov.nasa.jpl.omf.scala.core._
 import gov.nasa.jpl.omf.scala.core.RelationshipCharacteristics._
+import gov.nasa.jpl.omf.scala.core.TerminologyKind._
 
 import scala.language.implicitConversions
 import scala.language.postfixOps
@@ -71,6 +72,7 @@ abstract class OMFVocabularyTest[omf <: OMF](
       
       val base = makeTerminologyGraph( 
           makeIRI( "http://imce.jpl.nasa.gov/foundation/base/base" ), 
+          isDefinition,
           extendedTGraphs=List( xsd.get ) )         
       base should be a 'success
        
@@ -89,6 +91,7 @@ abstract class OMFVocabularyTest[omf <: OMF](
       
       val mission = makeTerminologyGraph( 
           makeIRI( "http://imce.jpl.nasa.gov/foundation/mission/mission" ), 
+          isDefinition,
           extendedTGraphs=List( ibase.get ) )
       mission should be a 'success
        
