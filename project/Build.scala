@@ -7,7 +7,7 @@ import com.banno.license.Plugin.LicenseKeys._
 object OMFCore extends Build {
   
   object Versions {
-    val scala = "2.11.4"
+    val scala = "2.11.5"
     val scalaCheck = "1.12.1"
     val scalaTest = "2.2.2"
     val specs2 = "2.4.15"
