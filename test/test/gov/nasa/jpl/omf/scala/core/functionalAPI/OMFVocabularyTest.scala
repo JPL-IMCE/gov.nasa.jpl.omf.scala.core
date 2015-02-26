@@ -72,10 +72,12 @@ abstract class OMFVocabularyTest[omf <: OMF](
       
       val base = makeTerminologyGraph( 
           makeIRI( "http://imce.jpl.nasa.gov/foundation/base/base" ), 
-          isDefinition,
-          extendedTGraphs=List( xsd.get ) )         
+          isDefinition )
       base should be a 'success
-       
+
+      val base_extends_xsd = addTerminologyGraphExtension( base.get, xsd.get )
+      base_extends_xsd should be a 'success
+
       val identifiedElement = addEntityAspect( base.get, "IdentifiedElement" )
       identifiedElement should be a 'success
       
@@ -91,10 +93,12 @@ abstract class OMFVocabularyTest[omf <: OMF](
       
       val mission = makeTerminologyGraph( 
           makeIRI( "http://imce.jpl.nasa.gov/foundation/mission/mission" ), 
-          isDefinition,
-          extendedTGraphs=List( ibase.get ) )
+          isDefinition )
       mission should be a 'success
        
+      val mission_extends_base = addTerminologyGraphExtension( mission.get, base.get )
+      base_extends_xsd should be a 'success
+      
       val component = addEntityConcept( mission.get, "Component" )
       component should be a 'success
 

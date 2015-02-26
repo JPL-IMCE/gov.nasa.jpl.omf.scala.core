@@ -124,20 +124,20 @@ trait OMFtbox {
   type ModelStructuredDataType <: ModelDataTypeDefinition
     
   type ModelDataRelationship <: ModelTypeTerm
-  type ModelDataRelationshipFrom <: ModelDataRelationship
-  type ModelDataRelationshipTo <: ModelDataRelationship
   
+  type ModelDataRelationshipFrom
   type ModelDataRelationshipFromEntity <: ModelDataRelationshipFrom
   type ModelDataRelationshipFromStructure <: ModelDataRelationshipFrom
   
+  type ModelDataRelationshipTo
   type ModelDataRelationshipToScalar <: ModelDataRelationshipTo
   type ModelDataRelationshipToStructure <: ModelDataRelationshipTo
 
-  type ModelDataRelationshipFromEntityToScalar <: ModelDataRelationshipFromEntity with ModelDataRelationshipToScalar
-  type ModelDataRelationshipFromEntityToStructure <: ModelDataRelationshipFromEntity with ModelDataRelationshipToStructure
+  type ModelDataRelationshipFromEntityToScalar <: ModelDataRelationship with ModelDataRelationshipFromEntity with ModelDataRelationshipToScalar
+  type ModelDataRelationshipFromEntityToStructure <: ModelDataRelationship with ModelDataRelationshipFromEntity with ModelDataRelationshipToStructure
 
-  type ModelDataRelationshipFromStructureToScalar <: ModelDataRelationshipFromStructure with ModelDataRelationshipToScalar
-  type ModelDataRelationshipFromStructureToStructure <: ModelDataRelationshipFromStructure with ModelDataRelationshipToStructure  
+  type ModelDataRelationshipFromStructureToScalar <: ModelDataRelationship with ModelDataRelationshipFromStructure with ModelDataRelationshipToScalar
+  type ModelDataRelationshipFromStructureToStructure <: ModelDataRelationship with ModelDataRelationshipFromStructure with ModelDataRelationshipToStructure  
   
   type ModelTermAxiom
   
@@ -166,8 +166,8 @@ trait OMFabox {
   type ModelInstanceObject <: ModelEntityInstance
   type ModelInstanceRelation <: ModelEntityInstance
   
-  type ModelDataInstance <: ModelInstanceAssertion
-  type ModelInstanceDataLiteral <: ModelDataInstance
+  type ModelDataInstance
+  type ModelInstanceDataLiteral <: ModelInstanceAssertion with ModelDataInstance
   type ModelInstanceDataStructure <: ModelNamedIndividual with ModelDataInstance
   
   type ModelInstanceDataRelationshipFromEntityToScalar <: ModelInstanceAssertion

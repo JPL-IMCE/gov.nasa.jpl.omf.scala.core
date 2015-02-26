@@ -15,7 +15,8 @@
 	<classpathentry exported="true" kind="lib" path="coreLibs/target/pack/lib/parboiled-java-1.1.4.jar"/>
 	<classpathentry exported="true" kind="lib" path="coreLibs/target/pack/lib/pegdown-1.2.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="coreLibs/target/pack/lib/scala-parser-combinators_2.11-1.0.2.jar"/>
-	<classpathentry exported="true" kind="lib" path="coreLibs/target/pack/lib/scala-xml_2.11-1.0.2.jar" sourcepath="coreLibs/target/pack/lib.srcs/scala-xml_2.11-1.0.2-sources.jar"/>
+	<classpathentry exported="true" kind="lib" 
+	path="coreLibs/target/pack/lib/scala-xml_2.11-1.0.2.jar" sourcepath="coreLibs/target/pack/lib.srcs/scala-xml_2.11-1.0.2-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="coreLibs/target/pack/lib/scalacheck_2.11-1.12.1.jar" sourcepath="coreLibs/target/pack/lib.srcs/scalacheck_2.11-1.12.1-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="coreLibs/target/pack/lib/scalaz-concurrent_2.11-7.1.0.jar" sourcepath="coreLibs/target/pack/lib.srcs/scalaz-concurrent_2.11-7.1.0-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="coreLibs/target/pack/lib/scalaz-core_2.11-7.1.0.jar" sourcepath="coreLibs/target/pack/lib.srcs/scalaz-core_2.11-7.1.0-sources.jar"/>

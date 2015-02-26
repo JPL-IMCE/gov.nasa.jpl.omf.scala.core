@@ -4,4 +4,4 @@ coreLibs
 project/project
 project/target
 target
-
+*.bak

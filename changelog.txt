@@ -1,3 +1,25 @@
+Version 0.10.0: February 26, 2015
+
+Minor: refactored the datatype relationships
+Major: loosened the restrictions on the mutable graph APIs regarding extension relationships
+
+In OMF, graphs can extend other graphs (within restrictions).
+
+In 0.9.1, constructing a graph G required specifying the other graphs G extends.
+That is, the set of graphs that G extends is defined when constructing G and is immutable afterwards.
+This had some nice benefits:
+- this kept the API simple (no need to worry about the set of extensions changing after construction)
+- this ensured a correct-by-construction guarantee that all graph extension relationships are acyclic 
+  (since the extensions must be specified when a graph is created and the API only supports creating one graph at a time)
+
+Unfortunately, this correct-by-construction guarantee of acyclic extension relationships is too strong for UML/SysML models we want to map to OMF.
+
+In 0.10.0, the API for creating mutable TBox graphs separates constructing a mutable TBox graph from adding extensions to a mutable TBox graph.
+However, the API for creating immutable TBox graphs retains the correct-by-construction principle that the extension relationships must be specified
+when creating an immutable TBox graph. That is, the API retains the 0.9.1 guarantee that extension relationships involving immutable TBox graphs will be acyclic. 
+
+The possibility of cycles of extension relationships among mutable TBox graphs has significant implications that will require additional capabilities.
+
 Version 0.9.1: February 4, 2015
 
 Update versions of dependencies

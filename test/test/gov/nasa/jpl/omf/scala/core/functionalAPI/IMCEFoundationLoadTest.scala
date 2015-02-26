@@ -64,8 +64,9 @@ abstract class IMCEFoundationLoadTest[omf <: OMF](
     var base_tbox: Try[omf#ImmutableModelTerminologyGraph] = null
 
     var mission_tbox: Try[omf#ImmutableModelTerminologyGraph] = null
-    var project_tbox: Try[omf#ImmutableModelTerminologyGraph] = null
     var analysis_tbox: Try[omf#ImmutableModelTerminologyGraph] = null
+    var behavior_tbox: Try[omf#ImmutableModelTerminologyGraph] = null
+    var project_tbox: Try[omf#ImmutableModelTerminologyGraph] = null
 
     "load xsd" in {
       val xsd_iri = makeIRI( "http://www.w3.org/2001/XMLSchema" )
@@ -122,5 +123,57 @@ abstract class IMCEFoundationLoadTest[omf <: OMF](
         component_performs_function.isDefined should be(true)
       }
     }
+        
+    "load analysis" in {
+      val analysis_iri= makeIRI( "http://imce.jpl.nasa.gov/foundation/analysis/analysis" )
+      analysis_tbox = loadTerminologyGraph( analysis_iri )
+      analysis_tbox should be a 'success
+
+      for {
+        characterization_iri <- withFragment( analysis_iri, "Characterization" )
+        characterizedElement_iri <- withFragment( analysis_iri, "CharacterizedElement" )
+      } {
+        val characterization = lookupEntityConcept( analysis_tbox.get, characterization_iri )
+        characterization.isDefined should be(true)
+
+        val characterizedElement = lookupEntityAspect( analysis_tbox.get, characterizedElement_iri )
+        characterizedElement.isDefined should be(true)
+      }
+    }
+    
+    "load behavior" in {
+      val behavior_iri= makeIRI( "http://imce.jpl.nasa.gov/foundation/behavior/behavior" )
+      behavior_tbox = loadTerminologyGraph( behavior_iri )
+      behavior_tbox should be a 'success
+
+      for {
+        stateVariable_iri <- withFragment( behavior_iri, "StateVariable" )
+        parameter_iri <- withFragment( behavior_iri, "Parameter" )
+      } {
+        val stateVariable = lookupEntityConcept( behavior_tbox.get, stateVariable_iri )
+        stateVariable.isDefined should be(true)
+
+        val parameter = lookupEntityConcept( behavior_tbox.get, parameter_iri )
+        parameter.isDefined should be(true)
+      }
+    }
+    
+    "load project" in {
+      val project_iri= makeIRI( "http://imce.jpl.nasa.gov/foundation/project/project" )
+      project_tbox = loadTerminologyGraph( project_iri )
+      project_tbox should be a 'success
+
+      for {
+        organization_iri <- withFragment( project_iri, "Organization" )
+        workPackage_iri <- withFragment( project_iri, "WorkPackage" )
+      } {
+        val organization = lookupEntityConcept( project_tbox.get, organization_iri )
+        organization.isDefined should be(true)
+
+        val workPackage = lookupEntityConcept( project_tbox.get, workPackage_iri )
+        workPackage.isDefined should be(true)
+      }
+    }
+    
   }
 }

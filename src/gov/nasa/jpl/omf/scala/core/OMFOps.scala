@@ -53,7 +53,29 @@ import scala.util.Success
 object OMFOps {
 
   def apply[omf <: OMF]( implicit ops: OMFOps[omf] ): OMFOps[omf] = ops
-
+  
+  def closure[U, V <: U]( x: U, relation: U => Iterable[V] ): Set[V] = {
+    
+    case class RelationClosureVisitor(
+        result: scala.collection.mutable.Set[V],
+        visit: scala.collection.mutable.Buffer[V],
+        visited: scala.collection.mutable.Set[V])
+        
+        
+    val visitor = RelationClosureVisitor( scala.collection.mutable.Set[V](), relation(x).toBuffer, scala.collection.mutable.Set[V]() )
+    while ( visitor.visit.nonEmpty ) {
+      val y = visitor.visit.remove( 0 )
+      visitor.visited += y
+      visitor.result += y
+      relation( y ) foreach ( yi => { 
+        visitor.result += yi
+        if ( ! visitor.visited.contains( yi ) ) { visitor.visit += yi }
+      } )
+    }
+    visitor.result.toSet
+    
+  }
+  
 }
 
 trait IRIOps[omf <: OMFiri] {
@@ -111,6 +133,28 @@ trait ImmutableTerminologyGraphOps[omf <: OMFiri with OMFtbox with OMFstore] {
 
   def getTerminologyGraphKind( graph: omf#ModelTerminologyGraph ): TerminologyKind
 
+  /**
+   * Query an OMF model terminology graph for its characteristics.
+   * 
+   * @param graph An OMF model terminology graph (mutable or immutable)
+   * @return a tuple of the characteristics of the `graph`, which can be grouped in 3 topics:
+   * 1) Identity & characteristics
+   * - the `graph` IRI
+   * - the kind of `graph` ( definition vs. designation )
+   * - the other graphs extended by this `graph`
+   * 2) Definitions
+   * - the aspects in `graph`
+   * - the concepts in `graph`
+   * - the relationships in `graph`
+   * - the scalar datatypes in `graph`
+   * - the structured datatypes in `graph
+   * - the data relationships from an entity to a scalar datatype in `graph`
+   * - the data relationships from an entity to a structured datatype in `graph`
+   * - the data relationships from an structured datatype to a scalar datatype in `graph`
+   * - the data relationships from an structured datatype to a scalar datatype in `graph`
+   * 3) Constraints
+   * - the axioms asserted in the `graph` about definitions from the closure of graph extension relationships
+   */
   def fromTerminologyGraph( graph: omf#ModelTerminologyGraph ): ( omf#IRI, TerminologyKind,
       Iterable[omf#ModelTerminologyGraph], 
       Iterable[omf#ModelEntityAspect], 
@@ -306,10 +350,22 @@ trait MutableTerminologyGraphOps[omf <: OMFiri with OMFtbox with OMFstore] exten
   
   def asImmutableTerminologyGraph( g: omf#MutableModelTerminologyGraph )( implicit store: omf#Store ): Try[omf#ImmutableModelTerminologyGraph]
   
+  /**
+   * Create a mutable terminology graph partially identified by an IRI and a kind.
+   * 
+   * The complete identity of a graph includes the IRI, kind and imported/extended graphs.
+   * For a mutable terminology graph, imported/extended graphs must be specified via `addTerminologyGraphExtension`
+   * 
+   * @modified 0.10.0
+   */
   def makeTerminologyGraph(
     iri: omf#IRI,
-    kind: TerminologyKind,
-    extendedTGraphs: Iterable[omf#ImmutableModelTerminologyGraph] )( implicit store: omf#Store ): Try[omf#MutableModelTerminologyGraph]
+    kind: TerminologyKind )( implicit store: omf#Store ): Try[omf#MutableModelTerminologyGraph]
+
+  /**
+   * @since 0.10.0
+   */
+  def addTerminologyGraphExtension( extendingG: omf#MutableModelTerminologyGraph, extendedG: omf#ModelTerminologyGraph )( implicit store: omf#Store ): Try[Unit]
 
   def saveTerminologyGraph( g: omf#MutableModelTerminologyGraph )( implicit store: omf#Store ): Try[Unit]
 
