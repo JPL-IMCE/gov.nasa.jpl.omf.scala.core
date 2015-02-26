@@ -1,3 +1,7 @@
+Version 0.10.1: February 26, 2015
+
+TDD: updated test.gov.nasa.jpl.omf.scala.core.functionalAPI.OWLVocabularyTest to exercise the new API for extending mutable graphs after construction.
+
 Version 0.10.0: February 26, 2015
 
 Minor: refactored the datatype relationships
