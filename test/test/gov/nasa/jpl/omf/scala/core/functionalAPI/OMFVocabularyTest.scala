@@ -170,7 +170,7 @@ abstract class OMFVocabularyTest[omf <: OMF](
       base should be a 'success
 
       {
-        val ( iri, k, i, f, c, r, sc, st, esc, est, ssc, sst, ax ) = ops.fromTerminologyGraph( base.get )
+        val ( iri, _, k, i, f, c, r, sc, st, esc, est, ssc, sst, ax ) = ops.fromTerminologyGraph( base.get )
         i.isEmpty should be( false )
         i.toSet.contains( xsd.get ) should be( true )
         f.isEmpty should be( false )
@@ -199,7 +199,7 @@ abstract class OMFVocabularyTest[omf <: OMF](
       mission should be a 'success
 
       {
-        val ( iri, k, i, f, c, r, sc, st, esc, est, ssc, sst, ax ) = ops.fromTerminologyGraph( mission.get )
+        val ( iri, _, k, i, f, c, r, sc, st, esc, est, ssc, sst, ax ) = ops.fromTerminologyGraph( mission.get )
         i.isEmpty should be( false )
         i.toSet.contains( base.get ) should be( true )
         f.isEmpty should be( true )
@@ -223,7 +223,8 @@ abstract class OMFVocabularyTest[omf <: OMF](
       val component_performs_function = lookupEntityRelationship( mission.get, makeIRI( "http://imce.jpl.nasa.gov/foundation/mission/mission#Performs" ) )
       component_performs_function.isDefined should be( true )
 
-      val ( _, component_performs_functionSource, component_performs_functionTarget, characteristics, component_performs_functionIsAbstract ) = fromEntityRelationship( component_performs_function.get )
+      val ( _, _, component_performs_functionSource, component_performs_functionTarget, characteristics, component_performs_functionIsAbstract ) = 
+        fromEntityRelationship( component_performs_function.get )
       component.get should be( component_performs_functionSource )
       function.get should be( component_performs_functionTarget )
       component_performs_functionIsAbstract should be( false )

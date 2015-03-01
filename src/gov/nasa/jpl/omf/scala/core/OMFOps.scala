@@ -139,6 +139,7 @@ trait ImmutableTerminologyGraphOps[omf <: OMFiri with OMFtbox with OMFstore] {
    * @return a tuple of the characteristics of the `graph`, which can be grouped in 3 topics:
    * 1) Identity & characteristics
    * - the `graph` IRI
+   * - the IRI of the entity corresponding to the graph, if any
    * - the kind of `graph` ( definition vs. designation )
    * - the other graphs extended by this `graph`
    * 2) Definitions
@@ -153,38 +154,39 @@ trait ImmutableTerminologyGraphOps[omf <: OMFiri with OMFtbox with OMFstore] {
    * - the data relationships from an structured datatype to a scalar datatype in `graph`
    * 3) Constraints
    * - the axioms asserted in the `graph` about definitions from the closure of graph extension relationships
+   * @since 0.10.3
    */
-  def fromTerminologyGraph( graph: omf#ModelTerminologyGraph ): ( omf#IRI, TerminologyKind, Iterable[omf#ModelTerminologyGraph], Iterable[omf#ModelEntityAspect], Iterable[omf#ModelEntityConcept], Iterable[omf#ModelEntityRelationship], Iterable[omf#ModelScalarDataType], Iterable[omf#ModelStructuredDataType], Iterable[omf#ModelDataRelationshipFromEntityToScalar], Iterable[omf#ModelDataRelationshipFromEntityToStructure], Iterable[omf#ModelDataRelationshipFromStructureToScalar], Iterable[omf#ModelDataRelationshipFromStructureToStructure], Iterable[omf#ModelTermAxiom] )
+  def fromTerminologyGraph( graph: omf#ModelTerminologyGraph ): ( omf#IRI, Option[omf#IRI], TerminologyKind, Iterable[omf#ModelTerminologyGraph], Iterable[omf#ModelEntityAspect], Iterable[omf#ModelEntityConcept], Iterable[omf#ModelEntityRelationship], Iterable[omf#ModelScalarDataType], Iterable[omf#ModelStructuredDataType], Iterable[omf#ModelDataRelationshipFromEntityToScalar], Iterable[omf#ModelDataRelationshipFromEntityToStructure], Iterable[omf#ModelDataRelationshipFromStructureToScalar], Iterable[omf#ModelDataRelationshipFromStructureToStructure], Iterable[omf#ModelTermAxiom] )
 
   def isEntityDefinitionAssertedInTerminologyGraph( t: omf#ModelTypeTerm, graph: omf#ModelTerminologyGraph ): Boolean = {
-    val ( iri, _k, _i, _f, _c, _r, _sc, _st, _esc, _est, _ssc, _sst, _ax ) = fromTerminologyGraph( graph )
+    val ( iri, _, _k, _i, _f, _c, _r, _sc, _st, _esc, _est, _ssc, _sst, _ax ) = fromTerminologyGraph( graph )
     ( _c.toSet contains t ) || ( _r.toSet contains t )
   }
 
   def isEntityDefinitionImportedInTerminologyGraph( t: omf#ModelTypeTerm, graph: omf#ModelTerminologyGraph ): Boolean = {
     !isEntityDefinitionAssertedInTerminologyGraph( t, graph ) && {
-      val ( iri, _k, _i, _f, _c, _r, _sc, _st, _esc, _est, _ssc, _sst, _ax ) = fromTerminologyGraph( graph )
+      val ( iri, _, _k, _i, _f, _c, _r, _sc, _st, _esc, _est, _ssc, _sst, _ax ) = fromTerminologyGraph( graph )
       _i.exists( ig => isEntityDefinitionAssertedInTerminologyGraph( t, ig ) || isEntityDefinitionImportedInTerminologyGraph( t, ig ) )
     }
   }
 
   def isEntityDataRelationshipFromEntityToScalarAssertedInTerminologyGraph( t: omf#ModelTypeTerm, graph: omf#ModelTerminologyGraph ): Boolean = {
-    val ( iri, _k, _i, _f, _c, _r, _sc, _st, _esc, _est, _ssc, _sst, _ax ) = fromTerminologyGraph( graph )
+    val ( iri, _, _k, _i, _f, _c, _r, _sc, _st, _esc, _est, _ssc, _sst, _ax ) = fromTerminologyGraph( graph )
     ( _esc.toSet contains t )
   }
 
   def isEntityDataRelationshipFromEntityToStructureAssertedInTerminologyGraph( t: omf#ModelTypeTerm, graph: omf#ModelTerminologyGraph ): Boolean = {
-    val ( iri, _k, _i, _f, _c, _r, _sc, _st, _esc, _est, _ssc, _sst, _ax ) = fromTerminologyGraph( graph )
+    val ( iri, _, _k, _i, _f, _c, _r, _sc, _st, _esc, _est, _ssc, _sst, _ax ) = fromTerminologyGraph( graph )
     ( _est.toSet contains t )
   }
 
   def isEntityDataRelationshipFromStructureToScalarAssertedInTerminologyGraph( t: omf#ModelTypeTerm, graph: omf#ModelTerminologyGraph ): Boolean = {
-    val ( iri, _k, _i, _f, _c, _r, _sc, _st, _esc, _est, _ssc, _sst, _ax ) = fromTerminologyGraph( graph )
+    val ( iri, _, _k, _i, _f, _c, _r, _sc, _st, _esc, _est, _ssc, _sst, _ax ) = fromTerminologyGraph( graph )
     ( _ssc.toSet contains t )
   }
 
   def isEntityDataRelationshipFromStructureToStructureAssertedInTerminologyGraph( t: omf#ModelTypeTerm, graph: omf#ModelTerminologyGraph ): Boolean = {
-    val ( iri, _k, _i, _f, _c, _r, _sc, _st, _esc, _est, _ssc, _sst, _ax ) = fromTerminologyGraph( graph )
+    val ( iri, _, _k, _i, _f, _c, _r, _sc, _st, _esc, _est, _ssc, _sst, _ax ) = fromTerminologyGraph( graph )
     ( _sst.toSet contains t )
   }
 
@@ -221,7 +223,7 @@ trait ImmutableTerminologyGraphOps[omf <: OMFiri with OMFtbox with OMFstore] {
     funDataRelationshipFromStructureToStructure: omf#ModelDataRelationshipFromStructureToStructure => T ): T
 
   def fromTerm( t: omf#ModelTypeTerm ): omf#IRI = foldTerm[omf#IRI]( t )(
-    ( ec: omf#ModelEntityConcept ) => fromEntityConcept( ec ),
+    ( ec: omf#ModelEntityConcept ) => fromEntityConcept( ec )._1,
     ( er: omf#ModelEntityRelationship ) => fromEntityRelationship( er )._1,
     ( sc: omf#ModelScalarDataType ) => fromScalarDataType( sc ),
     ( sd: omf#ModelStructuredDataType ) => fromStructuredDataType( sd ),
@@ -240,7 +242,15 @@ trait ImmutableTerminologyGraphOps[omf <: OMFiri with OMFtbox with OMFstore] {
 
   // entity concept
 
-  def fromEntityConcept( c: omf#ModelEntityConcept ): omf#IRI
+  /**
+   * @param c A concept
+   * @return A tuple consisting of:
+   * - the IRI of the concept
+   * - if any, the IRI of the graph corresponding to the concept
+   * - a boolean flag indicating whether this is an abstract concept or not
+   * @since 0.10.3
+   */
+  def fromEntityConcept( c: omf#ModelEntityConcept ): ( omf#IRI, Option[omf#IRI], Boolean )
 
   def equivalentEntityConcepts( c1: Iterable[omf#ModelEntityConcept], c2: Iterable[omf#ModelEntityConcept] ): Boolean = {
     val iris1 = c1.map( fromEntityConcept( _ ) ) toSet
@@ -251,11 +261,32 @@ trait ImmutableTerminologyGraphOps[omf <: OMFiri with OMFtbox with OMFstore] {
 
   // entity relationship
 
-  def fromEntityRelationship( r: omf#ModelEntityRelationship ): ( omf#IRI, omf#ModelEntityDefinition, omf#ModelEntityDefinition, Iterable[RelationshipCharacteristics], Boolean )
+  /**
+   * @param r, a relationship
+   * @return a tuple consisting of:
+   * - the IRI of the relationship
+   * - the IRI of the graph corresponding to the relationship, if any
+   * - the source entity of the relationship
+   * - the target entity of the relationship
+   * - the characteristics of the relationship
+   * - a flag indicating whether the relationship is abstract or not.
+   */
+  def fromEntityRelationship( r: omf#ModelEntityRelationship ): ( omf#IRI, Option[omf#IRI], omf#ModelEntityDefinition, omf#ModelEntityDefinition, Iterable[RelationshipCharacteristics], Boolean )
 
+  /**
+   * Compares the relationships in terms of their sources, target & characteristics
+   * Does not compare the graphs corresponding to each relationship, if any	. 
+   * @since 0.10.3	
+   */
   def equivalentEntityRelationships( r1: Iterable[omf#ModelEntityRelationship], r2: Iterable[omf#ModelEntityRelationship] ): Boolean = {
-    val left = r1.map { r => val ( i, s, t, c, a ) = fromEntityRelationship( r ); ( i, fromEntityDefinition( s ), fromEntityDefinition( t ), relationshipCharacteristicsSummary( c ) ) } toSet
-    val right = r2.map { r => val ( i, s, t, c, a ) = fromEntityRelationship( r ); ( i, fromEntityDefinition( s ), fromEntityDefinition( t ), relationshipCharacteristicsSummary( c ) ) } toSet
+    val left = r1.map { r => 
+      val ( i, _, s, t, c, a ) = fromEntityRelationship( r )
+      ( i, fromEntityDefinition( s ), fromEntityDefinition( t ), relationshipCharacteristicsSummary( c ) )
+    } toSet
+    val right = r2.map { r => 
+      val ( i, _, s, t, c, a ) = fromEntityRelationship( r )
+      ( i, fromEntityDefinition( s ), fromEntityDefinition( t ), relationshipCharacteristicsSummary( c ) ) 
+    } toSet
     val d = left.diff( right )
     d.isEmpty
   }
@@ -343,7 +374,7 @@ trait MutableTerminologyGraphOps[omf <: OMFiri with OMFtbox with OMFstore] exten
    * The complete identity of a graph includes the IRI, kind and imported/extended graphs.
    * For a mutable terminology graph, imported/extended graphs must be specified via `addTerminologyGraphExtension`
    *
-   * @modified 0.10.0
+   * @since 0.10.0
    */
   def makeTerminologyGraph(
     iri: omf#IRI,
@@ -356,15 +387,15 @@ trait MutableTerminologyGraphOps[omf <: OMFiri with OMFtbox with OMFstore] exten
     extendingG: omf#MutableModelTerminologyGraph,
     extendedG: omf#ModelTerminologyGraph )( implicit store: omf#Store ): Try[Unit]
 
-  def saveTerminologyGraph( 
-      g: omf#MutableModelTerminologyGraph )( implicit store: omf#Store ): Try[Unit]
+  def saveTerminologyGraph(
+    g: omf#MutableModelTerminologyGraph )( implicit store: omf#Store ): Try[Unit]
 
   /**
    * @since 0.10.2
    */
-  def saveTerminologyGraph( 
-      g: omf#MutableModelTerminologyGraph, 
-      os: OutputStream )( implicit store: omf#Store ): Try[Unit]
+  def saveTerminologyGraph(
+    g: omf#MutableModelTerminologyGraph,
+    os: OutputStream )( implicit store: omf#Store ): Try[Unit]
 
   /**
    * Add to a terminology graph a new ModelEntityAspect
@@ -387,13 +418,13 @@ trait MutableTerminologyGraphOps[omf <: OMFiri with OMFtbox with OMFstore] exten
    * @return A tuple: ( C, CG ) where:
    * C is the new entity concept (in `graph`)
    * CG is a new graph corresponding to `C` (if conceptGraphIRI is provided, otherwise none)
+   * @since 0.10.2
    */
   def addEntityConcept(
     graph: omf#MutableModelTerminologyGraph,
     conceptName: String,
     conceptGraphIRI: Option[omf#IRI],
-    isAbstract: Boolean = false )( implicit store: omf#Store )
-    : Try[( omf#ModelEntityConcept, Option[omf#MutableModelTerminologyGraph] )]
+    isAbstract: Boolean = false )( implicit store: omf#Store ): Try[( omf#ModelEntityConcept, Option[omf#MutableModelTerminologyGraph] )]
 
   /**
    * Add to a terminology graph a new ModelEntityRelationship
@@ -410,6 +441,7 @@ trait MutableTerminologyGraphOps[omf <: OMFiri with OMFtbox with OMFstore] exten
    * @return A tuple: ( R, RG ) where:
    * R is the new entity relationship (in `graph`)
    * RG is a new graph corresponding to `R`
+   * @since 0.10.2
    */
   def addEntityRelationship(
     graph: omf#MutableModelTerminologyGraph,
@@ -420,8 +452,7 @@ trait MutableTerminologyGraphOps[omf <: OMFiri with OMFtbox with OMFstore] exten
     relationshipGraphIRI: Option[omf#IRI],
     unreifiedRelationshipName: String,
     unreifiedInverseRelationshipName: Option[String] = None,
-    isAbstract: Boolean = true )( implicit store: omf#Store )
-    : Try[( omf#ModelEntityRelationship, Option[omf#MutableModelTerminologyGraph] )]
+    isAbstract: Boolean = true )( implicit store: omf#Store ): Try[( omf#ModelEntityRelationship, Option[omf#MutableModelTerminologyGraph] )]
 
   def addScalarDataType(
     graph: omf#MutableModelTerminologyGraph,
