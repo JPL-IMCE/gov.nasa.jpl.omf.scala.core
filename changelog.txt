@@ -1,3 +1,8 @@
+Version 0.10.2: February 28, 2015
+
+new apis to save graphs to output streams.
+changed apis for creating entity concepts & relations to include an optional IRI for creating a nested mutable terminology graph
+
 Version 0.10.1: February 26, 2015
 
 TDD: updated test.gov.nasa.jpl.omf.scala.core.functionalAPI.OWLVocabularyTest to exercise the new API for extending mutable graphs after construction.

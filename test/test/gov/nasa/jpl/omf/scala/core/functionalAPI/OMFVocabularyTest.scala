@@ -99,48 +99,48 @@ abstract class OMFVocabularyTest[omf <: OMF](
       val mission_extends_base = addTerminologyGraphExtension( mission.get, base.get )
       base_extends_xsd should be a 'success
 
-      val component = addEntityConcept( mission.get, "Component" )
+      val component = addEntityConcept( mission.get, "Component", None )
       component should be a 'success
 
       val component_extends_identifiedElement = addEntityDefinitionAspectSubClassAxiom(
         graph = mission.get,
-        sub = component.get,
+        sub = component.get._1,
         sup = identifiedElement.get )
       component_extends_identifiedElement.isSuccess should be( true )
 
-      val function = addEntityConcept( mission.get, "Function" )
+      val function = addEntityConcept( mission.get, "Function", None )
       function should be a 'success
 
       val function_extends_identifiedElement = addEntityDefinitionAspectSubClassAxiom(
         graph = mission.get,
-        sub = function.get,
+        sub = function.get._1,
         sup = identifiedElement.get )
       function_extends_identifiedElement should be a 'success
 
       val component_performs_function = addEntityRelationship(
         graph = mission.get,
-        source = component.get,
-        target = function.get,
+        source = component.get._1,
+        target = function.get._1,
         characteristics = List( isAsymmetric, isIrreflexive, isInverseFunctional ),
-        reifiedRelationshipName = "Performs",
+        reifiedRelationshipName = "Performs", None,
         unreifiedRelationshipName = "performs",
         unreifiedInverseRelationshipName = Some( "isPerformedBy" ),
         isAbstract = false )
       component_performs_function should be a 'success
 
-      val item = addEntityConcept( mission.get, "Item" )
+      val item = addEntityConcept( mission.get, "Item", None )
       item should be a 'success
 
-      val message = addEntityConcept( mission.get, "Message" )
+      val message = addEntityConcept( mission.get, "Message", None )
       message should be a 'success
 
-      val materialItem = addEntityConcept( mission.get, "MaterialItem" )
+      val materialItem = addEntityConcept( mission.get, "MaterialItem", None )
       materialItem should be a 'success
 
-      val message_extends_item = addEntityConceptSubClassAxiom( mission.get, message.get, item.get )
+      val message_extends_item = addEntityConceptSubClassAxiom( mission.get, message.get._1, item.get._1 )
       message_extends_item should be a 'success
 
-      val materialItem_extends_item = addEntityConceptSubClassAxiom( mission.get, materialItem.get, item.get )
+      val materialItem_extends_item = addEntityConceptSubClassAxiom( mission.get, materialItem.get._1, item.get._1 )
       materialItem_extends_item should be a 'success
 
       val baseSaved = saveTerminologyGraph( base.get )

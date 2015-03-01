@@ -83,10 +83,10 @@ abstract class IMCEMissionDomainTBoxExample[omf <: OMF]()( implicit ops: OMFOps[
 
       val g = t1.get
 
-      val component = addEntityConcept( g, "Component" )
+      val component = addEntityConcept( g, "Component", None )
       component.isSuccess should be( true )
 
-      val function = addEntityConcept( g, "Function" )
+      val function = addEntityConcept( g, "Function", None )
       function.isSuccess should be( true )
 
       val ( iri, _k, _i, _f, _c, _r, _sc, _st, _esc, _est, _ssc, _sst, _ax ) = fromTerminologyGraph( g )

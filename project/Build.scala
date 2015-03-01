@@ -13,6 +13,7 @@ object OMFCore extends Build {
     val specs2 = "2.4.15"
     val scalaz_stream = "0.6a"
     val scalaz = "7.1.0"
+    val play = "2.3.8"
   }
     
   val coreLibs = Project(
@@ -33,6 +34,32 @@ object OMFCore extends Build {
         ( mappings in pack ) := { extraPackFun.value } )
       )
       
+  val playLibs = Project(
+      "playLibs",
+      file( "playLibs" ),      
+      settings = Defaults.coreDefaultSettings ++ Defaults.runnerSettings ++ Defaults.baseTasks ++ packSettings ++ Seq(            
+        scalaVersion := Versions.scala,
+        packExpandedClasspath := true,
+        libraryDependencies ++= Seq(
+          "com.typesafe.play" %% "play" % Versions.play % "compile" withSources(),
+          "com.typesafe.play" %% "play-iteratees" % Versions.play % "compile" withSources(),
+          "com.typesafe.play" %% "play-json" % Versions.play % "compile" withSources(),
+          "com.typesafe.play" %% "play-functional" % Versions.play % "compile" withSources()
+        ),
+        libraryDependencies ~= { _ map {
+          case m if m.organization == "com.typesafe.play" =>
+            m.
+            exclude("commons-codec", "commons-codec").
+            exclude("commons-logging", "commons-logging").
+            exclude("com.typesafe", "config").
+            exclude("com.typesafe.play", "sbt-link").
+            exclude("org.slf4j", "slf4j-api")
+          case m => m
+        }},
+        resolvers += "Typesafe Releases" at "https://repo.typesafe.com/typesafe/releases/",
+        ( mappings in pack ) := { extraPackFun.value } )
+      ) 
+      
   lazy val core = Project(
       "omf-scala-core",
       file( "." ),
@@ -43,7 +70,7 @@ object OMFCore extends Build {
         scalaSource in Test := baseDirectory.value / "test",
         shellPrompt := { state => Project.extract(state).currentRef.project + " @ " + Project.extract(state).get( GitKeys.gitCurrentBranch ) + "> " }
       )
-    ) dependsOn ( coreLibs )
+    ) dependsOn ( coreLibs, playLibs ) //enablePlugins( play.PlayScala )
           
   val extraPackFun: Def.Initialize[Task[Seq[( File, String )]]] = Def.task[Seq[( File, String )]] {
     def getFileIfExists( f: File, where: String ): Option[( File, String )] = if ( f.exists() ) Some( ( f, s"${where}/${f.getName()}" ) ) else None
