@@ -1,3 +1,7 @@
+Version 0.11.0: March 3, 2015
+
+new api: terminologyGraphImportClosure
+
 Version 0.10.3: February 28, 2015
 
 updated apis to support retrieving the graph associated to an entity (concept or relation currently), if any and 

@@ -37,8 +37,55 @@
  *  NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package gov.nasa.jpl.omf
+package gov.nasa.jpl.omf.scala
 
-package gov.nasa.jpl.omf.scala.core {
+package object core {
+
+  /**
+   * The reflexive transitive closure of imported terminology graphs
+   * @param g The terminology graph whose direct & indirect imports are included (subject to kind filtering)
+   * @param onlySameKind determines the filtering of imported terminology graphs
+   * @return gs: if onlySameKind is true; then gs contains g and all g' directly or indirectly imported from g that have the same kind as g
+   * if onlySameKind is false; then gs contains g and all g' directly or indirectly imported from g regardless of their kind
+   */
+  def terminologyGraphImportClosure[Omf <: OMF, TG <: Omf#ModelTerminologyGraph](
+    g: TG,
+    onlySameKind: Boolean = true )( implicit ops: OMFOps[Omf] ): Set[Omf#ModelTerminologyGraph] = {
+
+    import core.TerminologyKind._
+    import ops._
+
+    def getImportedTerminologyGraphs( tbox: Omf#ModelTerminologyGraph ): Set[Omf#ModelTerminologyGraph] = {
+      val ( _, _, kind: TerminologyKind, imports: Iterable[Omf#ModelTerminologyGraph], _, _, _, _, _, _, _, _, _, _ ) = fromTerminologyGraph( tbox )
+      imports.filter( !onlySameKind || kind == getTerminologyGraphKind( _ ) ).toSet
+    }
+
+    OMFOps.closure[Omf#ModelTerminologyGraph, Omf#ModelTerminologyGraph]( g, ( getImportedTerminologyGraphs( _ ) ) ) + g
+  }
+
+  /**
+   * Aggregates all entities defined in terminology graphs
+   * @param tboxes: a set of terminology graphs
+   * @return a 3-tuple of the aspects, concepts and relationships entities defined in the graphs:
+   */
+  def allEntities[Omf <: OMF](
+    tboxes: Set[Omf#ModelTerminologyGraph] )( implicit ops: OMFOps[Omf] ): ( Set[Omf#ModelEntityAspect], Set[Omf#ModelEntityConcept], Set[Omf#ModelEntityRelationship] ) = {
+
+    import ops._
+
+    val entities0 = ( Set[Omf#ModelEntityAspect](), Set[Omf#ModelEntityConcept](), Set[Omf#ModelEntityRelationship]() )
+    val entitiesN =
+      ( entities0 /: ( for { tbox <- tboxes } yield {
+        val ( _, _, _, _,
+          aspects: Iterable[Omf#ModelEntityAspect],
+          concepts: Iterable[Omf#ModelEntityConcept],
+          relations: Iterable[Omf#ModelEntityRelationship],
+          _, _, _, _, _, _, _ ) =
+          fromTerminologyGraph( tbox )
+        ( aspects.toSet, concepts.toSet, relations.toSet )
+      } ) ) { case ( ( ai, ci, ri ), ( aj, cj, rj ) ) => ( ai ++ aj, ci ++ cj, ri ++ rj ) }
+
+    entitiesN
+  }
 
 }

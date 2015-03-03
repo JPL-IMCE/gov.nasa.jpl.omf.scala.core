@@ -85,7 +85,16 @@ trait IRIOps[omf <: OMFiri] {
 
   def withFragment( iri: omf#IRI, fragment: String ): Try[omf#IRI]
 
+  /**
+   * Split the IRI in two components: the IRI wihtout the fragment, the IRI fragment
+   */
   def splitIRI( iri: omf#IRI ): ( omf#IRI, Option[String] )
+
+  /**
+   * If the IRI has a fragment, returns "n:f" where "n" is the last segment of the IRI and "f" is the fragment of the IRI
+   */
+  def toAbbreviatedName( iri: omf#IRI, lowercaseFragmentInitial: Boolean ): Option[String] 
+  
 
   def fromIRI( iri: omf#IRI ): String
 
@@ -122,7 +131,7 @@ trait IRIOps[omf <: OMFiri] {
    */
   def toTargetIRI( iri: omf#IRI ): omf#IRI
 
-}
+}	
 
 trait ImmutableTerminologyGraphOps[omf <: OMFiri with OMFtbox with OMFstore] {
 
