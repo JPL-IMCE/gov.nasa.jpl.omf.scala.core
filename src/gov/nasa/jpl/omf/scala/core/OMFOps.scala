@@ -511,13 +511,19 @@ trait MutableTerminologyGraphOps[omf <: OMFiri with OMFtbox with OMFstore] exten
     sub: omf#ModelEntityConcept,
     sup: omf#ModelEntityConcept )( implicit store: omf#Store ): Try[omf#EntityConceptSubClassAxiom]
 
-  // entity concept restriction axiom
+  // entity concept restriction axioms
 
-  def addEntityConceptRestrictionAxiom(
+  def addEntityConceptUniversalRestrictionAxiom(
     graph: omf#MutableModelTerminologyGraph,
     sub: omf#ModelEntityConcept,
     rel: omf#ModelEntityRelationship,
-    range: omf#ModelEntityDefinition )( implicit store: omf#Store ): Try[omf#EntityConceptRestrictionAxiom]
+    range: omf#ModelEntityDefinition )( implicit store: omf#Store ): Try[omf#EntityConceptUniversalRestrictionAxiom]
+
+  def addEntityConceptExistentialRestrictionAxiom(
+    graph: omf#MutableModelTerminologyGraph,
+    sub: omf#ModelEntityConcept,
+    rel: omf#ModelEntityRelationship,
+    range: omf#ModelEntityDefinition )( implicit store: omf#Store ): Try[omf#EntityConceptExistentialRestrictionAxiom]
 
   // entity relationship subclass axiom
 

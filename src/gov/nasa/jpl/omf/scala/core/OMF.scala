@@ -143,7 +143,9 @@ trait OMFtbox {
   
   type EntityDefinitionAspectSubClassAxiom <: ModelTermAxiom  // (sub, sup)
   type EntityConceptSubClassAxiom <: ModelTermAxiom				  // (sub, sup)
-  type EntityConceptRestrictionAxiom <: ModelTermAxiom			  // (sub, rel, range) = ObjectAllValuesFrom
+  type EntityConceptRestrictionAxiom <: ModelTermAxiom			  // (sub, rel, range)
+  type EntityConceptUniversalRestrictionAxiom <: EntityConceptRestrictionAxiom			  // ObjectAllValuesFrom
+  type EntityConceptExistentialRestrictionAxiom <: EntityConceptRestrictionAxiom			  // ObjectSomeValuesFrom
   type EntityRelationshipSubClassAxiom <: ModelTermAxiom	    // (sub, sup)  
   type ScalarDataTypeFacetRestriction <: ModelTermAxiom      // (sup, sup, [facet, literal]+)
   
