@@ -1,3 +1,7 @@
+Version 0.11.1: March 10, 2015
+
+test IMCE_OWL2_MOF2_LoadTest (to verify the well-formedness of the IMCE owl2-mof2 ontology for loading in OMF)
+
 Version 0.11.0: March 3, 2015
 
 new api: terminologyGraphImportClosure
