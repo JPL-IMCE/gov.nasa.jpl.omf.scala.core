@@ -60,7 +60,7 @@ package object core {
       imports.filter( !onlySameKind || kind == getTerminologyGraphKind( _ ) ).toSet
     }
 
-    OMFOps.closure[Omf#ModelTerminologyGraph, Omf#ModelTerminologyGraph]( g, ( getImportedTerminologyGraphs( _ ) ) ) + g
+    OMFOps.closure[Omf#ModelTerminologyGraph, Omf#ModelTerminologyGraph]( g, getImportedTerminologyGraphs ) + g
   }
 
   /**

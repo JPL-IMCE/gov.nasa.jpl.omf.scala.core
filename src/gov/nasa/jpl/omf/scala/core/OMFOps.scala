@@ -181,22 +181,22 @@ trait ImmutableTerminologyGraphOps[omf <: OMFiri with OMFtbox with OMFstore] {
 
   def isEntityDataRelationshipFromEntityToScalarAssertedInTerminologyGraph( t: omf#ModelTypeTerm, graph: omf#ModelTerminologyGraph ): Boolean = {
     val ( iri, _, _k, _i, _f, _c, _r, _sc, _st, _esc, _est, _ssc, _sst, _ax ) = fromTerminologyGraph( graph )
-    ( _esc.toSet contains t )
+    _esc.toSet contains t
   }
 
   def isEntityDataRelationshipFromEntityToStructureAssertedInTerminologyGraph( t: omf#ModelTypeTerm, graph: omf#ModelTerminologyGraph ): Boolean = {
     val ( iri, _, _k, _i, _f, _c, _r, _sc, _st, _esc, _est, _ssc, _sst, _ax ) = fromTerminologyGraph( graph )
-    ( _est.toSet contains t )
+    _est.toSet contains t
   }
 
   def isEntityDataRelationshipFromStructureToScalarAssertedInTerminologyGraph( t: omf#ModelTypeTerm, graph: omf#ModelTerminologyGraph ): Boolean = {
     val ( iri, _, _k, _i, _f, _c, _r, _sc, _st, _esc, _est, _ssc, _sst, _ax ) = fromTerminologyGraph( graph )
-    ( _ssc.toSet contains t )
+    _ssc.toSet contains t
   }
 
   def isEntityDataRelationshipFromStructureToStructureAssertedInTerminologyGraph( t: omf#ModelTypeTerm, graph: omf#ModelTerminologyGraph ): Boolean = {
     val ( iri, _, _k, _i, _f, _c, _r, _sc, _st, _esc, _est, _ssc, _sst, _ax ) = fromTerminologyGraph( graph )
-    ( _sst.toSet contains t )
+    _sst.toSet contains t
   }
 
   def isTypeTermAssertedInTerminologyGraph( t: omf#ModelTypeTerm, graph: omf#ModelTerminologyGraph ): Boolean =
@@ -262,8 +262,8 @@ trait ImmutableTerminologyGraphOps[omf <: OMFiri with OMFtbox with OMFstore] {
   def fromEntityConcept( c: omf#ModelEntityConcept ): ( omf#IRI, Option[omf#IRI], Boolean )
 
   def equivalentEntityConcepts( c1: Iterable[omf#ModelEntityConcept], c2: Iterable[omf#ModelEntityConcept] ): Boolean = {
-    val iris1 = c1.map( fromEntityConcept( _ ) ) toSet
-    val iris2 = c2.map( fromEntityConcept( _ ) ) toSet
+    val iris1 = c1.map( fromEntityConcept ) toSet
+    val iris2 = c2.map( fromEntityConcept ) toSet
     val d = iris1.diff( iris2 )
     d.isEmpty
   }
@@ -289,11 +289,11 @@ trait ImmutableTerminologyGraphOps[omf <: OMFiri with OMFtbox with OMFstore] {
    */
   def equivalentEntityRelationships( r1: Iterable[omf#ModelEntityRelationship], r2: Iterable[omf#ModelEntityRelationship] ): Boolean = {
     val left = r1.map { r => 
-      val ( i, _, s, t, c, a ) = fromEntityRelationship( r )
+      val ( i, _, s, t, c, _ ) = fromEntityRelationship( r )
       ( i, fromEntityDefinition( s ), fromEntityDefinition( t ), relationshipCharacteristicsSummary( c ) )
     } toSet
     val right = r2.map { r => 
-      val ( i, _, s, t, c, a ) = fromEntityRelationship( r )
+      val ( i, _, s, t, c, _ ) = fromEntityRelationship( r )
       ( i, fromEntityDefinition( s ), fromEntityDefinition( t ), relationshipCharacteristicsSummary( c ) ) 
     } toSet
     val d = left.diff( right )
@@ -309,8 +309,8 @@ trait ImmutableTerminologyGraphOps[omf <: OMFiri with OMFtbox with OMFstore] {
   def fromScalarDataType( dt: omf#ModelScalarDataType ): omf#IRI
 
   def equivalentScalarDataTypes( dt1: Iterable[omf#ModelScalarDataType], dt2: Iterable[omf#ModelScalarDataType] ): Boolean = {
-    val left = dt1.map( fromScalarDataType( _ ) ) toSet
-    val right = dt2.map( fromScalarDataType( _ ) ) toSet
+    val left = dt1.map( fromScalarDataType ) toSet
+    val right = dt2.map( fromScalarDataType ) toSet
     val d = left.diff( right )
     d.isEmpty
   }
@@ -320,8 +320,8 @@ trait ImmutableTerminologyGraphOps[omf <: OMFiri with OMFtbox with OMFstore] {
   def fromStructuredDataType( dt: omf#ModelStructuredDataType ): omf#IRI
 
   def equivalentStructuredDataTypes( dt1: Iterable[omf#ModelStructuredDataType], dt2: Iterable[omf#ModelStructuredDataType] ): Boolean = {
-    val left = dt1.map( fromStructuredDataType( _ ) ) toSet
-    val right = dt2.map( fromStructuredDataType( _ ) ) toSet
+    val left = dt1.map( fromStructuredDataType ) toSet
+    val right = dt2.map( fromStructuredDataType ) toSet
     val d = left.diff( right )
     d.isEmpty
   }
