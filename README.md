@@ -71,10 +71,14 @@ class Relation {
 
 This model is in 5th normal form because every table (i.e., Class) is at most a binary relationship.
 
-In the OO class/attribute model, there would not be any OMF per se; rather, a domain would be modeled in terms of classes (i.e., domain concepts)
-and the relations in the domain would be modeled in terms of class attribute properties.
+In the OO class/attribute model, there would not be any OMF per se; rather, a domain would be modeled 
+in terms of classes (i.e., domain concepts) and the relations in the domain would be modeled 
+in terms of class attribute properties.
 
-This means that an OO class/attribute model for a particular domain could have domain-specific classes with 3 or more attribute properties: a violation of the 5th normal form. Of course, one could counter-argue that the OO class/attribute model for that domain could be refactored into 5th normal form. In theory, yes. In practice, it is rarely done. 
+This means that an OO class/attribute model for a particular domain could have domain-specific classes 
+with 3 or more attribute properties: a violation of the 5th normal form. Of course, one could counter-argue 
+that the OO class/attribute model for that domain could be refactored into 5th normal form. 
+In theory, yes. In practice, it is rarely done. 
 
 
 ## Scala
@@ -94,7 +98,8 @@ This project is built with Java 1.8 and Scala 2.11.4
 
 This project is built with SBT 0.13.7
 
-To install SBT, use a package manager for your system (Linux, MacOSX, Windows,...), see: [http://en.wikipedia.org/wiki/List_of_software_package_management_systems](http://en.wikipedia.org/wiki/List_of_software_package_management_systems)
+To install SBT, use a package manager for your system (Linux, MacOSX, Windows,...), 
+see: [http://en.wikipedia.org/wiki/List_of_software_package_management_systems](http://en.wikipedia.org/wiki/List_of_software_package_management_systems)
 
 ### [Books about SBT](http://www.scala-lang.org/documentation/books.html)
 
@@ -106,35 +111,56 @@ To install SBT, use a package manager for your system (Linux, MacOSX, Windows,..
 
 ## Building the OMF Scala Core
 
+* with the SBT command line
+
+```
+sbt -DJPL_MBEE_LOCAL_REPOSITORY=<directory path for a local Ivy2 repository (will be created if necessary)>
+```
+
+The SBT prompt will show:
+
+```
+omf-scala-core(<GIT branch>)>
+```
+
+* with IntelliJ
+
+File > New > Project from Existing Sources...
+Then choose SBT (not Eclipse,...)
+In SBT, configure the VM parameters to include:
+
+```
+-DJPL_MBEE_LOCAL_REPOSITORY=<directory path for a local Ivy2 repository (will be created if necessary)>
+```
+
+Then IntelliJ should be able to import the project properly.
+
 ### Updating the license header
 
-The text of the license header is in the `Build.sbt` file, to force updating all source files, use the follwing command:
+The text of the license header is in the `build.sbt` file, to force updating all source files, use the follwing command:
 
 ```
 sbt formatLicenseHeaders
 ```
 
-### [Scala IDE](http://scala-ide.org), Version 4.0 on Eclipse Luna
-
-The Eclipse `.classpath` file refers to third-party library dependency jar files in `coreLibs/target/pack/lib`
-To download these library dependencies, open a shell window and run:
-
-```
-sbt coreLibs/pack
-```
-
-If the 3rd party libraries are updated in `project/Build.scala/coreLibs`, manually update the Eclipse `.classpath` file.
-
 ### Building with SBT
 
 ```
-sbt coreLibs/pack
-sbt publishLocal
+sbt compile
 ```
 
 ### Building with Eclipse
 
-Build the Scala project as usual with Eclipse
+This is deferred: it is unclear how to use Eclipse to develop projects with artifact-based dependencies
+where project publish artifacts. Eclipse lacks a flexible artifact-aware build system like SBT.
+
+There are artifact-aware build systems for Eclipse (e.g., Eclipse Maven Integration, Eclipse IvyDE, Eclipse Buckminster)
+However, these typically require using a very verbose XML-based Maven POM file; definitely much more cumbersome
+and complicated to maintain than an SBT build specification.
+
+Finally, the reason is that very few open-source Scala projects use Eclipse alone.
+The vast majority of open-source Scala projects use SBT, in which case support for Eclipse
+is addressed via the SBT/Eclipse plugin, see: https://github.com/typesafehub/sbteclipse/wiki
 
 ## Unit Tests
 
