@@ -1,19 +1,14 @@
 import com.banno.license.Plugin.LicenseKeys._
 
-name := "gov.nasa.jpl.omf.scala.core"
+enablePlugins(GitVersioning, GitBranchPrompt)
 
-version := "0.11.1"
+// the prefix for git-based versioning of the published artifacts
+git.baseVersion in ThisBuild := "1800.02"
 
-organization := "JPL, Caltech"
+// turn on version detection
+git.useGitDescribe := true
 
-// enable publishing the jar produced by `test:package`
-publishArtifact in (Test, packageBin) := true
-
-// enable publishing the test API jar
-publishArtifact in (Test, packageDoc) := true
-
-// enable publishing the test sources jar
-publishArtifact in (Test, packageSrc) := true
+seq(versionWithGit: _*)
 
 license := """|
  | License Terms

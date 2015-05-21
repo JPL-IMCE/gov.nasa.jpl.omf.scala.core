@@ -41,23 +41,23 @@ package gov.nasa.jpl.omf.scala.core
 
 sealed abstract class ConstrainingFacet {
 
-  case class length(val l: Int) extends ConstrainingFacet {
+  case class length(l: Int) extends ConstrainingFacet {
     require(l >= 0)
   }
 
-  case class minLength(val l: Int) extends ConstrainingFacet {
+  case class minLength(l: Int) extends ConstrainingFacet {
     require(l >= 0)
   }
 
-  case class maxLength(val l: Int) extends ConstrainingFacet {
+  case class maxLength(l: Int) extends ConstrainingFacet {
     require(l >= 0)
   }
 
-  case class pattern(val regex: String) extends ConstrainingFacet {
+  case class pattern(regex: String) extends ConstrainingFacet {
     require(regex.nonEmpty)
   }
 
-  case class enumeration(val values: Set[String]) extends ConstrainingFacet {
+  case class enumeration(values: Set[String]) extends ConstrainingFacet {
     require(values.nonEmpty)
   }
 
@@ -67,29 +67,29 @@ sealed abstract class ConstrainingFacet {
   }
   import WhiteSpaceConstraint._
 
-  case class whiteSpace(val constraint: WhiteSpaceConstraint) extends ConstrainingFacet
+  case class whiteSpace(constraint: WhiteSpaceConstraint) extends ConstrainingFacet
 
-  case class maxExclusive(val value: String) extends ConstrainingFacet {
+  case class maxExclusive(value: String) extends ConstrainingFacet {
     require(value.nonEmpty)
   }
 
-  case class maxInclusive(val value: String) extends ConstrainingFacet {
+  case class maxInclusive(value: String) extends ConstrainingFacet {
     require(value.nonEmpty)
   }
 
-  case class minExclusive(val value: String) extends ConstrainingFacet {
+  case class minExclusive(value: String) extends ConstrainingFacet {
     require(value.nonEmpty)
   }
 
-  case class minInclusive(val value: String) extends ConstrainingFacet {
+  case class minInclusive(value: String) extends ConstrainingFacet {
     require(value.nonEmpty)
   }
 
-  case class totalDigits(val digits: Int) extends ConstrainingFacet {
+  case class totalDigits(digits: Int) extends ConstrainingFacet {
     require(digits > 0)
   }
 
-  case class fractionDigits(val digits: Int) extends ConstrainingFacet {
+  case class fractionDigits(digits: Int) extends ConstrainingFacet {
     require(digits >= 0)
   }
 
@@ -99,6 +99,6 @@ sealed abstract class ConstrainingFacet {
   }
   import ExplicitTimezoneConstraint._
 
-  case class explicitTimezone(val constraint: ExplicitTimezoneConstraint) extends ConstrainingFacet
+  case class explicitTimezone(constraint: ExplicitTimezoneConstraint) extends ConstrainingFacet
 
 }

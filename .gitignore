@@ -6,3 +6,5 @@ project/target
 target
 *.bak
 /playLibs/
+/.idea/
+*.iml
