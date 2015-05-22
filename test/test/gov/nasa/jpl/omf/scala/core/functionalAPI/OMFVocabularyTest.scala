@@ -49,8 +49,8 @@ import org.scalatest._
 import scalaz.Scalaz._
 
 abstract class OMFVocabularyTest[omf <: OMF](
-  saveStore: omf#Store, saveOps: OMFOps[omf],
-  loadStore: omf#Store, loadOps: OMFOps[omf] )
+  val saveStore: omf#Store, saveOps: OMFOps[omf],
+  val loadStore: omf#Store, loadOps: OMFOps[omf] )
   extends WordSpec with Matchers {
 
   "vocabulary roundtrip test" when {

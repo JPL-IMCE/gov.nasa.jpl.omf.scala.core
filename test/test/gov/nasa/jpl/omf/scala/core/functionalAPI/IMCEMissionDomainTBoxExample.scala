@@ -48,7 +48,9 @@ import scala.language.postfixOps
 import org.scalatest._
 import scalaz.Scalaz._
 
-abstract class IMCEMissionDomainTBoxExample[omf <: OMF]()( implicit ops: OMFOps[omf], store: omf#Store )
+abstract class IMCEMissionDomainTBoxExample[omf <: OMF]()(
+  implicit val ops: OMFOps[omf],
+  val store: omf#Store )
   extends WordSpec with Matchers {
 
   import ops._
