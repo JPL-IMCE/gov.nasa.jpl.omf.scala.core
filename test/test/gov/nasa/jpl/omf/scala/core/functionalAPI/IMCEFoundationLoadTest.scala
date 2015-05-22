@@ -48,7 +48,8 @@ import scalaz.Scalaz._
 import scala.util.Try
 
 abstract class IMCEFoundationLoadTest[omf <: OMF](
-  loadStore: omf#Store, loadOps: OMFOps[omf] )
+  val loadStore: omf#Store,
+  val loadOps: OMFOps[omf] )
   extends WordSpec with Matchers {
 
   implicit val store = loadStore

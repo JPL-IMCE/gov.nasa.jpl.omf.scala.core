@@ -37,14 +37,8 @@ object OMFCore extends Build {
     Defaults.coreDefaultSettings ++ Defaults.runnerSettings ++ Defaults.baseTasks ++ graphSettings
 
   lazy val sourcePublishSettings = Seq(
-    // disable publishing the main jar produced by `package`
-    publishArtifact in(Compile, packageBin) := true,
-
-    // disable publishing the main API jar
-    publishArtifact in(Compile, packageDoc) := true,
-
-    // disable publishing the main sources jar
-    publishArtifact in(Compile, packageSrc) := true
+    // include all test artifacts
+    publishArtifact in Test := true
   )
 
   def mappingFromProject(mappings: ((Seq[TaskKey[File]], Seq[Configuration]), String)*)(currentProject: ProjectRef, structure: BuildStructure): Task[Seq[(File, String)]] = {
