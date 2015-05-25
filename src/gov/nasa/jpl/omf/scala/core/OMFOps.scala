@@ -165,7 +165,7 @@ trait ImmutableTerminologyGraphOps[omf <: OMFiri with OMFtbox with OMFstore] {
    * - the axioms asserted in the `graph` about definitions from the closure of graph extension relationships
    * @since 0.10.3
    */
-  def fromTerminologyGraph( graph: omf#ModelTerminologyGraph ): ( omf#IRI, Option[omf#IRI], TerminologyKind, Iterable[omf#ModelTerminologyGraph], Iterable[omf#ModelEntityAspect], Iterable[omf#ModelEntityConcept], Iterable[omf#ModelEntityRelationship], Iterable[omf#ModelScalarDataType], Iterable[omf#ModelStructuredDataType], Iterable[omf#ModelDataRelationshipFromEntityToScalar], Iterable[omf#ModelDataRelationshipFromEntityToStructure], Iterable[omf#ModelDataRelationshipFromStructureToScalar], Iterable[omf#ModelDataRelationshipFromStructureToStructure], Iterable[omf#ModelTermAxiom] )
+  def fromTerminologyGraph( graph: omf#ModelTerminologyGraph ): ( omf#IRI, Option[omf#IRI], TerminologyKind, Iterable[omf#ModelTerminologyGraph], Iterable[omf#ModelEntityAspect], Iterable[omf#ModelEntityConcept], Iterable[omf#ModelEntityReifiedRelationship], Iterable[omf#ModelScalarDataType], Iterable[omf#ModelStructuredDataType], Iterable[omf#ModelDataRelationshipFromEntityToScalar], Iterable[omf#ModelDataRelationshipFromEntityToStructure], Iterable[omf#ModelDataRelationshipFromStructureToScalar], Iterable[omf#ModelDataRelationshipFromStructureToStructure], Iterable[omf#ModelTermAxiom] )
 
   def isEntityDefinitionAssertedInTerminologyGraph( t: omf#ModelTypeTerm, graph: omf#ModelTerminologyGraph ): Boolean = {
     val ( iri, _, _k, _i, _f, _c, _r, _sc, _st, _esc, _est, _ssc, _sst, _ax ) = fromTerminologyGraph( graph )
@@ -211,7 +211,7 @@ trait ImmutableTerminologyGraphOps[omf <: OMFiri with OMFtbox with OMFstore] {
   def lookupEntityDefinition( graph: omf#ModelTerminologyGraph, iri: omf#IRI ): Option[omf#ModelEntityDefinition]
   def lookupEntityAspect( graph: omf#ModelTerminologyGraph, iri: omf#IRI ): Option[omf#ModelEntityAspect]
   def lookupEntityConcept( graph: omf#ModelTerminologyGraph, iri: omf#IRI ): Option[omf#ModelEntityConcept]
-  def lookupEntityRelationship( graph: omf#ModelTerminologyGraph, iri: omf#IRI ): Option[omf#ModelEntityRelationship]
+  def lookupEntityRelationship( graph: omf#ModelTerminologyGraph, iri: omf#IRI ): Option[omf#ModelEntityReifiedRelationship]
   def lookupScalarDataType( graph: omf#ModelTerminologyGraph, iri: omf#IRI ): Option[omf#ModelScalarDataType]
   def lookupStructuredDataType( graph: omf#ModelTerminologyGraph, iri: omf#IRI ): Option[omf#ModelStructuredDataType]
   def lookupEntityDataRelationshipFromEntityToScalar( graph: omf#ModelTerminologyGraph, iri: omf#IRI ): Option[omf#ModelDataRelationshipFromEntityToScalar]
@@ -223,7 +223,7 @@ trait ImmutableTerminologyGraphOps[omf <: OMFiri with OMFtbox with OMFstore] {
 
   def foldTerm[T]( t: omf#ModelTypeTerm )(
     funEntityConcept: omf#ModelEntityConcept => T,
-    funEntityRelationship: omf#ModelEntityRelationship => T,
+    funEntityRelationship: omf#ModelEntityReifiedRelationship => T,
     funScalarDataType: omf#ModelScalarDataType => T,
     funStructuredDataType: omf#ModelStructuredDataType => T,
     funDataRelationshipFromEntityToScalar: omf#ModelDataRelationshipFromEntityToScalar => T,
@@ -233,7 +233,7 @@ trait ImmutableTerminologyGraphOps[omf <: OMFiri with OMFtbox with OMFstore] {
 
   def fromTerm( t: omf#ModelTypeTerm ): omf#IRI = foldTerm[omf#IRI]( t )(
     ( ec: omf#ModelEntityConcept ) => fromEntityConcept( ec )._1,
-    ( er: omf#ModelEntityRelationship ) => fromEntityRelationship( er )._1,
+    ( er: omf#ModelEntityReifiedRelationship ) => fromEntityRelationship( er )._1,
     ( sc: omf#ModelScalarDataType ) => fromScalarDataType( sc ),
     ( sd: omf#ModelStructuredDataType ) => fromStructuredDataType( sd ),
     ( esc: omf#ModelDataRelationshipFromEntityToScalar ) => fromDataRelationshipFromEntityToScalar( esc )._1,
@@ -280,14 +280,14 @@ trait ImmutableTerminologyGraphOps[omf <: OMFiri with OMFtbox with OMFstore] {
    * - the characteristics of the relationship
    * - a flag indicating whether the relationship is abstract or not.
    */
-  def fromEntityRelationship( r: omf#ModelEntityRelationship ): ( omf#IRI, Option[omf#IRI], omf#ModelEntityDefinition, omf#ModelEntityDefinition, Iterable[RelationshipCharacteristics], Boolean )
+  def fromEntityRelationship( r: omf#ModelEntityReifiedRelationship ): ( omf#IRI, Option[omf#IRI], omf#ModelEntityDefinition, omf#ModelEntityDefinition, Iterable[RelationshipCharacteristics], Boolean )
 
   /**
    * Compares the relationships in terms of their sources, target & characteristics
    * Does not compare the graphs corresponding to each relationship, if any	. 
    * @since 0.10.3	
    */
-  def equivalentEntityRelationships( r1: Iterable[omf#ModelEntityRelationship], r2: Iterable[omf#ModelEntityRelationship] ): Boolean = {
+  def equivalentEntityRelationships( r1: Iterable[omf#ModelEntityReifiedRelationship], r2: Iterable[omf#ModelEntityReifiedRelationship] ): Boolean = {
     val left = r1.map { r => 
       val ( i, _, s, t, c, _ ) = fromEntityRelationship( r )
       ( i, fromEntityDefinition( s ), fromEntityDefinition( t ), relationshipCharacteristicsSummary( c ) )
@@ -361,11 +361,11 @@ trait ImmutableTerminologyGraphOps[omf <: OMFiri with OMFtbox with OMFstore] {
 
   // entity concept restriction axiom
 
-  def fromEntityConceptRestrictionAxiom( ax: omf#EntityConceptRestrictionAxiom ): ( omf#ModelEntityConcept, omf#ModelEntityRelationship, omf#ModelEntityDefinition )
+  def fromEntityConceptRestrictionAxiom( ax: omf#EntityConceptRestrictionAxiom ): ( omf#ModelEntityConcept, omf#ModelEntityReifiedRelationship, omf#ModelEntityDefinition )
 
   // entity relationship subclass axiom
 
-  def fromEntityRelationshipSubClassAxiom( ax: omf#EntityRelationshipSubClassAxiom ): ( omf#ModelEntityRelationship, omf#ModelEntityRelationship )
+  def fromEntityRelationshipSubClassAxiom( ax: omf#EntityRelationshipSubClassAxiom ): ( omf#ModelEntityReifiedRelationship, omf#ModelEntityReifiedRelationship )
 
   // scalar datatype facet restriction axiom
 
@@ -461,7 +461,7 @@ trait MutableTerminologyGraphOps[omf <: OMFiri with OMFtbox with OMFstore] exten
     relationshipGraphIRI: Option[omf#IRI],
     unreifiedRelationshipName: String,
     unreifiedInverseRelationshipName: Option[String] = None,
-    isAbstract: Boolean = true )( implicit store: omf#Store ): Try[( omf#ModelEntityRelationship, Option[omf#MutableModelTerminologyGraph] )]
+    isAbstract: Boolean = true )( implicit store: omf#Store ): Try[( omf#ModelEntityReifiedRelationship, Option[omf#MutableModelTerminologyGraph] )]
 
   def addScalarDataType(
     graph: omf#MutableModelTerminologyGraph,
@@ -516,21 +516,21 @@ trait MutableTerminologyGraphOps[omf <: OMFiri with OMFtbox with OMFstore] exten
   def addEntityConceptUniversalRestrictionAxiom(
     graph: omf#MutableModelTerminologyGraph,
     sub: omf#ModelEntityConcept,
-    rel: omf#ModelEntityRelationship,
+    rel: omf#ModelEntityReifiedRelationship,
     range: omf#ModelEntityDefinition )( implicit store: omf#Store ): Try[omf#EntityConceptUniversalRestrictionAxiom]
 
   def addEntityConceptExistentialRestrictionAxiom(
     graph: omf#MutableModelTerminologyGraph,
     sub: omf#ModelEntityConcept,
-    rel: omf#ModelEntityRelationship,
+    rel: omf#ModelEntityReifiedRelationship,
     range: omf#ModelEntityDefinition )( implicit store: omf#Store ): Try[omf#EntityConceptExistentialRestrictionAxiom]
 
   // entity relationship subclass axiom
 
   def addEntityRelationshipSubClassAxiom(
     graph: omf#MutableModelTerminologyGraph,
-    sub: omf#ModelEntityRelationship,
-    sup: omf#ModelEntityRelationship )( implicit store: omf#Store ): Try[omf#EntityRelationshipSubClassAxiom]
+    sub: omf#ModelEntityReifiedRelationship,
+    sup: omf#ModelEntityReifiedRelationship )( implicit store: omf#Store ): Try[omf#EntityRelationshipSubClassAxiom]
 
   // scalar datatype facet restriction axiom
 
@@ -556,7 +556,7 @@ trait ImmutableInstanceGraphOps[omf <: OMFiri with OMFabox with OMFtbox with OMF
 
   // instance relation
 
-  def fromInstanceRelation( r: omf#ModelInstanceRelation ): ( omf#IRI, omf#ModelEntityRelationship, omf#ModelEntityInstance, omf#ModelEntityInstance )
+  def fromInstanceRelation( r: omf#ModelInstanceRelation ): ( omf#IRI, omf#ModelEntityReifiedRelationship, omf#ModelEntityInstance, omf#ModelEntityInstance )
 
   // data literal
 
@@ -611,7 +611,7 @@ trait MutableInstanceGraphOps[omf <: OMFiri with OMFabox with OMFtbox with OMFst
 
   def addInstanceRelation(
     graph: omf#MutableModelInstanceGraph,
-    relationshipType: omf#ModelEntityRelationship,
+    relationshipType: omf#ModelEntityReifiedRelationship,
     source: omf#ModelEntityInstance,
     target: omf#ModelEntityInstance,
     fragment: String )( implicit store: omf#Store ): Try[omf#ModelInstanceRelation]

@@ -117,7 +117,7 @@ trait OMFtbox {
   type ModelEntityDefinition <: ModelTypeTerm
   type ModelEntityAspect <: ModelEntityDefinition  
   type ModelEntityConcept <: ModelEntityDefinition
-  type ModelEntityRelationship <: ModelEntityDefinition
+  type ModelEntityReifiedRelationship <: ModelEntityDefinition
     
   type ModelDataTypeDefinition <: ModelTypeTerm
   type ModelScalarDataType <: ModelDataTypeDefinition
