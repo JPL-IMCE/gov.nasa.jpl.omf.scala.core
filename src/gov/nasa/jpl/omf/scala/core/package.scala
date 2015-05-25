@@ -69,17 +69,17 @@ package object core {
    * @return a 3-tuple of the aspects, concepts and relationships entities defined in the graphs:
    */
   def allEntities[Omf <: OMF](
-    tboxes: Set[Omf#ModelTerminologyGraph] )( implicit ops: OMFOps[Omf] ): ( Set[Omf#ModelEntityAspect], Set[Omf#ModelEntityConcept], Set[Omf#ModelEntityRelationship] ) = {
+    tboxes: Set[Omf#ModelTerminologyGraph] )( implicit ops: OMFOps[Omf] ): ( Set[Omf#ModelEntityAspect], Set[Omf#ModelEntityConcept], Set[Omf#ModelEntityReifiedRelationship] ) = {
 
     import ops._
 
-    val entities0 = ( Set[Omf#ModelEntityAspect](), Set[Omf#ModelEntityConcept](), Set[Omf#ModelEntityRelationship]() )
+    val entities0 = ( Set[Omf#ModelEntityAspect](), Set[Omf#ModelEntityConcept](), Set[Omf#ModelEntityReifiedRelationship]() )
     val entitiesN =
       ( entities0 /: ( for { tbox <- tboxes } yield {
         val ( _, _, _, _,
           aspects: Iterable[Omf#ModelEntityAspect],
           concepts: Iterable[Omf#ModelEntityConcept],
-          relations: Iterable[Omf#ModelEntityRelationship],
+          relations: Iterable[Omf#ModelEntityReifiedRelationship],
           _, _, _, _, _, _, _ ) =
           fromTerminologyGraph( tbox )
         ( aspects.toSet, concepts.toSet, relations.toSet )
