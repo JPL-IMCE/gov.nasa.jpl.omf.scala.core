@@ -41,30 +41,6 @@ object OMFCore extends Build {
     publishArtifact in Test := true
   )
 
-  def mappingFromProject(mappings: ((Seq[TaskKey[File]], Seq[Configuration]), String)*)(currentProject: ProjectRef, structure: BuildStructure): Task[Seq[(File, String)]] = {
-    (mappings flatMap { case ((targetTasks: Seq[TaskKey[File]], configs: Seq[Configuration]), where: String) =>
-      targetTasks flatMap { t: TaskKey[File] =>
-        configs map { c =>
-          Def.task {
-            val file = ((t in c) in currentProject).value
-            (file, where + "/" + file.getName)
-          } evaluate structure.data
-        }
-      }
-    }).join
-  }
-
-  lazy val sourcePackSettings = packSettings ++ Seq(
-    packExpandedClasspath := false,
-    packLibJars := Seq.empty,
-    packUpdateReports := Seq.empty,
-    mappings in pack <<= (thisProjectRef, buildStructure) flatMap mappingFromProject(
-      (Seq(packageBin), Seq(Compile, Test)) -> "lib",
-      (Seq(packageSrc), Seq(Compile, Test)) -> "lib.srcs",
-      (Seq(packageDoc), Seq(Compile, Test)) -> "lib.javadoc"
-    )
-  ) ++ publishPackZipArchive
-
   lazy val core = Project(
     "omf-scala-core",
     file(".")).
@@ -74,7 +50,6 @@ object OMFCore extends Build {
     settings(commonSettings: _*).
     settings(sourcePublishSettings: _*).
     settings(com.banno.license.Plugin.licenseSettings: _*).
-    settings(sourcePackSettings: _*).
     settings(
       removeExistingHeaderBlock := true,
       scalaSource in Compile := baseDirectory.value / "src",
