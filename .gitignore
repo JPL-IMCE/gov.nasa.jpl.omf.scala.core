@@ -1,10 +1,10 @@
 .cache
+.idea
 bin
 coreLibs
 project/project
 project/target
+sbt.staging
 target
 *.bak
-/playLibs/
-/.idea/
 *.iml
