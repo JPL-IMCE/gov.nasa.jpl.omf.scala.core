@@ -13,6 +13,10 @@ lazy val core = Project("omf-scala-core", file(".")).
     publishArtifact in Test := true,
     scalaSource in Compile := baseDirectory.value / "src",
     scalaSource in Test := baseDirectory.value / "test",
+
+    // TODO: Jenkins CI: This should be unnecessary since the repo is in the library dependency POM!!!
+    resolvers += new MavenRepository("bintray-pchiusano-scalaz-stream", "http://dl.bintray.com/pchiusano/maven"),
+
     libraryDependencies ++= Seq (
       MBEEPlugin.MBEEOrganizations.imce.mbeeZipArtifactVersion("jpl-mbee-common-scala-libraries_core", MBEEKeys.mbeeReleaseVersionPrefix.value, Versions.jpl_mbee_common_scala_libraries_revision),
       MBEEPlugin.MBEEOrganizations.imce.mbeeZipArtifactVersion("jpl-mbee-common-scala-libraries_other", MBEEKeys.mbeeReleaseVersionPrefix.value, Versions.jpl_mbee_common_scala_libraries_revision)
