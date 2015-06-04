@@ -1,18 +1,20 @@
+import sbt.Keys._
+import sbt._
 
-lazy val core = Project("omf-scala-core",
-  file (".")).
+import gov.nasa.jpl.mbee.sbt._
+
+lazy val core = Project("omf-scala-core", file(".")).
+  settings(GitVersioning.buildSettings). // in principle, unnecessary; in practice: doesn't work without this
   enablePlugins(MBEEGitPlugin).
   settings(
-    mbeeLicenseYearOrRange := "2015",
-    mbeeReleaseVersionPrefix := "1800-02",
-    mbeeOrganizationInfo := MBEEPlugin.Organizations.imce,
+    MBEEKeys.mbeeLicenseYearOrRange := "2014-2015",
+    MBEEKeys.mbeeOrganizationInfo := MBEEPlugin.MBEEOrganizations.imce,
     // include all test artifacts
     publishArtifact in Test := true,
     scalaSource in Compile := baseDirectory.value / "src",
     scalaSource in Test := baseDirectory.value / "test",
-
     libraryDependencies ++= Seq (
-      "gov.nasa.jpl.mbee" %% "jpl-mbee-common-scala-libraries_core" % Versions.jpl_mbee_core,
-      "gov.nasa.jpl.mbee" %% "jpl-mbee-common-scala-libraries_other" % Versions.jpl_mbee_other
+      MBEEPlugin.MBEEOrganizations.imce.mbeeZipArtifactVersion("jpl-mbee-common-scala-libraries_core", MBEEKeys.mbeeReleaseVersionPrefix.value, Versions.jpl_mbee_common_scala_libraries_revision),
+      MBEEPlugin.MBEEOrganizations.imce.mbeeZipArtifactVersion("jpl-mbee-common-scala-libraries_other", MBEEKeys.mbeeReleaseVersionPrefix.value, Versions.jpl_mbee_common_scala_libraries_revision)
     )
-)
+  )
