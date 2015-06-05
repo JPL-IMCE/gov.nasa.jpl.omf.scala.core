@@ -2,5 +2,5 @@
 object Versions {
 
   // JPL MBEE Common Scala Libraries
-  val jpl_mbee_common_scala_libraries_revision="fd6ef49108d43fad925a30b7a6dcc1d81b4b348d"
+  val jpl_mbee_common_scala_libraries_revision="576ddfdcdb17e9078f75a9ec8eef1336b82c5954"
 }

@@ -1,5 +1,7 @@
 .cache
+.classpath
 .idea
+.project
 bin
 coreLibs
 project/project
