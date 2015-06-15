@@ -8,7 +8,7 @@ import gov.nasa.jpl.mbee.sbt._
 lazy val core = Project("omf-scala-core", file(".")).
   settings(GitVersioning.buildSettings). // in principle, unnecessary; in practice: doesn't work without this
   enablePlugins(MBEEGitPlugin).
-  settings(MBEEPlugin.mbeeDynamicScriptsProjectResourceSettings).
+  settings(MBEEPlugin.mbeeDynamicScriptsProjectResourceSettings(Some("gov.nasa.jpl.omf.scala.core"))).
   settings(
     MBEEKeys.mbeeLicenseYearOrRange := "2014-2015",
     MBEEKeys.mbeeOrganizationInfo := MBEEPlugin.MBEEOrganizations.imce,
