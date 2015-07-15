@@ -103,10 +103,14 @@ extends WordSpec with Matchers {
     "split" in {
       
       val iris2splits = Map(
-          "http://imce.jpl.nasa.gov/foundation/mission/mission" -> ( "http://imce.jpl.nasa.gov/foundation/mission/mission", None ),
-          "http://imce.jpl.nasa.gov/foundation/mission/mission#Component" -> ( "http://imce.jpl.nasa.gov/foundation/mission/mission", Some( "Component") ),
-          "http://imce.jpl.nasa.gov/backbone/imce.jpl.nasa.gov/www.omg.org/spec/UML/20110701/UML" -> ( "http://imce.jpl.nasa.gov/backbone/imce.jpl.nasa.gov/www.omg.org/spec/UML/20110701/UML", None ),
-          "http://imce.jpl.nasa.gov/backbone/imce.jpl.nasa.gov/www.omg.org/spec/UML/20110701/UML#" -> ( "http://imce.jpl.nasa.gov/backbone/imce.jpl.nasa.gov/www.omg.org/spec/UML/20110701/UML#", None )
+          "http://imce.jpl.nasa.gov/foundation/mission/mission" ->
+            Tuple2( "http://imce.jpl.nasa.gov/foundation/mission/mission", None ),
+          "http://imce.jpl.nasa.gov/foundation/mission/mission#Component" ->
+            Tuple2( "http://imce.jpl.nasa.gov/foundation/mission/mission", Some( "Component") ),
+          "http://imce.jpl.nasa.gov/backbone/imce.jpl.nasa.gov/www.omg.org/spec/UML/20110701/UML" ->
+            Tuple2( "http://imce.jpl.nasa.gov/backbone/imce.jpl.nasa.gov/www.omg.org/spec/UML/20110701/UML", None ),
+          "http://imce.jpl.nasa.gov/backbone/imce.jpl.nasa.gov/www.omg.org/spec/UML/20110701/UML#" ->
+            Tuple2( "http://imce.jpl.nasa.gov/backbone/imce.jpl.nasa.gov/www.omg.org/spec/UML/20110701/UML#", None )
           )
           
       implicit val iriSplitEquality = new org.scalactic.Equality[(omf#IRI, Option[String])] {

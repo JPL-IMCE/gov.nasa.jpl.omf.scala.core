@@ -119,7 +119,7 @@ abstract class IMCEFoundationLoadTest[omf <: OMF](
         val function = lookupEntityConcept( mission_tbox.get, function_iri )
         function.isDefined should be(true)
 
-        val component_performs_function = lookupEntityRelationship( mission_tbox.get, performs_iri )
+        val component_performs_function = lookupEntityReifiedRelationship( mission_tbox.get, performs_iri )
         component_performs_function.isDefined should be(true)
       }
     }

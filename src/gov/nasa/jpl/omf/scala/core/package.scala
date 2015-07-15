@@ -41,22 +41,58 @@ package gov.nasa.jpl.omf.scala
 package object core {
 
   /**
-   * The reflexive transitive closure of imported terminology graphs
-   * @param g The terminology graph whose direct & indirect imports are included (subject to kind filtering)
-   * @param onlySameKind determines the filtering of imported terminology graphs
-   * @return gs: if onlySameKind is true; then gs contains g and all g' directly or indirectly imported from g that have the same kind as g
-   * if onlySameKind is false; then gs contains g and all g' directly or indirectly imported from g regardless of their kind
+   * The reflexive transitive closure of terminology graphs reachable by following
+   * TerminologyGraphDirectImportAxiom (from importing to imported) and
+   * TerminologyGraphDirectNestingParentAxiom (from nested child to nesting parent).
+   *
+   * @param g The terminology graph whose direct & indirect imports and nesting parents are included in the result
+   *          (subject to kind filtering)
+   * @param onlySameKind determines the filtering for imported & nesting parent terminology graphs
+   * @return gs:
+   *         if onlySameKind is true; then gs contains g and all g' directly or indirectly imported / nesting parents
+   *         from g that have the same kind as g
+   *         if onlySameKind is false; then gs contains g and all g' directly or indirectly imported / nesting parents
+   *         from g regardless of their kind
+   *
+   * If:
+   * TerminologyGraphDirectImportAxiom(importing=G1, imported=G2)
+   * TerminologyGraphDirectImportAxiom(importing=G2, imported=G3)
+   * Then:
+   * G1 imports G2,G3
+   * G2 imports G3
+   *
+   * If:
+   * TerminologyGraphDirectImportAxiom(importing=G1, imported=G2)
+   * TerminologyGraphDirectNestingParentAxiom(nestedChild=G2, nestingParent=G3)
+   * TerminologyGraphDirectImportAxiom(importing=G3, imported=G4)
+   * Then:
+   * G1 imports G2,G3,G4
+   * G3 imports G4
+   *
+   * If:
+   * TerminologyGraphDirectImportAxiom(importing=G1, imported=G2a)
+   * TerminologyGraphDirectNestingParentAxiom(nestedChild=G2a, nestingParent=G3)
+   * TerminologyGraphDirectNestingParentAxiom(nestedChild=G2b, nestingParent=G3)
+   * TerminologyGraphDirectImportAxiom(importing=G3, imported=G4)
+   * Then:
+   * G1 imports G2a,G3,G4
+   * G3 imports G4
    */
-  def terminologyGraphImportClosure[Omf <: OMF, TG <: Omf#ModelTerminologyGraph](
-    g: TG,
-    onlySameKind: Boolean = true )( implicit ops: OMFOps[Omf] ): Set[Omf#ModelTerminologyGraph] = {
+  def terminologyGraphImportClosure[Omf <: OMF, TG <: Omf#ModelTerminologyGraph]
+  ( g: TG,
+    onlySameKind: Boolean = true )
+  ( implicit ops: OMFOps[Omf], store: Omf#Store )
+  : Set[Omf#ModelTerminologyGraph] = {
 
-    import core.TerminologyKind._
     import ops._
 
-    def getImportedTerminologyGraphs( tbox: Omf#ModelTerminologyGraph ): Set[Omf#ModelTerminologyGraph] = {
-      val ( _, _, kind: TerminologyKind, imports: Iterable[Omf#ModelTerminologyGraph], _, _, _, _, _, _, _, _, _, _ ) = fromTerminologyGraph( tbox )
-      imports.filter( !onlySameKind || kind == getTerminologyGraphKind( _ ) ).toSet
+    def getImportedTerminologyGraphs
+    ( tbox: Omf#ModelTerminologyGraph )
+    ( implicit store: Omf#Store )
+    : Set[Omf#ModelTerminologyGraph] = {
+      val s = fromTerminologyGraph( tbox )
+      s.nesting.filter( !onlySameKind || s.kind == getTerminologyGraphKind(_) ).toSet ++
+        s.imports.filter( !onlySameKind || s.kind == getTerminologyGraphKind( _ ) ).toSet
     }
 
     OMFOps.closure[Omf#ModelTerminologyGraph, Omf#ModelTerminologyGraph]( g, getImportedTerminologyGraphs ) + g
@@ -67,21 +103,22 @@ package object core {
    * @param tboxes: a set of terminology graphs
    * @return a 3-tuple of the aspects, concepts and relationships entities defined in the graphs:
    */
-  def allEntities[Omf <: OMF](
-    tboxes: Set[Omf#ModelTerminologyGraph] )( implicit ops: OMFOps[Omf] ): ( Set[Omf#ModelEntityAspect], Set[Omf#ModelEntityConcept], Set[Omf#ModelEntityReifiedRelationship] ) = {
+  def allEntities[Omf <: OMF]
+  ( tboxes: Set[Omf#ModelTerminologyGraph] )
+  ( implicit ops: OMFOps[Omf], store: Omf#Store )
+  : ( Set[Omf#ModelEntityAspect],
+    Set[Omf#ModelEntityConcept],
+    Set[Omf#ModelEntityReifiedRelationship] ) = {
 
     import ops._
 
-    val entities0 = ( Set[Omf#ModelEntityAspect](), Set[Omf#ModelEntityConcept](), Set[Omf#ModelEntityReifiedRelationship]() )
+    val entities0 =
+      ( Set[Omf#ModelEntityAspect](), Set[Omf#ModelEntityConcept](), Set[Omf#ModelEntityReifiedRelationship]() )
     val entitiesN =
       ( entities0 /: ( for { tbox <- tboxes } yield {
-        val ( _, _, _, _,
-          aspects: Iterable[Omf#ModelEntityAspect],
-          concepts: Iterable[Omf#ModelEntityConcept],
-          relations: Iterable[Omf#ModelEntityReifiedRelationship],
-          _, _, _, _, _, _, _ ) =
+        val s =
           fromTerminologyGraph( tbox )
-        ( aspects.toSet, concepts.toSet, relations.toSet )
+        ( s.aspects.toSet, s.concepts.toSet, s.reifiedRelationships.toSet )
       } ) ) { case ( ( ai, ci, ri ), ( aj, cj, rj ) ) => ( ai ++ aj, ci ++ cj, ri ++ rj ) }
 
     entitiesN

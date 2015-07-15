@@ -101,7 +101,7 @@ abstract class IMCE_OWL2_MOF2_LoadTest[omf <: OMF](
         val BinaryAssociationEndType = lookupEntityConcept( owl2_mof2_tbox.get, BinaryAssociationEndType_iri )
         BinaryAssociationEndType.isDefined should be(true)
 
-        val BinaryAssociation = lookupEntityRelationship( owl2_mof2_tbox.get, BinaryAssociation_iri )
+        val BinaryAssociation = lookupEntityReifiedRelationship( owl2_mof2_tbox.get, BinaryAssociation_iri )
         BinaryAssociation.isDefined should be(true)
       }
     }

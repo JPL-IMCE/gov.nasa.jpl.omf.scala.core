@@ -71,7 +71,8 @@ abstract class OMFVocabularyTest[omf <: OMF](
 
       val base = makeTerminologyGraph(
         makeIRI( "http://imce.jpl.nasa.gov/foundation/base/base" ),
-        isDefinition )
+        isDefinition,
+        entityGraphIRI = None )
       base should be a 'success
 
       val base_extends_xsd = addTerminologyGraphExtension( base.get, xsd.get )
@@ -92,7 +93,8 @@ abstract class OMFVocabularyTest[omf <: OMF](
 
       val mission = makeTerminologyGraph(
         makeIRI( "http://imce.jpl.nasa.gov/foundation/mission/mission" ),
-        isDefinition )
+        isDefinition,
+        entityGraphIRI = None )
       mission should be a 'success
 
       val mission_extends_base = addTerminologyGraphExtension( mission.get, base.get )
@@ -116,7 +118,7 @@ abstract class OMFVocabularyTest[omf <: OMF](
         sup = identifiedElement.get )
       function_extends_identifiedElement should be a 'success
 
-      val component_performs_function = addEntityRelationship(
+      val component_performs_function = addEntityReifiedRelationship(
         graph = mission.get,
         source = component.get._1,
         target = function.get._1,
@@ -136,10 +138,12 @@ abstract class OMFVocabularyTest[omf <: OMF](
       val materialItem = addEntityConcept( mission.get, "MaterialItem", None )
       materialItem should be a 'success
 
-      val message_extends_item = addEntityConceptSubClassAxiom( mission.get, message.get._1, item.get._1 )
+      val message_extends_item =
+        addEntityConceptSubClassAxiom( mission.get, message.get._1, item.get._1 )
       message_extends_item should be a 'success
 
-      val materialItem_extends_item = addEntityConceptSubClassAxiom( mission.get, materialItem.get._1, item.get._1 )
+      val materialItem_extends_item =
+        addEntityConceptSubClassAxiom( mission.get, materialItem.get._1, item.get._1 )
       materialItem_extends_item should be a 'success
 
       val baseSaved = saveTerminologyGraph( base.get )
@@ -156,41 +160,52 @@ abstract class OMFVocabularyTest[omf <: OMF](
       implicit val ops = loadOps
       import ops._
 
-      val xsd = loadTerminologyGraph( makeIRI( "http://www.w3.org/2001/XMLSchema" ) )
+      val xsd =
+        loadTerminologyGraph( makeIRI( "http://www.w3.org/2001/XMLSchema" ) )
       xsd should be a 'success
 
-      val integer = lookupScalarDataType( xsd.get, makeIRI( "http://www.w3.org/2001/XMLSchema#integer" ) )
+      val integer =
+        lookupScalarDataType( xsd.get, makeIRI( "http://www.w3.org/2001/XMLSchema#integer" ) )
       integer.isDefined should be( true )
 
-      val string = lookupScalarDataType( xsd.get, makeIRI( "http://www.w3.org/2001/XMLSchema#string" ) )
+      val string =
+        lookupScalarDataType( xsd.get, makeIRI( "http://www.w3.org/2001/XMLSchema#string" ) )
       string.isDefined should be( true )
 
-      val base = loadTerminologyGraph( makeIRI( "http://imce.jpl.nasa.gov/foundation/base/base" ) )
+      val base =
+        loadTerminologyGraph( makeIRI( "http://imce.jpl.nasa.gov/foundation/base/base" ) )
       base should be a 'success
 
       {
-        val ( iri, _, k, i, f, c, r, sc, st, esc, est, ssc, sst, ax ) = ops.fromTerminologyGraph( base.get )
-        i.isEmpty should be( false )
-        i.toSet.contains( xsd.get ) should be( true )
-        f.isEmpty should be( false )
-        c.isEmpty should be( true )
-        r.isEmpty should be( true )
-        sc.isEmpty should be( false )
-        st.isEmpty should be( true )
-        esc.isEmpty should be( false )
-        est.isEmpty should be( true )
-        ssc.isEmpty should be( true )
-        sst.isEmpty should be( true )
-        ax.isEmpty should be( true )
+        val s = ops.fromTerminologyGraph( base.get )
+        s.imports.isEmpty should be( false )
+        s.imports.toSet.contains( xsd.get ) should be( true )
+        s.aspects.isEmpty should be( false )
+        s.concepts.isEmpty should be( true )
+        s.reifiedRelationships.isEmpty should be( true )
+        s.scalarDataTypes.isEmpty should be( false )
+        s.structuredDataTypes.isEmpty should be( true )
+        s.entity2scalarDataRelationships.isEmpty should be( false )
+        s.entity2structureDataRelationships.isEmpty should be( true )
+        s.structure2scalarDataRelationships.isEmpty should be( true )
+        s.structure2structureDataRelationships.isEmpty should be( true )
+        s.axioms.isEmpty should be( true )
       }
 
-      val identifiedElement = lookupEntityAspect( base.get, makeIRI( "http://imce.jpl.nasa.gov/foundation/base/base#IdentifiedElement" ) )
+      val identifiedElement =
+        lookupEntityAspect(
+          base.get,
+          makeIRI( "http://imce.jpl.nasa.gov/foundation/base/base#IdentifiedElement" ) )
       identifiedElement.isDefined should be( true )
 
-      val hasIdentifier = lookupEntityDataRelationshipFromEntityToScalar( base.get, makeIRI( "http://imce.jpl.nasa.gov/foundation/base/base#hasIdentifier" ) )
+      val hasIdentifier =
+        lookupEntityDataRelationshipFromEntityToScalar(
+          base.get,
+          makeIRI( "http://imce.jpl.nasa.gov/foundation/base/base#hasIdentifier" ) )
       hasIdentifier.isDefined should be( true )
 
-      val ( _, hasIdentifierSource, hasIdentifierTarget ) = fromDataRelationshipFromEntityToScalar( hasIdentifier.get )
+      val ( _, hasIdentifierSource, hasIdentifierTarget ) =
+        fromDataRelationshipFromEntityToScalar( hasIdentifier.get )
       identifiedElement.get should be( hasIdentifierSource )
       string.get should be( hasIdentifierTarget )
 
@@ -198,35 +213,41 @@ abstract class OMFVocabularyTest[omf <: OMF](
       mission should be a 'success
 
       {
-        val ( iri, _, k, i, f, c, r, sc, st, esc, est, ssc, sst, ax ) = ops.fromTerminologyGraph( mission.get )
-        i.isEmpty should be( false )
-        i.toSet.contains( base.get ) should be( true )
-        f.isEmpty should be( true )
-        c.isEmpty should be( false )
-        r.isEmpty should be( false )
-        sc.isEmpty should be( false )
-        st.isEmpty should be( true )
-        esc.isEmpty should be( true )
-        est.isEmpty should be( true )
-        ssc.isEmpty should be( true )
-        sst.isEmpty should be( true )
-        ax.isEmpty should be( false )
+        val s = ops.fromTerminologyGraph( mission.get )
+        s.imports.isEmpty should be( false )
+        s.imports.toSet.contains( base.get ) should be( true )
+        s.aspects.isEmpty should be( true )
+        s.concepts.isEmpty should be( false )
+        s.reifiedRelationships.isEmpty should be( false )
+        s.scalarDataTypes.isEmpty should be( false )
+        s.structuredDataTypes.isEmpty should be( true )
+        s.entity2scalarDataRelationships.isEmpty should be( true )
+        s.entity2structureDataRelationships.isEmpty should be( true )
+        s.structure2scalarDataRelationships.isEmpty should be( true )
+        s.structure2structureDataRelationships.isEmpty should be( true )
+        s.axioms.isEmpty should be( false )
       }
       
-      val component = lookupEntityConcept( mission.get, makeIRI( "http://imce.jpl.nasa.gov/foundation/mission/mission#Component" ) )
+      val component = lookupEntityConcept(
+        mission.get,
+        makeIRI( "http://imce.jpl.nasa.gov/foundation/mission/mission#Component" ) )
       component.isDefined should be( true )
 
-      val function = lookupEntityConcept( mission.get, makeIRI( "http://imce.jpl.nasa.gov/foundation/mission/mission#Function" ) )
+      val function = lookupEntityConcept(
+        mission.get,
+        makeIRI( "http://imce.jpl.nasa.gov/foundation/mission/mission#Function" ) )
       function.isDefined should be( true )
 
-      val component_performs_function = lookupEntityRelationship( mission.get, makeIRI( "http://imce.jpl.nasa.gov/foundation/mission/mission#Performs" ) )
+      val component_performs_function = lookupEntityReifiedRelationship(
+        mission.get,
+        makeIRI( "http://imce.jpl.nasa.gov/foundation/mission/mission#Performs" ) )
       component_performs_function.isDefined should be( true )
 
-      val ( _, _, component_performs_functionSource, component_performs_functionTarget, characteristics, component_performs_functionIsAbstract ) = 
-        fromEntityRelationship( component_performs_function.get )
-      component.get should be( component_performs_functionSource )
-      function.get should be( component_performs_functionTarget )
-      component_performs_functionIsAbstract should be( false )
+      val component_performs_function_info =
+        fromEntityReifiedRelationship( component_performs_function.get )
+      component_performs_function_info.source should be( component.get )
+      component_performs_function_info.target should be( function.get )
+      component_performs_function_info.isAbstract should be( false )
     }
 
   }

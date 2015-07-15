@@ -57,6 +57,8 @@ object TerminologyKind extends Enumeration {
    */
   val isDefinition = Value
 
+  val isToplevelDefinition = Value
+
   /**
    * isDesignation indicates that the semantics of a TerminologyGraph (TBox graph) is closed-world.
    *
@@ -68,4 +70,6 @@ object TerminologyKind extends Enumeration {
    * that there does not exist any other concept distinct from B or C that can be a subclass of A anywhere else.
    */
   val isDesignation = Value
+
+  val isToplevelDesignation = Value
 }

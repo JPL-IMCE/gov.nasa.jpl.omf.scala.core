@@ -15,7 +15,9 @@ lazy val core = Project("omf-scala-core", file(".")).
     // include all test artifacts
     publishArtifact in Test := true,
     scalaSource in Compile := baseDirectory.value / "src",
+    classDirectory in Compile := baseDirectory.value / "bin",
     scalaSource in Test := baseDirectory.value / "test",
+    classDirectory in Test := baseDirectory.value / "bin.tests",
 
     // TODO: Jenkins CI: This should be unnecessary since the repo is in the library dependency POM!!!
     resolvers += new MavenRepository("bintray-pchiusano-scalaz-stream", "http://dl.bintray.com/pchiusano/maven"),

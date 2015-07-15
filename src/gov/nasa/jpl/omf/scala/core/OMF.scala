@@ -38,142 +38,497 @@
  */
 package gov.nasa.jpl.omf.scala.core
 
+import gov.nasa.jpl.omf.scala.core.RelationshipCharacteristics._
+import gov.nasa.jpl.omf.scala.core.TerminologyKind._
+
 /**
- * toplevel types:
- * 
- * IRI
- * 
- * ModelTerminologyGraph
- * ModelTypeTerm
- * ModelTermAxiom
- * 
- * ModelInstanceGraph
- * ModelInstanceAssertion
- * 
- * concrete types:
- * 
- * 1 concrete type of TBox: ModelTerminologyGraph
- * 
- * 9 concrete types of TBox terms: ModelTypeTerm
- * 
- * ModelEntityAspect
- * ModelEntityConcept
- * ModelEntityRelationship
- * ModelScalarDataType
- * ModelStructuredDataType
- * ModelDataRelationshipFromEntityToScalar
- * ModelDataRelationshipFromEntityToStructure
- * ModelDataRelationshipFromStructureToScalar
- * ModelDataRelationshipFromStructureToStructure
- * 
- * 5 concrete types of TBox axioms: ModelTermAxiom
- * 
- * EntityDefinitionAspectSubClassAxiom
- * EntityConceptSubClassAxiom
- * EntityConceptRestrictionAxiom
- * EntityRelationshipSubClassAxiom
- * ScalarDataTypeFacetRestriction
- * 
- * 1 concrete type of ABox: ModelInstanceGraph
- * 
- * 8 concrete types of ABox assertions: ModelInstanceAssertion
- * 
- * ModelInstanceObject
- * ModelInstanceRelation
- * ModelInstanceDataLiteral
- * ModelInstanceDataStructure
- * ModelInstanceDataRelationshipFromEntityToScalar
- * ModelInstanceDataRelationshipFromEntityToStructure
- * ModelInstanceDataRelationshipFromStructureToScalar
- * ModelInstanceDataRelationshipFromStructureToStructure
+ * OMF is JPL's Ontological Modeling Framework, a pure functional interface specification
+ * supporting a rigorous integratation of two widely used paradigms:
+ * - modeling a system in the sense of the Object Management Group (OMG) modeling specifications
+ * (e.g. the Unified Modeling Language (UML) and the Systems Modeling Language (SysML))
+ * - ontologies for describing a system according to a analyzable vocabulary for creating and reasoning
+ * about such descriptions in the sense of the World-Wide Web (W3C) Ontology Web Language (OWL) standard.
+ *
+ * The OMF interface specification involves 4 main components:
+ * - OMFStore for the management of OMF models
+ * - OMFIRI for identifying "things"
+ * - OMFtbox for describing a conceptual model of a domain
+ * - OMFabox for describing particular situations in that domain using the OMFtbox vocabulary for that domain
  */
-trait OMF extends OMFstore with OMFiri with OMFtbox with OMFabox
+trait OMF extends OMFstore with OMFiri with OMFtbox with OMFabox {
+
+}
   
 trait OMFstore {
   /**
-   * The type of an OMF storage provider. An instance of a Store is an implicit parameter for the construction-related operations in OMFDSL.
+   * The type of an OMF storage provider.
+   *
+   * An instance of a Store is an implicit parameter for the construction-related operations in OMFDSL.
    */
   type Store
-  
+
 }
-  
+
+/**
+ * The types involved in the identification of "things" in OMF
+ */
 trait OMFiri {
-  
+
+  /**
+   * An IRI identifies "things" in OMFtbox or OMFabox graphs.
+   * In an OMFtbox graph, an IRI identifies ModelTerminologyGraph, ModelEntityDefinitions and ModelDataTypeDefinitions.
+   * In an OMFabox graph, an IRI identifies ModelInstanceGraphs and ModelNamedIndividuals
+   */
   type IRI     
 }
 
 /**
- *  types for IMCE T-Box ontologies  
+ *  Types for defining OMF tbox graphs specifying conceptual models of domains.
  */
 trait OMFtbox {
-  
+
+  /**
+   * In OMF, the specification of the conceptual model of a domain is defined in a TBox graph.
+   */
   type ModelTerminologyGraph
   type ImmutableModelTerminologyGraph <: ModelTerminologyGraph
   type MutableModelTerminologyGraph <: ModelTerminologyGraph
-  
+
+  /**
+   * A ModelTypeTerm is the basic unit for defining the conceptual model of a domain in an OMF ModelTerminologyGraph.
+   *
+   * There are 4 kinds of ModelTypeTerms:
+   *
+   * - ModelEntityDefinition:
+   *   the vocabulary for the conceptual modeling of a domain in terms of "things" that have identity semantics
+   *
+   * - ModelDataTypeDefinition:
+   *   the vocabulary for the conceptual modeling of a domain in terms of data that has value semantics
+   *
+   * - ModelDataRelationship:
+   *   binary, directed relationships whose domain is either an entity or datatype and whose range is a datatype
+   *
+   * - ModelEntityUnreifiedRelationship:
+   *   binary, directed relationships whose domain & range are entities and whose identity is the related objects
+   */
   type ModelTypeTerm
-  
+
+  type ModelEntityUnreifiedRelationship <: ModelTypeTerm
+
+  /**
+   * A ModelEntityDefinition defines the vocabulary for the conceptual modeling
+   * of a domain in terms of "things" that have an intrinsic identity semantics.
+   *
+   * - ModelEntityAspect
+   * - ModelEntityConcept
+   * - ModelEntityReifiedRelationship
+   */
   type ModelEntityDefinition <: ModelTypeTerm
-  type ModelEntityAspect <: ModelEntityDefinition  
+
+  /**
+   * A ModelEntityAspect defines an abstraction that can be the superclass of other
+   * ModelEntityAspects, ModelEntityConcepts or ModelEntityReifiedRelationships.
+   *
+   * In an OMF ABox graph, a ModelEntityAspect cannot be explicitly instantiated;
+   * however, a ModelEntityConcept or ModelEntityReifiedRelationship specialization
+   * of a ModelEntityAspect can be explicitly instantiated.
+   */
+  type ModelEntityAspect <: ModelEntityDefinition
+
+  /**
+   * A ModelEntityConcept defines a concept in the conceptual modeling of a domain.
+   *
+   * In an OMF ABox, each instance of a ModelEntityConcept has a unique identity.
+   */
   type ModelEntityConcept <: ModelEntityDefinition
+
+  /**
+   * A ModelEntityReifiedRelationship defines a binary, directed relationship in the conceptual modeling of a domain.
+   *
+   * The relationship domain (aka source) and range (aka target) can be any kind of ModelEntityDefinition
+   */
   type ModelEntityReifiedRelationship <: ModelEntityDefinition
-    
+
+  /**
+   * A ModelDataTypeDefinition defines the vocabulary for the conceptual modeling
+   * of a domain in terms of data that has value semantics (i.e, equality).
+   *
+   * There are 2 kinds of ModelDataTypeDefinitions:
+   * - ModelScalarDataType, an atomic datatype in the sense of XML Schema 1.1 DataTypes
+   * - ModelStructuredDataType, a structured datatype with data property relationships to other ModelDataTypeDefinitions
+   */
   type ModelDataTypeDefinition <: ModelTypeTerm
+
+  /**
+   * A ModelScalarDataType defines a scalar datatype in a conceptual model
+   * in the sense that a scala datatype is 'atomic' in the sense of XML Schema 1.1 DataTypes.
+   *
+   * A value of a scalar datatype is always represented according to its lexical representation as a string.
+   * The value semantics of a ModelScalarDataType follows XML Schema 1.1 DataTypes, that is, it is simply
+   * the equality of the lexical representation of a value of a ModelScalarDataType.
+   *
+   * @see http://www.w3.org/TR/xmlschema11-2/#anyAtomicType
+   */
   type ModelScalarDataType <: ModelDataTypeDefinition
+
+  /**
+   * A ModelStructuredDataType defines a structured datatype in a conceptual model
+   * in the sense that a structured datatype is defined only in terms of ModelDataRelationships
+   * to other ModelDataTypeDefinitions and that the value semantics of a structured datatype
+   * is based on the equality of the value of its ModelDataRelationships.
+   */
   type ModelStructuredDataType <: ModelDataTypeDefinition
-    
+
+  /**
+   * A ModelDataRelationship is an abstraction for a 2x2 matrix for
+   * binary directed relationships whose range is a ModelDataTypeDefinition.
+   *
+   * One axis is the domain of the relationship:
+   * - ModelDataRelationshipFromEntity
+   * - ModelDataRelationshipFromStructure
+   *
+   * Another axis is the range of the relationship:
+   * - ModelDataRelationshipToScalar
+   * - ModelDataRelationshipToStructure
+   */
   type ModelDataRelationship <: ModelTypeTerm
-  
+
+  /**
+   * A ModelDataRelationshipFrom is the abstraction of the domain of a ModelDataRelationship:
+   * - ModelDataRelationshipFromEntity
+   * - ModelDataRelationshipFromStructure
+   */
   type ModelDataRelationshipFrom
   type ModelDataRelationshipFromEntity <: ModelDataRelationshipFrom
   type ModelDataRelationshipFromStructure <: ModelDataRelationshipFrom
-  
+
+  /**
+   * A ModelDataRelationshipFrom is the abstraction of the range of a ModelDataRelationship:
+   * - ModelDataRelationshipToScalar
+   * - ModelDataRelationshipToStructure
+   */
   type ModelDataRelationshipTo
   type ModelDataRelationshipToScalar <: ModelDataRelationshipTo
   type ModelDataRelationshipToStructure <: ModelDataRelationshipTo
 
-  type ModelDataRelationshipFromEntityToScalar <: ModelDataRelationship with ModelDataRelationshipFromEntity with ModelDataRelationshipToScalar
-  type ModelDataRelationshipFromEntityToStructure <: ModelDataRelationship with ModelDataRelationshipFromEntity with ModelDataRelationshipToStructure
+  /**
+   * A ModelDataRelationshipFromEntityToScalar is a ModelDataRelationship
+   * with a domain that is a ModelDataRelationshipFromEntity
+   * and with a range that is a ModelDataRelationshipToScalar
+   */
+  type ModelDataRelationshipFromEntityToScalar <: ModelDataRelationship
+    with ModelDataRelationshipFromEntity
+    with ModelDataRelationshipToScalar
 
-  type ModelDataRelationshipFromStructureToScalar <: ModelDataRelationship with ModelDataRelationshipFromStructure with ModelDataRelationshipToScalar
-  type ModelDataRelationshipFromStructureToStructure <: ModelDataRelationship with ModelDataRelationshipFromStructure with ModelDataRelationshipToStructure  
-  
+  /**
+   * A ModelDataRelationshipFromEntityToStructure is a ModelDataRelationship
+   * with a domain that is a ModelDataRelationshipFromEntity
+   * and with a range that is a ModelDataRelationshipToStructure
+   */
+  type ModelDataRelationshipFromEntityToStructure <: ModelDataRelationship
+    with ModelDataRelationshipFromEntity
+    with ModelDataRelationshipToStructure
+
+  /**
+   * A ModelDataRelationshipFromStructureToScalar is a ModelDataRelationship
+   * with a domain that is a ModelDataRelationshipFromStructure
+   * and with a range that is a ModelDataRelationshipToScalar
+   */
+  type ModelDataRelationshipFromStructureToScalar <: ModelDataRelationship
+    with ModelDataRelationshipFromStructure
+    with ModelDataRelationshipToScalar
+
+  /**
+   * A ModelDataRelationshipFromStructureToStructure is a ModelDataRelationship
+   * with a domain that is a ModelDataRelationshipFromStructure
+   * and with a range that is a ModelDataRelationshipToStructure
+   */
+  type ModelDataRelationshipFromStructureToStructure <: ModelDataRelationship
+    with ModelDataRelationshipFromStructure
+    with ModelDataRelationshipToStructure
+
+  /**
+   * A ModelTermAxiom is the abstraction for statements about
+   * ModelTypeTerms in an ModelTerminologyGraph
+   */
   type ModelTermAxiom
-  
-  type EntityDefinitionAspectSubClassAxiom <: ModelTermAxiom  // (sub, sup)
-  type EntityConceptSubClassAxiom <: ModelTermAxiom				  // (sub, sup)
-  type EntityConceptRestrictionAxiom <: ModelTermAxiom			  // (sub, rel, range)
-  type EntityConceptUniversalRestrictionAxiom <: EntityConceptRestrictionAxiom			  // ObjectAllValuesFrom
-  type EntityConceptExistentialRestrictionAxiom <: EntityConceptRestrictionAxiom			  // ObjectSomeValuesFrom
-  type EntityRelationshipSubClassAxiom <: ModelTermAxiom	    // (sub, sup)  
-  type ScalarDataTypeFacetRestriction <: ModelTermAxiom      // (sup, sup, [facet, literal]+)
-  
+
+  /**
+   * An EntityDefinitionAspectSubClassAxiom is a ModelTermAxion assertion
+   * about a ModelEntityDefinition as a subclass for a superclass ModelEntityAspect
+   */
+  type EntityDefinitionAspectSubClassAxiom <: ModelTermAxiom
+
+  /**
+   * An EntityConceptSubClassAxiom is a ModelTermAxion assertion about
+   * a subclass/superclass relationship between two ModelEntityConcepts
+   */
+  type EntityConceptSubClassAxiom <: ModelTermAxiom
+
+  /**
+   * An EntityConceptRestrictionAxiom is a ModelTermAxion assertion about
+   * constraining a ModelEntityReifiedRelationship
+   * for a sub-domain ModelEntityConcept
+   * to a restricted sub-range ModelEntityDefinition.
+   *
+   * This restriction constraint can be universal or existential.
+   */
+  type EntityConceptRestrictionAxiom <: ModelTermAxiom
+
+  /**
+   * An EntityConceptUniversalRestrictionAxiom is a ModelTermAxion assertion about
+   * constraining a ModelEntityReifiedRelationship
+   * for objects of a sub-domain ModelEntityConcept
+   * to be related to only a restricted sub-range ModelEntityDefinition.
+   */
+  type EntityConceptUniversalRestrictionAxiom <: EntityConceptRestrictionAxiom
+
+  /**
+   * An EntityConceptUniversalRestrictionAxiom is a ModelTermAxion assertion about
+   * constraining a ModelEntityReifiedRelationship
+   * for objects of a sub-domain ModelEntityConcept
+   * to be related to include a sub-range ModelEntityDefinition.
+   */
+  type EntityConceptExistentialRestrictionAxiom <: EntityConceptRestrictionAxiom
+
+  /**
+   * An EntityReifiedRelationshipSubClassAxiom is a ModelTermAxiom assertion about
+   * a subclass/superclass relationship between two ModelEntityReifiedRelationships
+   */
+  type EntityReifiedRelationshipSubClassAxiom <: ModelTermAxiom
+
+  /**
+   * A ScalarDataTypeFacetRestriction is a ModelTermAxiom assertion about
+   * a subtype/supertype relationship between two ModelScalarDataTypes according
+   * to one or more XML Schema 1.1 DataType facet restrictions:
+   * the value space of the subtype ModelScalarDataType is the subset of the supertype ModelScalarDataType
+   * such that a value from the value space of the supertype is in the value space of the subtype
+   * if and only if the value satisfies all the facet restrictions.
+   *
+   * @see http://www.w3.org/TR/xmlschema11-2/#sec-datatypes-and-facets
+   */
+  type ScalarDataTypeFacetRestriction <: ModelTermAxiom
+
+  /**
+   * A TerminologyGraphAxiom is the abstraction for statements about
+   * ModelTerminologyGraphs
+   */
+  type TerminologyGraphAxiom
+
+  /**
+   * A TerminologyGraphDirectImportAxiom is a TerminologyGraphAxiom assertion about
+   * an importing ModelTerminologyGraph G1 that directly imports an imported ModelTerminologyGraph G2.
+   *
+   * If:
+   * TerminologyGraphDirectImportAxiom(importing=G1, imported=G2)
+   * TerminologyGraphDirectImportAxiom(importing=G2, imported=G3)
+   * Then:
+   * G1 imports G2,G3
+   * G2 imports G3
+   *
+   * If:
+   * TerminologyGraphDirectImportAxiom(importing=G1, imported=G2)
+   * TerminologyGraphDirectNestingParentAxiom(nestedChild=G2, nestingParent=G3)
+   * TerminologyGraphDirectImportAxiom(importing=G3, imported=G4)
+   * Then:
+   * G1 imports G2,G3,G4
+   * G3 imports G4
+   *
+   * If:
+   * TerminologyGraphDirectImportAxiom(importing=G1, imported=G2a)
+   * TerminologyGraphDirectNestingParentAxiom(nestedChild=G2a, nestingParent=G3)
+   * TerminologyGraphDirectNestingParentAxiom(nestedChild=G2b, nestingParent=G3)
+   * TerminologyGraphDirectImportAxiom(importing=G3, imported=G4)
+   * Then:
+   * G1 imports G2a,G3,G4
+   * G3 imports G4
+   */
+  type TerminologyGraphDirectImportAxiom <: TerminologyGraphAxiom
+
+  /**
+   * A TerminologyGraphDirectNestingParentAxiom is a TerminologyGraphAxiom assertion about
+   * a ModelTerminologyGraph G1 that is directly nested as a child of a parent nesting ModelTerminologyGraph G2.
+   *
+   * If:
+   * TerminologyGraphDirectNestingParentAxiom(nestedChild=G1, nestingParent=G2)
+   * TerminologyGraphDirectNestingParentAxiom(nestedChild=G2, nestingParent=G3)
+   * Then:
+   * G1 has nesting parents G2,G3
+   * G2 has nesting parents G3
+   * G2 has nested children G1
+   * G3 has nested children G1,G2
+   */
+  type TerminologyGraphDirectNestingParentAxiom <: TerminologyGraphAxiom
 }
 
 /**
- *  types for IMCE A-Box ontologies
+ *  Types for defining OMF abox graphs for describing domain-specific situations according
+ *  to the OMF tbox graphs defining the conceptual models of these domains.
  */
 trait OMFabox {
-  
+
+  /**
+   * In OMF, the description of a particular domain-specific situation is defined in an ABox graph
+   * for the OMF TBox graph of that domain.
+   */
   type ModelInstanceGraph
   type ImmutableModelInstanceGraph <: ModelInstanceGraph
   type MutableModelInstanceGraph <: ModelInstanceGraph
-  
+
+  /**
+   * A ModelInstanceAssertion is the basic unit for describing a domain-specific situation in an OMF ABox graph.
+   *
+   * There are
+   * - ModelInstanceRelationshipAssertion:
+   *   Asserts an ModelEntityUnreifiedRelationship between ModelNamedIndividuals
+   *
+   * - ModelNamedIndividual:
+   *   Identifies an instance of a ModelEntityConcept, ModelEntityReifiedRelationship,
+   *   ModelStructuredDataType, ModelInstanceDataRelationshipFromEntityToStructure,
+   *   ModelInstanceDataRelationshipFromStructureToStructure
+   *
+   * - ModelInstanceDataRelationshipFromEntityToScalar:
+   *   Asserts the scalar value of a data property relationship for a ModelEntityInstance
+   *
+   * - ModelInstanceDataRelationshipFromStructureToScalar:
+   *   Asserts the scalar value of a data property relationship for a ModelStructuredDataType
+   */
   type ModelInstanceAssertion
-  
+
+  /**
+   * A ModelInstanceRelationshipAssertion asserts an ModelEntityUnreifiedRelationship between ModelNamedIndividuals
+   */
+  type ModelInstanceRelationshipAssertion <: ModelInstanceAssertion
+
+  /**
+   * A ModelNamedIndividual identifies an instance of a ModelEntityConcept, ModelEntityReifiedRelationship,
+   * ModelStructuredDataType, ModelInstanceDataRelationshipFromEntityToStructure,
+   * ModelInstanceDataRelationshipFromStructureToStructure
+   */
   type ModelNamedIndividual <: ModelInstanceAssertion
-  
+
+  /**
+   * A ModelEntityInstance identifies an instance of a ModelEntityConcept or ModelEntityReifiedRelationship
+   */
   type ModelEntityInstance <: ModelNamedIndividual
+
+  /**
+   * A ModelInstanceObject identifies an isntance of a ModelEntityConcept
+   */
   type ModelInstanceObject <: ModelEntityInstance
+
+  /**
+   * A ModelInstanceRelation identifies an instance of a ModelEntityReifiedRelationship
+   */
   type ModelInstanceRelation <: ModelEntityInstance
-  
+
+  /**
+   * A ModelDataInstance is a value of a ModelDataTypeDefinition
+   */
   type ModelDataInstance
+
+  /**
+   * A ModelInstanceDataLiteral is a value of a ModelScalarDataType
+   */
   type ModelInstanceDataLiteral <: ModelInstanceAssertion with ModelDataInstance
+
+  /**
+   * A ModelInstanceDataStructure is a value of a ModelStructuredDataType
+   */
   type ModelInstanceDataStructure <: ModelNamedIndividual with ModelDataInstance
-  
+
+  /**
+   * A ModelInstanceDataRelationshipFromEntityToScalar asserts
+   * the scalar value of a ModelDataRelationshipFromEntityToScalar property relationship
+   * for a ModelEntityInstance
+   */
   type ModelInstanceDataRelationshipFromEntityToScalar <: ModelInstanceAssertion
-  type ModelInstanceDataRelationshipFromEntityToStructure <: ModelInstanceAssertion
+
+  /**
+   * A ModelInstanceDataRelationshipFromEntityToStructure asserts
+   * the structured value of a ModelDataRelationshipFromEntityToStructure property relationship
+   * for a ModelEntityInstance
+   */
+  type ModelInstanceDataRelationshipFromEntityToStructure <: ModelNamedIndividual with ModelInstanceAssertion
+
+  /**
+   * A ModelInstanceDataRelationshipFromStructureToScalar asserts
+   * the scalar value of a ModelDataRelationshipFromStructureToScalar property relationship
+   * for a ModelInstanceDataStructure
+   */
   type ModelInstanceDataRelationshipFromStructureToScalar <: ModelInstanceAssertion
-  type ModelInstanceDataRelationshipFromStructureToStructure <: ModelInstanceAssertion
+
+  /**
+   * A ModelInstanceDataRelationshipFromStructureToStructure asserts
+   * the structured value of a ModelDataRelationshipFromStructureToStructure property relationship
+   * for a ModelInstanceDataStructure
+   */
+  type ModelInstanceDataRelationshipFromStructureToStructure <: ModelNamedIndividual with ModelInstanceAssertion
   
+}
+
+
+/**
+ * A Terminology graph is a tuple.
+ *
+ * @param iri the identity of the terminology graph as a container for several descriptions and as the context
+ *            for extending other terminology graphs
+ * @param entityGraphIRI optionally, the iri of the entity that this terminology graph represents the contents of
+ * @param kind the semantic commitment of this terminology graph (open-world definitions vs. closed-world designations)
+ * @param nesting the parent terminology graph, if any, whose nested graphs includes this terminology graph
+ * @param nested the terminology graphs that are logically nested inside this terminology graph
+ * @param imports this terminology graph can use or specialize descriptions from the transitive closure
+ *                  of imported terminology graphs
+ * @param aspects the aspects described in this terminology graph
+ * @param concepts the concepts described in this terminology graph
+ * @param reifiedRelationships the reified relationships described in this terminology graph
+ * @param unreifiedRelationships the unreified relationships described in scope of this terminology graph
+ * @param scalarDataTypes the scalar datatypes described in this terminology graph
+ * @param structuredDataTypes the structured datatypes described in this terminology graph
+ * @param entity2scalarDataRelationships the entity to scalar data relationships described in this terminology graph
+ * @param entity2structureDataRelationships the entity to structured data relationships described in this terminology graph
+ * @param structure2scalarDataRelationships the entity to scalar data  relationships described in this terminology graph
+ * @param structure2structureDataRelationships the entity to scalar data  relationships described in this terminology graph
+ * @param axioms the axioms asserted in this terminology graph
+ */
+trait TerminologyGraphSignature[omf <: OMF] {
+  val iri: omf#IRI
+  val entityGraphIRI: Option[omf#IRI]
+  val kind: TerminologyKind
+  val nesting: Option[omf#ModelTerminologyGraph]
+  val nested: Iterable[omf#ModelTerminologyGraph]
+  val imports: Iterable[omf#ModelTerminologyGraph]
+  val aspects: Iterable[omf#ModelEntityAspect]
+  val concepts: Iterable[omf#ModelEntityConcept]
+  val reifiedRelationships: Iterable[omf#ModelEntityReifiedRelationship]
+  val unreifiedRelationships: Iterable[omf#ModelEntityUnreifiedRelationship]
+  val scalarDataTypes: Iterable[omf#ModelScalarDataType]
+  val structuredDataTypes: Iterable[omf#ModelStructuredDataType]
+  val entity2scalarDataRelationships: Iterable[omf#ModelDataRelationshipFromEntityToScalar]
+  val entity2structureDataRelationships: Iterable[omf#ModelDataRelationshipFromEntityToStructure]
+  val structure2scalarDataRelationships: Iterable[omf#ModelDataRelationshipFromStructureToScalar]
+  val structure2structureDataRelationships: Iterable[omf#ModelDataRelationshipFromStructureToStructure]
+  val axioms: Iterable[omf#ModelTermAxiom]
+}
+
+trait EntityConceptSignature[omf <: OMF] {
+  val iri: omf#IRI
+  val subGraph: Option[omf#IRI]
+  val isAbstract: Boolean
+}
+
+trait EntityReifiedRelationshipSignature[omf <: OMF] {
+  val iri: omf#IRI
+  val subGraph: Option[omf#IRI]
+  val source: omf#ModelEntityDefinition
+  val target: omf#ModelEntityDefinition
+  val characteristics: Iterable[RelationshipCharacteristics]
+  val isAbstract: Boolean
+}
+
+trait EntityUnreifiedRelationshipSignature[omf <: OMF] {
+  val iri: omf#IRI
+  val source: omf#ModelEntityDefinition
+  val target: omf#ModelEntityDefinition
+  val characteristics: Iterable[RelationshipCharacteristics]
 }
