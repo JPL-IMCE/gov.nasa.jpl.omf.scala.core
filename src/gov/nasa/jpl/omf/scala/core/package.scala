@@ -47,12 +47,12 @@ package object core {
    *
    * @param g The terminology graph whose direct & indirect imports and nesting parents are included in the result
    *          (subject to kind filtering)
-   * @param onlySameKind determines the filtering for imported & nesting parent terminology graphs
+   * @param onlyCompatibleKind determines the filtering for imported & nesting parent terminology graphs
    * @return gs:
-   *         if onlySameKind is true; then gs contains g and all g' directly or indirectly imported / nesting parents
-   *         from g that have the same kind as g
-   *         if onlySameKind is false; then gs contains g and all g' directly or indirectly imported / nesting parents
-   *         from g regardless of their kind
+   *         if onlyCompatibleKind is true; then gs contains g and all directly or indirectly
+   *         imported / nesting parents g' where g has compatible kind with g'
+   *         if onlyCompatibleKind is false; then gs contains g and all directly or indirectly
+   *         imported / nesting parents g' regardless of whether g is compatible with g'
    *
    * If:
    * TerminologyGraphDirectImportAxiom(importing=G1, imported=G2)
@@ -80,7 +80,7 @@ package object core {
    */
   def terminologyGraphImportClosure[Omf <: OMF, TG <: Omf#ModelTerminologyGraph]
   ( g: TG,
-    onlySameKind: Boolean = true )
+    onlyCompatibleKind: Boolean = true )
   ( implicit ops: OMFOps[Omf], store: Omf#Store )
   : Set[Omf#ModelTerminologyGraph] = {
 
@@ -91,9 +91,9 @@ package object core {
     ( implicit store: Omf#Store )
     : Set[Omf#ModelTerminologyGraph] = {
       val s = fromTerminologyGraph( tbox )
-      val hasSameKind = TerminologyKind.sameKind(s.kind) _
-      s.nesting.filter( g => !onlySameKind || hasSameKind(getTerminologyGraphKind(g)) ).toSet ++
-        s.imports.filter( g => !onlySameKind || hasSameKind(getTerminologyGraphKind(g)) ).toSet
+      val hasCompatibleKind = TerminologyKind.compatibleKind(s.kind) _
+      s.nesting.filter( g => !onlyCompatibleKind || hasCompatibleKind(getTerminologyGraphKind(g)) ).toSet ++
+        s.imports.filter( g => !onlyCompatibleKind || hasCompatibleKind(getTerminologyGraphKind(g)) ).toSet
     }
 
     OMFOps.closure[Omf#ModelTerminologyGraph, Omf#ModelTerminologyGraph]( g, getImportedTerminologyGraphs ) + g
