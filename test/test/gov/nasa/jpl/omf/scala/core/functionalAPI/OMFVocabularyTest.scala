@@ -100,7 +100,7 @@ abstract class OMFVocabularyTest[omf <: OMF](
       val mission_extends_base = addTerminologyGraphExtension( mission.get, base.get )
       base_extends_xsd should be a 'success
 
-      val component = addEntityConcept( mission.get, "Component", None )
+      val component = addEntityConcept( mission.get, "Component", None, isAbstract=false )
       component should be a 'success
 
       val component_extends_identifiedElement = addEntityDefinitionAspectSubClassAxiom(
@@ -109,7 +109,7 @@ abstract class OMFVocabularyTest[omf <: OMF](
         sup = identifiedElement.get )
       component_extends_identifiedElement.isSuccess should be( true )
 
-      val function = addEntityConcept( mission.get, "Function", None )
+      val function = addEntityConcept( mission.get, "Function", None, isAbstract=false )
       function should be a 'success
 
       val function_extends_identifiedElement = addEntityDefinitionAspectSubClassAxiom(
@@ -129,13 +129,13 @@ abstract class OMFVocabularyTest[omf <: OMF](
         isAbstract = false )
       component_performs_function should be a 'success
 
-      val item = addEntityConcept( mission.get, "Item", None )
+      val item = addEntityConcept( mission.get, "Item", None, isAbstract=false )
       item should be a 'success
 
-      val message = addEntityConcept( mission.get, "Message", None )
+      val message = addEntityConcept( mission.get, "Message", None, isAbstract=false )
       message should be a 'success
 
-      val materialItem = addEntityConcept( mission.get, "MaterialItem", None )
+      val materialItem = addEntityConcept( mission.get, "MaterialItem", None, isAbstract=false )
       materialItem should be a 'success
 
       val message_extends_item =

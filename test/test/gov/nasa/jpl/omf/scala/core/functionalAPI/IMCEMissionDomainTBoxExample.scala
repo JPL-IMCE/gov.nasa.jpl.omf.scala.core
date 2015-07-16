@@ -49,7 +49,7 @@ import scalaz.Scalaz._
 
 abstract class IMCEMissionDomainTBoxExample[omf <: OMF]()(
   implicit val ops: OMFOps[omf],
-  val store: omf#Store )
+  implicit val store: omf#Store )
   extends WordSpec with Matchers {
 
   import ops._
@@ -85,10 +85,10 @@ abstract class IMCEMissionDomainTBoxExample[omf <: OMF]()(
 
       val g = t1.get
 
-      val component = addEntityConcept( g, "Component", None )
+      val component = addEntityConcept( g, "Component", None, isAbstract=false )
       component.isSuccess should be( true )
 
-      val function = addEntityConcept( g, "Function", None )
+      val function = addEntityConcept( g, "Function", None, isAbstract=false )
       function.isSuccess should be( true )
 
       val s = fromTerminologyGraph( g )

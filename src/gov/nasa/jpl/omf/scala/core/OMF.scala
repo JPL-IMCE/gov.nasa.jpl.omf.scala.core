@@ -316,49 +316,49 @@ trait OMFtbox {
   type TerminologyGraphAxiom
 
   /**
-   * A TerminologyGraphDirectImportAxiom is a TerminologyGraphAxiom assertion about
-   * an importing ModelTerminologyGraph G1 that directly imports an imported ModelTerminologyGraph G2.
+   * A TerminologyGraphDirectExtensionAxiom is a TerminologyGraphAxiom assertion about
+   * an extending ModelTerminologyGraph G1 that directly extends an extended ModelTerminologyGraph G2.
    *
    * If:
-   * TerminologyGraphDirectImportAxiom(importing=G1, imported=G2)
-   * TerminologyGraphDirectImportAxiom(importing=G2, imported=G3)
+   * TerminologyGraphDirectExtensionAxiom(extending=G1, extended=G2)
+   * TerminologyGraphDirectExtensionAxiom(extending=G2, extended=G3)
    * Then:
-   * G1 imports G2,G3
-   * G2 imports G3
+   * G1 extends G2,G3
+   * G2 extends G3
    *
    * If:
-   * TerminologyGraphDirectImportAxiom(importing=G1, imported=G2)
+   * TerminologyGraphDirectExtensionAxiom(extending=G1, extended=G2)
    * TerminologyGraphDirectNestingParentAxiom(nestedChild=G2, nestingParent=G3)
-   * TerminologyGraphDirectImportAxiom(importing=G3, imported=G4)
+   * TerminologyGraphDirectExtensionAxiom(extending=G3, extended=G4)
    * Then:
-   * G1 imports G2,G3,G4
-   * G3 imports G4
+   * G1 extends G2,G3,G4
+   * G3 extends G4
    *
    * If:
-   * TerminologyGraphDirectImportAxiom(importing=G1, imported=G2a)
+   * TerminologyGraphDirectExtensionAxiom(extending=G1, extended=G2a)
    * TerminologyGraphDirectNestingParentAxiom(nestedChild=G2a, nestingParent=G3)
    * TerminologyGraphDirectNestingParentAxiom(nestedChild=G2b, nestingParent=G3)
-   * TerminologyGraphDirectImportAxiom(importing=G3, imported=G4)
+   * TerminologyGraphDirectExtensionAxiom(extending=G3, extended=G4)
    * Then:
-   * G1 imports G2a,G3,G4
-   * G3 imports G4
+   * G1 extends G2a,G3,G4
+   * G3 extends G4
    */
-  type TerminologyGraphDirectImportAxiom <: TerminologyGraphAxiom
+  type TerminologyGraphDirectExtensionAxiom <: TerminologyGraphAxiom
 
   /**
-   * A TerminologyGraphDirectNestingParentAxiom is a TerminologyGraphAxiom assertion about
+   * A TerminologyGraphDirectNestingAxiom is a TerminologyGraphAxiom assertion about
    * a ModelTerminologyGraph G1 that is directly nested as a child of a parent nesting ModelTerminologyGraph G2.
    *
    * If:
-   * TerminologyGraphDirectNestingParentAxiom(nestedChild=G1, nestingParent=G2)
-   * TerminologyGraphDirectNestingParentAxiom(nestedChild=G2, nestingParent=G3)
+   * TerminologyGraphDirectNestingAxiom(nestedChild=G1, nestingParent=G2)
+   * TerminologyGraphDirectNestingAxiom(nestedChild=G2, nestingParent=G3)
    * Then:
    * G1 has nesting parents G2,G3
    * G2 has nesting parents G3
    * G2 has nested children G1
    * G3 has nested children G1,G2
    */
-  type TerminologyGraphDirectNestingParentAxiom <: TerminologyGraphAxiom
+  type TerminologyGraphDirectNestingAxiom <: TerminologyGraphAxiom
 }
 
 /**

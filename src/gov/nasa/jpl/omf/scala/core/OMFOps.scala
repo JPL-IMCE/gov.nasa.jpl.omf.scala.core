@@ -91,7 +91,7 @@ object OMFOps {
 
 }
 
-trait IRIOps[omf <: OMFiri] {
+trait IRIOps[omf <: OMF] {
 
   // IRI
 
@@ -647,7 +647,7 @@ trait MutableTerminologyGraphOps[omf <: OMF] extends ImmutableTerminologyGraphOp
   ( parentG: omf#MutableModelTerminologyGraph,
     nestedG: omf#ModelTerminologyGraph )
   ( implicit store: omf#Store )
-  : Try[omf#TerminologyGraphDirectNestingParentAxiom]
+  : Try[omf#TerminologyGraphDirectNestingAxiom]
 
   /**
    * @since 0.10.0
@@ -656,7 +656,7 @@ trait MutableTerminologyGraphOps[omf <: OMF] extends ImmutableTerminologyGraphOp
   ( extendingG: omf#MutableModelTerminologyGraph,
     extendedG: omf#ModelTerminologyGraph )
   ( implicit store: omf#Store )
-  : Try[omf#TerminologyGraphDirectImportAxiom]
+  : Try[omf#TerminologyGraphDirectExtensionAxiom]
 
   def saveTerminologyGraph
   ( g: omf#MutableModelTerminologyGraph )
@@ -716,7 +716,7 @@ trait MutableTerminologyGraphOps[omf <: OMF] extends ImmutableTerminologyGraphOp
   ( graph: omf#MutableModelTerminologyGraph,
     conceptName: String,
     conceptGraphIRI: Option[omf#IRI],
-    isAbstract: Boolean = false )
+    isAbstract: Boolean )
   ( implicit store: omf#Store )
   : Try[( omf#ModelEntityConcept, Option[omf#MutableModelTerminologyGraph] )]
 
@@ -752,8 +752,8 @@ trait MutableTerminologyGraphOps[omf <: OMF] extends ImmutableTerminologyGraphOp
     reifiedRelationshipName: String,
     relationshipGraphIRI: Option[omf#IRI],
     unreifiedRelationshipName: String,
-    unreifiedInverseRelationshipName: Option[String] = None,
-    isAbstract: Boolean = true )
+    unreifiedInverseRelationshipName: Option[String],
+    isAbstract: Boolean )
   ( implicit store: omf#Store )
   : Try[( omf#ModelEntityReifiedRelationship, Option[omf#MutableModelTerminologyGraph] )]
 
@@ -860,7 +860,7 @@ trait MutableTerminologyGraphOps[omf <: OMF] extends ImmutableTerminologyGraphOp
 
 }
 
-trait ImmutableInstanceGraphOps[omf <: OMFiri with OMFabox with OMFtbox with OMFstore] {
+trait ImmutableInstanceGraphOps[omf <: OMF] {
 
   def loadInstanceGraph
   ( iri: omf#IRI )
@@ -943,7 +943,7 @@ trait ImmutableInstanceGraphOps[omf <: OMFiri with OMFabox with OMFtbox with OMF
 
 }
 
-trait MutableInstanceGraphOps[omf <: OMFiri with OMFabox with OMFtbox with OMFstore]
+trait MutableInstanceGraphOps[omf <: OMF]
   extends ImmutableInstanceGraphOps[omf] {
 
   def asImmutableInstanceGraph
