@@ -86,7 +86,7 @@ object TerminologyKind extends Enumeration {
     }
 
   /**
-   * Asymetric comparison
+   * Asymmetric comparison
    *
    * @param childKind The TerminologyKind of a "child" graph (child means extending child or nested child)
    * @param parentKind The TerminologyKind of a "parent" graph (parent means extended parent or nesting parent)
