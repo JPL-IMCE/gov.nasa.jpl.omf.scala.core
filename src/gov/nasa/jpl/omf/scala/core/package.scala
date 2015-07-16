@@ -91,8 +91,9 @@ package object core {
     ( implicit store: Omf#Store )
     : Set[Omf#ModelTerminologyGraph] = {
       val s = fromTerminologyGraph( tbox )
-      s.nesting.filter( !onlySameKind || s.kind == getTerminologyGraphKind(_) ).toSet ++
-        s.imports.filter( !onlySameKind || s.kind == getTerminologyGraphKind( _ ) ).toSet
+      val hasSameKind = TerminologyKind.sameKind(s.kind) _
+      s.nesting.filter( g => !onlySameKind || hasSameKind(getTerminologyGraphKind(g)) ).toSet ++
+        s.imports.filter( g => !onlySameKind || hasSameKind(getTerminologyGraphKind(g)) ).toSet
     }
 
     OMFOps.closure[Omf#ModelTerminologyGraph, Omf#ModelTerminologyGraph]( g, getImportedTerminologyGraphs ) + g
