@@ -72,4 +72,24 @@ object TerminologyKind extends Enumeration {
   val isDesignation = Value
 
   val isToplevelDesignation = Value
+
+  def isDefinitionKind( k: TerminologyKind ): Boolean =
+  k match {
+    case _ @ ( TerminologyKind.isDefinition | TerminologyKind.isToplevelDefinition ) => true
+    case _ => false
+  }
+
+  def isDesignationKind( k: TerminologyKind ): Boolean =
+    k match {
+      case _ @ ( TerminologyKind.isDesignation | TerminologyKind.isToplevelDesignation ) => true
+      case _ => false
+    }
+
+  def sameKind
+  ( k1: TerminologyKind )
+  ( k2: TerminologyKind )
+  : Boolean =
+    isDefinitionKind(k1) && isDefinitionKind(k2) ||
+    isDesignationKind(k1) && isDesignationKind(k2)
+
 }
