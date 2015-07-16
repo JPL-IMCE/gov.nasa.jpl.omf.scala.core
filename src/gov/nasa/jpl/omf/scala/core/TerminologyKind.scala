@@ -85,11 +85,18 @@ object TerminologyKind extends Enumeration {
       case _ => false
     }
 
-  def sameKind
-  ( k1: TerminologyKind )
-  ( k2: TerminologyKind )
+  /**
+   * Asymetric comparison
+   *
+   * @param childKind The TerminologyKind of a "child" graph (child means extending child or nested child)
+   * @param parentKind The TerminologyKind of a "parent" graph (parent means extended parent or nesting parent)
+   * @return
+   */
+  def compatibleKind
+  ( childKind: TerminologyKind )
+  ( parentKind: TerminologyKind )
   : Boolean =
-    isDefinitionKind(k1) && isDefinitionKind(k2) ||
-    isDesignationKind(k1) && isDesignationKind(k2)
+    isDesignationKind(childKind) || isDefinitionKind(childKind) && isDefinitionKind(parentKind)
+
 
 }
