@@ -3,6 +3,10 @@ import java.nio.file.FileSystems
 // TODO: Add the JPL MBEE SBT Maven Repository when it is available...
 // resolvers += MavenRepository("JPL MBEE", url("http://github.jpl.nasa.gov/mbee.sbt.repository"))
 
+// https://bintray.com/banno/oss/sbt-license-plugin/view
+resolvers +=
+  Resolver.url("sbt-license-plugin-releases", url("http://dl.bintray.com/banno/oss"))(Resolver.ivyStylePatterns)
+
 // TODO: Replace with the JPL MBEE SBT Maven Repository resolver when it is available...
 ( Option.apply(System.getProperty("JPL_MBEE_LOCAL_REPOSITORY")),
   Option.apply(System.getProperty("JPL_MBEE_REMOTE_REPOSITORY"))) match {
