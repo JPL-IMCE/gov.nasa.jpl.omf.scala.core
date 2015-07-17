@@ -25,7 +25,7 @@
       <image id="21" type="png"><![CDATA[iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABIUlEQVR42mNgoDZwaNgvENJ0OCui7fDJxL4TDzKmnH6QN+v8yeL5V7IK5p8XwKvZo2a/Q0DjwQ/pE07+nrP59v8NBx7+33To0f9lux/8b1x+/XfFkmsfqlbdMsCq2bVqv4F79b7/II0Xrr4B44zJF/4XzrwM5689+Ph/9Yqb/5vX33bAcDbIZmTNx8+//B/afhpsCEwMhDccefq/c/O9D/3r7yO8A/IzyNnICvHhaTsf/p6881EW3ABQgCHbDsJ7Tz4HuwCE0Q3YfPzZ/ym7Hp+EGxDVfuTBun0PMAxwqj6G1YC9Z178n7b78QPqGYDLC7gMwPACtkDEZwBGIGKLRlyBiDUaYakQPSGhY1hCal1/H3dqJJSUa5Zfd6BdZiIHAAB2WwtVEjlvpQAAAABJRU5ErkJggg==]]></image>
     </images>
     <compositeUIs/>
-    <module tags="ModelEntityAspect, ModelEntityConcept, ModelEntityReifiedRelationship, TBoxTerminologyGraph, TBoxDirectlyDefinesTypeTerm, TBoxDirectlyDefinesAspectTerm, TBoxDirectlyDefinesConceptTerm, TBoxDirectlyDefinesRelationshipTerm, DirectTBoxParentChildNesting, TBoxDirectlyDefinesReifiedRelationshipTerm, TBoxDirectlyNestsChild, TBoxDirectlyImportsTBox, TBoxDirectlyNestsTBox">
+    <module tags="ModelEntityAspect, ModelEntityConcept, ModelEntityReifiedRelationship, TBoxTerminologyGraph, TBoxDirectlyDefinesTypeTerm, TBoxDirectlyDefinesAspectTerm, TBoxDirectlyDefinesConceptTerm, TBoxDirectlyDefinesRelationshipTerm, DirectTBoxParentChildNesting, TBoxDirectlyDefinesReifiedRelationshipTerm, TBoxDirectlyNestsTBox, TBoxDirectlyExtendsTBox">
       <schema name="OMF">
         <attributeTypes>
           <attributeType identifier="true" name="URI">
@@ -153,9 +153,9 @@
                   <expression value="$if($isNotNull(&lt;rawName&gt;), &lt;rawName&gt;, $trim($replaceFirst(&lt;iri&gt;, http://.*/, $space())))"/>
                 </type>
               </attributeType>
-              <attributeType identifier="false" name="directlyImports">
+              <attributeType identifier="false" name="directlyExtends">
                 <type name="ComputedValue">
-                  <expression value="$lookupValueList(TBoxDirectlyImportsTBox, &lt;importing&gt;, &lt;id&gt;, $lookupValue(TBoxTerminologyGraph, &lt;id&gt;, &lt;imported&gt;, &lt;name&gt;))"/>
+                  <expression value="$lookupValueList(TBoxDirectlyExtendsTBox, &lt;extendingChild&gt;, &lt;id&gt;, $lookupValue(TBoxTerminologyGraph, &lt;id&gt;, &lt;extendedParent&gt;, &lt;name&gt;))"/>
                 </type>
               </attributeType>
               <attributeType identifier="false" name="directlyNestsTBoxGraph">
@@ -235,13 +235,16 @@
           </modelElementType>
           <modelElementType name="TBoxDirectlyNestsTBox">
             <attributeTypes>
-              <attributeType identifier="true" name="parent">
+              <attributeType identifier="true" name="id">
+                <type name="StringValue"/>
+              </attributeType>
+              <attributeType identifier="true" name="nestingParent">
                 <type name="ReferenceValue">
                   <elementTypeName value="TBoxTerminologyGraph"/>
                   <attributeTypeName value="id"/>
                 </type>
               </attributeType>
-              <attributeType identifier="true" name="child">
+              <attributeType identifier="true" name="nestedChild">
                 <type name="ReferenceValue">
                   <elementTypeName value="TBoxTerminologyGraph"/>
                   <attributeTypeName value="id"/>
@@ -249,15 +252,18 @@
               </attributeType>
             </attributeTypes>
           </modelElementType>
-          <modelElementType name="TBoxDirectlyImportsTBox">
+          <modelElementType name="TBoxDirectlyExtendsTBox">
             <attributeTypes>
-              <attributeType identifier="true" name="importing">
+              <attributeType identifier="true" name="id">
+                <type name="StringValue"/>
+              </attributeType>
+              <attributeType identifier="true" name="extendingChild">
                 <type name="ReferenceValue">
                   <elementTypeName value="TBoxTerminologyGraph"/>
                   <attributeTypeName value="id"/>
                 </type>
               </attributeType>
-              <attributeType identifier="true" name="imported">
+              <attributeType identifier="true" name="extendedParent">
                 <type name="ReferenceValue">
                   <elementTypeName value="TBoxTerminologyGraph"/>
                   <attributeTypeName value="id"/>
@@ -415,24 +421,30 @@
             </attributedObjectBinding>
             <attributedObjectBinding attributedObjectTypeName="TBoxDirectlyNestsTBox" isModelAttribute="false" isReadOnly="false">
               <rdfAttributedObjectLocation queryType="CUSTOM_QUERY">
-                <customQuery select="parent child" where="?parent rdf:type tbox:ModelTerminologyGraph .&#10;?child rdf:type tbox:ModelTerminologyGraph .&#10;?parent tbox:directlyNests ?child ."/>
+                <customQuery select="id parent child" where="?id rdf:type tbox:TerminologyGraphDirectNestingAxiom .&#10;?id tbox:hasDirectNestingParent ?parent .&#10;?id tbox:hasDirectNestedChild ?child ."/>
               </rdfAttributedObjectLocation>
-              <attributeBinding attributeName="parent" attributedObjectTypeName="TBoxDirectlyNestsTBox" identifier="true">
+              <attributeBinding attributeName="nestingParent" attributedObjectTypeName="TBoxDirectlyNestsTBox" identifier="true">
                 <rdfAttributeLocation columnName="parent" stripNamespace="false"/>
               </attributeBinding>
-              <attributeBinding attributeName="child" attributedObjectTypeName="TBoxDirectlyNestsTBox" identifier="true">
+              <attributeBinding attributeName="nestedChild" attributedObjectTypeName="TBoxDirectlyNestsTBox" identifier="true">
                 <rdfAttributeLocation columnName="child" stripNamespace="false"/>
               </attributeBinding>
-            </attributedObjectBinding>
-            <attributedObjectBinding attributedObjectTypeName="TBoxDirectlyImportsTBox" isModelAttribute="false" isReadOnly="false">
-              <rdfAttributedObjectLocation queryType="CUSTOM_QUERY">
-                <customQuery select="importing imported" where="?importing rdf:type tbox:ModelTerminologyGraph .&#10;?imported rdf:type tbox:ModelTerminologyGraph .&#10;?importing tbox:directlyImports ?imported ."/>
-              </rdfAttributedObjectLocation>
-              <attributeBinding attributeName="importing" attributedObjectTypeName="TBoxDirectlyImportsTBox" identifier="true">
-                <rdfAttributeLocation columnName="importing" stripNamespace="false"/>
+              <attributeBinding attributeName="id" attributedObjectTypeName="TBoxDirectlyNestsTBox" identifier="true">
+                <rdfAttributeLocation columnName="id" stripNamespace="false"/>
               </attributeBinding>
-              <attributeBinding attributeName="imported" attributedObjectTypeName="TBoxDirectlyImportsTBox" identifier="true">
-                <rdfAttributeLocation columnName="imported" stripNamespace="false"/>
+            </attributedObjectBinding>
+            <attributedObjectBinding attributedObjectTypeName="TBoxDirectlyExtendsTBox" isModelAttribute="false" isReadOnly="false">
+              <rdfAttributedObjectLocation queryType="CUSTOM_QUERY">
+                <customQuery select="id parent child" where="?id rdf:type tbox:TerminologyGraphDirectExtensionAxiom .&#10;?id tbox:hasDirectExtendedParent ?parent .&#10;?id tbox:hasDirectExtendingChild ?child ."/>
+              </rdfAttributedObjectLocation>
+              <attributeBinding attributeName="extendingChild" attributedObjectTypeName="TBoxDirectlyExtendsTBox" identifier="true">
+                <rdfAttributeLocation columnName="child" stripNamespace="false"/>
+              </attributeBinding>
+              <attributeBinding attributeName="extendedParent" attributedObjectTypeName="TBoxDirectlyExtendsTBox" identifier="true">
+                <rdfAttributeLocation columnName="parent" stripNamespace="false"/>
+              </attributeBinding>
+              <attributeBinding attributeName="id" attributedObjectTypeName="TBoxDirectlyExtendsTBox" identifier="true">
+                <rdfAttributeLocation columnName="id" stripNamespace="false"/>
               </attributeBinding>
             </attributedObjectBinding>
           </dataBinding>
@@ -492,15 +504,25 @@
               <attribute name="Text_Truncation_Enabled" value="false"/>
             </uiAttributes>
           </template>
-          <template name="Directly Defines Type Term" parentTemplate="" type="Edge">
+          <template name="TBox Directly Defines Type Edge Term" parentTemplate="" type="Edge">
             <uiProperties uiType="Basic.Curved"/>
             <uiAttributes/>
           </template>
-          <template name="Relationship Import Edge" parentTemplate="" type="Edge">
+          <template name="TBox Extends Edge" parentTemplate="" type="Edge">
             <uiProperties uiType="Basic.Curved"/>
             <uiAttributes>
               <attribute name="Edge_Style" value="2"/>
               <attribute name="Target_Head" value="2"/>
+            </uiAttributes>
+          </template>
+          <template name="TBox Nests Edge" parentTemplate="" type="Edge">
+            <uiProperties uiType="Basic.Curved"/>
+            <uiAttributes>
+              <attribute name="Source_Head" value="4"/>
+              <attribute name="Target_Head" value="0"/>
+              <attribute name="Edge_Style" value="2"/>
+              <attribute name="Source_Arrow_Color" value="204 204 204"/>
+              <attribute name="Color" value="204 204 204"/>
             </uiAttributes>
           </template>
         </drawingTemplate>
@@ -557,7 +579,7 @@
               <attribute name="Text_Truncation_Enabled" value="false"/>
             </uiAttributes>
           </template>
-          <template name="HRelationship Import Edge" parentTemplate="" type="Edge">
+          <template name="HRelationship Extends Edge" parentTemplate="" type="Edge">
             <uiProperties uiType="Basic.Curved"/>
             <uiAttributes>
               <attribute name="Edge_Style" value="2"/>
@@ -583,7 +605,7 @@
                       </forEachAction>
                     </actionList>
                   </folderAction>
-                  <forEachAction description="For Each Directly Nested Graph" listExpression="$lookupValueList(TBoxDirectlyNestsTBox, &lt;parent&gt;, &lt;id&gt;, &lt;child&gt;)" listName="DirectlyNestedTBoxGraph">
+                  <forEachAction description="For Each Directly Nested Graph" listExpression="$lookupValueList(TBoxDirectlyNestsTBox, &lt;nestingParent&gt;, &lt;id&gt;, &lt;nestedChild&gt;)" listName="DirectlyNestedTBoxGraph">
                     <actionList>
                       <setParentDrawingAction description="Transfer Node To Drawing" nodeID="node.TBoxTerminologyGraph.$listItem(DirectlyNestedTBoxGraph)" parent="drawing.TBoxTerminologyGraph.&lt;id&gt;"/>
                     </actionList>
@@ -595,9 +617,9 @@
                   <addNodeAction description="Add Node" id="node.ModelEntity.&lt;id&gt;" replaceTags="true" tags="ModelEntityConcept" templateName="Concept HNode"/>
                 </actions>
               </rule>
-              <rule elementTypeName="TBoxDirectlyImportsTBox">
+              <rule elementTypeName="TBoxDirectlyExtendsTBox">
                 <actions>
-                  <addEdgeAction description="Add TBox Directly Imports Edge" id="edge.TBoxDirectlyImportsTBox.&lt;importing&gt;.&lt;imported&gt;" replaceTags="true" source="node.TBoxTerminologyGraph.&lt;importing&gt;" tags="TBoxDirectlyImportsTBox" target="node.TBoxTerminologyGraph.&lt;imported&gt;" templateName="HRelationship Import Edge"/>
+                  <addEdgeAction description="Add TBox Directly Extends Edge" id="edge.TBoxDirectlyExtendsTBox.&lt;id&gt;.&lt;extendingChild&gt;.&lt;extendedParent&gt;" replaceTags="true" source="node.TBoxTerminologyGraph.&lt;extendingChild&gt;" tags="TBoxDirectlyExtendsTBox" target="node.TBoxTerminologyGraph.&lt;extendedParent&gt;" templateName="HRelationship Extends Edge"/>
                 </actions>
               </rule>
             </modelElementRules>
@@ -782,7 +804,6 @@
             <preference name="minimumZoomPercent" value="0.01"/>
             <preference name="maximumZoomPercent" value="5000.0"/>
             <preference name="viewingTool:interactiveZoomReversedDirection" value="false"/>
-            <preference name="uiZoomLevelThresholds" value=""/>
             <preference name="animation:layoutInterpolationAnimation" value="true"/>
             <preference name="animation:layoutFadeAnimation" value="false"/>
             <preference name="animation:layoutAnimationDuration" value="Low"/>
@@ -847,27 +868,27 @@
               </rule>
               <rule elementTypeName="TBoxDirectlyDefinesAspectTerm">
                 <actions>
-                  <addEdgeAction description="Add Edge" id="edge.TBoxDirectlyDefinesAspectTerm.&lt;tbox&gt;.&lt;term&gt;" replaceTags="true" source="node.TBoxTerminologyGraph.&lt;tbox&gt;" tags="TBoxDirectlyDefinesAspectTerm" target="node.ModelEntity.&lt;term&gt;" templateName="Directly Defines Type Term"/>
+                  <addEdgeAction description="Add Edge" id="edge.TBoxDirectlyDefinesAspectTerm.&lt;tbox&gt;.&lt;term&gt;" replaceTags="true" source="node.TBoxTerminologyGraph.&lt;tbox&gt;" tags="TBoxDirectlyDefinesAspectTerm" target="node.ModelEntity.&lt;term&gt;" templateName="TBox Directly Defines Type Edge Term"/>
                 </actions>
               </rule>
               <rule elementTypeName="TBoxDirectlyDefinesConceptTerm">
                 <actions>
-                  <addEdgeAction description="Add Edge" id="edge.TBoxDirectlyDefinesConceptTerm.&lt;tbox&gt;.&lt;term&gt;" replaceTags="true" source="node.TBoxTerminologyGraph.&lt;tbox&gt;" tags="TBoxDirectlyDefinesConceptTerm" target="node.ModelEntity.&lt;term&gt;" templateName="Directly Defines Type Term"/>
+                  <addEdgeAction description="Add Edge" id="edge.TBoxDirectlyDefinesConceptTerm.&lt;tbox&gt;.&lt;term&gt;" replaceTags="true" source="node.TBoxTerminologyGraph.&lt;tbox&gt;" tags="TBoxDirectlyDefinesConceptTerm" target="node.ModelEntity.&lt;term&gt;" templateName="TBox Directly Defines Type Edge Term"/>
                 </actions>
               </rule>
               <rule elementTypeName="TBoxDirectlyDefinesReifiedRelationshipTerm">
                 <actions>
-                  <addEdgeAction description="Add Edge" id="edge.TBoxDirectlyDefinesRelationshipTerm.&lt;tbox&gt;.&lt;term&gt;" replaceTags="true" source="node.TBoxTerminologyGraph.&lt;tbox&gt;" tags="TBoxDirectlyDefinesRelationshipTerm" target="node.ModelEntity.&lt;term&gt;" templateName="Directly Defines Type Term"/>
+                  <addEdgeAction description="Add Edge" id="edge.TBoxDirectlyDefinesRelationshipTerm.&lt;tbox&gt;.&lt;term&gt;" replaceTags="true" source="node.TBoxTerminologyGraph.&lt;tbox&gt;" tags="TBoxDirectlyDefinesRelationshipTerm" target="node.ModelEntity.&lt;term&gt;" templateName="TBox Directly Defines Type Edge Term"/>
                 </actions>
               </rule>
               <rule elementTypeName="TBoxDirectlyNestsTBox">
                 <actions>
-                  <addEdgeAction description="Add TBox Nested Edge" id="edge.TBoxDirectlyNestsTBox.&lt;parent&gt;.&lt;child&gt;" replaceTags="true" source="node.TBoxTerminologyGraph.&lt;parent&gt;" tags="TBoxDirectlyNestsTBox" target="node.TBoxTerminologyGraph.&lt;child&gt;"/>
+                  <addEdgeAction description="Add TBox Nested Edge" id="edge.TBoxDirectlyNestsTBox.&lt;id&gt;.&lt;nestingParent&gt;.&lt;nestedChild&gt;" replaceTags="true" source="node.TBoxTerminologyGraph.&lt;nestingParent&gt;" tags="TBoxDirectlyNestsTBox" target="node.TBoxTerminologyGraph.&lt;nestedChild&gt;" templateName="TBox Nests Edge"/>
                 </actions>
               </rule>
-              <rule elementTypeName="TBoxDirectlyImportsTBox">
+              <rule elementTypeName="TBoxDirectlyExtendsTBox">
                 <actions>
-                  <addEdgeAction description="Add TBox Import Edge" id="edge.TBoxDirectlyImportsTBox.&lt;importing&gt;.&lt;imported&gt;" replaceTags="true" source="node.TBoxTerminologyGraph.&lt;importing&gt;" tags="TBoxDirectlyImportsTBox" target="node.TBoxTerminologyGraph.&lt;imported&gt;" templateName="Relationship Import Edge"/>
+                  <addEdgeAction description="Add TBox Import Edge" id="edge.TBoxDirectlyExtendsTBox.&lt;id&gt;.&lt;extendingChild&gt;.&lt;extendedParent&gt;" replaceTags="true" source="node.TBoxTerminologyGraph.&lt;extendingChild&gt;" tags="TBoxDirectlyExtendsTBox" target="node.TBoxTerminologyGraph.&lt;extendedParent&gt;" templateName="TBox Extends Edge"/>
                 </actions>
               </rule>
             </modelElementRules>
@@ -1047,6 +1068,7 @@
             <preference name="minimumZoomPercent" value="0.01"/>
             <preference name="maximumZoomPercent" value="5000.0"/>
             <preference name="viewingTool:interactiveZoomReversedDirection" value="false"/>
+            <preference name="uiZoomLevelThresholds" value=""/>
             <preference name="animation:layoutInterpolationAnimation" value="true"/>
             <preference name="animation:layoutFadeAnimation" value="false"/>
             <preference name="animation:layoutAnimationDuration" value="Low"/>
@@ -1409,7 +1431,7 @@
             <modelElementRules>
               <rule elementTypeName="TBoxTerminologyGraph">
                 <actions>
-                  <addTreeNodeAction description="Add TBoxTermGraph Node" editable="false" id="treeNode.TBoxTerminologyGraph.&lt;id&gt;" parent="$if($isNotNull($lookupValue(TBoxDirectlyNestsTBox, &lt;child&gt;, &lt;id&gt;, &lt;parent&gt;)), treeNode.TBoxTerminologyGraph.$lookupValue(TBoxDirectlyNestsTBox, &lt;child&gt;, &lt;id&gt;, &lt;parent&gt;)-nested, $rootTreeNode())" replaceTags="true" tags="TBoxTerminologyGraph" value="&lt;name&gt;"/>
+                  <addTreeNodeAction description="Add TBoxTermGraph Node" editable="false" id="treeNode.TBoxTerminologyGraph.&lt;id&gt;" parent="$if($isNotNull($lookupValue(TBoxDirectlyNestsTBox, &lt;nestedChild&gt;, &lt;id&gt;, &lt;nestingParent&gt;)), treeNode.TBoxTerminologyGraph.$lookupValue(TBoxDirectlyNestsTBox, &lt;nestedChild&gt;, &lt;id&gt;, &lt;nestingParent&gt;)-nested, $rootTreeNode())" replaceTags="true" tags="TBoxTerminologyGraph" value="&lt;name&gt;"/>
                   <addTreeNodeAction description="Add TBox Nested Graphs" editable="false" id="treeNode.TBoxTerminologyGraph.&lt;id&gt;-nested" parent="treeNode.TBoxTerminologyGraph.&lt;id&gt;" replaceTags="true" tags="TBoxTerminologyGraph" value="Directly Nested TBox Graph"/>
                   <forEachAction description="For Each nested" disabled="true" listExpression="$lookupValueList(TBoxDirectlyNestsTBox, &lt;parent&gt;, &lt;id&gt;, &lt;child&gt;)" listName="DirectlyNestedTBoxGraphs">
                     <actionList>

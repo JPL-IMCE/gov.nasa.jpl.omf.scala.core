@@ -644,16 +644,13 @@ trait MutableTerminologyGraphOps[omf <: OMF] extends ImmutableTerminologyGraphOp
   : Try[Unit]
 
   def addNestedTerminologyGraph
-  ( parentG: omf#MutableModelTerminologyGraph,
+  ( parentG: omf#ModelTerminologyGraph,
     nestedG: omf#ModelTerminologyGraph )
   ( implicit store: omf#Store )
   : Try[omf#TerminologyGraphDirectNestingAxiom]
 
-  /**
-   * @since 0.10.0
-   */
   def addTerminologyGraphExtension
-  ( extendingG: omf#MutableModelTerminologyGraph,
+  ( extendingG: omf#ModelTerminologyGraph,
     extendedG: omf#ModelTerminologyGraph )
   ( implicit store: omf#Store )
   : Try[omf#TerminologyGraphDirectExtensionAxiom]
