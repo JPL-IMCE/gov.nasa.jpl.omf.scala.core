@@ -145,35 +145,63 @@ trait IRIOps[omf <: OMF] {
    */
   def toTargetIRI( iri: omf#IRI ): omf#IRI
 
-}	
+}
 
-trait ImmutableTerminologyGraphOps[omf <: OMF] {
+trait OMFStoreOps[omf <: OMF] {
 
   def loadTerminologyGraph
   ( iri: omf#IRI )
   ( implicit store: omf#Store )
   : Try[omf#ImmutableModelTerminologyGraph]
 
-  def getTerminologyGraphIRI
-  ( graph: omf#ModelTerminologyGraph )
-  : omf#IRI
-
-  def getTerminologyGraphShortName
-  ( graph: omf#ModelTerminologyGraph )
-  : Option[String]
-
-  def getTerminologyGraphUUID
-  ( graph: omf#ModelTerminologyGraph )
-  : Option[String]
-
-  def getTerminologyGraphKind
-  ( graph: omf#ModelTerminologyGraph )
-  : TerminologyKind
-
   def fromTerminologyGraph
   ( graph: omf#ModelTerminologyGraph )
   ( implicit store: omf#Store )
   : TerminologyGraphSignature[omf]
+
+  def addNestedTerminologyGraph
+  ( parentG: omf#ModelTerminologyGraph,
+    nestedG: omf#ModelTerminologyGraph )
+  ( implicit store: omf#Store )
+  : Try[omf#TerminologyGraphDirectNestingAxiom]
+
+  def addTerminologyGraphExtension
+  ( extendingG: omf#ModelTerminologyGraph,
+    extendedG: omf#ModelTerminologyGraph )
+  ( implicit store: omf#Store )
+  : Try[omf#TerminologyGraphDirectExtensionAxiom]
+
+  /**
+   * Create a mutable terminology graph partially identified by an IRI and a kind.
+   *
+   * The complete identity of a graph includes the IRI, kind and imported/extended graphs.
+   * For a mutable terminology graph, imported/extended graphs must be specified
+   * via `addTerminologyGraphExtension`
+   *
+   * @param iri the identity of the new mutable terminology graph
+   * @param kind the kind of the new mutable terminology graph
+   */
+  def makeTerminologyGraph
+  ( iri: omf#IRI,
+    kind: TerminologyKind )
+  ( implicit store: omf#Store )
+  : Try[omf#MutableModelTerminologyGraph]
+
+  def saveTerminologyGraph
+  ( g: omf#MutableModelTerminologyGraph )
+  ( implicit store: omf#Store )
+  : Try[Unit]
+
+  def saveTerminologyGraph
+  ( g: omf#MutableModelTerminologyGraph,
+    os: OutputStream )
+  ( implicit store: omf#Store )
+  : Try[Unit]
+
+  def asImmutableTerminologyGraph
+  ( g: omf#MutableModelTerminologyGraph )
+  ( implicit store: omf#Store )
+  : Try[omf#ImmutableModelTerminologyGraph]
 
   def isEntityDefinitionAssertedInTerminologyGraph
   ( t: omf#ModelTypeTerm, graph: omf#ModelTerminologyGraph )
@@ -316,6 +344,71 @@ trait ImmutableTerminologyGraphOps[omf <: OMF] {
   : Boolean =
     terminologyGraphImportClosure[omf, omf#ModelTerminologyGraph](graph).
       exists( isTypeTermAssertedInTerminologyGraph( t, _ ) )
+
+  def loadInstanceGraph
+  ( iri: omf#IRI )
+  ( implicit store: omf#Store )
+  : Try[omf#ImmutableModelInstanceGraph]
+
+  def fromInstanceGraph
+  ( graph: omf#ModelInstanceGraph )
+  : ( omf#IRI,
+    Iterable[omf#ImmutableModelTerminologyGraph],
+    Iterable[omf#ModelInstanceGraph],
+    Iterable[omf#ModelInstanceObject],
+    Iterable[omf#ModelInstanceRelation],
+    Iterable[omf#ModelInstanceDataLiteral],
+    Iterable[omf#ModelInstanceDataStructure],
+    Iterable[omf#ModelInstanceDataRelationshipFromEntityToScalar],
+    Iterable[omf#ModelInstanceDataRelationshipFromEntityToStructure],
+    Iterable[omf#ModelInstanceDataRelationshipFromStructureToScalar],
+    Iterable[omf#ModelInstanceDataRelationshipFromStructureToStructure] )
+
+  def makeInstanceGraph
+  ( iri: omf#IRI,
+    instantiatedTGraphs: Iterable[omf#ImmutableModelTerminologyGraph],
+    extendedIGraphs: Iterable[omf#ImmutableModelInstanceGraph] )
+  ( implicit store: omf#Store )
+  : Try[omf#MutableModelInstanceGraph]
+
+  def asImmutableInstanceGraph
+  ( g: omf#MutableModelInstanceGraph )
+  ( implicit store: omf#Store )
+  : Try[omf#ImmutableModelInstanceGraph]
+
+  def saveInstanceGraph
+  ( g: omf#MutableModelInstanceGraph )
+  ( implicit store: omf#Store )
+  : Try[Unit]
+
+  /**
+   * @since 0.10.2
+   */
+  def saveInstanceGraph
+  ( g: omf#MutableModelInstanceGraph, os: OutputStream )
+  ( implicit store: omf#Store )
+  : Try[Unit]
+
+}
+
+trait ImmutableTerminologyGraphOps[omf <: OMF] {
+
+  def getTerminologyGraphIRI
+  ( graph: omf#ModelTerminologyGraph )
+  : omf#IRI
+
+  def getTerminologyGraphShortName
+  ( graph: omf#ModelTerminologyGraph )
+  : Option[String]
+
+  def getTerminologyGraphUUID
+  ( graph: omf#ModelTerminologyGraph )
+  : Option[String]
+
+  def getTerminologyGraphKind
+  ( graph: omf#ModelTerminologyGraph )
+  : TerminologyKind
+
 
   def lookupTypeTerm
   ( graph: omf#ModelTerminologyGraph, iri: omf#IRI )
@@ -606,31 +699,6 @@ trait ImmutableTerminologyGraphOps[omf <: OMF] {
 
 trait MutableTerminologyGraphOps[omf <: OMF] extends ImmutableTerminologyGraphOps[omf] {
 
-  def asImmutableTerminologyGraph
-  ( g: omf#MutableModelTerminologyGraph )
-  ( implicit store: omf#Store )
-  : Try[omf#ImmutableModelTerminologyGraph]
-
-  /**
-   * Create a mutable terminology graph partially identified by an IRI and a kind.
-   *
-   * The complete identity of a graph includes the IRI, kind and imported/extended graphs.
-   * For a mutable terminology graph, imported/extended graphs must be specified
-   * via `addTerminologyGraphExtension`
-   *
-   * @param iri the identity of the new mutable terminology graph
-   * @param kind the kind of the new mutable terminology graph
-   * @param entityGraphIRI optionally, the IRI of the entity that this is a graph for
-   *
-   * @since 0.10.0
-   */
-  def makeTerminologyGraph
-  ( iri: omf#IRI,
-    kind: TerminologyKind,
-    entityGraphIRI: Option[omf#IRI] )
-  ( implicit store: omf#Store )
-  : Try[omf#MutableModelTerminologyGraph]
-
   def setTerminologyGraphShortName
   ( graph: omf#MutableModelTerminologyGraph,
     name: Option[String] )
@@ -640,32 +708,6 @@ trait MutableTerminologyGraphOps[omf <: OMF] extends ImmutableTerminologyGraphOp
   def setTerminologyGraphUUID
   ( graph: omf#MutableModelTerminologyGraph,
     uuid: Option[String] )
-  ( implicit store: omf#Store )
-  : Try[Unit]
-
-  def addNestedTerminologyGraph
-  ( parentG: omf#ModelTerminologyGraph,
-    nestedG: omf#ModelTerminologyGraph )
-  ( implicit store: omf#Store )
-  : Try[omf#TerminologyGraphDirectNestingAxiom]
-
-  def addTerminologyGraphExtension
-  ( extendingG: omf#ModelTerminologyGraph,
-    extendedG: omf#ModelTerminologyGraph )
-  ( implicit store: omf#Store )
-  : Try[omf#TerminologyGraphDirectExtensionAxiom]
-
-  def saveTerminologyGraph
-  ( g: omf#MutableModelTerminologyGraph )
-  ( implicit store: omf#Store )
-  : Try[Unit]
-
-  /**
-   * @since 0.10.2
-   */
-  def saveTerminologyGraph
-  ( g: omf#MutableModelTerminologyGraph,
-    os: OutputStream )
   ( implicit store: omf#Store )
   : Try[Unit]
 
@@ -688,7 +730,6 @@ trait MutableTerminologyGraphOps[omf <: OMF] extends ImmutableTerminologyGraphOp
    *
    * @param graph: a terminology graph
    * @param aspectName: the name of a new entity aspect
-   *
    */
   def addEntityAspect
   ( graph: omf#MutableModelTerminologyGraph,
@@ -701,21 +742,14 @@ trait MutableTerminologyGraphOps[omf <: OMF] extends ImmutableTerminologyGraphOp
    *
    * @param graph: a terminology graph
    * @param conceptName: the name of a new entity concept
-   * @param conceptGraphIRI: optionally, the IRI of a new mutable terminology graph
-   *                       for the concept contents
    * @param isAbstract: boolean flag
-   * @return A tuple: ( C, CG ) where:
-   * C is the new entity concept (in `graph`)
-   * CG is a new graph corresponding to `C` (if conceptGraphIRI is provided, otherwise none)
-   * @since 0.10.2
    */
   def addEntityConcept
   ( graph: omf#MutableModelTerminologyGraph,
     conceptName: String,
-    conceptGraphIRI: Option[omf#IRI],
     isAbstract: Boolean )
   ( implicit store: omf#Store )
-  : Try[( omf#ModelEntityConcept, Option[omf#MutableModelTerminologyGraph] )]
+  : Try[omf#ModelEntityConcept]
 
   /**
    * Add to a terminology graph a new ModelEntityReifiedRelationship
@@ -728,18 +762,12 @@ trait MutableTerminologyGraphOps[omf <: OMF] extends ImmutableTerminologyGraphOp
    * @param characteristics: the characteristics of the new entity relationship
    * @param reifiedRelationshipName: the name of the new entity relationship
    *                               from the perspective of a reified concept-like entity
-   * @param relationshipGraphIRI: optionally, the IRI of a new mutable terminology graph
-   *                            for the relationship contents
    * @param unreifiedRelationshipName: the name of the entity relationship from the perspective
    *                                 of a directed property from the source to the target
    * @param unreifiedInverseRelationshipName: if applicable, the name of the entity relationship from
    *                                        the perspective of a directed inverse property
    *                                        from the target to the source
    * @param isAbstract: boolean flag
-   * @return A tuple: ( R, RG ) where:
-   * R is the new entity relationship (in `graph`)
-   * RG is a new graph corresponding to `R`
-   * @since 0.10.2
    */
   def addEntityReifiedRelationship
   ( graph: omf#MutableModelTerminologyGraph,
@@ -747,12 +775,11 @@ trait MutableTerminologyGraphOps[omf <: OMF] extends ImmutableTerminologyGraphOp
     target: omf#ModelEntityDefinition,
     characteristics: Iterable[RelationshipCharacteristics],
     reifiedRelationshipName: String,
-    relationshipGraphIRI: Option[omf#IRI],
     unreifiedRelationshipName: String,
     unreifiedInverseRelationshipName: Option[String],
     isAbstract: Boolean )
   ( implicit store: omf#Store )
-  : Try[( omf#ModelEntityReifiedRelationship, Option[omf#MutableModelTerminologyGraph] )]
+  : Try[omf#ModelEntityReifiedRelationship]
 
   def addScalarDataType
   ( graph: omf#MutableModelTerminologyGraph,
@@ -800,8 +827,6 @@ trait MutableTerminologyGraphOps[omf <: OMF] extends ImmutableTerminologyGraphOp
 
   // model term axioms
 
-  // entity definition aspect subclass axiom
-
   def addEntityDefinitionAspectSubClassAxiom
   ( graph: omf#MutableModelTerminologyGraph,
     sub: omf#ModelEntityDefinition,
@@ -809,7 +834,20 @@ trait MutableTerminologyGraphOps[omf <: OMF] extends ImmutableTerminologyGraphOp
   ( implicit store: omf#Store )
   : Try[omf#EntityDefinitionAspectSubClassAxiom]
 
-  // entity concept subclass axiom
+  /**
+   * Assigns a designation terminology graph as the closed-world structural description of a model entity concept
+   * @param graph The mutable terminology graph in which to assert the axiom
+   * @param entityConcept The model entity concept to set/clear a designation terminology graph
+   * @param designationTerminologyGraph The designation terminology graph for the structural contents of the concept
+   * @param store
+   * @return The EntityConceptToplevelDesignationTerminologyGraphAxiom created
+   */
+  def addEntityConceptToplevelDesignationTerminologyGraphAxiom
+  ( graph: omf#MutableModelTerminologyGraph,
+    entityConcept: omf#ModelEntityConcept,
+    designationTerminologyGraph: omf#ModelTerminologyGraph )
+  ( implicit store: omf#Store )
+  : Try[omf#EntityConceptToplevelDesignationTerminologyGraphAxiom]
 
   def addEntityConceptSubClassAxiom
   ( graph: omf#MutableModelTerminologyGraph,
@@ -817,8 +855,6 @@ trait MutableTerminologyGraphOps[omf <: OMF] extends ImmutableTerminologyGraphOp
     sup: omf#ModelEntityConcept )
   ( implicit store: omf#Store )
   : Try[omf#EntityConceptSubClassAxiom]
-
-  // entity concept restriction axioms
 
   def addEntityConceptUniversalRestrictionAxiom
   ( graph: omf#MutableModelTerminologyGraph,
@@ -836,16 +872,12 @@ trait MutableTerminologyGraphOps[omf <: OMF] extends ImmutableTerminologyGraphOp
   ( implicit store: omf#Store )
   : Try[omf#EntityConceptExistentialRestrictionAxiom]
 
-  // entity reified relationship subclass axiom
-
   def addEntityReifiedRelationshipSubClassAxiom
   ( graph: omf#MutableModelTerminologyGraph,
     sub: omf#ModelEntityReifiedRelationship,
     sup: omf#ModelEntityReifiedRelationship )
   ( implicit store: omf#Store )
   : Try[omf#EntityReifiedRelationshipSubClassAxiom]
-
-  // scalar datatype facet restriction axiom
 
   def addScalarDataTypeFacetRestriction
   ( graph: omf#MutableModelTerminologyGraph,
@@ -859,28 +891,9 @@ trait MutableTerminologyGraphOps[omf <: OMF] extends ImmutableTerminologyGraphOp
 
 trait ImmutableInstanceGraphOps[omf <: OMF] {
 
-  def loadInstanceGraph
-  ( iri: omf#IRI )
-  ( implicit store: omf#Store )
-  : Try[omf#ImmutableModelInstanceGraph]
-
   def getInstanceGraphIRI
   ( graph: omf#ModelInstanceGraph )
   : omf#IRI
-
-  def fromInstanceGraph
-  ( graph: omf#ModelInstanceGraph )
-  : ( omf#IRI,
-    Iterable[omf#ImmutableModelTerminologyGraph],
-    Iterable[omf#ModelInstanceGraph],
-    Iterable[omf#ModelInstanceObject],
-    Iterable[omf#ModelInstanceRelation],
-    Iterable[omf#ModelInstanceDataLiteral],
-    Iterable[omf#ModelInstanceDataStructure],
-    Iterable[omf#ModelInstanceDataRelationshipFromEntityToScalar],
-    Iterable[omf#ModelInstanceDataRelationshipFromEntityToStructure],
-    Iterable[omf#ModelInstanceDataRelationshipFromStructureToScalar],
-    Iterable[omf#ModelInstanceDataRelationshipFromStructureToStructure] )
 
   // instance object
 
@@ -942,31 +955,6 @@ trait ImmutableInstanceGraphOps[omf <: OMF] {
 
 trait MutableInstanceGraphOps[omf <: OMF]
   extends ImmutableInstanceGraphOps[omf] {
-
-  def asImmutableInstanceGraph
-  ( g: omf#MutableModelInstanceGraph )
-  ( implicit store: omf#Store )
-  : Try[omf#ImmutableModelInstanceGraph]
-
-  def makeInstanceGraph
-  ( iri: omf#IRI,
-    instantiatedTGraphs: Iterable[omf#ImmutableModelTerminologyGraph],
-    extendedIGraphs: Iterable[omf#ImmutableModelInstanceGraph] )
-  ( implicit store: omf#Store )
-  : Try[omf#MutableModelInstanceGraph]
-
-  def saveInstanceGraph
-  ( g: omf#MutableModelInstanceGraph )
-  ( implicit store: omf#Store )
-  : Try[Unit]
-
-  /**
-   * @since 0.10.2
-   */
-  def saveInstanceGraph
-  ( g: omf#MutableModelInstanceGraph, os: OutputStream )
-  ( implicit store: omf#Store )
-  : Try[Unit]
 
   // instance object
 
@@ -1051,4 +1039,5 @@ trait MutableInstanceGraphOps[omf <: OMF]
 trait OMFOps[omf <: OMF]
   extends IRIOps[omf]
   with MutableTerminologyGraphOps[omf]
-  with MutableInstanceGraphOps[omf] 
+  with MutableInstanceGraphOps[omf]
+  with OMFStoreOps[omf]

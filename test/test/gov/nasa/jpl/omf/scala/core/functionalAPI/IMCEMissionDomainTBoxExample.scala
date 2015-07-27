@@ -60,7 +60,7 @@ abstract class IMCEMissionDomainTBoxExample[omf <: OMF]()(
   "basic construction tests" when {
     "empty tbox should be empty" in {
 
-      val t0 = makeTerminologyGraph( i_m0, isDefinition, entityGraphIRI = None )
+      val t0 = makeTerminologyGraph( i_m0, isDefinition )
       t0.isSuccess should be( true )
 
       val s = ops.fromTerminologyGraph( t0.get )
@@ -80,15 +80,15 @@ abstract class IMCEMissionDomainTBoxExample[omf <: OMF]()(
 
     "simple construction & lookup" in {
 
-      val t1 = makeTerminologyGraph( i_m1, isDefinition, entityGraphIRI = None )
+      val t1 = makeTerminologyGraph( i_m1, isDefinition )
       t1.isSuccess should be( true )
 
       val g = t1.get
 
-      val component = addEntityConcept( g, "Component", None, isAbstract=false )
+      val component = addEntityConcept( g, "Component", isAbstract=false )
       component.isSuccess should be( true )
 
-      val function = addEntityConcept( g, "Function", None, isAbstract=false )
+      val function = addEntityConcept( g, "Function", isAbstract=false )
       function.isSuccess should be( true )
 
       val s = fromTerminologyGraph( g )
@@ -98,8 +98,8 @@ abstract class IMCEMissionDomainTBoxExample[omf <: OMF]()(
 
       s.concepts.nonEmpty should be( true )
       s.concepts.size should be(2)
-      s.concepts.toSet.contains(component.get._1) should be(true)
-      s.concepts.toSet.contains(function.get._1) should be(true)
+      s.concepts.toSet.contains(component.get) should be(true)
+      s.concepts.toSet.contains(function.get) should be(true)
 
       s.reifiedRelationships.isEmpty should be( true )
       s.scalarDataTypes.isEmpty should be( true )

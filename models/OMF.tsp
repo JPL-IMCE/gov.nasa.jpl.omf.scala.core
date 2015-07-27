@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?><TSX>
   <project xmlMinorVersion="0" xmlVersion="33">
+    <extensionsPath value="../../../git.scala/TSP4IMCE/resources/extensions.xml"/>
+    <classPath value="../../../git.mbee-1800-02/01/jpl-mbee-common-scala-libraries/scalaLibs/target/pack/lib/scala-compiler-2.11.6.jar;../../../git.mbee-1800-02/01/jpl-mbee-common-scala-libraries/scalaLibs/target/pack/lib/scala-library-2.11.6.jar;../../../git.mbee-1800-02/01/jpl-mbee-common-scala-libraries/scalaLibs/target/pack/lib/scala-parser-combinators_2.11-1.0.3.jar;../../../git.mbee-1800-02/01/jpl-mbee-common-scala-libraries/scalaLibs/target/pack/lib/scala-reflect-2.11.6.jar;../../../git.mbee-1800-02/01/jpl-mbee-common-scala-libraries/scalaLibs/target/pack/lib/scala-xml_2.11-1.0.3.jar;../../../git.scala/TSP4IMCE/bin"/>
     <images>
       <image id="0" type="png"><![CDATA[iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAACJ0lEQVR42pWS70tTURjH/Vf6A+xFRURRb9wbzaiRszKGWQRbOFNW6FrTrM2pV5sF4jZtaz8VLb2BSaxgidl+4BWj1Zx6w5UNG9hN7nLh3e63O4XpyK164Avf8xzO5zzPeU6RYZDC/6pod2QSTCL5z8oLEOkmeWmvn7/hjuQcOPLgOF85LOFPDpUWBrSPRrFMb0BmnYHB/QpPXG6oDI24Ml4FZ6gfF8gzhQEKxxfoR2M4pQ/mVFDuKkHl03IcMhYXBmxtCjfv1Xemkr++QUakk8z6ur4Q1JYQGoxzuOv8CNl9CvIeCjfNc1Ca3uEy4ce+qrHDOYCO3rasv9o9A5JikS9s3jgudQSQBcg9UugpDUpsx7bWF9t8sLxm/jiY5ID1X0DX2ApqOn07gNOOUm52NQjNtBKPxvshbfcLtzDYTKXBpXik0zxSgja5zDoN3RCNsy2TO4CDPcVJsbOMkzwr47ZbCML0Io5mF407bhq3HYu49TgClaAm6zyaLPOQar3I+xNriAAePo+hdfCzoCg0jk9Q25agsi6i0RKB0hzCueaX24C9VNH6Bn0TccRZFrH1NUEMYj8YfBX82k8WqoEPENWTuSPdHeKWKZgnGKyycWi9YhgD12EKNAi+At8SK1AP0DgqH84PkNx7C89sZgo0fN/1CCfsCG/YBd8l5Jahs9M4cW0kP+CAzDN9XjsFGfEe9YYoaruXoCAWUNcZRi1BQaQYwf5qN34D5O+/zrWpBKAAAAAASUVORK5CYII=]]></image>
       <image id="1" type="png"><![CDATA[iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAC8klEQVR42oWS20+ScRjH37vmf1A33ag3zqtuuzDbaDOd3mhZayoemqE53KIDC5ZpLfLQUhmm66hiim7Whl0wlREICopgyiseyDOYB+L8IvDtx1tzuul6ts9+27vn+3mf57cfRR0pjkhTlFVvUOU0GGIE5DQagjkN48EsiS52UaBtpf5XGc+14R1PEHu+EHa9f9nxhGDb9ED0dRWlr+2BjLtDZ04VZEnGAr/9DCbXIoQDGH4y0CyGEDqIYnIzgrqhVVx+NCI/VZApGQvGBWYiMK9HMLEShnaJgcPlQ3wy174fHLHm4MRwU1NTQqZEx7h9DGbI32a2ov+mCEM154fyhxdustqVp9+ZvLy8hGPhmpqaEoKXXBb2icC2FcMsEViJyLRywK4xbA/AuaSDRV4Im+IBpj/khozNF/jxMKe9vR0mkwnZ9XrsEgHtjMFGmNmIwkJW0ZMppqfk2NY9w95UL0KrRuxbB2Bsu7EfF1hJwel0QiQSnUhXayHc8xIE1/qxPMiHz9wN/+wXWD9VxOICJhKJII7RaITH4znGzkIX3HQtmF05/Atl8M7eB915C3bFPYgFvBglFovBMAyLQqGAw+FgRXHs6gp4HDIwOx/hXywkE1Thl5aHlf5yeJ0L4HK5oIRCIWw2G4tMJgNN0xgdHcXou2vwbgwh7JbDN5+H4Ho1XMOlmGlKh21uju1PS0sDJRAIoFKpWBobG2GeUGOkkw+7huzsaoPPfh2+xTtwqopBd5ejtrb2sD8lJQUUn8+HUqlkkUqleF+XjS1zL0zdlbD0p2NNXwi6Nxdt1ZeQwUlHVVXVYX9ycjIoHo8X7enpYT+QC0XfCw68hna43l6FlncWipJz+NZ8G8NqHT73DSA1NZXt7ejoQGJiIqji4uI3BQUF1vz8fHClelTmnIe6pQD0oBha2U2M99ZhZduHZacHgVAY3FY9kpKS4mELOYXHXiRXaogWCRtQ+eQVHr9swcOWHpTKJgjjLGVtE0RgiB7N/AE9w5BKWFEG2QAAAABJRU5ErkJggg==]]></image>
@@ -25,7 +27,7 @@
       <image id="21" type="png"><![CDATA[iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABIUlEQVR42mNgoDZwaNgvENJ0OCui7fDJxL4TDzKmnH6QN+v8yeL5V7IK5p8XwKvZo2a/Q0DjwQ/pE07+nrP59v8NBx7+33To0f9lux/8b1x+/XfFkmsfqlbdMsCq2bVqv4F79b7/II0Xrr4B44zJF/4XzrwM5689+Ph/9Yqb/5vX33bAcDbIZmTNx8+//B/afhpsCEwMhDccefq/c/O9D/3r7yO8A/IzyNnICvHhaTsf/p6881EW3ABQgCHbDsJ7Tz4HuwCE0Q3YfPzZ/ym7Hp+EGxDVfuTBun0PMAxwqj6G1YC9Z178n7b78QPqGYDLC7gMwPACtkDEZwBGIGKLRlyBiDUaYakQPSGhY1hCal1/H3dqJJSUa5Zfd6BdZiIHAAB2WwtVEjlvpQAAAABJRU5ErkJggg==]]></image>
     </images>
     <compositeUIs/>
-    <module tags="ModelEntityAspect, ModelEntityConcept, ModelEntityReifiedRelationship, TBoxTerminologyGraph, TBoxDirectlyDefinesTypeTerm, TBoxDirectlyDefinesAspectTerm, TBoxDirectlyDefinesConceptTerm, TBoxDirectlyDefinesRelationshipTerm, DirectTBoxParentChildNesting, TBoxDirectlyDefinesReifiedRelationshipTerm, TBoxDirectlyNestsTBox, TBoxDirectlyExtendsTBox">
+    <module tags="ModelEntityAspect, ModelEntityConcept, ModelEntityReifiedRelationship, TBoxTerminologyGraph, TBoxDirectlyDefinesTypeTerm, TBoxDirectlyDefinesAspectTerm, TBoxDirectlyDefinesConceptTerm, TBoxDirectlyDefinesRelationshipTerm, DirectTBoxParentChildNesting, TBoxDirectlyDefinesReifiedRelationshipTerm, TBoxDirectlyNestsTBox, TBoxDirectlyExtendsTBox, EntityConceptSubClassAxiom, EntityConceptExistentialRestrictionAxiom, EntityConceptUniversalRestrictionAxiom, EntityDefinitionAspectSubClassAxiom, EntityReifiedRelationshipSubClassAxiom, ScalarDataTypeFacetRestriction, ModelScalarDataType, ModelStructuredDataType, ModelDataRelationshipFromEntityToScalar, ModelDataRelationshipFromEntityToStructure, ModelDataRelationshipFromStructureToScalar, ModelDataRelationshipFromStructureToStructure, EntityConceptExistentialAspectRestrictionAxiom, EntityConceptUniversalAspectRestrictionAxiom, EntityConceptExistentialConceptRestrictionAxiom, EntityConceptExistentialReifiedRelationshipRestrictionAxiom, EntityConceptUniversalConceptRestrictionAxiom, EntityConceptUniversalReifiedRelationshipRestrictionAxiom, EntityDefinitionAspectSubClassAspectAxiom, EntityDefinitionConceptSubClassAspectAxiom, EntityDefinitionReifiedRelationshipSubClassAspectAxiom, EntityConceptToplevelDesignationTerminologyGraphAxiom">
       <schema name="OMF">
         <attributeTypes>
           <attributeType identifier="true" name="URI">
@@ -33,104 +35,6 @@
           </attributeType>
         </attributeTypes>
         <modelElementTypes>
-          <modelElementType name="ModelEntityAspect">
-            <attributeTypes>
-              <attributeType identifier="true" name="id">
-                <type name="StringValue"/>
-              </attributeType>
-              <attributeType identifier="false" name="uuid">
-                <type name="StringValue"/>
-              </attributeType>
-              <attributeType identifier="false" name="iri">
-                <type name="StringValue"/>
-              </attributeType>
-              <attributeType identifier="false" name="rawName">
-                <type name="StringValue"/>
-              </attributeType>
-              <attributeType identifier="false" name="ruleProvenance">
-                <type name="StringValue"/>
-              </attributeType>
-              <attributeType identifier="false" name="showProvenance">
-                <type name="BooleanValue">
-                  <default value="false"/>
-                </type>
-              </attributeType>
-              <attributeType identifier="false" name="name">
-                <type name="ComputedValue">
-                  <expression value="$if($isNotNull(&lt;rawName&gt;), &lt;rawName&gt;, $trim($replaceFirst(&lt;iri&gt;, http://.*/, $space())))"/>
-                </type>
-              </attributeType>
-            </attributeTypes>
-          </modelElementType>
-          <modelElementType name="ModelEntityConcept">
-            <attributeTypes>
-              <attributeType identifier="true" name="id">
-                <type name="StringValue"/>
-              </attributeType>
-              <attributeType identifier="false" name="uuid">
-                <type name="StringValue"/>
-              </attributeType>
-              <attributeType identifier="false" name="iri">
-                <type name="StringValue"/>
-              </attributeType>
-              <attributeType identifier="false" name="rawName">
-                <type name="StringValue"/>
-              </attributeType>
-              <attributeType identifier="false" name="ruleProvenance">
-                <type name="StringValue"/>
-              </attributeType>
-              <attributeType identifier="false" name="showProvenance">
-                <type name="BooleanValue">
-                  <default value="false"/>
-                </type>
-              </attributeType>
-              <attributeType identifier="false" name="name">
-                <type name="ComputedValue">
-                  <expression value="$if($isNotNull(&lt;rawName&gt;), &lt;rawName&gt;, $trim($replaceFirst(&lt;iri&gt;, http://.*/, $space())))"/>
-                </type>
-              </attributeType>
-              <attributeType identifier="false" name="nameComputed">
-                <type name="ComputedValue">
-                  <expression value="$if($isNotNull(&lt;rawName&gt;), &lt;rawName&gt;, match=$matches(&lt;iri&gt;, http://.*/\([^/]*\)) '$trim($replaceFirst(&lt;iri&gt;, http://.*/\([^/]*\), \1))')"/>
-                </type>
-              </attributeType>
-            </attributeTypes>
-          </modelElementType>
-          <modelElementType name="ModelEntityReifiedRelationship">
-            <attributeTypes>
-              <attributeType identifier="true" name="id">
-                <type name="StringValue"/>
-              </attributeType>
-              <attributeType identifier="false" name="uuid">
-                <type name="StringValue"/>
-              </attributeType>
-              <attributeType identifier="false" name="rawName">
-                <type name="StringValue"/>
-              </attributeType>
-              <attributeType identifier="false" name="iri">
-                <type name="StringValue"/>
-              </attributeType>
-              <attributeType identifier="false" name="source">
-                <type name="StringValue"/>
-              </attributeType>
-              <attributeType identifier="false" name="target">
-                <type name="StringValue"/>
-              </attributeType>
-              <attributeType identifier="false" name="ruleProvenance">
-                <type name="StringValue"/>
-              </attributeType>
-              <attributeType identifier="false" name="showProvenance">
-                <type name="BooleanValue">
-                  <default value="false"/>
-                </type>
-              </attributeType>
-              <attributeType identifier="false" name="name">
-                <type name="ComputedValue">
-                  <expression value="$if($isNotNull(&lt;rawName&gt;), &lt;rawName&gt;, $trim($replaceFirst(&lt;iri&gt;, http://.*/, $space())))"/>
-                </type>
-              </attributeType>
-            </attributeTypes>
-          </modelElementType>
           <modelElementType name="TBoxTerminologyGraph">
             <attributeTypes>
               <attributeType identifier="true" name="id">
@@ -185,54 +89,6 @@
               </attributeType>
             </attributeTypes>
           </modelElementType>
-          <modelElementType name="TBoxDirectlyDefinesAspectTerm">
-            <attributeTypes>
-              <attributeType identifier="true" name="tbox">
-                <type name="ReferenceValue">
-                  <elementTypeName value="TBoxTerminologyGraph"/>
-                  <attributeTypeName value="id"/>
-                </type>
-              </attributeType>
-              <attributeType identifier="true" name="term">
-                <type name="ReferenceValue">
-                  <elementTypeName value="ModelEntityAspect"/>
-                  <attributeTypeName value="id"/>
-                </type>
-              </attributeType>
-            </attributeTypes>
-          </modelElementType>
-          <modelElementType name="TBoxDirectlyDefinesConceptTerm">
-            <attributeTypes>
-              <attributeType identifier="true" name="tbox">
-                <type name="ReferenceValue">
-                  <elementTypeName value="TBoxTerminologyGraph"/>
-                  <attributeTypeName value="id"/>
-                </type>
-              </attributeType>
-              <attributeType identifier="true" name="term">
-                <type name="ReferenceValue">
-                  <elementTypeName value="ModelEntityConcept"/>
-                  <attributeTypeName value="id"/>
-                </type>
-              </attributeType>
-            </attributeTypes>
-          </modelElementType>
-          <modelElementType name="TBoxDirectlyDefinesReifiedRelationshipTerm">
-            <attributeTypes>
-              <attributeType identifier="true" name="tbox">
-                <type name="ReferenceValue">
-                  <elementTypeName value="ModelEntityReifiedRelationship"/>
-                  <attributeTypeName value="id"/>
-                </type>
-              </attributeType>
-              <attributeType identifier="true" name="term">
-                <type name="ReferenceValue">
-                  <elementTypeName value="ModelEntityReifiedRelationship"/>
-                  <attributeTypeName value="id"/>
-                </type>
-              </attributeType>
-            </attributeTypes>
-          </modelElementType>
           <modelElementType name="TBoxDirectlyNestsTBox">
             <attributeTypes>
               <attributeType identifier="true" name="id">
@@ -264,6 +120,555 @@
                 </type>
               </attributeType>
               <attributeType identifier="true" name="extendedParent">
+                <type name="ReferenceValue">
+                  <elementTypeName value="TBoxTerminologyGraph"/>
+                  <attributeTypeName value="id"/>
+                </type>
+              </attributeType>
+            </attributeTypes>
+          </modelElementType>
+          <modelElementType name="ModelEntityConcept">
+            <attributeTypes>
+              <attributeType identifier="true" name="id">
+                <type name="StringValue"/>
+              </attributeType>
+              <attributeType identifier="false" name="uuid">
+                <type name="StringValue"/>
+              </attributeType>
+              <attributeType identifier="false" name="iri">
+                <type name="StringValue"/>
+              </attributeType>
+              <attributeType identifier="false" name="rawName">
+                <type name="StringValue"/>
+              </attributeType>
+              <attributeType identifier="false" name="ruleProvenance">
+                <type name="StringValue"/>
+              </attributeType>
+              <attributeType identifier="false" name="showProvenance">
+                <type name="BooleanValue">
+                  <default value="false"/>
+                </type>
+              </attributeType>
+              <attributeType identifier="false" name="name">
+                <type name="ComputedValue">
+                  <expression value="$if($isNotNull(&lt;rawName&gt;), &lt;rawName&gt;, $trim($replaceFirst(&lt;iri&gt;, http://.*/, $space())))"/>
+                </type>
+              </attributeType>
+              <attributeType identifier="false" name="nameComputed">
+                <type name="ComputedValue">
+                  <expression value="$if($isNotNull(&lt;rawName&gt;), &lt;rawName&gt;, match=$matches(&lt;iri&gt;, http://.*/\([^/]*\)) '$trim($replaceFirst(&lt;iri&gt;, http://.*/\([^/]*\), \1))')"/>
+                </type>
+              </attributeType>
+            </attributeTypes>
+          </modelElementType>
+          <modelElementType name="TBoxDirectlyDefinesAspectTerm">
+            <attributeTypes>
+              <attributeType identifier="true" name="tbox">
+                <type name="ReferenceValue">
+                  <elementTypeName value="TBoxTerminologyGraph"/>
+                  <attributeTypeName value="id"/>
+                </type>
+              </attributeType>
+              <attributeType identifier="true" name="term">
+                <type name="ReferenceValue">
+                  <elementTypeName value="ModelEntityAspect"/>
+                  <attributeTypeName value="id"/>
+                </type>
+              </attributeType>
+            </attributeTypes>
+          </modelElementType>
+          <modelElementType name="ModelEntityAspect">
+            <attributeTypes>
+              <attributeType identifier="true" name="id">
+                <type name="StringValue"/>
+              </attributeType>
+              <attributeType identifier="false" name="uuid">
+                <type name="StringValue"/>
+              </attributeType>
+              <attributeType identifier="false" name="iri">
+                <type name="StringValue"/>
+              </attributeType>
+              <attributeType identifier="false" name="rawName">
+                <type name="StringValue"/>
+              </attributeType>
+              <attributeType identifier="false" name="ruleProvenance">
+                <type name="StringValue"/>
+              </attributeType>
+              <attributeType identifier="false" name="showProvenance">
+                <type name="BooleanValue">
+                  <default value="false"/>
+                </type>
+              </attributeType>
+              <attributeType identifier="false" name="name">
+                <type name="ComputedValue">
+                  <expression value="$if($isNotNull(&lt;rawName&gt;), &lt;rawName&gt;, $trim($replaceFirst(&lt;iri&gt;, http://.*/, $space())))"/>
+                </type>
+              </attributeType>
+            </attributeTypes>
+          </modelElementType>
+          <modelElementType name="TBoxDirectlyDefinesConceptTerm">
+            <attributeTypes>
+              <attributeType identifier="true" name="tbox">
+                <type name="ReferenceValue">
+                  <elementTypeName value="TBoxTerminologyGraph"/>
+                  <attributeTypeName value="id"/>
+                </type>
+              </attributeType>
+              <attributeType identifier="true" name="term">
+                <type name="ReferenceValue">
+                  <elementTypeName value="ModelEntityConcept"/>
+                  <attributeTypeName value="id"/>
+                </type>
+              </attributeType>
+            </attributeTypes>
+          </modelElementType>
+          <modelElementType name="ModelEntityReifiedRelationship">
+            <attributeTypes>
+              <attributeType identifier="true" name="id">
+                <type name="StringValue"/>
+              </attributeType>
+              <attributeType identifier="false" name="uuid">
+                <type name="StringValue"/>
+              </attributeType>
+              <attributeType identifier="false" name="rawName">
+                <type name="StringValue"/>
+              </attributeType>
+              <attributeType identifier="false" name="iri">
+                <type name="StringValue"/>
+              </attributeType>
+              <attributeType identifier="false" name="source">
+                <type name="StringValue"/>
+              </attributeType>
+              <attributeType identifier="false" name="target">
+                <type name="StringValue"/>
+              </attributeType>
+              <attributeType identifier="false" name="ruleProvenance">
+                <type name="StringValue"/>
+              </attributeType>
+              <attributeType identifier="false" name="showProvenance">
+                <type name="BooleanValue">
+                  <default value="false"/>
+                </type>
+              </attributeType>
+              <attributeType identifier="false" name="name">
+                <type name="ComputedValue">
+                  <expression value="$if($isNotNull(&lt;rawName&gt;), &lt;rawName&gt;, $trim($replaceFirst(&lt;iri&gt;, http://.*/, $space())))"/>
+                </type>
+              </attributeType>
+            </attributeTypes>
+          </modelElementType>
+          <modelElementType name="TBoxDirectlyDefinesReifiedRelationshipTerm">
+            <attributeTypes>
+              <attributeType identifier="true" name="tbox">
+                <type name="ReferenceValue">
+                  <elementTypeName value="ModelEntityReifiedRelationship"/>
+                  <attributeTypeName value="id"/>
+                </type>
+              </attributeType>
+              <attributeType identifier="true" name="term">
+                <type name="ReferenceValue">
+                  <elementTypeName value="ModelEntityReifiedRelationship"/>
+                  <attributeTypeName value="id"/>
+                </type>
+              </attributeType>
+            </attributeTypes>
+          </modelElementType>
+          <modelElementType name="EntityConceptExistentialAspectRestrictionAxiom">
+            <attributeTypes>
+              <attributeType identifier="true" name="id">
+                <type name="StringValue"/>
+              </attributeType>
+              <attributeType identifier="true" name="restrictsConcept">
+                <type name="ReferenceValue">
+                  <elementTypeName value="ModelEntityConcept"/>
+                  <attributeTypeName value="id"/>
+                </type>
+              </attributeType>
+              <attributeType identifier="true" name="restrictsReifiedRelationship">
+                <type name="ReferenceValue">
+                  <elementTypeName value="ModelEntityReifiedRelationship"/>
+                  <attributeTypeName value="id"/>
+                </type>
+              </attributeType>
+              <attributeType identifier="true" name="restrictedRange">
+                <type name="ReferenceValue">
+                  <elementTypeName value="ModelEntityAspect"/>
+                  <attributeTypeName value="id"/>
+                </type>
+              </attributeType>
+            </attributeTypes>
+          </modelElementType>
+          <modelElementType name="EntityConceptExistentialConceptRestrictionAxiom">
+            <attributeTypes>
+              <attributeType identifier="true" name="id">
+                <type name="StringValue"/>
+              </attributeType>
+              <attributeType identifier="true" name="restrictsConcept">
+                <type name="ReferenceValue">
+                  <elementTypeName value="ModelEntityConcept"/>
+                  <attributeTypeName value="id"/>
+                </type>
+              </attributeType>
+              <attributeType identifier="true" name="restrictsReifiedRelationship">
+                <type name="ReferenceValue">
+                  <elementTypeName value="ModelEntityReifiedRelationship"/>
+                  <attributeTypeName value="id"/>
+                </type>
+              </attributeType>
+              <attributeType identifier="true" name="restrictedRange">
+                <type name="ReferenceValue">
+                  <elementTypeName value="ModelEntityConcept"/>
+                  <attributeTypeName value="id"/>
+                </type>
+              </attributeType>
+            </attributeTypes>
+          </modelElementType>
+          <modelElementType name="EntityConceptExistentialReifiedRelationshipRestrictionAxiom">
+            <attributeTypes>
+              <attributeType identifier="true" name="id">
+                <type name="StringValue"/>
+              </attributeType>
+              <attributeType identifier="true" name="restrictsConcept">
+                <type name="ReferenceValue">
+                  <elementTypeName value="ModelEntityConcept"/>
+                  <attributeTypeName value="id"/>
+                </type>
+              </attributeType>
+              <attributeType identifier="true" name="restrictsReifiedRelationship">
+                <type name="ReferenceValue">
+                  <elementTypeName value="ModelEntityReifiedRelationship"/>
+                  <attributeTypeName value="id"/>
+                </type>
+              </attributeType>
+              <attributeType identifier="true" name="restrictedRange">
+                <type name="ReferenceValue">
+                  <elementTypeName value="ModelEntityReifiedRelationship"/>
+                  <attributeTypeName value="id"/>
+                </type>
+              </attributeType>
+            </attributeTypes>
+          </modelElementType>
+          <modelElementType name="EntityConceptUniversalAspectRestrictionAxiom">
+            <attributeTypes>
+              <attributeType identifier="true" name="id">
+                <type name="StringValue"/>
+              </attributeType>
+              <attributeType identifier="true" name="restrictsConcept">
+                <type name="ReferenceValue">
+                  <elementTypeName value="ModelEntityConcept"/>
+                  <attributeTypeName value="id"/>
+                </type>
+              </attributeType>
+              <attributeType identifier="true" name="restrictsReifiedRelationship">
+                <type name="ReferenceValue">
+                  <elementTypeName value="ModelEntityReifiedRelationship"/>
+                  <attributeTypeName value="id"/>
+                </type>
+              </attributeType>
+              <attributeType identifier="true" name="restrictedRange">
+                <type name="ReferenceValue">
+                  <elementTypeName value="ModelEntityAspect"/>
+                  <attributeTypeName value="id"/>
+                </type>
+              </attributeType>
+            </attributeTypes>
+          </modelElementType>
+          <modelElementType name="EntityConceptUniversalConceptRestrictionAxiom">
+            <attributeTypes>
+              <attributeType identifier="true" name="id">
+                <type name="StringValue"/>
+              </attributeType>
+              <attributeType identifier="true" name="restrictsConcept">
+                <type name="ReferenceValue">
+                  <elementTypeName value="ModelEntityConcept"/>
+                  <attributeTypeName value="id"/>
+                </type>
+              </attributeType>
+              <attributeType identifier="true" name="restrictsReifiedRelationship">
+                <type name="ReferenceValue">
+                  <elementTypeName value="ModelEntityReifiedRelationship"/>
+                  <attributeTypeName value="id"/>
+                </type>
+              </attributeType>
+              <attributeType identifier="true" name="restrictedRange">
+                <type name="ReferenceValue">
+                  <elementTypeName value="ModelEntityConcept"/>
+                  <attributeTypeName value="id"/>
+                </type>
+              </attributeType>
+            </attributeTypes>
+          </modelElementType>
+          <modelElementType name="EntityConceptUniversalReifiedRelationshipRestrictionAxiom">
+            <attributeTypes>
+              <attributeType identifier="true" name="id">
+                <type name="StringValue"/>
+              </attributeType>
+              <attributeType identifier="true" name="restrictsConcept">
+                <type name="ReferenceValue">
+                  <elementTypeName value="ModelEntityConcept"/>
+                  <attributeTypeName value="id"/>
+                </type>
+              </attributeType>
+              <attributeType identifier="true" name="restrictsReifiedRelationship">
+                <type name="ReferenceValue">
+                  <elementTypeName value="ModelEntityReifiedRelationship"/>
+                  <attributeTypeName value="id"/>
+                </type>
+              </attributeType>
+              <attributeType identifier="true" name="restrictedRange">
+                <type name="ReferenceValue">
+                  <elementTypeName value="ModelEntityReifiedRelationship"/>
+                  <attributeTypeName value="id"/>
+                </type>
+              </attributeType>
+            </attributeTypes>
+          </modelElementType>
+          <modelElementType name="EntityConceptSubClassAxiom">
+            <attributeTypes>
+              <attributeType identifier="true" name="id">
+                <type name="StringValue"/>
+              </attributeType>
+              <attributeType identifier="true" name="generalConcept">
+                <type name="ReferenceValue">
+                  <elementTypeName value="ModelEntityConcept"/>
+                  <attributeTypeName value="id"/>
+                </type>
+              </attributeType>
+              <attributeType identifier="true" name="specificConcept">
+                <type name="ReferenceValue">
+                  <elementTypeName value="ModelEntityConcept"/>
+                  <attributeTypeName value="id"/>
+                </type>
+              </attributeType>
+            </attributeTypes>
+          </modelElementType>
+          <modelElementType name="EntityDefinitionAspectSubClassAspectAxiom">
+            <attributeTypes>
+              <attributeType identifier="true" name="id">
+                <type name="StringValue"/>
+              </attributeType>
+              <attributeType identifier="true" name="generalAspect">
+                <type name="ReferenceValue">
+                  <elementTypeName value="ModelEntityAspect"/>
+                  <attributeTypeName value="id"/>
+                </type>
+              </attributeType>
+              <attributeType identifier="true" name="specificAspect">
+                <type name="ReferenceValue">
+                  <elementTypeName value="ModelEntityAspect"/>
+                  <attributeTypeName value="id"/>
+                </type>
+              </attributeType>
+            </attributeTypes>
+          </modelElementType>
+          <modelElementType name="EntityDefinitionConceptSubClassAspectAxiom">
+            <attributeTypes>
+              <attributeType identifier="true" name="id">
+                <type name="StringValue"/>
+              </attributeType>
+              <attributeType identifier="true" name="generalAspect">
+                <type name="ReferenceValue">
+                  <elementTypeName value="ModelEntityAspect"/>
+                  <attributeTypeName value="id"/>
+                </type>
+              </attributeType>
+              <attributeType identifier="true" name="specificConcept">
+                <type name="ReferenceValue">
+                  <elementTypeName value="ModelEntityConcept"/>
+                  <attributeTypeName value="id"/>
+                </type>
+              </attributeType>
+            </attributeTypes>
+          </modelElementType>
+          <modelElementType name="EntityDefinitionReifiedRelationshipSubClassAspectAxiom">
+            <attributeTypes>
+              <attributeType identifier="true" name="id">
+                <type name="StringValue"/>
+              </attributeType>
+              <attributeType identifier="true" name="generalAspect">
+                <type name="ReferenceValue">
+                  <elementTypeName value="ModelEntityAspect"/>
+                  <attributeTypeName value="id"/>
+                </type>
+              </attributeType>
+              <attributeType identifier="true" name="specificReifiedRelationship">
+                <type name="ReferenceValue">
+                  <elementTypeName value="ModelEntityReifiedRelationship"/>
+                  <attributeTypeName value="id"/>
+                </type>
+              </attributeType>
+            </attributeTypes>
+          </modelElementType>
+          <modelElementType name="EntityReifiedRelationshipSubClassAxiom">
+            <attributeTypes>
+              <attributeType identifier="true" name="id">
+                <type name="StringValue"/>
+              </attributeType>
+              <attributeType identifier="true" name="generalReifiedRelationship">
+                <type name="ReferenceValue">
+                  <elementTypeName value="ModelEntityReifiedRelationship"/>
+                  <attributeTypeName value="id"/>
+                </type>
+              </attributeType>
+              <attributeType identifier="true" name="specificReifiedRelationship">
+                <type name="ReferenceValue">
+                  <elementTypeName value="ModelEntityReifiedRelationship"/>
+                  <attributeTypeName value="id"/>
+                </type>
+              </attributeType>
+            </attributeTypes>
+          </modelElementType>
+          <modelElementType name="ScalarDataTypeFacetRestriction">
+            <attributeTypes>
+              <attributeType identifier="true" name="id">
+                <type name="StringValue"/>
+              </attributeType>
+              <attributeType identifier="false" name="uuid">
+                <type name="StringValue"/>
+              </attributeType>
+              <attributeType identifier="false" name="iri">
+                <type name="StringValue"/>
+              </attributeType>
+            </attributeTypes>
+          </modelElementType>
+          <modelElementType name="ModelScalarDataType">
+            <attributeTypes>
+              <attributeType identifier="true" name="id">
+                <type name="StringValue"/>
+              </attributeType>
+              <attributeType identifier="false" name="uuid">
+                <type name="StringValue"/>
+              </attributeType>
+              <attributeType identifier="false" name="iri">
+                <type name="StringValue"/>
+              </attributeType>
+              <attributeType identifier="false" name="rawName">
+                <type name="StringValue"/>
+              </attributeType>
+              <attributeType identifier="false" name="name">
+                <type name="ComputedValue">
+                  <expression value="$if($isNotNull(&lt;rawName&gt;), &lt;rawName&gt;, $trim($replaceFirst(&lt;iri&gt;, http://.*/, $space())))"/>
+                </type>
+              </attributeType>
+            </attributeTypes>
+          </modelElementType>
+          <modelElementType name="ModelStructuredDataType">
+            <attributeTypes>
+              <attributeType identifier="true" name="id">
+                <type name="StringValue"/>
+              </attributeType>
+              <attributeType identifier="false" name="uuid">
+                <type name="StringValue"/>
+              </attributeType>
+              <attributeType identifier="false" name="iri">
+                <type name="StringValue"/>
+              </attributeType>
+              <attributeType identifier="false" name="rawName">
+                <type name="StringValue"/>
+              </attributeType>
+              <attributeType identifier="false" name="name">
+                <type name="ComputedValue">
+                  <expression value="$if($isNotNull(&lt;rawName&gt;), &lt;rawName&gt;, $trim($replaceFirst(&lt;iri&gt;, http://.*/, $space())))"/>
+                </type>
+              </attributeType>
+            </attributeTypes>
+          </modelElementType>
+          <modelElementType name="ModelDataRelationshipFromEntityToScalar">
+            <attributeTypes>
+              <attributeType identifier="true" name="id">
+                <type name="StringValue"/>
+              </attributeType>
+              <attributeType identifier="false" name="uuid">
+                <type name="StringValue"/>
+              </attributeType>
+              <attributeType identifier="false" name="iri">
+                <type name="StringValue"/>
+              </attributeType>
+              <attributeType identifier="false" name="rawName">
+                <type name="StringValue"/>
+              </attributeType>
+              <attributeType identifier="false" name="name">
+                <type name="ComputedValue">
+                  <expression value="$if($isNotNull(&lt;rawName&gt;), &lt;rawName&gt;, $trim($replaceFirst(&lt;iri&gt;, http://.*/, $space())))"/>
+                </type>
+              </attributeType>
+            </attributeTypes>
+          </modelElementType>
+          <modelElementType name="ModelDataRelationshipFromEntityToStructure">
+            <attributeTypes>
+              <attributeType identifier="true" name="id">
+                <type name="StringValue"/>
+              </attributeType>
+              <attributeType identifier="false" name="uuid">
+                <type name="StringValue"/>
+              </attributeType>
+              <attributeType identifier="false" name="iri">
+                <type name="StringValue"/>
+              </attributeType>
+              <attributeType identifier="false" name="rawName">
+                <type name="StringValue"/>
+              </attributeType>
+              <attributeType identifier="false" name="name">
+                <type name="ComputedValue">
+                  <expression value="$if($isNotNull(&lt;rawName&gt;), &lt;rawName&gt;, $trim($replaceFirst(&lt;iri&gt;, http://.*/, $space())))"/>
+                </type>
+              </attributeType>
+            </attributeTypes>
+          </modelElementType>
+          <modelElementType name="ModelDataRelationshipFromStructureToScalar">
+            <attributeTypes>
+              <attributeType identifier="true" name="id">
+                <type name="StringValue"/>
+              </attributeType>
+              <attributeType identifier="false" name="uuid">
+                <type name="StringValue"/>
+              </attributeType>
+              <attributeType identifier="false" name="iri">
+                <type name="StringValue"/>
+              </attributeType>
+              <attributeType identifier="false" name="rawName">
+                <type name="StringValue"/>
+              </attributeType>
+              <attributeType identifier="false" name="name">
+                <type name="ComputedValue">
+                  <expression value="$if($isNotNull(&lt;rawName&gt;), &lt;rawName&gt;, $trim($replaceFirst(&lt;iri&gt;, http://.*/, $space())))"/>
+                </type>
+              </attributeType>
+            </attributeTypes>
+          </modelElementType>
+          <modelElementType name="ModelDataRelationshipFromStructureToStructure">
+            <attributeTypes>
+              <attributeType identifier="true" name="id">
+                <type name="StringValue"/>
+              </attributeType>
+              <attributeType identifier="false" name="uuid">
+                <type name="StringValue"/>
+              </attributeType>
+              <attributeType identifier="false" name="iri">
+                <type name="StringValue"/>
+              </attributeType>
+              <attributeType identifier="false" name="rawName">
+                <type name="StringValue"/>
+              </attributeType>
+              <attributeType identifier="false" name="name">
+                <type name="ComputedValue">
+                  <expression value="$if($isNotNull(&lt;rawName&gt;), &lt;rawName&gt;, $trim($replaceFirst(&lt;iri&gt;, http://.*/, $space())))"/>
+                </type>
+              </attributeType>
+            </attributeTypes>
+          </modelElementType>
+          <modelElementType name="EntityConceptToplevelDesignationTerminologyGraphAxiom">
+            <attributeTypes>
+              <attributeType identifier="true" name="id">
+                <type name="StringValue"/>
+              </attributeType>
+              <attributeType identifier="true" name="entityConcept">
+                <type name="ReferenceValue">
+                  <elementTypeName value="ModelEntityConcept"/>
+                  <attributeTypeName value="id"/>
+                </type>
+              </attributeType>
+              <attributeType identifier="true" name="designationTerminologyGraph">
                 <type name="ReferenceValue">
                   <elementTypeName value="TBoxTerminologyGraph"/>
                   <attributeTypeName value="id"/>
@@ -447,6 +852,206 @@
                 <rdfAttributeLocation columnName="id" stripNamespace="false"/>
               </attributeBinding>
             </attributedObjectBinding>
+            <attributedObjectBinding attributedObjectTypeName="EntityConceptSubClassAxiom" isModelAttribute="false" isReadOnly="false">
+              <rdfAttributedObjectLocation queryType="CUSTOM_QUERY">
+                <customQuery select="id general specific" where="?id rdf:type tbox:EntityConceptSubClassAxiom .&#10;?id tbox:hasGeneralConcept ?general .&#10;?id tbox:hasSpecificConcept ?specific ."/>
+              </rdfAttributedObjectLocation>
+              <attributeBinding attributeName="id" attributedObjectTypeName="EntityConceptSubClassAxiom" identifier="true">
+                <rdfAttributeLocation columnName="id" stripNamespace="false"/>
+              </attributeBinding>
+              <attributeBinding attributeName="generalConcept" attributedObjectTypeName="EntityConceptSubClassAxiom" identifier="true">
+                <rdfAttributeLocation columnName="general" stripNamespace="false"/>
+              </attributeBinding>
+              <attributeBinding attributeName="specificConcept" attributedObjectTypeName="EntityConceptSubClassAxiom" identifier="true">
+                <rdfAttributeLocation columnName="specific" stripNamespace="false"/>
+              </attributeBinding>
+            </attributedObjectBinding>
+            <attributedObjectBinding attributedObjectTypeName="EntityDefinitionAspectSubClassAspectAxiom" isModelAttribute="false" isReadOnly="false">
+              <rdfAttributedObjectLocation queryType="CUSTOM_QUERY">
+                <customQuery select="id general specific" where="?id rdf:type tbox:EntityDefinitionAspectSubClassAxiom .&#10;?id tbox:hasGeneralAspect ?general .&#10;?id tbox:hasSpecificEntity ?specific .&#10;?specific rdf:type tbox:ModelEntityAspect .&#10;"/>
+              </rdfAttributedObjectLocation>
+              <attributeBinding attributeName="id" attributedObjectTypeName="EntityDefinitionAspectSubClassAspectAxiom" identifier="true">
+                <rdfAttributeLocation columnName="id" stripNamespace="false"/>
+              </attributeBinding>
+              <attributeBinding attributeName="generalAspect" attributedObjectTypeName="EntityDefinitionAspectSubClassAspectAxiom" identifier="true">
+                <rdfAttributeLocation columnName="general" stripNamespace="false"/>
+              </attributeBinding>
+              <attributeBinding attributeName="specificAspect" attributedObjectTypeName="EntityDefinitionAspectSubClassAspectAxiom" identifier="true">
+                <rdfAttributeLocation columnName="specific" stripNamespace="false"/>
+              </attributeBinding>
+            </attributedObjectBinding>
+            <attributedObjectBinding attributedObjectTypeName="EntityReifiedRelationshipSubClassAxiom" isModelAttribute="false" isReadOnly="false">
+              <rdfAttributedObjectLocation queryType="CUSTOM_QUERY">
+                <customQuery select="id general specific" where="?id rdf:type tbox:EntityReifiedRelationshipSubClassAxiom .&#10;?id tbox:hasGeneralConcept ?general .&#10;?id tbox:hasSpecificConcept ?specific ."/>
+              </rdfAttributedObjectLocation>
+              <attributeBinding attributeName="id" attributedObjectTypeName="EntityReifiedRelationshipSubClassAxiom" identifier="true">
+                <rdfAttributeLocation columnName="id" stripNamespace="false"/>
+              </attributeBinding>
+              <attributeBinding attributeName="generalReifiedRelationship" attributedObjectTypeName="EntityReifiedRelationshipSubClassAxiom" identifier="true">
+                <rdfAttributeLocation columnName="general" stripNamespace="false"/>
+              </attributeBinding>
+              <attributeBinding attributeName="specificReifiedRelationship" attributedObjectTypeName="EntityReifiedRelationshipSubClassAxiom" identifier="true">
+                <rdfAttributeLocation columnName="specific" stripNamespace="false"/>
+              </attributeBinding>
+            </attributedObjectBinding>
+            <attributedObjectBinding attributedObjectTypeName="ScalarDataTypeFacetRestriction" isModelAttribute="false" isReadOnly="false">
+              <rdfAttributedObjectLocation queryType="CUSTOM_QUERY">
+                <customQuery select="id uuid iri" where="?id rdf:type tbox:ScalarDataTypeFacetRestriction .&#10;?id tbox:hasIRI ?iri .&#10;optional {&#10;  ?id tbox:hasUUID ?uuid .&#10;}&#10;"/>
+              </rdfAttributedObjectLocation>
+              <attributeBinding attributeName="id" attributedObjectTypeName="ScalarDataTypeFacetRestriction" identifier="true">
+                <rdfAttributeLocation columnName="id" stripNamespace="false"/>
+              </attributeBinding>
+              <attributeBinding attributeName="uuid" attributedObjectTypeName="ScalarDataTypeFacetRestriction" identifier="false">
+                <rdfAttributeLocation columnName="uuid" stripNamespace="false"/>
+              </attributeBinding>
+              <attributeBinding attributeName="iri" attributedObjectTypeName="ScalarDataTypeFacetRestriction" identifier="false">
+                <rdfAttributeLocation columnName="iri" stripNamespace="false"/>
+              </attributeBinding>
+            </attributedObjectBinding>
+            <attributedObjectBinding attributedObjectTypeName="ModelScalarDataType" isModelAttribute="false" isReadOnly="false">
+              <rdfAttributedObjectLocation queryType="CUSTOM_QUERY">
+                <customQuery select="id iri name uuid" where="?id rdf:type tbox:ModelScalarDataType .&#10;?id tbox:hasIRI ?iri .&#10;optional {&#10;  ?id tbox:hasShortName ?name .&#10;}&#10;optional {&#10;  ?id tbox:hasUUID ?uuid .&#10;}&#10;"/>
+              </rdfAttributedObjectLocation>
+              <attributeBinding attributeName="id" attributedObjectTypeName="ModelScalarDataType" identifier="true">
+                <rdfAttributeLocation columnName="id" stripNamespace="false"/>
+              </attributeBinding>
+              <attributeBinding attributeName="iri" attributedObjectTypeName="ModelScalarDataType" identifier="false">
+                <rdfAttributeLocation columnName="iri" stripNamespace="false"/>
+              </attributeBinding>
+              <attributeBinding attributeName="uuid" attributedObjectTypeName="ModelScalarDataType" identifier="false">
+                <rdfAttributeLocation columnName="uuid" stripNamespace="false"/>
+              </attributeBinding>
+              <attributeBinding attributeName="rawName" attributedObjectTypeName="ModelScalarDataType" identifier="false">
+                <rdfAttributeLocation columnName="name" stripNamespace="false"/>
+              </attributeBinding>
+            </attributedObjectBinding>
+            <attributedObjectBinding attributedObjectTypeName="ModelStructuredDataType" isModelAttribute="false" isReadOnly="false">
+              <rdfAttributedObjectLocation queryType="CUSTOM_QUERY">
+                <customQuery select="id iri name uuid" where="?id rdf:type tbox:ModelStructuredDataType .&#10;?id tbox:hasIRI ?iri .&#10;optional {&#10;  ?id tbox:hasShortName ?name .&#10;}&#10;optional {&#10;  ?id tbox:hasUUID ?uuid .&#10;}&#10;"/>
+              </rdfAttributedObjectLocation>
+              <attributeBinding attributeName="id" attributedObjectTypeName="ModelStructuredDataType" identifier="true">
+                <rdfAttributeLocation columnName="id" stripNamespace="false"/>
+              </attributeBinding>
+              <attributeBinding attributeName="iri" attributedObjectTypeName="ModelStructuredDataType" identifier="false">
+                <rdfAttributeLocation columnName="iri" stripNamespace="false"/>
+              </attributeBinding>
+              <attributeBinding attributeName="uuid" attributedObjectTypeName="ModelStructuredDataType" identifier="false">
+                <rdfAttributeLocation columnName="uuid" stripNamespace="false"/>
+              </attributeBinding>
+              <attributeBinding attributeName="rawName" attributedObjectTypeName="ModelStructuredDataType" identifier="false">
+                <rdfAttributeLocation columnName="name" stripNamespace="false"/>
+              </attributeBinding>
+            </attributedObjectBinding>
+            <attributedObjectBinding attributedObjectTypeName="ModelDataRelationshipFromEntityToScalar" isModelAttribute="false" isReadOnly="false">
+              <rdfAttributedObjectLocation queryType="CUSTOM_QUERY">
+                <customQuery select="id iri name uuid" where="?id rdf:type tbox:ModelDataRelationshipFromEntityToScalar .&#10;?id tbox:hasIRI ?iri .&#10;optional {&#10;  ?id tbox:hasShortName ?name .&#10;}&#10;optional {&#10;  ?id tbox:hasUUID ?uuid .&#10;}&#10;"/>
+              </rdfAttributedObjectLocation>
+              <attributeBinding attributeName="id" attributedObjectTypeName="ModelDataRelationshipFromEntityToScalar" identifier="true">
+                <rdfAttributeLocation columnName="id" stripNamespace="false"/>
+              </attributeBinding>
+              <attributeBinding attributeName="iri" attributedObjectTypeName="ModelDataRelationshipFromEntityToScalar" identifier="false">
+                <rdfAttributeLocation columnName="iri" stripNamespace="false"/>
+              </attributeBinding>
+              <attributeBinding attributeName="uuid" attributedObjectTypeName="ModelDataRelationshipFromEntityToScalar" identifier="false">
+                <rdfAttributeLocation columnName="uuid" stripNamespace="false"/>
+              </attributeBinding>
+              <attributeBinding attributeName="rawName" attributedObjectTypeName="ModelDataRelationshipFromEntityToScalar" identifier="false">
+                <rdfAttributeLocation columnName="name" stripNamespace="false"/>
+              </attributeBinding>
+            </attributedObjectBinding>
+            <attributedObjectBinding attributedObjectTypeName="ModelDataRelationshipFromEntityToStructure" isModelAttribute="false" isReadOnly="false">
+              <rdfAttributedObjectLocation queryType="CUSTOM_QUERY">
+                <customQuery select="id iri name uuid" where="?id rdf:type tbox:ModelDataRelationshipFromEntityToStructure .&#10;?id tbox:hasIRI ?iri .&#10;optional {&#10;  ?id tbox:hasShortName ?name .&#10;}&#10;optional {&#10;  ?id tbox:hasUUID ?uuid .&#10;}&#10;"/>
+              </rdfAttributedObjectLocation>
+              <attributeBinding attributeName="id" attributedObjectTypeName="ModelDataRelationshipFromEntityToStructure" identifier="true">
+                <rdfAttributeLocation columnName="id" stripNamespace="false"/>
+              </attributeBinding>
+              <attributeBinding attributeName="iri" attributedObjectTypeName="ModelDataRelationshipFromEntityToStructure" identifier="false">
+                <rdfAttributeLocation columnName="iri" stripNamespace="false"/>
+              </attributeBinding>
+              <attributeBinding attributeName="uuid" attributedObjectTypeName="ModelDataRelationshipFromEntityToStructure" identifier="false">
+                <rdfAttributeLocation columnName="uuid" stripNamespace="false"/>
+              </attributeBinding>
+              <attributeBinding attributeName="rawName" attributedObjectTypeName="ModelDataRelationshipFromEntityToStructure" identifier="false">
+                <rdfAttributeLocation columnName="name" stripNamespace="false"/>
+              </attributeBinding>
+            </attributedObjectBinding>
+            <attributedObjectBinding attributedObjectTypeName="ModelDataRelationshipFromStructureToScalar" isModelAttribute="false" isReadOnly="false">
+              <rdfAttributedObjectLocation queryType="CUSTOM_QUERY">
+                <customQuery select="id iri name uuid" where="?id rdf:type tbox:ModelDataRelationshipFromStructureToScalar .&#10;?id tbox:hasIRI ?iri .&#10;optional {&#10;  ?id tbox:hasShortName ?name .&#10;}&#10;optional {&#10;  ?id tbox:hasUUID ?uuid .&#10;}&#10;"/>
+              </rdfAttributedObjectLocation>
+              <attributeBinding attributeName="id" attributedObjectTypeName="ModelDataRelationshipFromStructureToScalar" identifier="true">
+                <rdfAttributeLocation columnName="id" stripNamespace="false"/>
+              </attributeBinding>
+              <attributeBinding attributeName="iri" attributedObjectTypeName="ModelDataRelationshipFromStructureToScalar" identifier="false">
+                <rdfAttributeLocation columnName="iri" stripNamespace="false"/>
+              </attributeBinding>
+              <attributeBinding attributeName="uuid" attributedObjectTypeName="ModelDataRelationshipFromStructureToScalar" identifier="false">
+                <rdfAttributeLocation columnName="uuid" stripNamespace="false"/>
+              </attributeBinding>
+              <attributeBinding attributeName="rawName" attributedObjectTypeName="ModelDataRelationshipFromStructureToScalar" identifier="false">
+                <rdfAttributeLocation columnName="name" stripNamespace="false"/>
+              </attributeBinding>
+            </attributedObjectBinding>
+            <attributedObjectBinding attributedObjectTypeName="ModelDataRelationshipFromStructureToStructure" isModelAttribute="false" isReadOnly="false">
+              <rdfAttributedObjectLocation queryType="CUSTOM_QUERY">
+                <customQuery select="id iri name uuid" where="?id rdf:type tbox:ModelDataRelationshipFromStructureToStructure .&#10;?id tbox:hasIRI ?iri .&#10;optional {&#10;  ?id tbox:hasShortName ?name .&#10;}&#10;optional {&#10;  ?id tbox:hasUUID ?uuid .&#10;}&#10;"/>
+              </rdfAttributedObjectLocation>
+              <attributeBinding attributeName="id" attributedObjectTypeName="ModelDataRelationshipFromStructureToStructure" identifier="true">
+                <rdfAttributeLocation columnName="id" stripNamespace="false"/>
+              </attributeBinding>
+              <attributeBinding attributeName="iri" attributedObjectTypeName="ModelDataRelationshipFromStructureToStructure" identifier="false">
+                <rdfAttributeLocation columnName="iri" stripNamespace="false"/>
+              </attributeBinding>
+              <attributeBinding attributeName="uuid" attributedObjectTypeName="ModelDataRelationshipFromStructureToStructure" identifier="false">
+                <rdfAttributeLocation columnName="uuid" stripNamespace="false"/>
+              </attributeBinding>
+              <attributeBinding attributeName="rawName" attributedObjectTypeName="ModelDataRelationshipFromStructureToStructure" identifier="false">
+                <rdfAttributeLocation columnName="name" stripNamespace="false"/>
+              </attributeBinding>
+            </attributedObjectBinding>
+            <attributedObjectBinding attributedObjectTypeName="EntityDefinitionConceptSubClassAspectAxiom" isModelAttribute="false" isReadOnly="false">
+              <rdfAttributedObjectLocation queryType="CUSTOM_QUERY">
+                <customQuery select="id general specific" where="?id rdf:type tbox:EntityDefinitionAspectSubClassAxiom .&#10;?id tbox:hasGeneralAspect ?general .&#10;?id tbox:hasSpecificEntity ?specific .&#10;?specific rdf:type tbox:ModelEntityConcept .&#10;"/>
+              </rdfAttributedObjectLocation>
+              <attributeBinding attributeName="specificConcept" attributedObjectTypeName="EntityDefinitionConceptSubClassAspectAxiom" identifier="true">
+                <rdfAttributeLocation columnName="specific" stripNamespace="false"/>
+              </attributeBinding>
+              <attributeBinding attributeName="generalAspect" attributedObjectTypeName="EntityDefinitionConceptSubClassAspectAxiom" identifier="true">
+                <rdfAttributeLocation columnName="general" stripNamespace="false"/>
+              </attributeBinding>
+              <attributeBinding attributeName="id" attributedObjectTypeName="EntityDefinitionConceptSubClassAspectAxiom" identifier="true">
+                <rdfAttributeLocation columnName="id" stripNamespace="false"/>
+              </attributeBinding>
+            </attributedObjectBinding>
+            <attributedObjectBinding attributedObjectTypeName="EntityDefinitionReifiedRelationshipSubClassAspectAxiom" isModelAttribute="false" isReadOnly="false">
+              <rdfAttributedObjectLocation queryType="CUSTOM_QUERY">
+                <customQuery select="id general specific" where="?id rdf:type tbox:EntityDefinitionAspectSubClassAxiom .&#10;?id tbox:hasGeneralAspect ?general .&#10;?id tbox:hasSpecificEntity ?specific .&#10;?specific rdf:type tbox:ModelEntityReifiedRelationship .&#10;"/>
+              </rdfAttributedObjectLocation>
+              <attributeBinding attributeName="specificReifiedRelationship" attributedObjectTypeName="EntityDefinitionReifiedRelationshipSubClassAspectAxiom" identifier="true">
+                <rdfAttributeLocation columnName="specific" stripNamespace="false"/>
+              </attributeBinding>
+              <attributeBinding attributeName="generalAspect" attributedObjectTypeName="EntityDefinitionReifiedRelationshipSubClassAspectAxiom" identifier="true">
+                <rdfAttributeLocation columnName="general" stripNamespace="false"/>
+              </attributeBinding>
+              <attributeBinding attributeName="id" attributedObjectTypeName="EntityDefinitionReifiedRelationshipSubClassAspectAxiom" identifier="true">
+                <rdfAttributeLocation columnName="id" stripNamespace="false"/>
+              </attributeBinding>
+            </attributedObjectBinding>
+            <attributedObjectBinding attributedObjectTypeName="EntityConceptToplevelDesignationTerminologyGraphAxiom" isModelAttribute="false" isReadOnly="false">
+              <rdfAttributedObjectLocation queryType="CUSTOM_QUERY">
+                <customQuery select="id concept tbox" where="?id rdf:type tbox:EntityConceptToplevelDesignationTerminologyGraphAxiom .&#10;?id tbox:entityConcept ?concept .&#10;?id tbox:designationTerminologyGraph ?tbox ."/>
+              </rdfAttributedObjectLocation>
+              <attributeBinding attributeName="designationTerminologyGraph" attributedObjectTypeName="EntityConceptToplevelDesignationTerminologyGraphAxiom" identifier="true">
+                <rdfAttributeLocation columnName="tbox" stripNamespace="false"/>
+              </attributeBinding>
+              <attributeBinding attributeName="entityConcept" attributedObjectTypeName="EntityConceptToplevelDesignationTerminologyGraphAxiom" identifier="true">
+                <rdfAttributeLocation columnName="concept" stripNamespace="false"/>
+              </attributeBinding>
+              <attributeBinding attributeName="id" attributedObjectTypeName="EntityConceptToplevelDesignationTerminologyGraphAxiom" identifier="true">
+                <rdfAttributeLocation columnName="id" stripNamespace="false"/>
+              </attributeBinding>
+            </attributedObjectBinding>
           </dataBinding>
         </rdfIntegrator>
       </integrators>
@@ -525,6 +1130,17 @@
               <attribute name="Color" value="204 204 204"/>
             </uiAttributes>
           </template>
+          <template name="Entity SubClass Axiom Edge" parentTemplate="" type="Edge">
+            <uiProperties uiType="Class Diagram.Generalization"/>
+            <uiAttributes/>
+          </template>
+          <template name="Entity Concept Toplevel Designation TBox Axiom Edge" parentTemplate="" type="Edge">
+            <uiProperties uiType="Basic.Curved"/>
+            <uiAttributes>
+              <attribute name="Source_Head" value="3"/>
+              <attribute name="Target_Head" value="2"/>
+            </uiAttributes>
+          </template>
         </drawingTemplate>
         <drawingTemplate name="OMF TBox Hierarchical Template">
           <template name="TBox Hierarchical Drawing Template" parentTemplate="" type="Drawing">
@@ -586,6 +1202,10 @@
               <attribute name="Target_Head" value="2"/>
             </uiAttributes>
           </template>
+          <template name="Entity SubClass Axiom Edge" parentTemplate="" type="Edge">
+            <uiProperties uiType="Class Diagram.Generalization"/>
+            <uiAttributes/>
+          </template>
         </drawingTemplate>
       </drawingTemplates>
       <views>
@@ -596,11 +1216,29 @@
                 <actions>
                   <addNodeAction description="Add Node" id="node.TBoxTerminologyGraph.&lt;id&gt;" replaceTags="true" tags="TBoxTerminologyGraph" templateName="TBox HNode"/>
                   <addChildDrawingAction description="Add Child Drawing" id="drawing.TBoxTerminologyGraph.&lt;id&gt;" parent="node.TBoxTerminologyGraph.&lt;id&gt;" replaceTags="true" tags="TBoxTerminologyGraph" templateName="TBox Hierarchical Drawing Template"/>
+                  <folderAction description="Aspects">
+                    <actionList>
+                      <forEachAction description="For Each Directly Defined Aspect" listExpression="$lookupValueList(TBoxDirectlyDefinesAspectTerm, &lt;tbox&gt;, &lt;id&gt;, &lt;term&gt;)" listName="DirectlyDefinedAspect">
+                        <actionList>
+                          <setParentDrawingAction description="Transfer Aspect Node To Drawing" nodeID="node.ModelEntity.$listItem(DirectlyDefinedAspect)" parent="drawing.TBoxTerminologyGraph.&lt;id&gt;"/>
+                        </actionList>
+                      </forEachAction>
+                    </actionList>
+                  </folderAction>
                   <folderAction description="Concepts">
                     <actionList>
                       <forEachAction description="For Each Directly Defined Concept" listExpression="$lookupValueList(TBoxDirectlyDefinesConceptTerm, &lt;tbox&gt;, &lt;id&gt;, &lt;term&gt;)" listName="DirectlyDefinedConcept">
                         <actionList>
                           <setParentDrawingAction description="Transfer Concept Node To Drawing" nodeID="node.ModelEntity.$listItem(DirectlyDefinedConcept)" parent="drawing.TBoxTerminologyGraph.&lt;id&gt;"/>
+                        </actionList>
+                      </forEachAction>
+                    </actionList>
+                  </folderAction>
+                  <folderAction description="ReifiedRelationships">
+                    <actionList>
+                      <forEachAction description="For Each Directly Defined ReifiedRelationship" listExpression="$lookupValueList(TBoxDirectlyDefinesReifiedRelationshipTerm, &lt;tbox&gt;, &lt;id&gt;, &lt;term&gt;)" listName="DirectlyDefinedReifiedRelationship">
+                        <actionList>
+                          <setParentDrawingAction description="Transfer ReifiedRelationship Node To Drawing" nodeID="node.ModelEntity.$listItem(DirectlyDefinedReifiedRelationship)" parent="drawing.TBoxTerminologyGraph.&lt;id&gt;"/>
                         </actionList>
                       </forEachAction>
                     </actionList>
@@ -614,12 +1252,64 @@
               </rule>
               <rule elementTypeName="ModelEntityConcept">
                 <actions>
-                  <addNodeAction description="Add Node" id="node.ModelEntity.&lt;id&gt;" replaceTags="true" tags="ModelEntityConcept" templateName="Concept HNode"/>
+                  <addNodeAction description="Add Concept Node" id="node.ModelEntity.&lt;id&gt;" replaceTags="true" tags="ModelEntityConcept" templateName="Concept HNode"/>
                 </actions>
               </rule>
               <rule elementTypeName="TBoxDirectlyExtendsTBox">
                 <actions>
                   <addEdgeAction description="Add TBox Directly Extends Edge" id="edge.TBoxDirectlyExtendsTBox.&lt;id&gt;.&lt;extendingChild&gt;.&lt;extendedParent&gt;" replaceTags="true" source="node.TBoxTerminologyGraph.&lt;extendingChild&gt;" tags="TBoxDirectlyExtendsTBox" target="node.TBoxTerminologyGraph.&lt;extendedParent&gt;" templateName="HRelationship Extends Edge"/>
+                </actions>
+              </rule>
+              <rule elementTypeName="EntityConceptSubClassAxiom">
+                <actions>
+                  <addEdgeAction description="Add Concept SubClass Axiom Edge" id="edge.EntityConceptSubClassAxiom.&lt;id&gt;.&lt;generalConcept&gt;.&lt;specificConcept&gt;" replaceTags="true" source="node.ModelEntity.&lt;specificConcept&gt;" tags="EntityConceptSubClassAxiom" target="node.ModelEntity.&lt;generalConcept&gt;" templateName="Entity SubClass Axiom Edge"/>
+                </actions>
+              </rule>
+              <rule elementTypeName="ModelEntityAspect">
+                <actions>
+                  <addNodeAction description="Add Aspect Node" id="node.ModelEntity.&lt;id&gt;" replaceTags="true" tags="ModelEntityAspect" templateName="Aspect HNode"/>
+                </actions>
+              </rule>
+              <rule elementTypeName="ModelEntityReifiedRelationship">
+                <actions>
+                  <addNodeAction description="Add ReifiedRelationship Node" id="node.ModelEntity.&lt;id&gt;" replaceTags="true" tags="ModelEntityReifiedRelationship" templateName="Relationship HNode"/>
+                  <ifAction>
+                    <andCondition>
+                      <notCondition>
+                        <unaryCondition valueID1="&lt;source&gt;"/>
+                      </notCondition>
+                      <andCondition>
+                        <notCondition>
+                          <unaryCondition valueID1="&lt;target&gt;"/>
+                        </notCondition>
+                      </andCondition>
+                    </andCondition>
+                    <actionList>
+                      <addEdgeAction description="Add Source Edge" id="edge.ModelEntityReifiedRelationship.&lt;id&gt;-source" replaceTags="true" source="node.ModelEntity.&lt;source&gt;" tags="ModelEntityReifiedRelationship" target="node.ModelEntity.&lt;id&gt;"/>
+                      <addEdgeAction description="Add Target Edge" id="edge.ModelEntityReifiedRelationship.&lt;id&gt;-target" replaceTags="true" source="node.ModelEntity.&lt;id&gt;" tags="ModelEntityReifiedRelationship" target="node.ModelEntity.&lt;target&gt;"/>
+                    </actionList>
+                  </ifAction>
+                </actions>
+              </rule>
+              <rule elementTypeName="EntityDefinitionAspectSubClassAspectAxiom">
+                <actions>
+                  <addEdgeAction description="Add Aspect SubClass Aspect Axiom Edge" id="edge.EntityDefinitionAspectSubClassAspectAxiom.&lt;id&gt;.&lt;generalAspect&gt;.&lt;specificAspect&gt;" replaceTags="true" source="node.ModelEntity.&lt;specificAspect&gt;" tags="EntityDefinitionAspectSubClassAspectAxiom" target="node.ModelEntity.&lt;generalAspect&gt;" templateName="Entity SubClass Axiom Edge"/>
+                </actions>
+              </rule>
+              <rule elementTypeName="EntityDefinitionConceptSubClassAspectAxiom">
+                <actions>
+                  <addEdgeAction description="Add Concept SubClass Aspect Axiom Edge" id="edge.EntityDefinitionConceptSubClassAspectAxiom.&lt;id&gt;.&lt;generalAspect&gt;.&lt;specificConcept&gt;" replaceTags="true" source="node.ModelEntity.&lt;specificConcept&gt;" tags="EntityDefinitionConceptSubClassAspectAxiom" target="node.ModelEntity.&lt;generalAspect&gt;" templateName="Entity SubClass Axiom Edge"/>
+                </actions>
+              </rule>
+              <rule elementTypeName="EntityDefinitionReifiedRelationshipSubClassAspectAxiom">
+                <actions>
+                  <addEdgeAction description="Add ReifiedRelationship SubClass Aspect Axiom Edge" id="edge.EntityDefinitionReifiedRelationshipSubClassAspectAxiom.&lt;id&gt;.&lt;generalAspect&gt;.&lt;specificReifiedRelationship&gt;" replaceTags="true" source="node.ModelEntity.&lt;specificReifiedRelationship&gt;" tags="EntityDefinitionReifiedRelationshipSubClassAspectAxiom" target="node.ModelEntity.&lt;generalAspect&gt;" templateName="Entity SubClass Axiom Edge"/>
+                </actions>
+              </rule>
+              <rule elementTypeName="EntityConceptToplevelDesignationTerminologyGraphAxiom">
+                <actions>
+                  <addChildDrawingAction description="Add Child Drawing" id="drawing.ToplevelDesignationTerminologyGraph.&lt;entityConcept&gt;" parent="node.ModelEntity.&lt;entityConcept&gt;" replaceTags="true" tags="EntityConceptToplevelDesignationTerminologyGraphAxiom" templateName="TBox Hierarchical Drawing Template"/>
+                  <setParentDrawingAction description="Transfer Node To Drawing" nodeID="node.TBoxTerminologyGraph.&lt;designationTerminologyGraph&gt;" parent="drawing.ToplevelDesignationTerminologyGraph.&lt;entityConcept&gt;"/>
                 </actions>
               </rule>
             </modelElementRules>
@@ -804,6 +1494,7 @@
             <preference name="minimumZoomPercent" value="0.01"/>
             <preference name="maximumZoomPercent" value="5000.0"/>
             <preference name="viewingTool:interactiveZoomReversedDirection" value="false"/>
+            <preference name="uiZoomLevelThresholds" value=""/>
             <preference name="animation:layoutInterpolationAnimation" value="true"/>
             <preference name="animation:layoutFadeAnimation" value="false"/>
             <preference name="animation:layoutAnimationDuration" value="Low"/>
@@ -832,17 +1523,17 @@
             <modelElementRules>
               <rule elementTypeName="ModelEntityAspect">
                 <actions>
-                  <addNodeAction description="Add Node" id="node.ModelEntity.&lt;id&gt;" replaceTags="true" tags="ModelEntityAspect" templateName="Aspect Node"/>
+                  <addNodeAction description="Add Aspect Node" id="node.ModelEntity.&lt;id&gt;" replaceTags="true" tags="ModelEntityAspect" templateName="Aspect Node"/>
                 </actions>
               </rule>
               <rule elementTypeName="ModelEntityConcept">
                 <actions>
-                  <addNodeAction description="Add Node" id="node.ModelEntity.&lt;id&gt;" replaceTags="true" tags="ModelEntityConcept" templateName="Concept Node"/>
+                  <addNodeAction description="Add Concept Node" id="node.ModelEntity.&lt;id&gt;" replaceTags="true" tags="ModelEntityConcept" templateName="Concept Node"/>
                 </actions>
               </rule>
               <rule elementTypeName="ModelEntityReifiedRelationship">
                 <actions>
-                  <addNodeAction description="Add Node" id="node.ModelEntity.&lt;id&gt;" replaceTags="true" tags="ModelEntityReifiedRelationship" templateName="Relationship Node"/>
+                  <addNodeAction description="Add ReifiedRelationship Node" id="node.ModelEntity.&lt;id&gt;" replaceTags="true" tags="ModelEntityReifiedRelationship" templateName="Relationship Node"/>
                   <ifAction>
                     <andCondition>
                       <notCondition>
@@ -889,6 +1580,16 @@
               <rule elementTypeName="TBoxDirectlyExtendsTBox">
                 <actions>
                   <addEdgeAction description="Add TBox Import Edge" id="edge.TBoxDirectlyExtendsTBox.&lt;id&gt;.&lt;extendingChild&gt;.&lt;extendedParent&gt;" replaceTags="true" source="node.TBoxTerminologyGraph.&lt;extendingChild&gt;" tags="TBoxDirectlyExtendsTBox" target="node.TBoxTerminologyGraph.&lt;extendedParent&gt;" templateName="TBox Extends Edge"/>
+                </actions>
+              </rule>
+              <rule elementTypeName="EntityConceptSubClassAxiom">
+                <actions>
+                  <addEdgeAction description="Add Concept SubClass Axiom Edge" id="edge.EntityConceptSubClassAxiom.&lt;id&gt;.&lt;generalConcept&gt;.&lt;specificConcept&gt;" replaceTags="true" source="node.ModelEntity.&lt;specificConcept&gt;" tags="EntityConceptSubClassAxiom" target="node.ModelEntity.&lt;generalConcept&gt;" templateName="Entity SubClass Axiom Edge"/>
+                </actions>
+              </rule>
+              <rule elementTypeName="EntityConceptToplevelDesignationTerminologyGraphAxiom">
+                <actions>
+                  <addEdgeAction description="Add Concept Toplevel Designation TBox Axiom Edge" id="edge.EntityConceptToplevelDesignationTerminologyGraphAxiom.&lt;id&gt;.&lt;entityConcept&gt;.&lt;designationTerminologyGraph&gt;" replaceTags="true" source="node.ModelEntity.&lt;entityConcept&gt;" tags="EntityConceptToplevelDesignationTerminologyGraphAxiom" target="node.TBoxTerminologyGraph.&lt;designationTerminologyGraph&gt;" templateName="Entity Concept Toplevel Designation TBox Axiom Edge"/>
                 </actions>
               </rule>
             </modelElementRules>
@@ -1068,7 +1769,6 @@
             <preference name="minimumZoomPercent" value="0.01"/>
             <preference name="maximumZoomPercent" value="5000.0"/>
             <preference name="viewingTool:interactiveZoomReversedDirection" value="false"/>
-            <preference name="uiZoomLevelThresholds" value=""/>
             <preference name="animation:layoutInterpolationAnimation" value="true"/>
             <preference name="animation:layoutFadeAnimation" value="false"/>
             <preference name="animation:layoutAnimationDuration" value="Low"/>
@@ -1302,6 +2002,24 @@
               <property name="Maximum Image Width" value="64"/>
               <property name="Maximum Image Height" value="16"/>
             </row>
+            <row name="extends TBox graphs">
+              <property name="Cell Renderer" value="List Renderer"/>
+              <property name="List Delimiter" value=";"/>
+              <property name="Date Format" value="MM-dd-yyyy HH:mm:ss"/>
+              <property name="Cell Editor" value="Default Editor"/>
+              <property name="Sort By" value="None"/>
+              <property name="Sort Order" value="Ascending"/>
+              <property name="Different Values String" value="[...]"/>
+              <property name="Decimal Places" value="2"/>
+              <property name="Thousands Separator" value="None"/>
+              <property name="Fill Decimal Places" value="true"/>
+              <property name="Range" value="Integer"/>
+              <property name="Range Start" value="-100.0"/>
+              <property name="Range End" value="100.0"/>
+              <property name="Allow Decimal Numbers" value="false"/>
+              <property name="Maximum Image Width" value="64"/>
+              <property name="Maximum Image Height" value="16"/>
+            </row>
             <row name="directly defines aspects">
               <property name="Cell Renderer" value="List Renderer"/>
               <property name="List Delimiter" value=","/>
@@ -1356,23 +2074,6 @@
               <property name="Maximum Image Width" value="64"/>
               <property name="Maximum Image Height" value="16"/>
             </row>
-            <row name="directly imports TBox graphs">
-              <property name="List Delimiter" value=";"/>
-              <property name="Date Format" value="MM-dd-yyyy HH:mm:ss"/>
-              <property name="Cell Editor" value="Default Editor"/>
-              <property name="Sort By" value="None"/>
-              <property name="Sort Order" value="Ascending"/>
-              <property name="Different Values String" value="[...]"/>
-              <property name="Decimal Places" value="2"/>
-              <property name="Thousands Separator" value="None"/>
-              <property name="Fill Decimal Places" value="true"/>
-              <property name="Range" value="Integer"/>
-              <property name="Range Start" value="-100.0"/>
-              <property name="Range End" value="100.0"/>
-              <property name="Allow Decimal Numbers" value="false"/>
-              <property name="Maximum Image Width" value="64"/>
-              <property name="Maximum Image Height" value="16"/>
-            </row>
           </rows>
           <modelElementTypes>
             <modelElementType name="ModelEntityAspect">
@@ -1411,12 +2112,12 @@
               <expression editingValue="&lt;rawName&gt;" rowName="raw name" value="&lt;rawName&gt;"/>
               <expression editingValue="&lt;name&gt;" rowName="name" value="&lt;name&gt;"/>
               <expression editingValue="&lt;kind&gt;" rowName="metaclass" value="&lt;kind&gt;"/>
-              <expression editingValue="&lt;directlyImports&gt;" rowName="directlyImports" value="&lt;directlyImports&gt;"/>
+              <expression editingValue="&lt;directlyExtends&gt;" rowName="directlyImports" value="&lt;directlyExtends&gt;"/>
               <expression editingValue="&lt;directlyNestsTBoxGraph&gt;" rowName="nested TBox graphs" value="&lt;directlyNestsTBoxGraph&gt;"/>
+              <expression editingValue="&lt;directlyExtends&gt;" rowName="extends TBox graphs" value="&lt;directlyExtends&gt;"/>
               <expression editingValue="&lt;directlyDefinesAspectTerm&gt;" rowName="directly defines aspects" value="&lt;directlyDefinesAspectTerm&gt;"/>
               <expression editingValue="&lt;directlyDefinesConceptTerm&gt;" rowName="directly defines concepts" value="&lt;directlyDefinesConceptTerm&gt;"/>
               <expression editingValue="&lt;directlyDefinesReifiedRelationshipTerm&gt;" rowName="directly defines reified relationships" value="&lt;directlyDefinesReifiedRelationshipTerm&gt;"/>
-              <expression editingValue="&lt;directlyImports&gt;" rowName="directly imports TBox graphs" value="&lt;directlyImports&gt;"/>
             </modelElementType>
           </modelElementTypes>
           <preferences>
@@ -1431,36 +2132,37 @@
             <modelElementRules>
               <rule elementTypeName="TBoxTerminologyGraph">
                 <actions>
-                  <addTreeNodeAction description="Add TBoxTermGraph Node" editable="false" id="treeNode.TBoxTerminologyGraph.&lt;id&gt;" parent="$if($isNotNull($lookupValue(TBoxDirectlyNestsTBox, &lt;nestedChild&gt;, &lt;id&gt;, &lt;nestingParent&gt;)), treeNode.TBoxTerminologyGraph.$lookupValue(TBoxDirectlyNestsTBox, &lt;nestedChild&gt;, &lt;id&gt;, &lt;nestingParent&gt;)-nested, $rootTreeNode())" replaceTags="true" tags="TBoxTerminologyGraph" value="&lt;name&gt;"/>
+                  <addTreeNodeAction description="Add TBoxTermGraph Node" editable="false" id="treeNode.TBoxTerminologyGraph.&lt;id&gt;" parent="$if($isNotNull($lookupValue(TBoxDirectlyNestsTBox, &lt;nestedChild&gt;, &lt;id&gt;, &lt;nestingParent&gt;)), treeNode.TBoxTerminologyGraph.$lookupValue(TBoxDirectlyNestsTBox, &lt;nestedChild&gt;, &lt;id&gt;, &lt;nestingParent&gt;)-nested, $if($isNotNull($lookupValue(EntityConceptToplevelDesignationTerminologyGraphAxiom, &lt;designationTerminologyGraph&gt;, &lt;id&gt;, &lt;entityConcept&gt;)), treeNode.TBoxTerminologyGraph.$lookupValue(EntityConceptToplevelDesignationTerminologyGraphAxiom, &lt;designationTerminologyGraph&gt;, &lt;id&gt;, &lt;entityConcept&gt;)-designationTBox, $rootTreeNode()))" replaceTags="true" tags="TBoxTerminologyGraph" value="&lt;name&gt;"/>
                   <addTreeNodeAction description="Add TBox Nested Graphs" editable="false" id="treeNode.TBoxTerminologyGraph.&lt;id&gt;-nested" parent="treeNode.TBoxTerminologyGraph.&lt;id&gt;" replaceTags="true" tags="TBoxTerminologyGraph" value="Directly Nested TBox Graph"/>
-                  <forEachAction description="For Each nested" disabled="true" listExpression="$lookupValueList(TBoxDirectlyNestsTBox, &lt;parent&gt;, &lt;id&gt;, &lt;child&gt;)" listName="DirectlyNestedTBoxGraphs">
-                    <actionList>
-                      <addTreeNodeAction description="Add Nested TBoxTermGraph Node" disabled="true" editable="false" id="treeNode.TBoxTerminologyGraph.$listItem(DirectlyNestedTBoxGraph)" parent="treeNode.TBoxTerminologyGraph.&lt;id&gt;-nested" replaceTags="true" tags="TBoxTerminologyGraph" value="$lookupValue(TBoxTerminologyGraph, &lt;id&gt;, $listItem(DirectlyNestedTBoxGraph), &lt;name&gt;)"/>
-                    </actionList>
-                  </forEachAction>
+                  <addTreeNodeAction description="Add Aspects Tree RootNode" editable="false" id="treeNode.TBoxTerminologyGraph.&lt;id&gt;-aspects" parent="treeNode.TBoxTerminologyGraph.&lt;id&gt;" replaceTags="true" tags="TBoxTerminologyGraph" value="Aspects"/>
                   <addTreeNodeAction description="Add Concepts Tree RootNode" editable="false" id="treeNode.TBoxTerminologyGraph.&lt;id&gt;-concepts" parent="treeNode.TBoxTerminologyGraph.&lt;id&gt;" replaceTags="true" tags="TBoxTerminologyGraph" value="Concepts"/>
-                  <forEachAction description="For Each concept" disabled="true" listExpression="$lookupValueList(TBoxDirectlyDefinesConceptTerm, &lt;tbox&gt;, &lt;id&gt;, &lt;term&gt;)" listName="DirectlyDefinesConcept">
-                    <actionList>
-                      <addTreeNodeAction description="Add Concept Node" disabled="true" editable="false" id="treeNode.TBoxTerminologyGraph.$listItem(DirectlyDefinesConcept)" parent="treeNode.TBoxTerminologyGraph.&lt;id&gt;-concepts" replaceTags="true" tags="TBoxTerminologyGraph" value="$lookupValue(ModelEntityConcept, &lt;id&gt;, $listItem(DirectlyDefinesConcept), &lt;name&gt;)"/>
-                    </actionList>
-                  </forEachAction>
-                  <addTreeNodeAction description="Add Aspects Tree RootNode" disabled="true" editable="false" id="treeNode.TBoxTerminologyGraph.&lt;id&gt;-aspects" parent="treeNode.TBoxTerminologyGraph.&lt;id&gt;" replaceTags="true" tags="TBoxTerminologyGraph" value="Aspects"/>
-                  <forEachAction description="For Each aspect" disabled="true" listExpression="$lookupValueList(TBoxDirectlyDefinesAspectTerm, &lt;tbox&gt;, &lt;id&gt;, &lt;term&gt;)" listName="DirectlyDefinesAspect">
-                    <actionList>
-                      <addTreeNodeAction description="Add Concept Node" disabled="true" editable="false" id="treeNode.TBoxTerminologyGraph.$listItem(DirectlyDefinesAspect)" parent="treeNode.TBoxTerminologyGraph.&lt;id&gt;-aspects" replaceTags="true" tags="TBoxTerminologyGraph" value="$lookupValue(ModelEntityAspect, &lt;id&gt;, $listItem(DirectlyDefinesAspect), &lt;name&gt;)"/>
-                    </actionList>
-                  </forEachAction>
+                  <addTreeNodeAction description="Add Reified Relationship Tree RootNode" editable="false" id="treeNode.TBoxTerminologyGraph.&lt;id&gt;-reifiedRelationships" parent="treeNode.TBoxTerminologyGraph.&lt;id&gt;" replaceTags="true" tags="TBoxTerminologyGraph" value="Reified Relationships"/>
                 </actions>
               </rule>
               <rule elementTypeName="ModelEntityConcept">
                 <actions>
                   <addTreeNodeAction description="Add Concept Node" editable="false" id="treeNode.TBoxTerminologyGraph.&lt;id&gt;" parent="treeNode.TBoxTerminologyGraph.$lookupValue(TBoxDirectlyDefinesConceptTerm, &lt;term&gt;, &lt;id&gt;, &lt;tbox&gt;)-concepts" replaceTags="true" tags="ModelEntityConcept" value="&lt;name&gt;"/>
+                  <addTreeNodeAction description="Add Concept Designation SubNode" editable="false" id="treeNode.TBoxTerminologyGraph.&lt;id&gt;-designationTBox" parent="treeNode.TBoxTerminologyGraph.&lt;id&gt;" replaceTags="true" tags="ModelEntityConcept" value="Toplevel Designation TBox"/>
+                </actions>
+              </rule>
+              <rule elementTypeName="ModelEntityAspect">
+                <actions>
+                  <addTreeNodeAction description="Add Aspect Node" editable="false" id="treeNode.TBoxTerminologyGraph.&lt;id&gt;" parent="treeNode.TBoxTerminologyGraph.$lookupValue(TBoxDirectlyDefinesAspectTerm, &lt;term&gt;, &lt;id&gt;, &lt;tbox&gt;)-aspects" replaceTags="true" tags="ModelEntityAspect" value="&lt;name&gt;"/>
+                </actions>
+              </rule>
+              <rule elementTypeName="ModelEntityReifiedRelationship">
+                <actions>
+                  <addTreeNodeAction description="Add ReifiedRelationship Node" editable="false" id="treeNode.TBoxTerminologyGraph.&lt;id&gt;" parent="treeNode.TBoxTerminologyGraph.$lookupValue(TBoxDirectlyDefinesReifiedRelationshipTerm, &lt;term&gt;, &lt;id&gt;, &lt;tbox&gt;)-reifiedRelationships" replaceTags="true" tags="ModelEntityReifiedRelationship" value="&lt;name&gt;"/>
                 </actions>
               </rule>
             </modelElementRules>
           </mapping>
           <behavior>
-            <contextMenu/>
+            <contextMenu>
+              <actionItem action="DrawingActions.Expand Drawing Node" tags="GLOBAL_TAG" text="Expand Drawing Node">
+                <disabledIcon/>
+              </actionItem>
+            </contextMenu>
           </behavior>
           <preferences>
             <preference name="highlightedTags" value="ModelEntityAspect, ModelEntityConcept, ModelEntityReifiedRelationship, TBoxTerminologyGraph, TBoxDirectlyDefinesTypeTerm, TBoxDirectlyDefinesAspectTerm, TBoxDirectlyDefinesConceptTerm, TBoxDirectlyDefinesRelationshipTerm, DirectTBoxParentChildNesting"/>

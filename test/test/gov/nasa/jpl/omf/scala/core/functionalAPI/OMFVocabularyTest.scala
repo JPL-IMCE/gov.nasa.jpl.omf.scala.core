@@ -52,12 +52,38 @@ abstract class OMFVocabularyTest[omf <: OMF](
   val loadStore: omf#Store, loadOps: OMFOps[omf] )
   extends WordSpec with Matchers {
 
+  def preOMFSave(): Unit
+  def postOMFSave(): Unit
+
+  def withOMFSave( testCode: (omf#Store, OMFOps[omf]) => Any ): Unit = {
+
+    try {
+      preOMFSave()
+      testCode(saveStore, saveOps)
+    } finally {
+      postOMFSave()
+    }
+  }
+
+  def preOMFLoad(): Unit
+  def postOMFLoad(): Unit
+
+  def withOMFLoad( testCode: (omf#Store, OMFOps[omf]) => Any ): Unit = {
+
+    try {
+      preOMFLoad()
+      testCode(loadStore, loadOps)
+    } finally {
+      postOMFLoad()
+    }
+  }
+
   "vocabulary roundtrip test" when {
 
-    "construct tboxes and save them" in {
+    "construct tboxes and save them" in withOMFSave { (s, o) =>
 
-      implicit val store = saveStore
-      implicit val ops = saveOps
+      implicit val store = s
+      implicit val ops = o
       import ops._
 
       val xsd = loadTerminologyGraph( makeIRI( "http://www.w3.org/2001/XMLSchema" ) )
@@ -71,8 +97,7 @@ abstract class OMFVocabularyTest[omf <: OMF](
 
       val base = makeTerminologyGraph(
         makeIRI( "http://imce.jpl.nasa.gov/foundation/base/base" ),
-        isDefinition,
-        entityGraphIRI = None )
+        isDefinition )
       base should be a 'success
 
       val base_extends_xsd = addTerminologyGraphExtension( base.get, xsd.get )
@@ -93,57 +118,56 @@ abstract class OMFVocabularyTest[omf <: OMF](
 
       val mission = makeTerminologyGraph(
         makeIRI( "http://imce.jpl.nasa.gov/foundation/mission/mission" ),
-        isDefinition,
-        entityGraphIRI = None )
+        isDefinition )
       mission should be a 'success
 
       val mission_extends_base = addTerminologyGraphExtension( mission.get, base.get )
       base_extends_xsd should be a 'success
 
-      val component = addEntityConcept( mission.get, "Component", None, isAbstract=false )
+      val component = addEntityConcept( mission.get, "Component", isAbstract=false )
       component should be a 'success
 
       val component_extends_identifiedElement = addEntityDefinitionAspectSubClassAxiom(
         graph = mission.get,
-        sub = component.get._1,
+        sub = component.get,
         sup = identifiedElement.get )
       component_extends_identifiedElement.isSuccess should be( true )
 
-      val function = addEntityConcept( mission.get, "Function", None, isAbstract=false )
+      val function = addEntityConcept( mission.get, "Function", isAbstract=false )
       function should be a 'success
 
       val function_extends_identifiedElement = addEntityDefinitionAspectSubClassAxiom(
         graph = mission.get,
-        sub = function.get._1,
+        sub = function.get,
         sup = identifiedElement.get )
       function_extends_identifiedElement should be a 'success
 
       val component_performs_function = addEntityReifiedRelationship(
         graph = mission.get,
-        source = component.get._1,
-        target = function.get._1,
+        source = component.get,
+        target = function.get,
         characteristics = List( isAsymmetric, isIrreflexive, isInverseFunctional ),
-        reifiedRelationshipName = "Performs", None,
+        reifiedRelationshipName = "Performs",
         unreifiedRelationshipName = "performs",
         unreifiedInverseRelationshipName = Some( "isPerformedBy" ),
         isAbstract = false )
       component_performs_function should be a 'success
 
-      val item = addEntityConcept( mission.get, "Item", None, isAbstract=false )
+      val item = addEntityConcept( mission.get, "Item", isAbstract=false )
       item should be a 'success
 
-      val message = addEntityConcept( mission.get, "Message", None, isAbstract=false )
+      val message = addEntityConcept( mission.get, "Message", isAbstract=false )
       message should be a 'success
 
-      val materialItem = addEntityConcept( mission.get, "MaterialItem", None, isAbstract=false )
+      val materialItem = addEntityConcept( mission.get, "MaterialItem", isAbstract=false )
       materialItem should be a 'success
 
       val message_extends_item =
-        addEntityConceptSubClassAxiom( mission.get, message.get._1, item.get._1 )
+        addEntityConceptSubClassAxiom( mission.get, message.get, item.get )
       message_extends_item should be a 'success
 
       val materialItem_extends_item =
-        addEntityConceptSubClassAxiom( mission.get, materialItem.get._1, item.get._1 )
+        addEntityConceptSubClassAxiom( mission.get, materialItem.get, item.get )
       materialItem_extends_item should be a 'success
 
       val baseSaved = saveTerminologyGraph( base.get )
@@ -154,10 +178,10 @@ abstract class OMFVocabularyTest[omf <: OMF](
 
     }
 
-    "read tboxes and check them" in {
+    "read tboxes and check them"  in withOMFLoad { (s, o) =>
 
-      implicit val store = loadStore
-      implicit val ops = loadOps
+      implicit val store = s
+      implicit val ops = o
       import ops._
 
       val xsd =

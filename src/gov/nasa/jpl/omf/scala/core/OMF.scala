@@ -260,6 +260,13 @@ trait OMFtbox {
   type EntityDefinitionAspectSubClassAxiom <: ModelTermAxiom
 
   /**
+   * An EntityConceptToplevelDesignationTerminologyGraphAxiom is a ModelTermAxion assertion
+   * about a ModelEntityConcept representing the root designation concept
+   * for a toplevel designation ModelTerminologyGraph.
+   */
+  type EntityConceptToplevelDesignationTerminologyGraphAxiom <: ModelTermAxiom
+
+  /**
    * An EntityConceptSubClassAxiom is a ModelTermAxion assertion about
    * a subclass/superclass relationship between two ModelEntityConcepts
    */
@@ -473,7 +480,6 @@ trait OMFabox {
  *
  * @param iri the identity of the terminology graph as a container for several descriptions and as the context
  *            for extending other terminology graphs
- * @param entityGraphIRI optionally, the iri of the entity that this terminology graph represents the contents of
  * @param kind the semantic commitment of this terminology graph (open-world definitions vs. closed-world designations)
  * @param nesting the parent terminology graph, if any, whose nested graphs includes this terminology graph
  * @param nested the terminology graphs that are logically nested inside this terminology graph
@@ -493,7 +499,6 @@ trait OMFabox {
  */
 trait TerminologyGraphSignature[omf <: OMF] {
   val iri: omf#IRI
-  val entityGraphIRI: Option[omf#IRI]
   val kind: TerminologyKind
   val nesting: Option[omf#ModelTerminologyGraph]
   val nested: Iterable[omf#ModelTerminologyGraph]
@@ -513,13 +518,11 @@ trait TerminologyGraphSignature[omf <: OMF] {
 
 trait EntityConceptSignature[omf <: OMF] {
   val iri: omf#IRI
-  val subGraph: Option[omf#IRI]
   val isAbstract: Boolean
 }
 
 trait EntityReifiedRelationshipSignature[omf <: OMF] {
   val iri: omf#IRI
-  val subGraph: Option[omf#IRI]
   val source: omf#ModelEntityDefinition
   val target: omf#ModelEntityDefinition
   val characteristics: Iterable[RelationshipCharacteristics]
