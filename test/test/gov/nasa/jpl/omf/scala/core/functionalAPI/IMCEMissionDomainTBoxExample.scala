@@ -49,7 +49,7 @@ import scalaz.Scalaz._
 
 abstract class IMCEMissionDomainTBoxExample[omf <: OMF]()(
   implicit val ops: OMFOps[omf],
-  val store: omf#Store )
+  implicit val store: omf#Store )
   extends WordSpec with Matchers {
 
   import ops._
@@ -63,18 +63,19 @@ abstract class IMCEMissionDomainTBoxExample[omf <: OMF]()(
       val t0 = makeTerminologyGraph( i_m0, isDefinition )
       t0.isSuccess should be( true )
 
-      val ( iri, _, k, i, f, c, r, sc, st, esc, est, ssc, sst, ax ) = ops.fromTerminologyGraph( t0.get )
-      i.isEmpty should be( true )
-      f.isEmpty should be( true )
-      c.isEmpty should be( true )
-      r.isEmpty should be( true )
-      sc.isEmpty should be( true )
-      st.isEmpty should be( true )
-      esc.isEmpty should be( true )
-      est.isEmpty should be( true )
-      ssc.isEmpty should be( true )
-      sst.isEmpty should be( true )
-      ax.isEmpty should be( true )
+      val s = ops.fromTerminologyGraph( t0.get )
+      s.imports.isEmpty should be( true )
+      s.aspects.isEmpty should be( true )
+      s.concepts.isEmpty should be( true )
+      s.reifiedRelationships.isEmpty should be( true )
+      s.unreifiedRelationships.isEmpty should be( true )
+      s.structuredDataTypes.isEmpty should be( true )
+      s.scalarDataTypes.isEmpty should be( true )
+      s.entity2scalarDataRelationships.isEmpty should be( true )
+      s.entity2structureDataRelationships.isEmpty should be( true )
+      s.structure2scalarDataRelationships.isEmpty should be( true )
+      s.structure2structureDataRelationships.isEmpty should be( true )
+      s.axioms.isEmpty should be( true )
     }
 
     "simple construction & lookup" in {
@@ -84,30 +85,30 @@ abstract class IMCEMissionDomainTBoxExample[omf <: OMF]()(
 
       val g = t1.get
 
-      val component = addEntityConcept( g, "Component", None )
+      val component = addEntityConcept( g, "Component", isAbstract=false )
       component.isSuccess should be( true )
 
-      val function = addEntityConcept( g, "Function", None )
+      val function = addEntityConcept( g, "Function", isAbstract=false )
       function.isSuccess should be( true )
 
-      val ( iri, _, _k, _i, _f, _c, _r, _sc, _st, _esc, _est, _ssc, _sst, _ax ) = fromTerminologyGraph( g )
-      iri should be( i_m1 )
-      _i.isEmpty should be( true )
-      _f.isEmpty should be( true )
+      val s = fromTerminologyGraph( g )
+      s.iri should be( i_m1 )
+      s.imports.isEmpty should be( true )
+      s.aspects.isEmpty should be( true )
 
-      _c.nonEmpty should be( true )
-      _c.iterator.size should be( 2 )
-      _c.iterator.contains( component.get._1 ) should be( true )
-      _c.iterator.contains( function.get._1 ) should be( true )
+      s.concepts.nonEmpty should be( true )
+      s.concepts.size should be(2)
+      s.concepts.toSet.contains(component.get) should be(true)
+      s.concepts.toSet.contains(function.get) should be(true)
 
-      _r.isEmpty should be( true )
-      _sc.isEmpty should be( true )
-      _st.isEmpty should be( true )
-      _esc.isEmpty should be( true )
-      _est.isEmpty should be( true )
-      _ssc.isEmpty should be( true )
-      _sst.isEmpty should be( true )
-      _ax.isEmpty should be( true )
+      s.reifiedRelationships.isEmpty should be( true )
+      s.scalarDataTypes.isEmpty should be( true )
+      s.structuredDataTypes.isEmpty should be( true )
+      s.entity2scalarDataRelationships.isEmpty should be( true )
+      s.entity2structureDataRelationships.isEmpty should be( true )
+      s.structure2scalarDataRelationships.isEmpty should be( true )
+      s.structure2structureDataRelationships.isEmpty should be( true )
+      s.axioms.isEmpty should be( true )
     }
   }
 

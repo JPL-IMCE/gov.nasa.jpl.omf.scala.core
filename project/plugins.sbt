@@ -1,18 +1,26 @@
+import java.nio.file.FileSystems
 
 // TODO: Add the JPL MBEE SBT Maven Repository when it is available...
 // resolvers += MavenRepository("JPL MBEE", url("http://github.jpl.nasa.gov/mbee.sbt.repository"))
 
+// https://bintray.com/banno/oss/sbt-license-plugin/view
+resolvers +=
+  Resolver.url("sbt-license-plugin-releases", url("http://dl.bintray.com/banno/oss"))(Resolver.ivyStylePatterns)
+
 // TODO: Replace with the JPL MBEE SBT Maven Repository resolver when it is available...
-(Option.apply(System.getProperty("JPL_MBEE_LOCAL_REPOSITORY")), Option.apply(System.getProperty("JPL_MBEE_REMOTE_REPOSITORY"))) match {
-  case (Some(dir), _) =>
-    if (new File(dir) / "settings.xml" exists) {
-      val cache = new MavenCache("JPL MBEE", new File(dir))
+( Option.apply(System.getProperty("JPL_MBEE_LOCAL_REPOSITORY")),
+  Option.apply(System.getProperty("JPL_MBEE_REMOTE_REPOSITORY"))) match {
+  case (Some(loc), _) =>
+    val dir = FileSystems.getDefault.getPath(loc)
+    val settings = dir.resolve("settings.xml").toFile
+    if (settings exists) {
+      val cache = new MavenCache("JPL MBEE", dir.toFile)
       Seq(
         publishTo := Some(cache),
         resolvers += cache)
     }
     else
-      sys.error(s"The JPL_MBEE_LOCAL_REPOSITORY folder, '$dir', does not have a 'settings.xml' file.")
+      sys.error(s"The JPL_MBEE_LOCAL_REPOSITORY folder, '$loc', does not have a 'settings.xml' file.")
   case (None, Some(url)) => {
     val repo = new MavenRepository("JPL MBEE", url)
     Seq(

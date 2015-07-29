@@ -57,6 +57,8 @@ object TerminologyKind extends Enumeration {
    */
   val isDefinition = Value
 
+  val isToplevelDefinition = Value
+
   /**
    * isDesignation indicates that the semantics of a TerminologyGraph (TBox graph) is closed-world.
    *
@@ -68,4 +70,33 @@ object TerminologyKind extends Enumeration {
    * that there does not exist any other concept distinct from B or C that can be a subclass of A anywhere else.
    */
   val isDesignation = Value
+
+  val isToplevelDesignation = Value
+
+  def isDefinitionKind( k: TerminologyKind ): Boolean =
+  k match {
+    case _ @ ( TerminologyKind.isDefinition | TerminologyKind.isToplevelDefinition ) => true
+    case _ => false
+  }
+
+  def isDesignationKind( k: TerminologyKind ): Boolean =
+    k match {
+      case _ @ ( TerminologyKind.isDesignation | TerminologyKind.isToplevelDesignation ) => true
+      case _ => false
+    }
+
+  /**
+   * Asymmetric comparison
+   *
+   * @param childKind The TerminologyKind of a "child" graph (child means extending child or nested child)
+   * @param parentKind The TerminologyKind of a "parent" graph (parent means extended parent or nesting parent)
+   * @return
+   */
+  def compatibleKind
+  ( childKind: TerminologyKind )
+  ( parentKind: TerminologyKind )
+  : Boolean =
+    isDesignationKind(childKind) || isDefinitionKind(childKind) && isDefinitionKind(parentKind)
+
+
 }
