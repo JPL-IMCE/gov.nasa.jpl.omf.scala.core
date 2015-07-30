@@ -47,7 +47,7 @@ import scala.language.postfixOps
 import org.scalatest._
 import scalaz.Scalaz._
 
-abstract class OMFVocabularyTest[omf <: OMF](
+abstract class OMFVocabularyMutabilityTest[omf <: OMF](
   val saveStore: omf#Store, saveOps: OMFOps[omf],
   val loadStore: omf#Store, loadOps: OMFOps[omf] )
   extends WordSpec with Matchers {
@@ -113,16 +113,13 @@ abstract class OMFVocabularyTest[omf <: OMF](
         dataRelationshipName = "hasIdentifier" )
       hasIdentifier should be a 'success
 
-      val ibase = asImmutableTerminologyGraph( base.get )
-      ibase should be a 'success
-
       val mission = makeTerminologyGraph(
         makeIRI( "http://imce.jpl.nasa.gov/foundation/mission/mission" ),
         isDefinition )
       mission should be a 'success
 
       val mission_extends_base = addTerminologyGraphExtension( mission.get, base.get )
-      base_extends_xsd should be a 'success
+      mission_extends_base should be a 'success
 
       val component = addEntityConcept( mission.get, "Component", isAbstract=false )
       component should be a 'success
