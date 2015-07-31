@@ -436,47 +436,63 @@ trait ImmutableTerminologyGraphOps[omf <: OMF] {
 
 
   def lookupTypeTerm
-  ( graph: omf#ModelTerminologyGraph, iri: omf#IRI )
+  ( graph: omf#ModelTerminologyGraph, iri: omf#IRI, recursively: Boolean )
+  ( implicit store: omf#Store )
   : Option[omf#ModelTypeTerm]
 
-  /**
-   *
-   * @param graph
-   * @param iri
-   * @return The ModelEntityDefinition identified via `iri` asserted in `graph`
-   */
   def lookupEntityDefinition
-  ( graph: omf#ModelTerminologyGraph, iri: omf#IRI )
+  ( graph: omf#ModelTerminologyGraph, iri: omf#IRI, recursively: Boolean )
+  ( implicit store: omf#Store )
   : Option[omf#ModelEntityDefinition]
+
   def lookupEntityAspect
-  ( graph: omf#ModelTerminologyGraph, iri: omf#IRI )
+  ( graph: omf#ModelTerminologyGraph, iri: omf#IRI, recursively: Boolean )
+  ( implicit store: omf#Store )
   : Option[omf#ModelEntityAspect]
+
   def lookupEntityConcept
-  ( graph: omf#ModelTerminologyGraph, iri: omf#IRI )
+  ( graph: omf#ModelTerminologyGraph, iri: omf#IRI, recursively: Boolean )
+  ( implicit store: omf#Store )
   : Option[omf#ModelEntityConcept]
+
   def lookupEntityReifiedRelationship
-  ( graph: omf#ModelTerminologyGraph, iri: omf#IRI )
+  ( graph: omf#ModelTerminologyGraph, iri: omf#IRI, recursively: Boolean )
+  ( implicit store: omf#Store )
   : Option[omf#ModelEntityReifiedRelationship]
+
   def lookupEntityUnreifiedRelationship
-  ( graph: omf#ModelTerminologyGraph, iri: omf#IRI )
+  ( graph: omf#ModelTerminologyGraph, iri: omf#IRI, recursively: Boolean )
+  ( implicit store: omf#Store )
   : Option[omf#ModelEntityUnreifiedRelationship]
+
   def lookupScalarDataType
-  ( graph: omf#ModelTerminologyGraph, iri: omf#IRI )
+  ( graph: omf#ModelTerminologyGraph, iri: omf#IRI, recursively: Boolean )
+  ( implicit store: omf#Store )
   : Option[omf#ModelScalarDataType]
+
   def lookupStructuredDataType
-  ( graph: omf#ModelTerminologyGraph, iri: omf#IRI )
+  ( graph: omf#ModelTerminologyGraph, iri: omf#IRI, recursively: Boolean )
+  ( implicit store: omf#Store )
   : Option[omf#ModelStructuredDataType]
+
   def lookupEntityDataRelationshipFromEntityToScalar
-  ( graph: omf#ModelTerminologyGraph, iri: omf#IRI )
+  ( graph: omf#ModelTerminologyGraph, iri: omf#IRI, recursively: Boolean )
+  ( implicit store: omf#Store )
   : Option[omf#ModelDataRelationshipFromEntityToScalar]
+
   def lookupEntityDataRelationshipFromEntityToStructure
-  ( graph: omf#ModelTerminologyGraph, iri: omf#IRI )
+  ( graph: omf#ModelTerminologyGraph, iri: omf#IRI, recursively: Boolean )
+  ( implicit store: omf#Store )
   : Option[omf#ModelDataRelationshipFromEntityToStructure]
+
   def lookupEntityDataRelationshipFromStructureToScalar
-  ( graph: omf#ModelTerminologyGraph, iri: omf#IRI )
+  ( graph: omf#ModelTerminologyGraph, iri: omf#IRI, recursively: Boolean )
+  ( implicit store: omf#Store )
   : Option[omf#ModelDataRelationshipFromStructureToScalar]
+
   def lookupEntityDataRelationshipFromStructureToStructure
-  ( graph: omf#ModelTerminologyGraph, iri: omf#IRI )
+  ( graph: omf#ModelTerminologyGraph, iri: omf#IRI, recursively: Boolean )
+  ( implicit store: omf#Store )
   : Option[omf#ModelDataRelationshipFromStructureToStructure]
 
   def getTerms
