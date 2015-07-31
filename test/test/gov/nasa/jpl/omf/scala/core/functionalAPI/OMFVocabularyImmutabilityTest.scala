@@ -87,10 +87,12 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF](
       val xsd = loadTerminologyGraph( makeIRI( "http://www.w3.org/2001/XMLSchema" ) )
       xsd should be a 'success
 
-      val integer = lookupScalarDataType( xsd.get, makeIRI( "http://www.w3.org/2001/XMLSchema#integer" ) )
+      val integer =
+        lookupScalarDataType( xsd.get, makeIRI( "http://www.w3.org/2001/XMLSchema#integer" ), recursively=false  )
       integer.isDefined should be( true )
 
-      val string = lookupScalarDataType( xsd.get, makeIRI( "http://www.w3.org/2001/XMLSchema#string" ) )
+      val string =
+        lookupScalarDataType( xsd.get, makeIRI( "http://www.w3.org/2001/XMLSchema#string" ), recursively=false  )
       string.isDefined should be( true )
 
       val base = makeTerminologyGraph(
@@ -120,7 +122,8 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF](
       val identifiedElement =
         lookupEntityAspect(
           ibase.get,
-          makeIRI( "http://imce.jpl.nasa.gov/foundation/base/base#IdentifiedElement" ) )
+          makeIRI( "http://imce.jpl.nasa.gov/foundation/base/base#IdentifiedElement" ),
+          recursively=false  )
       identifiedElement.isDefined should be( true )
 
       val mission = makeTerminologyGraph(
@@ -196,12 +199,8 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF](
       xsd should be a 'success
 
       val integer =
-        lookupScalarDataType( xsd.get, makeIRI( "http://www.w3.org/2001/XMLSchema#integer" ) )
+        lookupScalarDataType( xsd.get, makeIRI( "http://www.w3.org/2001/XMLSchema#integer" ), recursively=false  )
       integer.isDefined should be( true )
-
-      val string =
-        lookupScalarDataType( xsd.get, makeIRI( "http://www.w3.org/2001/XMLSchema#string" ) )
-      string.isDefined should be( true )
 
       val base =
         loadTerminologyGraph( makeIRI( "http://imce.jpl.nasa.gov/foundation/base/base" ) )
@@ -214,7 +213,7 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF](
         s.aspects.isEmpty should be( false )
         s.concepts.isEmpty should be( true )
         s.reifiedRelationships.isEmpty should be( true )
-        s.scalarDataTypes.isEmpty should be( false )
+        s.scalarDataTypes.isEmpty should be( true )
         s.structuredDataTypes.isEmpty should be( true )
         s.entity2scalarDataRelationships.isEmpty should be( false )
         s.entity2structureDataRelationships.isEmpty should be( true )
@@ -223,16 +222,20 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF](
         s.axioms.isEmpty should be( true )
       }
 
+      val string =
+        lookupScalarDataType( base.get, makeIRI( "http://www.w3.org/2001/XMLSchema#string" ), recursively=true )
+      string.isDefined should be( true )
+
       val identifiedElement =
         lookupEntityAspect(
           base.get,
-          makeIRI( "http://imce.jpl.nasa.gov/foundation/base/base#IdentifiedElement" ) )
+          makeIRI( "http://imce.jpl.nasa.gov/foundation/base/base#IdentifiedElement" ), recursively=false  )
       identifiedElement.isDefined should be( true )
 
       val hasIdentifier =
         lookupEntityDataRelationshipFromEntityToScalar(
           base.get,
-          makeIRI( "http://imce.jpl.nasa.gov/foundation/base/base#hasIdentifier" ) )
+          makeIRI( "http://imce.jpl.nasa.gov/foundation/base/base#hasIdentifier" ), recursively=false  )
       hasIdentifier.isDefined should be( true )
 
       val ( _, hasIdentifierSource, hasIdentifierTarget ) =
@@ -240,7 +243,8 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF](
       identifiedElement.get should be( hasIdentifierSource )
       string.get should be( hasIdentifierTarget )
 
-      val mission = loadTerminologyGraph( makeIRI( "http://imce.jpl.nasa.gov/foundation/mission/mission" ) )
+      val mission =
+        loadTerminologyGraph( makeIRI( "http://imce.jpl.nasa.gov/foundation/mission/mission" ) )
       mission should be a 'success
 
       {
@@ -250,7 +254,7 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF](
         s.aspects.isEmpty should be( true )
         s.concepts.isEmpty should be( false )
         s.reifiedRelationships.isEmpty should be( false )
-        s.scalarDataTypes.isEmpty should be( false )
+        s.scalarDataTypes.isEmpty should be( true )
         s.structuredDataTypes.isEmpty should be( true )
         s.entity2scalarDataRelationships.isEmpty should be( true )
         s.entity2structureDataRelationships.isEmpty should be( true )
@@ -261,17 +265,20 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF](
       
       val component = lookupEntityConcept(
         mission.get,
-        makeIRI( "http://imce.jpl.nasa.gov/foundation/mission/mission#Component" ) )
+        makeIRI( "http://imce.jpl.nasa.gov/foundation/mission/mission#Component" ),
+        recursively=false  )
       component.isDefined should be( true )
 
       val function = lookupEntityConcept(
         mission.get,
-        makeIRI( "http://imce.jpl.nasa.gov/foundation/mission/mission#Function" ) )
+        makeIRI( "http://imce.jpl.nasa.gov/foundation/mission/mission#Function" ),
+        recursively=false  )
       function.isDefined should be( true )
 
       val component_performs_function = lookupEntityReifiedRelationship(
         mission.get,
-        makeIRI( "http://imce.jpl.nasa.gov/foundation/mission/mission#Performs" ) )
+        makeIRI( "http://imce.jpl.nasa.gov/foundation/mission/mission#Performs" ),
+        recursively=false  )
       component_performs_function.isDefined should be( true )
 
       val component_performs_function_info =

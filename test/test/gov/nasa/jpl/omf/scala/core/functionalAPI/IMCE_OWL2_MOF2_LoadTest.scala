@@ -75,10 +75,12 @@ abstract class IMCE_OWL2_MOF2_LoadTest[omf <: OMF](
         integer_iri <- withFragment( xsd_iri, "integer" )
         string_iri <- withFragment( xsd_iri, "string" )
       } {
-        xsd_integer = lookupScalarDataType( xsd_tbox.get, integer_iri )
+        xsd_integer =
+          lookupScalarDataType( xsd_tbox.get, integer_iri, recursively=false  )
         xsd_integer.isDefined should be( true )
 
-        xsd_string = lookupScalarDataType( xsd_tbox.get, string_iri )
+        xsd_string =
+          lookupScalarDataType( xsd_tbox.get, string_iri, recursively=false  )
         xsd_string.isDefined should be( true )
       }
     }
@@ -98,10 +100,12 @@ abstract class IMCE_OWL2_MOF2_LoadTest[omf <: OMF](
         BinaryAssociationEndType_iri <- withFragment( owl2_mof2_iri, "BinaryAssociationEndType" )
         BinaryAssociation_iri <- withFragment( owl2_mof2_iri, "BinaryAssociation" )
       } {
-        val BinaryAssociationEndType = lookupEntityConcept( owl2_mof2_tbox.get, BinaryAssociationEndType_iri )
+        val BinaryAssociationEndType =
+          lookupEntityConcept( owl2_mof2_tbox.get, BinaryAssociationEndType_iri, recursively=false  )
         BinaryAssociationEndType.isDefined should be(true)
 
-        val BinaryAssociation = lookupEntityReifiedRelationship( owl2_mof2_tbox.get, BinaryAssociation_iri )
+        val BinaryAssociation =
+          lookupEntityReifiedRelationship( owl2_mof2_tbox.get, BinaryAssociation_iri, recursively=false  )
         BinaryAssociation.isDefined should be(true)
       }
     }
