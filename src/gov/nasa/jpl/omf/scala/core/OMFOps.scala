@@ -185,13 +185,13 @@ trait OMFStoreOps[omf <: OMF] {
   : Iterable[omf#ModelTerminologyGraph]
 
   def addNestedTerminologyGraph
-  ( parentG: omf#ModelTerminologyGraph,
+  ( parentG: omf#MutableModelTerminologyGraph,
     nestedG: omf#ModelTerminologyGraph )
   ( implicit store: omf#Store )
   : Try[omf#TerminologyGraphDirectNestingAxiom]
 
   def addTerminologyGraphExtension
-  ( extendingG: omf#ModelTerminologyGraph,
+  ( extendingG: omf#MutableModelTerminologyGraph,
     extendedG: omf#ModelTerminologyGraph )
   ( implicit store: omf#Store )
   : Try[omf#TerminologyGraphDirectExtensionAxiom]
