@@ -260,11 +260,11 @@ trait OMFtbox {
   type EntityDefinitionAspectSubClassAxiom <: ModelTermAxiom
 
   /**
-   * An EntityConceptToplevelDesignationTerminologyGraphAxiom is a ModelTermAxion assertion
-   * about a ModelEntityConcept representing the root designation concept
-   * for a toplevel designation ModelTerminologyGraph.
+   * An EntityConceptDesignationTerminologyGraphAxiom is a ModelTermAxion assertion
+   * about a ModelEntityConcept whose complete concept designation
+   * is specified in a designation ModelTerminologyGraph.
    */
-  type EntityConceptToplevelDesignationTerminologyGraphAxiom <: ModelTermAxiom
+  type EntityConceptDesignationTerminologyGraphAxiom <: ModelTermAxiom
 
   /**
    * An EntityConceptSubClassAxiom is a ModelTermAxion assertion about

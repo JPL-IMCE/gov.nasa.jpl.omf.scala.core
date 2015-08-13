@@ -162,17 +162,18 @@ trait OMFStoreOps[omf <: OMF] {
   /**
    * Assigns a designation terminology graph as the closed-world structural description of a model entity concept
    * @param graph The mutable terminology graph in which to assert the axiom
-   * @param entityConcept The model entity concept to set/clear a designation terminology graph
-   * @param designationTerminologyGraph The designation terminology graph for the structural contents of the concept
+   * @param entityConceptDesignation The model entity concept whose complete complete designation is specified
+   * @param designationTerminologyGraph The terminology graph specifying the complete designation
+   *                                    for the structural contents of the model entity concept
    * @param store
    * @return The EntityConceptToplevelDesignationTerminologyGraphAxiom created
    */
-  def addEntityConceptToplevelDesignationTerminologyGraphAxiom
+  def addEntityConceptDesignationTerminologyGraphAxiom
   ( graph: omf#MutableModelTerminologyGraph,
-    entityConcept: omf#ModelEntityConcept,
+    entityConceptDesignation: omf#ModelEntityConcept,
     designationTerminologyGraph: omf#ModelTerminologyGraph )
   ( implicit store: omf#Store )
-  : Try[omf#EntityConceptToplevelDesignationTerminologyGraphAxiom]
+  : Try[omf#EntityConceptDesignationTerminologyGraphAxiom]
 
   def getNestingGraph
   ( graph: omf#ModelTerminologyGraph )
