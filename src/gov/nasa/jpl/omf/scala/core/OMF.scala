@@ -93,6 +93,7 @@ trait OMFtbox {
   type ModelTerminologyGraph
   type ImmutableModelTerminologyGraph <: ModelTerminologyGraph
   type MutableModelTerminologyGraph <: ModelTerminologyGraph
+  type Mutable2IMutableTerminologyMap <: Map[MutableModelTerminologyGraph, ImmutableModelTerminologyGraph]
 
   /**
    * A ModelTypeTerm is the basic unit for defining the conceptual model of a domain in an OMF ModelTerminologyGraph.

@@ -152,7 +152,7 @@ trait OMFStoreOps[omf <: OMF] {
   def loadTerminologyGraph
   ( iri: omf#IRI )
   ( implicit store: omf#Store )
-  : Try[omf#ImmutableModelTerminologyGraph]
+  : Try[(omf#ImmutableModelTerminologyGraph, omf#Mutable2IMutableTerminologyMap)]
 
   def fromTerminologyGraph
   ( graph: omf#ModelTerminologyGraph )
@@ -224,10 +224,18 @@ trait OMFStoreOps[omf <: OMF] {
   ( implicit store: omf#Store )
   : Try[Unit]
 
+  /**
+   * Converts a mutable tbox graph into an equivalent immutable tbox graph such that
+   * dependencies on mutable tbox graphs are also converted into equivalent immutable tbox graphs.
+   *
+   * @param g a mutable tbox
+   * @param store
+   * @return a map of all the mutable tboxes (incl. g) that have been converted to immutable tboxes
+   */
   def asImmutableTerminologyGraph
   ( g: omf#MutableModelTerminologyGraph )
   ( implicit store: omf#Store )
-  : Try[omf#ImmutableModelTerminologyGraph]
+  : Try[(omf#ImmutableModelTerminologyGraph, Map[omf#MutableModelTerminologyGraph, omf#ImmutableModelTerminologyGraph])]
 
   def isEntityDefinitionAssertedInTerminologyGraph
   ( t: omf#ModelTypeTerm, graph: omf#ModelTerminologyGraph )
