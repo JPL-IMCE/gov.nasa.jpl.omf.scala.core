@@ -93,6 +93,7 @@ trait OMFtbox {
   type ModelTerminologyGraph
   type ImmutableModelTerminologyGraph <: ModelTerminologyGraph
   type MutableModelTerminologyGraph <: ModelTerminologyGraph
+  type Mutable2IMutableTerminologyMap <: Map[MutableModelTerminologyGraph, ImmutableModelTerminologyGraph]
 
   /**
    * A ModelTypeTerm is the basic unit for defining the conceptual model of a domain in an OMF ModelTerminologyGraph.
@@ -305,7 +306,7 @@ trait OMFtbox {
   type EntityReifiedRelationshipSubClassAxiom <: ModelTermAxiom
 
   /**
-   * A ScalarDataTypeFacetRestriction is a ModelTermAxiom assertion about
+   * A ScalarDataTypeFacetRestrictionAxiom is a ModelTermAxiom assertion about
    * a subtype/supertype relationship between two ModelScalarDataTypes according
    * to one or more XML Schema 1.1 DataType facet restrictions:
    * the value space of the subtype ModelScalarDataType is the subset of the supertype ModelScalarDataType
@@ -314,7 +315,7 @@ trait OMFtbox {
    *
    * @see http://www.w3.org/TR/xmlschema11-2/#sec-datatypes-and-facets
    */
-  type ScalarDataTypeFacetRestriction <: ModelTermAxiom
+  type ScalarDataTypeFacetRestrictionAxiom <: ModelTermAxiom
 
   /**
    * A TerminologyGraphAxiom is the abstraction for statements about
