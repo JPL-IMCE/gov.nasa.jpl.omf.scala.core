@@ -314,6 +314,7 @@ trait OMFtbox {
    * if and only if the value satisfies all the facet restrictions.
    *
    * @see http://www.w3.org/TR/xmlschema11-2/#sec-datatypes-and-facets
+   * @see http://www.w3.org/TR/owl2-syntax/#Datatype_Restrictions
    */
   type ScalarDataTypeFacetRestrictionAxiom <: ModelTermAxiom
 
