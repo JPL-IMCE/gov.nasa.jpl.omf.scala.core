@@ -38,6 +38,9 @@
  */
 package gov.nasa.jpl.omf.scala
 
+import scala.Boolean
+import scala.collection.immutable.Set
+
 package object core {
 
   /**

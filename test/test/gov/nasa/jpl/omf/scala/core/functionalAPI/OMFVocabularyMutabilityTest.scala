@@ -45,7 +45,8 @@ import gov.nasa.jpl.omf.scala.core.TerminologyKind._
 import scala.language.implicitConversions
 import scala.language.postfixOps
 import org.scalatest._
-import scalaz.Scalaz._
+import scala.{Some,Unit}
+import scala.collection.immutable.List
 
 abstract class OMFVocabularyMutabilityTest[omf <: OMF](
                                                         val saveStore: omf#Store, saveOps: OMFOps[omf],
@@ -56,7 +57,7 @@ abstract class OMFVocabularyMutabilityTest[omf <: OMF](
 
   def postOMFSave(): Unit
 
-  def withOMFSave(testCode: (omf#Store, OMFOps[omf]) => Any): Unit = {
+  def withOMFSave(testCode: (omf#Store, OMFOps[omf]) => Unit): Unit = {
 
     try {
       preOMFSave()
@@ -70,7 +71,7 @@ abstract class OMFVocabularyMutabilityTest[omf <: OMF](
 
   def postOMFLoad(): Unit
 
-  def withOMFLoad(testCode: (omf#Store, OMFOps[omf]) => Any): Unit = {
+  def withOMFLoad(testCode: (omf#Store, OMFOps[omf]) => Unit): Unit = {
 
     try {
       preOMFLoad()

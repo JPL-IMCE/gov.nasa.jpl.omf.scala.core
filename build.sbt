@@ -5,13 +5,14 @@ import sbt._
 import gov.nasa.jpl.mbee.sbt._
 
 
-lazy val core = Project("omf-scala-core", file(".")).
-  settings(GitVersioning.buildSettings). // in principle, unnecessary; in practice: doesn't work without this
-  enablePlugins(MBEEGitPlugin).
-  settings(MBEEPlugin.mbeeDynamicScriptsProjectResourceSettings(Some("gov.nasa.jpl.omf.scala.core"))).
-  settings(
+lazy val core = Project("omf-scala-core", file("."))
+  .settings(GitVersioning.buildSettings) // in principle, unnecessary; in practice: doesn't work without this
+  .enablePlugins(MBEEGitPlugin)
+  .settings(MBEEPlugin.mbeeDynamicScriptsProjectResourceSettings(Some("gov.nasa.jpl.omf.scala.core")))
+  .settings(
     MBEEKeys.mbeeLicenseYearOrRange := "2014-2015",
     MBEEKeys.mbeeOrganizationInfo := MBEEPlugin.MBEEOrganizations.imce,
+    MBEEKeys.targetJDK := MBEEKeys.jdk17.value,
     // include all test artifacts
     publishArtifact in Test := true,
     scalaSource in Compile := baseDirectory.value / "src",
@@ -27,3 +28,4 @@ lazy val core = Project("omf-scala-core", file(".")).
       MBEEPlugin.MBEEOrganizations.imce.mbeeZipArtifactVersion("jpl-mbee-common-scala-libraries_other", MBEEKeys.mbeeReleaseVersionPrefix.value, Versions.jpl_mbee_common_scala_libraries_revision)
     )
   )
+  .settings(MBEEPlugin.mbeeStrictScalacFatalWarningsSettings)

@@ -42,6 +42,9 @@ import gov.nasa.jpl.omf.scala.core.RelationshipCharacteristics._
 import gov.nasa.jpl.omf.scala.core.TerminologyKind._
 import gov.nasa.jpl.omf.scala.core._
 import org.scalatest._
+import scala.collection.immutable.List
+import scala.Some
+import scala.Unit
 
 import scala.language.{implicitConversions, postfixOps}
 
@@ -54,7 +57,7 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF](
 
   def postOMFSave(): Unit
 
-  def withOMFSave(testCode: (omf#Store, OMFOps[omf]) => Any): Unit = {
+  def withOMFSave(testCode: (omf#Store, OMFOps[omf]) => Unit): Unit = {
 
     try {
       preOMFSave()
@@ -68,7 +71,7 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF](
 
   def postOMFLoad(): Unit
 
-  def withOMFLoad(testCode: (omf#Store, OMFOps[omf]) => Any): Unit = {
+  def withOMFLoad(testCode: (omf#Store, OMFOps[omf]) => Unit): Unit = {
 
     try {
       preOMFLoad()

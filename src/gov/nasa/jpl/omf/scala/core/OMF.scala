@@ -38,6 +38,9 @@
  */
 package gov.nasa.jpl.omf.scala.core
 
+import scala.{Boolean,Option}
+import scala.collection.immutable.{Iterable,Map}
+
 import gov.nasa.jpl.omf.scala.core.RelationshipCharacteristics._
 import gov.nasa.jpl.omf.scala.core.TerminologyKind._
 

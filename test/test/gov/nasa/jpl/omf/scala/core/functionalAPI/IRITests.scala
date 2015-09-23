@@ -39,12 +39,13 @@
 package test.gov.nasa.jpl.omf.scala.core.functionalAPI
 
 import gov.nasa.jpl.omf.scala.core._
-import gov.nasa.jpl.omf.scala.core.RelationshipCharacteristics._
 
+import scala.Predef._
+import scala.{Any,Boolean,Option,None,Some,Tuple2}
+import scala.collection.immutable.{Map,Seq}
 import scala.language.implicitConversions
 import scala.language.postfixOps
 import org.scalatest._
-import scalaz.Scalaz._
 
 abstract class IRITests[omf <: OMF]()( implicit ops: OMFOps[omf] )
 extends WordSpec with Matchers {

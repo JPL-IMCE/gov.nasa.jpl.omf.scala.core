@@ -38,6 +38,9 @@
  */
 package gov.nasa.jpl.omf.scala.core
 
+import scala.{Boolean,Enumeration,Int}
+import scala.Predef._
+
 /**
  * Corresponds to an XML Schema 1.1 simple type defined with 'fixed=true'
  *

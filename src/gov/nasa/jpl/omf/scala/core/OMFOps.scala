@@ -40,10 +40,12 @@ package gov.nasa.jpl.omf.scala.core
 
 import gov.nasa.jpl.omf.scala.core.RelationshipCharacteristics._
 import gov.nasa.jpl.omf.scala.core.TerminologyKind._
+
+import scala.{Boolean,Option,Unit}
+import scala.Predef.String
+import scala.collection.immutable.{Iterable,Map,Set}
 import scala.language.postfixOps
 import scala.util.Try
-import scala.util.Failure
-import scala.util.Success
 import java.io.OutputStream
 
 /**
@@ -578,8 +580,8 @@ trait ImmutableTerminologyGraphOps[omf <: OMF] {
   def equivalentEntityConcepts
   ( c1: Iterable[omf#ModelEntityConcept], c2: Iterable[omf#ModelEntityConcept] )
   : Boolean = {
-    val iris1 = c1.map( fromEntityConcept ) toSet
-    val iris2 = c2.map( fromEntityConcept ) toSet
+    val iris1 = c1.map( fromEntityConcept ).toSet
+    val iris2 = c2.map( fromEntityConcept ).toSet
     val d = iris1.diff( iris2 )
     d.isEmpty
   }
@@ -620,14 +622,16 @@ trait ImmutableTerminologyGraphOps[omf <: OMF] {
         fromEntityDefinition( s.source ),
         fromEntityDefinition( s.target ),
         relationshipCharacteristicsSummary( s.characteristics ) )
-    } toSet
+    }
+    .toSet
     val right = r2.map { r =>
       val s = fromEntityReifiedRelationship( r )
       ( s.iri,
         fromEntityDefinition( s.source ),
         fromEntityDefinition( s.target ),
         relationshipCharacteristicsSummary( s.characteristics ) )
-    } toSet
+    }
+    .toSet
     val d = left.diff( right )
     d.isEmpty
   }
@@ -648,8 +652,8 @@ trait ImmutableTerminologyGraphOps[omf <: OMF] {
   ( dt1: Iterable[omf#ModelScalarDataType],
     dt2: Iterable[omf#ModelScalarDataType] )
   : Boolean = {
-    val left = dt1.map( fromScalarDataType ) toSet
-    val right = dt2.map( fromScalarDataType ) toSet
+    val left = dt1.map( fromScalarDataType ).toSet
+    val right = dt2.map( fromScalarDataType ).toSet
     val d = left.diff( right )
     d.isEmpty
   }
@@ -664,8 +668,8 @@ trait ImmutableTerminologyGraphOps[omf <: OMF] {
   ( dt1: Iterable[omf#ModelStructuredDataType],
     dt2: Iterable[omf#ModelStructuredDataType] )
   : Boolean = {
-    val left = dt1.map( fromStructuredDataType ) toSet
-    val right = dt2.map( fromStructuredDataType ) toSet
+    val left = dt1.map( fromStructuredDataType ).toSet
+    val right = dt2.map( fromStructuredDataType ).toSet
     val d = left.diff( right )
     d.isEmpty
   }

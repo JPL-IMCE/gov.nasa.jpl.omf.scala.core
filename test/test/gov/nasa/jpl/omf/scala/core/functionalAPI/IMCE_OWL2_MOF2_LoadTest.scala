@@ -39,11 +39,11 @@
 package test.gov.nasa.jpl.omf.scala.core.functionalAPI
 
 import gov.nasa.jpl.omf.scala.core._
-import gov.nasa.jpl.omf.scala.core.RelationshipCharacteristics._
+
+import scala.Option
 import scala.language.implicitConversions
 import scala.language.postfixOps
 import org.scalatest._
-import scalaz.Scalaz._
 import scala.util.Try
 
 abstract class IMCE_OWL2_MOF2_LoadTest[omf <: OMF](
