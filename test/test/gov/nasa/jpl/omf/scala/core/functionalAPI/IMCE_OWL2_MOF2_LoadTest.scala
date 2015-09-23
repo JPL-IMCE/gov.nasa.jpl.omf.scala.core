@@ -39,11 +39,11 @@
 package test.gov.nasa.jpl.omf.scala.core.functionalAPI
 
 import gov.nasa.jpl.omf.scala.core._
-import gov.nasa.jpl.omf.scala.core.RelationshipCharacteristics._
+
+import scala.Option
 import scala.language.implicitConversions
 import scala.language.postfixOps
 import org.scalatest._
-import scalaz.Scalaz._
 import scala.util.Try
 
 abstract class IMCE_OWL2_MOF2_LoadTest[omf <: OMF](
@@ -57,13 +57,13 @@ abstract class IMCE_OWL2_MOF2_LoadTest[omf <: OMF](
 
   "IMCE OWL2-MOF2 load test" when {
 
-    var xsd_tbox: Try[omf#ImmutableModelTerminologyGraph] = null
+    var xsd_tbox: Try[(omf#ImmutableModelTerminologyGraph, omf#Mutable2IMutableTerminologyMap)] = null
     var xsd_integer: Option[omf#ModelScalarDataType] = null
     var xsd_string: Option[omf#ModelScalarDataType] = null
 
-    var annotation_tbox: Try[omf#ImmutableModelTerminologyGraph] = null
+    var annotation_tbox: Try[(omf#ImmutableModelTerminologyGraph, omf#Mutable2IMutableTerminologyMap)] = null
     
-    var owl2_mof2_tbox: Try[omf#ImmutableModelTerminologyGraph] = null
+    var owl2_mof2_tbox: Try[(omf#ImmutableModelTerminologyGraph, omf#Mutable2IMutableTerminologyMap)] = null
     
     "load xsd" in {
       val xsd_iri = makeIRI( "http://www.w3.org/2001/XMLSchema" )
@@ -76,11 +76,11 @@ abstract class IMCE_OWL2_MOF2_LoadTest[omf <: OMF](
         string_iri <- withFragment( xsd_iri, "string" )
       } {
         xsd_integer =
-          lookupScalarDataType( xsd_tbox.get, integer_iri, recursively=false  )
+          lookupScalarDataType( xsd_tbox.get._1, integer_iri, recursively=false  )
         xsd_integer.isDefined should be( true )
 
         xsd_string =
-          lookupScalarDataType( xsd_tbox.get, string_iri, recursively=false  )
+          lookupScalarDataType( xsd_tbox.get._1, string_iri, recursively=false  )
         xsd_string.isDefined should be( true )
       }
     }
@@ -101,11 +101,11 @@ abstract class IMCE_OWL2_MOF2_LoadTest[omf <: OMF](
         BinaryAssociation_iri <- withFragment( owl2_mof2_iri, "BinaryAssociation" )
       } {
         val BinaryAssociationEndType =
-          lookupEntityConcept( owl2_mof2_tbox.get, BinaryAssociationEndType_iri, recursively=false  )
+          lookupEntityConcept( owl2_mof2_tbox.get._1, BinaryAssociationEndType_iri, recursively=false  )
         BinaryAssociationEndType.isDefined should be(true)
 
         val BinaryAssociation =
-          lookupEntityReifiedRelationship( owl2_mof2_tbox.get, BinaryAssociation_iri, recursively=false  )
+          lookupEntityReifiedRelationship( owl2_mof2_tbox.get._1, BinaryAssociation_iri, recursively=false  )
         BinaryAssociation.isDefined should be(true)
       }
     }

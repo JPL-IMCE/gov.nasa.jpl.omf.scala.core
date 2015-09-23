@@ -39,11 +39,11 @@
 package test.gov.nasa.jpl.omf.scala.core.functionalAPI
 
 import gov.nasa.jpl.omf.scala.core._
-import gov.nasa.jpl.omf.scala.core.RelationshipCharacteristics._
+
+import scala.Option
 import scala.language.implicitConversions
 import scala.language.postfixOps
 import org.scalatest._
-import scalaz.Scalaz._
 import scala.util.Try
 
 abstract class IMCEFoundationLoadTest[omf <: OMF](
@@ -57,16 +57,16 @@ abstract class IMCEFoundationLoadTest[omf <: OMF](
 
   "IMCE foundation load test" when {
 
-    var xsd_tbox: Try[omf#ImmutableModelTerminologyGraph] = null
+    var xsd_tbox: Try[(omf#ImmutableModelTerminologyGraph, omf#Mutable2IMutableTerminologyMap)] = null
     var xsd_integer: Option[omf#ModelScalarDataType] = null
     var xsd_string: Option[omf#ModelScalarDataType] = null
 
-    var base_tbox: Try[omf#ImmutableModelTerminologyGraph] = null
+    var base_tbox: Try[(omf#ImmutableModelTerminologyGraph, omf#Mutable2IMutableTerminologyMap)] = null
 
-    var mission_tbox: Try[omf#ImmutableModelTerminologyGraph] = null
-    var analysis_tbox: Try[omf#ImmutableModelTerminologyGraph] = null
-    var behavior_tbox: Try[omf#ImmutableModelTerminologyGraph] = null
-    var project_tbox: Try[omf#ImmutableModelTerminologyGraph] = null
+    var mission_tbox: Try[(omf#ImmutableModelTerminologyGraph, omf#Mutable2IMutableTerminologyMap)] = null
+    var analysis_tbox: Try[(omf#ImmutableModelTerminologyGraph, omf#Mutable2IMutableTerminologyMap)] = null
+    var behavior_tbox: Try[(omf#ImmutableModelTerminologyGraph, omf#Mutable2IMutableTerminologyMap)] = null
+    var project_tbox: Try[(omf#ImmutableModelTerminologyGraph, omf#Mutable2IMutableTerminologyMap)] = null
 
     "load xsd" in {
       val xsd_iri = makeIRI( "http://www.w3.org/2001/XMLSchema" )
@@ -78,10 +78,10 @@ abstract class IMCEFoundationLoadTest[omf <: OMF](
         integer_iri <- withFragment( xsd_iri, "integer" )
         string_iri <- withFragment( xsd_iri, "string" )
       } {
-        xsd_integer = lookupScalarDataType( xsd_tbox.get, integer_iri, recursively=false )
+        xsd_integer = lookupScalarDataType( xsd_tbox.get._1, integer_iri, recursively=false )
         xsd_integer.isDefined should be( true )
 
-        xsd_string = lookupScalarDataType( xsd_tbox.get, string_iri, recursively=false )
+        xsd_string = lookupScalarDataType( xsd_tbox.get._1, string_iri, recursively=false )
         xsd_string.isDefined should be( true )
       }
     }
@@ -96,11 +96,11 @@ abstract class IMCEFoundationLoadTest[omf <: OMF](
         hasIdentifier_iri <- withFragment( base_iri, "hasIdentifier" )
       } {
         val identifiedElement =
-          lookupEntityAspect( base_tbox.get, identifiedElement_iri, recursively=false )
+          lookupEntityAspect( base_tbox.get._1, identifiedElement_iri, recursively=false )
         identifiedElement.isDefined should be(true)
 
         val hasIdentifier =
-          lookupEntityDataRelationshipFromEntityToScalar( base_tbox.get, hasIdentifier_iri, recursively=false )
+          lookupEntityDataRelationshipFromEntityToScalar( base_tbox.get._1, hasIdentifier_iri, recursively=false )
         hasIdentifier.isDefined should be(true)
       }
     }
@@ -116,15 +116,15 @@ abstract class IMCEFoundationLoadTest[omf <: OMF](
         performs_iri <- withFragment( mission_iri, "Performs" )
       } {
         val component =
-          lookupEntityConcept( mission_tbox.get, component_iri, recursively=false )
+          lookupEntityConcept( mission_tbox.get._1, component_iri, recursively=false )
         component.isDefined should be(true)
 
         val function =
-          lookupEntityConcept( mission_tbox.get, function_iri, recursively=false )
+          lookupEntityConcept( mission_tbox.get._1, function_iri, recursively=false )
         function.isDefined should be(true)
 
         val component_performs_function =
-          lookupEntityReifiedRelationship( mission_tbox.get, performs_iri, recursively=false )
+          lookupEntityReifiedRelationship( mission_tbox.get._1, performs_iri, recursively=false )
         component_performs_function.isDefined should be(true)
       }
     }
@@ -139,11 +139,11 @@ abstract class IMCEFoundationLoadTest[omf <: OMF](
         characterizedElement_iri <- withFragment( analysis_iri, "CharacterizedElement" )
       } {
         val characterization =
-          lookupEntityConcept( analysis_tbox.get, characterization_iri, recursively=false  )
+          lookupEntityConcept( analysis_tbox.get._1, characterization_iri, recursively=false  )
         characterization.isDefined should be(true)
 
         val characterizedElement =
-          lookupEntityAspect( analysis_tbox.get, characterizedElement_iri, recursively=false  )
+          lookupEntityAspect( analysis_tbox.get._1, characterizedElement_iri, recursively=false  )
         characterizedElement.isDefined should be(true)
       }
     }
@@ -158,11 +158,11 @@ abstract class IMCEFoundationLoadTest[omf <: OMF](
         parameter_iri <- withFragment( behavior_iri, "Parameter" )
       } {
         val stateVariable =
-          lookupEntityConcept( behavior_tbox.get, stateVariable_iri, recursively=false  )
+          lookupEntityConcept( behavior_tbox.get._1, stateVariable_iri, recursively=false  )
         stateVariable.isDefined should be(true)
 
         val parameter =
-          lookupEntityConcept( behavior_tbox.get, parameter_iri, recursively=false  )
+          lookupEntityConcept( behavior_tbox.get._1, parameter_iri, recursively=false  )
         parameter.isDefined should be(true)
       }
     }
@@ -177,11 +177,11 @@ abstract class IMCEFoundationLoadTest[omf <: OMF](
         workPackage_iri <- withFragment( project_iri, "WorkPackage" )
       } {
         val organization =
-          lookupEntityConcept( project_tbox.get, organization_iri, recursively=false  )
+          lookupEntityConcept( project_tbox.get._1, organization_iri, recursively=false  )
         organization.isDefined should be(true)
 
         val workPackage =
-          lookupEntityConcept( project_tbox.get, workPackage_iri, recursively=false  )
+          lookupEntityConcept( project_tbox.get._1, workPackage_iri, recursively=false  )
         workPackage.isDefined should be(true)
       }
     }

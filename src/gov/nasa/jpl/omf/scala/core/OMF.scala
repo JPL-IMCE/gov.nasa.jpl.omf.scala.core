@@ -38,6 +38,9 @@
  */
 package gov.nasa.jpl.omf.scala.core
 
+import scala.{Boolean,Option}
+import scala.collection.immutable.{Iterable,Map}
+
 import gov.nasa.jpl.omf.scala.core.RelationshipCharacteristics._
 import gov.nasa.jpl.omf.scala.core.TerminologyKind._
 
@@ -93,6 +96,7 @@ trait OMFtbox {
   type ModelTerminologyGraph
   type ImmutableModelTerminologyGraph <: ModelTerminologyGraph
   type MutableModelTerminologyGraph <: ModelTerminologyGraph
+  type Mutable2IMutableTerminologyMap <: Map[MutableModelTerminologyGraph, ImmutableModelTerminologyGraph]
 
   /**
    * A ModelTypeTerm is the basic unit for defining the conceptual model of a domain in an OMF ModelTerminologyGraph.
@@ -260,11 +264,11 @@ trait OMFtbox {
   type EntityDefinitionAspectSubClassAxiom <: ModelTermAxiom
 
   /**
-   * An EntityConceptToplevelDesignationTerminologyGraphAxiom is a ModelTermAxion assertion
-   * about a ModelEntityConcept representing the root designation concept
-   * for a toplevel designation ModelTerminologyGraph.
+   * An EntityConceptDesignationTerminologyGraphAxiom is a ModelTermAxion assertion
+   * about a ModelEntityConcept whose complete concept designation
+   * is specified in a designation ModelTerminologyGraph.
    */
-  type EntityConceptToplevelDesignationTerminologyGraphAxiom <: ModelTermAxiom
+  type EntityConceptDesignationTerminologyGraphAxiom <: ModelTermAxiom
 
   /**
    * An EntityConceptSubClassAxiom is a ModelTermAxion assertion about
@@ -305,7 +309,7 @@ trait OMFtbox {
   type EntityReifiedRelationshipSubClassAxiom <: ModelTermAxiom
 
   /**
-   * A ScalarDataTypeFacetRestriction is a ModelTermAxiom assertion about
+   * A ScalarDataTypeFacetRestrictionAxiom is a ModelTermAxiom assertion about
    * a subtype/supertype relationship between two ModelScalarDataTypes according
    * to one or more XML Schema 1.1 DataType facet restrictions:
    * the value space of the subtype ModelScalarDataType is the subset of the supertype ModelScalarDataType
@@ -313,8 +317,9 @@ trait OMFtbox {
    * if and only if the value satisfies all the facet restrictions.
    *
    * @see http://www.w3.org/TR/xmlschema11-2/#sec-datatypes-and-facets
+   * @see http://www.w3.org/TR/owl2-syntax/#Datatype_Restrictions
    */
-  type ScalarDataTypeFacetRestriction <: ModelTermAxiom
+  type ScalarDataTypeFacetRestrictionAxiom <: ModelTermAxiom
 
   /**
    * A TerminologyGraphAxiom is the abstraction for statements about

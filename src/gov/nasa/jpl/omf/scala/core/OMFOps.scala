@@ -40,10 +40,12 @@ package gov.nasa.jpl.omf.scala.core
 
 import gov.nasa.jpl.omf.scala.core.RelationshipCharacteristics._
 import gov.nasa.jpl.omf.scala.core.TerminologyKind._
+
+import scala.{Boolean,Option,Unit}
+import scala.Predef.String
+import scala.collection.immutable.{Iterable,Map,Set}
 import scala.language.postfixOps
 import scala.util.Try
-import scala.util.Failure
-import scala.util.Success
 import java.io.OutputStream
 
 /**
@@ -152,7 +154,7 @@ trait OMFStoreOps[omf <: OMF] {
   def loadTerminologyGraph
   ( iri: omf#IRI )
   ( implicit store: omf#Store )
-  : Try[omf#ImmutableModelTerminologyGraph]
+  : Try[(omf#ImmutableModelTerminologyGraph, omf#Mutable2IMutableTerminologyMap)]
 
   def fromTerminologyGraph
   ( graph: omf#ModelTerminologyGraph )
@@ -162,17 +164,18 @@ trait OMFStoreOps[omf <: OMF] {
   /**
    * Assigns a designation terminology graph as the closed-world structural description of a model entity concept
    * @param graph The mutable terminology graph in which to assert the axiom
-   * @param entityConcept The model entity concept to set/clear a designation terminology graph
-   * @param designationTerminologyGraph The designation terminology graph for the structural contents of the concept
+   * @param entityConceptDesignation The model entity concept whose complete complete designation is specified
+   * @param designationTerminologyGraph The terminology graph specifying the complete designation
+   *                                    for the structural contents of the model entity concept
    * @param store
    * @return The EntityConceptToplevelDesignationTerminologyGraphAxiom created
    */
-  def addEntityConceptToplevelDesignationTerminologyGraphAxiom
+  def addEntityConceptDesignationTerminologyGraphAxiom
   ( graph: omf#MutableModelTerminologyGraph,
-    entityConcept: omf#ModelEntityConcept,
+    entityConceptDesignation: omf#ModelEntityConcept,
     designationTerminologyGraph: omf#ModelTerminologyGraph )
   ( implicit store: omf#Store )
-  : Try[omf#EntityConceptToplevelDesignationTerminologyGraphAxiom]
+  : Try[omf#EntityConceptDesignationTerminologyGraphAxiom]
 
   def getNestingGraph
   ( graph: omf#ModelTerminologyGraph )
@@ -223,10 +226,18 @@ trait OMFStoreOps[omf <: OMF] {
   ( implicit store: omf#Store )
   : Try[Unit]
 
+  /**
+   * Converts a mutable tbox graph into an equivalent immutable tbox graph such that
+   * dependencies on mutable tbox graphs are also converted into equivalent immutable tbox graphs.
+   *
+   * @param g a mutable tbox
+   * @param store
+   * @return a map of all the mutable tboxes (incl. g) that have been converted to immutable tboxes
+   */
   def asImmutableTerminologyGraph
   ( g: omf#MutableModelTerminologyGraph )
   ( implicit store: omf#Store )
-  : Try[omf#ImmutableModelTerminologyGraph]
+  : Try[(omf#ImmutableModelTerminologyGraph, Map[omf#MutableModelTerminologyGraph, omf#ImmutableModelTerminologyGraph])]
 
   def isEntityDefinitionAssertedInTerminologyGraph
   ( t: omf#ModelTypeTerm, graph: omf#ModelTerminologyGraph )
@@ -569,8 +580,8 @@ trait ImmutableTerminologyGraphOps[omf <: OMF] {
   def equivalentEntityConcepts
   ( c1: Iterable[omf#ModelEntityConcept], c2: Iterable[omf#ModelEntityConcept] )
   : Boolean = {
-    val iris1 = c1.map( fromEntityConcept ) toSet
-    val iris2 = c2.map( fromEntityConcept ) toSet
+    val iris1 = c1.map( fromEntityConcept ).toSet
+    val iris2 = c2.map( fromEntityConcept ).toSet
     val d = iris1.diff( iris2 )
     d.isEmpty
   }
@@ -611,14 +622,16 @@ trait ImmutableTerminologyGraphOps[omf <: OMF] {
         fromEntityDefinition( s.source ),
         fromEntityDefinition( s.target ),
         relationshipCharacteristicsSummary( s.characteristics ) )
-    } toSet
+    }
+    .toSet
     val right = r2.map { r =>
       val s = fromEntityReifiedRelationship( r )
       ( s.iri,
         fromEntityDefinition( s.source ),
         fromEntityDefinition( s.target ),
         relationshipCharacteristicsSummary( s.characteristics ) )
-    } toSet
+    }
+    .toSet
     val d = left.diff( right )
     d.isEmpty
   }
@@ -639,8 +652,8 @@ trait ImmutableTerminologyGraphOps[omf <: OMF] {
   ( dt1: Iterable[omf#ModelScalarDataType],
     dt2: Iterable[omf#ModelScalarDataType] )
   : Boolean = {
-    val left = dt1.map( fromScalarDataType ) toSet
-    val right = dt2.map( fromScalarDataType ) toSet
+    val left = dt1.map( fromScalarDataType ).toSet
+    val right = dt2.map( fromScalarDataType ).toSet
     val d = left.diff( right )
     d.isEmpty
   }
@@ -655,8 +668,8 @@ trait ImmutableTerminologyGraphOps[omf <: OMF] {
   ( dt1: Iterable[omf#ModelStructuredDataType],
     dt2: Iterable[omf#ModelStructuredDataType] )
   : Boolean = {
-    val left = dt1.map( fromStructuredDataType ) toSet
-    val right = dt2.map( fromStructuredDataType ) toSet
+    val left = dt1.map( fromStructuredDataType ).toSet
+    val right = dt2.map( fromStructuredDataType ).toSet
     val d = left.diff( right )
     d.isEmpty
   }
@@ -690,10 +703,11 @@ trait ImmutableTerminologyGraphOps[omf <: OMF] {
   def foldTermAxiom[T]
   ( t: omf#ModelTermAxiom )
   ( funEntityDefinitionAspectSubClassAxiom: omf#EntityDefinitionAspectSubClassAxiom => T,
+    funEntityConceptDesignationTerminologyGraphAxiom: omf#EntityConceptDesignationTerminologyGraphAxiom => T,
     funEntityConceptSubClassAxiom: omf#EntityConceptSubClassAxiom => T,
     funEntityConceptRestrictionAxiom: omf#EntityConceptRestrictionAxiom => T,
     funEntityReifiedRelationshipSubClassAxiom: omf#EntityReifiedRelationshipSubClassAxiom => T,
-    funScalarDataTypeFacetRestriction: omf#ScalarDataTypeFacetRestriction => T )
+    funScalarDataTypeFacetRestrictionAxiom: omf#ScalarDataTypeFacetRestrictionAxiom => T )
   : T
 
   // entity definition aspect subclass axiom
@@ -701,6 +715,13 @@ trait ImmutableTerminologyGraphOps[omf <: OMF] {
   def fromEntityDefinitionAspectSubClassAxiom
   ( ax: omf#EntityDefinitionAspectSubClassAxiom )
   : ( omf#ModelEntityDefinition, omf#ModelEntityAspect )
+
+  // entity concept designation terminology graph axiom
+
+  def fromEntityConceptDesignationTerminologyGraphAxiom
+  ( ax: omf#EntityConceptDesignationTerminologyGraphAxiom )
+  : ( omf#ModelEntityConcept, omf#ModelTerminologyGraph )
+
 
   // entity concept subclass axiom
 
@@ -722,8 +743,8 @@ trait ImmutableTerminologyGraphOps[omf <: OMF] {
 
   // scalar datatype facet restriction axiom
 
-  def fromScalarDataTypeFacetRestriction
-  ( ax: omf#ScalarDataTypeFacetRestriction )
+  def fromScalarDataTypeFacetRestrictionAxiom
+  ( ax: omf#ScalarDataTypeFacetRestrictionAxiom )
   : ( omf#ModelScalarDataType, omf#ModelScalarDataType, Iterable[ConstrainingFacet] )
 
 }
@@ -895,13 +916,13 @@ trait MutableTerminologyGraphOps[omf <: OMF] extends ImmutableTerminologyGraphOp
   ( implicit store: omf#Store )
   : Try[omf#EntityReifiedRelationshipSubClassAxiom]
 
-  def addScalarDataTypeFacetRestriction
+  def addScalarDataTypeFacetRestrictionAxiom
   ( graph: omf#MutableModelTerminologyGraph,
     sub: omf#ModelScalarDataType,
     sup: omf#ModelScalarDataType,
     facets: Iterable[ConstrainingFacet] )
   ( implicit store: omf#Store )
-  : Try[omf#ScalarDataTypeFacetRestriction]
+  : Try[omf#ScalarDataTypeFacetRestrictionAxiom]
 
 }
 

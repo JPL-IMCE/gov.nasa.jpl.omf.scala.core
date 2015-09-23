@@ -38,6 +38,9 @@
  */
 package gov.nasa.jpl.omf.scala.core
 
+import scala.{Enumeration,Int}
+import scala.collection.immutable.Iterable
+
 object RelationshipCharacteristics extends Enumeration {
   type RelationshipCharacteristics = Value
   val isFunctional, isInverseFunctional, isSymmetric, isAsymmetric, isReflexive, isIrreflexive, isTransitive = Value

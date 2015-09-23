@@ -30,4 +30,4 @@ resolvers +=
   case _ => sys.error("Set either -DJPL_MBEE_LOCAL_REPOSITORY=<dir> or -DJPL_MBEE_REMOTE_REPOSITORY=<url> where <dir> is a local Maven repository directory or <url> is a remote Maven repository URL")
 }
 
-addSbtPlugin("gov.nasa.jpl.mbee.sbt" % "sbt-mbee-plugin" % "1800.02-1464dd44241282202546252e8db05d17115a436c")
+addSbtPlugin("gov.nasa.jpl.mbee.sbt" % "sbt-mbee-plugin" % "1800.02-ebc3f4612b3ae39c20e4d1511bd54eb068e877cc")

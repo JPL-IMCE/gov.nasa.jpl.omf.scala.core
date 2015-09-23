@@ -38,6 +38,8 @@
  */
 package gov.nasa.jpl.omf.scala.core
 
+import scala.{Boolean,Enumeration}
+
 /**
  * TerminologyKind indicates whether the semantics of the vocabulary of type terms defined 
  * in a TerminologyGraph (TBox graph) is open-world (isDefinition) or closed-world (isDesignation)
