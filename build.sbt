@@ -12,7 +12,7 @@ lazy val core = Project("omf-scala-core", file("."))
   .settings(
     MBEEKeys.mbeeLicenseYearOrRange := "2014-2015",
     MBEEKeys.mbeeOrganizationInfo := MBEEPlugin.MBEEOrganizations.imce,
-    MBEEKeys.targetJDK := MBEEKeys.jdk18.value,
+    MBEEKeys.targetJDK := MBEEKeys.jdk17.value,
     // include all test artifacts
     publishArtifact in Test := true,
     scalaSource in Compile := baseDirectory.value / "src",
