@@ -98,7 +98,7 @@ trait IRIOps[omf <: OMF] {
   // IRI
 
   def makeIRI( s: String )
-  : omf#IRI
+  : NonEmptyList[java.lang.Throwable] \/ omf#IRI
 
   def withFragment( iri: omf#IRI, fragment: String )
   : NonEmptyList[java.lang.Throwable] \/ omf#IRI

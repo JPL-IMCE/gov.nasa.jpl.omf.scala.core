@@ -57,10 +57,10 @@ abstract class IMCEFoundationLoadTest[omf <: OMF](
   "IMCE foundation load test" when {
 
     "load xsd" in {
-      val xsd_iri = makeIRI( "http://www.w3.org/2001/XMLSchema" )
 
       val result =
         for {
+          xsd_iri <- makeIRI( "http://www.w3.org/2001/XMLSchema" )
           xsd_tbox <- loadTerminologyGraph( xsd_iri )
           integer_iri <- withFragment( xsd_iri, "integer" )
           string_iri <- withFragment( xsd_iri, "string" )
@@ -75,10 +75,10 @@ abstract class IMCEFoundationLoadTest[omf <: OMF](
     }
 
     "load base" in {
-      val base_iri = makeIRI( "http://imce.jpl.nasa.gov/foundation/base/base" )
 
       val result =
         for {
+          base_iri <- makeIRI( "http://imce.jpl.nasa.gov/foundation/base/base" )
           base_tbox <- loadTerminologyGraph( base_iri )
           identifiedElement_iri <- withFragment( base_iri, "IdentifiedElement" )
           hasIdentifier_iri <- withFragment( base_iri, "hasIdentifier" )
@@ -95,10 +95,10 @@ abstract class IMCEFoundationLoadTest[omf <: OMF](
     }
 
     "load mission" in {
-      val mission_iri = makeIRI( "http://imce.jpl.nasa.gov/foundation/mission/mission" )
 
       val result =
         for {
+          mission_iri <- makeIRI( "http://imce.jpl.nasa.gov/foundation/mission/mission" )
           mission_tbox <- loadTerminologyGraph( mission_iri )
           component_iri <- withFragment( mission_iri, "Component" )
           function_iri <- withFragment( mission_iri, "Function" )
@@ -120,9 +120,10 @@ abstract class IMCEFoundationLoadTest[omf <: OMF](
     }
         
     "load analysis" in {
-      val analysis_iri= makeIRI( "http://imce.jpl.nasa.gov/foundation/analysis/analysis" )
+
       val result =
         for {
+          analysis_iri <- makeIRI( "http://imce.jpl.nasa.gov/foundation/analysis/analysis" )
           analysis_tbox <- loadTerminologyGraph( analysis_iri )
           characterization_iri <- withFragment( analysis_iri, "Characterization" )
           characterizedElement_iri <- withFragment( analysis_iri, "CharacterizedElement" )
@@ -139,9 +140,10 @@ abstract class IMCEFoundationLoadTest[omf <: OMF](
     }
     
     "load behavior" in {
-      val behavior_iri= makeIRI( "http://imce.jpl.nasa.gov/foundation/behavior/behavior" )
+
       val result =
         for {
+          behavior_iri <- makeIRI( "http://imce.jpl.nasa.gov/foundation/behavior/behavior" )
           behavior_tbox <- loadTerminologyGraph( behavior_iri )
           stateVariable_iri <- withFragment( behavior_iri, "StateVariable" )
           parameter_iri <- withFragment( behavior_iri, "Parameter" )
@@ -158,9 +160,10 @@ abstract class IMCEFoundationLoadTest[omf <: OMF](
     }
     
     "load project" in {
-      val project_iri= makeIRI( "http://imce.jpl.nasa.gov/foundation/project/project" )
+
       val result =
         for {
+          project_iri <- makeIRI( "http://imce.jpl.nasa.gov/foundation/project/project" )
           project_tbox <- loadTerminologyGraph( project_iri )
           organization_iri <- withFragment( project_iri, "Organization" )
           workPackage_iri <- withFragment( project_iri, "WorkPackage" )

@@ -57,10 +57,10 @@ abstract class IMCE_OWL2_MOF2_LoadTest[omf <: OMF](
   "IMCE OWL2-MOF2 load test" when {
 
     "load xsd" in {
-      val xsd_iri = makeIRI( "http://www.w3.org/2001/XMLSchema" )
 
       val result =
         for {
+          xsd_iri <- makeIRI( "http://www.w3.org/2001/XMLSchema" )
           xsd_tbox <- loadTerminologyGraph(xsd_iri)
           integer_iri <- withFragment(xsd_iri, "integer")
           string_iri <- withFragment(xsd_iri, "string")
@@ -74,15 +74,20 @@ abstract class IMCE_OWL2_MOF2_LoadTest[omf <: OMF](
     }
 
     "load annotation" in {
-      val annotation_iri = makeIRI( "http://imce.jpl.nasa.gov/foundation/annotation/annotation" )
-      val annotation_tbox = loadTerminologyGraph( annotation_iri )
-      annotation_tbox.isRight should be(true)
+
+      val result = for {
+        annotation_iri <- makeIRI( "http://imce.jpl.nasa.gov/foundation/annotation/annotation" )
+        annotation_tbox <- loadTerminologyGraph( annotation_iri )
+      } yield ()
+      result.isRight should be(true)
+
     }
 
     "load owl2-mof2" in {
-      val owl2_mof2_iri = makeIRI( "http://imce.jpl.nasa.gov/foundation/owl2-mof2/owl2-mof2" )
+
       val result =
         for {
+          owl2_mof2_iri <- makeIRI( "http://imce.jpl.nasa.gov/foundation/owl2-mof2/owl2-mof2" )
           owl2_mof2_tbox <- loadTerminologyGraph(owl2_mof2_iri)
           binaryAssociationEndType_iri <- withFragment(owl2_mof2_iri, "BinaryAssociationEndType")
           binaryAssociation_iri <- withFragment(owl2_mof2_iri, "BinaryAssociation")

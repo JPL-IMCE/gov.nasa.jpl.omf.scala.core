@@ -52,14 +52,12 @@ abstract class IMCEMissionDomainTBoxExample[omf <: OMF]()(
 
   import ops._
 
-  val i_m0: omf#IRI = makeIRI( "http://imce.jpl.nasa.gov/foundation/mission/mission0" )
-  val i_m1: omf#IRI = makeIRI( "http://imce.jpl.nasa.gov/foundation/mission/mission1" )
-
   "basic construction tests" when {
     "empty tbox should be empty" in {
 
       val result =
         for {
+          i_m0 <- makeIRI( "http://imce.jpl.nasa.gov/foundation/mission/mission0" )
           g <- makeTerminologyGraph(i_m0, isDefinition)
           s = ops.fromTerminologyGraph(g)
         } yield {
@@ -83,6 +81,7 @@ abstract class IMCEMissionDomainTBoxExample[omf <: OMF]()(
 
       val result =
         for {
+          i_m1 <- makeIRI( "http://imce.jpl.nasa.gov/foundation/mission/mission1" )
           g <- makeTerminologyGraph(i_m1, isDefinition)
           component <- addEntityConcept(g, "Component", isAbstract = false)
           function <- addEntityConcept(g, "Function", isAbstract = false)

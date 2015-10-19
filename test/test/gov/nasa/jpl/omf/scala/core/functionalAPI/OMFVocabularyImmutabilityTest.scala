@@ -108,12 +108,15 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF]
       import ops._
 
       for {
-        xsd <- loadTerminologyGraph(makeIRI("http://www.w3.org/2001/XMLSchema"))
-        integer = lookupScalarDataType(xsd._1, makeIRI("http://www.w3.org/2001/XMLSchema#integer"), recursively = false)
-        string = lookupScalarDataType(xsd._1, makeIRI("http://www.w3.org/2001/XMLSchema#string"), recursively = false)
-        base <- makeTerminologyGraph(
-          makeIRI("http://imce.jpl.nasa.gov/foundation/base/base"),
-          isDefinition)
+        xsd_iri <- makeIRI("http://www.w3.org/2001/XMLSchema")
+        xsd <- loadTerminologyGraph(xsd_iri)
+
+        int_iri <- makeIRI("http://www.w3.org/2001/XMLSchema#integer")
+        integer = lookupScalarDataType(xsd._1, int_iri, recursively = false)
+        string_iri <- makeIRI("http://www.w3.org/2001/XMLSchema#string")
+        string = lookupScalarDataType(xsd._1, string_iri, recursively = false)
+        base_iri <- makeIRI("http://imce.jpl.nasa.gov/foundation/base/base")
+        base <- makeTerminologyGraph(base_iri, isDefinition)
         base_extends_xsd <- addTerminologyGraphExtension(base, xsd._1)
         identifiedElement <- addEntityAspect(base, "IdentifiedElement")
         hasIdentifier = addDataRelationshipFromEntityToScalar(
@@ -124,9 +127,8 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF]
 
         ibase <- asImmutableTerminologyGraph(base)
 
-        mission <- makeTerminologyGraph(
-          makeIRI("http://imce.jpl.nasa.gov/foundation/mission/mission"),
-          isDefinition)
+        mission_iri <- makeIRI("http://imce.jpl.nasa.gov/foundation/mission/mission")
+        mission <- makeTerminologyGraph(mission_iri, isDefinition)
 
         component <- addEntityConcept(mission, "Component", isAbstract = false)
         function <- addEntityConcept(mission, "Function", isAbstract = false)
@@ -142,13 +144,11 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF]
         item <- addEntityConcept(mission, "Item", isAbstract = false)
         message <- addEntityConcept(mission, "Message", isAbstract = false)
         materialItem <- addEntityConcept(mission, "MaterialItem", isAbstract = false)
+        identifiedElement_iri <- makeIRI("http://imce.jpl.nasa.gov/foundation/base/base#IdentifiedElement")
       } yield {
 
         val identifiedElement =
-          lookupEntityAspect(
-            ibase._1,
-            makeIRI("http://imce.jpl.nasa.gov/foundation/base/base#IdentifiedElement"),
-            recursively = false)
+          lookupEntityAspect(ibase._1, identifiedElement_iri, recursively = false)
         identifiedElement.isDefined should be(true)
 
         val mission_extends_base = addTerminologyGraphExtension(mission, ibase._1)
@@ -189,9 +189,19 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF]
       import ops._
 
       for {
-        xsd <- loadTerminologyGraph(makeIRI("http://www.w3.org/2001/XMLSchema"))
-        base <- loadTerminologyGraph(makeIRI("http://imce.jpl.nasa.gov/foundation/base/base"))
-        mission <- loadTerminologyGraph(makeIRI("http://imce.jpl.nasa.gov/foundation/mission/mission"))
+        xsd_iri <- makeIRI("http://www.w3.org/2001/XMLSchema")
+        xsd <- loadTerminologyGraph(xsd_iri)
+        base_iri <- makeIRI("http://imce.jpl.nasa.gov/foundation/base/base")
+        base <- loadTerminologyGraph(base_iri)
+        mission_iri <- makeIRI("http://imce.jpl.nasa.gov/foundation/mission/mission")
+        mission <- loadTerminologyGraph(mission_iri)
+        integer_iri <- makeIRI("http://www.w3.org/2001/XMLSchema#integer")
+        string_iri <- makeIRI("http://www.w3.org/2001/XMLSchema#string")
+        identifiedElement_iri <- makeIRI("http://imce.jpl.nasa.gov/foundation/base/base#IdentifiedElement")
+        hasIdentifier_iri <- makeIRI("http://imce.jpl.nasa.gov/foundation/base/base#hasIdentifier")
+        component_iri <- makeIRI("http://imce.jpl.nasa.gov/foundation/mission/mission#Component")
+        function_iri <- makeIRI("http://imce.jpl.nasa.gov/foundation/mission/mission#Function")
+        component_performs_function_iri <- makeIRI("http://imce.jpl.nasa.gov/foundation/mission/mission#Performs")
       } yield {
 
         {
@@ -210,22 +220,17 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF]
           s.axioms.isEmpty should be(true)
         }
 
-        val integer = lookupScalarDataType(xsd._1, makeIRI("http://www.w3.org/2001/XMLSchema#integer"), recursively = false)
+        val integer = lookupScalarDataType(xsd._1, integer_iri, recursively = false)
+        integer.isDefined should be(true)
 
-        val string =
-          lookupScalarDataType(base._1, makeIRI("http://www.w3.org/2001/XMLSchema#string"), recursively = true)
+        val string = lookupScalarDataType(base._1, string_iri, recursively = true)
         string.isDefined should be(true)
 
-        val identifiedElement =
-          lookupEntityAspect(
-            base._1,
-            makeIRI("http://imce.jpl.nasa.gov/foundation/base/base#IdentifiedElement"), recursively = false)
+        val identifiedElement = lookupEntityAspect(base._1, identifiedElement_iri, recursively = false)
         identifiedElement.isDefined should be(true)
 
         val hasIdentifier =
-          lookupEntityDataRelationshipFromEntityToScalar(
-            base._1,
-            makeIRI("http://imce.jpl.nasa.gov/foundation/base/base#hasIdentifier"), recursively = false)
+          lookupEntityDataRelationshipFromEntityToScalar(base._1, hasIdentifier_iri, recursively = false)
         hasIdentifier.isDefined should be(true)
 
         val (_, hasIdentifierSource, hasIdentifierTarget) =
@@ -249,26 +254,17 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF]
           s.axioms.isEmpty should be(false)
         }
 
-        val component = lookupEntityConcept(
-          mission._1,
-          makeIRI("http://imce.jpl.nasa.gov/foundation/mission/mission#Component"),
-          recursively = false)
+        val component = lookupEntityConcept(mission._1, component_iri, recursively = false)
         component.isDefined should be(true)
 
-        val function = lookupEntityConcept(
-          mission._1,
-          makeIRI("http://imce.jpl.nasa.gov/foundation/mission/mission#Function"),
-          recursively = false)
+        val function = lookupEntityConcept(mission._1, function_iri, recursively = false)
         function.isDefined should be(true)
 
-        val component_performs_function = lookupEntityReifiedRelationship(
-          mission._1,
-          makeIRI("http://imce.jpl.nasa.gov/foundation/mission/mission#Performs"),
-          recursively = false)
+        val component_performs_function =
+          lookupEntityReifiedRelationship(mission._1, component_performs_function_iri, recursively = false)
         component_performs_function.isDefined should be(true)
 
-        val component_performs_function_info =
-          fromEntityReifiedRelationship(component_performs_function.get)
+        val component_performs_function_info = fromEntityReifiedRelationship(component_performs_function.get)
         component_performs_function_info.source should be(component.get)
         component_performs_function_info.target should be(function.get)
         component_performs_function_info.isAbstract should be(false)
