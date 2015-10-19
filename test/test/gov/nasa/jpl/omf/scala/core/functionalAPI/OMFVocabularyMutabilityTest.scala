@@ -58,7 +58,7 @@ abstract class OMFVocabularyMutabilityTest[omf <: OMF]
 
   def postOMFSave(): Unit
 
-  def withOMFSave(testCode: (omf#Store, OMFOps[omf]) => NonEmptyList[OMFError.OMFException] \/ Unit)
+  def withOMFSave(testCode: (omf#Store, OMFOps[omf]) => NonEmptyList[java.lang.Throwable] \/ Unit)
   : Unit =
 
     nonFatalCatch[Unit]
@@ -81,7 +81,7 @@ abstract class OMFVocabularyMutabilityTest[omf <: OMF]
 
   def postOMFLoad(): Unit
 
-  def withOMFLoad(testCode: (omf#Store, OMFOps[omf]) => NonEmptyList[OMFError.OMFException] \/ Unit)
+  def withOMFLoad(testCode: (omf#Store, OMFOps[omf]) => NonEmptyList[java.lang.Throwable] \/ Unit)
   : Unit =
 
     nonFatalCatch[Unit]

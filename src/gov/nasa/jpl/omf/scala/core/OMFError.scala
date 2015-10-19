@@ -66,37 +66,37 @@ object OMFError {
 
   def omfError
   ( message: String )
-  : OMFException =
+  : java.lang.Throwable =
   new OMFException(message)
 
   def omfException
   ( message: String,
     cause: java.lang.Throwable )
-  : OMFException =
+  : java.lang.Throwable =
     new OMFException(message, cause.some)
 
   def omfBindingError
   ( message: String )
-  : OMFException =
+  : java.lang.Throwable =
   new OMFBindingException( message )
 
   def omfBindingException
   ( message: String,
     cause: java.lang.Throwable  )
-  : OMFException =
+  : java.lang.Throwable =
     new OMFBindingException( message, cause.some )
 
   def omfOpsError[Omf <: OMF]
   ( ops: OMFOps[Omf],
     message: String )
-  : OMFException =
+  : java.lang.Throwable =
     new OMFOpsException( ops, message )
 
   def omfOpsException[Omf <: OMF]
   ( ops: OMFOps[Omf],
     message: String,
     cause: java.lang.Throwable  )
-  : OMFException =
+  : java.lang.Throwable =
     new OMFOpsException( ops, message, cause.some )
 
 }
