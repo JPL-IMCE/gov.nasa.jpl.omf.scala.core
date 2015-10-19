@@ -1,5 +1,6 @@
 .cache
 .classpath
+.ensime*
 .idea
 .project
 bin*

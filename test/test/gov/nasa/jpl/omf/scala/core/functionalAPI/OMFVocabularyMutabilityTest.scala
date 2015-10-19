@@ -42,44 +42,62 @@ import gov.nasa.jpl.omf.scala.core._
 import gov.nasa.jpl.omf.scala.core.RelationshipCharacteristics._
 import gov.nasa.jpl.omf.scala.core.TerminologyKind._
 
-import scala.language.implicitConversions
-import scala.language.postfixOps
-import org.scalatest._
-import scala.{Some,Unit}
+import scala.language.{implicitConversions, postfixOps}
+import org.scalatest._, exceptions._
+import scala.{StringContext,Unit}
+import scala.util.control.Exception._
+import scalaz._, Scalaz._
 import scala.collection.immutable.List
 
-abstract class OMFVocabularyMutabilityTest[omf <: OMF](
-                                                        val saveStore: omf#Store, saveOps: OMFOps[omf],
-                                                        val loadStore: omf#Store, loadOps: OMFOps[omf])
-  extends WordSpec with Matchers {
+abstract class OMFVocabularyMutabilityTest[omf <: OMF]
+( val saveStore: omf#Store, saveOps: OMFOps[omf],
+  val loadStore: omf#Store, loadOps: OMFOps[omf]
+) extends WordSpec with Matchers {
 
   def preOMFSave(): Unit
 
   def postOMFSave(): Unit
 
-  def withOMFSave(testCode: (omf#Store, OMFOps[omf]) => Unit): Unit = {
+  def withOMFSave(testCode: (omf#Store, OMFOps[omf]) => NonEmptyList[OMFError.OMFException] \/ Unit)
+  : Unit =
 
-    try {
-      preOMFSave()
-      testCode(saveStore, saveOps)
-    } finally {
-      postOMFSave()
+    nonFatalCatch[Unit]
+    .withApply {
+      (cause: java.lang.Throwable) =>
+        throw new TestFailedException(
+          message=s"withOMFSave failed: ${cause.getMessage}",
+          cause=cause,
+          failedCodeStackDepth=2)
     }
-  }
+    .apply({
+      preOMFSave()
+      val result = testCode(saveStore, saveOps)
+      postOMFSave()
+      result.isRight should be (true)
+    })
+
 
   def preOMFLoad(): Unit
 
   def postOMFLoad(): Unit
 
-  def withOMFLoad(testCode: (omf#Store, OMFOps[omf]) => Unit): Unit = {
+  def withOMFLoad(testCode: (omf#Store, OMFOps[omf]) => NonEmptyList[OMFError.OMFException] \/ Unit)
+  : Unit =
 
-    try {
-      preOMFLoad()
-      testCode(loadStore, loadOps)
-    } finally {
-      postOMFLoad()
-    }
-  }
+    nonFatalCatch[Unit]
+      .withApply {
+        (cause: java.lang.Throwable) =>
+          throw new TestFailedException(
+            message=s"withOMFLoad failed: ${cause.getMessage}",
+            cause=cause,
+            failedCodeStackDepth=2)
+      }
+      .apply({
+        preOMFLoad()
+        val result = testCode(loadStore, loadOps)
+        postOMFLoad()
+        result.isRight should be (true)
+      })
 
   "vocabulary roundtrip test" when {
 
@@ -89,96 +107,62 @@ abstract class OMFVocabularyMutabilityTest[omf <: OMF](
       implicit val ops = o
       import ops._
 
-      val xsd = loadTerminologyGraph(makeIRI("http://www.w3.org/2001/XMLSchema"))
-      xsd should be a 'success
+      for {
+        xsd <- loadTerminologyGraph(makeIRI("http://www.w3.org/2001/XMLSchema"))
+        integer = lookupScalarDataType(xsd._1, makeIRI("http://www.w3.org/2001/XMLSchema#integer"), recursively = false)
+        string = lookupScalarDataType(xsd._1, makeIRI("http://www.w3.org/2001/XMLSchema#string"), recursively = false)
+        base <- makeTerminologyGraph(
+          makeIRI("http://imce.jpl.nasa.gov/foundation/base/base"),
+          isDefinition)
+        base_extends_xsd <- addTerminologyGraphExtension(base, xsd._1)
+        identifiedElement <- addEntityAspect(base, "IdentifiedElement")
+        hasIdentifier = addDataRelationshipFromEntityToScalar(
+          graph = base,
+          source = identifiedElement,
+          target = string.get,
+          dataRelationshipName = "hasIdentifier")
+        mission <- makeTerminologyGraph(
+          makeIRI("http://imce.jpl.nasa.gov/foundation/mission/mission"),
+          isDefinition)
+        mission_extends_base <- addTerminologyGraphExtension(mission, base)
+        component <- addEntityConcept(mission, "Component", isAbstract = false)
+        component_extends_identifiedElement <- addEntityDefinitionAspectSubClassAxiom(
+          graph = mission,
+          sub = component,
+          sup = identifiedElement)
+        function <- addEntityConcept(mission, "Function", isAbstract = false)
+        function_extends_identifiedElement <- addEntityDefinitionAspectSubClassAxiom(
+          graph = mission,
+          sub = function,
+          sup = identifiedElement)
+        component_performs_function <- addEntityReifiedRelationship(
+          graph = mission,
+          source = component,
+          target = function,
+          characteristics = List(isAsymmetric, isIrreflexive, isInverseFunctional),
+          reifiedRelationshipName = "Performs",
+          unreifiedRelationshipName = "performs",
+          unreifiedInverseRelationshipName = "isPerformedBy".some,
+          isAbstract = false)
+        item <- addEntityConcept(mission, "Item", isAbstract = false)
 
-      val integer =
-        lookupScalarDataType(xsd.get._1, makeIRI("http://www.w3.org/2001/XMLSchema#integer"), recursively = false)
-      integer.isDefined should be(true)
+        message <- addEntityConcept(mission, "Message", isAbstract = false)
 
-      val string =
-        lookupScalarDataType(xsd.get._1, makeIRI("http://www.w3.org/2001/XMLSchema#string"), recursively = false)
-      string.isDefined should be(true)
+        materialItem <- addEntityConcept(mission, "MaterialItem", isAbstract = false)
 
-      val base = makeTerminologyGraph(
-                                       makeIRI("http://imce.jpl.nasa.gov/foundation/base/base"),
-                                       isDefinition)
-      base should be a 'success
+        message_extends_item <- addEntityConceptSubClassAxiom(mission, message, item)
 
-      val base_extends_xsd = addTerminologyGraphExtension(base.get, xsd.get._1)
-      base_extends_xsd should be a 'success
+        materialItem_extends_item <- addEntityConceptSubClassAxiom(mission, materialItem, item)
 
-      val identifiedElement = addEntityAspect(base.get, "IdentifiedElement")
-      identifiedElement should be a 'success
+        baseSaved <- saveTerminologyGraph(base)
 
-      val hasIdentifier = addDataRelationshipFromEntityToScalar(
-                                                                 graph = base.get,
-                                                                 source = identifiedElement.get,
-                                                                 target = string.get,
-                                                                 dataRelationshipName = "hasIdentifier")
-      hasIdentifier should be a 'success
+        missionSaved <- saveTerminologyGraph(mission)
+      } yield {
+        integer.isDefined should be(true)
+        string.isDefined should be(true)
 
-      val mission = makeTerminologyGraph(
-                                          makeIRI("http://imce.jpl.nasa.gov/foundation/mission/mission"),
-                                          isDefinition)
-      mission should be a 'success
-
-      val mission_extends_base = addTerminologyGraphExtension(mission.get, base.get)
-      mission_extends_base should be a 'success
-
-      val component = addEntityConcept(mission.get, "Component", isAbstract = false)
-      component should be a 'success
-
-      val component_extends_identifiedElement = addEntityDefinitionAspectSubClassAxiom(
-                                                                                        graph = mission.get,
-                                                                                        sub = component.get,
-                                                                                        sup = identifiedElement.get)
-      component_extends_identifiedElement.isSuccess should be(true)
-
-      val function = addEntityConcept(mission.get, "Function", isAbstract = false)
-      function should be a 'success
-
-      val function_extends_identifiedElement = addEntityDefinitionAspectSubClassAxiom(
-                                                                                       graph = mission.get,
-                                                                                       sub = function.get,
-                                                                                       sup = identifiedElement.get)
-      function_extends_identifiedElement should be a 'success
-
-      val component_performs_function = addEntityReifiedRelationship(
-                                                                      graph = mission.get,
-                                                                      source = component.get,
-                                                                      target = function.get,
-                                                                      characteristics = List(isAsymmetric, isIrreflexive, isInverseFunctional),
-                                                                      reifiedRelationshipName = "Performs",
-                                                                      unreifiedRelationshipName = "performs",
-                                                                      unreifiedInverseRelationshipName = Some("isPerformedBy"),
-                                                                      isAbstract = false)
-      component_performs_function should be a 'success
-
-      val item = addEntityConcept(mission.get, "Item", isAbstract = false)
-      item should be a 'success
-
-      val message = addEntityConcept(mission.get, "Message", isAbstract = false)
-      message should be a 'success
-
-      val materialItem = addEntityConcept(mission.get, "MaterialItem", isAbstract = false)
-      materialItem should be a 'success
-
-      val message_extends_item =
-        addEntityConceptSubClassAxiom(mission.get, message.get, item.get)
-      message_extends_item should be a 'success
-
-      val materialItem_extends_item =
-        addEntityConceptSubClassAxiom(mission.get, materialItem.get, item.get)
-      materialItem_extends_item should be a 'success
-
-      val baseSaved = saveTerminologyGraph(base.get)
-      baseSaved should be a 'success
-
-      val missionSaved = saveTerminologyGraph(mission.get)
-      missionSaved should be a 'success
-
-                                                    }
+      }
+    }
 
     "read tboxes and check them" in withOMFLoad { (s, o) =>
 
@@ -186,97 +170,87 @@ abstract class OMFVocabularyMutabilityTest[omf <: OMF](
       implicit val ops = o
       import ops._
 
-      val xsd =
-        loadTerminologyGraph(makeIRI("http://www.w3.org/2001/XMLSchema"))
-      xsd should be a 'success
+      for {
+        xsd <- loadTerminologyGraph(makeIRI("http://www.w3.org/2001/XMLSchema"))
+        integer = lookupScalarDataType(xsd._1, makeIRI("http://www.w3.org/2001/XMLSchema#integer"), recursively = false)
+        base <- loadTerminologyGraph(makeIRI("http://imce.jpl.nasa.gov/foundation/base/base"))
+        mission <- loadTerminologyGraph(makeIRI("http://imce.jpl.nasa.gov/foundation/mission/mission"))
+      } yield {
+        val s = ops.fromTerminologyGraph(base._1)
+        s.imports.isEmpty should be(false)
+        s.imports.toSet.contains(xsd._1) should be(true)
+        s.aspects.isEmpty should be(false)
+        s.concepts.isEmpty should be(true)
+        s.reifiedRelationships.isEmpty should be(true)
+        s.scalarDataTypes.isEmpty should be(true)
+        s.structuredDataTypes.isEmpty should be(true)
+        s.entity2scalarDataRelationships.isEmpty should be(false)
+        s.entity2structureDataRelationships.isEmpty should be(true)
+        s.structure2scalarDataRelationships.isEmpty should be(true)
+        s.structure2structureDataRelationships.isEmpty should be(true)
+        s.axioms.isEmpty should be(true)
 
-      val integer =
-        lookupScalarDataType(xsd.get._1, makeIRI("http://www.w3.org/2001/XMLSchema#integer"), recursively = false)
-      integer.isDefined should be(true)
+        val string =
+          lookupScalarDataType(base._1, makeIRI("http://www.w3.org/2001/XMLSchema#string"), recursively = true)
+        string.isDefined should be(true)
 
-      val base =
-        loadTerminologyGraph(makeIRI("http://imce.jpl.nasa.gov/foundation/base/base"))
-      base should be a 'success
+        val identifiedElement =
+          lookupEntityAspect(
+            base._1,
+            makeIRI("http://imce.jpl.nasa.gov/foundation/base/base#IdentifiedElement"),
+            recursively = false)
+        identifiedElement.isDefined should be(true)
 
-    {
-      val s = ops.fromTerminologyGraph(base.get._1)
-      s.imports.isEmpty should be(false)
-      s.imports.toSet.contains(xsd.get._1) should be(true)
-      s.aspects.isEmpty should be(false)
-      s.concepts.isEmpty should be(true)
-      s.reifiedRelationships.isEmpty should be(true)
-      s.scalarDataTypes.isEmpty should be(true)
-      s.structuredDataTypes.isEmpty should be(true)
-      s.entity2scalarDataRelationships.isEmpty should be(false)
-      s.entity2structureDataRelationships.isEmpty should be(true)
-      s.structure2scalarDataRelationships.isEmpty should be(true)
-      s.structure2structureDataRelationships.isEmpty should be(true)
-      s.axioms.isEmpty should be(true)
+        val hasIdentifier =
+          lookupEntityDataRelationshipFromEntityToScalar(
+            base._1,
+            makeIRI("http://imce.jpl.nasa.gov/foundation/base/base#hasIdentifier"),
+            recursively = false)
+        hasIdentifier.isDefined should be(true)
+
+        val (_, hasIdentifierSource, hasIdentifierTarget) =
+          fromDataRelationshipFromEntityToScalar(hasIdentifier.get)
+        identifiedElement.get should be(hasIdentifierSource)
+        string.get should be(hasIdentifierTarget)
+
+        {
+          val s = ops.fromTerminologyGraph(mission._1)
+          s.imports.isEmpty should be(false)
+          s.imports.toSet.contains(base._1) should be(true)
+          s.aspects.isEmpty should be(true)
+          s.concepts.isEmpty should be(false)
+          s.reifiedRelationships.isEmpty should be(false)
+          s.scalarDataTypes.isEmpty should be(true)
+          s.structuredDataTypes.isEmpty should be(true)
+          s.entity2scalarDataRelationships.isEmpty should be(true)
+          s.entity2structureDataRelationships.isEmpty should be(true)
+          s.structure2scalarDataRelationships.isEmpty should be(true)
+          s.structure2structureDataRelationships.isEmpty should be(true)
+          s.axioms.isEmpty should be(false)
+        }
+
+        val component = lookupEntityConcept(
+          mission._1,
+          makeIRI("http://imce.jpl.nasa.gov/foundation/mission/mission#Component"), recursively = false)
+        component.isDefined should be(true)
+
+        val function = lookupEntityConcept(
+          mission._1,
+          makeIRI("http://imce.jpl.nasa.gov/foundation/mission/mission#Function"), recursively = false)
+        function.isDefined should be(true)
+
+        val component_performs_function = lookupEntityReifiedRelationship(
+          mission._1,
+          makeIRI("http://imce.jpl.nasa.gov/foundation/mission/mission#Performs"), recursively = false)
+        component_performs_function.isDefined should be(true)
+
+        val component_performs_function_info =
+          fromEntityReifiedRelationship(component_performs_function.get)
+        component_performs_function_info.source should be(component.get)
+        component_performs_function_info.target should be(function.get)
+        component_performs_function_info.isAbstract should be(false)
+      }
     }
-
-      val string =
-        lookupScalarDataType(base.get._1, makeIRI("http://www.w3.org/2001/XMLSchema#string"), recursively = true)
-      string.isDefined should be(true)
-
-      val identifiedElement =
-        lookupEntityAspect(
-                            base.get._1,
-                            makeIRI("http://imce.jpl.nasa.gov/foundation/base/base#IdentifiedElement"),
-                            recursively = false)
-      identifiedElement.isDefined should be(true)
-
-      val hasIdentifier =
-        lookupEntityDataRelationshipFromEntityToScalar(
-                                                        base.get._1,
-                                                        makeIRI("http://imce.jpl.nasa.gov/foundation/base/base#hasIdentifier"),
-                                                        recursively = false)
-      hasIdentifier.isDefined should be(true)
-
-      val (_, hasIdentifierSource, hasIdentifierTarget) =
-        fromDataRelationshipFromEntityToScalar(hasIdentifier.get)
-      identifiedElement.get should be(hasIdentifierSource)
-      string.get should be(hasIdentifierTarget)
-
-      val mission = loadTerminologyGraph(makeIRI("http://imce.jpl.nasa.gov/foundation/mission/mission"))
-      mission should be a 'success
-
-    {
-      val s = ops.fromTerminologyGraph(mission.get._1)
-      s.imports.isEmpty should be(false)
-      s.imports.toSet.contains(base.get._1) should be(true)
-      s.aspects.isEmpty should be(true)
-      s.concepts.isEmpty should be(false)
-      s.reifiedRelationships.isEmpty should be(false)
-      s.scalarDataTypes.isEmpty should be(true)
-      s.structuredDataTypes.isEmpty should be(true)
-      s.entity2scalarDataRelationships.isEmpty should be(true)
-      s.entity2structureDataRelationships.isEmpty should be(true)
-      s.structure2scalarDataRelationships.isEmpty should be(true)
-      s.structure2structureDataRelationships.isEmpty should be(true)
-      s.axioms.isEmpty should be(false)
-    }
-
-      val component = lookupEntityConcept(
-                                           mission.get._1,
-                                           makeIRI("http://imce.jpl.nasa.gov/foundation/mission/mission#Component"), recursively = false)
-      component.isDefined should be(true)
-
-      val function = lookupEntityConcept(
-                                          mission.get._1,
-                                          makeIRI("http://imce.jpl.nasa.gov/foundation/mission/mission#Function"), recursively = false)
-      function.isDefined should be(true)
-
-      val component_performs_function = lookupEntityReifiedRelationship(
-                                                                         mission.get._1,
-                                                                         makeIRI("http://imce.jpl.nasa.gov/foundation/mission/mission#Performs"), recursively = false)
-      component_performs_function.isDefined should be(true)
-
-      val component_performs_function_info =
-        fromEntityReifiedRelationship(component_performs_function.get)
-      component_performs_function_info.source should be(component.get)
-      component_performs_function_info.target should be(function.get)
-      component_performs_function_info.isAbstract should be(false)
-                                                }
 
   }
 

@@ -58,55 +58,55 @@ abstract class IMCEMissionDomainTBoxExample[omf <: OMF]()(
   "basic construction tests" when {
     "empty tbox should be empty" in {
 
-      val t0 = makeTerminologyGraph( i_m0, isDefinition )
-      t0.isSuccess should be( true )
-
-      val s = ops.fromTerminologyGraph( t0.get )
-      s.imports.isEmpty should be( true )
-      s.aspects.isEmpty should be( true )
-      s.concepts.isEmpty should be( true )
-      s.reifiedRelationships.isEmpty should be( true )
-      s.unreifiedRelationships.isEmpty should be( true )
-      s.structuredDataTypes.isEmpty should be( true )
-      s.scalarDataTypes.isEmpty should be( true )
-      s.entity2scalarDataRelationships.isEmpty should be( true )
-      s.entity2structureDataRelationships.isEmpty should be( true )
-      s.structure2scalarDataRelationships.isEmpty should be( true )
-      s.structure2structureDataRelationships.isEmpty should be( true )
-      s.axioms.isEmpty should be( true )
+      val result =
+        for {
+          g <- makeTerminologyGraph(i_m0, isDefinition)
+          s = ops.fromTerminologyGraph(g)
+        } yield {
+          s.imports.isEmpty should be(true)
+          s.aspects.isEmpty should be(true)
+          s.concepts.isEmpty should be(true)
+          s.reifiedRelationships.isEmpty should be(true)
+          s.unreifiedRelationships.isEmpty should be(true)
+          s.structuredDataTypes.isEmpty should be(true)
+          s.scalarDataTypes.isEmpty should be(true)
+          s.entity2scalarDataRelationships.isEmpty should be(true)
+          s.entity2structureDataRelationships.isEmpty should be(true)
+          s.structure2scalarDataRelationships.isEmpty should be(true)
+          s.structure2structureDataRelationships.isEmpty should be(true)
+          s.axioms.isEmpty should be(true)
+        }
+      result.isRight should be(true)
     }
 
     "simple construction & lookup" in {
 
-      val t1 = makeTerminologyGraph( i_m1, isDefinition )
-      t1.isSuccess should be( true )
+      val result =
+        for {
+          g <- makeTerminologyGraph(i_m1, isDefinition)
+          component <- addEntityConcept(g, "Component", isAbstract = false)
+          function <- addEntityConcept(g, "Function", isAbstract = false)
+          s = fromTerminologyGraph(g)
+        } yield {
+          s.iri should be(i_m1)
+          s.imports.isEmpty should be(true)
+          s.aspects.isEmpty should be(true)
 
-      val g = t1.get
+          s.concepts.nonEmpty should be(true)
+          s.concepts.size should be(2)
+          s.concepts.toSet.contains(component) should be(true)
+          s.concepts.toSet.contains(function) should be(true)
 
-      val component = addEntityConcept( g, "Component", isAbstract=false )
-      component.isSuccess should be( true )
-
-      val function = addEntityConcept( g, "Function", isAbstract=false )
-      function.isSuccess should be( true )
-
-      val s = fromTerminologyGraph( g )
-      s.iri should be( i_m1 )
-      s.imports.isEmpty should be( true )
-      s.aspects.isEmpty should be( true )
-
-      s.concepts.nonEmpty should be( true )
-      s.concepts.size should be(2)
-      s.concepts.toSet.contains(component.get) should be(true)
-      s.concepts.toSet.contains(function.get) should be(true)
-
-      s.reifiedRelationships.isEmpty should be( true )
-      s.scalarDataTypes.isEmpty should be( true )
-      s.structuredDataTypes.isEmpty should be( true )
-      s.entity2scalarDataRelationships.isEmpty should be( true )
-      s.entity2structureDataRelationships.isEmpty should be( true )
-      s.structure2scalarDataRelationships.isEmpty should be( true )
-      s.structure2structureDataRelationships.isEmpty should be( true )
-      s.axioms.isEmpty should be( true )
+          s.reifiedRelationships.isEmpty should be(true)
+          s.scalarDataTypes.isEmpty should be(true)
+          s.structuredDataTypes.isEmpty should be(true)
+          s.entity2scalarDataRelationships.isEmpty should be(true)
+          s.entity2structureDataRelationships.isEmpty should be(true)
+          s.structure2scalarDataRelationships.isEmpty should be(true)
+          s.structure2structureDataRelationships.isEmpty should be(true)
+          s.axioms.isEmpty should be(true)
+        }
+      result.isRight should be(true)
     }
   }
 

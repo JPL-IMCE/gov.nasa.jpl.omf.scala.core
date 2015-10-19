@@ -45,15 +45,15 @@ import scala.{Boolean,Option,Unit}
 import scala.Predef.String
 import scala.collection.immutable.{Iterable,Map,Set}
 import scala.language.postfixOps
-import scala.util.Try
-import java.io.OutputStream
+import scalaz._
 
 /**
  * @author Nicolas.F.Rouquette@jpl.nasa.gov
  */
 object OMFOps {
 
-  def apply[omf <: OMF]( implicit ops: OMFOps[omf] ): OMFOps[omf] = ops
+  def apply[omf <: OMF]( implicit ops: OMFOps[omf] )
+  : OMFOps[omf] = ops
 
   /**
    * @todo a stream-based closure method
@@ -97,28 +97,34 @@ trait IRIOps[omf <: OMF] {
 
   // IRI
 
-  def makeIRI( s: String ): omf#IRI
+  def makeIRI( s: String )
+  : omf#IRI
 
-  def withFragment( iri: omf#IRI, fragment: String ): Try[omf#IRI]
+  def withFragment( iri: omf#IRI, fragment: String )
+  : NonEmptyList[OMFError.OMFException] \/ omf#IRI
 
   /**
    * Split the IRI in two components: the IRI wihtout the fragment, the IRI fragment
    */
-  def splitIRI( iri: omf#IRI ): ( omf#IRI, Option[String] )
+  def splitIRI( iri: omf#IRI )
+  : ( omf#IRI, Option[String] )
 
   /**
    * If the IRI has a fragment, returns "n:f" where "n" is the last segment of the IRI and "f" is the fragment of the IRI
    */
-  def toAbbreviatedName( iri: omf#IRI, lowercaseFragmentInitial: Boolean ): Option[String] 
+  def toAbbreviatedName( iri: omf#IRI, lowercaseFragmentInitial: Boolean )
+  : Option[String] 
   
 
-  def fromIRI( iri: omf#IRI ): String
+  def fromIRI( iri: omf#IRI )
+  : String
 
   /**
    * @param iri of the form: <scheme><userInfo><host><port><path><query><fragment>
    * @return true if <host> == imce.jpl.nasa.gov and <path> starts with /backbone
    */
-  def isBackboneIRI( iri: omf#IRI ): Boolean
+  def isBackboneIRI( iri: omf#IRI )
+  : Boolean
 
   /**
    * @param iri of the form: <scheme><userInfo><host><port><path><query><fragment>
@@ -127,7 +133,8 @@ trait IRIOps[omf <: OMF] {
    * <host'> = imce.jpl.nasa.gov
    * <path'> = /backbone/<host><path>
    */
-  def toBackboneIRI( iri: omf#IRI ): omf#IRI
+  def toBackboneIRI( iri: omf#IRI )
+  : omf#IRI
 
   /**
    * Produces the canonical "has...Source" IRI from the IRI of an entity relationship or data relationship to a structure
@@ -136,7 +143,8 @@ trait IRIOps[omf <: OMF] {
    * where:
    * <fragment'> = has<fragment>Source
    */
-  def toSourceIRI( iri: omf#IRI ): omf#IRI
+  def toSourceIRI( iri: omf#IRI )
+  : omf#IRI
 
   /**
    * Produces the canonical "has...Target" IRI for the IRI of an entity relationship or data relationship to a structure
@@ -145,7 +153,8 @@ trait IRIOps[omf <: OMF] {
    * where:
    * <fragment'> = has<fragment>Target
    */
-  def toTargetIRI( iri: omf#IRI ): omf#IRI
+  def toTargetIRI( iri: omf#IRI )
+  : omf#IRI
 
 }
 
@@ -154,7 +163,7 @@ trait OMFStoreOps[omf <: OMF] {
   def loadTerminologyGraph
   ( iri: omf#IRI )
   ( implicit store: omf#Store )
-  : Try[(omf#ImmutableModelTerminologyGraph, omf#Mutable2IMutableTerminologyMap)]
+  : NonEmptyList[OMFError.OMFException] \/ (omf#ImmutableModelTerminologyGraph, omf#Mutable2IMutableTerminologyMap)
 
   def fromTerminologyGraph
   ( graph: omf#ModelTerminologyGraph )
@@ -175,7 +184,7 @@ trait OMFStoreOps[omf <: OMF] {
     entityConceptDesignation: omf#ModelEntityConcept,
     designationTerminologyGraph: omf#ModelTerminologyGraph )
   ( implicit store: omf#Store )
-  : Try[omf#EntityConceptDesignationTerminologyGraphAxiom]
+  : NonEmptyList[OMFError.OMFException] \/ omf#EntityConceptDesignationTerminologyGraphAxiom
 
   def getNestingGraph
   ( graph: omf#ModelTerminologyGraph )
@@ -191,13 +200,13 @@ trait OMFStoreOps[omf <: OMF] {
   ( parentG: omf#MutableModelTerminologyGraph,
     nestedG: omf#ModelTerminologyGraph )
   ( implicit store: omf#Store )
-  : Try[omf#TerminologyGraphDirectNestingAxiom]
+  : NonEmptyList[OMFError.OMFException] \/ omf#TerminologyGraphDirectNestingAxiom
 
   def addTerminologyGraphExtension
   ( extendingG: omf#MutableModelTerminologyGraph,
     extendedG: omf#ModelTerminologyGraph )
   ( implicit store: omf#Store )
-  : Try[omf#TerminologyGraphDirectExtensionAxiom]
+  : NonEmptyList[OMFError.OMFException] \/ omf#TerminologyGraphDirectExtensionAxiom
 
   /**
    * Create a mutable terminology graph partially identified by an IRI and a kind.
@@ -213,18 +222,18 @@ trait OMFStoreOps[omf <: OMF] {
   ( iri: omf#IRI,
     kind: TerminologyKind )
   ( implicit store: omf#Store )
-  : Try[omf#MutableModelTerminologyGraph]
+  : NonEmptyList[OMFError.OMFException] \/ omf#MutableModelTerminologyGraph
 
   def saveTerminologyGraph
   ( g: omf#ModelTerminologyGraph )
   ( implicit store: omf#Store )
-  : Try[Unit]
+  : NonEmptyList[OMFError.OMFException] \/ Unit
 
   def saveTerminologyGraph
   ( g: omf#ModelTerminologyGraph,
-    os: OutputStream )
+    os: java.io.OutputStream )
   ( implicit store: omf#Store )
-  : Try[Unit]
+  : NonEmptyList[OMFError.OMFException] \/ Unit
 
   /**
    * Converts a mutable tbox graph into an equivalent immutable tbox graph such that
@@ -237,7 +246,7 @@ trait OMFStoreOps[omf <: OMF] {
   def asImmutableTerminologyGraph
   ( g: omf#MutableModelTerminologyGraph )
   ( implicit store: omf#Store )
-  : Try[(omf#ImmutableModelTerminologyGraph, Map[omf#MutableModelTerminologyGraph, omf#ImmutableModelTerminologyGraph])]
+  : NonEmptyList[OMFError.OMFException] \/ (omf#ImmutableModelTerminologyGraph, Map[omf#MutableModelTerminologyGraph, omf#ImmutableModelTerminologyGraph])
 
   def isEntityDefinitionAssertedInTerminologyGraph
   ( t: omf#ModelTypeTerm, graph: omf#ModelTerminologyGraph )
@@ -384,7 +393,7 @@ trait OMFStoreOps[omf <: OMF] {
   def loadInstanceGraph
   ( iri: omf#IRI )
   ( implicit store: omf#Store )
-  : Try[omf#ImmutableModelInstanceGraph]
+  : NonEmptyList[OMFError.OMFException] \/ omf#ImmutableModelInstanceGraph
 
   def fromInstanceGraph
   ( graph: omf#ModelInstanceGraph )
@@ -405,25 +414,25 @@ trait OMFStoreOps[omf <: OMF] {
     instantiatedTGraphs: Iterable[omf#ImmutableModelTerminologyGraph],
     extendedIGraphs: Iterable[omf#ImmutableModelInstanceGraph] )
   ( implicit store: omf#Store )
-  : Try[omf#MutableModelInstanceGraph]
+  : NonEmptyList[OMFError.OMFException] \/ omf#MutableModelInstanceGraph
 
   def asImmutableInstanceGraph
   ( g: omf#MutableModelInstanceGraph )
   ( implicit store: omf#Store )
-  : Try[omf#ImmutableModelInstanceGraph]
+  : NonEmptyList[OMFError.OMFException] \/ omf#ImmutableModelInstanceGraph
 
   def saveInstanceGraph
   ( g: omf#ModelInstanceGraph )
   ( implicit store: omf#Store )
-  : Try[Unit]
+  : NonEmptyList[OMFError.OMFException] \/ Unit
 
   /**
    * @since 0.10.2
    */
   def saveInstanceGraph
-  ( g: omf#ModelInstanceGraph, os: OutputStream )
+  ( g: omf#ModelInstanceGraph, os: java.io.OutputStream )
   ( implicit store: omf#Store )
-  : Try[Unit]
+  : NonEmptyList[OMFError.OMFException] \/ Unit
 
 }
 
@@ -558,11 +567,13 @@ trait ImmutableTerminologyGraphOps[omf <: OMF] {
 
   // entity aspect
 
-  def fromEntityAspect( t: omf#ModelEntityAspect ): omf#IRI
+  def fromEntityAspect( t: omf#ModelEntityAspect )
+  : omf#IRI
 
   // entity definition
 
-  def fromEntityDefinition( e: omf#ModelEntityDefinition ): omf#IRI
+  def fromEntityDefinition( e: omf#ModelEntityDefinition )
+  : omf#IRI
 
   // entity concept
 
@@ -575,7 +586,8 @@ trait ImmutableTerminologyGraphOps[omf <: OMF] {
    * @since 0.10.3
    */
   def fromEntityConcept
-  ( c: omf#ModelEntityConcept ): EntityConceptSignature[omf]
+  ( c: omf#ModelEntityConcept )
+  : EntityConceptSignature[omf]
 
   def equivalentEntityConcepts
   ( c1: Iterable[omf#ModelEntityConcept], c2: Iterable[omf#ModelEntityConcept] )
@@ -755,27 +767,27 @@ trait MutableTerminologyGraphOps[omf <: OMF] extends ImmutableTerminologyGraphOp
   ( graph: omf#MutableModelTerminologyGraph,
     name: Option[String] )
   ( implicit store: omf#Store )
-  : Try[Unit]
+  : NonEmptyList[OMFError.OMFException] \/ Unit
 
   def setTerminologyGraphUUID
   ( graph: omf#MutableModelTerminologyGraph,
     uuid: Option[String] )
   ( implicit store: omf#Store )
-  : Try[Unit]
+  : NonEmptyList[OMFError.OMFException] \/ Unit
 
   def setTermShortName
   ( g: omf#MutableModelTerminologyGraph,
     term: omf#ModelTypeTerm,
     name: Option[String] )
   ( implicit store: omf#Store )
-  : Try[Unit]
+  : NonEmptyList[OMFError.OMFException] \/ Unit
 
   def setTermUUID
   ( g: omf#MutableModelTerminologyGraph,
     term: omf#ModelTypeTerm,
     uuid: Option[String] )
   ( implicit store: omf#Store )
-  : Try[Unit]
+  : NonEmptyList[OMFError.OMFException] \/ Unit
 
   /**
    * Add to a terminology graph a new ModelEntityAspect
@@ -787,7 +799,7 @@ trait MutableTerminologyGraphOps[omf <: OMF] extends ImmutableTerminologyGraphOp
   ( graph: omf#MutableModelTerminologyGraph,
     aspectName: String )
   ( implicit store: omf#Store )
-  : Try[omf#ModelEntityAspect]
+  : NonEmptyList[OMFError.OMFException] \/ omf#ModelEntityAspect
 
   /**
    * Add to a terminology graph a new ModelEntityConcept
@@ -801,7 +813,7 @@ trait MutableTerminologyGraphOps[omf <: OMF] extends ImmutableTerminologyGraphOp
     conceptName: String,
     isAbstract: Boolean )
   ( implicit store: omf#Store )
-  : Try[omf#ModelEntityConcept]
+  : NonEmptyList[OMFError.OMFException] \/ omf#ModelEntityConcept
 
   /**
    * Add to a terminology graph a new ModelEntityReifiedRelationship
@@ -831,19 +843,19 @@ trait MutableTerminologyGraphOps[omf <: OMF] extends ImmutableTerminologyGraphOp
     unreifiedInverseRelationshipName: Option[String],
     isAbstract: Boolean )
   ( implicit store: omf#Store )
-  : Try[omf#ModelEntityReifiedRelationship]
+  : NonEmptyList[OMFError.OMFException] \/ omf#ModelEntityReifiedRelationship
 
   def addScalarDataType
   ( graph: omf#MutableModelTerminologyGraph,
     fragment: String )
   ( implicit store: omf#Store )
-  : Try[omf#ModelScalarDataType]
+  : NonEmptyList[OMFError.OMFException] \/ omf#ModelScalarDataType
 
   def addStructuredDataType
   ( graph: omf#MutableModelTerminologyGraph,
     fragment: String )
   ( implicit store: omf#Store )
-  : Try[omf#ModelStructuredDataType]
+  : NonEmptyList[OMFError.OMFException] \/ omf#ModelStructuredDataType
 
   def addDataRelationshipFromEntityToScalar
   ( graph: omf#MutableModelTerminologyGraph,
@@ -851,7 +863,7 @@ trait MutableTerminologyGraphOps[omf <: OMF] extends ImmutableTerminologyGraphOp
     target: omf#ModelScalarDataType,
     dataRelationshipName: String )
   ( implicit store: omf#Store )
-  : Try[omf#ModelDataRelationshipFromEntityToScalar]
+  : NonEmptyList[OMFError.OMFException] \/ omf#ModelDataRelationshipFromEntityToScalar
 
   def addDataRelationshipFromEntityToStructure
   ( graph: omf#MutableModelTerminologyGraph,
@@ -859,7 +871,7 @@ trait MutableTerminologyGraphOps[omf <: OMF] extends ImmutableTerminologyGraphOp
     target: omf#ModelStructuredDataType,
     dataRelationshipName: String )
   ( implicit store: omf#Store )
-  : Try[omf#ModelDataRelationshipFromEntityToStructure]
+  : NonEmptyList[OMFError.OMFException] \/ omf#ModelDataRelationshipFromEntityToStructure
 
   def addDataRelationshipFromStructureToScalar
   ( graph: omf#MutableModelTerminologyGraph,
@@ -867,7 +879,7 @@ trait MutableTerminologyGraphOps[omf <: OMF] extends ImmutableTerminologyGraphOp
     target: omf#ModelScalarDataType,
     dataRelationshipName: String )
   ( implicit store: omf#Store )
-  : Try[omf#ModelDataRelationshipFromStructureToScalar]
+  : NonEmptyList[OMFError.OMFException] \/ omf#ModelDataRelationshipFromStructureToScalar
 
   def addDataRelationshipFromStructureToStructure
   ( graph: omf#MutableModelTerminologyGraph,
@@ -875,7 +887,7 @@ trait MutableTerminologyGraphOps[omf <: OMF] extends ImmutableTerminologyGraphOp
     target: omf#ModelStructuredDataType,
     dataRelationshipName: String )
   ( implicit store: omf#Store )
-  : Try[omf#ModelDataRelationshipFromStructureToStructure]
+  : NonEmptyList[OMFError.OMFException] \/ omf#ModelDataRelationshipFromStructureToStructure
 
   // model term axioms
 
@@ -884,14 +896,14 @@ trait MutableTerminologyGraphOps[omf <: OMF] extends ImmutableTerminologyGraphOp
     sub: omf#ModelEntityDefinition,
     sup: omf#ModelEntityAspect )
   ( implicit store: omf#Store )
-  : Try[omf#EntityDefinitionAspectSubClassAxiom]
+  : NonEmptyList[OMFError.OMFException] \/ omf#EntityDefinitionAspectSubClassAxiom
 
   def addEntityConceptSubClassAxiom
   ( graph: omf#MutableModelTerminologyGraph,
     sub: omf#ModelEntityConcept,
     sup: omf#ModelEntityConcept )
   ( implicit store: omf#Store )
-  : Try[omf#EntityConceptSubClassAxiom]
+  : NonEmptyList[OMFError.OMFException] \/ omf#EntityConceptSubClassAxiom
 
   def addEntityConceptUniversalRestrictionAxiom
   ( graph: omf#MutableModelTerminologyGraph,
@@ -899,7 +911,7 @@ trait MutableTerminologyGraphOps[omf <: OMF] extends ImmutableTerminologyGraphOp
     rel: omf#ModelEntityReifiedRelationship,
     range: omf#ModelEntityDefinition )
   ( implicit store: omf#Store )
-  : Try[omf#EntityConceptUniversalRestrictionAxiom]
+  : NonEmptyList[OMFError.OMFException] \/ omf#EntityConceptUniversalRestrictionAxiom
 
   def addEntityConceptExistentialRestrictionAxiom
   ( graph: omf#MutableModelTerminologyGraph,
@@ -907,14 +919,14 @@ trait MutableTerminologyGraphOps[omf <: OMF] extends ImmutableTerminologyGraphOp
     rel: omf#ModelEntityReifiedRelationship,
     range: omf#ModelEntityDefinition )
   ( implicit store: omf#Store )
-  : Try[omf#EntityConceptExistentialRestrictionAxiom]
+  : NonEmptyList[OMFError.OMFException] \/ omf#EntityConceptExistentialRestrictionAxiom
 
   def addEntityReifiedRelationshipSubClassAxiom
   ( graph: omf#MutableModelTerminologyGraph,
     sub: omf#ModelEntityReifiedRelationship,
     sup: omf#ModelEntityReifiedRelationship )
   ( implicit store: omf#Store )
-  : Try[omf#EntityReifiedRelationshipSubClassAxiom]
+  : NonEmptyList[OMFError.OMFException] \/ omf#EntityReifiedRelationshipSubClassAxiom
 
   def addScalarDataTypeFacetRestrictionAxiom
   ( graph: omf#MutableModelTerminologyGraph,
@@ -922,7 +934,7 @@ trait MutableTerminologyGraphOps[omf <: OMF] extends ImmutableTerminologyGraphOp
     sup: omf#ModelScalarDataType,
     facets: Iterable[ConstrainingFacet] )
   ( implicit store: omf#Store )
-  : Try[omf#ScalarDataTypeFacetRestrictionAxiom]
+  : NonEmptyList[OMFError.OMFException] \/ omf#ScalarDataTypeFacetRestrictionAxiom
 
 }
 
@@ -1000,7 +1012,7 @@ trait MutableInstanceGraphOps[omf <: OMF]
     conceptType: omf#ModelEntityConcept,
     fragment: String )
   ( implicit store: omf#Store )
-  : Try[omf#ModelInstanceObject]
+  : NonEmptyList[OMFError.OMFException] \/ omf#ModelInstanceObject
 
   // instance relation
 
@@ -1011,7 +1023,7 @@ trait MutableInstanceGraphOps[omf <: OMF]
     target: omf#ModelEntityInstance,
     fragment: String )
   ( implicit store: omf#Store )
-  : Try[omf#ModelInstanceRelation]
+  : NonEmptyList[OMFError.OMFException] \/ omf#ModelInstanceRelation
 
   // data literal
 
@@ -1020,7 +1032,7 @@ trait MutableInstanceGraphOps[omf <: OMF]
     datatype: omf#ModelScalarDataType,
     lexicalForm: String )
   ( implicit store: omf#Store )
-  : Try[omf#ModelInstanceDataLiteral]
+  : NonEmptyList[OMFError.OMFException] \/ omf#ModelInstanceDataLiteral
 
   // data structure
 
@@ -1029,7 +1041,7 @@ trait MutableInstanceGraphOps[omf <: OMF]
     datatype: omf#ModelStructuredDataType,
     fragment: String )
   ( implicit store: omf#Store )
-  : Try[omf#ModelInstanceDataStructure]
+  : NonEmptyList[OMFError.OMFException] \/ omf#ModelInstanceDataStructure
 
   // data relationship from entity to scalar
 
@@ -1039,7 +1051,7 @@ trait MutableInstanceGraphOps[omf <: OMF]
     e2sc: omf#ModelDataRelationshipFromEntityToScalar,
     value: omf#ModelInstanceDataLiteral )
   ( implicit store: omf#Store )
-  : Try[omf#ModelInstanceDataRelationshipFromEntityToScalar]
+  : NonEmptyList[OMFError.OMFException] \/ omf#ModelInstanceDataRelationshipFromEntityToScalar
 
   // data relationship from entity to structure
 
@@ -1049,7 +1061,7 @@ trait MutableInstanceGraphOps[omf <: OMF]
     e2st: omf#ModelDataRelationshipFromEntityToStructure,
     value: omf#ModelInstanceDataStructure )
   ( implicit store: omf#Store )
-  : Try[omf#ModelInstanceDataRelationshipFromEntityToStructure]
+  : NonEmptyList[OMFError.OMFException] \/ omf#ModelInstanceDataRelationshipFromEntityToStructure
 
   // data relationship from structure to scalar
 
@@ -1059,7 +1071,7 @@ trait MutableInstanceGraphOps[omf <: OMF]
     e2sc: omf#ModelDataRelationshipFromStructureToScalar,
     value: omf#ModelInstanceDataLiteral )
   ( implicit store: omf#Store )
-  : Try[omf#ModelInstanceDataRelationshipFromStructureToScalar]
+  : NonEmptyList[OMFError.OMFException] \/ omf#ModelInstanceDataRelationshipFromStructureToScalar
 
   // data relationship from structure to structure
 
@@ -1069,7 +1081,7 @@ trait MutableInstanceGraphOps[omf <: OMF]
     e2st: omf#ModelDataRelationshipFromStructureToStructure,
     value: omf#ModelInstanceDataStructure )
   ( implicit store: omf#Store )
-  : Try[omf#ModelInstanceDataRelationshipFromStructureToStructure]
+  : NonEmptyList[OMFError.OMFException] \/ omf#ModelInstanceDataRelationshipFromStructureToStructure
 
 }
 

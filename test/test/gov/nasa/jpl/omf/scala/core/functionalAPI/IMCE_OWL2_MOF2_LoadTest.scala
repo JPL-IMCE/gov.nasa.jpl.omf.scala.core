@@ -44,7 +44,6 @@ import scala.Option
 import scala.language.implicitConversions
 import scala.language.postfixOps
 import org.scalatest._
-import scala.util.Try
 
 abstract class IMCE_OWL2_MOF2_LoadTest[omf <: OMF](
   val loadStore: omf#Store,
@@ -57,57 +56,43 @@ abstract class IMCE_OWL2_MOF2_LoadTest[omf <: OMF](
 
   "IMCE OWL2-MOF2 load test" when {
 
-    var xsd_tbox: Try[(omf#ImmutableModelTerminologyGraph, omf#Mutable2IMutableTerminologyMap)] = null
-    var xsd_integer: Option[omf#ModelScalarDataType] = null
-    var xsd_string: Option[omf#ModelScalarDataType] = null
-
-    var annotation_tbox: Try[(omf#ImmutableModelTerminologyGraph, omf#Mutable2IMutableTerminologyMap)] = null
-    
-    var owl2_mof2_tbox: Try[(omf#ImmutableModelTerminologyGraph, omf#Mutable2IMutableTerminologyMap)] = null
-    
     "load xsd" in {
       val xsd_iri = makeIRI( "http://www.w3.org/2001/XMLSchema" )
 
-      xsd_tbox = loadTerminologyGraph( xsd_iri )
-      xsd_tbox should be a 'success
-
-      for {
-        integer_iri <- withFragment( xsd_iri, "integer" )
-        string_iri <- withFragment( xsd_iri, "string" )
-      } {
-        xsd_integer =
-          lookupScalarDataType( xsd_tbox.get._1, integer_iri, recursively=false  )
-        xsd_integer.isDefined should be( true )
-
-        xsd_string =
-          lookupScalarDataType( xsd_tbox.get._1, string_iri, recursively=false  )
-        xsd_string.isDefined should be( true )
-      }
+      val result =
+        for {
+          xsd_tbox <- loadTerminologyGraph(xsd_iri)
+          integer_iri <- withFragment(xsd_iri, "integer")
+          string_iri <- withFragment(xsd_iri, "string")
+          xsd_integer = lookupScalarDataType(xsd_tbox._1, integer_iri, recursively = false)
+          xsd_string = lookupScalarDataType(xsd_tbox._1, string_iri, recursively = false)
+        } yield {
+          xsd_integer.isDefined should be(true)
+          xsd_string.isDefined should be( true )
+        }
+      result.isRight should be(true)
     }
 
     "load annotation" in {
       val annotation_iri = makeIRI( "http://imce.jpl.nasa.gov/foundation/annotation/annotation" )
-      annotation_tbox = loadTerminologyGraph( annotation_iri )
-      annotation_tbox should be a 'success
+      val annotation_tbox = loadTerminologyGraph( annotation_iri )
+      annotation_tbox.isRight should be(true)
     }
 
     "load owl2-mof2" in {
       val owl2_mof2_iri = makeIRI( "http://imce.jpl.nasa.gov/foundation/owl2-mof2/owl2-mof2" )
-      owl2_mof2_tbox = loadTerminologyGraph( owl2_mof2_iri )
-      owl2_mof2_tbox should be a 'success
-
-      for {
-        BinaryAssociationEndType_iri <- withFragment( owl2_mof2_iri, "BinaryAssociationEndType" )
-        BinaryAssociation_iri <- withFragment( owl2_mof2_iri, "BinaryAssociation" )
-      } {
-        val BinaryAssociationEndType =
-          lookupEntityConcept( owl2_mof2_tbox.get._1, BinaryAssociationEndType_iri, recursively=false  )
-        BinaryAssociationEndType.isDefined should be(true)
-
-        val BinaryAssociation =
-          lookupEntityReifiedRelationship( owl2_mof2_tbox.get._1, BinaryAssociation_iri, recursively=false  )
-        BinaryAssociation.isDefined should be(true)
-      }
+      val result =
+        for {
+          owl2_mof2_tbox <- loadTerminologyGraph(owl2_mof2_iri)
+          binaryAssociationEndType_iri <- withFragment(owl2_mof2_iri, "BinaryAssociationEndType")
+          binaryAssociation_iri <- withFragment(owl2_mof2_iri, "BinaryAssociation")
+          binaryAssociationEndType = lookupEntityConcept(owl2_mof2_tbox._1, binaryAssociationEndType_iri, recursively = false)
+          binaryAssociation = lookupEntityReifiedRelationship( owl2_mof2_tbox._1, binaryAssociation_iri, recursively=false  )
+        } yield {
+          binaryAssociationEndType.isDefined should be(true)
+          binaryAssociation.isDefined should be(true)
+        }
+      result.isRight should be(true)
     }
         
   }
