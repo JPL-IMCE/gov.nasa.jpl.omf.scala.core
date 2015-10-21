@@ -152,7 +152,7 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF]
         identifiedElement.isDefined should be(true)
 
         val mission_extends_base = addTerminologyGraphExtension(mission, ibase._1)
-        mission_extends_base should be a 'success
+        mission_extends_base.isRight should equal(true)
 
         val component_extends_identifiedElement = addEntityDefinitionAspectSubClassAxiom(
           graph = mission,
@@ -164,21 +164,21 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF]
           graph = mission,
           sub = function,
           sup = identifiedElement.get)
-        function_extends_identifiedElement should be a 'success
+        function_extends_identifiedElement.isRight should equal(true)
 
         val message_extends_item =
           addEntityConceptSubClassAxiom(mission, message, item)
-        message_extends_item should be a 'success
+        message_extends_item.isRight should equal(true)
 
         val materialItem_extends_item =
           addEntityConceptSubClassAxiom(mission, materialItem, item)
-        materialItem_extends_item should be a 'success
+        materialItem_extends_item.isRight should equal(true)
 
         val baseSaved = saveTerminologyGraph(base)
-        baseSaved should be a 'success
+        baseSaved.isRight should equal(true)
 
         val missionSaved = saveTerminologyGraph(mission)
-        missionSaved should be a 'success
+        missionSaved.isRight should equal(true)
       }
     }
 
