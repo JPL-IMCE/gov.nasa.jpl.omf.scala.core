@@ -73,7 +73,7 @@ abstract class OMFVocabularyMutabilityTest[omf <: OMF]
       preOMFSave()
       val result = testCode(saveStore, saveOps)
       postOMFSave()
-      result.isRight should be (true)
+      result.isRight should equal(true)
     })
 
 
@@ -96,7 +96,7 @@ abstract class OMFVocabularyMutabilityTest[omf <: OMF]
         preOMFLoad()
         val result = testCode(loadStore, loadOps)
         postOMFLoad()
-        result.isRight should be (true)
+        result.isRight should equal(true)
       })
 
   "vocabulary roundtrip test" when {
