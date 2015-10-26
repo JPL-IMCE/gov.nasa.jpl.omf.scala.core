@@ -44,24 +44,30 @@ import scalaz._, Scalaz._
 
 object OMFError {
 
+  type ThrowableNel = NonEmptyList[java.lang.Throwable]
+  type OptionThrowableNel = Option[ThrowableNel]
+  val emptyThrowableNel = Option.empty[NonEmptyList[java.lang.Throwable]]
+
   class OMFException
   ( val message: String,
-    val cause: Option[java.lang.Throwable] = None )
+    val cause: OptionThrowableNel = emptyThrowableNel )
     extends java.lang.Throwable(message) {
 
-    cause.map(this.initCause(_))
+    cause.map { nels =>
+      this.initCause(nels.head)
+    }
 
   }
 
   class OMFBindingException
   ( override val message: String,
-    override val cause: Option[java.lang.Throwable] = None )
+    override val cause: OptionThrowableNel = emptyThrowableNel )
     extends OMFException(message, cause)
 
   class OMFOpsException[Omf <: OMF]
   ( val ops: OMFOps[Omf],
     override val message: String,
-    override val cause: Option[java.lang.Throwable] = None )
+    override val cause: OptionThrowableNel = emptyThrowableNel )
     extends OMFException(message, cause)
 
   def omfError
@@ -71,9 +77,15 @@ object OMFError {
 
   def omfException
   ( message: String,
+    cause: OptionThrowableNel = emptyThrowableNel )
+  : java.lang.Throwable =
+    new OMFException(message, cause)
+
+  def omfException
+  ( message: String,
     cause: java.lang.Throwable )
   : java.lang.Throwable =
-    new OMFException(message, cause.some)
+    new OMFException(message, cause.wrapNel.some)
 
   def omfBindingError
   ( message: String )
@@ -82,9 +94,15 @@ object OMFError {
 
   def omfBindingException
   ( message: String,
+    cause: OptionThrowableNel = emptyThrowableNel )
+  : java.lang.Throwable =
+    new OMFBindingException( message, cause )
+
+  def omfBindingException
+  ( message: String,
     cause: java.lang.Throwable  )
   : java.lang.Throwable =
-    new OMFBindingException( message, cause.some )
+    new OMFBindingException( message, cause.wrapNel.some )
 
   def omfOpsError[Omf <: OMF]
   ( ops: OMFOps[Omf],
@@ -95,8 +113,15 @@ object OMFError {
   def omfOpsException[Omf <: OMF]
   ( ops: OMFOps[Omf],
     message: String,
+    cause: OptionThrowableNel = emptyThrowableNel )
+  : java.lang.Throwable =
+    new OMFOpsException( ops, message, cause )
+
+  def omfOpsException[Omf <: OMF]
+  ( ops: OMFOps[Omf],
+    message: String,
     cause: java.lang.Throwable  )
   : java.lang.Throwable =
-    new OMFOpsException( ops, message, cause.some )
+    new OMFOpsException( ops, message, cause.wrapNel.some )
 
 }
