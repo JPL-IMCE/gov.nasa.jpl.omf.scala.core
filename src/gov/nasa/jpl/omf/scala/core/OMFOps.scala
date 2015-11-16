@@ -515,7 +515,11 @@ trait ImmutableTerminologyGraphOps[omf <: OMF] {
   ( implicit store: omf#Store )
   : Option[omf#ModelDataRelationshipFromStructureToStructure]
 
-  def getTerms
+  def getTermAxioms
+  ( graph: omf#ModelTerminologyGraph )
+  : ( omf#IRI, Iterable[omf#ModelTermAxiom] )
+
+  def getTypeTerms
   ( graph: omf#ModelTerminologyGraph )
   : ( omf#IRI, Iterable[omf#ModelTypeTerm] )
 
