@@ -202,6 +202,14 @@ trait OMFStoreOps[omf <: OMF] {
   ( implicit store: omf#Store )
   : NonEmptyList[java.lang.Throwable] \/ omf#TerminologyGraphDirectNestingAxiom
 
+  def getDirectlyExtendingGraphsOfExtendedParentGraph
+  (extendedParentG: omf#ModelTerminologyGraph)
+  : Iterable[omf#TerminologyGraphDirectExtensionAxiom]
+
+  def getDirectlyExtendedGraphsOfExtendingChildGraph
+  (extendingChildG: omf#ModelTerminologyGraph)
+  : Iterable[omf#TerminologyGraphDirectExtensionAxiom]
+
   def addTerminologyGraphExtension
   ( extendingG: omf#MutableModelTerminologyGraph,
     extendedG: omf#ModelTerminologyGraph )
