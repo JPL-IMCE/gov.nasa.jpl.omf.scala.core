@@ -204,10 +204,12 @@ trait OMFStoreOps[omf <: OMF] {
 
   def getDirectlyExtendingGraphsOfExtendedParentGraph
   (extendedParentG: omf#ModelTerminologyGraph)
+  ( implicit store: omf#Store )
   : Iterable[omf#TerminologyGraphDirectExtensionAxiom]
 
   def getDirectlyExtendedGraphsOfExtendingChildGraph
   (extendingChildG: omf#ModelTerminologyGraph)
+  ( implicit store: omf#Store )
   : Iterable[omf#TerminologyGraphDirectExtensionAxiom]
 
   def addTerminologyGraphExtension
