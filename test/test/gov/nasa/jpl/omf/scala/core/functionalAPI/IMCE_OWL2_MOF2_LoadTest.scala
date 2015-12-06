@@ -45,6 +45,8 @@ import scala.language.implicitConversions
 import scala.language.postfixOps
 import org.scalatest._
 
+import scalaz.NonEmptyList
+
 abstract class IMCE_OWL2_MOF2_LoadTest[omf <: OMF](
   val loadStore: omf#Store,
   val loadOps: OMFOps[omf] )
@@ -97,7 +99,7 @@ abstract class IMCE_OWL2_MOF2_LoadTest[omf <: OMF](
           binaryAssociationEndType.isDefined should be(true)
           binaryAssociation.isDefined should be(true)
         }
-      result.isRight should be(true)
+      result.swap.toOption should be(Option.empty[NonEmptyList[java.lang.Throwable]])
     }
         
   }

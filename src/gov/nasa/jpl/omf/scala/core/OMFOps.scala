@@ -160,6 +160,19 @@ trait IRIOps[omf <: OMF] {
 
 trait OMFStoreOps[omf <: OMF] {
 
+  /**
+    * Load the built-in datatype maps corresponding to OWL, RDFS, XML Schema 1.1 as a terminology graph
+    *
+    * @param store OMF storage provider
+    * @return The terminology graph with the built-in datatype maps corresponding to OWL, RDFS, XML Schema 1.1
+    *         and the map of mutable/immutable terminology graphs conversions that have been performed.
+    */
+  def loadBuiltinDatatypeMap
+  ()
+  ( implicit store: omf#Store )
+  : NonEmptyList[java.lang.Throwable] \/ (omf#ImmutableModelTerminologyGraph, omf#Mutable2IMutableTerminologyMap)
+
+
   def loadTerminologyGraph
   ( iri: omf#IRI )
   ( implicit store: omf#Store )
@@ -176,7 +189,7 @@ trait OMFStoreOps[omf <: OMF] {
    * @param entityConceptDesignation The model entity concept whose complete complete designation is specified
    * @param designationTerminologyGraph The terminology graph specifying the complete designation
    *                                    for the structural contents of the model entity concept
-   * @param store
+   * @param store OMF storage provider
    * @return The EntityConceptToplevelDesignationTerminologyGraphAxiom created
    */
   def addEntityConceptDesignationTerminologyGraphAxiom
@@ -256,7 +269,8 @@ trait OMFStoreOps[omf <: OMF] {
   def asImmutableTerminologyGraph
   ( g: omf#MutableModelTerminologyGraph )
   ( implicit store: omf#Store )
-  : NonEmptyList[java.lang.Throwable] \/ (omf#ImmutableModelTerminologyGraph, Map[omf#MutableModelTerminologyGraph, omf#ImmutableModelTerminologyGraph])
+  : NonEmptyList[java.lang.Throwable] \/
+    (omf#ImmutableModelTerminologyGraph, Map[omf#MutableModelTerminologyGraph, omf#ImmutableModelTerminologyGraph])
 
   def isEntityDefinitionAssertedInTerminologyGraph
   ( t: omf#ModelTypeTerm, graph: omf#ModelTerminologyGraph )
