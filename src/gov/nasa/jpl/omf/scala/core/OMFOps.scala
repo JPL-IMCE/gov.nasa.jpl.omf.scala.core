@@ -161,16 +161,18 @@ trait IRIOps[omf <: OMF] {
 trait OMFStoreOps[omf <: OMF] {
 
   /**
-    * Load the built-in datatype maps corresponding to OWL, RDFS, XML Schema 1.1 as a terminology graph
+    * If supported, load the built-in datatype maps corresponding to OWL, RDFS, XML Schema 1.1 as a terminology graph
     *
     * @param store OMF storage provider
-    * @return The terminology graph with the built-in datatype maps corresponding to OWL, RDFS, XML Schema 1.1
-    *         and the map of mutable/immutable terminology graphs conversions that have been performed.
+    * @return If supported, the terminology graph with the built-in datatype maps corresponding to
+    *         the datatype maps defined in OWL, RDFS, XML Schema 1.1 and the map of
+    *         mutable/immutable terminology graphs conversions that have been performed.
     */
   def loadBuiltinDatatypeMap
   ()
   ( implicit store: omf#Store )
-  : NonEmptyList[java.lang.Throwable] \/ (omf#ImmutableModelTerminologyGraph, omf#Mutable2IMutableTerminologyMap)
+  : NonEmptyList[java.lang.Throwable] \/
+    Option[(omf#ImmutableModelTerminologyGraph, omf#Mutable2IMutableTerminologyMap)]
 
 
   def loadTerminologyGraph
