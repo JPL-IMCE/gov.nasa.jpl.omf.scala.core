@@ -77,7 +77,9 @@ trait NonFixedFacet
  * OMF ConstrainingFacet corresponds to the normative constrainting facets defined in W3C XML Schema 1.1 Datatypes
  * @see http://www.w3.org/TR/xmlschema11-2/#rf-facets
  */
-sealed abstract class ConstrainingFacet {
+sealed abstract trait ConstrainingFacet
+
+object ConstrainingFacet {
 
   /**
    * @see http://www.w3.org/TR/xmlschema11-2/#rf-length
