@@ -42,48 +42,100 @@ import scala.{Boolean,Enumeration,Int}
 import scala.Predef._
 
 /**
- * Corresponds to an XML Schema 1.1 simple type defined with 'fixed=true'
- *
- * @see http://www.w3.org/TR/xmlschema11-2/#schema
- *
-        <xs:complexType name="facet">
-    <xs:complexContent>
-      <xs:extension base="xs:annotated">
-        <xs:attribute name="value" use="required"/>
-        <xs:attribute name="fixed" type="xs:boolean" default="false"
-                      use="optional"/>
-      </xs:extension>
-    </xs:complexContent>
- */
+  * Corresponds to an XML Schema 1.1 simple type defined with 'fixed=true'
+  *
+  * @see http://www.w3.org/TR/xmlschema11-2/#schema
+  * <xs:complexType name="facet">
+  *   <xs:complexContent>
+  *     <xs:extension base="xs:annotated">
+  *       <xs:attribute name="value" use="required"/>
+  *       <xs:attribute name="fixed" type="xs:boolean" default="false" use="optional"/>
+  *     </xs:extension>
+  *   </xs:complexContent>
+  * </xs:complexType>
+  */
 trait FixedFacet
 
 /**
- * Corresponds to an XML Schema 1.1 simple type defined with 'fixed=false'
- *
- * @see http://www.w3.org/TR/xmlschema11-2/#schema
- *
-        <xs:complexType name="facet">
-    <xs:complexContent>
-      <xs:extension base="xs:annotated">
-        <xs:attribute name="value" use="required"/>
-        <xs:attribute name="fixed" type="xs:boolean" default="false"
-                      use="optional"/>
-      </xs:extension>
-    </xs:complexContent>
- */
+  * Corresponds to an XML Schema 1.1 simple type defined with 'fixed=false'
+  *
+  * @see http://www.w3.org/TR/xmlschema11-2/#schema
+  *
+  * <xs:complexType name="facet">
+  *   <xs:complexContent>
+  *     <xs:extension base="xs:annotated">
+  *       <xs:attribute name="value" use="required"/>
+  *       <xs:attribute name="fixed" type="xs:boolean" default="false" use="optional"/>
+  *     </xs:extension>
+  *   </xs:complexContent>
+  * </xs:complexType>
+  */
 trait NonFixedFacet
 
 /**
- * OMF ConstrainingFacet corresponds to the normative constrainting facets defined in W3C XML Schema 1.1 Datatypes
- * @see http://www.w3.org/TR/xmlschema11-2/#rf-facets
- */
+  * @see http://www.w3.org/TR/2012/REC-xmlschema11-2-20120405/datatypes.html#rf-fund-facets
+  */
+sealed abstract trait FundamentalFacet
+
+object FundamentalFacet {
+
+  /**
+    * @see http://www.w3.org/TR/2012/REC-xmlschema11-2-20120405/datatypes.html#rf-ordered
+    */
+  object OrderedConstraint extends Enumeration {
+    type OrderedConstraint = Value
+    val _false, partial, total = Value
+  }
+
+  import OrderedConstraint._
+
+  /**
+    * @see http://www.w3.org/TR/2012/REC-xmlschema11-2-20120405/datatypes.html#rf-ordered
+    */
+  case class ordered(constraint: OrderedConstraint)
+    extends FundamentalFacet
+
+  /**
+    * @see http://www.w3.org/TR/2012/REC-xmlschema11-2-20120405/datatypes.html#rf-bounded
+    */
+  case class bounded(constraint: Boolean)
+    extends FundamentalFacet
+
+  /**
+    * @see http://www.w3.org/TR/2012/REC-xmlschema11-2-20120405/datatypes.html#rf-cardinality
+    */
+  object CardinalityConstraint extends Enumeration {
+    type CardinalityConstraint = Value
+    val finite, countablyInfinite = Value
+  }
+
+  import CardinalityConstraint._
+
+  /**
+    * @see http://www.w3.org/TR/2012/REC-xmlschema11-2-20120405/datatypes.html#rf-cardinality
+    */
+  case class cardinality(constraint: CardinalityConstraint)
+    extends FundamentalFacet
+
+  /**
+    * @see http://www.w3.org/TR/2012/REC-xmlschema11-2-20120405/datatypes.html#rf-numeric
+    */
+  case class numeric(constraint: Boolean)
+    extends FundamentalFacet
+}
+
+/**
+  * OMF ConstrainingFacet corresponds to the normative constrainting facets
+  * defined in W3C XML Schema 1.1 Datatypes
+  * @see http://www.w3.org/TR/xmlschema11-2/#rf-facets
+  */
 sealed abstract trait ConstrainingFacet
 
 object ConstrainingFacet {
 
   /**
-   * @see http://www.w3.org/TR/xmlschema11-2/#rf-length
-   */
+    * @see http://www.w3.org/TR/xmlschema11-2/#rf-length
+    */
   abstract class length(l: Int) extends ConstrainingFacet {
     require(l >= 0)
   }
@@ -93,8 +145,8 @@ object ConstrainingFacet {
   case class nonFixedLength(l: Int) extends length(l) with NonFixedFacet
 
   /**
-   * @see http://www.w3.org/TR/xmlschema11-2/#rf-minLength
-   */
+    * @see http://www.w3.org/TR/xmlschema11-2/#rf-minLength
+    */
   abstract class minLength(l: Int) extends ConstrainingFacet {
     require(l >= 0)
   }
@@ -104,8 +156,8 @@ object ConstrainingFacet {
   case class nonFixedMinLength(l: Int) extends minLength(l) with NonFixedFacet
 
   /**
-   * @see http://www.w3.org/TR/xmlschema11-2/#rf-maxLength
-   */
+    * @see http://www.w3.org/TR/xmlschema11-2/#rf-maxLength
+    */
   abstract class maxLength(l: Int) extends ConstrainingFacet {
     require(l >= 0)
   }
@@ -115,8 +167,8 @@ object ConstrainingFacet {
   case class nonFixedMaxLength(l: Int) extends maxLength(l) with NonFixedFacet
 
   /**
-   * @see http://www.w3.org/TR/xmlschema11-2/#rf-pattern
-   */
+    * @see http://www.w3.org/TR/xmlschema11-2/#rf-pattern
+    */
   case class pattern(regex: String) extends ConstrainingFacet {
     require(regex.nonEmpty)
   }
@@ -154,77 +206,96 @@ object ConstrainingFacet {
   /**
    * @see http://www.w3.org/TR/xmlschema11-2/#rf-whiteSpace
    */
-  case class whiteSpace(constraint: WhiteSpaceConstraint) extends ConstrainingFacet
+  case class whiteSpace(constraint: WhiteSpaceConstraint)
+    extends ConstrainingFacet
 
   /**
-   * @see http://www.w3.org/TR/xmlschema11-2/#rf-maxInclusive
-   */
-  abstract class maxInclusive(value: String) extends ConstrainingFacet {
+    * @see http://www.w3.org/TR/xmlschema11-2/#rf-maxInclusive
+    */
+  abstract class maxInclusive(value: String)
+    extends ConstrainingFacet {
     require(value.nonEmpty)
   }
 
-  case class fixedMaxInclusive(value: String) extends maxInclusive(value) with FixedFacet
+  case class fixedMaxInclusive(value: String)
+    extends maxInclusive(value) with FixedFacet
 
-  case class nonFixedMaxInclusive(value: String) extends maxInclusive(value) with NonFixedFacet
+  case class nonFixedMaxInclusive(value: String)
+    extends maxInclusive(value) with NonFixedFacet
 
   /**
-   * @see http://www.w3.org/TR/xmlschema11-2/#rf-maxExclusive
-   */
-  abstract class maxExclusive(value: String) extends ConstrainingFacet {
+    * @see http://www.w3.org/TR/xmlschema11-2/#rf-maxExclusive
+    */
+  abstract class maxExclusive(value: String)
+    extends ConstrainingFacet {
     require(value.nonEmpty)
   }
 
-  case class fixedMaxExclusive(value: String) extends maxExclusive(value) with FixedFacet
+  case class fixedMaxExclusive(value: String)
+    extends maxExclusive(value) with FixedFacet
 
-  case class nonFixedMaxExclusive(value: String) extends maxExclusive(value) with NonFixedFacet
+  case class nonFixedMaxExclusive(value: String)
+    extends maxExclusive(value) with NonFixedFacet
 
   /**
-   * @see http://www.w3.org/TR/xmlschema11-2/#rf-minExclusive
-   */
-  abstract class minExclusive(value: String) extends ConstrainingFacet {
+    * @see http://www.w3.org/TR/xmlschema11-2/#rf-minExclusive
+    */
+  abstract class minExclusive(value: String)
+    extends ConstrainingFacet {
     require(value.nonEmpty)
   }
 
-  case class fixedMinExclusive(value: String) extends minExclusive(value) with FixedFacet
+  case class fixedMinExclusive(value: String)
+    extends minExclusive(value) with FixedFacet
 
-  case class nonFixedMinExclusive(value: String) extends minExclusive(value) with NonFixedFacet
+  case class nonFixedMinExclusive(value: String)
+    extends minExclusive(value) with NonFixedFacet
 
   /**
    * @see http://www.w3.org/TR/xmlschema11-2/#rf-minInclusive
    */
-  abstract class minInclusive(value: String) extends ConstrainingFacet {
+  abstract class minInclusive(value: String)
+    extends ConstrainingFacet {
     require(value.nonEmpty)
   }
 
-  case class fixedMinInclusive(value: String) extends minInclusive(value) with FixedFacet
+  case class fixedMinInclusive(value: String)
+    extends minInclusive(value) with FixedFacet
 
-  case class nonFixedMinInclusive(value: String) extends minInclusive(value) with NonFixedFacet
+  case class nonFixedMinInclusive(value: String)
+    extends minInclusive(value) with NonFixedFacet
 
   /**
    * @see http://www.w3.org/TR/xmlschema11-2/#rf-totalDigits
    */
-  abstract class totalDigits(digits: Int) extends ConstrainingFacet {
+  abstract class totalDigits(digits: Int)
+    extends ConstrainingFacet {
     require(digits > 0)
   }
 
-  case class fixedTotalDigits(digits: Int) extends totalDigits(digits) with FixedFacet
+  case class fixedTotalDigits(digits: Int)
+    extends totalDigits(digits) with FixedFacet
 
-  case class nonFixedTotalDigits(digits: Int) extends totalDigits(digits) with NonFixedFacet
+  case class nonFixedTotalDigits(digits: Int)
+    extends totalDigits(digits) with NonFixedFacet
 
   /**
    * @see http://www.w3.org/TR/xmlschema11-2/#rf-fractionDigits
    */
-  abstract class fractionDigits(digits: Int) extends ConstrainingFacet {
+  abstract class fractionDigits(digits: Int)
+    extends ConstrainingFacet {
     require(digits >= 0)
   }
 
-  case class fixedFractionDigits(digits: Int) extends fractionDigits(digits) with FixedFacet
+  case class fixedFractionDigits(digits: Int)
+    extends fractionDigits(digits) with FixedFacet
 
-  case class nonFixedFractionDigits(digits: Int) extends fractionDigits(digits) with NonFixedFacet
+  case class nonFixedFractionDigits(digits: Int)
+    extends fractionDigits(digits) with NonFixedFacet
 
   /**
-   * @see http://www.w3.org/TR/xmlschema11-2/#rf-explicitTimezone
-   */
+    * @see http://www.w3.org/TR/xmlschema11-2/#rf-explicitTimezone
+    */
   object ExplicitTimezoneConstraint extends Enumeration {
     type ExplicitTimezoneConstraint = Value
     val fixedRequired, fixedProhibited, fixedOptional, nonFixedOptional = Value
@@ -239,8 +310,9 @@ object ConstrainingFacet {
   import ExplicitTimezoneConstraint._
 
   /**
-   * @see http://www.w3.org/TR/xmlschema11-2/#rf-explicitTimezone
-   */
-  case class explicitTimezone(constraint: ExplicitTimezoneConstraint) extends ConstrainingFacet
+    * @see http://www.w3.org/TR/xmlschema11-2/#rf-explicitTimezone
+    */
+  case class explicitTimezone(constraint: ExplicitTimezoneConstraint)
+    extends ConstrainingFacet
 
 }

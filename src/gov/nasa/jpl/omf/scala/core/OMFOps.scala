@@ -962,7 +962,8 @@ trait MutableTerminologyGraphOps[omf <: OMF] extends ImmutableTerminologyGraphOp
   ( graph: omf#MutableModelTerminologyGraph,
     sub: omf#ModelScalarDataType,
     sup: omf#ModelScalarDataType,
-    facets: Iterable[ConstrainingFacet] )
+    fundamentalFacets: Iterable[FundamentalFacet],
+    constrainingFacets: Iterable[ConstrainingFacet] )
   ( implicit store: omf#Store )
   : NonEmptyList[java.lang.Throwable] \/ omf#ScalarDataTypeFacetRestrictionAxiom
 
