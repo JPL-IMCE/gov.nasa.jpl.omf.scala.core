@@ -787,7 +787,10 @@ trait ImmutableTerminologyGraphOps[omf <: OMF] {
 
   def fromScalarDataTypeFacetRestrictionAxiom
   ( ax: omf#ScalarDataTypeFacetRestrictionAxiom )
-  : ( omf#ModelScalarDataType, omf#ModelScalarDataType, Iterable[ConstrainingFacet] )
+  : ( omf#ModelScalarDataType,
+      omf#ModelScalarDataType,
+      Iterable[FundamentalFacet],
+      Iterable[ConstrainingFacet] )
 
 }
 
