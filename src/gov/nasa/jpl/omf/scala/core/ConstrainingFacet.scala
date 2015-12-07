@@ -73,58 +73,6 @@ trait FixedFacet
 trait NonFixedFacet
 
 /**
-  * @see http://www.w3.org/TR/2012/REC-xmlschema11-2-20120405/datatypes.html#rf-fund-facets
-  */
-sealed abstract trait FundamentalFacet
-
-object FundamentalFacet {
-
-  /**
-    * @see http://www.w3.org/TR/2012/REC-xmlschema11-2-20120405/datatypes.html#rf-ordered
-    */
-  object OrderedConstraint extends Enumeration {
-    type OrderedConstraint = Value
-    val _false, partial, total = Value
-  }
-
-  import OrderedConstraint._
-
-  /**
-    * @see http://www.w3.org/TR/2012/REC-xmlschema11-2-20120405/datatypes.html#rf-ordered
-    */
-  case class ordered(constraint: OrderedConstraint)
-    extends FundamentalFacet
-
-  /**
-    * @see http://www.w3.org/TR/2012/REC-xmlschema11-2-20120405/datatypes.html#rf-bounded
-    */
-  case class bounded(constraint: Boolean)
-    extends FundamentalFacet
-
-  /**
-    * @see http://www.w3.org/TR/2012/REC-xmlschema11-2-20120405/datatypes.html#rf-cardinality
-    */
-  object CardinalityConstraint extends Enumeration {
-    type CardinalityConstraint = Value
-    val finite, countablyInfinite = Value
-  }
-
-  import CardinalityConstraint._
-
-  /**
-    * @see http://www.w3.org/TR/2012/REC-xmlschema11-2-20120405/datatypes.html#rf-cardinality
-    */
-  case class cardinality(constraint: CardinalityConstraint)
-    extends FundamentalFacet
-
-  /**
-    * @see http://www.w3.org/TR/2012/REC-xmlschema11-2-20120405/datatypes.html#rf-numeric
-    */
-  case class numeric(constraint: Boolean)
-    extends FundamentalFacet
-}
-
-/**
   * OMF ConstrainingFacet corresponds to the normative constrainting facets
   * defined in W3C XML Schema 1.1 Datatypes
   * @see http://www.w3.org/TR/xmlschema11-2/#rf-facets
