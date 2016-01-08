@@ -26,7 +26,7 @@ lazy val core = Project("omf-scala-core", file("."))
     IMCEKeys.targetJDK := IMCEKeys.jdk18.value,
     useGpg := true,
     useGpgAgent := true,
-//    git.useGitDescribe := true,
+    git.useGitDescribe := true,
     git.baseVersion := Versions.version,
     // include all test artifacts
     publishArtifact in Test := true,
@@ -46,4 +46,4 @@ lazy val core = Project("omf-scala-core", file("."))
     )
   )
   .settings(IMCEPlugin.strictScalacFatalWarningsSettings)
-//  .settings(versionWithGit: _*)
+  .settings(versionWithGit: _*)
