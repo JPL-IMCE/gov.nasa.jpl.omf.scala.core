@@ -2,7 +2,7 @@
  *
  * License Terms
  *
- * Copyright (c) 2014-2015, California Institute of Technology ("Caltech").
+ * Copyright (c) 2014-2016, California Institute of Technology ("Caltech").
  * U.S. Government sponsorship acknowledged.
  *
  * All rights reserved.
