@@ -27,14 +27,16 @@ lazy val core = Project("omf-scala-core", file("."))
     publishArtifact in Test := true,
     scalaSource in Compile := baseDirectory.value / "src",
     classDirectory in Compile := baseDirectory.value / "bin",
+    cleanFiles += (classDirectory in Compile).value,
+
     scalaSource in Test := baseDirectory.value / "test",
     classDirectory in Test := baseDirectory.value / "bin.tests",
+    cleanFiles += (classDirectory in Test).value,
 
     libraryDependencies ++= Seq (
-      "gov.nasa.jpl.imce.thirdParty" %% "all-scala-libraries" % Versions.jpl_mbee_common_scala_libraries artifacts 
-      Artifact("all-scala-libraries", "zip", "zip"),
-      "gov.nasa.jpl.imce.thirdParty" %% "other-scala-libraries" % Versions.jpl_mbee_common_scala_libraries artifacts 
-      Artifact("other-scala-libraries", "zip", "zip")
+      "gov.nasa.jpl.imce.thirdParty" %% "other-scala-libraries"
+        % Versions_other_scala_libraries.version artifacts
+        Artifact("other-scala-libraries", "zip", "zip", Some("resource"), Seq(), None, Map())
     )
   )
   .settings(IMCEPlugin.strictScalacFatalWarningsSettings)
