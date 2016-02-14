@@ -27,7 +27,9 @@ lazy val core = Project("omf-scala-core", file("."))
 
     projectID := {
       val previous = projectID.value
-      previous.extra("build.date.utc" -> buildUTCDate.value)
+      previous.extra(
+        "build.date.utc" -> buildUTCDate.value,
+        "zip.contents" -> "omf.generic")
     },
 
     IMCEKeys.targetJDK := IMCEKeys.jdk18.value,
@@ -69,7 +71,7 @@ def dynamicScriptsResourceSettings(dynamicScriptsProjectName: Option[String] = N
       require(
         QUALIFIED_NAME.pattern.matcher(projectName).matches,
         s"The project name, '$projectName` is not a valid Java qualified name")
-      Some("dynamicScripts/" + projectName)
+      Some(projectName)
     },
 
     // name the '*-resource.zip' in the same way as other artifacts
