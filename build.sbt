@@ -29,7 +29,7 @@ lazy val core = Project("omf-scala-core", file("."))
       val previous = projectID.value
       previous.extra(
         "build.date.utc" -> buildUTCDate.value,
-        "zip.contents" -> "omf.generic")
+        "artifact.kind" -> "generic.library")
     },
 
     IMCEKeys.targetJDK := IMCEKeys.jdk18.value,
