@@ -17,4 +17,9 @@
                       "<url> is a remote Maven repository URL")
 }
 
-addSbtPlugin("gov.nasa.jpl.imce" % "imce-sbt-plugin" % "2.3.1")
+// https://bintray.com/banno/oss/sbt-license-plugin/view
+resolvers += Resolver.url(
+  "sbt-license-plugin-releases",
+  url("http://dl.bintray.com/banno/oss"))(Resolver.ivyStylePatterns)
+
+addSbtPlugin("gov.nasa.jpl.imce" % "imce-sbt-plugin" % "2.4.0")

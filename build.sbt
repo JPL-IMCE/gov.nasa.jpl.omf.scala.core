@@ -18,6 +18,7 @@ lazy val core = Project("omf-scala-core", file("."))
   .enablePlugins(IMCEReleasePlugin)
   .settings(dynamicScriptsResourceSettings(Some("gov.nasa.jpl.omf.scala.core")))
   .settings(IMCEPlugin.strictScalacFatalWarningsSettings)
+  .settings(IMCEReleasePlugin.packageReleaseProcessSettings)
   .settings(
     IMCEKeys.licenseYearOrRange := "2014-2016",
     IMCEKeys.organizationInfo := IMCEPlugin.Organizations.omf,
@@ -52,7 +53,6 @@ lazy val core = Project("omf-scala-core", file("."))
 
     extractArchives := {}
   )
-  .settings(IMCEReleasePlugin.packageReleaseProcessSettings)
 
 def dynamicScriptsResourceSettings(dynamicScriptsProjectName: Option[String] = None): Seq[Setting[_]] = {
 
@@ -90,9 +90,7 @@ def dynamicScriptsResourceSettings(dynamicScriptsProjectName: Option[String] = N
       (base, bin, src, doc, binT, srcT, docT) =>
         val dir = base / "svn" / "org.omg.oti"
         (dir ** "*.dynamicScripts").pair(relativeTo(dir)) ++
-          ((dir ** "*.md") --- (dir / "sbt.staging" ***)).pair(relativeTo(dir)) ++
-          (dir / "models" ** "*.mdzip").pair(relativeTo(dir)) ++
-          com.typesafe.sbt.packager.MappingsHelper.directory(dir / "resources") ++
+          (dir ** "*.md").pair(relativeTo(dir)) ++
           addIfExists(bin, "lib/" + bin.name) ++
           addIfExists(binT, "lib/" + binT.name) ++
           addIfExists(src, "lib.sources/" + src.name) ++
