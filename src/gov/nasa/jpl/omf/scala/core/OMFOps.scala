@@ -172,7 +172,7 @@ trait OMFStoreOps[omf <: OMF] {
   ()
   ( implicit store: omf#Store )
   : NonEmptyList[java.lang.Throwable] \/
-    Option[(omf#ImmutableModelTerminologyGraph, omf#Mutable2IMutableTerminologyMap)]
+    (omf#ImmutableModelTerminologyGraph, omf#Mutable2IMutableTerminologyMap)
 
 
   def loadTerminologyGraph

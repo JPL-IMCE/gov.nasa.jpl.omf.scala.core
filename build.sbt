@@ -13,10 +13,81 @@ developers := List(
     email="nicolas.f.rouquette@jpl.nasa.gov",
     url=url("https://gateway.jpl.nasa.gov/personal/rouquett/default.aspx")))
 
+import scala.io.Source
+import scala.util.control.Exception._
+
+def docSettings(diagrams:Boolean): Seq[Setting[_]] =
+  Seq(
+    sources in (Compile,doc) <<= (git.gitUncommittedChanges, sources in (Compile,compile)) map {
+      (uncommitted, compileSources) =>
+        if (uncommitted)
+          Seq.empty
+        else
+          compileSources
+    },
+
+    sources in (Test,doc) <<= (git.gitUncommittedChanges, sources in (Test,compile)) map {
+      (uncommitted, testSources) =>
+        if (uncommitted)
+          Seq.empty
+        else
+          testSources
+    },
+
+    scalacOptions in (Compile,doc) ++=
+      (if (diagrams)
+        Seq("-diagrams")
+      else
+        Seq()
+        ) ++
+        Seq(
+          "-doc-title", name.value,
+          "-doc-root-content", baseDirectory.value + "/rootdoc.txt"
+        ),
+    autoAPIMappings := ! git.gitUncommittedChanges.value,
+    apiMappings <++=
+      ( git.gitUncommittedChanges,
+        dependencyClasspath in Compile in doc,
+        IMCEKeys.nexusJavadocRepositoryRestAPIURL2RepositoryName,
+        IMCEKeys.pomRepositoryPathRegex,
+        streams ) map { (uncommitted, deps, repoURL2Name, repoPathRegex, s) =>
+        if (uncommitted)
+          Map[File, URL]()
+        else
+          (for {
+            jar <- deps
+            url <- jar.metadata.get(AttributeKey[ModuleID]("moduleId")).flatMap { moduleID =>
+              val urls = for {
+                (repoURL, repoName) <- repoURL2Name
+                (query, match2publishF) = IMCEPlugin.nexusJavadocPOMResolveQueryURLAndPublishURL(
+                  repoURL, repoName, moduleID)
+                url <- nonFatalCatch[Option[URL]]
+                  .withApply { (_: java.lang.Throwable) => None }
+                  .apply({
+                    val conn = query.openConnection.asInstanceOf[java.net.HttpURLConnection]
+                    conn.setRequestMethod("GET")
+                    conn.setDoOutput(true)
+                    repoPathRegex
+                      .findFirstMatchIn(Source.fromInputStream(conn.getInputStream).getLines.mkString)
+                      .map { m =>
+                        val javadocURL = match2publishF(m)
+                        s.log.info(s"Javadoc for: $moduleID")
+                        s.log.info(s"= mapped to: $javadocURL")
+                        javadocURL
+                      }
+                  })
+              } yield url
+              urls.headOption
+            }
+          } yield jar.data -> url).toMap
+      }
+  )
+
 lazy val core = Project("omf-scala-core", file("."))
   .enablePlugins(IMCEGitPlugin)
   .enablePlugins(IMCEReleasePlugin)
   .settings(dynamicScriptsResourceSettings(Some("gov.nasa.jpl.omf.scala.core")))
+  .settings(docSettings(diagrams=true))
   .settings(IMCEPlugin.strictScalacFatalWarningsSettings)
   .settings(IMCEReleasePlugin.packageReleaseProcessSettings)
   .settings(
@@ -50,6 +121,11 @@ lazy val core = Project("omf-scala-core", file("."))
         % Versions_other_scala_libraries.version artifacts
         Artifact("other-scala-libraries", "zip", "zip", Some("resource"), Seq(), None, Map())
     ),
+
+    IMCEKeys.nexusJavadocRepositoryRestAPIURL2RepositoryName := Map(
+      "https://oss.sonatype.org/service/local" -> "releases",
+      "https://cae-nexuspro.jpl.nasa.gov/nexus/service/local" -> "JPL"),
+    IMCEKeys.pomRepositoryPathRegex := """\<repositoryPath\>\s*([^\"]*)\s*\<\/repositoryPath\>""".r,
 
     extractArchives := {}
   )
