@@ -38,46 +38,44 @@
  */
 package gov.nasa.jpl.omf.scala.core
 
-import scala.{Option,None}
+import scala.collection.immutable.Set
 import scala.Predef.String
-import scalaz._, Scalaz._
 
 object OMFError {
 
-  type ThrowableNel = NonEmptyList[java.lang.Throwable]
-  type OptionThrowableNel = Option[ThrowableNel]
-  val emptyThrowableNel = Option.empty[NonEmptyList[java.lang.Throwable]]
+  type Throwables = Set[java.lang.Throwable]
+  val emptyThrowables = Set[java.lang.Throwable]()
 
   class OMFException
   ( val message: String,
-    val cause: OptionThrowableNel = emptyThrowableNel )
+    val cause: Throwables )
     extends java.lang.Throwable(message) {
 
-    cause.map { nels =>
-      this.initCause(nels.head)
+    cause.headOption.map { e =>
+      this.initCause(e)
     }
 
   }
 
   class OMFBindingException
   ( override val message: String,
-    override val cause: OptionThrowableNel = emptyThrowableNel )
+    override val cause: Throwables )
     extends OMFException(message, cause)
 
   class OMFOpsException[Omf <: OMF]
   ( val ops: OMFOps[Omf],
     override val message: String,
-    override val cause: OptionThrowableNel = emptyThrowableNel )
+    override val cause: Throwables )
     extends OMFException(message, cause)
 
   def omfError
   ( message: String )
   : java.lang.Throwable =
-  new OMFException(message)
+  new OMFException(message, emptyThrowables)
 
   def omfException
   ( message: String,
-    cause: OptionThrowableNel = emptyThrowableNel )
+    cause: Throwables )
   : java.lang.Throwable =
     new OMFException(message, cause)
 
@@ -85,16 +83,16 @@ object OMFError {
   ( message: String,
     cause: java.lang.Throwable )
   : java.lang.Throwable =
-    new OMFException(message, cause.wrapNel.some)
+    new OMFException(message, Set[java.lang.Throwable](cause))
 
   def omfBindingError
   ( message: String )
   : java.lang.Throwable =
-  new OMFBindingException( message )
+  new OMFBindingException( message, emptyThrowables )
 
   def omfBindingException
   ( message: String,
-    cause: OptionThrowableNel = emptyThrowableNel )
+    cause: Throwables )
   : java.lang.Throwable =
     new OMFBindingException( message, cause )
 
@@ -102,18 +100,18 @@ object OMFError {
   ( message: String,
     cause: java.lang.Throwable  )
   : java.lang.Throwable =
-    new OMFBindingException( message, cause.wrapNel.some )
+    new OMFBindingException( message, Set[java.lang.Throwable](cause))
 
   def omfOpsError[Omf <: OMF]
   ( ops: OMFOps[Omf],
     message: String )
   : java.lang.Throwable =
-    new OMFOpsException( ops, message )
+    new OMFOpsException( ops, message, emptyThrowables )
 
   def omfOpsException[Omf <: OMF]
   ( ops: OMFOps[Omf],
     message: String,
-    cause: OptionThrowableNel = emptyThrowableNel )
+    cause: Throwables )
   : java.lang.Throwable =
     new OMFOpsException( ops, message, cause )
 
@@ -122,6 +120,6 @@ object OMFError {
     message: String,
     cause: java.lang.Throwable  )
   : java.lang.Throwable =
-    new OMFOpsException( ops, message, cause.wrapNel.some )
+    new OMFOpsException( ops, message, Set[java.lang.Throwable](cause))
 
 }

@@ -98,10 +98,10 @@ trait IRIOps[omf <: OMF] {
   // IRI
 
   def makeIRI( s: String )
-  : NonEmptyList[java.lang.Throwable] \/ omf#IRI
+  : Set[java.lang.Throwable] \/ omf#IRI
 
   def withFragment( iri: omf#IRI, fragment: String )
-  : NonEmptyList[java.lang.Throwable] \/ omf#IRI
+  : Set[java.lang.Throwable] \/ omf#IRI
 
   /**
    * Split the IRI in two components: the IRI wihtout the fragment, the IRI fragment
@@ -171,14 +171,14 @@ trait OMFStoreOps[omf <: OMF] {
   def loadBuiltinDatatypeMap
   ()
   ( implicit store: omf#Store )
-  : NonEmptyList[java.lang.Throwable] \/
+  : Set[java.lang.Throwable] \/
     (omf#ImmutableModelTerminologyGraph, omf#Mutable2IMutableTerminologyMap)
 
 
   def loadTerminologyGraph
   ( iri: omf#IRI )
   ( implicit store: omf#Store )
-  : NonEmptyList[java.lang.Throwable] \/ (omf#ImmutableModelTerminologyGraph, omf#Mutable2IMutableTerminologyMap)
+  : Set[java.lang.Throwable] \/ (omf#ImmutableModelTerminologyGraph, omf#Mutable2IMutableTerminologyMap)
 
   def fromTerminologyGraph
   ( graph: omf#ModelTerminologyGraph )
@@ -199,7 +199,7 @@ trait OMFStoreOps[omf <: OMF] {
     entityConceptDesignation: omf#ModelEntityConcept,
     designationTerminologyGraph: omf#ModelTerminologyGraph )
   ( implicit store: omf#Store )
-  : NonEmptyList[java.lang.Throwable] \/ omf#EntityConceptDesignationTerminologyGraphAxiom
+  : Set[java.lang.Throwable] \/ omf#EntityConceptDesignationTerminologyGraphAxiom
 
   def getNestingGraph
   ( graph: omf#ModelTerminologyGraph )
@@ -215,7 +215,7 @@ trait OMFStoreOps[omf <: OMF] {
   ( parentG: omf#MutableModelTerminologyGraph,
     nestedG: omf#ModelTerminologyGraph )
   ( implicit store: omf#Store )
-  : NonEmptyList[java.lang.Throwable] \/ omf#TerminologyGraphDirectNestingAxiom
+  : Set[java.lang.Throwable] \/ omf#TerminologyGraphDirectNestingAxiom
 
   def getDirectlyExtendingGraphsOfExtendedParentGraph
   (extendedParentG: omf#ModelTerminologyGraph)
@@ -231,7 +231,7 @@ trait OMFStoreOps[omf <: OMF] {
   ( extendingG: omf#MutableModelTerminologyGraph,
     extendedG: omf#ModelTerminologyGraph )
   ( implicit store: omf#Store )
-  : NonEmptyList[java.lang.Throwable] \/ omf#TerminologyGraphDirectExtensionAxiom
+  : Set[java.lang.Throwable] \/ omf#TerminologyGraphDirectExtensionAxiom
 
   /**
    * Create a mutable terminology graph partially identified by an IRI and a kind.
@@ -247,18 +247,18 @@ trait OMFStoreOps[omf <: OMF] {
   ( iri: omf#IRI,
     kind: TerminologyKind )
   ( implicit store: omf#Store )
-  : NonEmptyList[java.lang.Throwable] \/ omf#MutableModelTerminologyGraph
+  : Set[java.lang.Throwable] \/ omf#MutableModelTerminologyGraph
 
   def saveTerminologyGraph
   ( g: omf#ModelTerminologyGraph )
   ( implicit store: omf#Store )
-  : NonEmptyList[java.lang.Throwable] \/ Unit
+  : Set[java.lang.Throwable] \/ Unit
 
   def saveTerminologyGraph
   ( g: omf#ModelTerminologyGraph,
     os: java.io.OutputStream )
   ( implicit store: omf#Store )
-  : NonEmptyList[java.lang.Throwable] \/ Unit
+  : Set[java.lang.Throwable] \/ Unit
 
   /**
    * Converts a mutable tbox graph into an equivalent immutable tbox graph such that
@@ -271,7 +271,7 @@ trait OMFStoreOps[omf <: OMF] {
   def asImmutableTerminologyGraph
   ( g: omf#MutableModelTerminologyGraph )
   ( implicit store: omf#Store )
-  : NonEmptyList[java.lang.Throwable] \/
+  : Set[java.lang.Throwable] \/
     (omf#ImmutableModelTerminologyGraph, Map[omf#MutableModelTerminologyGraph, omf#ImmutableModelTerminologyGraph])
 
   def isEntityDefinitionAssertedInTerminologyGraph
@@ -419,7 +419,7 @@ trait OMFStoreOps[omf <: OMF] {
   def loadInstanceGraph
   ( iri: omf#IRI )
   ( implicit store: omf#Store )
-  : NonEmptyList[java.lang.Throwable] \/ omf#ImmutableModelInstanceGraph
+  : Set[java.lang.Throwable] \/ omf#ImmutableModelInstanceGraph
 
   def fromInstanceGraph
   ( graph: omf#ModelInstanceGraph )
@@ -440,17 +440,17 @@ trait OMFStoreOps[omf <: OMF] {
     instantiatedTGraphs: Iterable[omf#ImmutableModelTerminologyGraph],
     extendedIGraphs: Iterable[omf#ImmutableModelInstanceGraph] )
   ( implicit store: omf#Store )
-  : NonEmptyList[java.lang.Throwable] \/ omf#MutableModelInstanceGraph
+  : Set[java.lang.Throwable] \/ omf#MutableModelInstanceGraph
 
   def asImmutableInstanceGraph
   ( g: omf#MutableModelInstanceGraph )
   ( implicit store: omf#Store )
-  : NonEmptyList[java.lang.Throwable] \/ omf#ImmutableModelInstanceGraph
+  : Set[java.lang.Throwable] \/ omf#ImmutableModelInstanceGraph
 
   def saveInstanceGraph
   ( g: omf#ModelInstanceGraph )
   ( implicit store: omf#Store )
-  : NonEmptyList[java.lang.Throwable] \/ Unit
+  : Set[java.lang.Throwable] \/ Unit
 
   /**
    * @since 0.10.2
@@ -458,7 +458,7 @@ trait OMFStoreOps[omf <: OMF] {
   def saveInstanceGraph
   ( g: omf#ModelInstanceGraph, os: java.io.OutputStream )
   ( implicit store: omf#Store )
-  : NonEmptyList[java.lang.Throwable] \/ Unit
+  : Set[java.lang.Throwable] \/ Unit
 
 }
 
@@ -800,27 +800,27 @@ trait MutableTerminologyGraphOps[omf <: OMF] extends ImmutableTerminologyGraphOp
   ( graph: omf#MutableModelTerminologyGraph,
     name: Option[String] )
   ( implicit store: omf#Store )
-  : NonEmptyList[java.lang.Throwable] \/ Unit
+  : Set[java.lang.Throwable] \/ Unit
 
   def setTerminologyGraphUUID
   ( graph: omf#MutableModelTerminologyGraph,
     uuid: Option[String] )
   ( implicit store: omf#Store )
-  : NonEmptyList[java.lang.Throwable] \/ Unit
+  : Set[java.lang.Throwable] \/ Unit
 
   def setTermShortName
   ( g: omf#MutableModelTerminologyGraph,
     term: omf#ModelTypeTerm,
     name: Option[String] )
   ( implicit store: omf#Store )
-  : NonEmptyList[java.lang.Throwable] \/ Unit
+  : Set[java.lang.Throwable] \/ Unit
 
   def setTermUUID
   ( g: omf#MutableModelTerminologyGraph,
     term: omf#ModelTypeTerm,
     uuid: Option[String] )
   ( implicit store: omf#Store )
-  : NonEmptyList[java.lang.Throwable] \/ Unit
+  : Set[java.lang.Throwable] \/ Unit
 
   /**
    * Add to a terminology graph a new ModelEntityAspect
@@ -832,7 +832,7 @@ trait MutableTerminologyGraphOps[omf <: OMF] extends ImmutableTerminologyGraphOp
   ( graph: omf#MutableModelTerminologyGraph,
     aspectName: String )
   ( implicit store: omf#Store )
-  : NonEmptyList[java.lang.Throwable] \/ omf#ModelEntityAspect
+  : Set[java.lang.Throwable] \/ omf#ModelEntityAspect
 
   /**
    * Add to a terminology graph a new ModelEntityConcept
@@ -846,7 +846,7 @@ trait MutableTerminologyGraphOps[omf <: OMF] extends ImmutableTerminologyGraphOp
     conceptName: String,
     isAbstract: Boolean )
   ( implicit store: omf#Store )
-  : NonEmptyList[java.lang.Throwable] \/ omf#ModelEntityConcept
+  : Set[java.lang.Throwable] \/ omf#ModelEntityConcept
 
   /**
    * Add to a terminology graph a new ModelEntityReifiedRelationship
@@ -876,19 +876,19 @@ trait MutableTerminologyGraphOps[omf <: OMF] extends ImmutableTerminologyGraphOp
     unreifiedInverseRelationshipName: Option[String],
     isAbstract: Boolean )
   ( implicit store: omf#Store )
-  : NonEmptyList[java.lang.Throwable] \/ omf#ModelEntityReifiedRelationship
+  : Set[java.lang.Throwable] \/ omf#ModelEntityReifiedRelationship
 
   def addScalarDataType
   ( graph: omf#MutableModelTerminologyGraph,
     fragment: String )
   ( implicit store: omf#Store )
-  : NonEmptyList[java.lang.Throwable] \/ omf#ModelScalarDataType
+  : Set[java.lang.Throwable] \/ omf#ModelScalarDataType
 
   def addStructuredDataType
   ( graph: omf#MutableModelTerminologyGraph,
     fragment: String )
   ( implicit store: omf#Store )
-  : NonEmptyList[java.lang.Throwable] \/ omf#ModelStructuredDataType
+  : Set[java.lang.Throwable] \/ omf#ModelStructuredDataType
 
   def addDataRelationshipFromEntityToScalar
   ( graph: omf#MutableModelTerminologyGraph,
@@ -896,7 +896,7 @@ trait MutableTerminologyGraphOps[omf <: OMF] extends ImmutableTerminologyGraphOp
     target: omf#ModelScalarDataType,
     dataRelationshipName: String )
   ( implicit store: omf#Store )
-  : NonEmptyList[java.lang.Throwable] \/ omf#ModelDataRelationshipFromEntityToScalar
+  : Set[java.lang.Throwable] \/ omf#ModelDataRelationshipFromEntityToScalar
 
   def addDataRelationshipFromEntityToStructure
   ( graph: omf#MutableModelTerminologyGraph,
@@ -904,7 +904,7 @@ trait MutableTerminologyGraphOps[omf <: OMF] extends ImmutableTerminologyGraphOp
     target: omf#ModelStructuredDataType,
     dataRelationshipName: String )
   ( implicit store: omf#Store )
-  : NonEmptyList[java.lang.Throwable] \/ omf#ModelDataRelationshipFromEntityToStructure
+  : Set[java.lang.Throwable] \/ omf#ModelDataRelationshipFromEntityToStructure
 
   def addDataRelationshipFromStructureToScalar
   ( graph: omf#MutableModelTerminologyGraph,
@@ -912,7 +912,7 @@ trait MutableTerminologyGraphOps[omf <: OMF] extends ImmutableTerminologyGraphOp
     target: omf#ModelScalarDataType,
     dataRelationshipName: String )
   ( implicit store: omf#Store )
-  : NonEmptyList[java.lang.Throwable] \/ omf#ModelDataRelationshipFromStructureToScalar
+  : Set[java.lang.Throwable] \/ omf#ModelDataRelationshipFromStructureToScalar
 
   def addDataRelationshipFromStructureToStructure
   ( graph: omf#MutableModelTerminologyGraph,
@@ -920,7 +920,7 @@ trait MutableTerminologyGraphOps[omf <: OMF] extends ImmutableTerminologyGraphOp
     target: omf#ModelStructuredDataType,
     dataRelationshipName: String )
   ( implicit store: omf#Store )
-  : NonEmptyList[java.lang.Throwable] \/ omf#ModelDataRelationshipFromStructureToStructure
+  : Set[java.lang.Throwable] \/ omf#ModelDataRelationshipFromStructureToStructure
 
   // model term axioms
 
@@ -929,14 +929,14 @@ trait MutableTerminologyGraphOps[omf <: OMF] extends ImmutableTerminologyGraphOp
     sub: omf#ModelEntityDefinition,
     sup: omf#ModelEntityAspect )
   ( implicit store: omf#Store )
-  : NonEmptyList[java.lang.Throwable] \/ omf#EntityDefinitionAspectSubClassAxiom
+  : Set[java.lang.Throwable] \/ omf#EntityDefinitionAspectSubClassAxiom
 
   def addEntityConceptSubClassAxiom
   ( graph: omf#MutableModelTerminologyGraph,
     sub: omf#ModelEntityConcept,
     sup: omf#ModelEntityConcept )
   ( implicit store: omf#Store )
-  : NonEmptyList[java.lang.Throwable] \/ omf#EntityConceptSubClassAxiom
+  : Set[java.lang.Throwable] \/ omf#EntityConceptSubClassAxiom
 
   def addEntityConceptUniversalRestrictionAxiom
   ( graph: omf#MutableModelTerminologyGraph,
@@ -944,7 +944,7 @@ trait MutableTerminologyGraphOps[omf <: OMF] extends ImmutableTerminologyGraphOp
     rel: omf#ModelEntityReifiedRelationship,
     range: omf#ModelEntityDefinition )
   ( implicit store: omf#Store )
-  : NonEmptyList[java.lang.Throwable] \/ omf#EntityConceptUniversalRestrictionAxiom
+  : Set[java.lang.Throwable] \/ omf#EntityConceptUniversalRestrictionAxiom
 
   def addEntityConceptExistentialRestrictionAxiom
   ( graph: omf#MutableModelTerminologyGraph,
@@ -952,14 +952,14 @@ trait MutableTerminologyGraphOps[omf <: OMF] extends ImmutableTerminologyGraphOp
     rel: omf#ModelEntityReifiedRelationship,
     range: omf#ModelEntityDefinition )
   ( implicit store: omf#Store )
-  : NonEmptyList[java.lang.Throwable] \/ omf#EntityConceptExistentialRestrictionAxiom
+  : Set[java.lang.Throwable] \/ omf#EntityConceptExistentialRestrictionAxiom
 
   def addEntityReifiedRelationshipSubClassAxiom
   ( graph: omf#MutableModelTerminologyGraph,
     sub: omf#ModelEntityReifiedRelationship,
     sup: omf#ModelEntityReifiedRelationship )
   ( implicit store: omf#Store )
-  : NonEmptyList[java.lang.Throwable] \/ omf#EntityReifiedRelationshipSubClassAxiom
+  : Set[java.lang.Throwable] \/ omf#EntityReifiedRelationshipSubClassAxiom
 
   def addScalarDataTypeFacetRestrictionAxiom
   ( graph: omf#MutableModelTerminologyGraph,
@@ -968,7 +968,7 @@ trait MutableTerminologyGraphOps[omf <: OMF] extends ImmutableTerminologyGraphOp
     fundamentalFacets: Iterable[FundamentalFacet],
     constrainingFacets: Iterable[ConstrainingFacet] )
   ( implicit store: omf#Store )
-  : NonEmptyList[java.lang.Throwable] \/ omf#ScalarDataTypeFacetRestrictionAxiom
+  : Set[java.lang.Throwable] \/ omf#ScalarDataTypeFacetRestrictionAxiom
 
 }
 
@@ -1046,7 +1046,7 @@ trait MutableInstanceGraphOps[omf <: OMF]
     conceptType: omf#ModelEntityConcept,
     fragment: String )
   ( implicit store: omf#Store )
-  : NonEmptyList[java.lang.Throwable] \/ omf#ModelInstanceObject
+  : Set[java.lang.Throwable] \/ omf#ModelInstanceObject
 
   // instance relation
 
@@ -1057,7 +1057,7 @@ trait MutableInstanceGraphOps[omf <: OMF]
     target: omf#ModelEntityInstance,
     fragment: String )
   ( implicit store: omf#Store )
-  : NonEmptyList[java.lang.Throwable] \/ omf#ModelInstanceRelation
+  : Set[java.lang.Throwable] \/ omf#ModelInstanceRelation
 
   // data literal
 
@@ -1066,7 +1066,7 @@ trait MutableInstanceGraphOps[omf <: OMF]
     datatype: omf#ModelScalarDataType,
     lexicalForm: String )
   ( implicit store: omf#Store )
-  : NonEmptyList[java.lang.Throwable] \/ omf#ModelInstanceDataLiteral
+  : Set[java.lang.Throwable] \/ omf#ModelInstanceDataLiteral
 
   // data structure
 
@@ -1075,7 +1075,7 @@ trait MutableInstanceGraphOps[omf <: OMF]
     datatype: omf#ModelStructuredDataType,
     fragment: String )
   ( implicit store: omf#Store )
-  : NonEmptyList[java.lang.Throwable] \/ omf#ModelInstanceDataStructure
+  : Set[java.lang.Throwable] \/ omf#ModelInstanceDataStructure
 
   // data relationship from entity to scalar
 
@@ -1085,7 +1085,7 @@ trait MutableInstanceGraphOps[omf <: OMF]
     e2sc: omf#ModelDataRelationshipFromEntityToScalar,
     value: omf#ModelInstanceDataLiteral )
   ( implicit store: omf#Store )
-  : NonEmptyList[java.lang.Throwable] \/ omf#ModelInstanceDataRelationshipFromEntityToScalar
+  : Set[java.lang.Throwable] \/ omf#ModelInstanceDataRelationshipFromEntityToScalar
 
   // data relationship from entity to structure
 
@@ -1095,7 +1095,7 @@ trait MutableInstanceGraphOps[omf <: OMF]
     e2st: omf#ModelDataRelationshipFromEntityToStructure,
     value: omf#ModelInstanceDataStructure )
   ( implicit store: omf#Store )
-  : NonEmptyList[java.lang.Throwable] \/ omf#ModelInstanceDataRelationshipFromEntityToStructure
+  : Set[java.lang.Throwable] \/ omf#ModelInstanceDataRelationshipFromEntityToStructure
 
   // data relationship from structure to scalar
 
@@ -1105,7 +1105,7 @@ trait MutableInstanceGraphOps[omf <: OMF]
     e2sc: omf#ModelDataRelationshipFromStructureToScalar,
     value: omf#ModelInstanceDataLiteral )
   ( implicit store: omf#Store )
-  : NonEmptyList[java.lang.Throwable] \/ omf#ModelInstanceDataRelationshipFromStructureToScalar
+  : Set[java.lang.Throwable] \/ omf#ModelInstanceDataRelationshipFromStructureToScalar
 
   // data relationship from structure to structure
 
@@ -1115,7 +1115,7 @@ trait MutableInstanceGraphOps[omf <: OMF]
     e2st: omf#ModelDataRelationshipFromStructureToStructure,
     value: omf#ModelInstanceDataStructure )
   ( implicit store: omf#Store )
-  : NonEmptyList[java.lang.Throwable] \/ omf#ModelInstanceDataRelationshipFromStructureToStructure
+  : Set[java.lang.Throwable] \/ omf#ModelInstanceDataRelationshipFromStructureToStructure
 
 }
 

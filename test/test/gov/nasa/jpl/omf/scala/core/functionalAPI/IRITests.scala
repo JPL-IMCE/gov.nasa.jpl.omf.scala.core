@@ -53,7 +53,7 @@ extends WordSpec with Matchers {
 
   import ops._
 
-  type Result[A] = NonEmptyList[java.lang.Throwable] \/ A
+  type Result[A] = Set[java.lang.Throwable] \/ A
   type ResultTo[A, B] = Kleisli[Result, A, B]
 
   def ResultTo[In, Out](fn: In => Result[Out]): ResultTo[In, Out] =

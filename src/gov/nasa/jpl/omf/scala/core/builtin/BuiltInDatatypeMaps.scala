@@ -48,14 +48,14 @@ import gov.nasa.jpl.omf.scala.core.TerminologyKind._
 import gov.nasa.jpl.omf.scala.core.{OMFOps, OMF}
 
 import scala.collection.immutable._
-import scalaz.{\/, NonEmptyList}
+import scalaz.\/
 
 object BuiltInDatatypeMaps {
 
   def createBuiltInDatatypeMaps[omf <: OMF]
   ()
   (implicit ops: OMFOps[omf], store: omf#Store)
-  : NonEmptyList[java.lang.Throwable] \/
+  : Set[java.lang.Throwable] \/
     (omf#ImmutableModelTerminologyGraph, Map[omf#MutableModelTerminologyGraph, omf#ImmutableModelTerminologyGraph])
   = {
     import ops._

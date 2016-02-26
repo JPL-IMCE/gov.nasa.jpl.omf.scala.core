@@ -47,7 +47,7 @@ import org.scalatest._, exceptions._
 import scala.{StringContext,Unit}
 import scala.util.control.Exception._
 import scalaz._, Scalaz._
-import scala.collection.immutable.List
+import scala.collection.immutable.{List,Set}
 
 abstract class OMFVocabularyMutabilityTest[omf <: OMF]
 ( val saveStore: omf#Store, saveOps: OMFOps[omf],
@@ -58,7 +58,7 @@ abstract class OMFVocabularyMutabilityTest[omf <: OMF]
 
   def postOMFSave(): Unit
 
-  def withOMFSave(testCode: (omf#Store, OMFOps[omf]) => NonEmptyList[java.lang.Throwable] \/ Unit)
+  def withOMFSave(testCode: (omf#Store, OMFOps[omf]) => Set[java.lang.Throwable] \/ Unit)
   : Unit =
 
     nonFatalCatch[Unit]
@@ -81,7 +81,7 @@ abstract class OMFVocabularyMutabilityTest[omf <: OMF]
 
   def postOMFLoad(): Unit
 
-  def withOMFLoad(testCode: (omf#Store, OMFOps[omf]) => NonEmptyList[java.lang.Throwable] \/ Unit)
+  def withOMFLoad(testCode: (omf#Store, OMFOps[omf]) => Set[java.lang.Throwable] \/ Unit)
   : Unit =
 
     nonFatalCatch[Unit]
