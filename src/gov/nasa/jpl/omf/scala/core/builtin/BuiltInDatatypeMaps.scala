@@ -44,7 +44,6 @@ import gov.nasa.jpl.omf.scala.core.ConstrainingFacet.WhiteSpaceConstraint._
 import gov.nasa.jpl.omf.scala.core.FundamentalFacet._
 import gov.nasa.jpl.omf.scala.core.FundamentalFacet.CardinalityConstraint._
 import gov.nasa.jpl.omf.scala.core.FundamentalFacet.OrderedConstraint._
-import gov.nasa.jpl.omf.scala.core.TerminologyKind._
 import gov.nasa.jpl.omf.scala.core.{OMFOps, OMF}
 
 import scala.collection.immutable._
@@ -53,8 +52,10 @@ import scalaz.\/
 object BuiltInDatatypeMaps {
 
   def createBuiltInDatatypeMaps[omf <: OMF]
-  ()
-  (implicit ops: OMFOps[omf], store: omf#Store)
+  (makeW3CTerminologyGraphDefinition: omf#IRI => Set[java.lang.Throwable] \/ omf#MutableModelTerminologyGraph)
+  (implicit
+   ops: OMFOps[omf],
+   store: omf#Store)
   : Set[java.lang.Throwable] \/
     (omf#ImmutableModelTerminologyGraph, Map[omf#MutableModelTerminologyGraph, omf#ImmutableModelTerminologyGraph])
   = {
@@ -62,7 +63,7 @@ object BuiltInDatatypeMaps {
 
     for {
       xsd_iri <- makeIRI("http://www.w3.org/2001/XMLSchema")
-      xsd_mgraph <- makeTerminologyGraph(xsd_iri, isDefinition)
+      xsd_mgraph <- makeW3CTerminologyGraphDefinition(xsd_iri)
 
       // @see http://www.w3.org/TR/2012/REC-xmlschema11-2-20120405/datatypes.html#anyAtomicType
       anyAtomicType <- addScalarDataType(xsd_mgraph, "anyAtomicType")
@@ -458,7 +459,7 @@ object BuiltInDatatypeMaps {
       // @see http://www.w3.org/TR/2012/REC-xmlschema11-2-20120405/datatypes.html#IDREF
 
       rdfs_iri <- makeIRI("http://www.w3.org/1999/02/22-rdf-syntax-ns")
-      rdfs_mgraph <- makeTerminologyGraph(rdfs_iri, isDefinition)
+      rdfs_mgraph <- makeW3CTerminologyGraphDefinition(rdfs_iri)
       _ <- addTerminologyGraphExtension(rdfs_mgraph, xsd_mgraph)
 
       // @see http://www.w3.org/TR/rdf11-concepts/#section-html
@@ -468,7 +469,7 @@ object BuiltInDatatypeMaps {
       // rdf:XMLLiteral
 
       owl_iri <- makeIRI("http://www.w3.org/2002/07/owl")
-      owl_mgraph <- makeTerminologyGraph(owl_iri, isDefinition)
+      owl_mgraph <- makeW3CTerminologyGraphDefinition(owl_iri)
       _ <- addTerminologyGraphExtension(owl_mgraph, rdfs_mgraph)
 
       // @see http://www.w3.org/TR/owl2-syntax/#Datatype_Maps
