@@ -109,12 +109,8 @@ lazy val core = Project("omf-scala-core", file("."))
     // include all test artifacts
     publishArtifact in Test := true,
     scalaSource in Compile := baseDirectory.value / "src",
-    classDirectory in Compile := baseDirectory.value / "bin",
-    cleanFiles += (classDirectory in Compile).value,
 
     scalaSource in Test := baseDirectory.value / "test",
-    classDirectory in Test := baseDirectory.value / "bin.tests",
-    cleanFiles += (classDirectory in Test).value,
 
     libraryDependencies ++= Seq (
       "gov.nasa.jpl.imce.thirdParty" %% "other-scala-libraries"
