@@ -481,43 +481,76 @@ trait OMFabox {
 
 
 /**
- * A Terminology graph is a tuple.
- *
- * @param iri the identity of the terminology graph as a container for several descriptions and as the context
- *            for extending other terminology graphs
- * @param kind the semantic commitment of this terminology graph (open-world definitions vs. closed-world designations)
- * @param nesting the parent terminology graph, if any, whose nested graphs includes this terminology graph
- * @param nested the terminology graphs that are logically nested inside this terminology graph
- * @param imports this terminology graph can use or specialize descriptions from the transitive closure
- *                  of imported terminology graphs
- * @param aspects the aspects described in this terminology graph
- * @param concepts the concepts described in this terminology graph
- * @param reifiedRelationships the reified relationships described in this terminology graph
- * @param unreifiedRelationships the unreified relationships described in scope of this terminology graph
- * @param scalarDataTypes the scalar datatypes described in this terminology graph
- * @param structuredDataTypes the structured datatypes described in this terminology graph
- * @param entity2scalarDataRelationships the entity to scalar data relationships described in this terminology graph
- * @param entity2structureDataRelationships the entity to structured data relationships described in this terminology graph
- * @param structure2scalarDataRelationships the entity to scalar data  relationships described in this terminology graph
- * @param structure2structureDataRelationships the entity to scalar data  relationships described in this terminology graph
- * @param axioms the axioms asserted in this terminology graph
- */
+  * A Terminology graph signature is a tuple.
+  *
+  * @tparam omf OMF Adaptation/Binding.
+  */
 trait TerminologyGraphSignature[omf <: OMF] {
+  /**
+    * the identity of the terminology graph as a container for several descriptions and as the context
+    * for extending other terminology graphs
+    */
   val iri: omf#IRI
+  /**
+    * the semantic commitment of this terminology graph (open-world definitions vs. closed-world designations)
+    */
   val kind: TerminologyKind
+  /**
+    * the parent terminology graph, if any, whose nested graphs includes this terminology graph
+    */
   val nesting: Option[omf#ModelTerminologyGraph]
+  /**
+    * the terminology graphs that are logically nested inside this terminology graph
+    */
   val nested: Iterable[omf#ModelTerminologyGraph]
+  /**
+    * this terminology graph can use or specialize descriptions from the transitive closure
+    *                  of imported terminology graphs
+    */
   val imports: Iterable[omf#ModelTerminologyGraph]
+  /**
+    * the aspects described in this terminology graph
+    */
   val aspects: Iterable[omf#ModelEntityAspect]
+  /**
+    * the concepts described in this terminology graph
+    */
   val concepts: Iterable[omf#ModelEntityConcept]
+  /**
+    * the reified relationships described in this terminology graph
+    */
   val reifiedRelationships: Iterable[omf#ModelEntityReifiedRelationship]
+  /**
+    * the unreified relationships described in scope of this terminology graph
+    */
   val unreifiedRelationships: Iterable[omf#ModelEntityUnreifiedRelationship]
+  /**
+    * the scalar datatypes described in this terminology graph
+    */
   val scalarDataTypes: Iterable[omf#ModelScalarDataType]
+  /**
+    * the structured datatypes described in this terminology graph
+    */
   val structuredDataTypes: Iterable[omf#ModelStructuredDataType]
+  /**
+    * the entity to scalar data relationships described in this terminology graph
+    */
   val entity2scalarDataRelationships: Iterable[omf#ModelDataRelationshipFromEntityToScalar]
+  /**
+    * the entity to structured data relationships described in this terminology graph
+    */
   val entity2structureDataRelationships: Iterable[omf#ModelDataRelationshipFromEntityToStructure]
+  /**
+    * the entity to scalar data  relationships described in this terminology graph
+    */
   val structure2scalarDataRelationships: Iterable[omf#ModelDataRelationshipFromStructureToScalar]
+  /**
+    * the entity to scalar data  relationships described in this terminology graph
+    */
   val structure2structureDataRelationships: Iterable[omf#ModelDataRelationshipFromStructureToStructure]
+  /**
+    * the axioms asserted in this terminology graph
+    */
   val axioms: Iterable[omf#ModelTermAxiom]
 }
 
