@@ -368,8 +368,8 @@ trait OMFtbox {
     *
     * Invariants:
     * fromTerminologyGraph(G1).concepts.contains(C)
-    * fromTerminologyGraph(G1).nested.contains(this)
-    * fromTerminologyGraph(G2).nesting == Some(this)
+    * lookupNestingAxiomsForNestingParent(G1).contains(this)
+    * lookupNestingAxiomForNestedChildIfAny(G2).contains(this)
     *
     * If:
     * TerminologyGraphDirectNestingAxiom(nestedChild=G1, nestingParent=G2)
