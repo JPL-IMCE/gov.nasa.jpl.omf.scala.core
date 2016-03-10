@@ -214,8 +214,8 @@ abstract class OMFNestedGraphTest[omf <: OMF]
 
         lookupNestingAxiomsForNestingParent(nestingG = p1).isEmpty should be(true)
         lookupNestingAxiomsForNestingParent(nestingG = p1).isEmpty should be(true)
-        lookupNestingAxiomsForNestingParent(nestingG = g).contains(g_authorizes_p1) should be(true)
-        lookupNestingAxiomsForNestingParent(nestingG = g).contains(g_authorizes_p2) should be(true)
+        lookupNestingAxiomsForNestingParent(nestingG = g).contains(g_nests_p1) should be(true)
+        lookupNestingAxiomsForNestingParent(nestingG = g).contains(g_nests_p2) should be(true)
       }
 
     }
@@ -232,27 +232,67 @@ abstract class OMFNestedGraphTest[omf <: OMF]
         int_iri <- makeIRI("http://www.w3.org/2001/XMLSchema#integer")
         integer = lookupScalarDataType(xsd._1, int_iri, recursively = false)
         string_iri <- makeIRI("http://www.w3.org/2001/XMLSchema#string")
+
         base_iri <- makeIRI("http://imce.jpl.nasa.gov/foundation/base/base")
         base <- loadTerminologyGraph(base_iri)
+
         mission_iri <- makeIRI("http://imce.jpl.nasa.gov/foundation/mission/mission")
         mission <- loadTerminologyGraph(mission_iri)
+
         component_iri <- makeIRI("http://imce.jpl.nasa.gov/foundation/mission/mission#Component")
-        component_iri <- makeIRI("http://imce.jpl.nasa.gov/foundation/mission/mission#Component")
+        component = lookupEntityConcept(mission._1, component_iri, recursively=false)
+
+        function_iri <- makeIRI("http://imce.jpl.nasa.gov/foundation/mission/mission#Function")
+        function = lookupEntityConcept(mission._1, function_iri, recursively=false)
+
         component_performs_function_iri <- makeIRI("http://imce.jpl.nasa.gov/foundation/mission/mission#Performs")
+
+        project_iri <- makeIRI("http://imce.jpl.nasa.gov/foundation/project/project")
+        project <- loadTerminologyGraph(project_iri)
+        workPackage_iri <- makeIRI("http://imce.jpl.nasa.gov/foundation/project/project#WorkPackage")
+
+        g_iri <- makeIRI("http://example.org/G")
+        g <- loadTerminologyGraph(g_iri)
+
+        a_iri <- makeIRI("http://example.org/G#A")
+        a = lookupEntityConcept(g._1, a_iri, recursively=false)
+
+        b_iri <- makeIRI("http://example.org/G#B")
+        b = lookupEntityConcept(g._1, b_iri, recursively=false)
+
+        c_iri <- makeIRI("http://example.org/G#C")
+        c = lookupEntityConcept(g._1, c_iri, recursively=false)
+
+        p1_iri <- makeIRI("http://example.org/P1")
+        p1 <- loadTerminologyGraph(p1_iri)
+
+        g_authorizes_p1_iri <- makeIRI("http://example.org/G#P1")
+        g_authorizes_p1 = lookupEntityConcept(g._1, g_authorizes_p1_iri, recursively=false)
+
+        p2_iri <- makeIRI("http://example.org/P2")
+        p2 <- loadTerminologyGraph(p2_iri)
+
+        g_authorizes_p2_iri <- makeIRI("http://example.org/G#P2")
+        g_authorizes_p2 = lookupEntityConcept(g._1, g_authorizes_p2_iri, recursively=false)
+
       } yield {
-        lookupNestingAxiomForNestedChildIfAny(nestedG = g).isEmpty should be(true)
-        lookupNestingAxiomForNestedChildIfAny(nestedG = p1).contains(g_nests_p1) should be(true)
-        lookupNestingAxiomForNestedChildIfAny(nestedG = p2).contains(g_nests_p2) should be(true)
+        a.isDefined should be(true)
+        b.isDefined should be(true)
+        c.isDefined should be(true)
+        g_authorizes_p1.isDefined should be(true)
+        g_authorizes_p2.isDefined should be(true)
+        lookupNestingAxiomForNestedChildIfAny(nestedG = g._1).isEmpty should be(true)
+        lookupNestingAxiomForNestedChildIfAny(nestedG = p1._1).isDefined should be(true)
+        lookupNestingAxiomForNestedChildIfAny(nestedG = p2._1).isDefined should be(true)
 
-        lookupNestingAxiomForNestingContextIfAny(nestingC = component).isEmpty should be(true)
-        lookupNestingAxiomForNestingContextIfAny(nestingC = function).isEmpty should be(true)
-        lookupNestingAxiomForNestingContextIfAny(nestingC = g_authorizes_p1).contains(g_nests_p1) should be(true)
-        lookupNestingAxiomForNestingContextIfAny(nestingC = g_authorizes_p2).contains(g_nests_p2) should be(true)
+        lookupNestingAxiomForNestingContextIfAny(nestingC = component.get).isEmpty should be(true)
+        lookupNestingAxiomForNestingContextIfAny(nestingC = function.get).isEmpty should be(true)
+        lookupNestingAxiomForNestingContextIfAny(nestingC = g_authorizes_p1.get).isDefined should be(true)
+        lookupNestingAxiomForNestingContextIfAny(nestingC = g_authorizes_p2.get).isDefined should be(true)
 
-        lookupNestingAxiomsForNestingParent(nestingG = p1).isEmpty should be(true)
-        lookupNestingAxiomsForNestingParent(nestingG = p1).isEmpty should be(true)
-        lookupNestingAxiomsForNestingParent(nestingG = g).contains(g_authorizes_p1) should be(true)
-        lookupNestingAxiomsForNestingParent(nestingG = g).contains(g_authorizes_p2) should be(true)
+        lookupNestingAxiomsForNestingParent(nestingG = p1._1).isEmpty should be(true)
+        lookupNestingAxiomsForNestingParent(nestingG = p1._1).isEmpty should be(true)
+        lookupNestingAxiomsForNestingParent(nestingG = g._1).size should be(2)
       }
 
     }
