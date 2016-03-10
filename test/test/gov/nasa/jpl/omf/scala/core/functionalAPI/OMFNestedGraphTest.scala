@@ -186,9 +186,9 @@ abstract class OMFNestedGraphTest[omf <: OMF]
 
         p2_iri <- makeIRI("http://example.org/P2")
         p2 <- makeTerminologyGraph(p2_iri, isDefinition)
-        g2_authorizes_p2 <- addEntityConcept(g, "P2", isAbstract=false)
-        g2_authorizes_p2_WP <- addEntityConceptSubClassAxiom(g, g2_authorizes_p2, workPackage)
-        g2_nests_p2 <- addNestedTerminologyGraph(nestingParent=g, nestingContext=g2_authorizes_p2, nestedChild=p2)
+        g_authorizes_p2 <- addEntityConcept(g, "P2", isAbstract=false)
+        g_authorizes_p2_WP <- addEntityConceptSubClassAxiom(g, g_authorizes_p2, workPackage)
+        g_nests_p2 <- addNestedTerminologyGraph(nestingParent=g, nestingContext=g_authorizes_p2, nestedChild=p2)
 
         p2_asserts_B_performs_C <- addEntityReifiedRelationship(
           graph = p2,
@@ -202,7 +202,21 @@ abstract class OMFNestedGraphTest[omf <: OMF]
         p2_asserts_B_performsFunction_C <-
         addEntityReifiedRelationshipSubClassAxiom(graph=p2, sub=p2_asserts_B_performs_C, sup=component_performs_function)
 
-      } yield ()
+      } yield {
+        lookupNestingAxiomForNestedChildIfAny(nestedG = g).isEmpty should be(true)
+        lookupNestingAxiomForNestedChildIfAny(nestedG = p1).contains(g_nests_p1) should be(true)
+        lookupNestingAxiomForNestedChildIfAny(nestedG = p2).contains(g_nests_p2) should be(true)
+
+        lookupNestingAxiomForNestingContextIfAny(nestingC = component).isEmpty should be(true)
+        lookupNestingAxiomForNestingContextIfAny(nestingC = function).isEmpty should be(true)
+        lookupNestingAxiomForNestingContextIfAny(nestingC = g_authorizes_p1).contains(g_nests_p1) should be(true)
+        lookupNestingAxiomForNestingContextIfAny(nestingC = g_authorizes_p2).contains(g_nests_p2) should be(true)
+
+        lookupNestingAxiomsForNestingParent(nestingG = p1).isEmpty should be(true)
+        lookupNestingAxiomsForNestingParent(nestingG = p1).isEmpty should be(true)
+        lookupNestingAxiomsForNestingParent(nestingG = g).contains(g_authorizes_p1) should be(true)
+        lookupNestingAxiomsForNestingParent(nestingG = g).contains(g_authorizes_p2) should be(true)
+      }
 
     }
 
@@ -226,11 +240,19 @@ abstract class OMFNestedGraphTest[omf <: OMF]
         component_iri <- makeIRI("http://imce.jpl.nasa.gov/foundation/mission/mission#Component")
         component_performs_function_iri <- makeIRI("http://imce.jpl.nasa.gov/foundation/mission/mission#Performs")
       } yield {
+        lookupNestingAxiomForNestedChildIfAny(nestedG = g).isEmpty should be(true)
+        lookupNestingAxiomForNestedChildIfAny(nestedG = p1).contains(g_nests_p1) should be(true)
+        lookupNestingAxiomForNestedChildIfAny(nestedG = p2).contains(g_nests_p2) should be(true)
 
-        val string =
-          lookupScalarDataType(base._1, string_iri, recursively = true)
-        string.isDefined should be(true)
+        lookupNestingAxiomForNestingContextIfAny(nestingC = component).isEmpty should be(true)
+        lookupNestingAxiomForNestingContextIfAny(nestingC = function).isEmpty should be(true)
+        lookupNestingAxiomForNestingContextIfAny(nestingC = g_authorizes_p1).contains(g_nests_p1) should be(true)
+        lookupNestingAxiomForNestingContextIfAny(nestingC = g_authorizes_p2).contains(g_nests_p2) should be(true)
 
+        lookupNestingAxiomsForNestingParent(nestingG = p1).isEmpty should be(true)
+        lookupNestingAxiomsForNestingParent(nestingG = p1).isEmpty should be(true)
+        lookupNestingAxiomsForNestingParent(nestingG = g).contains(g_authorizes_p1) should be(true)
+        lookupNestingAxiomsForNestingParent(nestingG = g).contains(g_authorizes_p2) should be(true)
       }
 
     }
