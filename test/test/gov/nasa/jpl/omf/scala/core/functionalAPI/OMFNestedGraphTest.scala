@@ -49,7 +49,7 @@ import scala.util.control.Exception._
 import scalaz._, Scalaz._
 import scala.collection.immutable.{List,Set}
 
-abstract class OMFVocabularyMutabilityTest[omf <: OMF]
+abstract class OMFNestedGraphTest[omf <: OMF]
 ( val saveStore: omf#Store, saveOps: OMFOps[omf],
   val loadStore: omf#Store, loadOps: OMFOps[omf]
 ) extends WordSpec with Matchers {
@@ -58,30 +58,32 @@ abstract class OMFVocabularyMutabilityTest[omf <: OMF]
 
   def postOMFSave(): Unit
 
-  def withOMFSave(testCode: (omf#Store, OMFOps[omf]) => Set[java.lang.Throwable] \/ Unit)
+  def withOMFSave
+  (testCode: (omf#Store, OMFOps[omf]) => Set[java.lang.Throwable] \/ Unit)
   : Unit =
 
     nonFatalCatch[Unit]
-    .withApply {
-      (cause: java.lang.Throwable) =>
-        throw new TestFailedException(
-          message=s"withOMFSave failed: ${cause.getMessage}",
-          cause=cause,
-          failedCodeStackDepth=2)
-    }
-    .apply({
-      preOMFSave()
-      val result = testCode(saveStore, saveOps)
-      postOMFSave()
-      result.isRight should equal(true)
-    })
+      .withApply {
+        (cause: java.lang.Throwable) =>
+          throw new TestFailedException(
+            message=s"withOMFSave failed: ${cause.getMessage}",
+            cause=cause,
+            failedCodeStackDepth=2)
+      }
+      .apply({
+        preOMFSave()
+        val result = testCode(saveStore, saveOps)
+        postOMFSave()
+        result.isRight should equal(true)
+      })
 
 
   def preOMFLoad(): Unit
 
   def postOMFLoad(): Unit
 
-  def withOMFLoad(testCode: (omf#Store, OMFOps[omf]) => Set[java.lang.Throwable] \/ Unit)
+  def withOMFLoad
+  (testCode: (omf#Store, OMFOps[omf]) => Set[java.lang.Throwable] \/ Unit)
   : Unit =
 
     nonFatalCatch[Unit]
@@ -99,9 +101,9 @@ abstract class OMFVocabularyMutabilityTest[omf <: OMF]
         result.isRight should equal(true)
       })
 
-  "vocabulary roundtrip test" when {
+  "nested graph roundtrip test" when {
 
-    "construct tboxes and save them" in withOMFSave { (s, o) =>
+    "construct nested tboxes and save them" in withOMFSave { (s, o) =>
 
       implicit val store = s
       implicit val ops = o
@@ -114,6 +116,7 @@ abstract class OMFVocabularyMutabilityTest[omf <: OMF]
         integer = lookupScalarDataType(xsd._1, int_iri, recursively = false)
         string_iri <- makeIRI("http://www.w3.org/2001/XMLSchema#string")
         string = lookupScalarDataType(xsd._1, string_iri, recursively = false)
+
         base_iri <- makeIRI("http://imce.jpl.nasa.gov/foundation/base/base")
         base <- makeTerminologyGraph(base_iri, isDefinition)
         base_extends_xsd <- addTerminologyGraphExtension(base, xsd._1)
@@ -145,24 +148,62 @@ abstract class OMFVocabularyMutabilityTest[omf <: OMF]
           unreifiedRelationshipName = "performs",
           unreifiedInverseRelationshipName = "isPerformedBy".some,
           isAbstract = false)
-        item <- addEntityConcept(mission, "Item", isAbstract = false)
+        project_iri <- makeIRI("http://imce.jpl.nasa.gov/foundation/project/project")
+        project <- makeTerminologyGraph(project_iri, isDefinition)
+        project_extends_mission <- addTerminologyGraphExtension(project, mission)
+        workPackage <- addEntityConcept(project, "WorkPackage", isAbstract = false)
 
-        message <- addEntityConcept(mission, "Message", isAbstract = false)
+        g_iri <- makeIRI("http://example.org/G")
+        g <- makeTerminologyGraph(g_iri, isDefinition)
+        g_extends_project <- addTerminologyGraphExtension(g, project)
 
-        materialItem <- addEntityConcept(mission, "MaterialItem", isAbstract = false)
+        g_A <- addEntityConcept(g, "A", isAbstract=false)
+        g_A_isa_component <- addEntityConceptSubClassAxiom(g, g_A, component)
 
-        message_extends_item <- addEntityConceptSubClassAxiom(mission, message, item)
+        g_B <- addEntityConcept(g, "B", isAbstract=false)
+        g_B_isa_component <- addEntityConceptSubClassAxiom(g, g_B, component)
 
-        materialItem_extends_item <- addEntityConceptSubClassAxiom(mission, materialItem, item)
+        g_C <- addEntityConcept(g, "C", isAbstract=false)
+        g_C_isa_function <- addEntityConceptSubClassAxiom(g, g_A, component)
 
-        baseSaved <- saveTerminologyGraph(base)
+        p1_iri <- makeIRI("http://example.org/P1")
+        p1 <- makeTerminologyGraph(p1_iri, isDefinition)
+        g_authorizes_p1 <- addEntityConcept(g, "P1", isAbstract=false)
+        g_authorizes_p1_WP <- addEntityConceptSubClassAxiom(g, g_authorizes_p1, workPackage)
+        g_nests_p1 <- addNestedTerminologyGraph(nestingParent=g, nestingContext=g_authorizes_p1, nestedChild=p1)
 
-        missionSaved <- saveTerminologyGraph(mission)
-      } yield {
-        integer.isDefined should be(true)
-        string.isDefined should be(true)
+        p1_asserts_A_performs_C <- addEntityReifiedRelationship(
+          graph = p1,
+          source = g_A,
+          target = g_C,
+          characteristics = List(isAsymmetric, isIrreflexive, isInverseFunctional),
+          reifiedRelationshipName = "Performs",
+          unreifiedRelationshipName = "performs",
+          unreifiedInverseRelationshipName = "isPerformedBy".some,
+          isAbstract = false)
+        p1_asserts_A_performsFunction_C <-
+        addEntityReifiedRelationshipSubClassAxiom(graph=p1, sub=p1_asserts_A_performs_C, sup=component_performs_function)
 
-      }
+        p2_iri <- makeIRI("http://example.org/P2")
+        p2 <- makeTerminologyGraph(p2_iri, isDefinition)
+        g2_authorizes_p2 <- addEntityConcept(g, "P2", isAbstract=false)
+        g2_authorizes_p2_WP <- addEntityConceptSubClassAxiom(g, g2_authorizes_p2, workPackage)
+        g2_nests_p2 <- addNestedTerminologyGraph(nestingParent=g, nestingContext=g2_authorizes_p2, nestedChild=p2)
+
+        p2_asserts_B_performs_C <- addEntityReifiedRelationship(
+          graph = p2,
+          source = g_B,
+          target = g_C,
+          characteristics = List(isAsymmetric, isIrreflexive, isInverseFunctional),
+          reifiedRelationshipName = "Performs",
+          unreifiedRelationshipName = "performs",
+          unreifiedInverseRelationshipName = "isPerformedBy".some,
+          isAbstract = false)
+        p2_asserts_B_performsFunction_C <-
+        addEntityReifiedRelationshipSubClassAxiom(graph=p2, sub=p2_asserts_B_performs_C, sup=component_performs_function)
+
+      } yield ()
+
     }
 
     "read tboxes and check them" in withOMFLoad { (s, o) =>
@@ -181,78 +222,17 @@ abstract class OMFVocabularyMutabilityTest[omf <: OMF]
         base <- loadTerminologyGraph(base_iri)
         mission_iri <- makeIRI("http://imce.jpl.nasa.gov/foundation/mission/mission")
         mission <- loadTerminologyGraph(mission_iri)
-        identifiedElement_iri <- makeIRI("http://imce.jpl.nasa.gov/foundation/base/base#IdentifiedElement")
-        hasIdentifier_iri <- makeIRI("http://imce.jpl.nasa.gov/foundation/base/base#hasIdentifier")
-        function_iri <- makeIRI("http://imce.jpl.nasa.gov/foundation/mission/mission#Function")
+        component_iri <- makeIRI("http://imce.jpl.nasa.gov/foundation/mission/mission#Component")
         component_iri <- makeIRI("http://imce.jpl.nasa.gov/foundation/mission/mission#Component")
         component_performs_function_iri <- makeIRI("http://imce.jpl.nasa.gov/foundation/mission/mission#Performs")
       } yield {
-        val s = ops.fromTerminologyGraph(base._1)
-        s.imports.isEmpty should be(false)
-        s.imports.toSet.contains(xsd._1) should be(true)
-        s.aspects.isEmpty should be(false)
-        s.concepts.isEmpty should be(true)
-        s.reifiedRelationships.isEmpty should be(true)
-        s.scalarDataTypes.isEmpty should be(true)
-        s.structuredDataTypes.isEmpty should be(true)
-        s.entity2scalarDataRelationships.isEmpty should be(false)
-        s.entity2structureDataRelationships.isEmpty should be(true)
-        s.structure2scalarDataRelationships.isEmpty should be(true)
-        s.structure2structureDataRelationships.isEmpty should be(true)
-        s.axioms.isEmpty should be(true)
 
         val string =
           lookupScalarDataType(base._1, string_iri, recursively = true)
         string.isDefined should be(true)
 
-        val identifiedElement = lookupEntityAspect(base._1, identifiedElement_iri, recursively = false)
-        identifiedElement.isDefined should be(true)
-
-        val hasIdentifier =
-          lookupEntityDataRelationshipFromEntityToScalar(base._1, hasIdentifier_iri, recursively = false)
-        hasIdentifier.isDefined should be(true)
-
-        val (_, hasIdentifierSource, hasIdentifierTarget) =
-          fromDataRelationshipFromEntityToScalar(hasIdentifier.get)
-        identifiedElement.get should be(hasIdentifierSource)
-        string.get should be(hasIdentifierTarget)
-
-        {
-          val s = ops.fromTerminologyGraph(mission._1)
-          s.imports.isEmpty should be(false)
-          s.imports.toSet.contains(base._1) should be(true)
-          s.aspects.isEmpty should be(true)
-          s.concepts.isEmpty should be(false)
-          s.reifiedRelationships.isEmpty should be(false)
-          s.scalarDataTypes.isEmpty should be(true)
-          s.structuredDataTypes.isEmpty should be(true)
-          s.entity2scalarDataRelationships.isEmpty should be(true)
-          s.entity2structureDataRelationships.isEmpty should be(true)
-          s.structure2scalarDataRelationships.isEmpty should be(true)
-          s.structure2structureDataRelationships.isEmpty should be(true)
-          s.axioms.isEmpty should be(false)
-        }
-
-        val component =
-          lookupEntityConcept(mission._1, component_iri, recursively = false)
-        component.isDefined should be(true)
-
-        val function =
-          lookupEntityConcept(mission._1, function_iri, recursively = false)
-        function.isDefined should be(true)
-
-        val component_performs_function =
-          lookupEntityReifiedRelationship(mission._1, component_performs_function_iri, recursively = false)
-        component_performs_function.isDefined should be(true)
-
-        val component_performs_function_info =
-          fromEntityReifiedRelationship(component_performs_function.get)
-        component_performs_function_info.source should be(component.get)
-        component_performs_function_info.target should be(function.get)
-        component_performs_function_info.isAbstract should be(false)
       }
+
     }
-
   }
-
 }

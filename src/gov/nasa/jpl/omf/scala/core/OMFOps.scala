@@ -186,36 +186,53 @@ trait OMFStoreOps[omf <: OMF] {
   : TerminologyGraphSignature[omf]
 
   /**
-   * Assigns a designation terminology graph as the closed-world structural description of a model entity concept
-   * @param graph The mutable terminology graph in which to assert the axiom
-   * @param entityConceptDesignation The model entity concept whose complete complete designation is specified
-   * @param designationTerminologyGraph The terminology graph specifying the complete designation
-   *                                    for the structural contents of the model entity concept
-   * @param store OMF storage provider
-   * @return The EntityConceptToplevelDesignationTerminologyGraphAxiom created
-   */
-  def addEntityConceptDesignationTerminologyGraphAxiom
-  ( graph: omf#MutableModelTerminologyGraph,
-    entityConceptDesignation: omf#ModelEntityConcept,
-    designationTerminologyGraph: omf#ModelTerminologyGraph )
-  ( implicit store: omf#Store )
-  : Set[java.lang.Throwable] \/ omf#EntityConceptDesignationTerminologyGraphAxiom
+    * Find the axiom TerminologyGraphDirectNestingAxiom(nestedChild==nestedG), if any.
+    */
+  def lookupNestingAxiomForNestedChildIfAny
+  (nestedG: omf#ModelTerminologyGraph)
+  (implicit store: omf#Store)
+  : Option[omf#TerminologyGraphDirectNestingAxiom]
+
+  /**
+    * Find the axiom TerminologyGraphDirectNestingAxiom(nestingContext=nestingC), if any.
+    */
+  def lookupNestingAxiomForNestingContextIfAny
+  (nestingC: omf#ModelEntityConcept)
+  (implicit store: omf#Store)
+  : Option[omf#TerminologyGraphDirectNestingAxiom]
+
+  /**
+    * Find the axioms TerminologyGraphDirectNestingAxiom(nestingParent=nestingG)
+    */
+  def lookupNestingAxiomsForNestingParent
+  (nestingG: omf#ModelTerminologyGraph)
+  (implicit store: omf#Store)
+  : Set[omf#TerminologyGraphDirectNestingAxiom]
 
   def getNestingGraph
-  ( graph: omf#ModelTerminologyGraph )
+  ( nestedG: omf#ModelTerminologyGraph )
   ( implicit store: omf#Store )
   : Option[omf#ModelTerminologyGraph]
 
   def getNestedGraphs
-  ( graph: omf#ModelTerminologyGraph )
+  ( nestingG: omf#ModelTerminologyGraph )
   ( implicit store: omf#Store )
   : Iterable[omf#ModelTerminologyGraph]
 
-  def addNestedTerminologyGraph
-  ( parentG: omf#MutableModelTerminologyGraph,
-    nestedG: omf#ModelTerminologyGraph )
+  def getNestingParentGraphOfAxiom
+  ( axiom: omf#TerminologyGraphDirectNestingAxiom )
   ( implicit store: omf#Store )
-  : Set[java.lang.Throwable] \/ omf#TerminologyGraphDirectNestingAxiom
+  : omf#ModelTerminologyGraph
+
+  def getNestingContextConceptOfAxiom
+  ( axiom: omf#TerminologyGraphDirectNestingAxiom )
+  ( implicit store: omf#Store )
+  : omf#ModelEntityConcept
+
+  def getNestedChildGraphOfAxiom
+  ( axiom: omf#TerminologyGraphDirectNestingAxiom )
+  ( implicit store: omf#Store )
+  : omf#ModelTerminologyGraph
 
   def getDirectlyExtendingGraphsOfExtendedParentGraph
   (extendedParentG: omf#ModelTerminologyGraph)
@@ -226,12 +243,6 @@ trait OMFStoreOps[omf <: OMF] {
   (extendingChildG: omf#ModelTerminologyGraph)
   ( implicit store: omf#Store )
   : Iterable[omf#TerminologyGraphDirectExtensionAxiom]
-
-  def addTerminologyGraphExtension
-  ( extendingG: omf#MutableModelTerminologyGraph,
-    extendedG: omf#ModelTerminologyGraph )
-  ( implicit store: omf#Store )
-  : Set[java.lang.Throwable] \/ omf#TerminologyGraphDirectExtensionAxiom
 
   /**
    * Create a mutable terminology graph partially identified by an IRI and a kind.
@@ -969,6 +980,34 @@ trait MutableTerminologyGraphOps[omf <: OMF] extends ImmutableTerminologyGraphOp
     constrainingFacets: Iterable[ConstrainingFacet] )
   ( implicit store: omf#Store )
   : Set[java.lang.Throwable] \/ omf#ScalarDataTypeFacetRestrictionAxiom
+
+  def addTerminologyGraphExtension
+  ( extendingG: omf#MutableModelTerminologyGraph,
+    extendedG: omf#ModelTerminologyGraph )
+  ( implicit store: omf#Store )
+  : Set[java.lang.Throwable] \/ omf#TerminologyGraphDirectExtensionAxiom
+
+  def addNestedTerminologyGraph
+  ( nestingParent: omf#MutableModelTerminologyGraph,
+    nestingContext: omf#ModelEntityConcept,
+    nestedChild: omf#ModelTerminologyGraph )
+  ( implicit store: omf#Store )
+  : Set[java.lang.Throwable] \/ omf#TerminologyGraphDirectNestingAxiom
+  /**
+    * Assigns a designation terminology graph as the closed-world structural description of a model entity concept
+    * @param graph The mutable terminology graph in which to assert the axiom
+    * @param entityConceptDesignation The model entity concept whose complete complete designation is specified
+    * @param designationTerminologyGraph The terminology graph specifying the complete designation
+    *                                    for the structural contents of the model entity concept
+    * @param store OMF storage provider
+    * @return The EntityConceptToplevelDesignationTerminologyGraphAxiom created
+    */
+  def addEntityConceptDesignationTerminologyGraphAxiom
+  ( graph: omf#MutableModelTerminologyGraph,
+    entityConceptDesignation: omf#ModelEntityConcept,
+    designationTerminologyGraph: omf#ModelTerminologyGraph )
+  ( implicit store: omf#Store )
+  : Set[java.lang.Throwable] \/ omf#EntityConceptDesignationTerminologyGraphAxiom
 
 }
 

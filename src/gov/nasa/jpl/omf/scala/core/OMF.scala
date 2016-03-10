@@ -38,7 +38,7 @@
  */
 package gov.nasa.jpl.omf.scala.core
 
-import scala.{Boolean,Option}
+import scala.Boolean
 import scala.collection.immutable.{Iterable,Map}
 
 import gov.nasa.jpl.omf.scala.core.RelationshipCharacteristics._
@@ -328,48 +328,58 @@ trait OMFtbox {
   type TerminologyGraphAxiom
 
   /**
-   * A TerminologyGraphDirectExtensionAxiom is a TerminologyGraphAxiom assertion about
-   * an extending ModelTerminologyGraph G1 that directly extends an extended ModelTerminologyGraph G2.
-   *
-   * If:
-   * TerminologyGraphDirectExtensionAxiom(extending=G1, extended=G2)
-   * TerminologyGraphDirectExtensionAxiom(extending=G2, extended=G3)
-   * Then:
-   * G1 extends G2,G3
-   * G2 extends G3
-   *
-   * If:
-   * TerminologyGraphDirectExtensionAxiom(extending=G1, extended=G2)
-   * TerminologyGraphDirectNestingParentAxiom(nestedChild=G2, nestingParent=G3)
-   * TerminologyGraphDirectExtensionAxiom(extending=G3, extended=G4)
-   * Then:
-   * G1 extends G2,G3,G4
-   * G3 extends G4
-   *
-   * If:
-   * TerminologyGraphDirectExtensionAxiom(extending=G1, extended=G2a)
-   * TerminologyGraphDirectNestingParentAxiom(nestedChild=G2a, nestingParent=G3)
-   * TerminologyGraphDirectNestingParentAxiom(nestedChild=G2b, nestingParent=G3)
-   * TerminologyGraphDirectExtensionAxiom(extending=G3, extended=G4)
-   * Then:
-   * G1 extends G2a,G3,G4
-   * G3 extends G4
-   */
+    * A TerminologyGraphDirectExtensionAxiom(extendingChild=G1, extendedParent=G1)
+    * is a TerminologyGraphAxiom assertion about the vocabulary of an extending ModelTerminologyGraph G1
+    * that directly extends the vocabulary of an extended ModelTerminologyGraph G2 in the sense
+    * that vocabulary terms defined in G1 can be defined in terms of or as specializations or restrictions of
+    * vocabulary terms defined in G2 or in another graph G3 that is directly or indirectly an extended parent of G2.
+    *
+    * If:
+    * TerminologyGraphDirectExtensionAxiom(extendingChild=G1, extendedParent=G2)
+    * TerminologyGraphDirectExtensionAxiom(extendingChild=G2, extendedParent=G3)
+    * Then:
+    * G1 extends G2,G3
+    * G2 extends G3
+    *
+    * If:
+    * TerminologyGraphDirectExtensionAxiom(extendingChild=G1, extendedParent=G2)
+    * TerminologyGraphDirectNestingParentAxiom(extendingChild=G2, nestingParent=G3)
+    * TerminologyGraphDirectExtensionAxiom(extendingChild=G3, extendedParent=G4)
+    * Then:
+    * G1 extends G2,G3,G4
+    * G3 extends G4
+    *
+    * If:
+    * TerminologyGraphDirectExtensionAxiom(extendingChild=G1, extendedParent=G2a)
+    * TerminologyGraphDirectNestingParentAxiom(nestedChild=G2a, nestingParent=G3)
+    * TerminologyGraphDirectNestingParentAxiom(nestedChild=G2b, nestingParent=G3)
+    * TerminologyGraphDirectExtensionAxiom(extendingChild=G3, extendedParent=G4)
+    * Then:
+    * G1 extends G2a,G3,G4
+    * G3 extends G4
+    */
   type TerminologyGraphDirectExtensionAxiom <: TerminologyGraphAxiom
 
   /**
-   * A TerminologyGraphDirectNestingAxiom is a TerminologyGraphAxiom assertion about
-   * a ModelTerminologyGraph G1 that is directly nested as a child of a parent nesting ModelTerminologyGraph G2.
-   *
-   * If:
-   * TerminologyGraphDirectNestingAxiom(nestedChild=G1, nestingParent=G2)
-   * TerminologyGraphDirectNestingAxiom(nestedChild=G2, nestingParent=G3)
-   * Then:
-   * G1 has nesting parents G2,G3
-   * G2 has nesting parents G3
-   * G2 has nested children G1
-   * G3 has nested children G1,G2
-   */
+    * A TerminologyGraphDirectNestingAxiom(nestingParent=G1, nestingContext=C, nestedChild=G2)
+    * is a TerminologyGraphAxiom assertion about a ModelTerminologyGraph G1 that is the
+    * authorization context for a ModelEntityConcept C defined in a ModelTerminologyGraph G2
+    * that is also the extended parent of G1.
+    *
+    * Invariants:
+    * fromTerminologyGraph(G1).concepts.contains(C)
+    * fromTerminologyGraph(G1).nested.contains(this)
+    * fromTerminologyGraph(G2).nesting == Some(this)
+    *
+    * If:
+    * TerminologyGraphDirectNestingAxiom(nestedChild=G1, nestingParent=G2)
+    * TerminologyGraphDirectNestingAxiom(nestedChild=G2, nestingParent=G3)
+    * Then:
+    * G1 has nesting parents G2,G3
+    * G2 has nesting parents G3
+    * G2 has nested children G1
+    * G3 has nested children G1,G2
+    */
   type TerminologyGraphDirectNestingAxiom <: TerminologyGraphAxiom
 }
 
@@ -496,16 +506,13 @@ trait TerminologyGraphSignature[omf <: OMF] {
     */
   val kind: TerminologyKind
   /**
-    * the parent terminology graph, if any, whose nested graphs includes this terminology graph
+    * The axioms TerminologyGraphDirectNestingAxiom(nestingParent=G1, nestingContext=C, nestedChild=G2)
+    * such that this == G1
     */
-  val nesting: Option[omf#ModelTerminologyGraph]
+  val nested: Iterable[omf#TerminologyGraphDirectNestingAxiom]
   /**
-    * the terminology graphs that are logically nested inside this terminology graph
-    */
-  val nested: Iterable[omf#ModelTerminologyGraph]
-  /**
-    * this terminology graph can use or specialize descriptions from the transitive closure
-    *                  of imported terminology graphs
+    * this terminology graph can use or specialize vocabulary terms
+    * defined in the transitive closure of imported terminology graphs
     */
   val imports: Iterable[omf#ModelTerminologyGraph]
   /**

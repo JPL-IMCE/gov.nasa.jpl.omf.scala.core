@@ -38,10 +38,33 @@
  */
 package gov.nasa.jpl.omf.scala
 
-import scala.Boolean
-import scala.collection.immutable.Set
+import scala.{Boolean, Option}
+import scala.collection.immutable._
 
 package object core {
+
+  def getImportedTerminologyGraphs[Omf <: OMF]
+  ( tbox: Omf#ModelTerminologyGraph,
+    onlyCompatibleKind: Boolean = true  )
+  ( implicit ops: OMFOps[Omf], store: Omf#Store )
+  : Set[Omf#ModelTerminologyGraph] = {
+
+    val s = ops.fromTerminologyGraph(tbox)
+
+    def hasCompatibleKind(g: Omf#ModelTerminologyGraph)
+    : Boolean
+    = !onlyCompatibleKind || TerminologyKind.compatibleKind(s.kind)(ops.getTerminologyGraphKind(g))
+
+    val i1
+    : Option[Omf#ModelTerminologyGraph]
+    = ops.lookupNestingAxiomForNestedChildIfAny(tbox).map(ops.getNestingParentGraphOfAxiom).filter(hasCompatibleKind)
+
+    val i2
+    : Iterable[Omf#ModelTerminologyGraph]
+    = s.imports.filter(hasCompatibleKind)
+
+    (i1 ++ i2).toSet
+  }
 
   /**
    * The reflexive transitive closure of terminology graphs reachable by following
@@ -87,19 +110,16 @@ package object core {
   ( implicit ops: OMFOps[Omf], store: Omf#Store )
   : Set[Omf#ModelTerminologyGraph] = {
 
-    import ops._
+    def step
+    (gi: Omf#ModelTerminologyGraph)
+    : Set[Omf#ModelTerminologyGraph]
+    = getImportedTerminologyGraphs(gi, onlyCompatibleKind)
 
-    def getImportedTerminologyGraphs
-    ( tbox: Omf#ModelTerminologyGraph )
-    ( implicit store: Omf#Store )
-    : Set[Omf#ModelTerminologyGraph] = {
-      val s = fromTerminologyGraph( tbox )
-      val hasCompatibleKind = TerminologyKind.compatibleKind(s.kind) _
-      s.nesting.filter( g => !onlyCompatibleKind || hasCompatibleKind(getTerminologyGraphKind(g)) ).toSet ++
-        s.imports.filter( g => !onlyCompatibleKind || hasCompatibleKind(getTerminologyGraphKind(g)) ).toSet
-    }
+    val result
+    : Set[Omf#ModelTerminologyGraph]
+    = OMFOps.closure[Omf#ModelTerminologyGraph, Omf#ModelTerminologyGraph](g, step) + g
 
-    OMFOps.closure[Omf#ModelTerminologyGraph, Omf#ModelTerminologyGraph]( g, getImportedTerminologyGraphs ) + g
+    result
   }
 
   /**
