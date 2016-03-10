@@ -38,6 +38,8 @@
  */
 package test.gov.nasa.jpl.omf.scala.core.functionalAPI
 
+import java.lang.System
+
 import gov.nasa.jpl.omf.scala.core._
 import gov.nasa.jpl.omf.scala.core.RelationshipCharacteristics._
 import gov.nasa.jpl.omf.scala.core.TerminologyKind._
@@ -68,7 +70,7 @@ abstract class OMFNestedGraphTest[omf <: OMF]
           throw new TestFailedException(
             message=s"withOMFSave failed: ${cause.getMessage}",
             cause=cause,
-            failedCodeStackDepth=2)
+            failedCodeStackDepth=3)
       }
       .apply({
         preOMFSave()
@@ -92,7 +94,7 @@ abstract class OMFNestedGraphTest[omf <: OMF]
           throw new TestFailedException(
             message=s"withOMFLoad failed: ${cause.getMessage}",
             cause=cause,
-            failedCodeStackDepth=2)
+            failedCodeStackDepth=3)
       }
       .apply({
         preOMFLoad()
@@ -117,7 +119,7 @@ abstract class OMFNestedGraphTest[omf <: OMF]
         string_iri <- makeIRI("http://www.w3.org/2001/XMLSchema#string")
         string = lookupScalarDataType(xsd._1, string_iri, recursively = false)
 
-        base_iri <- makeIRI("http://imce.jpl.nasa.gov/foundation/base/base")
+        base_iri <- makeIRI("http://imce.jpl.nasa.gov/nestedGraphTest/foundation/base/base")
         base <- makeTerminologyGraph(base_iri, isDefinition)
         base_extends_xsd <- addTerminologyGraphExtension(base, xsd._1)
         identifiedElement <- addEntityAspect(base, "IdentifiedElement")
@@ -126,7 +128,8 @@ abstract class OMFNestedGraphTest[omf <: OMF]
           source = identifiedElement,
           target = string.get,
           dataRelationshipName = "hasIdentifier")
-        mission_iri <- makeIRI("http://imce.jpl.nasa.gov/foundation/mission/mission")
+
+        mission_iri <- makeIRI("http://imce.jpl.nasa.gov/nestedGraphTest/foundation/mission/mission")
         mission <- makeTerminologyGraph(mission_iri, isDefinition)
         mission_extends_base <- addTerminologyGraphExtension(mission, base)
         component <- addEntityConcept(mission, "Component", isAbstract = false)
@@ -148,12 +151,13 @@ abstract class OMFNestedGraphTest[omf <: OMF]
           unreifiedRelationshipName = "performs",
           unreifiedInverseRelationshipName = "isPerformedBy".some,
           isAbstract = false)
-        project_iri <- makeIRI("http://imce.jpl.nasa.gov/foundation/project/project")
+
+        project_iri <- makeIRI("http://imce.jpl.nasa.gov/nestedGraphTest/foundation/project/project")
         project <- makeTerminologyGraph(project_iri, isDefinition)
         project_extends_mission <- addTerminologyGraphExtension(project, mission)
         workPackage <- addEntityConcept(project, "WorkPackage", isAbstract = false)
 
-        g_iri <- makeIRI("http://example.org/G")
+        g_iri <- makeIRI("http://imce.jpl.nasa.gov/nestedGraphTest/example/G")
         g <- makeTerminologyGraph(g_iri, isDefinition)
         g_extends_project <- addTerminologyGraphExtension(g, project)
 
@@ -164,9 +168,9 @@ abstract class OMFNestedGraphTest[omf <: OMF]
         g_B_isa_component <- addEntityConceptSubClassAxiom(g, g_B, component)
 
         g_C <- addEntityConcept(g, "C", isAbstract=false)
-        g_C_isa_function <- addEntityConceptSubClassAxiom(g, g_A, component)
+        g_C_isa_function <- addEntityConceptSubClassAxiom(g, g_C, component)
 
-        p1_iri <- makeIRI("http://example.org/P1")
+        p1_iri <- makeIRI("http://imce.jpl.nasa.gov/nestedGraphTest/example/P1")
         p1 <- makeTerminologyGraph(p1_iri, isDefinition)
         g_authorizes_p1 <- addEntityConcept(g, "P1", isAbstract=false)
         g_authorizes_p1_WP <- addEntityConceptSubClassAxiom(g, g_authorizes_p1, workPackage)
@@ -184,7 +188,7 @@ abstract class OMFNestedGraphTest[omf <: OMF]
         p1_asserts_A_performsFunction_C <-
         addEntityReifiedRelationshipSubClassAxiom(graph=p1, sub=p1_asserts_A_performs_C, sup=component_performs_function)
 
-        p2_iri <- makeIRI("http://example.org/P2")
+        p2_iri <- makeIRI("http://imce.jpl.nasa.gov/nestedGraphTest/example/P2")
         p2 <- makeTerminologyGraph(p2_iri, isDefinition)
         g_authorizes_p2 <- addEntityConcept(g, "P2", isAbstract=false)
         g_authorizes_p2_WP <- addEntityConceptSubClassAxiom(g, g_authorizes_p2, workPackage)
@@ -201,6 +205,13 @@ abstract class OMFNestedGraphTest[omf <: OMF]
           isAbstract = false)
         p2_asserts_B_performsFunction_C <-
         addEntityReifiedRelationshipSubClassAxiom(graph=p2, sub=p2_asserts_B_performs_C, sup=component_performs_function)
+
+        _ <- saveTerminologyGraph(base)
+        _ <- saveTerminologyGraph(mission)
+        _ <- saveTerminologyGraph(project)
+        _ <- saveTerminologyGraph(p1)
+        _ <- saveTerminologyGraph(p2)
+        _ <- saveTerminologyGraph(g)
 
       } yield {
         lookupNestingAxiomForNestedChildIfAny(nestedG = g).isEmpty should be(true)
@@ -236,43 +247,49 @@ abstract class OMFNestedGraphTest[omf <: OMF]
         base_iri <- makeIRI("http://imce.jpl.nasa.gov/foundation/base/base")
         base <- loadTerminologyGraph(base_iri)
 
-        mission_iri <- makeIRI("http://imce.jpl.nasa.gov/foundation/mission/mission")
+        mission_iri <- makeIRI("http://imce.jpl.nasa.gov/nestedGraphTest/foundation/mission/mission")
         mission <- loadTerminologyGraph(mission_iri)
 
-        component_iri <- makeIRI("http://imce.jpl.nasa.gov/foundation/mission/mission#Component")
+        component_iri <- makeIRI("http://imce.jpl.nasa.gov/nestedGraphTest/foundation/mission/mission#Component")
         component = lookupEntityConcept(mission._1, component_iri, recursively=false)
 
-        function_iri <- makeIRI("http://imce.jpl.nasa.gov/foundation/mission/mission#Function")
+        function_iri <- makeIRI("http://imce.jpl.nasa.gov/nestedGraphTest/foundation/mission/mission#Function")
         function = lookupEntityConcept(mission._1, function_iri, recursively=false)
 
-        component_performs_function_iri <- makeIRI("http://imce.jpl.nasa.gov/foundation/mission/mission#Performs")
+        component_performs_function_iri <- makeIRI("http://imce.jpl.nasa.gov/nestedGraphTest/foundation/mission/mission#Performs")
 
-        project_iri <- makeIRI("http://imce.jpl.nasa.gov/foundation/project/project")
+        _ = System.out.println("3")
+
+        project_iri <- makeIRI("http://imce.jpl.nasa.gov/nestedGraphTest/foundation/project/project")
         project <- loadTerminologyGraph(project_iri)
-        workPackage_iri <- makeIRI("http://imce.jpl.nasa.gov/foundation/project/project#WorkPackage")
 
-        g_iri <- makeIRI("http://example.org/G")
+        _ = System.out.println("4")
+
+        workPackage_iri <- makeIRI("http://imce.jpl.nasa.gov/nestedGraphTest/foundation/project/project#WorkPackage")
+
+        g_iri <- makeIRI("http://imce.jpl.nasa.gov/nestedGraphTest/example/G")
         g <- loadTerminologyGraph(g_iri)
 
-        a_iri <- makeIRI("http://example.org/G#A")
+
+        a_iri <- makeIRI("http://imce.jpl.nasa.gov/nestedGraphTest/example/G#A")
         a = lookupEntityConcept(g._1, a_iri, recursively=false)
 
-        b_iri <- makeIRI("http://example.org/G#B")
+        b_iri <- makeIRI("http://imce.jpl.nasa.gov/nestedGraphTest/example/G#B")
         b = lookupEntityConcept(g._1, b_iri, recursively=false)
 
-        c_iri <- makeIRI("http://example.org/G#C")
+        c_iri <- makeIRI("http://imce.jpl.nasa.gov/nestedGraphTest/example/G#C")
         c = lookupEntityConcept(g._1, c_iri, recursively=false)
 
-        p1_iri <- makeIRI("http://example.org/P1")
+        p1_iri <- makeIRI("http://imce.jpl.nasa.gov/nestedGraphTest/example/P1")
         p1 <- loadTerminologyGraph(p1_iri)
 
-        g_authorizes_p1_iri <- makeIRI("http://example.org/G#P1")
+        g_authorizes_p1_iri <- makeIRI("http://imce.jpl.nasa.gov/nestedGraphTest/example/G#P1")
         g_authorizes_p1 = lookupEntityConcept(g._1, g_authorizes_p1_iri, recursively=false)
 
-        p2_iri <- makeIRI("http://example.org/P2")
+        p2_iri <- makeIRI("http://imce.jpl.nasa.gov/nestedGraphTest/example/P2")
         p2 <- loadTerminologyGraph(p2_iri)
 
-        g_authorizes_p2_iri <- makeIRI("http://example.org/G#P2")
+        g_authorizes_p2_iri <- makeIRI("http://imce.jpl.nasa.gov/nestedGraphTest/example/G#P2")
         g_authorizes_p2 = lookupEntityConcept(g._1, g_authorizes_p2_iri, recursively=false)
 
       } yield {
