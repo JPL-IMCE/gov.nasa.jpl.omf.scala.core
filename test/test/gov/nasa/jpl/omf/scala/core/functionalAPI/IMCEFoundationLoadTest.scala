@@ -56,14 +56,17 @@ abstract class IMCEFoundationLoadTest[omf <: OMF](
 
   "IMCE foundation load test" when {
 
-    "load xsd" in {
+    "load ontologies" in {
 
-      val result =
+      val result1 =
         for {
           xsd_iri <- makeIRI( "http://www.w3.org/2001/XMLSchema" )
           xsd_tbox <- loadTerminologyGraph( xsd_iri )
+        _ = java.lang.System.out.println("1")
           integer_iri <- withFragment( xsd_iri, "integer" )
+          _ = java.lang.System.out.println("2")
           string_iri <- withFragment( xsd_iri, "string" )
+          _ = java.lang.System.out.println("3")
         } yield {
           val xsd_integer = lookupScalarDataType( xsd_tbox._1, integer_iri, recursively=false )
           xsd_integer.isDefined should be( true )
@@ -71,12 +74,9 @@ abstract class IMCEFoundationLoadTest[omf <: OMF](
           val xsd_string = lookupScalarDataType( xsd_tbox._1, string_iri, recursively=false )
           xsd_string.isDefined should be( true )
         }
-      result.isRight should be( true )
-    }
+      result1.isRight should be( true )
 
-    "load base" in {
-
-      val result =
+      val result2 =
         for {
           base_iri <- makeIRI( "http://imce.jpl.nasa.gov/foundation/base/base" )
           base_tbox <- loadTerminologyGraph( base_iri )
@@ -91,12 +91,9 @@ abstract class IMCEFoundationLoadTest[omf <: OMF](
             lookupEntityDataRelationshipFromEntityToScalar( base_tbox._1, hasIdentifier_iri, recursively=false )
           hasIdentifier.isDefined should be(true)
         }
-      result.isRight should be (true)
-    }
+      result2.isRight should be (true)
 
-    "load mission" in {
-
-      val result =
+      val result3 =
         for {
           mission_iri <- makeIRI( "http://imce.jpl.nasa.gov/foundation/mission/mission" )
           mission_tbox <- loadTerminologyGraph( mission_iri )
@@ -116,12 +113,9 @@ abstract class IMCEFoundationLoadTest[omf <: OMF](
             lookupEntityReifiedRelationship( mission_tbox._1, performs_iri, recursively=false )
           component_performs_function.isDefined should be(true)
         }
-      result.isRight should be (true)
-    }
-        
-    "load analysis" in {
+      result3.isRight should be (true)
 
-      val result =
+      val result4 =
         for {
           analysis_iri <- makeIRI( "http://imce.jpl.nasa.gov/foundation/analysis/analysis" )
           analysis_tbox <- loadTerminologyGraph( analysis_iri )
@@ -136,12 +130,9 @@ abstract class IMCEFoundationLoadTest[omf <: OMF](
             lookupEntityAspect( analysis_tbox._1, characterizedElement_iri, recursively=false  )
           characterizedElement.isDefined should be(true)
         }
-      result.isRight should be(true)
-    }
-    
-    "load behavior" in {
+      result4.isRight should be(true)
 
-      val result =
+      val result5 =
         for {
           behavior_iri <- makeIRI( "http://imce.jpl.nasa.gov/foundation/behavior/behavior" )
           behavior_tbox <- loadTerminologyGraph( behavior_iri )
@@ -156,12 +147,9 @@ abstract class IMCEFoundationLoadTest[omf <: OMF](
             lookupEntityConcept( behavior_tbox._1, parameter_iri, recursively=false  )
           parameter.isDefined should be(true)
         }
-      result.isRight should be(true)
-    }
-    
-    "load project" in {
+      result5.isRight should be(true)
 
-      val result =
+      val result6 =
         for {
           project_iri <- makeIRI( "http://imce.jpl.nasa.gov/foundation/project/project" )
           project_tbox <- loadTerminologyGraph( project_iri )
@@ -176,7 +164,7 @@ abstract class IMCEFoundationLoadTest[omf <: OMF](
             lookupEntityConcept( project_tbox._1, workPackage_iri, recursively=false  )
           workPackage.isDefined should be(true)
         }
-      result.isRight should be (true)
+      result6.isRight should be (true)
     }
     
   }
