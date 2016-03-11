@@ -506,11 +506,6 @@ trait TerminologyGraphSignature[omf <: OMF] {
     */
   val kind: TerminologyKind
   /**
-    * The axioms TerminologyGraphDirectNestingAxiom(nestingParent=G1, nestingContext=C, nestedChild=G2)
-    * such that this == G1
-    */
-  val nested: Iterable[omf#TerminologyGraphDirectNestingAxiom]
-  /**
     * this terminology graph can use or specialize vocabulary terms
     * defined in the transitive closure of imported terminology graphs
     */

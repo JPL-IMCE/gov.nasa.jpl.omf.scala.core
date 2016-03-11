@@ -215,7 +215,6 @@ abstract class OMFNestedGraphTest[omf <: OMF]
         lookupNestingAxiomForNestedChildIfAny(nestedG = g).isEmpty should be(true)
         lookupNestingAxiomForNestedChildIfAny(nestedG = p1).contains(g_nests_p1) should be(true)
         lookupNestingAxiomForNestedChildIfAny(nestedG = p2).contains(g_nests_p2) should be(true)
-        fromTerminologyGraph(g).nested.size should be(2)
 
         lookupNestingAxiomForNestingContextIfAny(nestingC = component).isEmpty should be(true)
         lookupNestingAxiomForNestingContextIfAny(nestingC = function).isEmpty should be(true)
@@ -293,9 +292,6 @@ abstract class OMFNestedGraphTest[omf <: OMF]
         g_authorizes_p1.isDefined should be(true)
         g_authorizes_p2.isDefined should be(true)
         lookupNestingAxiomForNestedChildIfAny(nestedG = g._1).isEmpty should be(true)
-
-        fromTerminologyGraph(g._1).nested.size should be(2)
-
         lookupNestingAxiomForNestedChildIfAny(nestedG = p1._1).isDefined should be(true)
         lookupNestingAxiomForNestedChildIfAny(nestedG = p2._1).isDefined should be(true)
 
