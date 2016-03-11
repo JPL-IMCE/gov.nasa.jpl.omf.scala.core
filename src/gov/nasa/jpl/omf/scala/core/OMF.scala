@@ -556,7 +556,7 @@ trait TerminologyGraphSignature[omf <: OMF] {
     */
   val structure2structureDataRelationships: Iterable[omf#ModelDataRelationshipFromStructureToStructure]
   /**
-    * the axioms asserted in this terminology graph
+    * the model term axioms asserted in this terminology graph
     */
   val axioms: Iterable[omf#ModelTermAxiom]
 }

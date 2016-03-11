@@ -185,6 +185,11 @@ trait OMFStoreOps[omf <: OMF] {
   ( implicit store: omf#Store )
   : TerminologyGraphSignature[omf]
 
+  def isTerminologyGraphDirectNestingAxiom
+  ( axiom: omf#TerminologyGraphAxiom)
+  ( implicit store: omf#Store )
+  : Boolean
+
   /**
     * Find the axiom TerminologyGraphDirectNestingAxiom(nestedChild==nestedG), if any.
     */
@@ -993,6 +998,7 @@ trait MutableTerminologyGraphOps[omf <: OMF] extends ImmutableTerminologyGraphOp
     nestedChild: omf#ModelTerminologyGraph )
   ( implicit store: omf#Store )
   : Set[java.lang.Throwable] \/ omf#TerminologyGraphDirectNestingAxiom
+
   /**
     * Assigns a designation terminology graph as the closed-world structural description of a model entity concept
     * @param graph The mutable terminology graph in which to assert the axiom

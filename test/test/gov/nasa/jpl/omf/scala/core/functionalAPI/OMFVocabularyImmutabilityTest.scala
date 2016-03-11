@@ -115,7 +115,7 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF]
         integer = lookupScalarDataType(xsd._1, int_iri, recursively = false)
         string_iri <- makeIRI("http://www.w3.org/2001/XMLSchema#string")
         string = lookupScalarDataType(xsd._1, string_iri, recursively = false)
-        base_iri <- makeIRI("http://imce.jpl.nasa.gov/foundation/base/base")
+        base_iri <- makeIRI("http://imce.jpl.nasa.gov/test/immutability/foundation/base/base")
         base <- makeTerminologyGraph(base_iri, isDefinition)
         base_extends_xsd <- addTerminologyGraphExtension(base, xsd._1)
         identifiedElement <- addEntityAspect(base, "IdentifiedElement")
@@ -127,7 +127,7 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF]
 
         ibase <- asImmutableTerminologyGraph(base)
 
-        mission_iri <- makeIRI("http://imce.jpl.nasa.gov/foundation/mission/mission")
+        mission_iri <- makeIRI("http://imce.jpl.nasa.gov/test/immutability/foundation/mission/mission")
         mission <- makeTerminologyGraph(mission_iri, isDefinition)
 
         component <- addEntityConcept(mission, "Component", isAbstract = false)
@@ -144,7 +144,7 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF]
         item <- addEntityConcept(mission, "Item", isAbstract = false)
         message <- addEntityConcept(mission, "Message", isAbstract = false)
         materialItem <- addEntityConcept(mission, "MaterialItem", isAbstract = false)
-        identifiedElement_iri <- makeIRI("http://imce.jpl.nasa.gov/foundation/base/base#IdentifiedElement")
+        identifiedElement_iri <- makeIRI("http://imce.jpl.nasa.gov/test/immutability/foundation/base/base#IdentifiedElement")
       } yield {
 
         val identifiedElement =
@@ -191,17 +191,17 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF]
       for {
         xsd_iri <- makeIRI("http://www.w3.org/2001/XMLSchema")
         xsd <- loadTerminologyGraph(xsd_iri)
-        base_iri <- makeIRI("http://imce.jpl.nasa.gov/foundation/base/base")
+        base_iri <- makeIRI("http://imce.jpl.nasa.gov/test/immutability/foundation/base/base")
         base <- loadTerminologyGraph(base_iri)
-        mission_iri <- makeIRI("http://imce.jpl.nasa.gov/foundation/mission/mission")
+        mission_iri <- makeIRI("http://imce.jpl.nasa.gov/test/immutability/foundation/mission/mission")
         mission <- loadTerminologyGraph(mission_iri)
         integer_iri <- makeIRI("http://www.w3.org/2001/XMLSchema#integer")
         string_iri <- makeIRI("http://www.w3.org/2001/XMLSchema#string")
-        identifiedElement_iri <- makeIRI("http://imce.jpl.nasa.gov/foundation/base/base#IdentifiedElement")
-        hasIdentifier_iri <- makeIRI("http://imce.jpl.nasa.gov/foundation/base/base#hasIdentifier")
-        component_iri <- makeIRI("http://imce.jpl.nasa.gov/foundation/mission/mission#Component")
-        function_iri <- makeIRI("http://imce.jpl.nasa.gov/foundation/mission/mission#Function")
-        component_performs_function_iri <- makeIRI("http://imce.jpl.nasa.gov/foundation/mission/mission#Performs")
+        identifiedElement_iri <- makeIRI("http://imce.jpl.nasa.gov/test/immutability/foundation/base/base#IdentifiedElement")
+        hasIdentifier_iri <- makeIRI("http://imce.jpl.nasa.gov/test/immutability/foundation/base/base#hasIdentifier")
+        component_iri <- makeIRI("http://imce.jpl.nasa.gov/test/immutability/foundation/mission/mission#Component")
+        function_iri <- makeIRI("http://imce.jpl.nasa.gov/test/immutability/foundation/mission/mission#Function")
+        component_performs_function_iri <- makeIRI("http://imce.jpl.nasa.gov/test/immutability/foundation/mission/mission#Performs")
       } yield {
 
         {

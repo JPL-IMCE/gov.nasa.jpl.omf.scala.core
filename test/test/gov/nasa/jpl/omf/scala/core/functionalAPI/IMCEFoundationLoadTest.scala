@@ -62,11 +62,8 @@ abstract class IMCEFoundationLoadTest[omf <: OMF](
         for {
           xsd_iri <- makeIRI( "http://www.w3.org/2001/XMLSchema" )
           xsd_tbox <- loadTerminologyGraph( xsd_iri )
-        _ = java.lang.System.out.println("1")
           integer_iri <- withFragment( xsd_iri, "integer" )
-          _ = java.lang.System.out.println("2")
           string_iri <- withFragment( xsd_iri, "string" )
-          _ = java.lang.System.out.println("3")
         } yield {
           val xsd_integer = lookupScalarDataType( xsd_tbox._1, integer_iri, recursively=false )
           xsd_integer.isDefined should be( true )
