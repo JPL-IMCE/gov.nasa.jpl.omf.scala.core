@@ -45,7 +45,6 @@ import gov.nasa.jpl.omf.scala.core.TerminologyKind._
 import scala.language.{implicitConversions, postfixOps}
 import org.scalatest._, exceptions._
 import scala.{Option,None,Some,StringContext,Unit}
-import scala.Predef.String
 import scala.util.control.Exception._
 import scalaz._, Scalaz._
 import scala.collection.immutable.{List,Set}
@@ -295,11 +294,11 @@ abstract class OMFNestedGraphTest[omf <: OMF]
         lookupNestingAxiomForNestedChildIfAny(nestedG = g._1).isEmpty should be(true)
         lookupNestingAxiomForNestedChildIfAny(nestedG = p1._1).isDefined should be(true)
         lookupNestingAxiomForNestedChildIfAny(nestedG = p1._1).foreach { ax =>
-          validateTerminologyGraphAxiom(ax) should be(Option.empty[String])
+          getNestingParentGraphOfAxiom(ax) should be(g._1)
         }
         lookupNestingAxiomForNestedChildIfAny(nestedG = p2._1).isDefined should be(true)
         lookupNestingAxiomForNestedChildIfAny(nestedG = p2._1).foreach { ax =>
-          validateTerminologyGraphAxiom(ax) should be(Option.empty[String])
+          getNestingParentGraphOfAxiom(ax) should be(g._1)
         }
 
         lookupNestingAxiomForNestingContextIfAny(nestingC = component.get).isEmpty should be(true)
@@ -310,6 +309,14 @@ abstract class OMFNestedGraphTest[omf <: OMF]
         lookupNestingAxiomsForNestingParent(nestingG = p1._1).isEmpty should be(true)
         lookupNestingAxiomsForNestingParent(nestingG = p1._1).isEmpty should be(true)
         lookupNestingAxiomsForNestingParent(nestingG = g._1).size should be(4) // mutable & immutable
+
+        // confirm there is a nested graph axiom for the immutable child P1
+        lookupNestingAxiomsForNestingParent(nestingG = g._1)
+          .exists { ax => getNestedChildGraphOfAxiom(ax) == p1._1 } should be(true)
+
+        // confirm there is a nested graph axiom for the immutable child P2
+        lookupNestingAxiomsForNestingParent(nestingG = g._1)
+          .exists { ax => getNestedChildGraphOfAxiom(ax) == p2._1 } should be(true)
 
         lookupNestingAxiomsForNestingParent(nestingG = g._1).foreach { ax =>
 
@@ -326,37 +333,9 @@ abstract class OMFNestedGraphTest[omf <: OMF]
 
         }
 
-        lookupNestingAxiomsForNestingParent(nestingG = g._1).foreach { ax =>
-          validateTerminologyGraphAxiom(ax) should be(Option.empty[String])
-        }
-
       }
 
     }
-  }
-
-  def validateTerminologyGraphAxiom
-  (ax: omf#TerminologyGraphDirectNestingAxiom)
-  (implicit ops: OMFOps[omf], store: omf#Store)
-  : Option[String]
-  = {
-    import ops._
-
-    val nestingG = getNestingParentGraphOfAxiom(ax)
-    val nestedG = getNestedChildGraphOfAxiom(ax)
-
-    val bothI = isTerminologyGraphImmutable(nestingG) && isTerminologyGraphImmutable(nestedG)
-    val bothM = isTerminologyGraphMutable(nestingG) && isTerminologyGraphMutable(nestedG)
-
-    if (bothI || bothM)
-      None
-    else {
-      Some(
-        s"Invalid TerminologyGraphDirectNestingAxiom\n"+
-        s"nesting parent (isMutable=${isTerminologyGraphMutable(nestingG)}): ${getTerminologyGraphIRI(nestingG)}\n"+
-        s"nested child (isMutable=${isTerminologyGraphMutable(nestedG)}): ${getTerminologyGraphIRI(nestedG)}")
-    }
-
   }
 
 }
