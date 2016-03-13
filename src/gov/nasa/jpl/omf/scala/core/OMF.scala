@@ -38,7 +38,7 @@
  */
 package gov.nasa.jpl.omf.scala.core
 
-import scala.Boolean
+import scala.{Boolean,Option}
 import scala.collection.immutable.{Iterable,Map}
 
 import gov.nasa.jpl.omf.scala.core.RelationshipCharacteristics._
@@ -510,6 +510,12 @@ trait TerminologyGraphSignature[omf <: OMF] {
     * defined in the transitive closure of imported terminology graphs
     */
   val imports: Iterable[omf#ModelTerminologyGraph]
+  /**
+    * this terminology graph can be the nested graph for
+    * the context of a parent model term concept in
+    * a parent nesting graph
+    */
+  val nesting: Option[(omf#ModelEntityConcept, omf#ModelTerminologyGraph)]
   /**
     * the aspects described in this terminology graph
     */

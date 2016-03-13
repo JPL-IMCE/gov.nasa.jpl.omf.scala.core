@@ -310,9 +310,26 @@ abstract class OMFNestedGraphTest[omf <: OMF]
         lookupNestingAxiomsForNestingParent(nestingG = p1._1).isEmpty should be(true)
         lookupNestingAxiomsForNestingParent(nestingG = p1._1).isEmpty should be(true)
         lookupNestingAxiomsForNestingParent(nestingG = g._1).size should be(4) // mutable & immutable
+
+        lookupNestingAxiomsForNestingParent(nestingG = g._1).foreach { ax =>
+
+          val parentG = getNestingParentGraphOfAxiom(ax)
+          val parentC = getNestingContextConceptOfAxiom(ax)
+          val childG = getNestedChildGraphOfAxiom(ax)
+
+          java.lang.System.out.println(
+            "Nesting:\n"+
+              s" parent: ${parentG.getClass.getSimpleName}: ${getTerminologyGraphIRI(parentG)}\n"+
+              s" context: ${fromEntityConcept(parentC).iri}\n"+
+              s" child: ${childG.getClass.getSimpleName}: ${getTerminologyGraphIRI(childG)}\n"
+          )
+
+        }
+
         lookupNestingAxiomsForNestingParent(nestingG = g._1).foreach { ax =>
           validateTerminologyGraphAxiom(ax) should be(Option.empty[String])
         }
+
       }
 
     }
