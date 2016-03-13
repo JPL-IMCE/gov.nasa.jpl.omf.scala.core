@@ -302,7 +302,7 @@ abstract class OMFNestedGraphTest[omf <: OMF]
 
         lookupNestingAxiomsForNestingParent(nestingG = p1._1).isEmpty should be(true)
         lookupNestingAxiomsForNestingParent(nestingG = p1._1).isEmpty should be(true)
-        lookupNestingAxiomsForNestingParent(nestingG = g._1).size should be(2)
+        lookupNestingAxiomsForNestingParent(nestingG = g._1).size should be(4) // mutable & immutable
       }
 
     }
