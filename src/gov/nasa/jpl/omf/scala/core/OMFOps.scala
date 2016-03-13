@@ -180,6 +180,26 @@ trait OMFStoreOps[omf <: OMF] {
   ( implicit store: omf#Store )
   : Set[java.lang.Throwable] \/ (omf#ImmutableModelTerminologyGraph, omf#Mutable2IMutableTerminologyMap)
 
+  def isTerminologyGraphMutable
+  ( graph: omf#ModelTerminologyGraph )
+  ( implicit store: omf#Store )
+  : Boolean
+
+  def asMutableTerminologyGraph
+  ( graph: omf#ModelTerminologyGraph )
+  ( implicit store: omf#Store )
+  : Option[omf#MutableModelTerminologyGraph]
+
+  def isTerminologyGraphImmutable
+  ( graph: omf#ModelTerminologyGraph )
+  ( implicit store: omf#Store )
+  : Boolean
+
+  def asImmutableTerminologyGraph
+  ( graph: omf#ModelTerminologyGraph )
+  ( implicit store: omf#Store )
+  : Option[omf#ImmutableModelTerminologyGraph]
+
   def fromTerminologyGraph
   ( graph: omf#ModelTerminologyGraph )
   ( implicit store: omf#Store )
