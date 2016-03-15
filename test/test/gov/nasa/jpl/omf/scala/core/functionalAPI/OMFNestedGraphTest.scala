@@ -204,27 +204,59 @@ abstract class OMFNestedGraphTest[omf <: OMF]
         p2_asserts_B_performsFunction_C <-
         addEntityReifiedRelationshipSubClassAxiom(graph=p2, sub=p2_asserts_B_performs_C, sup=component_performs_function)
 
-        _ <- saveTerminologyGraph(base)
-        _ <- saveTerminologyGraph(mission)
-        _ <- saveTerminologyGraph(project)
-        _ <- saveTerminologyGraph(p1)
-        _ <- saveTerminologyGraph(p2)
-        _ <- saveTerminologyGraph(g)
+        ibase <- asImmutableTerminologyGraph(base)
+        _ <- saveTerminologyGraph(ibase._1)
+
+        imission <- asImmutableTerminologyGraph(mission)
+        _ <- saveTerminologyGraph(imission._1)
+
+        iproject <- asImmutableTerminologyGraph(project)
+        _ <- saveTerminologyGraph(iproject._1)
+
+        ig <- asImmutableTerminologyGraph(g)
+        _ <- saveTerminologyGraph(ig._1)
+
+        ip1 <- asImmutableTerminologyGraph(p1)
+        _ <- saveTerminologyGraph(ip1._1)
+
+        ip2 <- asImmutableTerminologyGraph(p2)
+        _ <- saveTerminologyGraph(ip2._1)
 
       } yield {
         lookupNestingAxiomForNestedChildIfAny(nestedG = g).isEmpty should be(true)
+        lookupNestingAxiomForNestedChildIfAny(nestedG = ig._1).isEmpty should be(true)
+
         lookupNestingAxiomForNestedChildIfAny(nestedG = p1).contains(g_nests_p1) should be(true)
+        lookupNestingAxiomForNestedChildIfAny(nestedG = ip1._1).foreach { ax =>
+          getNestingParentGraphOfAxiom(ax) should be(ig._1)
+        }
+
         lookupNestingAxiomForNestedChildIfAny(nestedG = p2).contains(g_nests_p2) should be(true)
+        lookupNestingAxiomForNestedChildIfAny(nestedG = ip2._1).foreach { ax =>
+          getNestingParentGraphOfAxiom(ax) should be(ig._1)
+        }
 
-        lookupNestingAxiomForNestingContextIfAny(nestingC = component).isEmpty should be(true)
-        lookupNestingAxiomForNestingContextIfAny(nestingC = function).isEmpty should be(true)
-        lookupNestingAxiomForNestingContextIfAny(nestingC = g_authorizes_p1).contains(g_nests_p1) should be(true)
-        lookupNestingAxiomForNestingContextIfAny(nestingC = g_authorizes_p2).contains(g_nests_p2) should be(true)
+        lookupNestingAxiomsForNestingContext(nestingC = component).isEmpty should be(true)
+        lookupNestingAxiomsForNestingContext(nestingC = function).isEmpty should be(true)
+        lookupNestingAxiomsForNestingContext(nestingC = g_authorizes_p1).contains(g_nests_p1) should be(true)
+        lookupNestingAxiomsForNestingContext(nestingC = g_authorizes_p2).contains(g_nests_p2) should be(true)
 
+        lookupNestingAxiomsForNestingParent(nestingG = ip1._1).isEmpty should be(true)
         lookupNestingAxiomsForNestingParent(nestingG = p1).isEmpty should be(true)
-        lookupNestingAxiomsForNestingParent(nestingG = p1).isEmpty should be(true)
+
+        lookupNestingAxiomsForNestingParent(nestingG = ip2._1).isEmpty should be(true)
+        lookupNestingAxiomsForNestingParent(nestingG = p2).isEmpty should be(true)
+
         lookupNestingAxiomsForNestingParent(nestingG = g).contains(g_nests_p1) should be(true)
         lookupNestingAxiomsForNestingParent(nestingG = g).contains(g_nests_p2) should be(true)
+
+        // confirm there is a nested graph axiom for the immutable child P1
+        lookupNestingAxiomsForNestingParent(nestingG = ig._1)
+          .exists { ax => getNestedChildGraphOfAxiom(ax) == ip1._1 } should be(true)
+
+        // confirm there is a nested graph axiom for the immutable child P2
+        lookupNestingAxiomsForNestingParent(nestingG = ig._1)
+          .exists { ax => getNestedChildGraphOfAxiom(ax) == ip2._1 } should be(true)
       }
 
     }
@@ -301,10 +333,10 @@ abstract class OMFNestedGraphTest[omf <: OMF]
           getNestingParentGraphOfAxiom(ax) should be(g._1)
         }
 
-        lookupNestingAxiomForNestingContextIfAny(nestingC = component.get).isEmpty should be(true)
-        lookupNestingAxiomForNestingContextIfAny(nestingC = function.get).isEmpty should be(true)
-        lookupNestingAxiomForNestingContextIfAny(nestingC = g_authorizes_p1.get).isDefined should be(true)
-        lookupNestingAxiomForNestingContextIfAny(nestingC = g_authorizes_p2.get).isDefined should be(true)
+        lookupNestingAxiomsForNestingContext(nestingC = component.get).isEmpty should be(true)
+        lookupNestingAxiomsForNestingContext(nestingC = function.get).isEmpty should be(true)
+        lookupNestingAxiomsForNestingContext(nestingC = g_authorizes_p1.get).nonEmpty should be(true)
+        lookupNestingAxiomsForNestingContext(nestingC = g_authorizes_p2.get).nonEmpty should be(true)
 
         lookupNestingAxiomsForNestingParent(nestingG = p1._1).isEmpty should be(true)
         lookupNestingAxiomsForNestingParent(nestingG = p1._1).isEmpty should be(true)

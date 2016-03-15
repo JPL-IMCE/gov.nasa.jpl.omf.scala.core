@@ -219,15 +219,15 @@ trait OMFStoreOps[omf <: OMF] {
   : Option[omf#TerminologyGraphDirectNestingAxiom]
 
   /**
-    * Find the axiom TerminologyGraphDirectNestingAxiom(nestingContext=nestingC), if any.
+    * Find the axioms TerminologyGraphDirectNestingAxiom(nestingContext=nestingC).
     */
-  def lookupNestingAxiomForNestingContextIfAny
+  def lookupNestingAxiomsForNestingContext
   (nestingC: omf#ModelEntityConcept)
   (implicit store: omf#Store)
-  : Option[omf#TerminologyGraphDirectNestingAxiom]
+  : Set[omf#TerminologyGraphDirectNestingAxiom]
 
   /**
-    * Find the axioms TerminologyGraphDirectNestingAxiom(nestingParent=nestingG)
+    * Find the axioms TerminologyGraphDirectNestingAxiom(nestingParent=nestingG).
     */
   def lookupNestingAxiomsForNestingParent
   (nestingG: omf#ModelTerminologyGraph)
