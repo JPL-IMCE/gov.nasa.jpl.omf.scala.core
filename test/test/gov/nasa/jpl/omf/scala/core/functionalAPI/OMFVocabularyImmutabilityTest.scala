@@ -119,7 +119,7 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF]
         base <- makeTerminologyGraph(base_iri, isDefinition)
         base_extends_xsd <- addTerminologyGraphExtension(base, xsd._1)
         identifiedElement <- addEntityAspect(base, "IdentifiedElement")
-        hasIdentifier = addDataRelationshipFromEntityToScalar(
+        hasIdentifier <- addDataRelationshipFromEntityToScalar(
           graph = base,
           source = identifiedElement,
           target = string.get,
@@ -129,6 +129,7 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF]
 
         mission_iri <- makeIRI("http://imce.jpl.nasa.gov/test/immutability/foundation/mission/mission")
         mission <- makeTerminologyGraph(mission_iri, isDefinition)
+        mission_extends_ibase <- addTerminologyGraphExtension(mission, ibase._1)
 
         component <- addEntityConcept(mission, "Component", isAbstract = false)
         function <- addEntityConcept(mission, "Function", isAbstract = false)
@@ -145,6 +146,28 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF]
         message <- addEntityConcept(mission, "Message", isAbstract = false)
         materialItem <- addEntityConcept(mission, "MaterialItem", isAbstract = false)
         identifiedElement_iri <- makeIRI("http://imce.jpl.nasa.gov/test/immutability/foundation/base/base#IdentifiedElement")
+
+        library_iri <- makeIRI("http://imce.jpl.nasa.gov/test/immutability/library")
+        library <- makeTerminologyGraph(library_iri, isDefinition)
+        library_extends_mission <- addTerminologyGraphExtension(library, mission)
+
+        starTracker <- addEntityConcept(library, "StarTracker", isAbstract=true)
+        starTracker_isa_component <- addEntityConceptSubClassAxiom(library, starTracker, component)
+
+        system_iri <- makeIRI("http://imce.jpl.nasa.gov/test/immutability/system")
+        system <- makeTerminologyGraph(system_iri, isDefinition)
+        system_extends_library <- addTerminologyGraphExtension(system, library)
+
+        s1 <- addEntityConcept(system, "S1", isAbstract=false)
+        s1_is_starTracker <- addEntityConceptSubClassAxiom(system, s1, starTracker)
+        s1_hasIdentifier <-
+        addScalarDataRelationshipRestrictionAxiomFromEntityToLiteral(system, s1, hasIdentifier, "ST.primary")
+
+        s2 <- addEntityConcept(system, "S2", isAbstract=false)
+        s2_is_starTracker <- addEntityConceptSubClassAxiom(system, s2, starTracker)
+        s2_hasIdentifier <-
+        addScalarDataRelationshipRestrictionAxiomFromEntityToLiteral(system, s2, hasIdentifier, "ST.backup")
+
       } yield {
 
         val identifiedElement =
@@ -179,6 +202,12 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF]
 
         val missionSaved = saveTerminologyGraph(mission)
         missionSaved.isRight should equal(true)
+
+        val librarySaved = saveTerminologyGraph(library)
+        librarySaved.isRight should equal(true)
+
+        val systemSaved = saveTerminologyGraph(system)
+        systemSaved.isRight should equal(true)
       }
     }
 
@@ -197,11 +226,22 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF]
         mission <- loadTerminologyGraph(mission_iri)
         integer_iri <- makeIRI("http://www.w3.org/2001/XMLSchema#integer")
         string_iri <- makeIRI("http://www.w3.org/2001/XMLSchema#string")
+
         identifiedElement_iri <- makeIRI("http://imce.jpl.nasa.gov/test/immutability/foundation/base/base#IdentifiedElement")
         hasIdentifier_iri <- makeIRI("http://imce.jpl.nasa.gov/test/immutability/foundation/base/base#hasIdentifier")
         component_iri <- makeIRI("http://imce.jpl.nasa.gov/test/immutability/foundation/mission/mission#Component")
         function_iri <- makeIRI("http://imce.jpl.nasa.gov/test/immutability/foundation/mission/mission#Function")
         component_performs_function_iri <- makeIRI("http://imce.jpl.nasa.gov/test/immutability/foundation/mission/mission#Performs")
+
+        library_iri <- makeIRI("http://imce.jpl.nasa.gov/test/immutability/library")
+        library <- loadTerminologyGraph(library_iri)
+        starTracker_iri <- makeIRI("http://imce.jpl.nasa.gov/test/immutability/library#StarTracker")
+
+        system_iri <- makeIRI("http://imce.jpl.nasa.gov/test/immutability/system")
+        system <- loadTerminologyGraph(system_iri)
+        s1_iri <- makeIRI("http://imce.jpl.nasa.gov/test/immutability/system#S1")
+        s2_iri <- makeIRI("http://imce.jpl.nasa.gov/test/immutability/system#S2")
+
       } yield {
 
         {
@@ -268,6 +308,21 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF]
         component_performs_function_info.source should be(component.get)
         component_performs_function_info.target should be(function.get)
         component_performs_function_info.isAbstract should be(false)
+
+        val starTracker = lookupEntityConcept(library._1, starTracker_iri, recursively = false)
+        starTracker.isDefined should be(true)
+
+        val s1 = lookupEntityConcept(system._1, s1_iri, recursively=false)
+        s1.isDefined should be(true)
+
+        val s2 = lookupEntityConcept(system._1, s2_iri, recursively=false)
+        s2.isDefined should be(true)
+
+        val s1Restrictions = lookupEntityDefinitionScalarDataRelationshipRestrictions(system._1, s1.get)
+        s1Restrictions.size should be(1)
+
+        val s2Restrictions = lookupEntityDefinitionScalarDataRelationshipRestrictions(system._1, s2.get)
+        s2Restrictions.size should be(1)
       }
     }
   }
