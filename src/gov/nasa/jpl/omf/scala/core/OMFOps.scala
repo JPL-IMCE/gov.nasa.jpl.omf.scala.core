@@ -160,6 +160,11 @@ trait IRIOps[omf <: OMF] {
 
 trait OMFStoreOps[omf <: OMF] {
 
+  def lookupTerminologyGraph
+  (iri: omf#IRI)
+  (implicit store: omf#Store)
+  : Option[omf#ModelTerminologyGraph]
+
   /**
     * If supported, load the built-in datatype maps corresponding to OWL, RDFS, XML Schema 1.1 as a terminology graph
     *
