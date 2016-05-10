@@ -44,7 +44,7 @@ import gov.nasa.jpl.omf.scala.core.TerminologyKind._
 
 import scala.language.{implicitConversions, postfixOps}
 import org.scalatest._, exceptions._
-import scala.{StringContext, Unit}
+import scala.{Some, StringContext, Unit}
 import scala.util.control.Exception._
 import scalaz._, Scalaz._
 import scala.collection.immutable.{List,Set}
@@ -115,10 +115,16 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF]
         integer = lookupScalarDataType(xsd._1, int_iri, recursively = false)
         string_iri <- makeIRI("http://www.w3.org/2001/XMLSchema#string")
         string = lookupScalarDataType(xsd._1, string_iri, recursively = false)
+
         base_iri <- makeIRI("http://imce.jpl.nasa.gov/test/immutability/foundation/base/base")
         base <- makeTerminologyGraph(base_iri, isDefinition)
+        _ <- setTerminologyGraphShortName(base, Some("base"))
+        _ <- setTerminologyGraphUUID(base, Some("UUID.base"))
         base_extends_xsd <- addTerminologyGraphExtension(base, xsd._1)
+
         identifiedElement <- addEntityAspect(base, "IdentifiedElement")
+        _ <- setTermShortName(base, identifiedElement, Some("base:IdentifiedElement"))
+        _ <- setTermUUID(base, identifiedElement, Some("UUID.base:IdentifiedElement"))
         hasIdentifier <- addDataRelationshipFromEntityToScalar(
           graph = base,
           source = identifiedElement,
@@ -129,6 +135,8 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF]
 
         mission_iri <- makeIRI("http://imce.jpl.nasa.gov/test/immutability/foundation/mission/mission")
         mission <- makeTerminologyGraph(mission_iri, isDefinition)
+        _ <- setTerminologyGraphShortName(mission, Some("mission"))
+        _ <- setTerminologyGraphUUID(mission, Some("UUID.mission"))
         mission_extends_ibase <- addTerminologyGraphExtension(mission, ibase._1)
 
         component <- addEntityConcept(mission, "Component", isAbstract = false)
@@ -149,6 +157,7 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF]
 
         library_iri <- makeIRI("http://imce.jpl.nasa.gov/test/immutability/library")
         library <- makeTerminologyGraph(library_iri, isDefinition)
+        _ <- setTerminologyGraphShortName(library, Some("library"))
         library_extends_mission <- addTerminologyGraphExtension(library, mission)
 
         starTracker <- addEntityConcept(library, "StarTracker", isAbstract=true)
@@ -260,6 +269,9 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF]
           s.axioms.isEmpty should be(true)
         }
 
+        getTerminologyGraphShortName(base._1) should be(Some("base"))
+        getTerminologyGraphUUID(base._1) should be(Some("UUID.base"))
+
         val integer = lookupScalarDataType(xsd._1, integer_iri, recursively = false)
         integer.isDefined should be(true)
 
@@ -268,6 +280,8 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF]
 
         val identifiedElement = lookupEntityAspect(base._1, identifiedElement_iri, recursively = false)
         identifiedElement.isDefined should be(true)
+        getTermShortName(base._1, identifiedElement.get) should be(Some("base:IdentifiedElement"))
+        getTermShortUUID(base._1, identifiedElement.get) should be(Some("UUID.base:IdentifiedElement"))
 
         val hasIdentifier =
           lookupEntityDataRelationshipFromEntityToScalar(base._1, hasIdentifier_iri, recursively = false)
@@ -293,6 +307,9 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF]
           s.structure2structureDataRelationships.isEmpty should be(true)
           s.axioms.isEmpty should be(false)
         }
+
+        getTerminologyGraphShortName(mission._1) should be(Some("mission"))
+        getTerminologyGraphUUID(mission._1) should be(Some("UUID.mission"))
 
         val component = lookupEntityConcept(mission._1, component_iri, recursively = false)
         component.isDefined should be(true)
