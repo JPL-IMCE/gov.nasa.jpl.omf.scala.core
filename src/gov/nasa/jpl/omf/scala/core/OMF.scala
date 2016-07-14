@@ -278,13 +278,13 @@ trait OMFtbox {
   type EntityConceptDesignationTerminologyGraphAxiom <: ModelTermAxiom
 
   /**
-    * An EntityConceptSubClassAxiom is a ModelTermAxion assertion about
+    * An EntityConceptSubClassAxiom is a ModelTermAxiom assertion about
     * a subclass/superclass relationship between two ModelEntityConcepts
     */
   type EntityConceptSubClassAxiom <: ModelTermAxiom
 
   /**
-    * An EntityConceptRestrictionAxiom is a ModelTermAxion assertion about
+    * An EntityConceptRestrictionAxiom is a ModelTermAxiom assertion about
     * constraining a ModelEntityReifiedRelationship
     * for a sub-domain ModelEntityConcept
     * to a restricted sub-range ModelEntityDefinition.
@@ -294,7 +294,7 @@ trait OMFtbox {
   type EntityConceptRestrictionAxiom <: ModelTermAxiom
 
   /**
-    * An EntityConceptUniversalRestrictionAxiom is a ModelTermAxion assertion about
+    * An EntityConceptUniversalRestrictionAxiom is a ModelTermAxiom assertion about
     * constraining a ModelEntityReifiedRelationship
     * for objects of a sub-domain ModelEntityConcept
     * to be related to only a restricted sub-range ModelEntityDefinition.
@@ -302,7 +302,7 @@ trait OMFtbox {
   type EntityConceptUniversalRestrictionAxiom <: EntityConceptRestrictionAxiom
 
   /**
-    * An EntityConceptUniversalRestrictionAxiom is a ModelTermAxion assertion about
+    * An EntityConceptUniversalRestrictionAxiom is a ModelTermAxiom assertion about
     * constraining a ModelEntityReifiedRelationship
     * for objects of a sub-domain ModelEntityConcept
     * to be related to include a sub-range ModelEntityDefinition.
@@ -314,6 +314,11 @@ trait OMFtbox {
     * a subclass/superclass relationship between two ModelEntityReifiedRelationships
     */
   type EntityReifiedRelationshipSubClassAxiom <: ModelTermAxiom
+
+  type EntityReifiedRelationshipContextualizationAxiom <: ModelTermAxiom
+  type EntityReifiedRelationshipRestrictionAxiom <: ModelTermAxiom
+  type EntityReifiedRelationshipExistentialRestrictionAxiom <: EntityReifiedRelationshipRestrictionAxiom
+  type EntityReifiedRelationshipUniversalRestrictionAxiom <: EntityReifiedRelationshipRestrictionAxiom
 
   /**
     * A ScalarDataTypeFacetRestrictionAxiom is a ModelTermAxiom assertion about

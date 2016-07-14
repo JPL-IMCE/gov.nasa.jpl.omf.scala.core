@@ -44,10 +44,10 @@ import gov.nasa.jpl.omf.scala.core.TerminologyKind._
 
 import scala.language.{implicitConversions, postfixOps}
 import org.scalatest._, exceptions._
-import scala.{Some, StringContext, Unit}
+import scala.{Option, None, Some, StringContext, Unit}
 import scala.util.control.Exception._
 import scalaz._, Scalaz._
-import scala.collection.immutable.{List,Set}
+import scala.collection.immutable.{Iterable,List,Set}
 
 abstract class OMFVocabularyImmutabilityTest[omf <: OMF]
 (val saveStore: omf#Store, saveOps: OMFOps[omf],
@@ -73,7 +73,8 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF]
         preOMFSave()
         val result = testCode(saveStore, saveOps)
         postOMFSave()
-        result.isRight should equal(true)
+        val errors: Set[java.lang.Throwable] = result.swap.getOrElse(Set.empty)
+        errors should be(Set.empty)
       })
 
 
@@ -163,6 +164,24 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF]
         starTracker <- addEntityConcept(library, "StarTracker", isAbstract=true)
         starTracker_isa_component <- addEntityConceptSubClassAxiom(library, starTracker, component)
 
+        determinesAttitude <- addEntityConcept(library, "DeterminesAttitude", isAbstract=true)
+        determinesAttitude_is_function <- addEntityConceptSubClassAxiom(library, determinesAttitude, function)
+
+        determinesDeltaV <- addEntityConcept(library, "DeterminesDeltaV", isAbstract=true)
+        determinesDeltaV_is_function <- addEntityConceptSubClassAxiom(library, determinesDeltaV, function)
+
+        starTracker_performs_determinesAttitude <- addEntityReifiedRelationshipExistentialRestrictionAxiom(
+          library, starTracker, component_performs_function, determinesAttitude)
+
+        starTracker_determinesDeltaV_context <- addEntityReifiedRelationshipContextualizationAxiom(
+          library, starTracker, component_performs_function, "determinesDeltaV", determinesDeltaV)
+
+        starTracker_determinesAttitudeFast_context <- addEntityReifiedRelationshipContextualizationAxiom(
+          library, starTracker, component_performs_function, "determinesAttitude_fastCoarse", determinesAttitude)
+
+        starTracker_determinesAttitudeSlow_context <- addEntityReifiedRelationshipContextualizationAxiom(
+          library, starTracker, component_performs_function, "determinesAttitude_slowPrecise", determinesAttitude)
+
         system_iri <- makeIRI("http://imce.jpl.nasa.gov/test/immutability/system")
         system <- makeTerminologyGraph(system_iri, isDefinition)
         system_extends_library <- addTerminologyGraphExtension(system, library)
@@ -245,6 +264,7 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF]
         library_iri <- makeIRI("http://imce.jpl.nasa.gov/test/immutability/library")
         library <- loadTerminologyGraph(library_iri)
         starTracker_iri <- makeIRI("http://imce.jpl.nasa.gov/test/immutability/library#StarTracker")
+        determinesAttitude_iri <- makeIRI("http://imce.jpl.nasa.gov/test/immutability/library#DeterminesAttitude")
 
         system_iri <- makeIRI("http://imce.jpl.nasa.gov/test/immutability/system")
         system <- loadTerminologyGraph(system_iri)
@@ -328,6 +348,84 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF]
 
         val starTracker = lookupEntityConcept(library._1, starTracker_iri, recursively = false)
         starTracker.isDefined should be(true)
+
+        val determinesAttitude = lookupEntityConcept(library._1, determinesAttitude_iri, recursively = false)
+        determinesAttitude.isDefined should be(true)
+
+        val restrictions
+        : Iterable[omf#EntityReifiedRelationshipRestrictionAxiom]
+        = ops.getTermAxioms(library._1)._2.flatMap { ax =>
+          ops.foldTermAxiom(ax)(
+            funEntityDefinitionAspectSubClassAxiom =
+              _ => None,
+            funEntityConceptDesignationTerminologyGraphAxiom =
+              _ => None,
+            funEntityConceptSubClassAxiom =
+              _ => None,
+            funEntityConceptRestrictionAxiom =
+              _ => None,
+            funEntityReifiedRelationshipSubClassAxiom =
+              _ => None,
+            funEntityReifiedRelationshipContextualizationAxiom =
+              _ => None,
+            funEntityReifiedRelationshipRestrictionAxiom =
+              (r: omf#EntityReifiedRelationshipRestrictionAxiom) => Some(r),
+            funScalarDataTypeFacetRestrictionAxiom =
+              _ => None,
+            funModelScalarDataRelationshipRestrictionAxiomFromEntityToLiteral = _ => None)
+        }
+
+        restrictions.exists { r =>
+          ops.fromEntityReifiedRelationshipRestrictionAxiom(r) match {
+            case (starTracker, component_performs_function, determinesAttitude, ExistentialRestrictionKind) =>
+              true
+            case _ =>
+              false
+          }
+        } should be(true)
+
+        val contextualizations
+        : Iterable[omf#EntityReifiedRelationshipContextualizationAxiom]
+        = ops.getTermAxioms(library._1)._2.flatMap { ax =>
+          ops.foldTermAxiom(ax)(
+            funEntityDefinitionAspectSubClassAxiom =
+              _ => None,
+            funEntityConceptDesignationTerminologyGraphAxiom =
+              _ => None,
+            funEntityConceptSubClassAxiom =
+              _ => None,
+            funEntityConceptRestrictionAxiom =
+              _ => None,
+            funEntityReifiedRelationshipSubClassAxiom =
+              _ => None,
+            funEntityReifiedRelationshipContextualizationAxiom =
+              (r: omf#EntityReifiedRelationshipContextualizationAxiom) => Some(r),
+            funEntityReifiedRelationshipRestrictionAxiom =
+              _ => None,
+            funScalarDataTypeFacetRestrictionAxiom =
+              _ => None,
+            funModelScalarDataRelationshipRestrictionAxiomFromEntityToLiteral = _ => None)
+        }
+
+        // @todo The contextualization pattern needs to be recognized in the ImmutableModelTerminologyGraphResolver.
+
+//        contextualizations.exists { r =>
+//          ops.fromEntityReifiedRelationshipContextualizationAxiom(r) match {
+//            case (starTracker, component_performs_function, "determinesAttitude_fastCoarse", determinesAttitude) =>
+//              true
+//            case _ =>
+//              false
+//          }
+//        } should be(true)
+//
+//        contextualizations.exists { r =>
+//          ops.fromEntityReifiedRelationshipContextualizationAxiom(r) match {
+//            case (starTracker, component_performs_function, "determinesAttitude_slowPrecise", determinesAttitude) =>
+//              true
+//            case _ =>
+//              false
+//          }
+//        } should be(true)
 
         val s1 = lookupEntityConcept(system._1, s1_iri, recursively=false)
         s1.isDefined should be(true)

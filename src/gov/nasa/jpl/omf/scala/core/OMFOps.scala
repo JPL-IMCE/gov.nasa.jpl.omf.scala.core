@@ -803,6 +803,10 @@ trait ImmutableTerminologyGraphOps[omf <: OMF] {
    : omf#EntityConceptRestrictionAxiom => T,
    funEntityReifiedRelationshipSubClassAxiom
    : omf#EntityReifiedRelationshipSubClassAxiom => T,
+   funEntityReifiedRelationshipContextualizationAxiom
+   : omf#EntityReifiedRelationshipContextualizationAxiom => T,
+   funEntityReifiedRelationshipRestrictionAxiom
+   : omf#EntityReifiedRelationshipRestrictionAxiom => T,
    funScalarDataTypeFacetRestrictionAxiom
    : omf#ScalarDataTypeFacetRestrictionAxiom => T,
    funModelScalarDataRelationshipRestrictionAxiomFromEntityToLiteral
@@ -860,6 +864,18 @@ trait ImmutableTerminologyGraphOps[omf <: OMF] {
   (ax: omf#EntityReifiedRelationshipSubClassAxiom)
   : (omf#ModelEntityReifiedRelationship, omf#ModelEntityReifiedRelationship)
 
+  // entity relationship contextualization axiom
+
+  def fromEntityReifiedRelationshipContextualizationAxiom
+  (ax: omf#EntityReifiedRelationshipContextualizationAxiom)
+  : (omf#ModelEntityDefinition, omf#ModelEntityReifiedRelationship, String, omf#ModelEntityDefinition)
+
+  // entity relationship restriction axiom
+
+  def fromEntityReifiedRelationshipRestrictionAxiom
+  (ax: omf#EntityReifiedRelationshipRestrictionAxiom)
+  : (omf#ModelEntityDefinition, omf#ModelEntityReifiedRelationship, omf#ModelEntityDefinition, RestrictionKind)
+
   // scalar datatype facet restriction axiom
 
   def fromScalarDataTypeFacetRestrictionAxiom
@@ -888,6 +904,8 @@ object ImmutableTerminologyGraphOps {
         (_: omf#EntityConceptSubClassAxiom) => None,
         (_: omf#EntityConceptRestrictionAxiom) => None,
         (_: omf#EntityReifiedRelationshipSubClassAxiom) => None,
+        (_: omf#EntityReifiedRelationshipContextualizationAxiom) => None,
+        (_: omf#EntityReifiedRelationshipRestrictionAxiom) => None,
         (_: omf#ScalarDataTypeFacetRestrictionAxiom) => None,
         (x: omf#ModelScalarDataRelationshipRestrictionAxiomFromEntityToLiteral) =>
           if (entity == ops.fromModelScalarDataRelationshipRestrictionAxiomFromEntityToLiteral(x)._1)
@@ -1074,6 +1092,31 @@ trait MutableTerminologyGraphOps[omf <: OMF] extends ImmutableTerminologyGraphOp
    sup: omf#ModelEntityReifiedRelationship)
   (implicit store: omf#Store)
   : Set[java.lang.Throwable] \/ omf#EntityReifiedRelationshipSubClassAxiom
+
+  def addEntityReifiedRelationshipContextualizationAxiom
+  (graph: omf#MutableModelTerminologyGraph,
+   domain: omf#ModelEntityDefinition,
+   rel: omf#ModelEntityReifiedRelationship,
+   contextName: String,
+   range: omf#ModelEntityDefinition)
+  (implicit store: omf#Store)
+  : Set[java.lang.Throwable] \/ omf#EntityReifiedRelationshipContextualizationAxiom
+
+  def addEntityReifiedRelationshipExistentialRestrictionAxiom
+  (graph: omf#MutableModelTerminologyGraph,
+   domain: omf#ModelEntityDefinition,
+   rel: omf#ModelEntityReifiedRelationship,
+   range: omf#ModelEntityDefinition)
+  (implicit store: omf#Store)
+  : Set[java.lang.Throwable] \/ omf#EntityReifiedRelationshipExistentialRestrictionAxiom
+
+  def addEntityReifiedRelationshipUniversalRestrictionAxiom
+  (graph: omf#MutableModelTerminologyGraph,
+   domain: omf#ModelEntityDefinition,
+   rel: omf#ModelEntityReifiedRelationship,
+   range: omf#ModelEntityDefinition)
+  (implicit store: omf#Store)
+  : Set[java.lang.Throwable] \/ omf#EntityReifiedRelationshipUniversalRestrictionAxiom
 
   def addScalarDataTypeFacetRestrictionAxiom
   (graph: omf#MutableModelTerminologyGraph,
