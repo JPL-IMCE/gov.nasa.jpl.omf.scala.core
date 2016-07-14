@@ -177,10 +177,10 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF]
           library, starTracker, component_performs_function, "determinesDeltaV", determinesDeltaV)
 
         starTracker_determinesAttitudeFast_context <- addEntityReifiedRelationshipContextualizationAxiom(
-          library, starTracker, component_performs_function, "determinesAttitude_fastCoarse", determinesAttitude)
+          library, starTracker, component_performs_function, "determinesAttitude (fast:coarse)", determinesAttitude)
 
         starTracker_determinesAttitudeSlow_context <- addEntityReifiedRelationshipContextualizationAxiom(
-          library, starTracker, component_performs_function, "determinesAttitude_slowPrecise", determinesAttitude)
+          library, starTracker, component_performs_function, "determinesAttitude (slow:precise)", determinesAttitude)
 
         system_iri <- makeIRI("http://imce.jpl.nasa.gov/test/immutability/system")
         system <- makeTerminologyGraph(system_iri, isDefinition)
