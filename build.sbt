@@ -6,6 +6,8 @@ import gov.nasa.jpl.imce.sbt._
 
 useGpg := true
 
+updateOptions := updateOptions.value.withCachedResolution(true)
+
 developers := List(
   Developer(
     id="rouquett",
@@ -87,7 +89,7 @@ lazy val core = Project("omf-scala-core", file("."))
   .enablePlugins(IMCEGitPlugin)
   .enablePlugins(IMCEReleasePlugin)
   .settings(dynamicScriptsResourceSettings(Some("gov.nasa.jpl.omf.scala.core")))
-  .settings(docSettings(diagrams=true))
+  //.settings(docSettings(diagrams=true))
   .settings(IMCEPlugin.strictScalacFatalWarningsSettings)
   .settings(IMCEReleasePlugin.packageReleaseProcessSettings)
   .settings(

@@ -42,7 +42,6 @@ import gov.nasa.jpl.omf.scala.core._
 import gov.nasa.jpl.omf.scala.core.RelationshipCharacteristics._
 import gov.nasa.jpl.omf.scala.core.TerminologyKind._
 
-import scala.language.{implicitConversions, postfixOps}
 import org.scalatest._, exceptions._
 import scala.{StringContext,Unit}
 import scala.util.control.Exception._

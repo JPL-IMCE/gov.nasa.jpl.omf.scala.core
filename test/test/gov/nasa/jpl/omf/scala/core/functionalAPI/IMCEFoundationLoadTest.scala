@@ -40,9 +40,6 @@ package test.gov.nasa.jpl.omf.scala.core.functionalAPI
 
 import gov.nasa.jpl.omf.scala.core._
 
-import scala.Option
-import scala.language.implicitConversions
-import scala.language.postfixOps
 import org.scalatest._
 
 abstract class IMCEFoundationLoadTest[omf <: OMF](

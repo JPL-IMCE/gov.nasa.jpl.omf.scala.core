@@ -44,7 +44,6 @@ import gov.nasa.jpl.omf.scala.core.TerminologyKind._
 import scala.{Boolean, Option, None, Some, Unit}
 import scala.Predef.String
 import scala.collection.immutable.{Iterable, Map, Set}
-import scala.language.postfixOps
 import scalaz._
 
 object OMFOps {

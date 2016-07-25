@@ -42,9 +42,8 @@ import gov.nasa.jpl.omf.scala.core._
 import gov.nasa.jpl.omf.scala.core.RelationshipCharacteristics._
 import gov.nasa.jpl.omf.scala.core.TerminologyKind._
 
-import scala.language.{implicitConversions, postfixOps}
 import org.scalatest._, exceptions._
-import scala.{Option,None,Some,StringContext,Unit}
+import scala.{StringContext,Unit}
 import scala.util.control.Exception._
 import scalaz._, Scalaz._
 import scala.collection.immutable.{List,Set}

@@ -41,8 +41,6 @@ package test.gov.nasa.jpl.omf.scala.core.functionalAPI
 import gov.nasa.jpl.omf.scala.core._
 import gov.nasa.jpl.omf.scala.core.TerminologyKind._
 
-import scala.language.implicitConversions
-import scala.language.postfixOps
 import org.scalatest.{Matchers,WordSpec}
 
 abstract class IMCEMissionDomainTBoxExample[omf <: OMF]()(

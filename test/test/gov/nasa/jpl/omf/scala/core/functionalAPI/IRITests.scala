@@ -43,8 +43,6 @@ import gov.nasa.jpl.omf.scala.core._
 import scala.Predef._
 import scala.{Any,Boolean,Option,None,Some,Tuple2, Unit}
 import scala.collection.immutable.{Map,Seq}
-import scala.language.implicitConversions
-import scala.language.postfixOps
 import scalaz._, Scalaz._, Kleisli._
 import org.scalatest._
 
