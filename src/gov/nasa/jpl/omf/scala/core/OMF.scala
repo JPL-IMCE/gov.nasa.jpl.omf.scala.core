@@ -284,30 +284,30 @@ trait OMFtbox {
   type EntityConceptSubClassAxiom <: ModelTermAxiom
 
   /**
-    * An EntityConceptRestrictionAxiom is a ModelTermAxiom assertion about
+    * An EntityDefinitionRestrictionAxiom is a ModelTermAxiom assertion about
     * constraining a ModelEntityReifiedRelationship
-    * for a sub-domain ModelEntityConcept
+    * for a sub-domain ModelEntityDefinition
     * to a restricted sub-range ModelEntityDefinition.
     *
     * This restriction constraint can be universal or existential.
     */
-  type EntityConceptRestrictionAxiom <: ModelTermAxiom
+  type EntityDefinitionRestrictionAxiom <: ModelTermAxiom
 
   /**
-    * An EntityConceptUniversalRestrictionAxiom is a ModelTermAxiom assertion about
+    * An EntityDefinitionUniversalRestrictionAxiom is a ModelTermAxiom assertion about
     * constraining a ModelEntityReifiedRelationship
-    * for objects of a sub-domain ModelEntityConcept
+    * for objects of a sub-domain ModelEntityDefinition
     * to be related to only a restricted sub-range ModelEntityDefinition.
     */
-  type EntityConceptUniversalRestrictionAxiom <: EntityConceptRestrictionAxiom
+  type EntityDefinitionUniversalRestrictionAxiom <: EntityDefinitionRestrictionAxiom
 
   /**
-    * An EntityConceptUniversalRestrictionAxiom is a ModelTermAxiom assertion about
+    * An EntityDefinitionUniversalRestrictionAxiom is a ModelTermAxiom assertion about
     * constraining a ModelEntityReifiedRelationship
-    * for objects of a sub-domain ModelEntityConcept
+    * for objects of a sub-domain ModelEntityDefinition
     * to be related to include a sub-range ModelEntityDefinition.
     */
-  type EntityConceptExistentialRestrictionAxiom <: EntityConceptRestrictionAxiom
+  type EntityDefinitionExistentialRestrictionAxiom <: EntityDefinitionRestrictionAxiom
 
   /**
     * An EntityReifiedRelationshipSubClassAxiom is a ModelTermAxiom assertion about

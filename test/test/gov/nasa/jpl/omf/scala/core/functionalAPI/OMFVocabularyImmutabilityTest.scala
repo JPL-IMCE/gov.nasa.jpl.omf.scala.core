@@ -362,7 +362,7 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF]
               _ => None,
             funEntityConceptSubClassAxiom =
               _ => None,
-            funEntityConceptRestrictionAxiom =
+            funEntityDefinitionRestrictionAxiom =
               _ => None,
             funEntityReifiedRelationshipSubClassAxiom =
               _ => None,
@@ -394,7 +394,7 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF]
               _ => None,
             funEntityConceptSubClassAxiom =
               _ => None,
-            funEntityConceptRestrictionAxiom =
+            funEntityDefinitionRestrictionAxiom =
               _ => None,
             funEntityReifiedRelationshipSubClassAxiom =
               _ => None,

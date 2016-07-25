@@ -599,7 +599,8 @@ trait ImmutableTerminologyGraphOps[omf <: OMF] {
 
   def foldTerm[T]
   (t: omf#ModelTypeTerm)
-  (funEntityConcept: omf#ModelEntityConcept => T,
+  (funEntityAspect: omf#ModelEntityAspect => T,
+   funEntityConcept: omf#ModelEntityConcept => T,
    funEntityReifiedRelationship: omf#ModelEntityReifiedRelationship => T,
    funEntityUnreifiedRelationship: omf#ModelEntityUnreifiedRelationship => T,
    funScalarDataType: omf#ModelScalarDataType => T,
@@ -624,6 +625,8 @@ trait ImmutableTerminologyGraphOps[omf <: OMF] {
   (t: omf#ModelTypeTerm)
   : omf#IRI =
     foldTerm[omf#IRI](t)(
+      (ea: omf#ModelEntityAspect) =>
+        fromEntityAspect(ea),
       (ec: omf#ModelEntityConcept) =>
         fromEntityConcept(ec).iri,
       (er: omf#ModelEntityReifiedRelationship) =>
@@ -799,8 +802,8 @@ trait ImmutableTerminologyGraphOps[omf <: OMF] {
    : omf#EntityConceptDesignationTerminologyGraphAxiom => T,
    funEntityConceptSubClassAxiom
    : omf#EntityConceptSubClassAxiom => T,
-   funEntityConceptRestrictionAxiom
-   : omf#EntityConceptRestrictionAxiom => T,
+   funEntityDefinitionRestrictionAxiom
+   : omf#EntityDefinitionRestrictionAxiom => T,
    funEntityReifiedRelationshipSubClassAxiom
    : omf#EntityReifiedRelationshipSubClassAxiom => T,
    funEntityReifiedRelationshipContextualizationAxiom
@@ -854,9 +857,9 @@ trait ImmutableTerminologyGraphOps[omf <: OMF] {
 
   // entity concept restriction axiom
 
-  def fromEntityConceptRestrictionAxiom
-  (ax: omf#EntityConceptRestrictionAxiom)
-  : (omf#ModelEntityConcept, omf#ModelEntityReifiedRelationship, omf#ModelEntityDefinition)
+  def fromEntityDefinitionRestrictionAxiom
+  (ax: omf#EntityDefinitionRestrictionAxiom)
+  : (omf#ModelEntityDefinition, omf#ModelEntityReifiedRelationship, omf#ModelEntityDefinition, RestrictionKind)
 
   // entity relationship subclass axiom
 
@@ -902,7 +905,7 @@ object ImmutableTerminologyGraphOps {
         (_: omf#EntityDefinitionAspectSubClassAxiom) => None,
         (_: omf#EntityConceptDesignationTerminologyGraphAxiom) => None,
         (_: omf#EntityConceptSubClassAxiom) => None,
-        (_: omf#EntityConceptRestrictionAxiom) => None,
+        (_: omf#EntityDefinitionRestrictionAxiom) => None,
         (_: omf#EntityReifiedRelationshipSubClassAxiom) => None,
         (_: omf#EntityReifiedRelationshipContextualizationAxiom) => None,
         (_: omf#EntityReifiedRelationshipRestrictionAxiom) => None,
@@ -943,6 +946,20 @@ trait MutableTerminologyGraphOps[omf <: OMF] extends ImmutableTerminologyGraphOp
   (g: omf#MutableModelTerminologyGraph,
    term: omf#ModelTypeTerm,
    uuid: Option[String])
+  (implicit store: omf#Store)
+  : Set[java.lang.Throwable] \/ Unit
+
+  def setTermID
+  (g: omf#MutableModelTerminologyGraph,
+   term: omf#ModelTypeTerm,
+   id: Option[String])
+  (implicit store: omf#Store)
+  : Set[java.lang.Throwable] \/ Unit
+
+  def setTermURL
+  (g: omf#MutableModelTerminologyGraph,
+   term: omf#ModelTypeTerm,
+   url: Option[String])
   (implicit store: omf#Store)
   : Set[java.lang.Throwable] \/ Unit
 
@@ -1070,21 +1087,21 @@ trait MutableTerminologyGraphOps[omf <: OMF] extends ImmutableTerminologyGraphOp
   (implicit store: omf#Store)
   : Set[java.lang.Throwable] \/ omf#EntityConceptSubClassAxiom
 
-  def addEntityConceptUniversalRestrictionAxiom
+  def addEntityDefinitionUniversalRestrictionAxiom
   (graph: omf#MutableModelTerminologyGraph,
-   sub: omf#ModelEntityConcept,
+   sub: omf#ModelEntityDefinition,
    rel: omf#ModelEntityReifiedRelationship,
    range: omf#ModelEntityDefinition)
   (implicit store: omf#Store)
-  : Set[java.lang.Throwable] \/ omf#EntityConceptUniversalRestrictionAxiom
+  : Set[java.lang.Throwable] \/ omf#EntityDefinitionUniversalRestrictionAxiom
 
-  def addEntityConceptExistentialRestrictionAxiom
+  def addEntityDefinitionExistentialRestrictionAxiom
   (graph: omf#MutableModelTerminologyGraph,
-   sub: omf#ModelEntityConcept,
+   sub: omf#ModelEntityDefinition,
    rel: omf#ModelEntityReifiedRelationship,
    range: omf#ModelEntityDefinition)
   (implicit store: omf#Store)
-  : Set[java.lang.Throwable] \/ omf#EntityConceptExistentialRestrictionAxiom
+  : Set[java.lang.Throwable] \/ omf#EntityDefinitionExistentialRestrictionAxiom
 
   def addEntityReifiedRelationshipSubClassAxiom
   (graph: omf#MutableModelTerminologyGraph,
