@@ -12,3 +12,4 @@ target
 *.bak
 *.iml
 local.*
+gh-pages/
