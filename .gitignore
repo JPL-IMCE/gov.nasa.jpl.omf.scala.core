@@ -11,3 +11,4 @@ sbt.staging
 target
 *.bak
 *.iml
+local.*

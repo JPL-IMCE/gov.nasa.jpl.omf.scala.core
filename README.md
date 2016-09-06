@@ -1,5 +1,3 @@
-MBSE Asset Catalog: [OMF Core](https://cae-cop.jpl.nasa.gov/assetcatalog-admin/index.html#/view/tool/154)
-
 # OMF (Ontological Modeling Framework) Core Functional API
 
 OMF is a functional API for ontological modeling in the sense that it specifies:
