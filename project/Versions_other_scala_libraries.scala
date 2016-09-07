@@ -1,6 +1,6 @@
 object Versions_other_scala_libraries {
 
-  // https://github.jpl.nasa.gov/imce/imce.third_party.other_scala_libraries
-  val version="2.11.0"
+  // https://github.com/JPL-IMCE/imce.third_party.other_scala_libraries
+  val version="3.0.2"
 
 }

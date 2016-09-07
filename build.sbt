@@ -37,12 +37,15 @@ lazy val core = Project("omf-scala-core", file("."))
     scalaSource in Test := baseDirectory.value / "test",
 
     libraryDependencies ++= Seq (
-      "gov.nasa.jpl.imce.thirdParty" %% "other-scala-libraries"
+      "gov.nasa.jpl.imce" %% "imce.third_party.other_scala_libraries"
         % Versions_other_scala_libraries.version artifacts
-        Artifact("other-scala-libraries", "zip", "zip", Some("resource"), Seq(), None, Map())
+        Artifact("imce.third_party.other_scala_libraries", "zip", "zip", Some("resource"), Seq(), None, Map())
     ),
 
-    extractArchives := {}
+    extractArchives := {},
+
+    resolvers += Resolver.bintrayRepo("jpl-imce", "gov.nasa.jpl.imce"),
+    resolvers += Resolver.bintrayRepo("tiwg", "org.omg.tiwg")
   )
 
 def dynamicScriptsResourceSettings(dynamicScriptsProjectName: Option[String] = None): Seq[Setting[_]] = {
