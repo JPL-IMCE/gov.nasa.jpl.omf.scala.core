@@ -70,3 +70,9 @@ siteMappings += dependencySvgFile.value -> "dependencies.svg"
 previewFixedPort := Some(4004)
 
 previewLaunchBrowser := false
+
+
+releasePublishArtifactsAction := {
+  val _ = GhPagesKeys.pushSite.value
+  releasePublishArtifactsAction.value
+}
