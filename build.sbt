@@ -16,7 +16,7 @@ lazy val core = Project("omf-scala-core", file("."))
   .settings(IMCEPlugin.strictScalacFatalWarningsSettings)
   .settings(IMCEReleasePlugin.packageReleaseProcessSettings)
   .settings(
-    IMCEKeys.licenseYearOrRange := "2014-2016",
+    IMCEKeys.licenseYearOrRange := "2015",
     IMCEKeys.organizationInfo := IMCEPlugin.Organizations.omf,
 
     buildInfoPackage := "gov.nasa.jpl.omf.scala.core",
