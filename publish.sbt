@@ -24,7 +24,7 @@ additionalProperties := {
       {git.gitHeadCommit.value.getOrElse("N/A") + (if (git.gitUncommittedChanges.value) "-SNAPSHOT" else "")}
     </git.commit>
     <git.tags>
-      {git.gitCurrentTags.map(tag => <git.tag>$tag</git.tag> )}
+      {git.gitCurrentTags.value.map(tag => <git.tag>$tag</git.tag> )}
     </git.tags>
 }
 
