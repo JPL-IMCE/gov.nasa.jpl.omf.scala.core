@@ -10,6 +10,7 @@ preprocessVars in Preprocess := Map(
   "CI" -> "https://imce-jenkins.jpl.nasa.gov/job/omf.scala.core/",
   "GIT" -> "github.jpl.nasa.gov",
   "REPO" -> "gov.nasa.jpl.imce",
+  "VER" -> version.value,
   "ORG" -> "imce",
   "SUBJECT" -> "imce",
   "ORG_NAME" -> organizationName.value,
