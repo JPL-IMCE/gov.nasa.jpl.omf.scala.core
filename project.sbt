@@ -9,18 +9,18 @@ moduleName := name.value
 
 organization := "gov.nasa.jpl.imce"
 
-homepage := Some(url(s"https://github.com/JPL-IMCE/${moduleName.value}"))
+homepage := Some(url(s"https://github.jpl.nasa.gov/imce/${moduleName.value}"))
 
 organizationName := "JPL-IMCE"
 
-organizationHomepage := Some(url(s"https://github.com/JPL-IMCE"))
+organizationHomepage := Some(url(s"https://github.jpl.nasa.gov/imce"))
 
-git.remoteRepo := s"git@github.com:JPL-IMCE/${moduleName.value}"
+git.remoteRepo := s"git@github.jpl.nasa.gov:imce/${moduleName.value}"
 
 startYear := Some(2015)
 
 scmInfo := Some(ScmInfo(
-  browseUrl = url(s"https://github.com/JPL-IMCE/${moduleName.value}"),
+  browseUrl = url(s"https://github.jpl.nasa.gov/imce/${moduleName.value}"),
   connection = "scm:"+git.remoteRepo.value))
 
 developers := List(
