@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="gov.nasa.jpl.magicdraw.CLASSPATH_LIB_CONTAINER/,lib/imce.third_party.other-scala/"/>
+	<classpathentry kind="output" path="target/scala-2.11/classes"/>
+</classpath>
