@@ -942,6 +942,27 @@ trait MutableTerminologyGraphOps[omf <: OMF] extends ImmutableTerminologyGraphOp
   (implicit store: omf#Store)
   : Set[java.lang.Throwable] \/ Unit
 
+  def setAxiomUUID
+  (g: omf#MutableModelTerminologyGraph,
+   axiom: omf#ModelTermAxiom,
+   uuid: Option[String])
+  (implicit store: omf#Store)
+  : Set[java.lang.Throwable] \/ Unit
+
+  def setAxiomID
+  (g: omf#MutableModelTerminologyGraph,
+   axiom: omf#ModelTermAxiom,
+   id: Option[String])
+  (implicit store: omf#Store)
+  : Set[java.lang.Throwable] \/ Unit
+
+  def setAxiomURL
+  (g: omf#MutableModelTerminologyGraph,
+   axiom: omf#ModelTermAxiom,
+   url: Option[String])
+  (implicit store: omf#Store)
+  : Set[java.lang.Throwable] \/ Unit
+
   /**
     * Add to a terminology graph a new ModelEntityAspect
     *
