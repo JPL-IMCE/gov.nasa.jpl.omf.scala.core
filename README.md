@@ -1,5 +1,8 @@
 # OMF (Ontological Modeling Framework) Core Functional API
 
+[![Build Status](https://travis-ci.org/JPL-IMCE/gov.nasa.jpl.omf.scala.core.svg?branch=master)](https://travis-ci.org/JPL-IMCE/gov.nasa.jpl.omf.scala.core)
+[ ![Download](https://api.bintray.com/packages/jpl-imce/gov.nasa.jpl.imce/gov.nasa.jpl.omf.scala.core/images/download.svg) ](https://bintray.com/jpl-imce/gov.nasa.jpl.imce/gov.nasa.jpl.omf.scala.core/_latestVersion)
+
 OMF is a functional API for ontological modeling in the sense that it specifies:
 - abstract types
 - operations on abstract types

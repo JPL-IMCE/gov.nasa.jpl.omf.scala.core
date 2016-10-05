@@ -18,9 +18,12 @@
 
 package gov.nasa.jpl.omf.scala.core
 
+import java.util.UUID
+
+import gov.nasa.jpl.imce.omf.schema.tables.LocalName
+
 import scala.{Boolean, Option}
 import scala.collection.immutable.{Iterable, Map}
-
 import gov.nasa.jpl.omf.scala.core.RelationshipCharacteristics._
 import gov.nasa.jpl.omf.scala.core.TerminologyKind._
 
@@ -295,7 +298,6 @@ trait OMFtbox {
     */
   type EntityReifiedRelationshipSubClassAxiom <: ModelTermAxiom
 
-  type EntityReifiedRelationshipContextualizationAxiom <: ModelTermAxiom
   type EntityReifiedRelationshipRestrictionAxiom <: ModelTermAxiom
   type EntityReifiedRelationshipExistentialRestrictionAxiom <: EntityReifiedRelationshipRestrictionAxiom
   type EntityReifiedRelationshipUniversalRestrictionAxiom <: EntityReifiedRelationshipRestrictionAxiom
@@ -488,6 +490,8 @@ trait OMFabox {
   * @tparam omf OMF Adaptation/Binding.
   */
 trait TerminologyGraphSignature[omf <: OMF] {
+  val uuid: UUID
+  val name: LocalName
   /**
     * the identity of the terminology graph as a container for several descriptions and as the context
     * for extending other terminology graphs
@@ -555,11 +559,15 @@ trait TerminologyGraphSignature[omf <: OMF] {
 }
 
 trait EntityConceptSignature[omf <: OMF] {
+  val uuid: UUID
+  val name: LocalName
   val iri: omf#IRI
   val isAbstract: Boolean
 }
 
 trait EntityReifiedRelationshipSignature[omf <: OMF] {
+  val uuid: UUID
+  val name: LocalName
   val iri: omf#IRI
   val source: omf#ModelEntityDefinition
   val target: omf#ModelEntityDefinition
@@ -568,6 +576,8 @@ trait EntityReifiedRelationshipSignature[omf <: OMF] {
 }
 
 trait EntityUnreifiedRelationshipSignature[omf <: OMF] {
+  val uuid: UUID
+  val name: LocalName
   val iri: omf#IRI
   val source: omf#ModelEntityDefinition
   val target: omf#ModelEntityDefinition

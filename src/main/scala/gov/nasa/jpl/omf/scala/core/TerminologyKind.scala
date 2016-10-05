@@ -39,8 +39,6 @@ object TerminologyKind extends Enumeration {
    */
   val isDefinition = Value
 
-  val isToplevelDefinition = Value
-
   /**
    * isDesignation indicates that the semantics of a TerminologyGraph (TBox graph) is closed-world.
    *
@@ -53,17 +51,15 @@ object TerminologyKind extends Enumeration {
    */
   val isDesignation = Value
 
-  val isToplevelDesignation = Value
-
   def isDefinitionKind( k: TerminologyKind ): Boolean =
   k match {
-    case _ @ ( TerminologyKind.isDefinition | TerminologyKind.isToplevelDefinition ) => true
+    case TerminologyKind.isDefinition => true
     case _ => false
   }
 
   def isDesignationKind( k: TerminologyKind ): Boolean =
     k match {
-      case _ @ ( TerminologyKind.isDesignation | TerminologyKind.isToplevelDesignation ) => true
+      case TerminologyKind.isDesignation => true
       case _ => false
     }
 

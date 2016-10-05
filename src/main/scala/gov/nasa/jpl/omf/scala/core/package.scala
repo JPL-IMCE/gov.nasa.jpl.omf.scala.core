@@ -18,10 +18,39 @@
 
 package gov.nasa.jpl.omf.scala
 
+
+import java.util.UUID
+
+import com.fasterxml.uuid.Generators
+import com.fasterxml.uuid.impl.NameBasedGenerator
+
 import scala.{Boolean, Option}
 import scala.collection.immutable._
+import scala.Predef.String
 
 package object core {
+
+  /**
+    * Version 4 random UUID
+    * @see https://en.wikipedia.org/wiki/Universally_unique_identifier#Version_4_.28random.29
+    *
+    * @return Version 4 random UUID
+    */
+  def generateUUID()
+  : UUID
+  = UUID.randomUUID()
+
+  /**
+    * Version 5 UUID based on a URL name in the standard URL namespace.
+    *
+    * @param url The url to encode as a version 5 UUID in the standard URL namespace.
+    * @return Version 5 UUID encoding of the url
+    */
+  def generateUUID(url: String)
+  : UUID
+  = Generators
+    .nameBasedGenerator(NameBasedGenerator.NAMESPACE_URL)
+    .generate(url)
 
   def getImportedTerminologyGraphs[Omf <: OMF]
   ( tbox: Omf#ModelTerminologyGraph,

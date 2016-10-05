@@ -101,7 +101,7 @@ abstract class OMFVocabularyMutabilityTest[omf <: OMF]
           graph = base,
           source = identifiedElement,
           target = string.get,
-          dataRelationshipName = "hasIdentifier")
+          dataPropertyName = "hasIdentifier")
         mission_iri <- makeIRI("http://imce.jpl.nasa.gov/test/mutability/foundation/mission/mission")
         mission <- makeTerminologyGraph(mission_iri, isDefinition)
         mission_extends_base <- addTerminologyGraphExtension(mission, base)
@@ -191,7 +191,7 @@ abstract class OMFVocabularyMutabilityTest[omf <: OMF]
           lookupEntityDataRelationshipFromEntityToScalar(base._1, hasIdentifier_iri, recursively = false)
         hasIdentifier.isDefined should be(true)
 
-        val (_, hasIdentifierSource, hasIdentifierTarget) =
+        val (_, _, _, hasIdentifierSource, hasIdentifierTarget) =
           fromDataRelationshipFromEntityToScalar(hasIdentifier.get)
         identifiedElement.get should be(hasIdentifierSource)
         string.get should be(hasIdentifierTarget)

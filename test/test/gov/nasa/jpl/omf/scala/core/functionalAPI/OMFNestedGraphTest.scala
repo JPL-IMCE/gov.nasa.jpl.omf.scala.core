@@ -104,7 +104,7 @@ abstract class OMFNestedGraphTest[omf <: OMF]
           graph = base,
           source = identifiedElement,
           target = string.get,
-          dataRelationshipName = "hasIdentifier")
+          dataPropertyName = "hasIdentifier")
 
         mission_iri <- makeIRI("http://imce.jpl.nasa.gov/test/nestedGraph/foundation/mission/mission")
         mission <- makeTerminologyGraph(mission_iri, isDefinition)

@@ -98,25 +98,19 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF]
 
         base_iri <- makeIRI("http://imce.jpl.nasa.gov/test/immutability/foundation/base/base")
         base <- makeTerminologyGraph(base_iri, isDefinition)
-        _ <- setTerminologyGraphShortName(base, Some("base"))
-        _ <- setTerminologyGraphUUID(base, Some("UUID.base"))
         base_extends_xsd <- addTerminologyGraphExtension(base, xsd._1)
 
         identifiedElement <- addEntityAspect(base, "IdentifiedElement")
-        _ <- setTermShortName(base, identifiedElement, Some("base:IdentifiedElement"))
-        _ <- setTermUUID(base, identifiedElement, Some("UUID.base:IdentifiedElement"))
         hasIdentifier <- addDataRelationshipFromEntityToScalar(
           graph = base,
           source = identifiedElement,
           target = string.get,
-          dataRelationshipName = "hasIdentifier")
+          dataPropertyName = "hasIdentifier")
 
         ibase <- asImmutableTerminologyGraph(base)
 
         mission_iri <- makeIRI("http://imce.jpl.nasa.gov/test/immutability/foundation/mission/mission")
         mission <- makeTerminologyGraph(mission_iri, isDefinition)
-        _ <- setTerminologyGraphShortName(mission, Some("mission"))
-        _ <- setTerminologyGraphUUID(mission, Some("UUID.mission"))
         mission_extends_ibase <- addTerminologyGraphExtension(mission, ibase._1)
 
         component <- addEntityConcept(mission, "Component", isAbstract = false)
@@ -137,7 +131,6 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF]
 
         library_iri <- makeIRI("http://imce.jpl.nasa.gov/test/immutability/library")
         library <- makeTerminologyGraph(library_iri, isDefinition)
-        _ <- setTerminologyGraphShortName(library, Some("library"))
         library_extends_mission <- addTerminologyGraphExtension(library, mission)
 
         starTracker <- addEntityConcept(library, "StarTracker", isAbstract=true)
@@ -149,17 +142,14 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF]
         determinesDeltaV <- addEntityConcept(library, "DeterminesDeltaV", isAbstract=true)
         determinesDeltaV_is_function <- addEntityConceptSubClassAxiom(library, determinesDeltaV, function)
 
-        starTracker_performs_determinesAttitude <- addEntityReifiedRelationshipExistentialRestrictionAxiom(
+        starTracker_performs_determinesAttitude <- addEntityDefinitionExistentialRestrictionAxiom(
           library, starTracker, component_performs_function, determinesAttitude)
 
-        starTracker_determinesDeltaV_context <- addEntityReifiedRelationshipContextualizationAxiom(
-          library, starTracker, component_performs_function, "determinesDeltaV", determinesDeltaV)
+        starTracker_determinesDeltaV_context <- addEntityDefinitionExistentialRestrictionAxiom(
+          library, starTracker, component_performs_function, determinesDeltaV)
 
-        starTracker_determinesAttitudeFast_context <- addEntityReifiedRelationshipContextualizationAxiom(
-          library, starTracker, component_performs_function, "determinesAttitude (fast:coarse)", determinesAttitude)
-
-        starTracker_determinesAttitudeSlow_context <- addEntityReifiedRelationshipContextualizationAxiom(
-          library, starTracker, component_performs_function, "determinesAttitude (slow:precise)", determinesAttitude)
+        starTracker_determinesAttitudeFast_context <- addEntityDefinitionExistentialRestrictionAxiom(
+          library, starTracker, component_performs_function, determinesAttitude)
 
         system_iri <- makeIRI("http://imce.jpl.nasa.gov/test/immutability/system")
         system <- makeTerminologyGraph(system_iri, isDefinition)
@@ -268,7 +258,7 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF]
           s.axioms.isEmpty should be(true)
         }
 
-        getTerminologyGraphShortName(base._1) should be(Some("base"))
+        getTerminologyGraphLocalName(base._1) should be(Some("base"))
         getTerminologyGraphUUID(base._1) should be(Some("UUID.base"))
 
         val integer = lookupScalarDataType(xsd._1, integer_iri, recursively = false)
@@ -279,14 +269,14 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF]
 
         val identifiedElement = lookupEntityAspect(base._1, identifiedElement_iri, recursively = false)
         identifiedElement.isDefined should be(true)
-        getTermShortName(base._1, identifiedElement.get) should be(Some("base:IdentifiedElement"))
-        getTermShortUUID(base._1, identifiedElement.get) should be(Some("UUID.base:IdentifiedElement"))
+        getTermLocalName(base._1, identifiedElement.get) should be(Some("base:IdentifiedElement"))
+        getTermUUID(base._1, identifiedElement.get) should be(Some("UUID.base:IdentifiedElement"))
 
         val hasIdentifier =
           lookupEntityDataRelationshipFromEntityToScalar(base._1, hasIdentifier_iri, recursively = false)
         hasIdentifier.isDefined should be(true)
 
-        val (_, hasIdentifierSource, hasIdentifierTarget) =
+        val (_, _, _, hasIdentifierSource, hasIdentifierTarget) =
           fromDataRelationshipFromEntityToScalar(hasIdentifier.get)
         identifiedElement.get should be(hasIdentifierSource)
         string.get should be(hasIdentifierTarget)
@@ -307,7 +297,7 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF]
           s.axioms.isEmpty should be(false)
         }
 
-        getTerminologyGraphShortName(mission._1) should be(Some("mission"))
+        getTerminologyGraphLocalName(mission._1) should be(Some("mission"))
         getTerminologyGraphUUID(mission._1) should be(Some("UUID.mission"))
 
         val component = lookupEntityConcept(mission._1, component_iri, recursively = false)
@@ -345,8 +335,6 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF]
               _ => None,
             funEntityReifiedRelationshipSubClassAxiom =
               _ => None,
-            funEntityReifiedRelationshipContextualizationAxiom =
-              _ => None,
             funEntityReifiedRelationshipRestrictionAxiom =
               (r: omf#EntityReifiedRelationshipRestrictionAxiom) => Some(r),
             funScalarDataTypeFacetRestrictionAxiom =
@@ -356,55 +344,12 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF]
 
         restrictions.exists { r =>
           ops.fromEntityReifiedRelationshipRestrictionAxiom(r) match {
-            case (starTracker, component_performs_function, determinesAttitude, ExistentialRestrictionKind) =>
+            case (_, starTracker, component_performs_function, determinesAttitude, ExistentialRestrictionKind) =>
               true
             case _ =>
               false
           }
         } should be(true)
-
-        val contextualizations
-        : Iterable[omf#EntityReifiedRelationshipContextualizationAxiom]
-        = ops.getTermAxioms(library._1)._2.flatMap { ax =>
-          ops.foldTermAxiom(ax)(
-            funEntityDefinitionAspectSubClassAxiom =
-              _ => None,
-            funEntityConceptDesignationTerminologyGraphAxiom =
-              _ => None,
-            funEntityConceptSubClassAxiom =
-              _ => None,
-            funEntityDefinitionRestrictionAxiom =
-              _ => None,
-            funEntityReifiedRelationshipSubClassAxiom =
-              _ => None,
-            funEntityReifiedRelationshipContextualizationAxiom =
-              (r: omf#EntityReifiedRelationshipContextualizationAxiom) => Some(r),
-            funEntityReifiedRelationshipRestrictionAxiom =
-              _ => None,
-            funScalarDataTypeFacetRestrictionAxiom =
-              _ => None,
-            funModelScalarDataRelationshipRestrictionAxiomFromEntityToLiteral = _ => None)
-        }
-
-        // @todo The contextualization pattern needs to be recognized in the ImmutableModelTerminologyGraphResolver.
-
-//        contextualizations.exists { r =>
-//          ops.fromEntityReifiedRelationshipContextualizationAxiom(r) match {
-//            case (starTracker, component_performs_function, "determinesAttitude_fastCoarse", determinesAttitude) =>
-//              true
-//            case _ =>
-//              false
-//          }
-//        } should be(true)
-//
-//        contextualizations.exists { r =>
-//          ops.fromEntityReifiedRelationshipContextualizationAxiom(r) match {
-//            case (starTracker, component_performs_function, "determinesAttitude_slowPrecise", determinesAttitude) =>
-//              true
-//            case _ =>
-//              false
-//          }
-//        } should be(true)
 
         val s1 = lookupEntityConcept(system._1, s1_iri, recursively=false)
         s1.isDefined should be(true)

@@ -18,10 +18,13 @@
 
 package gov.nasa.jpl.omf.scala.core
 
+import java.util.UUID
+
+import gov.nasa.jpl.imce.omf.schema.tables.LocalName
 import gov.nasa.jpl.omf.scala.core.RelationshipCharacteristics._
 import gov.nasa.jpl.omf.scala.core.TerminologyKind._
 
-import scala.{Boolean, Option, None, Some, Unit}
+import scala.{Boolean, None, Option, Some, StringContext, Unit}
 import scala.Predef.String
 import scala.collection.immutable.{Iterable, Map, Set}
 import scalaz._
@@ -81,7 +84,7 @@ trait IRIOps[omf <: OMF] {
   : Set[java.lang.Throwable] \/ omf#IRI
 
   /**
-    * Split the IRI in two components: the IRI wihtout the fragment, the IRI fragment
+    * Split the IRI in two components: the IRI without the fragment, the IRI fragment
     */
   def splitIRI(iri: omf#IRI)
   : (omf#IRI, Option[String])
@@ -92,6 +95,14 @@ trait IRIOps[omf <: OMF] {
   def toAbbreviatedName(iri: omf#IRI, lowercaseFragmentInitial: Boolean)
   : Option[String]
 
+  /**
+    * Extract the last segment of a fragment-less IRI
+    *
+    * @param iri An IRI without a fragment
+    * @return The last segment of the IRI (i.e., the name after the last '/')
+    */
+  def lastSegment(iri: omf#IRI)
+  : Set[java.lang.Throwable] \/ LocalName
 
   def fromIRI(iri: omf#IRI)
   : String
@@ -137,10 +148,15 @@ trait IRIOps[omf <: OMF] {
 
 }
 
-trait OMFStoreOps[omf <: OMF] {
+trait OMFStoreOps[omf <: OMF] { self : IRIOps[omf] =>
 
   def lookupTerminologyGraph
   (iri: omf#IRI)
+  (implicit store: omf#Store)
+  : Option[omf#ModelTerminologyGraph]
+
+  def lookupTerminologyGraph
+  (uuid: UUID)
   (implicit store: omf#Store)
   : Option[omf#ModelTerminologyGraph]
 
@@ -260,14 +276,44 @@ trait OMFStoreOps[omf <: OMF] {
     * For a mutable terminology graph, imported/extended graphs must be specified
     * via `addTerminologyGraphExtension`
     *
+    * @param uuid A version 4 (random) or 5 (name) based UUID.
+    *             For version 5, use generateUUID(fromIRI(iri))
+    * @param name the name of the new graph
     * @param iri  the identity of the new mutable terminology graph
     * @param kind the kind of the new mutable terminology graph
+    * @param store manager
+    * @return A new mutable terminology graph, if successful
+    */
+  protected def makeTerminologyGraph
+  (uuid: UUID,
+   name: LocalName,
+   iri: omf#IRI,
+   kind: TerminologyKind)
+  (implicit store: omf#Store)
+  : Set[java.lang.Throwable] \/ omf#MutableModelTerminologyGraph
+
+  /**
+    * Create a mutable terminology graph using its iri for the graph name (last segment) and UUID (version 5).
+    *
+    * The complete identity of a graph includes the IRI, kind and imported/extended graphs.
+    * For a mutable terminology graph, imported/extended graphs must be specified
+    * via `addTerminologyGraphExtension`
+    *
+    * @param iri  the identity of the new mutable terminology graph from which
+    *             to extract the graph name (last segment) and to generate a version 5 UUID
+    * @param kind the kind of the new mutable terminology graph
+    * @param store manager
+    * @return A new mutable terminology graph, if successful
     */
   def makeTerminologyGraph
   (iri: omf#IRI,
    kind: TerminologyKind)
   (implicit store: omf#Store)
   : Set[java.lang.Throwable] \/ omf#MutableModelTerminologyGraph
+  = for {
+    name <- lastSegment(iri)
+    g <- makeTerminologyGraph(generateUUID(fromIRI(iri)+"#TerminologyGraph"), name, iri, kind)
+  } yield g
 
   def saveTerminologyGraph
   (g: omf#ModelTerminologyGraph)
@@ -482,24 +528,23 @@ trait OMFStoreOps[omf <: OMF] {
 
 }
 
-trait ImmutableTerminologyGraphOps[omf <: OMF] {
+trait ImmutableTerminologyGraphOps[omf <: OMF] { self: OMFStoreOps[omf] with IRIOps[omf] =>
 
   def getTerminologyGraphIRI
   (graph: omf#ModelTerminologyGraph)
   : omf#IRI
 
-  def getTerminologyGraphShortName
+  def getTerminologyGraphLocalName
   (graph: omf#ModelTerminologyGraph)
-  : Option[String]
+  : LocalName
 
   def getTerminologyGraphUUID
   (graph: omf#ModelTerminologyGraph)
-  : Option[String]
+  : UUID
 
   def getTerminologyGraphKind
   (graph: omf#ModelTerminologyGraph)
   : TerminologyKind
-
 
   def lookupTypeTerm
   (graph: omf#ModelTerminologyGraph, iri: omf#IRI, recursively: Boolean)
@@ -590,15 +635,15 @@ trait ImmutableTerminologyGraphOps[omf <: OMF] {
    funDataRelationshipFromStructureToStructure: omf#ModelDataRelationshipFromStructureToStructure => T)
   : T
 
-  def getTermShortName
+  def getTermLocalName
   (graph: omf#ModelTerminologyGraph,
    term: omf#ModelTypeTerm)
-  : Option[String]
+  : LocalName
 
-  def getTermShortUUID
+  def getTermUUID
   (graph: omf#ModelTerminologyGraph,
    term: omf#ModelTypeTerm)
-  : Option[String]
+  : UUID
 
   def fromTerm
   (t: omf#ModelTypeTerm)
@@ -613,17 +658,17 @@ trait ImmutableTerminologyGraphOps[omf <: OMF] {
       (ur: omf#ModelEntityUnreifiedRelationship) =>
         fromEntityUnreifiedRelationship(ur).iri,
       (sc: omf#ModelScalarDataType) =>
-        fromScalarDataType(sc),
+        fromScalarDataType(sc)._3,
       (sd: omf#ModelStructuredDataType) =>
-        fromStructuredDataType(sd),
+        fromStructuredDataType(sd)._3,
       (esc: omf#ModelDataRelationshipFromEntityToScalar) =>
-        fromDataRelationshipFromEntityToScalar(esc)._1,
+        fromDataRelationshipFromEntityToScalar(esc)._3,
       (est: omf#ModelDataRelationshipFromEntityToStructure) =>
-        fromDataRelationshipFromEntityToStructure(est)._1,
+        fromDataRelationshipFromEntityToStructure(est)._3,
       (ssc: omf#ModelDataRelationshipFromStructureToScalar) =>
-        fromDataRelationshipFromStructureToScalar(ssc)._1,
+        fromDataRelationshipFromStructureToScalar(ssc)._3,
       (sst: omf#ModelDataRelationshipFromStructureToStructure) =>
-        fromDataRelationshipFromStructureToStructure(sst)._1)
+        fromDataRelationshipFromStructureToStructure(sst)._3)
 
   // entity aspect
 
@@ -713,13 +758,13 @@ trait ImmutableTerminologyGraphOps[omf <: OMF] {
 
   def fromDataTypeDefinition
   (dt: omf#ModelDataTypeDefinition)
-  : omf#IRI
+  : (UUID, LocalName, omf#IRI)
 
   // scalar datatype
 
   def fromScalarDataType
   (dt: omf#ModelScalarDataType)
-  : omf#IRI
+  : (UUID, LocalName, omf#IRI)
 
   def equivalentScalarDataTypes
   (dt1: Iterable[omf#ModelScalarDataType],
@@ -735,7 +780,7 @@ trait ImmutableTerminologyGraphOps[omf <: OMF] {
 
   def fromStructuredDataType
   (dt: omf#ModelStructuredDataType)
-  : omf#IRI
+  : (UUID, LocalName, omf#IRI)
 
   def equivalentStructuredDataTypes
   (dt1: Iterable[omf#ModelStructuredDataType],
@@ -751,25 +796,25 @@ trait ImmutableTerminologyGraphOps[omf <: OMF] {
 
   def fromDataRelationshipFromEntityToScalar
   (esc: omf#ModelDataRelationshipFromEntityToScalar)
-  : (omf#IRI, omf#ModelEntityDefinition, omf#ModelScalarDataType)
+  : (UUID, LocalName, omf#IRI, omf#ModelEntityDefinition, omf#ModelScalarDataType)
 
   // data relationship from entity to structure
 
   def fromDataRelationshipFromEntityToStructure
   (est: omf#ModelDataRelationshipFromEntityToStructure)
-  : (omf#IRI, omf#ModelEntityDefinition, omf#ModelStructuredDataType)
+  : (UUID, LocalName, omf#IRI, omf#ModelEntityDefinition, omf#ModelStructuredDataType)
 
   // data relationship from structure to scalar
 
   def fromDataRelationshipFromStructureToScalar
   (esc: omf#ModelDataRelationshipFromStructureToScalar)
-  : (omf#IRI, omf#ModelStructuredDataType, omf#ModelScalarDataType)
+  : (UUID, LocalName, omf#IRI, omf#ModelStructuredDataType, omf#ModelScalarDataType)
 
   // data relationship from structure to structure
 
   def fromDataRelationshipFromStructureToStructure
   (est: omf#ModelDataRelationshipFromStructureToStructure)
-  : (omf#IRI, omf#ModelStructuredDataType, omf#ModelStructuredDataType)
+  : (UUID, LocalName, omf#IRI, omf#ModelStructuredDataType, omf#ModelStructuredDataType)
 
   // model term axioms
 
@@ -785,8 +830,6 @@ trait ImmutableTerminologyGraphOps[omf <: OMF] {
    : omf#EntityDefinitionRestrictionAxiom => T,
    funEntityReifiedRelationshipSubClassAxiom
    : omf#EntityReifiedRelationshipSubClassAxiom => T,
-   funEntityReifiedRelationshipContextualizationAxiom
-   : omf#EntityReifiedRelationshipContextualizationAxiom => T,
    funEntityReifiedRelationshipRestrictionAxiom
    : omf#EntityReifiedRelationshipRestrictionAxiom => T,
    funScalarDataTypeFacetRestrictionAxiom
@@ -806,63 +849,59 @@ trait ImmutableTerminologyGraphOps[omf <: OMF] {
     * DataAllValuesFrom(<data relationship from entity to scalar>, DataOneOf(<literal>))}}
     *
     * @param ax ModelScalarDataRelationshipRestrictionAxiomFromEntityToLiteral
-    * @return A triple of:
+    * @return A quad of:
+    *         - an axiom UUID
     *         - an entity definition (domain of the restriction)
     *         - a data relationship from entity to scalar data type (the restricted relationship)
     *         - the lexical representation of a literal value for the scalar data type (range of the restriction)
     */
   def fromModelScalarDataRelationshipRestrictionAxiomFromEntityToLiteral
   (ax: omf#ModelScalarDataRelationshipRestrictionAxiomFromEntityToLiteral)
-  : (omf#ModelEntityDefinition, omf#ModelDataRelationshipFromEntityToScalar, String)
+  : (UUID, omf#ModelEntityDefinition, omf#ModelDataRelationshipFromEntityToScalar, String)
 
   // entity definition aspect subclass axiom
 
   def fromEntityDefinitionAspectSubClassAxiom
   (ax: omf#EntityDefinitionAspectSubClassAxiom)
-  : (omf#ModelEntityDefinition, omf#ModelEntityAspect)
+  : (UUID, omf#ModelEntityDefinition, omf#ModelEntityAspect)
 
   // entity concept designation terminology graph axiom
 
   def fromEntityConceptDesignationTerminologyGraphAxiom
   (ax: omf#EntityConceptDesignationTerminologyGraphAxiom)
-  : (omf#ModelEntityConcept, omf#ModelTerminologyGraph)
+  : (UUID, omf#ModelEntityConcept, omf#ModelTerminologyGraph)
 
 
   // entity concept subclass axiom
 
   def fromEntityConceptSubClassAxiom
   (ax: omf#EntityConceptSubClassAxiom)
-  : (omf#ModelEntityConcept, omf#ModelEntityConcept)
+  : (UUID, omf#ModelEntityConcept, omf#ModelEntityConcept)
 
   // entity concept restriction axiom
 
   def fromEntityDefinitionRestrictionAxiom
   (ax: omf#EntityDefinitionRestrictionAxiom)
-  : (omf#ModelEntityDefinition, omf#ModelEntityReifiedRelationship, omf#ModelEntityDefinition, RestrictionKind)
+  : (UUID, omf#ModelEntityDefinition, omf#ModelEntityReifiedRelationship, omf#ModelEntityDefinition, RestrictionKind)
 
   // entity relationship subclass axiom
 
   def fromEntityReifiedRelationshipSubClassAxiom
   (ax: omf#EntityReifiedRelationshipSubClassAxiom)
-  : (omf#ModelEntityReifiedRelationship, omf#ModelEntityReifiedRelationship)
-
-  // entity relationship contextualization axiom
-
-  def fromEntityReifiedRelationshipContextualizationAxiom
-  (ax: omf#EntityReifiedRelationshipContextualizationAxiom)
-  : (omf#ModelEntityDefinition, omf#ModelEntityReifiedRelationship, String, omf#ModelEntityDefinition)
+  : (UUID, omf#ModelEntityReifiedRelationship, omf#ModelEntityReifiedRelationship)
 
   // entity relationship restriction axiom
 
   def fromEntityReifiedRelationshipRestrictionAxiom
   (ax: omf#EntityReifiedRelationshipRestrictionAxiom)
-  : (omf#ModelEntityDefinition, omf#ModelEntityReifiedRelationship, omf#ModelEntityDefinition, RestrictionKind)
+  : (UUID, omf#ModelEntityDefinition, omf#ModelEntityReifiedRelationship, omf#ModelEntityDefinition, RestrictionKind)
 
   // scalar datatype facet restriction axiom
 
   def fromScalarDataTypeFacetRestrictionAxiom
   (ax: omf#ScalarDataTypeFacetRestrictionAxiom)
-  : (omf#ModelScalarDataType,
+  : (UUID,
+    omf#ModelScalarDataType,
     omf#ModelScalarDataType,
     Iterable[FundamentalFacet],
     Iterable[ConstrainingFacet])
@@ -881,102 +920,99 @@ object ImmutableTerminologyGraphOps {
     val axioms = for {
       ax <- ops.getTermAxioms(graph)._2
       e2l <- ops.foldTermAxiom[Option[omf#ModelScalarDataRelationshipRestrictionAxiomFromEntityToLiteral]](ax)(
-        (_: omf#EntityDefinitionAspectSubClassAxiom) => None,
-        (_: omf#EntityConceptDesignationTerminologyGraphAxiom) => None,
-        (_: omf#EntityConceptSubClassAxiom) => None,
-        (_: omf#EntityDefinitionRestrictionAxiom) => None,
-        (_: omf#EntityReifiedRelationshipSubClassAxiom) => None,
-        (_: omf#EntityReifiedRelationshipContextualizationAxiom) => None,
-        (_: omf#EntityReifiedRelationshipRestrictionAxiom) => None,
-        (_: omf#ScalarDataTypeFacetRestrictionAxiom) => None,
-        (x: omf#ModelScalarDataRelationshipRestrictionAxiomFromEntityToLiteral) =>
-          if (entity == ops.fromModelScalarDataRelationshipRestrictionAxiomFromEntityToLiteral(x)._1)
+        funEntityDefinitionAspectSubClassAxiom =
+          (_: omf#EntityDefinitionAspectSubClassAxiom) => None,
+        funEntityConceptDesignationTerminologyGraphAxiom =
+          (_: omf#EntityConceptDesignationTerminologyGraphAxiom) => None,
+        funEntityConceptSubClassAxiom =
+          (_: omf#EntityConceptSubClassAxiom) => None,
+        funEntityDefinitionRestrictionAxiom =
+          (_: omf#EntityDefinitionRestrictionAxiom) => None,
+        funEntityReifiedRelationshipSubClassAxiom =
+          (_: omf#EntityReifiedRelationshipSubClassAxiom) => None,
+        funEntityReifiedRelationshipRestrictionAxiom =
+          (_: omf#EntityReifiedRelationshipRestrictionAxiom) => None,
+        funScalarDataTypeFacetRestrictionAxiom =
+          (_: omf#ScalarDataTypeFacetRestrictionAxiom) => None,
+        funModelScalarDataRelationshipRestrictionAxiomFromEntityToLiteral =
+          (x: omf#ModelScalarDataRelationshipRestrictionAxiomFromEntityToLiteral) =>
+          if (entity == ops.fromModelScalarDataRelationshipRestrictionAxiomFromEntityToLiteral(x)._2)
             Some(x)
           else
-            None)
+            None
+      )
     } yield e2l
     axioms.to[Set]
   }
 
 }
 
-trait MutableTerminologyGraphOps[omf <: OMF] extends ImmutableTerminologyGraphOps[omf] {
-
-  def setTerminologyGraphShortName
-  (graph: omf#MutableModelTerminologyGraph,
-   name: Option[String])
-  (implicit store: omf#Store)
-  : Set[java.lang.Throwable] \/ Unit
-
-  def setTerminologyGraphUUID
-  (graph: omf#MutableModelTerminologyGraph,
-   uuid: Option[String])
-  (implicit store: omf#Store)
-  : Set[java.lang.Throwable] \/ Unit
-
-  def setTermShortName
-  (g: omf#MutableModelTerminologyGraph,
-   term: omf#ModelTypeTerm,
-   name: Option[String])
-  (implicit store: omf#Store)
-  : Set[java.lang.Throwable] \/ Unit
-
-  def setTermUUID
-  (g: omf#MutableModelTerminologyGraph,
-   term: omf#ModelTypeTerm,
-   uuid: Option[String])
-  (implicit store: omf#Store)
-  : Set[java.lang.Throwable] \/ Unit
-
-  def setTermID
-  (g: omf#MutableModelTerminologyGraph,
-   term: omf#ModelTypeTerm,
-   id: Option[String])
-  (implicit store: omf#Store)
-  : Set[java.lang.Throwable] \/ Unit
-
-  def setTermURL
-  (g: omf#MutableModelTerminologyGraph,
-   term: omf#ModelTypeTerm,
-   url: Option[String])
-  (implicit store: omf#Store)
-  : Set[java.lang.Throwable] \/ Unit
-
-  def setAxiomUUID
-  (g: omf#MutableModelTerminologyGraph,
-   axiom: omf#ModelTermAxiom,
-   uuid: Option[String])
-  (implicit store: omf#Store)
-  : Set[java.lang.Throwable] \/ Unit
-
-  def setAxiomID
-  (g: omf#MutableModelTerminologyGraph,
-   axiom: omf#ModelTermAxiom,
-   id: Option[String])
-  (implicit store: omf#Store)
-  : Set[java.lang.Throwable] \/ Unit
-
-  def setAxiomURL
-  (g: omf#MutableModelTerminologyGraph,
-   axiom: omf#ModelTermAxiom,
-   url: Option[String])
-  (implicit store: omf#Store)
-  : Set[java.lang.Throwable] \/ Unit
+trait MutableTerminologyGraphOps[omf <: OMF]
+  extends ImmutableTerminologyGraphOps[omf] {
+  self: OMFStoreOps[omf] with IRIOps[omf] =>
 
   /**
-    * Add to a terminology graph a new ModelEntityAspect
+    * Add to a terminology graph a new OMF Aspect.
+    *
+    * @see https://jpl-imce.github.io/jpl.omf.schema.tables/latest/api/index.html#gov.nasa.jpl.imce.omf.schema.tables.Aspect
+    *
+    * @param graph
+    * @param uuid
+    * @param aspectName
+    * @param store
+    * @return
+    */
+  protected def addEntityAspect
+  (graph: omf#MutableModelTerminologyGraph,
+   uuid: UUID,
+   aspectName: LocalName)
+  (implicit store: omf#Store)
+  : Set[java.lang.Throwable] \/ omf#ModelEntityAspect
+
+  /**
+    * Add to a terminology graph a new OMF Aspect
+    * with a version 5 UUID based on the `graph` IRI and `aspectName`.
+    *
+    * @see https://jpl-imce.github.io/jpl.omf.schema.tables/latest/api/index.html#gov.nasa.jpl.imce.omf.schema.tables.Aspect
     *
     * @param graph      : a terminology graph
     * @param aspectName : the name of a new entity aspect
     */
   def addEntityAspect
   (graph: omf#MutableModelTerminologyGraph,
-   aspectName: String)
+   aspectName: LocalName)
   (implicit store: omf#Store)
   : Set[java.lang.Throwable] \/ omf#ModelEntityAspect
+  = for {
+    iri <- withFragment(fromTerminologyGraph(graph).iri, s"Aspect($aspectName)")
+    uuid = generateUUID(fromIRI(iri))
+    ax <- addEntityAspect(graph, uuid, aspectName)
+  } yield ax
 
   /**
-    * Add to a terminology graph a new ModelEntityConcept
+    * Add to a terminology graph a new OMF Concept.
+    *
+    * @see https://jpl-imce.github.io/jpl.omf.schema.tables/latest/api/index.html#gov.nasa.jpl.imce.omf.schema.tables.Concept
+    * @param graph
+    * @param uuid
+    * @param conceptName
+    * @param isAbstract
+    * @param store
+    * @return
+    */
+  protected def addEntityConcept
+  (graph: omf#MutableModelTerminologyGraph,
+   uuid: UUID,
+   conceptName: LocalName,
+   isAbstract: Boolean)
+  (implicit store: omf#Store)
+  : Set[java.lang.Throwable] \/ omf#ModelEntityConcept
+
+  /**
+    * Add to a terminology graph a new OMF Concept
+    * with a version 5 UUID based on the `graph` IRI and `conceptName`.
+    *
+    * @see https://jpl-imce.github.io/jpl.omf.schema.tables/latest/api/index.html#gov.nasa.jpl.imce.omf.schema.tables.Concept
     *
     * @param graph       : a terminology graph
     * @param conceptName : the name of a new entity concept
@@ -984,13 +1020,51 @@ trait MutableTerminologyGraphOps[omf <: OMF] extends ImmutableTerminologyGraphOp
     */
   def addEntityConcept
   (graph: omf#MutableModelTerminologyGraph,
-   conceptName: String,
+   conceptName: LocalName,
    isAbstract: Boolean)
   (implicit store: omf#Store)
   : Set[java.lang.Throwable] \/ omf#ModelEntityConcept
+  = for {
+    iri <- withFragment(fromTerminologyGraph(graph).iri, s"Concept($conceptName)")
+    uuid = generateUUID(fromIRI(iri))
+    ax <- addEntityConcept(graph, uuid, conceptName, isAbstract)
+  } yield ax
 
   /**
-    * Add to a terminology graph a new ModelEntityReifiedRelationship
+    * Add to a terminology graph a new OMF ReifiedRelationship.
+    *
+    * @see https://jpl-imce.github.io/jpl.omf.schema.tables/latest/api/index.html#gov.nasa.jpl.imce.omf.schema.tables.ReifiedRelationship
+    *
+    * @param graph
+    * @param uuid
+    * @param source
+    * @param target
+    * @param characteristics
+    * @param reifiedRelationshipName
+    * @param unreifiedRelationshipName
+    * @param unreifiedInverseRelationshipName
+    * @param isAbstract
+    * @param store
+    * @return
+    */
+  protected def addEntityReifiedRelationship
+  (graph: omf#MutableModelTerminologyGraph,
+   uuid: UUID,
+   source: omf#ModelEntityDefinition,
+   target: omf#ModelEntityDefinition,
+   characteristics: Iterable[RelationshipCharacteristics],
+   reifiedRelationshipName: LocalName,
+   unreifiedRelationshipName: LocalName,
+   unreifiedInverseRelationshipName: Option[LocalName],
+   isAbstract: Boolean)
+  (implicit store: omf#Store)
+  : Set[java.lang.Throwable] \/ omf#ModelEntityReifiedRelationship
+
+  /**
+    * Add to a terminology graph a new OMF ReifiedRelationship
+    * with a version 5 UUID based on the `graph` IRI and `reifiedRelationshipName`.
+    *
+    * @see https://jpl-imce.github.io/jpl.omf.schema.tables/latest/api/index.html#gov.nasa.jpl.imce.omf.schema.tables.ReifiedRelationship
     *
     * @param graph                            a terminology graph
     * @param source                           an existing entity definition that will be
@@ -1012,81 +1086,483 @@ trait MutableTerminologyGraphOps[omf <: OMF] extends ImmutableTerminologyGraphOp
    source: omf#ModelEntityDefinition,
    target: omf#ModelEntityDefinition,
    characteristics: Iterable[RelationshipCharacteristics],
-   reifiedRelationshipName: String,
-   unreifiedRelationshipName: String,
-   unreifiedInverseRelationshipName: Option[String],
+   reifiedRelationshipName: LocalName,
+   unreifiedRelationshipName: LocalName,
+   unreifiedInverseRelationshipName: Option[LocalName],
    isAbstract: Boolean)
   (implicit store: omf#Store)
   : Set[java.lang.Throwable] \/ omf#ModelEntityReifiedRelationship
+  = for {
+    iri <- withFragment(fromTerminologyGraph(graph).iri, s"ReifiedRelationship($reifiedRelationshipName)")
+    uuid = generateUUID(fromIRI(iri))
+    ax <- addEntityReifiedRelationship(
+      graph, uuid, source, target, characteristics,
+      reifiedRelationshipName, unreifiedRelationshipName, unreifiedInverseRelationshipName,
+      isAbstract)
+  } yield ax
 
-  def addScalarDataType
+  /**
+    * Add to a terminology graph a new OMF Scalar datatype.
+    *
+    * @see https://jpl-imce.github.io/jpl.omf.schema.tables/latest/api/index.html#gov.nasa.jpl.imce.omf.schema.tables.Scalar
+    *
+    * @param graph
+    * @param uuid
+    * @param scalarDataTypeName
+    * @param store
+    * @return
+    */
+  protected def addScalarDataType
   (graph: omf#MutableModelTerminologyGraph,
-   fragment: String)
+   uuid: UUID,
+   scalarDataTypeName: LocalName)
   (implicit store: omf#Store)
   : Set[java.lang.Throwable] \/ omf#ModelScalarDataType
 
-  def addStructuredDataType
+  /**
+    * Add to a terminology graph a new OMF Scalar datatype
+    * with a version 5 UUID based on the `graph` IRI and `scalarDataTypeName`.
+    *
+    * @see https://jpl-imce.github.io/jpl.omf.schema.tables/latest/api/index.html#gov.nasa.jpl.imce.omf.schema.tables.Scalar
+    *
+    * @param graph
+    * @param scalarDataTypeName
+    * @param store
+    * @return
+    */
+  def addScalarDataType
   (graph: omf#MutableModelTerminologyGraph,
-   fragment: String)
+   scalarDataTypeName: LocalName)
+  (implicit store: omf#Store)
+  : Set[java.lang.Throwable] \/ omf#ModelScalarDataType
+  = for {
+    iri <- withFragment(fromTerminologyGraph(graph).iri, s"Scalar($scalarDataTypeName)")
+    uuid = generateUUID(fromIRI(iri))
+    ax <- addScalarDataType(graph, uuid, scalarDataTypeName)
+  } yield ax
+
+  /**
+    * Add to a terminology graph a new OMF Structure datatype.
+    *
+    * @see https://jpl-imce.github.io/jpl.omf.schema.tables/latest/api/index.html#gov.nasa.jpl.imce.omf.schema.tables.Structure
+    *
+    * @param graph
+    * @param uuid
+    * @param structureDatatypeName
+    * @param store
+    * @return
+    */
+  protected def addStructuredDataType
+  (graph: omf#MutableModelTerminologyGraph,
+   uuid: UUID,
+   structureDatatypeName: LocalName)
   (implicit store: omf#Store)
   : Set[java.lang.Throwable] \/ omf#ModelStructuredDataType
 
+  /**
+    * Add to a terminology graph a new OMF Structure datatype
+    * with a version 5 UUID based on the `graph` IRI and `structureDatatypeName`.
+    *
+    * @see https://jpl-imce.github.io/jpl.omf.schema.tables/latest/api/index.html#gov.nasa.jpl.imce.omf.schema.tables.Structure
+    *
+    * @param graph
+    * @param structureDatatypeName
+    * @param store
+    * @return
+    */
+  def addStructuredDataType
+  (graph: omf#MutableModelTerminologyGraph,
+   structureDatatypeName: LocalName)
+  (implicit store: omf#Store)
+  : Set[java.lang.Throwable] \/ omf#ModelStructuredDataType
+  = for {
+    iri <- withFragment(fromTerminologyGraph(graph).iri, s"Structure($structureDatatypeName)")
+    uuid = generateUUID(fromIRI(iri))
+    ax <- addStructuredDataType(graph, uuid, structureDatatypeName)
+  } yield ax
+
+  /**
+    * Add to a terminology graph a new OMF EntityScalarDataProperty.
+    *
+    * @see https://jpl-imce.github.io/jpl.omf.schema.tables/latest/api/index.html#gov.nasa.jpl.imce.omf.schema.tables.EntityScalarDataProperty
+    *
+    * @param graph
+    * @param uuid
+    * @param source
+    * @param target
+    * @param dataPropertyName
+    * @param store
+    * @return
+    */
+  protected def addDataRelationshipFromEntityToScalar
+  (graph: omf#MutableModelTerminologyGraph,
+   uuid: UUID,
+   source: omf#ModelEntityDefinition,
+   target: omf#ModelScalarDataType,
+   dataPropertyName: LocalName)
+  (implicit store: omf#Store)
+  : Set[java.lang.Throwable] \/ omf#ModelDataRelationshipFromEntityToScalar
+
+  /**
+    *
+    * Add to a terminology graph a new OMF EntityScalarDataProperty
+    * with a version 5 UUID based on the `graph` and `source` IRIs and `dataPropertyName`.
+    *
+    * @see https://jpl-imce.github.io/jpl.omf.schema.tables/latest/api/index.html#gov.nasa.jpl.imce.omf.schema.tables.EntityScalarDataProperty
+    *
+    * @param graph
+    * @param source
+    * @param target
+    * @param dataPropertyName
+    * @param store
+    * @return
+    */
   def addDataRelationshipFromEntityToScalar
   (graph: omf#MutableModelTerminologyGraph,
    source: omf#ModelEntityDefinition,
    target: omf#ModelScalarDataType,
-   dataRelationshipName: String)
+   dataPropertyName: LocalName)
   (implicit store: omf#Store)
   : Set[java.lang.Throwable] \/ omf#ModelDataRelationshipFromEntityToScalar
+  = for {
+    iri <- withFragment(
+      fromTerminologyGraph(graph).iri,
+      s"EntityScalarDataProperty(${fromIRI(fromEntityDefinition(source))},$dataPropertyName)")
+    uuid = generateUUID(fromIRI(iri))
+    ax <- addDataRelationshipFromEntityToScalar(graph, uuid, source, target, dataPropertyName)
+  } yield ax
 
+  /**
+    * Add to a terminology graph a new OMF EntityScalarDataPropertyParticularRestrictionAxiom.
+    *
+    * @see https://jpl-imce.github.io/jpl.omf.schema.tables/latest/api/index.html#gov.nasa.jpl.imce.omf.schema.tables.EntityScalarDataPropertyParticularRestrictionAxiom
+    *
+    * @param graph
+    * @param uuid
+    * @param entityDomain
+    * @param scalarDataProperty
+    * @param literalRange
+    * @param store
+    * @return
+    */
+  protected def addScalarDataRelationshipRestrictionAxiomFromEntityToLiteral
+  (graph: omf#MutableModelTerminologyGraph,
+   uuid: UUID,
+   entityDomain: omf#ModelEntityDefinition,
+   scalarDataProperty: omf#ModelDataRelationshipFromEntityToScalar,
+   literalRange: LocalName)
+  (implicit store: omf#Store)
+  : Set[java.lang.Throwable] \/ omf#ModelScalarDataRelationshipRestrictionAxiomFromEntityToLiteral
+
+  /**
+    * Add to a terminology graph a new OMF EntityScalarDataPropertyParticularRestrictionAxiom.
+    * with a version 5 UUID based on the `graph`, `entityDomain` and `scalaDataProperty` IRIs
+    * and the `literalRange`.
+    *
+    * @param graph
+    * @param entityDomain
+    * @param scalarDataProperty
+    * @param literalRange
+    * @param store
+    * @return
+    */
   def addScalarDataRelationshipRestrictionAxiomFromEntityToLiteral
   (graph: omf#MutableModelTerminologyGraph,
    entityDomain: omf#ModelEntityDefinition,
    scalarDataProperty: omf#ModelDataRelationshipFromEntityToScalar,
-   literalRange: String)
+   literalRange: LocalName)
   (implicit store: omf#Store)
   : Set[java.lang.Throwable] \/ omf#ModelScalarDataRelationshipRestrictionAxiomFromEntityToLiteral
+  = for {
+    iri <- withFragment(fromTerminologyGraph(graph).iri,
+      s"ScalarRangeAxiom("+
+        fromIRI(fromEntityDefinition(entityDomain))+","+
+        fromIRI(fromDataRelationshipFromEntityToScalar(scalarDataProperty)._3)+","+
+        s"literal($literalRange))")
+    uuid = generateUUID(fromIRI(iri))
+    ax <- addScalarDataRelationshipRestrictionAxiomFromEntityToLiteral(
+      graph, uuid, entityDomain, scalarDataProperty, literalRange)
+  } yield ax
 
+  /**
+    * Add to a terminology graph a new OMF EntityStructuredDataProperty.
+    *
+    * @see https://jpl-imce.github.io/jpl.omf.schema.tables/latest/api/index.html#gov.nasa.jpl.imce.omf.schema.tables.EntityStructuredDataProperty
+    *
+    * @param graph
+    * @param uuid
+    * @param source
+    * @param target
+    * @param dataPropertyName
+    * @param store
+    * @return
+    */
+  protected def addDataRelationshipFromEntityToStructure
+  (graph: omf#MutableModelTerminologyGraph,
+   uuid: UUID,
+   source: omf#ModelEntityDefinition,
+   target: omf#ModelStructuredDataType,
+   dataPropertyName: LocalName)
+  (implicit store: omf#Store)
+  : Set[java.lang.Throwable] \/ omf#ModelDataRelationshipFromEntityToStructure
+
+  /**
+    * Add to a terminology graph a new OMF EntityStructuredDataProperty
+    * with a version 5 UUID based on the `graph` and `source` IRIs and `dataPropertyName`.
+    *
+    * @see https://jpl-imce.github.io/jpl.omf.schema.tables/latest/api/index.html#gov.nasa.jpl.imce.omf.schema.tables.EntityStructuredDataProperty
+    *
+    * @param graph
+    * @param source
+    * @param target
+    * @param dataPropertyName
+    * @param store
+    * @return
+    */
   def addDataRelationshipFromEntityToStructure
   (graph: omf#MutableModelTerminologyGraph,
    source: omf#ModelEntityDefinition,
    target: omf#ModelStructuredDataType,
-   dataRelationshipName: String)
+   dataPropertyName: LocalName)
   (implicit store: omf#Store)
   : Set[java.lang.Throwable] \/ omf#ModelDataRelationshipFromEntityToStructure
+  = for {
+    iri <- withFragment(
+      fromTerminologyGraph(graph).iri,
+      s"EntityStructuredDataProperty(${fromIRI(fromEntityDefinition(source))},$dataPropertyName)")
+    uuid = generateUUID(fromIRI(iri))
+    ax <- addDataRelationshipFromEntityToStructure(graph, uuid, source, target, dataPropertyName)
+  } yield ax
 
+  /**
+    * Add to a terminology graph an OMF ScalarDataProperty.
+    *
+    * @see https://jpl-imce.github.io/jpl.omf.schema.tables/latest/api/index.html#gov.nasa.jpl.imce.omf.schema.tables.ScalarDataProperty
+    *
+    * @param graph
+    * @param uuid
+    * @param source
+    * @param target
+    * @param dataPropertyName
+    * @param store
+    * @return
+    */
+  protected def addDataRelationshipFromStructureToScalar
+  (graph: omf#MutableModelTerminologyGraph,
+   uuid: UUID,
+   source: omf#ModelStructuredDataType,
+   target: omf#ModelScalarDataType,
+   dataPropertyName: LocalName)
+  (implicit store: omf#Store)
+  : Set[java.lang.Throwable] \/ omf#ModelDataRelationshipFromStructureToScalar
+
+  /**
+    * Add to a terminology graph an OMF ScalarDataProperty
+    * with a version 5 UUID based on the `graph` and `source` IRIs and `dataPropertyName`.
+    *
+    * @see https://jpl-imce.github.io/jpl.omf.schema.tables/latest/api/index.html#gov.nasa.jpl.imce.omf.schema.tables.ScalarDataProperty
+    *
+    * @param graph
+    * @param source
+    * @param target
+    * @param dataPropertyName
+    * @param store
+    * @return
+    */
   def addDataRelationshipFromStructureToScalar
   (graph: omf#MutableModelTerminologyGraph,
    source: omf#ModelStructuredDataType,
    target: omf#ModelScalarDataType,
-   dataRelationshipName: String)
+   dataPropertyName: LocalName)
   (implicit store: omf#Store)
   : Set[java.lang.Throwable] \/ omf#ModelDataRelationshipFromStructureToScalar
+  = for {
+    iri <- withFragment(
+      fromTerminologyGraph(graph).iri,
+      s"ScalarDataProperty(${fromIRI(fromStructuredDataType(source)._3)},$dataPropertyName)")
+    uuid = generateUUID(fromIRI(iri))
+    ax <- addDataRelationshipFromStructureToScalar(graph, uuid, source, target, dataPropertyName)
+  } yield ax
 
+  /**
+    * Add to a terminology graph a new OMF StructuredDataProperty.
+    *
+    * @see https://jpl-imce.github.io/jpl.omf.schema.tables/latest/api/index.html#gov.nasa.jpl.imce.omf.schema.tables.StructuredDataProperty
+    *
+    * @param graph
+    * @param uuid
+    * @param source
+    * @param target
+    * @param dataPropertyName
+    * @param store
+    * @return
+    */
+  protected def addDataRelationshipFromStructureToStructure
+  (graph: omf#MutableModelTerminologyGraph,
+   uuid: UUID,
+   source: omf#ModelStructuredDataType,
+   target: omf#ModelStructuredDataType,
+   dataPropertyName: LocalName)
+  (implicit store: omf#Store)
+  : Set[java.lang.Throwable] \/ omf#ModelDataRelationshipFromStructureToStructure
+
+  /**
+    * Add to a terminology graph a new OMF StructuredDataProperty
+    * with a version 5 UUID based on the `graph` and `source` IRIs and `dataPropertyName`.
+    *
+    * @see https://jpl-imce.github.io/jpl.omf.schema.tables/latest/api/index.html#gov.nasa.jpl.imce.omf.schema.tables.StructuredDataProperty
+    *
+    * @param graph
+    * @param source
+    * @param target
+    * @param dataPropertyName
+    * @param store
+    * @return
+    */
   def addDataRelationshipFromStructureToStructure
   (graph: omf#MutableModelTerminologyGraph,
    source: omf#ModelStructuredDataType,
    target: omf#ModelStructuredDataType,
-   dataRelationshipName: String)
+   dataPropertyName: LocalName)
   (implicit store: omf#Store)
   : Set[java.lang.Throwable] \/ omf#ModelDataRelationshipFromStructureToStructure
+  = for {
+    iri <- withFragment(
+      fromTerminologyGraph(graph).iri,
+      s"StructuredDataProperty(${fromIRI(fromStructuredDataType(source)._3)},$dataPropertyName)")
+    uuid = generateUUID(fromIRI(iri))
+    ax <- addDataRelationshipFromStructureToStructure(graph, uuid, source, target, dataPropertyName)
+  } yield ax
 
   // model term axioms
 
+  /**
+    * Add to a terminology graph a new OMF AspectSpecializationAxiom.
+    *
+    * @see https://jpl-imce.github.io/jpl.omf.schema.tables/latest/api/index.html#gov.nasa.jpl.imce.omf.schema.tables.AspectSpecializationAxiom
+    *
+    * @param graph
+    * @param uuid
+    * @param sub
+    * @param sup
+    * @param store
+    * @return
+    */
+  protected def addEntityDefinitionAspectSubClassAxiom
+  (graph: omf#MutableModelTerminologyGraph,
+   uuid: UUID,
+   sub: omf#ModelEntityDefinition,
+   sup: omf#ModelEntityAspect)
+  (implicit store: omf#Store)
+  : Set[java.lang.Throwable] \/ omf#EntityDefinitionAspectSubClassAxiom
+
+  /**
+    * Add to a terminology graph a new OMF AspectSpecializationAxiom
+    * with a version 5 UUID based on the `graph`, `sub` and `sup` IRIs.
+    *
+    * @see https://jpl-imce.github.io/jpl.omf.schema.tables/latest/api/index.html#gov.nasa.jpl.imce.omf.schema.tables.AspectSpecializationAxiom
+    *
+    * @param graph
+    * @param sub
+    * @param sup
+    * @param store
+    * @return
+    */
   def addEntityDefinitionAspectSubClassAxiom
   (graph: omf#MutableModelTerminologyGraph,
    sub: omf#ModelEntityDefinition,
    sup: omf#ModelEntityAspect)
   (implicit store: omf#Store)
   : Set[java.lang.Throwable] \/ omf#EntityDefinitionAspectSubClassAxiom
+  = for {
+    iri <- withFragment(
+      fromTerminologyGraph(graph).iri,
+      s"AspectSpecializationAxiom(${fromIRI(fromEntityDefinition(sub))},${fromIRI(fromEntityAspect(sup))})")
+    uuid = generateUUID(fromIRI(iri))
+    ax <- addEntityDefinitionAspectSubClassAxiom(graph, uuid, sub, sup)
+  } yield ax
 
+  /**
+    * Add to a terminology graph a new OMF ConceptSpecializationAxiom.
+    *
+    * @see https://jpl-imce.github.io/jpl.omf.schema.tables/latest/api/index.html#gov.nasa.jpl.imce.omf.schema.tables.ConceptSpecializationAxiom
+    *
+    * @param graph
+    * @param uuid
+    * @param sub
+    * @param sup
+    * @param store
+    * @return
+    */
+  protected def addEntityConceptSubClassAxiom
+  (graph: omf#MutableModelTerminologyGraph,
+   uuid: UUID,
+   sub: omf#ModelEntityConcept,
+   sup: omf#ModelEntityConcept)
+  (implicit store: omf#Store)
+  : Set[java.lang.Throwable] \/ omf#EntityConceptSubClassAxiom
+
+  /**
+    * Add to a terminology graph a new OMF ConceptSpecializationAxiom
+    * with a version 5 UUID based on the `graph`, `sub`, `sup` IRIs.
+    *
+    * @see https://jpl-imce.github.io/jpl.omf.schema.tables/latest/api/index.html#gov.nasa.jpl.imce.omf.schema.tables.ConceptSpecializationAxiom
+    *
+    * @param graph
+    * @param sub
+    * @param sup
+    * @param store
+    * @return
+    */
   def addEntityConceptSubClassAxiom
   (graph: omf#MutableModelTerminologyGraph,
    sub: omf#ModelEntityConcept,
    sup: omf#ModelEntityConcept)
   (implicit store: omf#Store)
   : Set[java.lang.Throwable] \/ omf#EntityConceptSubClassAxiom
+  = for {
+    iri <- withFragment(
+      fromTerminologyGraph(graph).iri,
+      s"ConceptSpecializationAxiom(${fromIRI(fromEntityConcept(sub).iri)}, ${fromIRI(fromEntityConcept(sup).iri)}")
+    uuid = generateUUID(fromIRI(iri))
+    ax <- addEntityConceptSubClassAxiom(graph, uuid, sub, sup)
+  } yield ax
 
+  /**
+    * Add to a terminology graph a new OMF EntityUniversalRestrictionAxiom.
+    *
+    * @see https://jpl-imce.github.io/jpl.omf.schema.tables/latest/api/index.html#gov.nasa.jpl.imce.omf.schema.tables.EntityUniversalRestrictionAxiom
+    *
+    * @param graph
+    * @param uuid
+    * @param sub
+    * @param rel
+    * @param range
+    * @param store
+    * @return
+    */
+  protected def addEntityDefinitionUniversalRestrictionAxiom
+  (graph: omf#MutableModelTerminologyGraph,
+   uuid: UUID,
+   sub: omf#ModelEntityDefinition,
+   rel: omf#ModelEntityReifiedRelationship,
+   range: omf#ModelEntityDefinition)
+  (implicit store: omf#Store)
+  : Set[java.lang.Throwable] \/ omf#EntityDefinitionUniversalRestrictionAxiom
+
+  /**
+    * Add to a terminology graph a new OMF EntityUniversalRestrictionAxiom
+    * with a version 5 UUID based on the `graph`, `sub`, 'rel` and 'range` IRIs.
+    *
+    * @see https://jpl-imce.github.io/jpl.omf.schema.tables/latest/api/index.html#gov.nasa.jpl.imce.omf.schema.tables.EntityUniversalRestrictionAxiom
+    *
+    * @param graph
+    * @param sub
+    * @param rel
+    * @param range
+    * @param store
+    * @return
+    */
   def addEntityDefinitionUniversalRestrictionAxiom
   (graph: omf#MutableModelTerminologyGraph,
    sub: omf#ModelEntityDefinition,
@@ -1094,7 +1570,52 @@ trait MutableTerminologyGraphOps[omf <: OMF] extends ImmutableTerminologyGraphOp
    range: omf#ModelEntityDefinition)
   (implicit store: omf#Store)
   : Set[java.lang.Throwable] \/ omf#EntityDefinitionUniversalRestrictionAxiom
+  = for {
+    iri <- withFragment(
+      fromTerminologyGraph(graph).iri,
+      s"EntityUniversalRestrictionAxiom("+
+        fromIRI(fromEntityDefinition(sub))+","+
+        fromIRI(fromEntityReifiedRelationship(rel).iri)+","+
+        fromIRI(fromEntityDefinition(range))+")")
+    uuid = generateUUID(fromIRI(iri))
+    ax <- addEntityDefinitionUniversalRestrictionAxiom(graph, uuid, sub, rel, range)
+  } yield ax
 
+  /**
+    * Add to a terminology graph a new OMF EntityExistentialRestrictionAxiom.
+    *
+    * @see https://jpl-imce.github.io/jpl.omf.schema.tables/latest/api/index.html#gov.nasa.jpl.imce.omf.schema.tables.EntityExistentialRestrictionAxiom
+    *
+    * @param graph
+    * @param uuid
+    * @param sub
+    * @param rel
+    * @param range
+    * @param store
+    * @return
+    */
+  protected def addEntityDefinitionExistentialRestrictionAxiom
+  (graph: omf#MutableModelTerminologyGraph,
+   uuid: UUID,
+   sub: omf#ModelEntityDefinition,
+   rel: omf#ModelEntityReifiedRelationship,
+   range: omf#ModelEntityDefinition)
+  (implicit store: omf#Store)
+  : Set[java.lang.Throwable] \/ omf#EntityDefinitionExistentialRestrictionAxiom
+
+  /**
+    * Add to a terminology graph a new OMF EntityExistentialRestrictionAxiom
+    * with a version 5 UUID based on the `graph`, `sub`, `rel` and `range` IRIs.
+    *
+    * @see https://jpl-imce.github.io/jpl.omf.schema.tables/latest/api/index.html#gov.nasa.jpl.imce.omf.schema.tables.EntityExistentialRestrictionAxiom
+    *
+    * @param graph
+    * @param sub
+    * @param rel
+    * @param range
+    * @param store
+    * @return
+    */
   def addEntityDefinitionExistentialRestrictionAxiom
   (graph: omf#MutableModelTerminologyGraph,
    sub: omf#ModelEntityDefinition,
@@ -1102,39 +1623,83 @@ trait MutableTerminologyGraphOps[omf <: OMF] extends ImmutableTerminologyGraphOp
    range: omf#ModelEntityDefinition)
   (implicit store: omf#Store)
   : Set[java.lang.Throwable] \/ omf#EntityDefinitionExistentialRestrictionAxiom
+  = for {
+    iri <- withFragment(
+      fromTerminologyGraph(graph).iri,
+      s"EntityExistentialRestrictionAxiom("+
+        fromIRI(fromEntityDefinition(sub))+","+
+        fromIRI(fromEntityReifiedRelationship(rel).iri)+","+
+        fromIRI(fromEntityDefinition(range))+")")
+    uuid = generateUUID(fromIRI(iri))
+    ax <- addEntityDefinitionExistentialRestrictionAxiom(graph, uuid, sub, rel, range)
+  } yield ax
 
+  /**
+    * Add to a terminology graph a new ReifiedRelationshipSpecializationAxiom.
+    *
+    * @see https://jpl-imce.github.io/jpl.omf.schema.tables/latest/api/index.html#gov.nasa.jpl.imce.omf.schema.tables.ReifiedRelationshipSpecializationAxiom
+    *
+    * @param graph
+    * @param uuid
+    * @param sub
+    * @param sup
+    * @param store
+    * @return
+    */
+  protected def addEntityReifiedRelationshipSubClassAxiom
+  (graph: omf#MutableModelTerminologyGraph,
+   uuid: UUID,
+   sub: omf#ModelEntityReifiedRelationship,
+   sup: omf#ModelEntityReifiedRelationship)
+  (implicit store: omf#Store)
+  : Set[java.lang.Throwable] \/ omf#EntityReifiedRelationshipSubClassAxiom
+
+  /**
+    * Add to a terminology graph a new ReifiedRelationshipSpecializationAxiom
+    * with a version 5 UUID based on the `graph`, `sub` and `sup` IRIs.
+    *
+    * @see https://jpl-imce.github.io/jpl.omf.schema.tables/latest/api/index.html#gov.nasa.jpl.imce.omf.schema.tables.ReifiedRelationshipSpecializationAxiom
+    *
+    * @param graph
+    * @param sub
+    * @param sup
+    * @param store
+    * @return
+    */
   def addEntityReifiedRelationshipSubClassAxiom
   (graph: omf#MutableModelTerminologyGraph,
    sub: omf#ModelEntityReifiedRelationship,
    sup: omf#ModelEntityReifiedRelationship)
   (implicit store: omf#Store)
   : Set[java.lang.Throwable] \/ omf#EntityReifiedRelationshipSubClassAxiom
+  = for {
+    iri <- withFragment(
+      fromTerminologyGraph(graph).iri,
+      s"ReifiedRelationshipSpecializationAxiom("+
+        fromIRI(fromEntityReifiedRelationship(sub).iri)+","+
+        fromIRI(fromEntityReifiedRelationship(sup).iri)+")")
+    uuid = generateUUID(fromIRI(iri))
+    ax <- addEntityReifiedRelationshipSubClassAxiom(graph, uuid, sub, sup)
+  } yield ax
 
-  def addEntityReifiedRelationshipContextualizationAxiom
-  (graph: omf#MutableModelTerminologyGraph,
-   domain: omf#ModelEntityDefinition,
-   rel: omf#ModelEntityReifiedRelationship,
-   contextName: String,
-   range: omf#ModelEntityDefinition)
-  (implicit store: omf#Store)
-  : Set[java.lang.Throwable] \/ omf#EntityReifiedRelationshipContextualizationAxiom
-
-  def addEntityReifiedRelationshipExistentialRestrictionAxiom
-  (graph: omf#MutableModelTerminologyGraph,
-   domain: omf#ModelEntityDefinition,
-   rel: omf#ModelEntityReifiedRelationship,
-   range: omf#ModelEntityDefinition)
-  (implicit store: omf#Store)
-  : Set[java.lang.Throwable] \/ omf#EntityReifiedRelationshipExistentialRestrictionAxiom
-
-  def addEntityReifiedRelationshipUniversalRestrictionAxiom
-  (graph: omf#MutableModelTerminologyGraph,
-   domain: omf#ModelEntityDefinition,
-   rel: omf#ModelEntityReifiedRelationship,
-   range: omf#ModelEntityDefinition)
-  (implicit store: omf#Store)
-  : Set[java.lang.Throwable] \/ omf#EntityReifiedRelationshipUniversalRestrictionAxiom
-
+  /**
+    * Needs to be refactored in one of the OMF ScalarRestrictionAxioms:
+    * - https://jpl-imce.github.io/jpl.omf.schema.tables/latest/api/index.html#gov.nasa.jpl.imce.omf.schema.tables.BinaryScalarRestrictionAxiom
+    * - https://jpl-imce.github.io/jpl.omf.schema.tables/latest/api/index.html#gov.nasa.jpl.imce.omf.schema.tables.IRIScalarRestrictionAxiom
+    * - https://jpl-imce.github.io/jpl.omf.schema.tables/latest/api/index.html#gov.nasa.jpl.imce.omf.schema.tables.NumericScalarRestrictionAxiom
+    * - https://jpl-imce.github.io/jpl.omf.schema.tables/latest/api/index.html#gov.nasa.jpl.imce.omf.schema.tables.PlainLiteralScalarRestrictionAxiom
+    * - https://jpl-imce.github.io/jpl.omf.schema.tables/latest/api/index.html#gov.nasa.jpl.imce.omf.schema.tables.ScalarOneOfRestrictionAxiom
+    * - https://jpl-imce.github.io/jpl.omf.schema.tables/latest/api/index.html#gov.nasa.jpl.imce.omf.schema.tables.StringScalarRestrictionAxiom
+    * - https://jpl-imce.github.io/jpl.omf.schema.tables/latest/api/index.html#gov.nasa.jpl.imce.omf.schema.tables.TimeScalarRestrictionAxiom
+    *
+    * @param graph
+    * @param sub
+    * @param sup
+    * @param fundamentalFacets
+    * @param constrainingFacets
+    * @param store
+    * @return
+    */
   def addScalarDataTypeFacetRestrictionAxiom
   (graph: omf#MutableModelTerminologyGraph,
    sub: omf#ModelScalarDataType,
@@ -1144,21 +1709,123 @@ trait MutableTerminologyGraphOps[omf <: OMF] extends ImmutableTerminologyGraphOp
   (implicit store: omf#Store)
   : Set[java.lang.Throwable] \/ omf#ScalarDataTypeFacetRestrictionAxiom
 
+  /**
+    * Add to a terminology graph a new OMF TerminologyExtensionAxiom.
+    *
+    * @see https://jpl-imce.github.io/jpl.omf.schema.tables/latest/api/index.html#gov.nasa.jpl.imce.omf.schema.tables.TerminologyExtensionAxiom
+    *
+    * @param extendingG
+    * @param uuid
+    * @param extendedG
+    * @param store
+    * @return
+    */
+  protected def addTerminologyGraphExtension
+  (extendingG: omf#MutableModelTerminologyGraph,
+   uuid: UUID,
+   extendedG: omf#ModelTerminologyGraph)
+  (implicit store: omf#Store)
+  : Set[java.lang.Throwable] \/ omf#TerminologyGraphDirectExtensionAxiom
+
+  /**
+    * Add to a terminology graph a new OMF TerminologyExtensionAxiom
+    * with a version 5 UUID based on the `extendingG` and `extendedG` IRIs.
+    *
+    * @see https://jpl-imce.github.io/jpl.omf.schema.tables/latest/api/index.html#gov.nasa.jpl.imce.omf.schema.tables.TerminologyExtensionAxiom
+    *
+    * @param extendingG
+    * @param extendedG
+    * @param store
+    * @return
+    */
   def addTerminologyGraphExtension
   (extendingG: omf#MutableModelTerminologyGraph,
    extendedG: omf#ModelTerminologyGraph)
   (implicit store: omf#Store)
   : Set[java.lang.Throwable] \/ omf#TerminologyGraphDirectExtensionAxiom
+  = for {
+    iri <- withFragment(fromTerminologyGraph(extendingG).iri,
+      s"TerminologyGraphExtensionAxiom(${fromIRI(fromTerminologyGraph(extendedG).iri)})")
+    ax <- addTerminologyGraphExtension(
+      extendingG,
+      generateUUID(fromIRI(iri)),
+      extendedG)
+  } yield ax
 
-  def addNestedTerminologyGraph
+  /**
+    * Add to a terminology graph a new OMF TerminologyNestingAxiom.
+    *
+    * @see https://jpl-imce.github.io/jpl.omf.schema.tables/latest/api/index.html#gov.nasa.jpl.imce.omf.schema.tables.TerminologyNestingAxiom
+    *
+    * @param nestingParent
+    * @param uuid
+    * @param nestingContext
+    * @param nestedChild
+    * @param store
+    * @return
+    */
+  protected def addNestedTerminologyGraph
   (nestingParent: omf#MutableModelTerminologyGraph,
+   uuid: UUID,
    nestingContext: omf#ModelEntityConcept,
    nestedChild: omf#ModelTerminologyGraph)
   (implicit store: omf#Store)
   : Set[java.lang.Throwable] \/ omf#TerminologyGraphDirectNestingAxiom
 
   /**
-    * Assigns a designation terminology graph as the closed-world structural description of a model entity concept
+    * Add to a terminology graph a new OMF TerminologyNestingAxiom
+    * with a version 5 UUID based on the `nestingParent` and `nestingContext` IRIs.
+    *
+    * @see https://jpl-imce.github.io/jpl.omf.schema.tables/latest/api/index.html#gov.nasa.jpl.imce.omf.schema.tables.TerminologyNestingAxiom
+    *
+    * @param nestingParent
+    * @param nestingContext
+    * @param nestedChild
+    * @param store
+    * @return
+    */
+  def addNestedTerminologyGraph
+  (nestingParent: omf#MutableModelTerminologyGraph,
+   nestingContext: omf#ModelEntityConcept,
+   nestedChild: omf#ModelTerminologyGraph)
+  (implicit store: omf#Store)
+  : Set[java.lang.Throwable] \/ omf#TerminologyGraphDirectNestingAxiom
+  = for {
+    iri <- withFragment(
+      fromTerminologyGraph(nestingParent).iri,
+      s"TerminologyNestingAxiom(${fromEntityConcept(nestingContext).name})")
+    ax <- addNestedTerminologyGraph(
+      nestingParent,
+      generateUUID(fromIRI(iri)),
+      nestingContext,
+      nestedChild)
+  } yield ax
+
+  /**
+    * Add to a terminology graph a new OMF ConceptDesignationTerminologyGraphAxiom.
+    *
+    * @see https://jpl-imce.github.io/jpl.omf.schema.tables/latest/api/index.html#gov.nasa.jpl.imce.omf.schema.tables.ConceptDesignationTerminologyGraphAxiom
+    *
+    * @param graph                       The mutable terminology graph in which to assert the axiom
+    * @param entityConceptDesignation    The model entity concept whose complete complete designation is specified
+    * @param designationTerminologyGraph The terminology graph specifying the complete designation
+    *                                    for the structural contents of the model entity concept
+    * @param store                       OMF storage provider
+    * @return The EntityConceptToplevelDesignationTerminologyGraphAxiom created
+    */
+  protected def addEntityConceptDesignationTerminologyGraphAxiom
+  (graph: omf#MutableModelTerminologyGraph,
+   uuid: UUID,
+   entityConceptDesignation: omf#ModelEntityConcept,
+   designationTerminologyGraph: omf#ModelTerminologyGraph)
+  (implicit store: omf#Store)
+  : Set[java.lang.Throwable] \/ omf#EntityConceptDesignationTerminologyGraphAxiom
+
+  /**
+    * Add to a terminology graph a new OMF ConceptDesignationTerminologyGraphAxiom
+    * with a version 5 UUID based on `graph`, `entityConceptDesignation` and `designationTerminologyGraph` IRIs.
+    *
+    * @see https://jpl-imce.github.io/jpl.omf.schema.tables/latest/api/index.html#gov.nasa.jpl.imce.omf.schema.tables.ConceptDesignationTerminologyGraphAxiom
     *
     * @param graph                       The mutable terminology graph in which to assert the axiom
     * @param entityConceptDesignation    The model entity concept whose complete complete designation is specified
@@ -1173,6 +1840,19 @@ trait MutableTerminologyGraphOps[omf <: OMF] extends ImmutableTerminologyGraphOp
    designationTerminologyGraph: omf#ModelTerminologyGraph)
   (implicit store: omf#Store)
   : Set[java.lang.Throwable] \/ omf#EntityConceptDesignationTerminologyGraphAxiom
+  = for {
+    iri <- withFragment(
+      fromTerminologyGraph(graph).iri,
+      s"ConceptDesignationTerminologyGraphAxiom("+
+        fromEntityConcept(entityConceptDesignation).name+","+
+        fromIRI(fromTerminologyGraph(designationTerminologyGraph).iri)+
+        ")")
+    ax <- addEntityConceptDesignationTerminologyGraphAxiom(
+      graph,
+      generateUUID(fromIRI(iri)),
+      entityConceptDesignation,
+      designationTerminologyGraph)
+  } yield ax
 
 }
 
