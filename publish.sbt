@@ -2,7 +2,7 @@
 // publish to bintray.com via: `sbt publish`
 publishTo := Some(
   "JPL-IMCE" at
-    s"https://api.bintray.com/content/jpl-imce/${moduleName.value}/${version.value}")
+    s"https://api.bintray.com/content/jpl-imce/gov.nasa.jpl.imce/${moduleName.value}/${version.value}")
 
 PgpKeys.useGpg := true
 
