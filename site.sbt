@@ -7,12 +7,12 @@ enablePlugins(SiteScaladocPlugin)
 import com.typesafe.sbt.SbtGhPages._
 
 preprocessVars in Preprocess := Map(
-  "CI" -> "https://imce-jenkins.jpl.nasa.gov/job/omf.scala.core/",
-  "GIT" -> "github.jpl.nasa.gov",
+  "CI" -> "https://travis-ci.org/JPL-IMCE/gov.nasa.jpl.omf.scala.core",
+  "GIT" -> "github.com",
   "REPO" -> "gov.nasa.jpl.imce",
   "VER" -> version.value,
-  "ORG" -> "imce",
-  "SUBJECT" -> "imce",
+  "ORG" -> "JPL-IMCE",
+  "SUBJECT" -> "JPL-IMCE",
   "ORG_NAME" -> organizationName.value,
   "DESC" -> description.value,
   "PKG" -> moduleName.value,
@@ -29,14 +29,14 @@ preprocessVars in Preprocess := Map(
   "VERSION" -> {
     git.gitCurrentTags.value match {
       case Seq(tag) =>
-        s"""<a href="https://github.jpl.nasa.gov/imce/${moduleName.value}/tree/$tag">$tag</a>"""
+        s"""<a href="https://@GIT@/@ORG@/${moduleName.value}/tree/$tag">$tag</a>"""
       case _ =>
         val v = version.value
         git.gitHeadCommit.value.fold[String](v) { sha =>
           if (git.gitUncommittedChanges.value)
             v
           else
-            s"""<a href="https://github.jpl.nasa.gov/imce/${moduleName.value}/tree/$sha">$v</a>"""
+            s"""<a href="https://@GIT@/@ORG@/${moduleName.value}/tree/$sha">$v</a>"""
         }
     }
   }
