@@ -56,7 +56,8 @@ package object core {
   ( tbox: Omf#ModelTerminologyGraph,
     onlyCompatibleKind: Boolean = true  )
   ( implicit ops: OMFOps[Omf], store: Omf#Store )
-  : Set[Omf#ModelTerminologyGraph] = {
+  : Set[Omf#ModelTerminologyGraph]
+  = {
 
     val s = ops.fromTerminologyGraph(tbox)
 

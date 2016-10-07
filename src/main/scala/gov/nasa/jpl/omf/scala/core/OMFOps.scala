@@ -146,6 +146,7 @@ trait IRIOps[omf <: OMF] {
   def toTargetIRI(iri: omf#IRI)
   : omf#IRI
 
+
 }
 
 trait OMFStoreOps[omf <: OMF] { self : IRIOps[omf] =>
@@ -978,7 +979,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
     * @param graph      : a terminology graph
     * @param aspectName : the name of a new entity aspect
     */
-  def addEntityAspect
+  final def addEntityAspect
   (graph: omf#MutableModelTerminologyGraph,
    aspectName: LocalName)
   (implicit store: omf#Store)
@@ -1018,7 +1019,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
     * @param conceptName : the name of a new entity concept
     * @param isAbstract  : boolean flag
     */
-  def addEntityConcept
+  final def addEntityConcept
   (graph: omf#MutableModelTerminologyGraph,
    conceptName: LocalName,
    isAbstract: Boolean)
@@ -1081,7 +1082,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
     *                                         from the target to the source
     * @param isAbstract                       boolean flag
     */
-  def addEntityReifiedRelationship
+  final def addEntityReifiedRelationship
   (graph: omf#MutableModelTerminologyGraph,
    source: omf#ModelEntityDefinition,
    target: omf#ModelEntityDefinition,
@@ -1130,7 +1131,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
     * @param store
     * @return
     */
-  def addScalarDataType
+  final def addScalarDataType
   (graph: omf#MutableModelTerminologyGraph,
    scalarDataTypeName: LocalName)
   (implicit store: omf#Store)
@@ -1170,7 +1171,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
     * @param store
     * @return
     */
-  def addStructuredDataType
+  final def addStructuredDataType
   (graph: omf#MutableModelTerminologyGraph,
    structureDatatypeName: LocalName)
   (implicit store: omf#Store)
@@ -1217,7 +1218,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
     * @param store
     * @return
     */
-  def addDataRelationshipFromEntityToScalar
+  final def addDataRelationshipFromEntityToScalar
   (graph: omf#MutableModelTerminologyGraph,
    source: omf#ModelEntityDefinition,
    target: omf#ModelScalarDataType,
@@ -1254,6 +1255,20 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   (implicit store: omf#Store)
   : Set[java.lang.Throwable] \/ omf#ModelScalarDataRelationshipRestrictionAxiomFromEntityToLiteral
 
+  def scalarDataRelationshipRestrictionAxiomFromEntityToLiteralUUID
+  (graph: omf#MutableModelTerminologyGraph,
+   entityDomain: omf#ModelEntityDefinition,
+   scalarDataProperty: omf#ModelDataRelationshipFromEntityToScalar)
+  (implicit store: omf#Store)
+  : Set[java.lang.Throwable] \/ UUID
+  = for {
+    iri <- withFragment(fromTerminologyGraph(graph).iri,
+      s"ScalarRangeAxiom("+
+        fromIRI(fromEntityDefinition(entityDomain))+","+
+        fromIRI(fromDataRelationshipFromEntityToScalar(scalarDataProperty)._3)+")")
+    uuid = generateUUID(fromIRI(iri))
+  } yield uuid
+
   /**
     * Add to a terminology graph a new OMF EntityScalarDataPropertyParticularRestrictionAxiom.
     * with a version 5 UUID based on the `graph`, `entityDomain` and `scalaDataProperty` IRIs
@@ -1266,7 +1281,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
     * @param store
     * @return
     */
-  def addScalarDataRelationshipRestrictionAxiomFromEntityToLiteral
+  final def addScalarDataRelationshipRestrictionAxiomFromEntityToLiteral
   (graph: omf#MutableModelTerminologyGraph,
    entityDomain: omf#ModelEntityDefinition,
    scalarDataProperty: omf#ModelDataRelationshipFromEntityToScalar,
@@ -1274,12 +1289,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   (implicit store: omf#Store)
   : Set[java.lang.Throwable] \/ omf#ModelScalarDataRelationshipRestrictionAxiomFromEntityToLiteral
   = for {
-    iri <- withFragment(fromTerminologyGraph(graph).iri,
-      s"ScalarRangeAxiom("+
-        fromIRI(fromEntityDefinition(entityDomain))+","+
-        fromIRI(fromDataRelationshipFromEntityToScalar(scalarDataProperty)._3)+","+
-        s"literal($literalRange))")
-    uuid = generateUUID(fromIRI(iri))
+    uuid <- scalarDataRelationshipRestrictionAxiomFromEntityToLiteralUUID(graph, entityDomain, scalarDataProperty)
     ax <- addScalarDataRelationshipRestrictionAxiomFromEntityToLiteral(
       graph, uuid, entityDomain, scalarDataProperty, literalRange)
   } yield ax
@@ -1319,7 +1329,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
     * @param store
     * @return
     */
-  def addDataRelationshipFromEntityToStructure
+  final def addDataRelationshipFromEntityToStructure
   (graph: omf#MutableModelTerminologyGraph,
    source: omf#ModelEntityDefinition,
    target: omf#ModelStructuredDataType,
@@ -1369,7 +1379,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
     * @param store
     * @return
     */
-  def addDataRelationshipFromStructureToScalar
+  final def addDataRelationshipFromStructureToScalar
   (graph: omf#MutableModelTerminologyGraph,
    source: omf#ModelStructuredDataType,
    target: omf#ModelScalarDataType,
@@ -1419,7 +1429,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
     * @param store
     * @return
     */
-  def addDataRelationshipFromStructureToStructure
+  final def addDataRelationshipFromStructureToStructure
   (graph: omf#MutableModelTerminologyGraph,
    source: omf#ModelStructuredDataType,
    target: omf#ModelStructuredDataType,
@@ -1456,6 +1466,21 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   (implicit store: omf#Store)
   : Set[java.lang.Throwable] \/ omf#EntityDefinitionAspectSubClassAxiom
 
+  def aspectSpecializationAxiomUUID
+  (graph: omf#MutableModelTerminologyGraph,
+   sub: omf#ModelEntityDefinition,
+   sup: omf#ModelEntityAspect)
+  (implicit store: omf#Store)
+  : Set[java.lang.Throwable] \/ UUID
+  = for {
+     iri <- withFragment(
+      fromTerminologyGraph(graph).iri,
+      s"AspectSpecializationAxiom("+
+        fromIRI(fromEntityDefinition(sub))+","+
+        fromIRI(fromEntityAspect(sup))+")")
+    uuid = generateUUID(fromIRI(iri))
+  } yield uuid
+
   /**
     * Add to a terminology graph a new OMF AspectSpecializationAxiom
     * with a version 5 UUID based on the `graph`, `sub` and `sup` IRIs.
@@ -1468,19 +1493,31 @@ trait MutableTerminologyGraphOps[omf <: OMF]
     * @param store
     * @return
     */
-  def addEntityDefinitionAspectSubClassAxiom
+  final def addEntityDefinitionAspectSubClassAxiom
   (graph: omf#MutableModelTerminologyGraph,
    sub: omf#ModelEntityDefinition,
    sup: omf#ModelEntityAspect)
   (implicit store: omf#Store)
   : Set[java.lang.Throwable] \/ omf#EntityDefinitionAspectSubClassAxiom
   = for {
-    iri <- withFragment(
-      fromTerminologyGraph(graph).iri,
-      s"AspectSpecializationAxiom(${fromIRI(fromEntityDefinition(sub))},${fromIRI(fromEntityAspect(sup))})")
-    uuid = generateUUID(fromIRI(iri))
+    uuid <- aspectSpecializationAxiomUUID(graph, sub, sup)
     ax <- addEntityDefinitionAspectSubClassAxiom(graph, uuid, sub, sup)
   } yield ax
+
+  def conceptSpecializationAxiomUUID
+  (graph: omf#MutableModelTerminologyGraph,
+   sub: omf#ModelEntityConcept,
+   sup: omf#ModelEntityConcept)
+  (implicit store: omf#Store)
+  : Set[java.lang.Throwable] \/ UUID
+  = for {
+     iri <- withFragment(
+      fromTerminologyGraph(graph).iri,
+      s"ConceptSpecializationAxiom("+
+        fromIRI(fromEntityConcept(sub).iri)+","+
+        fromIRI(fromEntityConcept(sup).iri)+")")
+    uuid = generateUUID(fromIRI(iri))
+  } yield uuid
 
   /**
     * Add to a terminology graph a new OMF ConceptSpecializationAxiom.
@@ -1514,7 +1551,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
     * @param store
     * @return
     */
-  def addEntityConceptSubClassAxiom
+  final def addEntityConceptSubClassAxiom
   (graph: omf#MutableModelTerminologyGraph,
    sub: omf#ModelEntityConcept,
    sup: omf#ModelEntityConcept)
@@ -1550,6 +1587,23 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   (implicit store: omf#Store)
   : Set[java.lang.Throwable] \/ omf#EntityDefinitionUniversalRestrictionAxiom
 
+  def entityUniversalRestrictionAxiomUUID
+  (graph: omf#MutableModelTerminologyGraph,
+   sub: omf#ModelEntityDefinition,
+   rel: omf#ModelEntityReifiedRelationship,
+   range: omf#ModelEntityDefinition)
+  (implicit store: omf#Store)
+  : Set[java.lang.Throwable] \/ UUID
+  = for {
+     iri <- withFragment(
+      fromTerminologyGraph(graph).iri,
+      s"EntityUniversalRestrictionAxiom("+
+        fromIRI(fromEntityDefinition(sub))+","+
+        fromIRI(fromEntityReifiedRelationship(rel).iri)+","+
+        fromIRI(fromEntityDefinition(range))+")")
+    uuid = generateUUID(fromIRI(iri))
+  } yield uuid
+
   /**
     * Add to a terminology graph a new OMF EntityUniversalRestrictionAxiom
     * with a version 5 UUID based on the `graph`, `sub`, 'rel` and 'range` IRIs.
@@ -1563,7 +1617,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
     * @param store
     * @return
     */
-  def addEntityDefinitionUniversalRestrictionAxiom
+  final def addEntityDefinitionUniversalRestrictionAxiom
   (graph: omf#MutableModelTerminologyGraph,
    sub: omf#ModelEntityDefinition,
    rel: omf#ModelEntityReifiedRelationship,
@@ -1571,13 +1625,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   (implicit store: omf#Store)
   : Set[java.lang.Throwable] \/ omf#EntityDefinitionUniversalRestrictionAxiom
   = for {
-    iri <- withFragment(
-      fromTerminologyGraph(graph).iri,
-      s"EntityUniversalRestrictionAxiom("+
-        fromIRI(fromEntityDefinition(sub))+","+
-        fromIRI(fromEntityReifiedRelationship(rel).iri)+","+
-        fromIRI(fromEntityDefinition(range))+")")
-    uuid = generateUUID(fromIRI(iri))
+    uuid <- entityUniversalRestrictionAxiomUUID(graph, sub, rel, range)
     ax <- addEntityDefinitionUniversalRestrictionAxiom(graph, uuid, sub, rel, range)
   } yield ax
 
@@ -1603,6 +1651,23 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   (implicit store: omf#Store)
   : Set[java.lang.Throwable] \/ omf#EntityDefinitionExistentialRestrictionAxiom
 
+  def entityExistentialRestrictionAxiomUUID
+  (graph: omf#MutableModelTerminologyGraph,
+   sub: omf#ModelEntityDefinition,
+   rel: omf#ModelEntityReifiedRelationship,
+   range: omf#ModelEntityDefinition)
+  (implicit store: omf#Store)
+  : Set[java.lang.Throwable] \/ UUID
+  = for {
+     iri <- withFragment(
+      fromTerminologyGraph(graph).iri,
+      s"EntityExistentialRestrictionAxiom("+
+        fromIRI(fromEntityDefinition(sub))+","+
+        fromIRI(fromEntityReifiedRelationship(rel).iri)+","+
+        fromIRI(fromEntityDefinition(range))+")")
+    uuid = generateUUID(fromIRI(iri))
+  } yield uuid
+
   /**
     * Add to a terminology graph a new OMF EntityExistentialRestrictionAxiom
     * with a version 5 UUID based on the `graph`, `sub`, `rel` and `range` IRIs.
@@ -1616,7 +1681,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
     * @param store
     * @return
     */
-  def addEntityDefinitionExistentialRestrictionAxiom
+  final def addEntityDefinitionExistentialRestrictionAxiom
   (graph: omf#MutableModelTerminologyGraph,
    sub: omf#ModelEntityDefinition,
    rel: omf#ModelEntityReifiedRelationship,
@@ -1624,13 +1689,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   (implicit store: omf#Store)
   : Set[java.lang.Throwable] \/ omf#EntityDefinitionExistentialRestrictionAxiom
   = for {
-    iri <- withFragment(
-      fromTerminologyGraph(graph).iri,
-      s"EntityExistentialRestrictionAxiom("+
-        fromIRI(fromEntityDefinition(sub))+","+
-        fromIRI(fromEntityReifiedRelationship(rel).iri)+","+
-        fromIRI(fromEntityDefinition(range))+")")
-    uuid = generateUUID(fromIRI(iri))
+    uuid <- entityExistentialRestrictionAxiomUUID(graph, sub, rel, range)
     ax <- addEntityDefinitionExistentialRestrictionAxiom(graph, uuid, sub, rel, range)
   } yield ax
 
@@ -1666,7 +1725,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
     * @param store
     * @return
     */
-  def addEntityReifiedRelationshipSubClassAxiom
+  final def addEntityReifiedRelationshipSubClassAxiom
   (graph: omf#MutableModelTerminologyGraph,
    sub: omf#ModelEntityReifiedRelationship,
    sup: omf#ModelEntityReifiedRelationship)
@@ -1681,6 +1740,16 @@ trait MutableTerminologyGraphOps[omf <: OMF]
     uuid = generateUUID(fromIRI(iri))
     ax <- addEntityReifiedRelationshipSubClassAxiom(graph, uuid, sub, sup)
   } yield ax
+
+  protected def addScalarDataTypeFacetRestrictionAxiom
+  (uuid: UUID,
+   graph: omf#MutableModelTerminologyGraph,
+   sub: omf#ModelScalarDataType,
+   sup: omf#ModelScalarDataType,
+   fundamentalFacets: Iterable[FundamentalFacet],
+   constrainingFacets: Iterable[ConstrainingFacet])
+  (implicit store: omf#Store)
+  : Set[java.lang.Throwable] \/ omf#ScalarDataTypeFacetRestrictionAxiom
 
   /**
     * Needs to be refactored in one of the OMF ScalarRestrictionAxioms:
@@ -1700,7 +1769,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
     * @param store
     * @return
     */
-  def addScalarDataTypeFacetRestrictionAxiom
+  final def addScalarDataTypeFacetRestrictionAxiom
   (graph: omf#MutableModelTerminologyGraph,
    sub: omf#ModelScalarDataType,
    sup: omf#ModelScalarDataType,
@@ -1708,6 +1777,16 @@ trait MutableTerminologyGraphOps[omf <: OMF]
    constrainingFacets: Iterable[ConstrainingFacet])
   (implicit store: omf#Store)
   : Set[java.lang.Throwable] \/ omf#ScalarDataTypeFacetRestrictionAxiom
+  = for {
+    iri <- withFragment(
+      fromTerminologyGraph(graph).iri,
+      s"ScalarDataTypeFacetRestrictionAxiom("+
+        fromIRI(fromScalarDataType(sup)._3)+","+
+        fromIRI(fromScalarDataType(sup)._3)+")")
+    uuid = generateUUID(fromIRI(iri))
+    ax <- addScalarDataTypeFacetRestrictionAxiom(
+      uuid, graph, sub, sup,fundamentalFacets,constrainingFacets)
+  } yield ax
 
   /**
     * Add to a terminology graph a new OMF TerminologyExtensionAxiom.
@@ -1721,11 +1800,22 @@ trait MutableTerminologyGraphOps[omf <: OMF]
     * @return
     */
   protected def addTerminologyGraphExtension
-  (extendingG: omf#MutableModelTerminologyGraph,
-   uuid: UUID,
+  (uuid: UUID,
+   extendingG: omf#MutableModelTerminologyGraph,
    extendedG: omf#ModelTerminologyGraph)
   (implicit store: omf#Store)
   : Set[java.lang.Throwable] \/ omf#TerminologyGraphDirectExtensionAxiom
+
+  def terminologyGraphExtensionUUID
+  (extendingG: omf#MutableModelTerminologyGraph,
+   extendedG: omf#ModelTerminologyGraph)
+  (implicit store: omf#Store)
+  : Set[java.lang.Throwable] \/ UUID
+  = for {
+    iri <- withFragment(fromTerminologyGraph(extendingG).iri,
+      s"TerminologyGraphExtensionAxiom(${fromIRI(fromTerminologyGraph(extendedG).iri)})")
+    uuid = generateUUID(fromIRI(iri))
+  } yield uuid
 
   /**
     * Add to a terminology graph a new OMF TerminologyExtensionAxiom
@@ -1738,18 +1828,14 @@ trait MutableTerminologyGraphOps[omf <: OMF]
     * @param store
     * @return
     */
-  def addTerminologyGraphExtension
+  final def addTerminologyGraphExtension
   (extendingG: omf#MutableModelTerminologyGraph,
    extendedG: omf#ModelTerminologyGraph)
   (implicit store: omf#Store)
   : Set[java.lang.Throwable] \/ omf#TerminologyGraphDirectExtensionAxiom
   = for {
-    iri <- withFragment(fromTerminologyGraph(extendingG).iri,
-      s"TerminologyGraphExtensionAxiom(${fromIRI(fromTerminologyGraph(extendedG).iri)})")
-    ax <- addTerminologyGraphExtension(
-      extendingG,
-      generateUUID(fromIRI(iri)),
-      extendedG)
+    uuid <- terminologyGraphExtensionUUID(extendingG, extendedG)
+    ax <- addTerminologyGraphExtension(uuid, extendingG, extendedG)
   } yield ax
 
   /**
@@ -1765,8 +1851,8 @@ trait MutableTerminologyGraphOps[omf <: OMF]
     * @return
     */
   protected def addNestedTerminologyGraph
-  (nestingParent: omf#MutableModelTerminologyGraph,
-   uuid: UUID,
+  (uuid: UUID,
+   nestingParent: omf#MutableModelTerminologyGraph,
    nestingContext: omf#ModelEntityConcept,
    nestedChild: omf#ModelTerminologyGraph)
   (implicit store: omf#Store)
@@ -1784,7 +1870,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
     * @param store
     * @return
     */
-  def addNestedTerminologyGraph
+  final def addNestedTerminologyGraph
   (nestingParent: omf#MutableModelTerminologyGraph,
    nestingContext: omf#ModelEntityConcept,
    nestedChild: omf#ModelTerminologyGraph)
@@ -1795,8 +1881,8 @@ trait MutableTerminologyGraphOps[omf <: OMF]
       fromTerminologyGraph(nestingParent).iri,
       s"TerminologyNestingAxiom(${fromEntityConcept(nestingContext).name})")
     ax <- addNestedTerminologyGraph(
-      nestingParent,
       generateUUID(fromIRI(iri)),
+      nestingParent,
       nestingContext,
       nestedChild)
   } yield ax
@@ -1834,7 +1920,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
     * @param store                       OMF storage provider
     * @return The EntityConceptToplevelDesignationTerminologyGraphAxiom created
     */
-  def addEntityConceptDesignationTerminologyGraphAxiom
+  final def addEntityConceptDesignationTerminologyGraphAxiom
   (graph: omf#MutableModelTerminologyGraph,
    entityConceptDesignation: omf#ModelEntityConcept,
    designationTerminologyGraph: omf#ModelTerminologyGraph)
