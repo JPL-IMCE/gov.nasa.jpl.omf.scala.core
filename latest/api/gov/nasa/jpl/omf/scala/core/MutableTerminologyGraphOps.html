@@ -331,18 +331,18 @@
       <p class="shortcomment cmt">Add to a terminology graph a new ReifiedRelationshipSpecializationAxiom.</p><div class="fullcomment"><div class="comment cmt"><p>Add to a terminology graph a new ReifiedRelationshipSpecializationAxiom.
 </p></div><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>See also</dt><dd><span class="cmt"><p>https://jpl-imce.github.io/jpl.omf.schema.tables/latest/api/index.html#gov.nasa.jpl.imce.omf.schema.tables.ReifiedRelationshipSpecializationAxiom</p></span></dd></dl></div>
     </li><li name="gov.nasa.jpl.omf.scala.core.MutableTerminologyGraphOps#addNestedTerminologyGraph" visbl="prt" data-isabs="true" fullComment="yes" group="Ungrouped">
-      <a id="addNestedTerminologyGraph(nestingParent:omf#MutableModelTerminologyGraph,uuid:java.util.UUID,nestingContext:omf#ModelEntityConcept,nestedChild:omf#ModelTerminologyGraph)(implicitstore:omf#Store):scalaz.\/[scala.collection.immutable.Set[Throwable],omf#TerminologyGraphDirectNestingAxiom]"></a>
-      <a id="addNestedTerminologyGraph(omf.MutableModelTerminologyGraph,UUID,omf.ModelEntityConcept,omf.ModelTerminologyGraph)(omf.Store):\/[Set[Throwable],omf.TerminologyGraphDirectNestingAxiom]"></a>
+      <a id="addNestedTerminologyGraph(uuid:java.util.UUID,nestingContext:omf#ModelEntityConcept,nestedGraph:omf#MutableModelTerminologyGraph)(implicitstore:omf#Store):scalaz.\/[scala.collection.immutable.Set[Throwable],omf#TerminologyGraphDirectNestingAxiom]"></a>
+      <a id="addNestedTerminologyGraph(UUID,omf.ModelEntityConcept,omf.MutableModelTerminologyGraph)(omf.Store):\/[Set[Throwable],omf.TerminologyGraphDirectNestingAxiom]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">abstract </span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">addNestedTerminologyGraph</span><span class="params">(<span name="nestingParent">nestingParent: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.MutableModelTerminologyGraph">omf.MutableModelTerminologyGraph</span></span>, <span name="uuid">uuid: <span class="extype" name="java.util.UUID">UUID</span></span>, <span name="nestingContext">nestingContext: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelEntityConcept">omf.ModelEntityConcept</span></span>, <span name="nestedChild">nestedChild: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelTerminologyGraph">omf.ModelTerminologyGraph</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <span class="extype" name="scalaz.\/">\/</span>[<span class="extype" name="scala.collection.immutable.Set">Set</span>[<span class="extype" name="java.lang.Throwable">Throwable</span>], <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.TerminologyGraphDirectNestingAxiom">omf.TerminologyGraphDirectNestingAxiom</span>]</span>
+        <span class="name">addNestedTerminologyGraph</span><span class="params">(<span name="uuid">uuid: <span class="extype" name="java.util.UUID">UUID</span></span>, <span name="nestingContext">nestingContext: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelEntityConcept">omf.ModelEntityConcept</span></span>, <span name="nestedGraph">nestedGraph: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.MutableModelTerminologyGraph">omf.MutableModelTerminologyGraph</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <span class="extype" name="scalaz.\/">\/</span>[<span class="extype" name="scala.collection.immutable.Set">Set</span>[<span class="extype" name="java.lang.Throwable">Throwable</span>], <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.TerminologyGraphDirectNestingAxiom">omf.TerminologyGraphDirectNestingAxiom</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.MutableTerminologyGraphOps@addNestedTerminologyGraph(nestingParent:omf#MutableModelTerminologyGraph,uuid:java.util.UUID,nestingContext:omf#ModelEntityConcept,nestedChild:omf#ModelTerminologyGraph)(implicitstore:omf#Store):scalaz.\/[scala.collection.immutable.Set[Throwable],omf#TerminologyGraphDirectNestingAxiom]" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.MutableTerminologyGraphOps@addNestedTerminologyGraph(uuid:java.util.UUID,nestingContext:omf#ModelEntityConcept,nestedGraph:omf#MutableModelTerminologyGraph)(implicitstore:omf#Store):scalaz.\/[scala.collection.immutable.Set[Throwable],omf#TerminologyGraphDirectNestingAxiom]" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -384,31 +384,23 @@
     </span>
       <p class="shortcomment cmt">Add to a terminology graph a new OMF Scalar datatype.</p><div class="fullcomment"><div class="comment cmt"><p>Add to a terminology graph a new OMF Scalar datatype.
 </p></div><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>See also</dt><dd><span class="cmt"><p>https://jpl-imce.github.io/jpl.omf.schema.tables/latest/api/index.html#gov.nasa.jpl.imce.omf.schema.tables.Scalar</p></span></dd></dl></div>
-    </li><li name="gov.nasa.jpl.omf.scala.core.MutableTerminologyGraphOps#addScalarDataTypeFacetRestrictionAxiom" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
-      <a id="addScalarDataTypeFacetRestrictionAxiom(graph:omf#MutableModelTerminologyGraph,sub:omf#ModelScalarDataType,sup:omf#ModelScalarDataType,fundamentalFacets:scala.collection.immutable.Iterable[gov.nasa.jpl.omf.scala.core.FundamentalFacet],constrainingFacets:scala.collection.immutable.Iterable[gov.nasa.jpl.omf.scala.core.ConstrainingFacet])(implicitstore:omf#Store):scalaz.\/[scala.collection.immutable.Set[Throwable],omf#ScalarDataTypeFacetRestrictionAxiom]"></a>
-      <a id="addScalarDataTypeFacetRestrictionAxiom(omf.MutableModelTerminologyGraph,omf.ModelScalarDataType,omf.ModelScalarDataType,Iterable[FundamentalFacet],Iterable[ConstrainingFacet])(omf.Store):\/[Set[Throwable],omf.ScalarDataTypeFacetRestrictionAxiom]"></a>
+    </li><li name="gov.nasa.jpl.omf.scala.core.MutableTerminologyGraphOps#addScalarDataTypeFacetRestrictionAxiom" visbl="prt" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="addScalarDataTypeFacetRestrictionAxiom(uuid:java.util.UUID,graph:omf#MutableModelTerminologyGraph,sub:omf#ModelScalarDataType,sup:omf#ModelScalarDataType,fundamentalFacets:scala.collection.immutable.Iterable[gov.nasa.jpl.omf.scala.core.FundamentalFacet],constrainingFacets:scala.collection.immutable.Iterable[gov.nasa.jpl.omf.scala.core.ConstrainingFacet])(implicitstore:omf#Store):scalaz.\/[scala.collection.immutable.Set[Throwable],omf#ScalarDataTypeFacetRestrictionAxiom]"></a>
+      <a id="addScalarDataTypeFacetRestrictionAxiom(UUID,omf.MutableModelTerminologyGraph,omf.ModelScalarDataType,omf.ModelScalarDataType,Iterable[FundamentalFacet],Iterable[ConstrainingFacet])(omf.Store):\/[Set[Throwable],omf.ScalarDataTypeFacetRestrictionAxiom]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">abstract </span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">addScalarDataTypeFacetRestrictionAxiom</span><span class="params">(<span name="graph">graph: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.MutableModelTerminologyGraph">omf.MutableModelTerminologyGraph</span></span>, <span name="sub">sub: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelScalarDataType">omf.ModelScalarDataType</span></span>, <span name="sup">sup: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelScalarDataType">omf.ModelScalarDataType</span></span>, <span name="fundamentalFacets">fundamentalFacets: <span class="extype" name="scala.collection.immutable.Iterable">Iterable</span>[<a href="FundamentalFacet.html" class="extype" name="gov.nasa.jpl.omf.scala.core.FundamentalFacet">FundamentalFacet</a>]</span>, <span name="constrainingFacets">constrainingFacets: <span class="extype" name="scala.collection.immutable.Iterable">Iterable</span>[<a href="ConstrainingFacet.html" class="extype" name="gov.nasa.jpl.omf.scala.core.ConstrainingFacet">ConstrainingFacet</a>]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <span class="extype" name="scalaz.\/">\/</span>[<span class="extype" name="scala.collection.immutable.Set">Set</span>[<span class="extype" name="java.lang.Throwable">Throwable</span>], <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ScalarDataTypeFacetRestrictionAxiom">omf.ScalarDataTypeFacetRestrictionAxiom</span>]</span>
+        <span class="name">addScalarDataTypeFacetRestrictionAxiom</span><span class="params">(<span name="uuid">uuid: <span class="extype" name="java.util.UUID">UUID</span></span>, <span name="graph">graph: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.MutableModelTerminologyGraph">omf.MutableModelTerminologyGraph</span></span>, <span name="sub">sub: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelScalarDataType">omf.ModelScalarDataType</span></span>, <span name="sup">sup: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelScalarDataType">omf.ModelScalarDataType</span></span>, <span name="fundamentalFacets">fundamentalFacets: <span class="extype" name="scala.collection.immutable.Iterable">Iterable</span>[<a href="FundamentalFacet.html" class="extype" name="gov.nasa.jpl.omf.scala.core.FundamentalFacet">FundamentalFacet</a>]</span>, <span name="constrainingFacets">constrainingFacets: <span class="extype" name="scala.collection.immutable.Iterable">Iterable</span>[<a href="ConstrainingFacet.html" class="extype" name="gov.nasa.jpl.omf.scala.core.ConstrainingFacet">ConstrainingFacet</a>]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <span class="extype" name="scalaz.\/">\/</span>[<span class="extype" name="scala.collection.immutable.Set">Set</span>[<span class="extype" name="java.lang.Throwable">Throwable</span>], <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ScalarDataTypeFacetRestrictionAxiom">omf.ScalarDataTypeFacetRestrictionAxiom</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.MutableTerminologyGraphOps@addScalarDataTypeFacetRestrictionAxiom(graph:omf#MutableModelTerminologyGraph,sub:omf#ModelScalarDataType,sup:omf#ModelScalarDataType,fundamentalFacets:scala.collection.immutable.Iterable[gov.nasa.jpl.omf.scala.core.FundamentalFacet],constrainingFacets:scala.collection.immutable.Iterable[gov.nasa.jpl.omf.scala.core.ConstrainingFacet])(implicitstore:omf#Store):scalaz.\/[scala.collection.immutable.Set[Throwable],omf#ScalarDataTypeFacetRestrictionAxiom]" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.MutableTerminologyGraphOps@addScalarDataTypeFacetRestrictionAxiom(uuid:java.util.UUID,graph:omf#MutableModelTerminologyGraph,sub:omf#ModelScalarDataType,sup:omf#ModelScalarDataType,fundamentalFacets:scala.collection.immutable.Iterable[gov.nasa.jpl.omf.scala.core.FundamentalFacet],constrainingFacets:scala.collection.immutable.Iterable[gov.nasa.jpl.omf.scala.core.ConstrainingFacet])(implicitstore:omf#Store):scalaz.\/[scala.collection.immutable.Set[Throwable],omf#ScalarDataTypeFacetRestrictionAxiom]" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">Needs to be refactored in one of the OMF ScalarRestrictionAxioms:
-- https://jpl-imce.github.io/jpl.omf.schema.tables/latest/api/index.html#gov.nasa.jpl.imce.omf.schema.tables.BinaryScalarRestrictionAxiom
-- https://jpl-imce.github.io/jpl.omf.schema.tables/latest/api/index.html#gov.nasa.jpl.imce.omf.schema.tables.IRIScalarRestrictionAxiom
-- https://jpl-imce.github.io/jpl.omf.schema.tables/latest/api/index.html#gov.nasa.jpl.imce.omf.schema.tables.NumericScalarRestrictionAxiom
-- https://jpl-imce.github.io/jpl.omf.schema.tables/latest/api/index.html#gov.nasa.jpl.imce.omf.schema.tables.PlainLiteralScalarRestrictionAxiom
-- https://jpl-imce.github.io/jpl.omf.schema.tables/latest/api/index.html#gov.nasa.jpl.imce.omf.schema.tables.ScalarOneOfRestrictionAxiom
-- https://jpl-imce.github.io/jpl.omf.schema.tables/latest/api/index.html#gov.nasa.jpl.imce.omf.schema.tables.StringScalarRestrictionAxiom
-- https://jpl-imce.github.io/jpl.omf.schema.tables/latest/api/index.html#gov.nasa.jpl.imce.omf.schema.tables.TimeScalarRestrictionAxiom
-</p>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd></dl></div>
     </li><li name="gov.nasa.jpl.omf.scala.core.MutableTerminologyGraphOps#addStructuredDataType" visbl="prt" data-isabs="true" fullComment="yes" group="Ungrouped">
       <a id="addStructuredDataType(graph:omf#MutableModelTerminologyGraph,uuid:java.util.UUID,structureDatatypeName:gov.nasa.jpl.imce.omf.schema.tables.LocalName)(implicitstore:omf#Store):scalaz.\/[scala.collection.immutable.Set[Throwable],omf#ModelStructuredDataType]"></a>
       <a id="addStructuredDataType(omf.MutableModelTerminologyGraph,UUID,LocalName)(omf.Store):\/[Set[Throwable],omf.ModelStructuredDataType]"></a>
@@ -428,18 +420,18 @@
       <p class="shortcomment cmt">Add to a terminology graph a new OMF Structure datatype.</p><div class="fullcomment"><div class="comment cmt"><p>Add to a terminology graph a new OMF Structure datatype.
 </p></div><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>See also</dt><dd><span class="cmt"><p>https://jpl-imce.github.io/jpl.omf.schema.tables/latest/api/index.html#gov.nasa.jpl.imce.omf.schema.tables.Structure</p></span></dd></dl></div>
     </li><li name="gov.nasa.jpl.omf.scala.core.MutableTerminologyGraphOps#addTerminologyGraphExtension" visbl="prt" data-isabs="true" fullComment="yes" group="Ungrouped">
-      <a id="addTerminologyGraphExtension(extendingG:omf#MutableModelTerminologyGraph,uuid:java.util.UUID,extendedG:omf#ModelTerminologyGraph)(implicitstore:omf#Store):scalaz.\/[scala.collection.immutable.Set[Throwable],omf#TerminologyGraphDirectExtensionAxiom]"></a>
-      <a id="addTerminologyGraphExtension(omf.MutableModelTerminologyGraph,UUID,omf.ModelTerminologyGraph)(omf.Store):\/[Set[Throwable],omf.TerminologyGraphDirectExtensionAxiom]"></a>
+      <a id="addTerminologyGraphExtension(uuid:java.util.UUID,extendingG:omf#MutableModelTerminologyGraph,extendedG:omf#ModelTerminologyGraph)(implicitstore:omf#Store):scalaz.\/[scala.collection.immutable.Set[Throwable],omf#TerminologyGraphDirectExtensionAxiom]"></a>
+      <a id="addTerminologyGraphExtension(UUID,omf.MutableModelTerminologyGraph,omf.ModelTerminologyGraph)(omf.Store):\/[Set[Throwable],omf.TerminologyGraphDirectExtensionAxiom]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">abstract </span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">addTerminologyGraphExtension</span><span class="params">(<span name="extendingG">extendingG: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.MutableModelTerminologyGraph">omf.MutableModelTerminologyGraph</span></span>, <span name="uuid">uuid: <span class="extype" name="java.util.UUID">UUID</span></span>, <span name="extendedG">extendedG: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelTerminologyGraph">omf.ModelTerminologyGraph</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <span class="extype" name="scalaz.\/">\/</span>[<span class="extype" name="scala.collection.immutable.Set">Set</span>[<span class="extype" name="java.lang.Throwable">Throwable</span>], <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.TerminologyGraphDirectExtensionAxiom">omf.TerminologyGraphDirectExtensionAxiom</span>]</span>
+        <span class="name">addTerminologyGraphExtension</span><span class="params">(<span name="uuid">uuid: <span class="extype" name="java.util.UUID">UUID</span></span>, <span name="extendingG">extendingG: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.MutableModelTerminologyGraph">omf.MutableModelTerminologyGraph</span></span>, <span name="extendedG">extendedG: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelTerminologyGraph">omf.ModelTerminologyGraph</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <span class="extype" name="scalaz.\/">\/</span>[<span class="extype" name="scala.collection.immutable.Set">Set</span>[<span class="extype" name="java.lang.Throwable">Throwable</span>], <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.TerminologyGraphDirectExtensionAxiom">omf.TerminologyGraphDirectExtensionAxiom</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.MutableTerminologyGraphOps@addTerminologyGraphExtension(extendingG:omf#MutableModelTerminologyGraph,uuid:java.util.UUID,extendedG:omf#ModelTerminologyGraph)(implicitstore:omf#Store):scalaz.\/[scala.collection.immutable.Set[Throwable],omf#TerminologyGraphDirectExtensionAxiom]" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.MutableTerminologyGraphOps@addTerminologyGraphExtension(uuid:java.util.UUID,extendingG:omf#MutableModelTerminologyGraph,extendedG:omf#ModelTerminologyGraph)(implicitstore:omf#Store):scalaz.\/[scala.collection.immutable.Set[Throwable],omf#TerminologyGraphDirectExtensionAxiom]" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -1224,7 +1216,7 @@ DataAllValuesFrom(&lt;data relationship from entity to scalar&gt;, DataOneOf(&lt
       <a id="addDataRelationshipFromEntityToScalar(omf.MutableModelTerminologyGraph,omf.ModelEntityDefinition,omf.ModelScalarDataType,LocalName)(omf.Store):\/[Set[Throwable],omf.ModelDataRelationshipFromEntityToScalar]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
-        <span class="modifier"></span>
+        <span class="modifier">final </span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
@@ -1244,7 +1236,7 @@ with a version 5 UUID based on the <code>graph</code> and <code>source</code> IR
       <a id="addDataRelationshipFromEntityToStructure(omf.MutableModelTerminologyGraph,omf.ModelEntityDefinition,omf.ModelStructuredDataType,LocalName)(omf.Store):\/[Set[Throwable],omf.ModelDataRelationshipFromEntityToStructure]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
-        <span class="modifier"></span>
+        <span class="modifier">final </span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
@@ -1264,7 +1256,7 @@ with a version 5 UUID based on the <code>graph</code> and <code>source</code> IR
       <a id="addDataRelationshipFromStructureToScalar(omf.MutableModelTerminologyGraph,omf.ModelStructuredDataType,omf.ModelScalarDataType,LocalName)(omf.Store):\/[Set[Throwable],omf.ModelDataRelationshipFromStructureToScalar]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
-        <span class="modifier"></span>
+        <span class="modifier">final </span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
@@ -1284,7 +1276,7 @@ with a version 5 UUID based on the <code>graph</code> and <code>source</code> IR
       <a id="addDataRelationshipFromStructureToStructure(omf.MutableModelTerminologyGraph,omf.ModelStructuredDataType,omf.ModelStructuredDataType,LocalName)(omf.Store):\/[Set[Throwable],omf.ModelDataRelationshipFromStructureToStructure]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
-        <span class="modifier"></span>
+        <span class="modifier">final </span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
@@ -1304,7 +1296,7 @@ with a version 5 UUID based on the <code>graph</code> and <code>source</code> IR
       <a id="addEntityAspect(omf.MutableModelTerminologyGraph,LocalName)(omf.Store):\/[Set[Throwable],omf.ModelEntityAspect]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
-        <span class="modifier"></span>
+        <span class="modifier">final </span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
@@ -1324,7 +1316,7 @@ with a version 5 UUID based on the <code>graph</code> IRI and <code>aspectName</
       <a id="addEntityConcept(omf.MutableModelTerminologyGraph,LocalName,Boolean)(omf.Store):\/[Set[Throwable],omf.ModelEntityConcept]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
-        <span class="modifier"></span>
+        <span class="modifier">final </span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
@@ -1344,7 +1336,7 @@ with a version 5 UUID based on the <code>graph</code> IRI and <code>conceptName<
       <a id="addEntityConceptDesignationTerminologyGraphAxiom(omf.MutableModelTerminologyGraph,omf.ModelEntityConcept,omf.ModelTerminologyGraph)(omf.Store):\/[Set[Throwable],omf.EntityConceptDesignationTerminologyGraphAxiom]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
-        <span class="modifier"></span>
+        <span class="modifier">final </span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
@@ -1358,14 +1350,14 @@ with a version 5 UUID based on the <code>graph</code> IRI and <code>conceptName<
       <p class="shortcomment cmt">Add to a terminology graph a new OMF ConceptDesignationTerminologyGraphAxiom
 with a version 5 UUID based on <code>graph</code>, <code>entityConceptDesignation</code> and <code>designationTerminologyGraph</code> IRIs.</p><div class="fullcomment"><div class="comment cmt"><p>Add to a terminology graph a new OMF ConceptDesignationTerminologyGraphAxiom
 with a version 5 UUID based on <code>graph</code>, <code>entityConceptDesignation</code> and <code>designationTerminologyGraph</code> IRIs.
-</p></div><dl class="paramcmts block"><dt class="param">graph</dt><dd class="cmt"><p>The mutable terminology graph in which to assert the axiom</p></dd><dt class="param">entityConceptDesignation</dt><dd class="cmt"><p>The model entity concept whose complete complete designation is specified</p></dd><dt class="param">designationTerminologyGraph</dt><dd class="cmt"><p>The terminology graph specifying the complete designation
+</p></div><dl class="paramcmts block"><dt class="param">graph</dt><dd class="cmt"><p>The mutable terminology graph in which to assert the axiom</p></dd><dt class="param">entityConceptDesignation</dt><dd class="cmt"><p>The model entity concept whose complete designation is specified</p></dd><dt class="param">designationTerminologyGraph</dt><dd class="cmt"><p>The terminology graph specifying the complete designation
                                    for the structural contents of the model entity concept</p></dd><dt class="param">store</dt><dd class="cmt"><p>OMF storage provider</p></dd><dt>returns</dt><dd class="cmt"><p>The EntityConceptToplevelDesignationTerminologyGraphAxiom created</p></dd></dl><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>https://jpl-imce.github.io/jpl.omf.schema.tables/latest/api/index.html#gov.nasa.jpl.imce.omf.schema.tables.ConceptDesignationTerminologyGraphAxiom</p></span></dd></dl></div>
     </li><li name="gov.nasa.jpl.omf.scala.core.MutableTerminologyGraphOps#addEntityConceptSubClassAxiom" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="addEntityConceptSubClassAxiom(graph:omf#MutableModelTerminologyGraph,sub:omf#ModelEntityConcept,sup:omf#ModelEntityConcept)(implicitstore:omf#Store):scalaz.\/[scala.collection.immutable.Set[Throwable],omf#EntityConceptSubClassAxiom]"></a>
       <a id="addEntityConceptSubClassAxiom(omf.MutableModelTerminologyGraph,omf.ModelEntityConcept,omf.ModelEntityConcept)(omf.Store):\/[Set[Throwable],omf.EntityConceptSubClassAxiom]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
-        <span class="modifier"></span>
+        <span class="modifier">final </span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
@@ -1385,7 +1377,7 @@ with a version 5 UUID based on the <code>graph</code>, <code>sub</code>, <code>s
       <a id="addEntityDefinitionAspectSubClassAxiom(omf.MutableModelTerminologyGraph,omf.ModelEntityDefinition,omf.ModelEntityAspect)(omf.Store):\/[Set[Throwable],omf.EntityDefinitionAspectSubClassAxiom]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
-        <span class="modifier"></span>
+        <span class="modifier">final </span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
@@ -1405,7 +1397,7 @@ with a version 5 UUID based on the <code>graph</code>, <code>sub</code> and <cod
       <a id="addEntityDefinitionExistentialRestrictionAxiom(omf.MutableModelTerminologyGraph,omf.ModelEntityDefinition,omf.ModelEntityReifiedRelationship,omf.ModelEntityDefinition)(omf.Store):\/[Set[Throwable],omf.EntityDefinitionExistentialRestrictionAxiom]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
-        <span class="modifier"></span>
+        <span class="modifier">final </span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
@@ -1425,7 +1417,7 @@ with a version 5 UUID based on the <code>graph</code>, <code>sub</code>, <code>r
       <a id="addEntityDefinitionUniversalRestrictionAxiom(omf.MutableModelTerminologyGraph,omf.ModelEntityDefinition,omf.ModelEntityReifiedRelationship,omf.ModelEntityDefinition)(omf.Store):\/[Set[Throwable],omf.EntityDefinitionUniversalRestrictionAxiom]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
-        <span class="modifier"></span>
+        <span class="modifier">final </span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
@@ -1445,7 +1437,7 @@ with a version 5 UUID based on the <code>graph</code>, <code>sub</code>, 'rel<co
       <a id="addEntityReifiedRelationship(omf.MutableModelTerminologyGraph,omf.ModelEntityDefinition,omf.ModelEntityDefinition,Iterable[RelationshipCharacteristics],LocalName,LocalName,Option[LocalName],Boolean)(omf.Store):\/[Set[Throwable],omf.ModelEntityReifiedRelationship]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
-        <span class="modifier"></span>
+        <span class="modifier">final </span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
@@ -1471,7 +1463,7 @@ with a version 5 UUID based on the <code>graph</code> IRI and <code>reifiedRelat
       <a id="addEntityReifiedRelationshipSubClassAxiom(omf.MutableModelTerminologyGraph,omf.ModelEntityReifiedRelationship,omf.ModelEntityReifiedRelationship)(omf.Store):\/[Set[Throwable],omf.EntityReifiedRelationshipSubClassAxiom]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
-        <span class="modifier"></span>
+        <span class="modifier">final </span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
@@ -1487,18 +1479,18 @@ with a version 5 UUID based on the <code>graph</code>, <code>sub</code> and <cod
 with a version 5 UUID based on the <code>graph</code>, <code>sub</code> and <code>sup</code> IRIs.
 </p></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>https://jpl-imce.github.io/jpl.omf.schema.tables/latest/api/index.html#gov.nasa.jpl.imce.omf.schema.tables.ReifiedRelationshipSpecializationAxiom</p></span></dd></dl></div>
     </li><li name="gov.nasa.jpl.omf.scala.core.MutableTerminologyGraphOps#addNestedTerminologyGraph" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="addNestedTerminologyGraph(nestingParent:omf#MutableModelTerminologyGraph,nestingContext:omf#ModelEntityConcept,nestedChild:omf#ModelTerminologyGraph)(implicitstore:omf#Store):scalaz.\/[scala.collection.immutable.Set[Throwable],omf#TerminologyGraphDirectNestingAxiom]"></a>
-      <a id="addNestedTerminologyGraph(omf.MutableModelTerminologyGraph,omf.ModelEntityConcept,omf.ModelTerminologyGraph)(omf.Store):\/[Set[Throwable],omf.TerminologyGraphDirectNestingAxiom]"></a>
+      <a id="addNestedTerminologyGraph(nestingContext:omf#ModelEntityConcept,nestedGraph:omf#MutableModelTerminologyGraph)(implicitstore:omf#Store):scalaz.\/[scala.collection.immutable.Set[Throwable],omf#TerminologyGraphDirectNestingAxiom]"></a>
+      <a id="addNestedTerminologyGraph(omf.ModelEntityConcept,omf.MutableModelTerminologyGraph)(omf.Store):\/[Set[Throwable],omf.TerminologyGraphDirectNestingAxiom]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
-        <span class="modifier"></span>
+        <span class="modifier">final </span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">addNestedTerminologyGraph</span><span class="params">(<span name="nestingParent">nestingParent: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.MutableModelTerminologyGraph">omf.MutableModelTerminologyGraph</span></span>, <span name="nestingContext">nestingContext: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelEntityConcept">omf.ModelEntityConcept</span></span>, <span name="nestedChild">nestedChild: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelTerminologyGraph">omf.ModelTerminologyGraph</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <span class="extype" name="scalaz.\/">\/</span>[<span class="extype" name="scala.collection.immutable.Set">Set</span>[<span class="extype" name="java.lang.Throwable">Throwable</span>], <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.TerminologyGraphDirectNestingAxiom">omf.TerminologyGraphDirectNestingAxiom</span>]</span>
+        <span class="name">addNestedTerminologyGraph</span><span class="params">(<span name="nestingContext">nestingContext: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelEntityConcept">omf.ModelEntityConcept</span></span>, <span name="nestedGraph">nestedGraph: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.MutableModelTerminologyGraph">omf.MutableModelTerminologyGraph</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <span class="extype" name="scalaz.\/">\/</span>[<span class="extype" name="scala.collection.immutable.Set">Set</span>[<span class="extype" name="java.lang.Throwable">Throwable</span>], <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.TerminologyGraphDirectNestingAxiom">omf.TerminologyGraphDirectNestingAxiom</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.MutableTerminologyGraphOps@addNestedTerminologyGraph(nestingParent:omf#MutableModelTerminologyGraph,nestingContext:omf#ModelEntityConcept,nestedChild:omf#ModelTerminologyGraph)(implicitstore:omf#Store):scalaz.\/[scala.collection.immutable.Set[Throwable],omf#TerminologyGraphDirectNestingAxiom]" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.MutableTerminologyGraphOps@addNestedTerminologyGraph(nestingContext:omf#ModelEntityConcept,nestedGraph:omf#MutableModelTerminologyGraph)(implicitstore:omf#Store):scalaz.\/[scala.collection.immutable.Set[Throwable],omf#TerminologyGraphDirectNestingAxiom]" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -1511,7 +1503,7 @@ with a version 5 UUID based on the <code>nestingParent</code> and <code>nestingC
       <a id="addScalarDataRelationshipRestrictionAxiomFromEntityToLiteral(omf.MutableModelTerminologyGraph,omf.ModelEntityDefinition,omf.ModelDataRelationshipFromEntityToScalar,LocalName)(omf.Store):\/[Set[Throwable],omf.ModelScalarDataRelationshipRestrictionAxiomFromEntityToLiteral]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
-        <span class="modifier"></span>
+        <span class="modifier">final </span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
@@ -1531,7 +1523,7 @@ and the <code>literalRange</code>.
       <a id="addScalarDataType(omf.MutableModelTerminologyGraph,LocalName)(omf.Store):\/[Set[Throwable],omf.ModelScalarDataType]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
-        <span class="modifier"></span>
+        <span class="modifier">final </span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
@@ -1546,12 +1538,37 @@ and the <code>literalRange</code>.
 with a version 5 UUID based on the <code>graph</code> IRI and <code>scalarDataTypeName</code>.</p><div class="fullcomment"><div class="comment cmt"><p>Add to a terminology graph a new OMF Scalar datatype
 with a version 5 UUID based on the <code>graph</code> IRI and <code>scalarDataTypeName</code>.
 </p></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>https://jpl-imce.github.io/jpl.omf.schema.tables/latest/api/index.html#gov.nasa.jpl.imce.omf.schema.tables.Scalar</p></span></dd></dl></div>
+    </li><li name="gov.nasa.jpl.omf.scala.core.MutableTerminologyGraphOps#addScalarDataTypeFacetRestrictionAxiom" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="addScalarDataTypeFacetRestrictionAxiom(graph:omf#MutableModelTerminologyGraph,sub:omf#ModelScalarDataType,sup:omf#ModelScalarDataType,fundamentalFacets:scala.collection.immutable.Iterable[gov.nasa.jpl.omf.scala.core.FundamentalFacet],constrainingFacets:scala.collection.immutable.Iterable[gov.nasa.jpl.omf.scala.core.ConstrainingFacet])(implicitstore:omf#Store):scalaz.\/[scala.collection.immutable.Set[Throwable],omf#ScalarDataTypeFacetRestrictionAxiom]"></a>
+      <a id="addScalarDataTypeFacetRestrictionAxiom(omf.MutableModelTerminologyGraph,omf.ModelScalarDataType,omf.ModelScalarDataType,Iterable[FundamentalFacet],Iterable[ConstrainingFacet])(omf.Store):\/[Set[Throwable],omf.ScalarDataTypeFacetRestrictionAxiom]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">addScalarDataTypeFacetRestrictionAxiom</span><span class="params">(<span name="graph">graph: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.MutableModelTerminologyGraph">omf.MutableModelTerminologyGraph</span></span>, <span name="sub">sub: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelScalarDataType">omf.ModelScalarDataType</span></span>, <span name="sup">sup: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelScalarDataType">omf.ModelScalarDataType</span></span>, <span name="fundamentalFacets">fundamentalFacets: <span class="extype" name="scala.collection.immutable.Iterable">Iterable</span>[<a href="FundamentalFacet.html" class="extype" name="gov.nasa.jpl.omf.scala.core.FundamentalFacet">FundamentalFacet</a>]</span>, <span name="constrainingFacets">constrainingFacets: <span class="extype" name="scala.collection.immutable.Iterable">Iterable</span>[<a href="ConstrainingFacet.html" class="extype" name="gov.nasa.jpl.omf.scala.core.ConstrainingFacet">ConstrainingFacet</a>]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <span class="extype" name="scalaz.\/">\/</span>[<span class="extype" name="scala.collection.immutable.Set">Set</span>[<span class="extype" name="java.lang.Throwable">Throwable</span>], <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ScalarDataTypeFacetRestrictionAxiom">omf.ScalarDataTypeFacetRestrictionAxiom</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.MutableTerminologyGraphOps@addScalarDataTypeFacetRestrictionAxiom(graph:omf#MutableModelTerminologyGraph,sub:omf#ModelScalarDataType,sup:omf#ModelScalarDataType,fundamentalFacets:scala.collection.immutable.Iterable[gov.nasa.jpl.omf.scala.core.FundamentalFacet],constrainingFacets:scala.collection.immutable.Iterable[gov.nasa.jpl.omf.scala.core.ConstrainingFacet])(implicitstore:omf#Store):scalaz.\/[scala.collection.immutable.Set[Throwable],omf#ScalarDataTypeFacetRestrictionAxiom]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">Needs to be refactored in one of the OMF ScalarRestrictionAxioms:
+- https://jpl-imce.github.io/jpl.omf.schema.tables/latest/api/index.html#gov.nasa.jpl.imce.omf.schema.tables.BinaryScalarRestrictionAxiom
+- https://jpl-imce.github.io/jpl.omf.schema.tables/latest/api/index.html#gov.nasa.jpl.imce.omf.schema.tables.IRIScalarRestrictionAxiom
+- https://jpl-imce.github.io/jpl.omf.schema.tables/latest/api/index.html#gov.nasa.jpl.imce.omf.schema.tables.NumericScalarRestrictionAxiom
+- https://jpl-imce.github.io/jpl.omf.schema.tables/latest/api/index.html#gov.nasa.jpl.imce.omf.schema.tables.PlainLiteralScalarRestrictionAxiom
+- https://jpl-imce.github.io/jpl.omf.schema.tables/latest/api/index.html#gov.nasa.jpl.imce.omf.schema.tables.ScalarOneOfRestrictionAxiom
+- https://jpl-imce.github.io/jpl.omf.schema.tables/latest/api/index.html#gov.nasa.jpl.imce.omf.schema.tables.StringScalarRestrictionAxiom
+- https://jpl-imce.github.io/jpl.omf.schema.tables/latest/api/index.html#gov.nasa.jpl.imce.omf.schema.tables.TimeScalarRestrictionAxiom
+</p>
     </li><li name="gov.nasa.jpl.omf.scala.core.MutableTerminologyGraphOps#addStructuredDataType" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="addStructuredDataType(graph:omf#MutableModelTerminologyGraph,structureDatatypeName:gov.nasa.jpl.imce.omf.schema.tables.LocalName)(implicitstore:omf#Store):scalaz.\/[scala.collection.immutable.Set[Throwable],omf#ModelStructuredDataType]"></a>
       <a id="addStructuredDataType(omf.MutableModelTerminologyGraph,LocalName)(omf.Store):\/[Set[Throwable],omf.ModelStructuredDataType]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
-        <span class="modifier"></span>
+        <span class="modifier">final </span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
@@ -1571,7 +1588,7 @@ with a version 5 UUID based on the <code>graph</code> IRI and <code>structureDat
       <a id="addTerminologyGraphExtension(omf.MutableModelTerminologyGraph,omf.ModelTerminologyGraph)(omf.Store):\/[Set[Throwable],omf.TerminologyGraphDirectExtensionAxiom]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
-        <span class="modifier"></span>
+        <span class="modifier">final </span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
@@ -1603,6 +1620,23 @@ with a version 5 UUID based on the <code>extendingG</code> and <code>extendedG</
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="gov.nasa.jpl.omf.scala.core.MutableTerminologyGraphOps#aspectSpecializationAxiomUUID" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="aspectSpecializationAxiomUUID(graph:omf#MutableModelTerminologyGraph,sub:omf#ModelEntityDefinition,sup:omf#ModelEntityAspect)(implicitstore:omf#Store):scalaz.\/[scala.collection.immutable.Set[Throwable],java.util.UUID]"></a>
+      <a id="aspectSpecializationAxiomUUID(omf.MutableModelTerminologyGraph,omf.ModelEntityDefinition,omf.ModelEntityAspect)(omf.Store):\/[Set[Throwable],UUID]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">aspectSpecializationAxiomUUID</span><span class="params">(<span name="graph">graph: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.MutableModelTerminologyGraph">omf.MutableModelTerminologyGraph</span></span>, <span name="sub">sub: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelEntityDefinition">omf.ModelEntityDefinition</span></span>, <span name="sup">sup: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelEntityAspect">omf.ModelEntityAspect</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <span class="extype" name="scalaz.\/">\/</span>[<span class="extype" name="scala.collection.immutable.Set">Set</span>[<span class="extype" name="java.lang.Throwable">Throwable</span>], <span class="extype" name="java.util.UUID">UUID</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.MutableTerminologyGraphOps@aspectSpecializationAxiomUUID(graph:omf#MutableModelTerminologyGraph,sub:omf#ModelEntityDefinition,sup:omf#ModelEntityAspect)(implicitstore:omf#Store):scalaz.\/[scala.collection.immutable.Set[Throwable],java.util.UUID]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
     </li><li name="scala.AnyRef#clone" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="clone():Object"></a>
       <a id="clone():AnyRef"></a>
@@ -1626,6 +1660,57 @@ with a version 5 UUID based on the <code>extendingG</code> and <code>extendedG</
     </span>)</span>
               
         </dd></dl></div>
+    </li><li name="gov.nasa.jpl.omf.scala.core.MutableTerminologyGraphOps#conceptSpecializationAxiomUUID" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="conceptSpecializationAxiomUUID(graph:omf#MutableModelTerminologyGraph,sub:omf#ModelEntityConcept,sup:omf#ModelEntityConcept)(implicitstore:omf#Store):scalaz.\/[scala.collection.immutable.Set[Throwable],java.util.UUID]"></a>
+      <a id="conceptSpecializationAxiomUUID(omf.MutableModelTerminologyGraph,omf.ModelEntityConcept,omf.ModelEntityConcept)(omf.Store):\/[Set[Throwable],UUID]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">conceptSpecializationAxiomUUID</span><span class="params">(<span name="graph">graph: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.MutableModelTerminologyGraph">omf.MutableModelTerminologyGraph</span></span>, <span name="sub">sub: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelEntityConcept">omf.ModelEntityConcept</span></span>, <span name="sup">sup: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelEntityConcept">omf.ModelEntityConcept</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <span class="extype" name="scalaz.\/">\/</span>[<span class="extype" name="scala.collection.immutable.Set">Set</span>[<span class="extype" name="java.lang.Throwable">Throwable</span>], <span class="extype" name="java.util.UUID">UUID</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.MutableTerminologyGraphOps@conceptSpecializationAxiomUUID(graph:omf#MutableModelTerminologyGraph,sub:omf#ModelEntityConcept,sup:omf#ModelEntityConcept)(implicitstore:omf#Store):scalaz.\/[scala.collection.immutable.Set[Throwable],java.util.UUID]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.omf.scala.core.MutableTerminologyGraphOps#entityExistentialRestrictionAxiomUUID" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="entityExistentialRestrictionAxiomUUID(graph:omf#MutableModelTerminologyGraph,sub:omf#ModelEntityDefinition,rel:omf#ModelEntityReifiedRelationship,range:omf#ModelEntityDefinition)(implicitstore:omf#Store):scalaz.\/[scala.collection.immutable.Set[Throwable],java.util.UUID]"></a>
+      <a id="entityExistentialRestrictionAxiomUUID(omf.MutableModelTerminologyGraph,omf.ModelEntityDefinition,omf.ModelEntityReifiedRelationship,omf.ModelEntityDefinition)(omf.Store):\/[Set[Throwable],UUID]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">entityExistentialRestrictionAxiomUUID</span><span class="params">(<span name="graph">graph: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.MutableModelTerminologyGraph">omf.MutableModelTerminologyGraph</span></span>, <span name="sub">sub: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelEntityDefinition">omf.ModelEntityDefinition</span></span>, <span name="rel">rel: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelEntityReifiedRelationship">omf.ModelEntityReifiedRelationship</span></span>, <span name="range">range: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelEntityDefinition">omf.ModelEntityDefinition</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <span class="extype" name="scalaz.\/">\/</span>[<span class="extype" name="scala.collection.immutable.Set">Set</span>[<span class="extype" name="java.lang.Throwable">Throwable</span>], <span class="extype" name="java.util.UUID">UUID</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.MutableTerminologyGraphOps@entityExistentialRestrictionAxiomUUID(graph:omf#MutableModelTerminologyGraph,sub:omf#ModelEntityDefinition,rel:omf#ModelEntityReifiedRelationship,range:omf#ModelEntityDefinition)(implicitstore:omf#Store):scalaz.\/[scala.collection.immutable.Set[Throwable],java.util.UUID]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.omf.scala.core.MutableTerminologyGraphOps#entityUniversalRestrictionAxiomUUID" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="entityUniversalRestrictionAxiomUUID(graph:omf#MutableModelTerminologyGraph,sub:omf#ModelEntityDefinition,rel:omf#ModelEntityReifiedRelationship,range:omf#ModelEntityDefinition)(implicitstore:omf#Store):scalaz.\/[scala.collection.immutable.Set[Throwable],java.util.UUID]"></a>
+      <a id="entityUniversalRestrictionAxiomUUID(omf.MutableModelTerminologyGraph,omf.ModelEntityDefinition,omf.ModelEntityReifiedRelationship,omf.ModelEntityDefinition)(omf.Store):\/[Set[Throwable],UUID]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">entityUniversalRestrictionAxiomUUID</span><span class="params">(<span name="graph">graph: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.MutableModelTerminologyGraph">omf.MutableModelTerminologyGraph</span></span>, <span name="sub">sub: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelEntityDefinition">omf.ModelEntityDefinition</span></span>, <span name="rel">rel: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelEntityReifiedRelationship">omf.ModelEntityReifiedRelationship</span></span>, <span name="range">range: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelEntityDefinition">omf.ModelEntityDefinition</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <span class="extype" name="scalaz.\/">\/</span>[<span class="extype" name="scala.collection.immutable.Set">Set</span>[<span class="extype" name="java.lang.Throwable">Throwable</span>], <span class="extype" name="java.util.UUID">UUID</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.MutableTerminologyGraphOps@entityUniversalRestrictionAxiomUUID(graph:omf#MutableModelTerminologyGraph,sub:omf#ModelEntityDefinition,rel:omf#ModelEntityReifiedRelationship,range:omf#ModelEntityDefinition)(implicitstore:omf#Store):scalaz.\/[scala.collection.immutable.Set[Throwable],java.util.UUID]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
     </li><li name="scala.AnyRef#eq" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a>
       <a id="eq(AnyRef):Boolean"></a>
@@ -1890,6 +1975,40 @@ Does not compare the graphs corresponding to each relationship, if any	.
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="gov.nasa.jpl.omf.scala.core.MutableTerminologyGraphOps#reifiedRelationshipSubClassAxiomUUID" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="reifiedRelationshipSubClassAxiomUUID(graph:omf#MutableModelTerminologyGraph,sub:omf#ModelEntityReifiedRelationship,sup:omf#ModelEntityReifiedRelationship)(implicitstore:omf#Store):scalaz.\/[scala.collection.immutable.Set[Throwable],java.util.UUID]"></a>
+      <a id="reifiedRelationshipSubClassAxiomUUID(omf.MutableModelTerminologyGraph,omf.ModelEntityReifiedRelationship,omf.ModelEntityReifiedRelationship)(omf.Store):\/[Set[Throwable],UUID]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">reifiedRelationshipSubClassAxiomUUID</span><span class="params">(<span name="graph">graph: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.MutableModelTerminologyGraph">omf.MutableModelTerminologyGraph</span></span>, <span name="sub">sub: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelEntityReifiedRelationship">omf.ModelEntityReifiedRelationship</span></span>, <span name="sup">sup: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelEntityReifiedRelationship">omf.ModelEntityReifiedRelationship</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <span class="extype" name="scalaz.\/">\/</span>[<span class="extype" name="scala.collection.immutable.Set">Set</span>[<span class="extype" name="java.lang.Throwable">Throwable</span>], <span class="extype" name="java.util.UUID">UUID</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.MutableTerminologyGraphOps@reifiedRelationshipSubClassAxiomUUID(graph:omf#MutableModelTerminologyGraph,sub:omf#ModelEntityReifiedRelationship,sup:omf#ModelEntityReifiedRelationship)(implicitstore:omf#Store):scalaz.\/[scala.collection.immutable.Set[Throwable],java.util.UUID]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.omf.scala.core.MutableTerminologyGraphOps#scalarDataRelationshipRestrictionAxiomFromEntityToLiteralUUID" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="scalarDataRelationshipRestrictionAxiomFromEntityToLiteralUUID(graph:omf#MutableModelTerminologyGraph,entityDomain:omf#ModelEntityDefinition,scalarDataProperty:omf#ModelDataRelationshipFromEntityToScalar)(implicitstore:omf#Store):scalaz.\/[scala.collection.immutable.Set[Throwable],java.util.UUID]"></a>
+      <a id="scalarDataRelationshipRestrictionAxiomFromEntityToLiteralUUID(omf.MutableModelTerminologyGraph,omf.ModelEntityDefinition,omf.ModelDataRelationshipFromEntityToScalar)(omf.Store):\/[Set[Throwable],UUID]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">scalarDataRelationshipRestrictionAxiomFromEntityToLiteralUUID</span><span class="params">(<span name="graph">graph: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.MutableModelTerminologyGraph">omf.MutableModelTerminologyGraph</span></span>, <span name="entityDomain">entityDomain: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelEntityDefinition">omf.ModelEntityDefinition</span></span>, <span name="scalarDataProperty">scalarDataProperty: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelDataRelationshipFromEntityToScalar">omf.ModelDataRelationshipFromEntityToScalar</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <span class="extype" name="scalaz.\/">\/</span>[<span class="extype" name="scala.collection.immutable.Set">Set</span>[<span class="extype" name="java.lang.Throwable">Throwable</span>], <span class="extype" name="java.util.UUID">UUID</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.MutableTerminologyGraphOps@scalarDataRelationshipRestrictionAxiomFromEntityToLiteralUUID(graph:omf#MutableModelTerminologyGraph,entityDomain:omf#ModelEntityDefinition,scalarDataProperty:omf#ModelDataRelationshipFromEntityToScalar)(implicitstore:omf#Store):scalaz.\/[scala.collection.immutable.Set[Throwable],java.util.UUID]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
     </li><li name="scala.AnyRef#synchronized" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="synchronized[T0](x$1:=&gt;T0):T0"></a>
       <a id="synchronized[T0](⇒T0):T0"></a>
@@ -1907,6 +2026,40 @@ Does not compare the graphs corresponding to each relationship, if any	.
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="gov.nasa.jpl.omf.scala.core.MutableTerminologyGraphOps#terminologyGraphExtensionUUID" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="terminologyGraphExtensionUUID(extendingG:omf#MutableModelTerminologyGraph,extendedG:omf#ModelTerminologyGraph)(implicitstore:omf#Store):scalaz.\/[scala.collection.immutable.Set[Throwable],java.util.UUID]"></a>
+      <a id="terminologyGraphExtensionUUID(omf.MutableModelTerminologyGraph,omf.ModelTerminologyGraph)(omf.Store):\/[Set[Throwable],UUID]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">terminologyGraphExtensionUUID</span><span class="params">(<span name="extendingG">extendingG: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.MutableModelTerminologyGraph">omf.MutableModelTerminologyGraph</span></span>, <span name="extendedG">extendedG: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelTerminologyGraph">omf.ModelTerminologyGraph</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <span class="extype" name="scalaz.\/">\/</span>[<span class="extype" name="scala.collection.immutable.Set">Set</span>[<span class="extype" name="java.lang.Throwable">Throwable</span>], <span class="extype" name="java.util.UUID">UUID</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.MutableTerminologyGraphOps@terminologyGraphExtensionUUID(extendingG:omf#MutableModelTerminologyGraph,extendedG:omf#ModelTerminologyGraph)(implicitstore:omf#Store):scalaz.\/[scala.collection.immutable.Set[Throwable],java.util.UUID]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.omf.scala.core.MutableTerminologyGraphOps#terminologyNestingAxiomUUID" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="terminologyNestingAxiomUUID(nestingContext:omf#ModelEntityConcept,nestedGraph:omf#ModelTerminologyGraph)(implicitstore:omf#Store):scalaz.\/[scala.collection.immutable.Set[Throwable],java.util.UUID]"></a>
+      <a id="terminologyNestingAxiomUUID(omf.ModelEntityConcept,omf.ModelTerminologyGraph)(omf.Store):\/[Set[Throwable],UUID]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">terminologyNestingAxiomUUID</span><span class="params">(<span name="nestingContext">nestingContext: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelEntityConcept">omf.ModelEntityConcept</span></span>, <span name="nestedGraph">nestedGraph: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelTerminologyGraph">omf.ModelTerminologyGraph</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <span class="extype" name="scalaz.\/">\/</span>[<span class="extype" name="scala.collection.immutable.Set">Set</span>[<span class="extype" name="java.lang.Throwable">Throwable</span>], <span class="extype" name="java.util.UUID">UUID</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.MutableTerminologyGraphOps@terminologyNestingAxiomUUID(nestingContext:omf#ModelEntityConcept,nestedGraph:omf#ModelTerminologyGraph)(implicitstore:omf#Store):scalaz.\/[scala.collection.immutable.Set[Throwable],java.util.UUID]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
     </li><li name="scala.AnyRef#toString" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="toString():String"></a>
       <a id="toString():String"></a>
