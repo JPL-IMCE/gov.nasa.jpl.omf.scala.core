@@ -37,7 +37,7 @@ object BuiltInDatatypeMaps {
    ops: OMFOps[omf],
    store: omf#Store)
   : Set[java.lang.Throwable] \/
-    (omf#ImmutableModelTerminologyGraph, Map[omf#MutableModelTerminologyGraph, omf#ImmutableModelTerminologyGraph])
+    (omf#ImmutableModelTerminologyGraph, omf#Mutable2ImmutableTerminologyMap)
   = {
     import ops._
 

@@ -26,7 +26,7 @@ import gov.nasa.jpl.omf.scala.core.TerminologyKind._
 
 import scala.{Boolean, None, Option, Some, StringContext, Unit}
 import scala.Predef.String
-import scala.collection.immutable.{Iterable, Map, Set}
+import scala.collection.immutable.{Iterable, Set}
 import scalaz._
 
 object OMFOps {
@@ -79,6 +79,9 @@ trait IRIOps[omf <: OMF] {
 
   def makeIRI(s: String)
   : Set[java.lang.Throwable] \/ omf#IRI
+
+  def getFragment(iri: omf#IRI)
+  : Set[java.lang.Throwable] \/ String
 
   def withFragment(iri: omf#IRI, fragment: String)
   : Set[java.lang.Throwable] \/ omf#IRI
@@ -173,13 +176,13 @@ trait OMFStoreOps[omf <: OMF] { self : IRIOps[omf] =>
   ()
   (implicit store: omf#Store)
   : Set[java.lang.Throwable] \/
-    (omf#ImmutableModelTerminologyGraph, omf#Mutable2IMutableTerminologyMap)
+    (omf#ImmutableModelTerminologyGraph, omf#Mutable2ImmutableTerminologyMap)
 
 
   def loadTerminologyGraph
   (iri: omf#IRI)
   (implicit store: omf#Store)
-  : Set[java.lang.Throwable] \/ (omf#ImmutableModelTerminologyGraph, omf#Mutable2IMutableTerminologyMap)
+  : Set[java.lang.Throwable] \/ (omf#ImmutableModelTerminologyGraph, omf#Mutable2ImmutableTerminologyMap)
 
   def isTerminologyGraphMutable
   (graph: omf#ModelTerminologyGraph)
@@ -227,43 +230,10 @@ trait OMFStoreOps[omf <: OMF] { self : IRIOps[omf] =>
   (implicit store: omf#Store)
   : Set[omf#TerminologyGraphDirectNestingAxiom]
 
-  /**
-    * Find the axioms TerminologyGraphDirectNestingAxiom(nestingParent=nestingG).
-    */
-  def lookupNestingAxiomsForNestingParent
-  (nestingG: omf#ModelTerminologyGraph)
-  (implicit store: omf#Store)
-  : Set[omf#TerminologyGraphDirectNestingAxiom]
-
-  def getNestingGraph
-  (nestedG: omf#ModelTerminologyGraph)
-  (implicit store: omf#Store)
-  : Option[omf#ModelTerminologyGraph]
-
-  def getNestedGraphs
-  (nestingG: omf#ModelTerminologyGraph)
-  (implicit store: omf#Store)
-  : Iterable[omf#ModelTerminologyGraph]
-
-  def getNestingParentGraphOfAxiom
-  (axiom: omf#TerminologyGraphDirectNestingAxiom)
-  (implicit store: omf#Store)
-  : omf#ModelTerminologyGraph
-
   def getNestingContextConceptOfAxiom
   (axiom: omf#TerminologyGraphDirectNestingAxiom)
   (implicit store: omf#Store)
   : omf#ModelEntityConcept
-
-  def getNestedChildGraphOfAxiom
-  (axiom: omf#TerminologyGraphDirectNestingAxiom)
-  (implicit store: omf#Store)
-  : omf#ModelTerminologyGraph
-
-  def getDirectlyExtendingGraphsOfExtendedParentGraph
-  (extendedParentG: omf#ModelTerminologyGraph)
-  (implicit store: omf#Store)
-  : Iterable[omf#TerminologyGraphDirectExtensionAxiom]
 
   def getDirectlyExtendedGraphsOfExtendingChildGraph
   (extendingChildG: omf#ModelTerminologyGraph)
@@ -339,7 +309,14 @@ trait OMFStoreOps[omf <: OMF] { self : IRIOps[omf] =>
   (g: omf#MutableModelTerminologyGraph)
   (implicit store: omf#Store)
   : Set[java.lang.Throwable] \/
-    (omf#ImmutableModelTerminologyGraph, Map[omf#MutableModelTerminologyGraph, omf#ImmutableModelTerminologyGraph])
+    (omf#ImmutableModelTerminologyGraph, omf#Mutable2ImmutableTerminologyMap)
+
+  def asImmutableTerminologyGraph
+  (m2i: omf#Mutable2ImmutableTerminologyMap,
+   g: omf#MutableModelTerminologyGraph)
+  (implicit store: omf#Store)
+  : Set[java.lang.Throwable] \/
+    (omf#ImmutableModelTerminologyGraph, omf#Mutable2ImmutableTerminologyMap)
 
   def isEntityDefinitionAssertedInTerminologyGraph
   (t: omf#ModelTypeTerm, graph: omf#ModelTerminologyGraph)
@@ -1713,6 +1690,21 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   (implicit store: omf#Store)
   : Set[java.lang.Throwable] \/ omf#EntityReifiedRelationshipSubClassAxiom
 
+  def reifiedRelationshipSubClassAxiomUUID
+  (graph: omf#MutableModelTerminologyGraph,
+   sub: omf#ModelEntityReifiedRelationship,
+   sup: omf#ModelEntityReifiedRelationship)
+  (implicit store: omf#Store)
+  : Set[java.lang.Throwable] \/ UUID
+  = for {
+    iri <- withFragment(
+      fromTerminologyGraph(graph).iri,
+      s"ReifiedRelationshipSpecializationAxiom(" +
+        fromIRI(fromEntityReifiedRelationship(sub).iri) + "," +
+        fromIRI(fromEntityReifiedRelationship(sup).iri) + ")")
+    uuid = generateUUID(fromIRI(iri))
+  } yield uuid
+
   /**
     * Add to a terminology graph a new ReifiedRelationshipSpecializationAxiom
     * with a version 5 UUID based on the `graph`, `sub` and `sup` IRIs.
@@ -1732,12 +1724,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   (implicit store: omf#Store)
   : Set[java.lang.Throwable] \/ omf#EntityReifiedRelationshipSubClassAxiom
   = for {
-    iri <- withFragment(
-      fromTerminologyGraph(graph).iri,
-      s"ReifiedRelationshipSpecializationAxiom("+
-        fromIRI(fromEntityReifiedRelationship(sub).iri)+","+
-        fromIRI(fromEntityReifiedRelationship(sup).iri)+")")
-    uuid = generateUUID(fromIRI(iri))
+    uuid <- reifiedRelationshipSubClassAxiomUUID(graph,sub,sup)
     ax <- addEntityReifiedRelationshipSubClassAxiom(graph, uuid, sub, sup)
   } yield ax
 
@@ -1843,20 +1830,29 @@ trait MutableTerminologyGraphOps[omf <: OMF]
     *
     * @see https://jpl-imce.github.io/jpl.omf.schema.tables/latest/api/index.html#gov.nasa.jpl.imce.omf.schema.tables.TerminologyNestingAxiom
     *
-    * @param nestingParent
     * @param uuid
     * @param nestingContext
-    * @param nestedChild
     * @param store
     * @return
     */
   protected def addNestedTerminologyGraph
   (uuid: UUID,
-   nestingParent: omf#MutableModelTerminologyGraph,
    nestingContext: omf#ModelEntityConcept,
-   nestedChild: omf#ModelTerminologyGraph)
+   nestedGraph: omf#MutableModelTerminologyGraph)
   (implicit store: omf#Store)
   : Set[java.lang.Throwable] \/ omf#TerminologyGraphDirectNestingAxiom
+
+  def terminologyNestingAxiomUUID
+  (nestingContext: omf#ModelEntityConcept,
+   nestedGraph: omf#ModelTerminologyGraph)
+  (implicit store: omf#Store)
+  : Set[java.lang.Throwable] \/ UUID
+  = for {
+    iri <- withFragment(
+      fromTerminologyGraph(nestedGraph).iri,
+      s"TerminologyNestingAxiom(${fromEntityConcept(nestingContext).name})")
+    uuid = generateUUID(fromIRI(iri))
+  } yield uuid
 
   /**
     * Add to a terminology graph a new OMF TerminologyNestingAxiom
@@ -1864,27 +1860,19 @@ trait MutableTerminologyGraphOps[omf <: OMF]
     *
     * @see https://jpl-imce.github.io/jpl.omf.schema.tables/latest/api/index.html#gov.nasa.jpl.imce.omf.schema.tables.TerminologyNestingAxiom
     *
-    * @param nestingParent
+    * @param nestedGraph
     * @param nestingContext
-    * @param nestedChild
     * @param store
     * @return
     */
   final def addNestedTerminologyGraph
-  (nestingParent: omf#MutableModelTerminologyGraph,
-   nestingContext: omf#ModelEntityConcept,
-   nestedChild: omf#ModelTerminologyGraph)
+  (nestingContext: omf#ModelEntityConcept,
+   nestedGraph: omf#MutableModelTerminologyGraph)
   (implicit store: omf#Store)
   : Set[java.lang.Throwable] \/ omf#TerminologyGraphDirectNestingAxiom
   = for {
-    iri <- withFragment(
-      fromTerminologyGraph(nestingParent).iri,
-      s"TerminologyNestingAxiom(${fromEntityConcept(nestingContext).name})")
-    ax <- addNestedTerminologyGraph(
-      generateUUID(fromIRI(iri)),
-      nestingParent,
-      nestingContext,
-      nestedChild)
+    uuid <- terminologyNestingAxiomUUID(nestingContext, nestedGraph)
+    ax <- addNestedTerminologyGraph(uuid, nestingContext, nestedGraph)
   } yield ax
 
   /**
@@ -1914,7 +1902,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
     * @see https://jpl-imce.github.io/jpl.omf.schema.tables/latest/api/index.html#gov.nasa.jpl.imce.omf.schema.tables.ConceptDesignationTerminologyGraphAxiom
     *
     * @param graph                       The mutable terminology graph in which to assert the axiom
-    * @param entityConceptDesignation    The model entity concept whose complete complete designation is specified
+    * @param entityConceptDesignation    The model entity concept whose complete designation is specified
     * @param designationTerminologyGraph The terminology graph specifying the complete designation
     *                                    for the structural contents of the model entity concept
     * @param store                       OMF storage provider

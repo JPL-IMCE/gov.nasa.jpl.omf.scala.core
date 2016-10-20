@@ -24,7 +24,7 @@ import java.util.UUID
 import com.fasterxml.uuid.Generators
 import com.fasterxml.uuid.impl.NameBasedGenerator
 
-import scala.{Boolean, Option}
+import scala.Boolean
 import scala.collection.immutable._
 import scala.Predef.String
 
@@ -65,15 +65,8 @@ package object core {
     : Boolean
     = !onlyCompatibleKind || TerminologyKind.compatibleKind(s.kind)(ops.getTerminologyGraphKind(g))
 
-    val i1
-    : Option[Omf#ModelTerminologyGraph]
-    = ops.lookupNestingAxiomForNestedChildIfAny(tbox).map(ops.getNestingParentGraphOfAxiom).filter(hasCompatibleKind)
-
-    val i2
-    : Iterable[Omf#ModelTerminologyGraph]
-    = s.imports.filter(hasCompatibleKind)
-
-    (i1 ++ i2).toSet
+    val imported = s.imports.filter(hasCompatibleKind).to[Set]
+    imported
   }
 
   /**

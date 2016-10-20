@@ -79,7 +79,7 @@ trait OMFtbox {
   type ModelTerminologyGraph
   type ImmutableModelTerminologyGraph <: ModelTerminologyGraph
   type MutableModelTerminologyGraph <: ModelTerminologyGraph
-  type Mutable2IMutableTerminologyMap <: Map[MutableModelTerminologyGraph, ImmutableModelTerminologyGraph]
+  type Mutable2ImmutableTerminologyMap <: Map[MutableModelTerminologyGraph, ImmutableModelTerminologyGraph]
 
   /**
     * A ModelTypeTerm is the basic unit for defining the conceptual model of a domain in an OMF ModelTerminologyGraph.
@@ -507,11 +507,9 @@ trait TerminologyGraphSignature[omf <: OMF] {
     */
   val imports: Iterable[omf#ModelTerminologyGraph]
   /**
-    * this terminology graph can be the nested graph for
-    * the context of a parent model term concept in
-    * a parent nesting graph
+    * this terminology graph can be the nested graph for a parent model term concept
     */
-  val nesting: Option[(omf#ModelEntityConcept, omf#ModelTerminologyGraph)]
+  val nesting: Option[omf#ModelEntityConcept]
   /**
     * the aspects described in this terminology graph
     */
@@ -556,6 +554,10 @@ trait TerminologyGraphSignature[omf <: OMF] {
     * the model term axioms asserted in this terminology graph
     */
   val axioms: Iterable[omf#ModelTermAxiom]
+  /**
+    * The terminology graph axioms asserted in this terminology graph
+    */
+  val gaxioms: Iterable[omf#TerminologyGraphAxiom]
 }
 
 trait EntityConceptSignature[omf <: OMF] {
