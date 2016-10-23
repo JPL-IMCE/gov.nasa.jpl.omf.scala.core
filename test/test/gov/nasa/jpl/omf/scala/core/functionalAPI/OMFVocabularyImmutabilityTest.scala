@@ -25,10 +25,10 @@ import gov.nasa.jpl.omf.scala.core.RelationshipCharacteristics._
 import gov.nasa.jpl.omf.scala.core.TerminologyKind._
 
 import org.scalatest._, exceptions._
-import scala.{None, Some, StringContext, Unit}
+import scala.{Some, StringContext, Unit}
 import scala.util.control.Exception._
 import scalaz._, Scalaz._
-import scala.collection.immutable.{Iterable,List,Set}
+import scala.collection.immutable.{List,Set}
 
 abstract class OMFVocabularyImmutabilityTest[omf <: OMF]
 (val saveStore: omf#Store, saveOps: OMFOps[omf],
@@ -322,36 +322,6 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF]
 
         val determinesAttitude = lookupEntityConcept(library._1, determinesAttitude_iri, recursively = false)
         determinesAttitude.isDefined should be(true)
-
-        val restrictions
-        : Iterable[omf#EntityReifiedRelationshipRestrictionAxiom]
-        = ops.getTermAxioms(library._1)._2.flatMap { ax =>
-          ops.foldTermAxiom(ax)(
-            funEntityDefinitionAspectSubClassAxiom =
-              _ => None,
-            funEntityConceptDesignationTerminologyGraphAxiom =
-              _ => None,
-            funEntityConceptSubClassAxiom =
-              _ => None,
-            funEntityDefinitionRestrictionAxiom =
-              _ => None,
-            funEntityReifiedRelationshipSubClassAxiom =
-              _ => None,
-            funEntityReifiedRelationshipRestrictionAxiom =
-              (r: omf#EntityReifiedRelationshipRestrictionAxiom) => Some(r),
-            funScalarDataTypeFacetRestrictionAxiom =
-              _ => None,
-            funModelScalarDataRelationshipRestrictionAxiomFromEntityToLiteral = _ => None)
-        }
-
-//        restrictions.exists { r =>
-//          ops.fromEntityReifiedRelationshipRestrictionAxiom(r) match {
-//            case (_, starTracker, component_performs_function, determinesAttitude, ExistentialRestrictionKind) =>
-//              true
-//            case _ =>
-//              false
-//          }
-//        } should be(true)
 
         val s1 = lookupEntityConcept(system._1, s1_iri, recursively=false)
         s1.isDefined should be(true)

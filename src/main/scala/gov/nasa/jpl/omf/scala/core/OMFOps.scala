@@ -808,8 +808,6 @@ trait ImmutableTerminologyGraphOps[omf <: OMF] { self: OMFStoreOps[omf] with IRI
    : omf#EntityDefinitionRestrictionAxiom => T,
    funEntityReifiedRelationshipSubClassAxiom
    : omf#EntityReifiedRelationshipSubClassAxiom => T,
-   funEntityReifiedRelationshipRestrictionAxiom
-   : omf#EntityReifiedRelationshipRestrictionAxiom => T,
    funScalarDataTypeFacetRestrictionAxiom
    : omf#ScalarDataTypeFacetRestrictionAxiom => T,
    funModelScalarDataRelationshipRestrictionAxiomFromEntityToLiteral
@@ -868,12 +866,6 @@ trait ImmutableTerminologyGraphOps[omf <: OMF] { self: OMFStoreOps[omf] with IRI
   (ax: omf#EntityReifiedRelationshipSubClassAxiom)
   : (UUID, omf#ModelEntityReifiedRelationship, omf#ModelEntityReifiedRelationship)
 
-  // entity relationship restriction axiom
-
-  def fromEntityReifiedRelationshipRestrictionAxiom
-  (ax: omf#EntityReifiedRelationshipRestrictionAxiom)
-  : (UUID, omf#ModelEntityDefinition, omf#ModelEntityReifiedRelationship, omf#ModelEntityDefinition, RestrictionKind)
-
   // scalar datatype facet restriction axiom
 
   def fromScalarDataTypeFacetRestrictionAxiom
@@ -908,8 +900,6 @@ object ImmutableTerminologyGraphOps {
           (_: omf#EntityDefinitionRestrictionAxiom) => None,
         funEntityReifiedRelationshipSubClassAxiom =
           (_: omf#EntityReifiedRelationshipSubClassAxiom) => None,
-        funEntityReifiedRelationshipRestrictionAxiom =
-          (_: omf#EntityReifiedRelationshipRestrictionAxiom) => None,
         funScalarDataTypeFacetRestrictionAxiom =
           (_: omf#ScalarDataTypeFacetRestrictionAxiom) => None,
         funModelScalarDataRelationshipRestrictionAxiomFromEntityToLiteral =

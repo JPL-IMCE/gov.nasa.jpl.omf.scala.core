@@ -298,10 +298,6 @@ trait OMFtbox {
     */
   type EntityReifiedRelationshipSubClassAxiom <: ModelTermAxiom
 
-  type EntityReifiedRelationshipRestrictionAxiom <: ModelTermAxiom
-  type EntityReifiedRelationshipExistentialRestrictionAxiom <: EntityReifiedRelationshipRestrictionAxiom
-  type EntityReifiedRelationshipUniversalRestrictionAxiom <: EntityReifiedRelationshipRestrictionAxiom
-
   /**
     * A ScalarDataTypeFacetRestrictionAxiom is a ModelTermAxiom assertion about
     * a subtype/supertype relationship between two ModelScalarDataTypes according
