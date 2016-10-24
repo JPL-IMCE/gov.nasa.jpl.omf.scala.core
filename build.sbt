@@ -37,8 +37,6 @@ lazy val core = Project("omf-scala-core", file("."))
     scalaSource in Test := baseDirectory.value / "test",
 
     libraryDependencies ++= Seq (
-      "com.fasterxml.uuid" % "java-uuid-generator" % Versions_java_uuid_generator.version,
-
       "gov.nasa.jpl.imce" %% "imce.third_party.other_scala_libraries"
         % Versions_other_scala_libraries.version artifacts
         Artifact("imce.third_party.other_scala_libraries", "zip", "zip", Some("resource"), Seq(), None, Map()),
