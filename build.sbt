@@ -36,10 +36,16 @@ lazy val core = Project("omf-scala-core", file("."))
 
     scalaSource in Test := baseDirectory.value / "test",
 
-    libraryDependencies +=
+    libraryDependencies ++= Seq(
       "gov.nasa.jpl.imce" %% "imce.third_party.other_scala_libraries"
         % Versions_other_scala_libraries.version artifacts
         Artifact("imce.third_party.other_scala_libraries", "zip", "zip", Some("resource"), Seq(), None, Map()),
+
+      "gov.nasa.jpl.imce" %% "jpl-omf-schema-tables"
+        % Versions_omf_schema_tables.version artifacts(
+        Artifact("jpl-omf-schema-tables"),
+        Artifact("jpl-omf-schema-tables", "zip", "zip", Some("resource"), Seq(), None, Map()))
+    ),
 
     extractArchives := {},
 
