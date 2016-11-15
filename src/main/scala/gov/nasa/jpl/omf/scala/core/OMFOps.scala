@@ -591,6 +591,11 @@ trait ImmutableTerminologyGraphOps[omf <: OMF] { self: OMFStoreOps[omf] with IRI
   (implicit store: omf#Store)
   : Option[omf#ModelDataRelationshipFromStructureToStructure]
 
+  def getTermAxiomUUID
+  (graph: omf#ModelTerminologyGraph,
+   ax: omf#ModelTermAxiom)
+  : UUID
+
   def getTermAxioms
   (graph: omf#ModelTerminologyGraph)
   : (omf#IRI, Iterable[omf#ModelTermAxiom])

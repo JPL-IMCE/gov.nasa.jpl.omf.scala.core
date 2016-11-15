@@ -15,6 +15,41 @@ JPL developed frameworks and techniques to leverage the unique benefits of ontol
 
 The OMG core functional API adopts techniques from the field of functional programming languages, particularly Scala, for specifying the vocabulary of ontological modeling as a set of abstract types (that is, no commitment implied or assumed about any implementation of these abstract types) and a set of functional operations on these abstract types (that is, operations in the mathematical sense of pure functions that compute output values based on input values). This functional paradigm for specifying a domain allows a clean separation between the domain of ontological modeling (i.e., the focus of the OMF Core Functional API) from specific bindings for standards-based technology frameworks such as W3C's OWL, OMG's UML/SysML and, potentially, others. More importantly, the functional nature of this OMF Core API allows decoupling algorithms for analyzing, constructing, auditing, verifying, reasoning about OMF ontological models independently of the particular technology in which these ontological models are represented. 
 
+## OMF: Schema, Tables & API
+
+- The [OMF Schema specification](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.omf.schema.specification) defines
+  the abstract syntax of OMF models via an 
+  [Eclipse Xcore](https://wiki.eclipse.org/Xcore) [metamodel](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.omf.schema.specification/blob/master/model/OMFSchema.xcore).
+  
+  In OMF a model is a terminology box graph; a particular configuration of a model is a terminology instance graph.
+  Briefly, a terminology box graph describes classifiers of concepts, relationships & data.
+  A terminology instance graph specifies particular individuals classified by definitions in a terminology box graph
+   along with values of their data properties.
+   
+  The abstract syntax vocabulary pertaining to terminology box graphs is summarized in 3 diagrams:
+  
+  - [OMF Terms](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.omf.schema.specification/blob/master/model/OMF%20TBox.svg)
+  - [OMF Term Axioms](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.omf.schema.specification/blob/master/model/OMF%20Term%20Axioms.svg)
+  - [OMF Terminology Axioms](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.omf.schema.specification/blob/master/model/OMF%20Terminology%20Axioms.svg)  
+
+- The [OMF Schema & Provenance Tables](https://github.com/JPL-IMCE/jpl.omf.schema.tables)
+
+  This is a polyglot library currently cross-compiled for two kinds of environments:
+  - JVM, for Java and/or Scala applications
+  - NPM, for JavaScript Node applications
+  
+  This library provides support for serializing and deserializing OMF models to/from Json representations
+  of the 4th normal form OMF schema tables.
+  
+  For transformations to/from the [OMG Tool Interoperability API](https://github.com/TIWG/org.omg.oti.uml.core),
+  this library provides support for serializing and deserializing OMF to OTI Provenance represented as
+  Json pairs of OMF & OTI identification keys.
+  
+- The OMF/Core API (this project) is a strongly typed generic Scala API parameterized by an implementation type.
+ 
+  Note that the OMF/Core API is currently behind w.r.t. the OMF Schema & Tables.
+  
+ 
 ## Scala
 
 The OMF Scala Core relies extensively on techniques for functional programming in Scala.
