@@ -209,6 +209,11 @@ trait OMFStoreOps[omf <: OMF] { self : IRIOps[omf] =>
   (implicit store: omf#Store)
   : TerminologyGraphSignature[omf]
 
+  def getTerminologyGraphAxiomUUID
+  (ax: omf#TerminologyGraphAxiom)
+  (implicit store: omf#Store)
+  : UUID
+
   def isTerminologyGraphDirectNestingAxiom
   (axiom: omf#TerminologyGraphAxiom)
   (implicit store: omf#Store)
