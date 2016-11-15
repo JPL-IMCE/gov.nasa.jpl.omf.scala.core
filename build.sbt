@@ -12,7 +12,7 @@ import scala.util.control.Exception._
 lazy val core = Project("omf-scala-core", file("."))
   .enablePlugins(IMCEGitPlugin)
   .enablePlugins(IMCEReleasePlugin)
-  .settings(dynamicScriptsResourceSettings(Some("gov.nasa.jpl.omf.scala.core")))
+  .settings(dynamicScriptsResourceSettings("gov.nasa.jpl.omf.scala.core"))
   .settings(IMCEPlugin.strictScalacFatalWarningsSettings)
   .settings(IMCEReleasePlugin.packageReleaseProcessSettings)
   .settings(
@@ -41,7 +41,11 @@ lazy val core = Project("omf-scala-core", file("."))
         % Versions_other_scala_libraries.version artifacts
         Artifact("imce.third_party.other_scala_libraries", "zip", "zip", Some("resource"), Seq(), None, Map()),
 
-      "gov.nasa.jpl.imce" %% "jpl-omf-schema-tables" % Versions_omf_schema_tables.version
+      "gov.nasa.jpl.imce" %% "jpl-omf-schema-tables"
+        % Versions_omf_schema_tables.version artifacts(
+        Artifact("jpl-omf-schema-tables"),
+        Artifact("jpl-omf-schema-tables", "zip", "zip", Some("resource"), Seq(), None, Map()))
+
     ),
 
     extractArchives := {},
@@ -50,7 +54,7 @@ lazy val core = Project("omf-scala-core", file("."))
     resolvers += Resolver.bintrayRepo("tiwg", "org.omg.tiwg")
   )
 
-def dynamicScriptsResourceSettings(dynamicScriptsProjectName: Option[String] = None): Seq[Setting[_]] = {
+def dynamicScriptsResourceSettings(projectName: String): Seq[Setting[_]] = {
 
   import com.typesafe.sbt.packager.universal.UniversalPlugin.autoImport._
 
@@ -61,21 +65,15 @@ def dynamicScriptsResourceSettings(dynamicScriptsProjectName: Option[String] = N
   val QUALIFIED_NAME = "^[a-zA-Z][\\w_]*(\\.[a-zA-Z][\\w_]*)*$".r
 
   Seq(
-    // the '*-resource.zip' archive will start from: 'dynamicScripts/<dynamicScriptsProjectName>'
-    com.typesafe.sbt.packager.Keys.topLevelDirectory in Universal := {
-      val projectName = dynamicScriptsProjectName.getOrElse(baseDirectory.value.getName)
-      require(
-        QUALIFIED_NAME.pattern.matcher(projectName).matches,
-        s"The project name, '$projectName` is not a valid Java qualified name")
-      Some(projectName)
-    },
+    // the '*-resource.zip' archive will start from: 'dynamicScripts'
+    com.typesafe.sbt.packager.Keys.topLevelDirectory in Universal := None,
 
     // name the '*-resource.zip' in the same way as other artifacts
     com.typesafe.sbt.packager.Keys.packageName in Universal :=
       normalizedName.value + "_" + scalaBinaryVersion.value + "-" + version.value + "-resource",
 
     // contents of the '*-resource.zip' to be produced by 'universal:packageBin'
-    mappings in Universal in packageBin ++= {
+    mappings in Universal ++= {
       val dir = baseDirectory.value
       val bin = (packageBin in Compile).value
       val src = (packageSrc in Compile).value
@@ -84,18 +82,24 @@ def dynamicScriptsResourceSettings(dynamicScriptsProjectName: Option[String] = N
       val srcT = (packageSrc in Test).value
       val docT = (packageDoc in Test).value
 
-      addIfExists(dir / ".classpath", ".classpath") ++
-        addIfExists(dir / "README.md", "README.md") ++
-        addIfExists(bin, "lib/" + bin.name) ++
-        addIfExists(binT, "lib/" + binT.name) ++
-        addIfExists(src, "lib.sources/" + src.name) ++
-        addIfExists(srcT, "lib.sources/" + srcT.name) ++
-        addIfExists(doc, "lib.javadoc/" + doc.name) ++
-        addIfExists(docT, "lib.javadoc/" + docT.name)
+      (dir * ".classpath").pair(rebase(dir, projectName)) ++
+        (dir * "*.md").pair(rebase(dir, projectName)) ++
+        (dir / "resources" ***).pair(rebase(dir, projectName)) ++
+        addIfExists(bin, projectName + "/lib/" + bin.name) ++
+        addIfExists(binT, projectName + "/lib/" + binT.name) ++
+        addIfExists(src, projectName + "/lib.sources/" + src.name) ++
+        addIfExists(srcT, projectName + "/lib.sources/" + srcT.name) ++
+        addIfExists(doc, projectName + "/lib.javadoc/" + doc.name) ++
+        addIfExists(docT, projectName + "/lib.javadoc/" + docT.name)
     },
 
-    artifacts <+= (name in Universal) { n => Artifact(n, "zip", "zip", Some("resource"), Seq(), None, Map()) },
-    packagedArtifacts <+= (packageBin in Universal, name in Universal) map { (p, n) =>
+    artifacts += {
+      val n = (name in Universal).value
+      Artifact(n, "zip", "zip", Some("resource"), Seq(), None, Map())
+    },
+    packagedArtifacts += {
+      val p = (packageBin in Universal).value
+      val n = (name in Universal).value
       Artifact(n, "zip", "zip", Some("resource"), Seq(), None, Map()) -> p
     }
   )
