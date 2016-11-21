@@ -165,7 +165,7 @@ abstract class OMFNestedGraphTest[omf <: OMF]
         p1_asserts_A_performsFunction_C <-
         addEntityReifiedRelationshipSubClassAxiom(graph=p1, sub=p1_asserts_A_performs_C, sup=component_performs_function)
 
-        g_nests_p1 <- addNestedTerminologyGraph(nestingContext=g_authorizes_p1, nestedGraph=p1)
+        g_nests_p1 <- addNestedTerminologyGraph(nestingGraph=g, nestingContext=g_authorizes_p1, nestedGraph=p1)
 
         p2_iri <- makeIRI("http://imce.jpl.nasa.gov/test/nestedGraph/example/P2")
         p2 <- makeTerminologyGraph(p2_iri, isDefinition)
@@ -185,7 +185,7 @@ abstract class OMFNestedGraphTest[omf <: OMF]
         p2_asserts_B_performsFunction_C <-
         addEntityReifiedRelationshipSubClassAxiom(graph=p2, sub=p2_asserts_B_performs_C, sup=component_performs_function)
 
-        g_nests_p2 <- addNestedTerminologyGraph(nestingContext=g_authorizes_p2, nestedGraph=p2)
+        g_nests_p2 <- addNestedTerminologyGraph(nestingGraph=g, nestingContext=g_authorizes_p2, nestedGraph=p2)
 
         ibase <- asImmutableTerminologyGraph(base)
         _ <- saveTerminologyGraph(ibase._1)

@@ -1831,12 +1831,14 @@ trait MutableTerminologyGraphOps[omf <: OMF]
     * @see https://jpl-imce.github.io/jpl.omf.schema.tables/latest/api/index.html#gov.nasa.jpl.imce.omf.schema.tables.TerminologyNestingAxiom
     *
     * @param uuid
+    * @param nestingGraph
     * @param nestingContext
     * @param store
     * @return
     */
   protected def addNestedTerminologyGraph
   (uuid: UUID,
+   nestingGraph: omf#ModelTerminologyGraph,
    nestingContext: omf#ModelEntityConcept,
    nestedGraph: omf#MutableModelTerminologyGraph)
   (implicit store: omf#Store)
@@ -1856,23 +1858,25 @@ trait MutableTerminologyGraphOps[omf <: OMF]
 
   /**
     * Add to a terminology graph a new OMF TerminologyNestingAxiom
-    * with a version 5 UUID based on the `nestingParent` and `nestingContext` IRIs.
+    * with a version 5 UUID based on the `nestingContext` and `nestedGraph` IRIs.
     *
     * @see https://jpl-imce.github.io/jpl.omf.schema.tables/latest/api/index.html#gov.nasa.jpl.imce.omf.schema.tables.TerminologyNestingAxiom
     *
-    * @param nestedGraph
+    * @param nestingGraph
     * @param nestingContext
+    * @param nestedGraph
     * @param store
     * @return
     */
   final def addNestedTerminologyGraph
-  (nestingContext: omf#ModelEntityConcept,
+  (nestingGraph: omf#ModelTerminologyGraph,
+   nestingContext: omf#ModelEntityConcept,
    nestedGraph: omf#MutableModelTerminologyGraph)
   (implicit store: omf#Store)
   : Set[java.lang.Throwable] \/ omf#TerminologyGraphDirectNestingAxiom
   = for {
     uuid <- terminologyNestingAxiomUUID(nestingContext, nestedGraph)
-    ax <- addNestedTerminologyGraph(uuid, nestingContext, nestedGraph)
+    ax <- addNestedTerminologyGraph(uuid, nestingGraph, nestingContext, nestedGraph)
   } yield ax
 
   /**
