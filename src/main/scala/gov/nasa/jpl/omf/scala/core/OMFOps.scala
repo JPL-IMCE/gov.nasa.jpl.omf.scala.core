@@ -235,10 +235,20 @@ trait OMFStoreOps[omf <: OMF] { self : IRIOps[omf] =>
   (implicit store: omf#Store)
   : Set[omf#TerminologyGraphDirectNestingAxiom]
 
+  def getNestingGraphOfAxiom
+  (axiom: omf#TerminologyGraphDirectNestingAxiom)
+  (implicit store: omf#Store)
+  : omf#ModelTerminologyGraph
+
   def getNestingContextConceptOfAxiom
   (axiom: omf#TerminologyGraphDirectNestingAxiom)
   (implicit store: omf#Store)
   : omf#ModelEntityConcept
+
+  def getExtendedGraphOfTerminologogyGraphDirectExtensionAxiom
+  (gax: omf#TerminologyGraphDirectExtensionAxiom)
+  (implicit store: omf#Store)
+  : omf#ModelTerminologyGraph
 
   def getDirectlyExtendedGraphsOfExtendingChildGraph
   (extendingChildG: omf#ModelTerminologyGraph)
@@ -597,8 +607,7 @@ trait ImmutableTerminologyGraphOps[omf <: OMF] { self: OMFStoreOps[omf] with IRI
   : Option[omf#ModelDataRelationshipFromStructureToStructure]
 
   def getTermAxiomUUID
-  (graph: omf#ModelTerminologyGraph,
-   ax: omf#ModelTermAxiom)
+  (ax: omf#ModelTermAxiom)
   : UUID
 
   def getTermAxioms
@@ -610,7 +619,6 @@ trait ImmutableTerminologyGraphOps[omf <: OMF] { self: OMFStoreOps[omf] with IRI
   : (omf#IRI, Iterable[omf#ModelTypeTerm])
 
   def foldTerm[T]
-  (t: omf#ModelTypeTerm)
   (funEntityAspect: omf#ModelEntityAspect => T,
    funEntityConcept: omf#ModelEntityConcept => T,
    funEntityReifiedRelationship: omf#ModelEntityReifiedRelationship => T,
@@ -621,22 +629,21 @@ trait ImmutableTerminologyGraphOps[omf <: OMF] { self: OMFStoreOps[omf] with IRI
    funDataRelationshipFromEntityToStructure: omf#ModelDataRelationshipFromEntityToStructure => T,
    funDataRelationshipFromStructureToScalar: omf#ModelDataRelationshipFromStructureToScalar => T,
    funDataRelationshipFromStructureToStructure: omf#ModelDataRelationshipFromStructureToStructure => T)
+  (t: omf#ModelTypeTerm)
   : T
 
   def getTermLocalName
-  (graph: omf#ModelTerminologyGraph,
-   term: omf#ModelTypeTerm)
+  (term: omf#ModelTypeTerm)
   : LocalName
 
   def getTermUUID
-  (graph: omf#ModelTerminologyGraph,
-   term: omf#ModelTypeTerm)
+  (term: omf#ModelTypeTerm)
   : UUID
 
   def fromTerm
   (t: omf#ModelTypeTerm)
   : omf#IRI =
-    foldTerm[omf#IRI](t)(
+    foldTerm[omf#IRI](
       (ea: omf#ModelEntityAspect) =>
         fromEntityAspect(ea),
       (ec: omf#ModelEntityConcept) =>
@@ -656,7 +663,7 @@ trait ImmutableTerminologyGraphOps[omf <: OMF] { self: OMFStoreOps[omf] with IRI
       (ssc: omf#ModelDataRelationshipFromStructureToScalar) =>
         fromDataRelationshipFromStructureToScalar(ssc)._3,
       (sst: omf#ModelDataRelationshipFromStructureToStructure) =>
-        fromDataRelationshipFromStructureToStructure(sst)._3)
+        fromDataRelationshipFromStructureToStructure(sst)._3)(t)
 
   // entity aspect
 
@@ -807,7 +814,6 @@ trait ImmutableTerminologyGraphOps[omf <: OMF] { self: OMFStoreOps[omf] with IRI
   // model term axioms
 
   def foldTermAxiom[T]
-  (t: omf#ModelTermAxiom)
   (funEntityDefinitionAspectSubClassAxiom
    : omf#EntityDefinitionAspectSubClassAxiom => T,
    funEntityConceptDesignationTerminologyGraphAxiom
@@ -822,6 +828,15 @@ trait ImmutableTerminologyGraphOps[omf <: OMF] { self: OMFStoreOps[omf] with IRI
    : omf#ScalarDataTypeFacetRestrictionAxiom => T,
    funModelScalarDataRelationshipRestrictionAxiomFromEntityToLiteral
    : omf#ModelScalarDataRelationshipRestrictionAxiomFromEntityToLiteral => T)
+  (t: omf#ModelTermAxiom)
+  : T
+
+  def foldTerminologyGraphAxiom[T]
+  (funTerminologyGraphDirectExtensionAxiom
+   : omf#TerminologyGraphDirectExtensionAxiom => T,
+   funTerminologyGraphDirectNestingAxiom
+   : omf#TerminologyGraphDirectNestingAxiom => T)
+  (t: omf#TerminologyGraphAxiom)
   : T
 
   // scalar data relationship restriction axiom from entity to literal
@@ -899,7 +914,7 @@ object ImmutableTerminologyGraphOps {
   = {
     val axioms = for {
       ax <- ops.getTermAxioms(graph)._2
-      e2l <- ops.foldTermAxiom[Option[omf#ModelScalarDataRelationshipRestrictionAxiomFromEntityToLiteral]](ax)(
+      e2l <- ops.foldTermAxiom[Option[omf#ModelScalarDataRelationshipRestrictionAxiomFromEntityToLiteral]](
         funEntityDefinitionAspectSubClassAxiom =
           (_: omf#EntityDefinitionAspectSubClassAxiom) => None,
         funEntityConceptDesignationTerminologyGraphAxiom =
@@ -918,7 +933,7 @@ object ImmutableTerminologyGraphOps {
             Some(x)
           else
             None
-      )
+      )(ax)
     } yield e2l
     axioms.to[Set]
   }

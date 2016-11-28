@@ -271,8 +271,8 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF]
 
         val identifiedElement = lookupEntityAspect(base._1, identifiedElement_iri, recursively = false)
         identifiedElement.isDefined should be(true)
-        getTermLocalName(base._1, identifiedElement.get) should be("IdentifiedElement")
-        getTermUUID(base._1, identifiedElement.get) should be(UUID.fromString("44275a03-9225-5181-ba7c-8809c8a93cab"))
+        getTermLocalName(identifiedElement.get) should be("IdentifiedElement")
+        getTermUUID(identifiedElement.get) should be(UUID.fromString("44275a03-9225-5181-ba7c-8809c8a93cab"))
 
         val hasIdentifier =
           lookupEntityDataRelationshipFromEntityToScalar(base._1, hasIdentifier_iri, recursively = false)
