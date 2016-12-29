@@ -18,8 +18,8 @@
 
 package gov.nasa.jpl.omf.scala.core
 
-sealed trait RestrictionKind
+sealed trait ObjectRestrictionKind
 
-case object ExistentialRestrictionKind extends RestrictionKind
+case object ExistentialObjectRestrictionKind extends ObjectRestrictionKind
 
-case object UniversalRestrictionKind extends RestrictionKind
+case object UniversalObjectRestrictionKind extends ObjectRestrictionKind

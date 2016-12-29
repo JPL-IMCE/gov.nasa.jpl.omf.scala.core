@@ -25,7 +25,7 @@ import gov.nasa.jpl.omf.scala.core.RelationshipCharacteristics._
 import gov.nasa.jpl.omf.scala.core.TerminologyKind._
 
 import org.scalatest._, exceptions._
-import scala.{StringContext, Unit}
+import scala.{Option, None, Some, StringContext, Unit}
 import scala.util.control.Exception._
 import scalaz._, Scalaz._
 import scala.collection.immutable.{List,Set}
@@ -91,33 +91,33 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF]
 
       for {
         xsd_iri <- makeIRI("http://www.w3.org/2001/XMLSchema")
-        xsd <- loadTerminologyGraph(xsd_iri)
+        xsd <- loadTerminology(xsd_iri)
 
         int_iri <- makeIRI("http://www.w3.org/2001/XMLSchema#integer")
-        integer = lookupScalarDataType(xsd._1, int_iri, recursively = false)
+        integer = lookupDataRange(xsd._1, int_iri, recursively = false)
         string_iri <- makeIRI("http://www.w3.org/2001/XMLSchema#string")
-        string = lookupScalarDataType(xsd._1, string_iri, recursively = false)
+        string = lookupDataRange(xsd._1, string_iri, recursively = false)
 
         base_iri <- makeIRI("http://imce.jpl.nasa.gov/test/immutability/foundation/base/base")
         base <- makeTerminologyGraph(base_iri, isDefinition)
-        base_extends_xsd <- addTerminologyGraphExtension(base, xsd._1)
+        base_extends_xsd <- addTerminologyExtension(base, xsd._1)
 
-        identifiedElement <- addEntityAspect(base, "IdentifiedElement")
-        hasIdentifier <- addDataRelationshipFromEntityToScalar(
+        identifiedElement <- addAspect(base, "IdentifiedElement")
+        hasIdentifier <- addEntityScalarDataProperty(
           graph = base,
           source = identifiedElement,
           target = string.get,
           dataPropertyName = "hasIdentifier")
 
-        ibase <- asImmutableTerminologyGraph(base)
+        ibase <- asImmutableTerminology(base)
 
         mission_iri <- makeIRI("http://imce.jpl.nasa.gov/test/immutability/foundation/mission/mission")
         mission <- makeTerminologyGraph(mission_iri, isDefinition)
-        mission_extends_ibase <- addTerminologyGraphExtension(mission, ibase._1)
+        mission_extends_ibase <- addTerminologyExtension(mission, ibase._1)
 
-        component <- addEntityConcept(mission, "Component", isAbstract = false)
-        function <- addEntityConcept(mission, "Function", isAbstract = false)
-        component_performs_function <- addEntityReifiedRelationship(
+        component <- addConcept(mission, "Component", isAbstract = false)
+        function <- addConcept(mission, "Function", isAbstract = false)
+        component_performs_function <- addReifiedRelationship(
           graph = mission,
           source = component,
           target = function,
@@ -126,86 +126,84 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF]
           unreifiedRelationshipName = "performs",
           unreifiedInverseRelationshipName = "isPerformedBy".some,
           isAbstract = false)
-        item <- addEntityConcept(mission, "Item", isAbstract = false)
-        message <- addEntityConcept(mission, "Message", isAbstract = false)
-        materialItem <- addEntityConcept(mission, "MaterialItem", isAbstract = false)
+        item <- addConcept(mission, "Item", isAbstract = false)
+        message <- addConcept(mission, "Message", isAbstract = false)
+        materialItem <- addConcept(mission, "MaterialItem", isAbstract = false)
         identifiedElement_iri <- makeIRI("http://imce.jpl.nasa.gov/test/immutability/foundation/base/base#IdentifiedElement")
 
         library_iri <- makeIRI("http://imce.jpl.nasa.gov/test/immutability/library")
         library <- makeTerminologyGraph(library_iri, isDefinition)
-        library_extends_mission <- addTerminologyGraphExtension(library, mission)
+        library_extends_mission <- addTerminologyExtension(library, mission)
 
-        starTracker <- addEntityConcept(library, "StarTracker", isAbstract=true)
-        starTracker_isa_component <- addEntityConceptSubClassAxiom(library, starTracker, component)
+        starTracker <- addConcept(library, "StarTracker", isAbstract=true)
+        starTracker_isa_component <- addConceptSpecializationAxiom(library, starTracker, component)
 
-        determinesAttitude <- addEntityConcept(library, "DeterminesAttitude", isAbstract=true)
-        determinesAttitude_is_function <- addEntityConceptSubClassAxiom(library, determinesAttitude, function)
+        determinesAttitude <- addConcept(library, "DeterminesAttitude", isAbstract=true)
+        determinesAttitude_is_function <- addConceptSpecializationAxiom(library, determinesAttitude, function)
 
-        determinesDeltaV <- addEntityConcept(library, "DeterminesDeltaV", isAbstract=true)
-        determinesDeltaV_is_function <- addEntityConceptSubClassAxiom(library, determinesDeltaV, function)
+        determinesDeltaV <- addConcept(library, "DeterminesDeltaV", isAbstract=true)
+        determinesDeltaV_is_function <- addConceptSpecializationAxiom(library, determinesDeltaV, function)
 
-        starTracker_performs_determinesAttitude <- addEntityDefinitionExistentialRestrictionAxiom(
+        starTracker_performs_determinesAttitude <- addEntityExistentialRestrictionAxiom(
           library, starTracker, component_performs_function, determinesAttitude)
 
-        starTracker_determinesDeltaV_context <- addEntityDefinitionExistentialRestrictionAxiom(
+        starTracker_determinesDeltaV_context <- addEntityExistentialRestrictionAxiom(
           library, starTracker, component_performs_function, determinesDeltaV)
 
-        starTracker_determinesAttitudeFast_context <- addEntityDefinitionExistentialRestrictionAxiom(
+        starTracker_determinesAttitudeFast_context <- addEntityExistentialRestrictionAxiom(
           library, starTracker, component_performs_function, determinesAttitude)
 
         system_iri <- makeIRI("http://imce.jpl.nasa.gov/test/immutability/system")
         system <- makeTerminologyGraph(system_iri, isDefinition)
-        system_extends_library <- addTerminologyGraphExtension(system, library)
+        system_extends_library <- addTerminologyExtension(system, library)
 
-        s1 <- addEntityConcept(system, "S1", isAbstract=false)
-        s1_is_starTracker <- addEntityConceptSubClassAxiom(system, s1, starTracker)
-        s1_hasIdentifier <-
-        addScalarDataRelationshipRestrictionAxiomFromEntityToLiteral(system, s1, hasIdentifier, "ST.primary")
+        s1 <- addConcept(system, "S1", isAbstract=false)
+        s1_is_starTracker <- addConceptSpecializationAxiom(system, s1, starTracker)
+        s1_hasIdentifier <- addEntityScalarDataPropertyParticularRestrictionAxiom(system, s1, hasIdentifier, "ST.primary")
 
-        s2 <- addEntityConcept(system, "S2", isAbstract=false)
-        s2_is_starTracker <- addEntityConceptSubClassAxiom(system, s2, starTracker)
-        s2_hasIdentifier <-
-        addScalarDataRelationshipRestrictionAxiomFromEntityToLiteral(system, s2, hasIdentifier, "ST.backup")
+        s2 <- addConcept(system, "S2", isAbstract=false)
+        s2_is_starTracker <- addConceptSpecializationAxiom(system, s2, starTracker)
+        s2_hasIdentifier <- addEntityScalarDataPropertyParticularRestrictionAxiom(system, s2, hasIdentifier, "ST.backup")
 
       } yield {
 
         val identifiedElement =
-          lookupEntityAspect(ibase._1, identifiedElement_iri, recursively = false)
+          lookupAspect(ibase._1, identifiedElement_iri, recursively = false)
         identifiedElement.isDefined should be(true)
 
-        val mission_extends_base = addTerminologyGraphExtension(mission, ibase._1)
+        val mission_extends_base = addTerminologyExtension(mission, ibase._1)
         mission_extends_base.isRight should equal(false)
 
-        val component_extends_identifiedElement = addEntityDefinitionAspectSubClassAxiom(
+        val component_extends_identifiedElement = addAspectSpecializationAxiom(
           graph = mission,
           sub = component,
           sup = identifiedElement.get)
         component_extends_identifiedElement.isRight should be(true)
 
-        val function_extends_identifiedElement = addEntityDefinitionAspectSubClassAxiom(
+        val function_extends_identifiedElement = addAspectSpecializationAxiom(
           graph = mission,
           sub = function,
           sup = identifiedElement.get)
         function_extends_identifiedElement.isRight should equal(true)
 
         val message_extends_item =
-          addEntityConceptSubClassAxiom(mission, message, item)
+          addConceptSpecializationAxiom(mission, message, item)
         message_extends_item.isRight should equal(true)
 
         val materialItem_extends_item =
-          addEntityConceptSubClassAxiom(mission, materialItem, item)
+          addConceptSpecializationAxiom(mission, materialItem, item)
         materialItem_extends_item.isRight should equal(true)
 
-        val baseSaved = saveTerminologyGraph(base)
+        val baseSaved = saveTerminology(base)
         baseSaved.isRight should equal(true)
 
-        val missionSaved = saveTerminologyGraph(mission)
+        val missionSaved = saveTerminology(mission)
         missionSaved.isRight should equal(true)
 
-        val librarySaved = saveTerminologyGraph(library)
+        val librarySaved = saveTerminology(library)
         librarySaved.isRight should equal(true)
 
-        val systemSaved = saveTerminologyGraph(system)
+        val systemSaved = saveTerminology(system)
         systemSaved.isRight should equal(true)
       }
     }
@@ -218,11 +216,11 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF]
 
       for {
         xsd_iri <- makeIRI("http://www.w3.org/2001/XMLSchema")
-        xsd <- loadTerminologyGraph(xsd_iri)
+        xsd <- loadTerminology(xsd_iri)
         base_iri <- makeIRI("http://imce.jpl.nasa.gov/test/immutability/foundation/base/base")
-        base <- loadTerminologyGraph(base_iri)
+        base <- loadTerminology(base_iri)
         mission_iri <- makeIRI("http://imce.jpl.nasa.gov/test/immutability/foundation/mission/mission")
-        mission <- loadTerminologyGraph(mission_iri)
+        mission <- loadTerminology(mission_iri)
         integer_iri <- makeIRI("http://www.w3.org/2001/XMLSchema#integer")
         string_iri <- makeIRI("http://www.w3.org/2001/XMLSchema#string")
 
@@ -233,19 +231,19 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF]
         component_performs_function_iri <- makeIRI("http://imce.jpl.nasa.gov/test/immutability/foundation/mission/mission#Performs")
 
         library_iri <- makeIRI("http://imce.jpl.nasa.gov/test/immutability/library")
-        library <- loadTerminologyGraph(library_iri)
+        library <- loadTerminology(library_iri)
         starTracker_iri <- makeIRI("http://imce.jpl.nasa.gov/test/immutability/library#StarTracker")
         determinesAttitude_iri <- makeIRI("http://imce.jpl.nasa.gov/test/immutability/library#DeterminesAttitude")
 
         system_iri <- makeIRI("http://imce.jpl.nasa.gov/test/immutability/system")
-        system <- loadTerminologyGraph(system_iri)
+        system <- loadTerminology(system_iri)
         s1_iri <- makeIRI("http://imce.jpl.nasa.gov/test/immutability/system#S1")
         s2_iri <- makeIRI("http://imce.jpl.nasa.gov/test/immutability/system#S2")
 
       } yield {
 
         {
-          val s = ops.fromTerminologyGraph(base._1)
+          val s = ops.fromTerminology(base._1)
           s.imports.isEmpty should be(false)
           s.imports.toSet.contains(xsd._1) should be(true)
           s.aspects.isEmpty should be(false)
@@ -253,38 +251,38 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF]
           s.reifiedRelationships.isEmpty should be(true)
           s.scalarDataTypes.isEmpty should be(true)
           s.structuredDataTypes.isEmpty should be(true)
-          s.entity2scalarDataRelationships.isEmpty should be(false)
-          s.entity2structureDataRelationships.isEmpty should be(true)
-          s.structure2scalarDataRelationships.isEmpty should be(true)
-          s.structure2structureDataRelationships.isEmpty should be(true)
+          s.entityScalarDataProperties.nonEmpty should be(true)
+          s.entityStructuredDataProperties.isEmpty should be(true)
+          s.scalarDataProperties.isEmpty should be(true)
+          s.structuredDataProperties.isEmpty should be(true)
           s.axioms.isEmpty should be(true)
         }
 
-        getTerminologyGraphLocalName(base._1) should be("base")
-        getTerminologyGraphUUID(base._1) should be(UUID.fromString("73468cd7-d400-5fa1-b460-a15aeb8f64b6"))
+        getTerminologyName(base._1) should be("base")
+        getTerminologyUUID(base._1) should be(UUID.fromString("73468cd7-d400-5fa1-b460-a15aeb8f64b6"))
 
-        val integer = lookupScalarDataType(xsd._1, integer_iri, recursively = false)
+        val integer = lookupDataRange(xsd._1, integer_iri, recursively = false)
         integer.isDefined should be(true)
 
-        val string = lookupScalarDataType(base._1, string_iri, recursively = true)
+        val string = lookupDataRange(base._1, string_iri, recursively = true)
         string.isDefined should be(true)
 
-        val identifiedElement = lookupEntityAspect(base._1, identifiedElement_iri, recursively = false)
+        val identifiedElement = lookupAspect(base._1, identifiedElement_iri, recursively = false)
         identifiedElement.isDefined should be(true)
-        getTermLocalName(identifiedElement.get) should be("IdentifiedElement")
-        getTermUUID(identifiedElement.get) should be(UUID.fromString("44275a03-9225-5181-ba7c-8809c8a93cab"))
+        getTermName(identifiedElement.get) should be("IdentifiedElement")
+        getTermUUID(identifiedElement.get) should be(UUID.fromString("06e317f7-755c-5ed9-a5b6-7c105f687d59"))
+        generateUUID("http://imce.jpl.nasa.gov/test/immutability/foundation/base/base#IdentifiedElement").toString should be("06e317f7-755c-5ed9-a5b6-7c105f687d59")
 
         val hasIdentifier =
-          lookupEntityDataRelationshipFromEntityToScalar(base._1, hasIdentifier_iri, recursively = false)
+          lookupEntityScalarDataProperty(base._1, hasIdentifier_iri, recursively = false)
         hasIdentifier.isDefined should be(true)
 
-        val (_, _, _, hasIdentifierSource, hasIdentifierTarget) =
-          fromDataRelationshipFromEntityToScalar(hasIdentifier.get)
-        identifiedElement.get should be(hasIdentifierSource)
-        string.get should be(hasIdentifierTarget)
+        val prop = fromEntityScalarDataProperty(hasIdentifier.get)
+        identifiedElement.get should be(prop.domain)
+        string.get should be(prop.range)
 
         {
-          val s = ops.fromTerminologyGraph(mission._1)
+          val s = ops.fromTerminology(mission._1)
           s.imports.isEmpty should be(false)
           s.imports.toSet.contains(base._1) should be(true)
           s.aspects.isEmpty should be(true)
@@ -292,47 +290,81 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF]
           s.reifiedRelationships.isEmpty should be(false)
           s.scalarDataTypes.isEmpty should be(true)
           s.structuredDataTypes.isEmpty should be(true)
-          s.entity2scalarDataRelationships.isEmpty should be(true)
-          s.entity2structureDataRelationships.isEmpty should be(true)
-          s.structure2scalarDataRelationships.isEmpty should be(true)
-          s.structure2structureDataRelationships.isEmpty should be(true)
+          s.entityScalarDataProperties.isEmpty should be(true)
+          s.entityStructuredDataProperties.isEmpty should be(true)
+          s.scalarDataProperties.isEmpty should be(true)
+          s.structuredDataProperties.isEmpty should be(true)
           s.axioms.isEmpty should be(false)
         }
 
-        getTerminologyGraphLocalName(mission._1) should be("mission")
-        getTerminologyGraphUUID(mission._1) should be(UUID.fromString("5551c7f4-1210-5c4b-bd2b-976625a971e4"))
+        getTerminologyName(mission._1) should be("mission")
+        getTerminologyUUID(mission._1) should be(UUID.fromString("5551c7f4-1210-5c4b-bd2b-976625a971e4"))
 
-        val component = lookupEntityConcept(mission._1, component_iri, recursively = false)
+        val component = lookupConcept(mission._1, component_iri, recursively = false)
         component.isDefined should be(true)
 
-        val function = lookupEntityConcept(mission._1, function_iri, recursively = false)
+        val function = lookupConcept(mission._1, function_iri, recursively = false)
         function.isDefined should be(true)
 
         val component_performs_function =
-          lookupEntityReifiedRelationship(mission._1, component_performs_function_iri, recursively = false)
+          lookupReifiedRelationship(mission._1, component_performs_function_iri, recursively = false)
         component_performs_function.isDefined should be(true)
 
-        val component_performs_function_info = fromEntityReifiedRelationship(component_performs_function.get)
+        val component_performs_function_info = fromReifiedRelationship(component_performs_function.get)
         component_performs_function_info.source should be(component.get)
         component_performs_function_info.target should be(function.get)
         component_performs_function_info.isAbstract should be(false)
 
-        val starTracker = lookupEntityConcept(library._1, starTracker_iri, recursively = false)
+        val starTracker = lookupConcept(library._1, starTracker_iri, recursively = false)
         starTracker.isDefined should be(true)
 
-        val determinesAttitude = lookupEntityConcept(library._1, determinesAttitude_iri, recursively = false)
+        val determinesAttitude = lookupConcept(library._1, determinesAttitude_iri, recursively = false)
         determinesAttitude.isDefined should be(true)
 
-        val s1 = lookupEntityConcept(system._1, s1_iri, recursively=false)
+        val s1 = lookupConcept(system._1, s1_iri, recursively=false)
         s1.isDefined should be(true)
 
-        val s2 = lookupEntityConcept(system._1, s2_iri, recursively=false)
+        val s2 = lookupConcept(system._1, s2_iri, recursively=false)
         s2.isDefined should be(true)
 
-        val s1Restrictions = lookupEntityDefinitionScalarDataRelationshipRestrictions(system._1, s1.get)
+        val s1Restrictions = fromTerminology(system._1).axioms.flatMap { ax =>
+          foldAxiom[Option[omf#EntityScalarDataPropertyParticularRestrictionAxiom]](
+            funAspectSpecializationAxiom = _ => None,
+            funConceptSpecializationAxiom = _ => None,
+            funReifiedRelationshipSpecializationAxiom = _ => None,
+            funEntityExistentialRestrictionAxiom = _ => None,
+            funEntityUniversalRestrictionAxiom = _ => None,
+            funEntityScalarDataPropertyExistentialRestrictionAxiom = _ => None,
+            funEntityScalarDataPropertyParticularRestrictionAxiom =
+            (x: omf#EntityScalarDataPropertyParticularRestrictionAxiom) =>
+              if (fromEntityScalarDataPropertyParticularRestrictionAxiom(x).restrictedEntity == s1.get)
+                Some(x)
+              else
+                None,
+            funEntityScalarDataPropertyUniversalRestrictionAxiom = _ => None,
+            funScalarOneOfLiteralAxiom = _ => None
+          )(ax)
+        }
         s1Restrictions.size should be(1)
 
-        val s2Restrictions = lookupEntityDefinitionScalarDataRelationshipRestrictions(system._1, s2.get)
+        val s2Restrictions = fromTerminology(system._1).axioms.flatMap { ax =>
+          foldAxiom[Option[omf#EntityScalarDataPropertyParticularRestrictionAxiom]](
+            funAspectSpecializationAxiom = _ => None,
+            funConceptSpecializationAxiom = _ => None,
+            funReifiedRelationshipSpecializationAxiom = _ => None,
+            funEntityExistentialRestrictionAxiom = _ => None,
+            funEntityUniversalRestrictionAxiom = _ => None,
+            funEntityScalarDataPropertyExistentialRestrictionAxiom = _ => None,
+            funEntityScalarDataPropertyParticularRestrictionAxiom =
+              (x: omf#EntityScalarDataPropertyParticularRestrictionAxiom) =>
+                if (fromEntityScalarDataPropertyParticularRestrictionAxiom(x).restrictedEntity == s2.get)
+                  Some(x)
+                else
+                  None,
+            funEntityScalarDataPropertyUniversalRestrictionAxiom = _ => None,
+            funScalarOneOfLiteralAxiom = _ => None
+          )(ax)
+        }
         s2Restrictions.size should be(1)
       }
     }

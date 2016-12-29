@@ -19,25 +19,25 @@
 package gov.nasa.jpl.omf.scala.core.tables
 
 import gov.nasa.jpl.omf.scala.core._
-import gov.nasa.jpl.imce.omf.schema.tables._
+import gov.nasa.jpl.imce.omf._
 
 import scala.collection.immutable.{Seq,Set}
 import scala.{Option,None,Some}
 import scala.Predef.{ArrowAssoc,String}
 
 case class Axioms
-( aspectSpecializationAxioms : Seq[AspectSpecializationAxiom] = Seq.empty,
-  conceptSpecializationAxioms : Seq[ConceptSpecializationAxiom] = Seq.empty,
-  reifiedRelationshipSpecializationAxioms : Seq[ReifiedRelationshipSpecializationAxiom] = Seq.empty,
+( aspectSpecializationAxioms : Seq[schema.tables.AspectSpecializationAxiom] = Seq.empty,
+  conceptSpecializationAxioms : Seq[schema.tables.ConceptSpecializationAxiom] = Seq.empty,
+  reifiedRelationshipSpecializationAxioms : Seq[schema.tables.ReifiedRelationshipSpecializationAxiom] = Seq.empty,
 
-  entityExistentialRestrictionAxioms : Seq[EntityExistentialRestrictionAxiom] = Seq.empty,
-  entityUniversalRestrictionAxioms : Seq[EntityUniversalRestrictionAxiom] = Seq.empty,
+  entityExistentialRestrictionAxioms : Seq[schema.tables.EntityExistentialRestrictionAxiom] = Seq.empty,
+  entityUniversalRestrictionAxioms : Seq[schema.tables.EntityUniversalRestrictionAxiom] = Seq.empty,
 
-  entityScalarDataPropertyExistentialRestrictionAxioms : Seq[EntityScalarDataPropertyExistentialRestrictionAxiom] = Seq.empty,
-  entityScalarDataPropertyParticularRestrictionAxioms : Seq[EntityScalarDataPropertyParticularRestrictionAxiom] = Seq.empty,
-  entityScalarDataPropertyUniversalRestrictionAxioms : Seq[EntityScalarDataPropertyUniversalRestrictionAxiom] = Seq.empty,
+  entityScalarDataPropertyExistentialRestrictionAxioms : Seq[schema.tables.EntityScalarDataPropertyExistentialRestrictionAxiom] = Seq.empty,
+  entityScalarDataPropertyParticularRestrictionAxioms : Seq[schema.tables.EntityScalarDataPropertyParticularRestrictionAxiom] = Seq.empty,
+  entityScalarDataPropertyUniversalRestrictionAxioms : Seq[schema.tables.EntityScalarDataPropertyUniversalRestrictionAxiom] = Seq.empty,
 
-  scalarOneOfLiteralAxioms : Seq[ScalarOneOfLiteralAxiom] = Seq.empty )
+  scalarOneOfLiteralAxioms : Seq[schema.tables.ScalarOneOfLiteralAxiom] = Seq.empty )
 
 object Axioms {
 
@@ -68,183 +68,396 @@ object Axioms {
       a1.scalarOneOfLiteralAxioms ++ a2.scalarOneOfLiteralAxioms
   )
 
-  def funEntityDefinitionAspectSubClassAxiom[omf <: OMF]
+  def funAspectSpecializationAxiom[omf <: OMF]
   (guuid: String, ops: OMFOps[omf], acc: Axioms)
-  (ax: omf#EntityDefinitionAspectSubClassAxiom)
+  (ax: omf#AspectSpecializationAxiom)
   : Axioms
   = {
-    val info = ops.fromEntityDefinitionAspectSubClassAxiom(ax)
+    val info = ops.fromAspectSubClassAxiom(ax)
     acc.copy(aspectSpecializationAxioms = acc.aspectSpecializationAxioms :+
-      AspectSpecializationAxiom(
+      schema.tables.AspectSpecializationAxiom(
         graphUUID = guuid,
-        uuid = info._1.toString,
-        subEntityUUID = ops.getTermUUID(info._2).toString,
-        superAspectUUID = ops.getTermUUID(info._3).toString))
+        uuid = info.uuid.toString,
+        subEntityUUID = ops.getTermUUID(info.sub).toString,
+        superAspectUUID = ops.getTermUUID(info.sup).toString))
   }
 
-  def funEntityConceptSubClassAxiom[omf <: OMF]
+  def funConceptSpecializationAxiom[omf <: OMF]
   (guuid: String, ops: OMFOps[omf], acc: Axioms)
-  (ax: omf#EntityConceptSubClassAxiom)
+  (ax: omf#ConceptSpecializationAxiom)
   : Axioms
   = {
-    val info = ops.fromEntityConceptSubClassAxiom(ax)
+    val info = ops.fromConceptSpecializationAxiom(ax)
     acc.copy(conceptSpecializationAxioms = acc.conceptSpecializationAxioms :+
-      ConceptSpecializationAxiom(
+      schema.tables.ConceptSpecializationAxiom(
         graphUUID = guuid,
-        uuid = info._1.toString,
-        subConceptUUID = ops.getTermUUID(info._2).toString,
-        superConceptUUID = ops.getTermUUID(info._3).toString))
+        uuid = info.uuid.toString,
+        subConceptUUID = ops.getTermUUID(info.sub).toString,
+        superConceptUUID = ops.getTermUUID(info.sup).toString))
   }
 
-  def funEntityReifiedRelationshipSubClassAxiom[omf <: OMF]
+  def funReifiedRelationshipSpecializationAxiom[omf <: OMF]
   (guuid: String, ops: OMFOps[omf], acc: Axioms)
-  (ax: omf#EntityReifiedRelationshipSubClassAxiom)
+  (ax: omf#ReifiedRelationshipSpecializationAxiom)
   : Axioms
   = {
-    val info = ops.fromEntityReifiedRelationshipSubClassAxiom(ax)
+    val info = ops.fromReifiedRelationshipSpecializationAxiom(ax)
     acc.copy(reifiedRelationshipSpecializationAxioms = acc.reifiedRelationshipSpecializationAxioms :+
-      ReifiedRelationshipSpecializationAxiom(
+      schema.tables.ReifiedRelationshipSpecializationAxiom(
         graphUUID = guuid,
-        uuid = info._1.toString,
-        subRelationshipUUID = ops.getTermUUID(info._2).toString,
-        superRelationshipUUID = ops.getTermUUID(info._3).toString))
+        uuid = info.uuid.toString,
+        subRelationshipUUID = ops.getTermUUID(info.sub).toString,
+        superRelationshipUUID = ops.getTermUUID(info.sup).toString))
   }
 
-  def funEntityDefinitionRestrictionAxiom[omf <: OMF]
+  def funEntityExistentialRestrictionAxiom[omf <: OMF]
   (guuid: String, ops: OMFOps[omf], acc: Axioms)
-  (ax: omf#EntityDefinitionRestrictionAxiom)
+  (ax: omf#EntityExistentialRestrictionAxiom)
   : Axioms
   = {
-    val info = ops.fromEntityDefinitionRestrictionAxiom(ax)
-    info._5 match {
-      case ExistentialRestrictionKind =>
-        acc.copy(entityExistentialRestrictionAxioms = acc.entityExistentialRestrictionAxioms :+
-          EntityExistentialRestrictionAxiom(
-            graphUUID = guuid,
-            uuid = info._1.toString,
-            restrictedDomainUUID = ops.getTermUUID(info._2).toString,
-            restrictedRangeUUID = ops.getTermUUID(info._4).toString,
-            restrictedRelationUUID = ops.getTermUUID(info._3).toString))
-      case UniversalRestrictionKind =>
-        acc.copy(entityUniversalRestrictionAxioms = acc.entityUniversalRestrictionAxioms :+
-          EntityUniversalRestrictionAxiom(
-            graphUUID = guuid,
-            uuid = info._1.toString,
-            restrictedDomainUUID = ops.getTermUUID(info._2).toString,
-            restrictedRangeUUID = ops.getTermUUID(info._4).toString,
-            restrictedRelationUUID = ops.getTermUUID(info._3).toString))
-    }
+    val info = ops.fromEntityRestrictionAxiom(ax)
+    acc.copy(entityExistentialRestrictionAxioms = acc.entityExistentialRestrictionAxioms :+
+      schema.tables.EntityExistentialRestrictionAxiom(
+        graphUUID = guuid,
+        uuid = info.uuid.toString,
+        restrictedDomainUUID = ops.getTermUUID(info.domain).toString,
+        restrictedRangeUUID = ops.getTermUUID(info.range).toString,
+        restrictedRelationUUID = ops.getTermUUID(info.restrictedRelation).toString))
+  }
+
+  def funEntityUniversalRestrictionAxiom[omf <: OMF]
+  (guuid: String, ops: OMFOps[omf], acc: Axioms)
+  (ax: omf#EntityUniversalRestrictionAxiom)
+  : Axioms
+  = {
+    val info = ops.fromEntityRestrictionAxiom(ax)
+    acc.copy(entityUniversalRestrictionAxioms = acc.entityUniversalRestrictionAxioms :+
+      schema.tables.EntityUniversalRestrictionAxiom(
+        graphUUID = guuid,
+        uuid = info.uuid.toString,
+        restrictedDomainUUID = ops.getTermUUID(info.domain).toString,
+        restrictedRangeUUID = ops.getTermUUID(info.range).toString,
+        restrictedRelationUUID = ops.getTermUUID(info.restrictedRelation).toString))
+  }
+
+  def funEntityScalarDataPropertyExistentialRestrictionAxiom[omf <: OMF]
+  (guuid: String, ops: OMFOps[omf], acc: Axioms)
+  (ax: omf#EntityScalarDataPropertyExistentialRestrictionAxiom)
+  : Axioms
+  = {
+    val info = ops.fromEntityScalarDataPropertyExistentialRestrictionAxiom(ax)
+    acc.copy(entityScalarDataPropertyExistentialRestrictionAxioms = acc.entityScalarDataPropertyExistentialRestrictionAxioms :+
+      schema.tables.EntityScalarDataPropertyExistentialRestrictionAxiom(
+        graphUUID = guuid,
+        uuid = info.uuid.toString,
+        restrictedEntityUUID = ops.getTermUUID(info.restrictedEntity).toString,
+        scalarPropertyUUID = ops.getTermUUID(info.scalarDataProperty).toString,
+        scalarRestrictionUUID = ops.getTermUUID(info.restrictedRange).toString))
+  }
+
+  def funEntityScalarDataPropertyParticularRestrictionAxiom[omf <: OMF]
+  (guuid: String, ops: OMFOps[omf], acc: Axioms)
+  (ax: omf#EntityScalarDataPropertyParticularRestrictionAxiom)
+  : Axioms
+  = {
+    val info = ops.fromEntityScalarDataPropertyParticularRestrictionAxiom(ax)
+    acc.copy(entityScalarDataPropertyParticularRestrictionAxioms = acc.entityScalarDataPropertyParticularRestrictionAxioms :+
+      schema.tables.EntityScalarDataPropertyParticularRestrictionAxiom(
+        graphUUID = guuid,
+        uuid = info.uuid.toString,
+        restrictedEntityUUID = ops.getTermUUID(info.restrictedEntity).toString,
+        scalarPropertyUUID = ops.getTermUUID(info.scalarDataProperty).toString,
+        literalValue = info.literalValue))
+  }
+
+  def funEntityScalarDataPropertyUniversalRestrictionAxiom[omf <: OMF]
+  (guuid: String, ops: OMFOps[omf], acc: Axioms)
+  (ax: omf#EntityScalarDataPropertyUniversalRestrictionAxiom)
+  : Axioms
+  = {
+    val info = ops.fromEntityScalarDataPropertyUniversalRestrictionAxiom(ax)
+    acc.copy(entityScalarDataPropertyUniversalRestrictionAxioms = acc.entityScalarDataPropertyUniversalRestrictionAxioms :+
+      schema.tables.EntityScalarDataPropertyUniversalRestrictionAxiom(
+        graphUUID = guuid,
+        uuid = info.uuid.toString,
+        restrictedEntityUUID = ops.getTermUUID(info.restrictedEntity).toString,
+        scalarPropertyUUID = ops.getTermUUID(info.scalarDataProperty).toString,
+        scalarRestrictionUUID = ops.getTermUUID(info.restrictedRange).toString))
+  }
+
+  def funScalarOneOfLiteralAxiom[omf <: OMF]
+  (guuid: String, ops: OMFOps[omf], acc: Axioms)
+  (ax: omf#ScalarOneOfLiteralAxiom)
+  : Axioms
+  = {
+    val info = ops.fromScalarOneOfLiteralAxiom(ax)
+    acc.copy(scalarOneOfLiteralAxioms = acc.scalarOneOfLiteralAxioms :+
+      schema.tables.ScalarOneOfLiteralAxiom(
+        graphUUID = guuid,
+        uuid = info.uuid.toString,
+        axiomUUID = ops.getTermUUID(info.restriction).toString,
+        value = info.value))
   }
 
   def combine[omf <: OMF]
   (guuid: String, ops: OMFOps[omf])
   (acc: Axioms,
-   ax: omf#ModelTermAxiom)
+   ax: omf#Axiom)
   : Axioms
-  = ops.foldTermAxiom[Axioms](
-    funEntityDefinitionAspectSubClassAxiom =
-      Axioms.funEntityDefinitionAspectSubClassAxiom(guuid, ops, acc),
-    funEntityConceptDesignationTerminologyGraphAxiom =
-      (_: omf#EntityConceptDesignationTerminologyGraphAxiom) => acc,
-    funEntityConceptSubClassAxiom =
-      Axioms.funEntityConceptSubClassAxiom(guuid, ops, acc),
-    funEntityDefinitionRestrictionAxiom =
-      Axioms.funEntityDefinitionRestrictionAxiom(guuid, ops, acc),
-    funEntityReifiedRelationshipSubClassAxiom =
-      Axioms.funEntityReifiedRelationshipSubClassAxiom(guuid, ops, acc),
-    funScalarDataTypeFacetRestrictionAxiom =
-      (_: omf#ScalarDataTypeFacetRestrictionAxiom) => acc,
-    funModelScalarDataRelationshipRestrictionAxiomFromEntityToLiteral =
-      (_: omf#ModelScalarDataRelationshipRestrictionAxiomFromEntityToLiteral) => acc
+  = ops.foldAxiom[Axioms](
+    funAspectSpecializationAxiom =
+      Axioms.funAspectSpecializationAxiom(guuid, ops, acc),
+    funConceptSpecializationAxiom =
+      Axioms.funConceptSpecializationAxiom(guuid, ops, acc),
+    funReifiedRelationshipSpecializationAxiom =
+      Axioms.funReifiedRelationshipSpecializationAxiom(guuid, ops, acc),
+    funEntityExistentialRestrictionAxiom =
+      Axioms.funEntityExistentialRestrictionAxiom(guuid, ops, acc),
+    funEntityUniversalRestrictionAxiom =
+      Axioms.funEntityUniversalRestrictionAxiom(guuid, ops, acc),
+    funEntityScalarDataPropertyExistentialRestrictionAxiom =
+      Axioms.funEntityScalarDataPropertyExistentialRestrictionAxiom(guuid, ops, acc),
+    funEntityScalarDataPropertyParticularRestrictionAxiom =
+      Axioms.funEntityScalarDataPropertyParticularRestrictionAxiom(guuid, ops, acc),
+    funEntityScalarDataPropertyUniversalRestrictionAxiom =
+      Axioms.funEntityScalarDataPropertyUniversalRestrictionAxiom(guuid, ops, acc),
+    funScalarOneOfLiteralAxiom =
+      Axioms.funScalarOneOfLiteralAxiom(guuid, ops, acc)
   )(ax)
 }
 
 object OMFTabularExport {
 
-  def toTables[omf <: OMF]
-  (gs: Set[omf#ImmutableModelTerminologyGraph])
-  (implicit store: omf#Store, ops: OMFOps[omf])
-  : OMFSchemaTables
-  = {
-    val sigs = gs.map(g => g -> ops.fromTerminologyGraph(g))
+  // @see https://github.com/milessabin/shapeless/blob/master/examples/src/main/scala/shapeless/examples/enum.scala
 
-    val allGraphs = sigs.map { case (_, sig) =>
-      TerminologyGraph(
-        uuid = sig.uuid.toString,
-        kind = if (TerminologyKind.isDefinitionKind(sig.kind))
-          OpenWorldDefinitions
-        else
-          ClosedWorldDesignations,
-        name = sig.name,
-        iri = sig.iri.toString)
-    }.to[Seq]
+  import scala.Ordering
 
-    val allGraphExtensionAxioms = sigs.flatMap { case (g, sig) =>
-      val guuid = sig.uuid.toString
-      sig.gaxioms.flatMap { gax =>
-        ops.foldTerminologyGraphAxiom[Option[TerminologyExtensionAxiom]](
-          funTerminologyGraphDirectExtensionAxiom =
-            (gax: omf#TerminologyGraphDirectExtensionAxiom) =>
-              Some(
-                TerminologyExtensionAxiom(
-                  uuid = ops.getTerminologyGraphAxiomUUID(gax).toString,
-                  extendedTerminologyUUID = ops.getTerminologyGraphUUID(ops.getExtendedGraphOfTerminologogyGraphDirectExtensionAxiom(gax)).toString,
-                  extendingTerminologyUUID = guuid)
-              ),
-          funTerminologyGraphDirectNestingAxiom =
-            (_: omf#TerminologyGraphDirectNestingAxiom) =>
-              None)(gax)
+  import shapeless.{ Generic, ::, HList, HNil }
+  // Derive an Ordering for an HList from the Orderings of its elements
+
+  trait LowPriorityGenericOrdering {
+    // An Ordering for any type which is isomorphic to an HList, if that HList has an Ordering
+
+    implicit def hlistIsoOrdering[A, H <: HList]
+    (implicit gen : Generic.Aux[A, H], oh : Ordering[H])
+    : Ordering[A]
+    = new Ordering[A] {
+      def compare(a1 : A, a2 : A) = oh.compare(gen to a1, gen to a2)
+    }
+  }
+
+  object GenericOrdering extends LowPriorityGenericOrdering {
+    implicit def hnilOrdering : Ordering[HNil] = new Ordering[HNil] {
+      def compare(a : HNil, b : HNil) = 0
+    }
+
+    implicit def hlistOrdering[H, T <: HList]
+    (implicit oh : Ordering[H], ot : Ordering[T])
+    : Ordering[H :: T]
+    = new Ordering[H :: T] {
+      def compare(a : H :: T, b : H :: T) = {
+        val i = oh.compare(a.head, b.head)
+        if (i == 0) ot.compare(a.tail, b.tail)
+        else i
       }
-    }.to[Seq]
+    }
+  }
 
-    val allGraphNestingAxioms = sigs.flatMap { case (g, sig) =>
+  import GenericOrdering._
+
+  implicit def TerminologyGraphKindOrdering: Ordering[schema.tables.TerminologyGraphKind] =
+  new Ordering[schema.tables.TerminologyGraphKind] {
+    def compare(x: schema.tables.TerminologyGraphKind, y: schema.tables.TerminologyGraphKind): scala.Int
+    = if (x == y) 0
+    else if (x == schema.tables.OpenWorldDefinitions) -1
+    else 1
+  }
+
+  def toTables[omf <: OMF]
+  (s: Set[omf#ImmutableTerminologyBox])
+  (implicit store: omf#Store, ops: OMFOps[omf])
+  : schema.tables.OMFSchemaTables
+  = {
+    val bs: Set[omf#ImmutableBundle] = s.flatMap(ops.foldImmutableBundle)
+
+    val tsigs = s.map(g => g -> ops.fromTerminology(g))
+
+    val allTGraphs = tsigs.flatMap {
+      case (_, sig) if !sig.isBundle =>
+        Some(schema.tables.TerminologyGraph(
+          uuid = sig.uuid.toString,
+          kind = if (TerminologyKind.isDefinitionKind(sig.kind))
+            schema.tables.OpenWorldDefinitions
+          else
+            schema.tables.ClosedWorldDesignations,
+          name = sig.name,
+          iri = sig.iri.toString))
+      case _ =>
+        None
+    }.to[Seq].sorted
+
+    val allBGraphs = tsigs.flatMap {
+      case (_, sig) if sig.isBundle =>
+        Some(schema.tables.Bundle(
+          uuid = sig.uuid.toString,
+          kind = if (TerminologyKind.isDefinitionKind(sig.kind))
+            schema.tables.OpenWorldDefinitions
+          else
+            schema.tables.ClosedWorldDesignations,
+          name = sig.name,
+          iri = sig.iri.toString))
+      case _ =>
+        None
+    }.to[Seq].sorted
+
+    val allBundledTerminologyAxioms = tsigs.flatMap { case (g, sig) =>
+      val guuid = sig.uuid.toString
+      sig.bAxioms.map { gax =>
+        val info = ops.fromBundledTerminologyAxiom(gax)
+        schema.tables.BundledTerminologyAxiom(
+          uuid = info.uuid.toString,
+          terminologyBundleUUID = ops.getTerminologyUUID(info.bundle).toString,
+          bundledTerminologyUUID = ops.getTerminologyUUID(info.bundledTerminology).toString
+        )
+      }
+    }.to[Seq].sorted
+
+    val allAnonymousConceptTaxonomyAxioms = tsigs.flatMap { case (b, sig) =>
+      val guuid = sig.uuid.toString
+      sig.aTAxioms.map { ax =>
+        val info = ops.fromAnonymousConceptTaxonomyAxiom(ax)
+        schema.tables.AnonymousConceptTaxonomyAxiom(
+          uuid = info.uuid.toString,
+          bundleUUID = guuid,
+          disjointTaxonomyParentUUID = ops.getConceptTreeDisjunctionUUID(info.disjointTaxonomyParent).toString
+        )
+      }
+    }.to[Seq].sorted
+
+    val allRootConceptTaxonomyAxioms = tsigs.flatMap { case (b, sig) =>
+      val guuid = sig.uuid.toString
+      sig.rTAxioms.map { ax =>
+        val info = ops.fromRootConceptTaxonomyAxiom(ax)
+        schema.tables.RootConceptTaxonomyAxiom(
+          uuid = info.uuid.toString,
+          bundleUUID = guuid,
+          rootUUID = ops.getTermUUID(info.root).toString
+        )
+      }
+    }.to[Seq].sorted
+
+    val allSpecificDisjointConceptAxioms = tsigs.flatMap { case (b, sig) =>
+      val guuid = sig.uuid.toString
+      sig.sTAxioms.map { ax =>
+        val info = ops.fromSpecificDisjointConceptAxiom(ax)
+        schema.tables.SpecificDisjointConceptAxiom(
+          uuid = info.uuid.toString,
+          bundleUUID = guuid,
+          disjointLeafUUID = ops.getTermUUID(info.disjointLeaf).toString,
+          disjointTaxonomyParentUUID = ops.getConceptTreeDisjunctionUUID(info.disjointTaxonomyParent).toString
+        )
+      }
+    }.to[Seq].sorted
+
+    val allConceptDesignationAxioms = tsigs.flatMap { case (g, sig) =>
       val guuid = sig.uuid.toString
       sig.gaxioms.flatMap { gax =>
-        ops.foldTerminologyGraphAxiom[Option[TerminologyNestingAxiom]](
+        ops.foldTerminologyBoxAxiom[Option[schema.tables.ConceptDesignationTerminologyAxiom]](
+          funConceptDesignationTerminologyAxiom =
+            (gax: omf#ConceptDesignationTerminologyAxiom) => {
+              val info = ops.fromConceptDesignationTerminologyAxiom(gax)
+              Some(schema.tables.ConceptDesignationTerminologyAxiom(
+                uuid = ops.getTerminologyAxiomUUID(gax).toString,
+                designatedConceptUUID = ops.getTermUUID(info.parentConcept).toString,
+                designationTerminologyGraphUUID = ops.getTerminologyUUID(info.parentGraph).toString))
+            },
           funTerminologyGraphDirectExtensionAxiom =
-            (_: omf#TerminologyGraphDirectExtensionAxiom) =>
+            (_: omf#TerminologyExtensionAxiom) =>
               None,
           funTerminologyGraphDirectNestingAxiom =
-            (gax: omf#TerminologyGraphDirectNestingAxiom) =>
-              Some(
-                TerminologyNestingAxiom(
-                  uuid = ops.getTerminologyGraphAxiomUUID(gax).toString,
-                  nestedTerminologyUUID = guuid,
-                  nestingContextUUID = ops.getTermUUID(ops.getNestingContextConceptOfAxiom(gax)).toString,
-                  nestingTerminologyUUID = ops.getTerminologyGraphUUID(ops.getNestingGraphOfAxiom(gax)).toString)
-              ))(gax)
+            (_: omf#TerminologyNestingAxiom) =>
+              None)(gax)
       }
-    }.to[Seq]
+    }.to[Seq].sorted
 
-    val allAspects = sigs.flatMap { case (g, sig) =>
+    val allExtensionAxioms = tsigs.flatMap { case (g, sig) =>
+      val guuid = sig.uuid.toString
+      sig.gaxioms.flatMap { gax =>
+        ops.foldTerminologyBoxAxiom[Option[schema.tables.TerminologyExtensionAxiom]](
+          funConceptDesignationTerminologyAxiom =
+            (_: omf#ConceptDesignationTerminologyAxiom) =>
+              None,
+          funTerminologyGraphDirectExtensionAxiom =
+            (gax: omf#TerminologyExtensionAxiom) => {
+              val info = ops.fromTerminologyExtensionAxiom(gax)
+              Some(
+                schema.tables.TerminologyExtensionAxiom(
+                  uuid = info.uuid.toString,
+                  extendedTerminologyUUID = ops.getTerminologyUUID(info.extendedTerminology).toString,
+                  extendingTerminologyUUID = guuid)
+              )
+            },
+          funTerminologyGraphDirectNestingAxiom =
+            (_: omf#TerminologyNestingAxiom) =>
+              None
+        )(gax)
+      }
+    }.to[Seq].sorted
+
+    val allNestingAxioms = tsigs.flatMap { case (g, sig) =>
+      val guuid = sig.uuid.toString
+      sig.gaxioms.flatMap { gax =>
+        ops.foldTerminologyBoxAxiom[Option[schema.tables.TerminologyNestingAxiom]](
+          funConceptDesignationTerminologyAxiom =
+            (_: omf#ConceptDesignationTerminologyAxiom) =>
+              None,
+          funTerminologyGraphDirectExtensionAxiom =
+            (_: omf#TerminologyExtensionAxiom) =>
+              None,
+          funTerminologyGraphDirectNestingAxiom =
+            (gax: omf#TerminologyNestingAxiom) => {
+              val info = ops.fromTerminologyNestingAxiom(gax)
+              Some(
+                schema.tables.TerminologyNestingAxiom(
+                  uuid = info.uuid.toString,
+                  nestedTerminologyUUID = guuid,
+                  nestingContextUUID = ops.getTermUUID(info.nestingContext).toString,
+                  nestingTerminologyUUID = ops.getTerminologyUUID(info.nestingTerminology).toString)
+              )
+            }
+        )(gax)
+      }
+    }.to[Seq].sorted
+
+    val allAspects = tsigs.flatMap { case (g, sig) =>
       val guuid = sig.uuid.toString
       sig.aspects.map { a =>
-        Aspect(
+        schema.tables.Aspect(
           graphUUID = guuid,
           uuid = ops.getTermUUID(a).toString,
-          name = ops.getTermLocalName(a),
-          iri = ops.fromTerm(a).toString)
+          name = ops.getTermName(a),
+          iri = ops.getTermIRI(a).toString)
       }
-    }.to[Seq]
+    }.to[Seq].sorted
 
-    val allConcepts = sigs.flatMap { case (g, sig) =>
+    val allConcepts = tsigs.flatMap { case (g, sig) =>
       val guuid = sig.uuid.toString
       sig.concepts.map { c =>
-        val sig = ops.fromEntityConcept(c)
-        Concept(
+        val sig = ops.fromConcept(c)
+        schema.tables.Concept(
           graphUUID = guuid,
           uuid = sig.uuid.toString,
           name = sig.name,
           iri = sig.iri.toString,
           isAbstract = sig.isAbstract)
       }
-    }.to[Seq]
+    }.to[Seq].sorted
 
-    val allReifiedRelationships = sigs.flatMap { case (g, sig) =>
+    val allReifiedRelationships = tsigs.flatMap { case (g, sig) =>
       val guuid = sig.uuid.toString
       sig.reifiedRelationships.map { rr =>
-        val sig = ops.fromEntityReifiedRelationship(rr)
-        ReifiedRelationship(
+        val sig = ops.fromReifiedRelationship(rr)
+        schema.tables.ReifiedRelationship(
           graphUUID = guuid,
           uuid = sig.uuid.toString,
           isAbstract = sig.isAbstract,
@@ -262,13 +475,13 @@ object OMFTabularExport {
           sourceUUID = ops.getTermUUID(sig.source).toString,
           targetUUID = ops.getTermUUID(sig.target).toString)
       }
-    }.to[Seq]
+    }.to[Seq].sorted
 
-    val allUnreifiedRelationships = sigs.flatMap { case (g, sig) =>
+    val allUnreifiedRelationships = tsigs.flatMap { case (g, sig) =>
       val guuid = sig.uuid.toString
       sig.unreifiedRelationships.map { ur =>
-        val sig = ops.fromEntityUnreifiedRelationship(ur)
-        UnreifiedRelationship(
+        val sig = ops.fromUnreifiedRelationship(ur)
+        schema.tables.UnreifiedRelationship(
           graphUUID = guuid,
           uuid = sig.uuid.toString,
           name = sig.name,
@@ -285,87 +498,202 @@ object OMFTabularExport {
           sourceUUID = ops.getTermUUID(sig.source).toString,
           targetUUID = ops.getTermUUID(sig.target).toString)
       }
-    }.to[Seq]
+    }.to[Seq].sorted
 
-    val allScalars = sigs.flatMap { case (g, sig) =>
+    val allScalars = tsigs.flatMap { case (g, sig) =>
       val guuid = sig.uuid.toString
       sig.scalarDataTypes.map { sc =>
-        Scalar(
+        schema.tables.Scalar(
           graphUUID = guuid,
           uuid = ops.getTermUUID(sc).toString,
-          name = ops.getTermLocalName(sc),
-          iri = ops.fromTerm(sc).toString)
+          name = ops.getTermName(sc),
+          iri = ops.getTermIRI(sc).toString)
       }
-    }.to[Seq]
+    }.to[Seq].sorted
 
-    val allStructures = sigs.flatMap { case (g, sig) =>
+    val allStructures = tsigs.flatMap { case (g, sig) =>
       val guuid = sig.uuid.toString
       sig.structuredDataTypes.map { sc =>
-        Structure(
+        schema.tables.Structure(
           graphUUID = guuid,
           uuid = ops.getTermUUID(sc).toString,
-          name = ops.getTermLocalName(sc),
-          iri = ops.fromTerm(sc).toString)
+          name = ops.getTermName(sc),
+          iri = ops.getTermIRI(sc).toString)
       }
-    }.to[Seq]
+    }.to[Seq].sorted
 
-    val allEntity2ScalarProperties = sigs.flatMap { case (g, sig) =>
+    val allEntity2ScalarProperties = tsigs.flatMap { case (g, sig) =>
       val guuid = sig.uuid.toString
-      sig.entity2scalarDataRelationships.map { e2sc =>
-        val info = ops.fromDataRelationshipFromEntityToScalar(e2sc)
-        EntityScalarDataProperty(
+      sig.entityScalarDataProperties.map { e2sc =>
+        val info = ops.fromEntityScalarDataProperty(e2sc)
+        schema.tables.EntityScalarDataProperty(
           graphUUID = guuid,
-          uuid = info._1.toString,
-          name = info._2,
-          iri = info._3.toString,
-          domainUUID = ops.getTermUUID(info._4).toString,
-          rangeUUID = ops.getTermUUID(info._5).toString)
+          uuid = info.uuid.toString,
+          name = info.name,
+          iri = info.iri.toString,
+          domainUUID = ops.getTermUUID(info.domain).toString,
+          rangeUUID = ops.getTermUUID(info.range).toString)
       }
-    }.to[Seq]
+    }.to[Seq].sorted
     
-    val allEntity2StructureProperties = sigs.flatMap { case (g, sig) =>
+    val allEntity2StructureProperties = tsigs.flatMap { case (g, sig) =>
       val guuid = sig.uuid.toString
-      sig.entity2structureDataRelationships.map { e2sc =>
-        val info = ops.fromDataRelationshipFromEntityToStructure(e2sc)
-        EntityStructuredDataProperty(
+      sig.entityStructuredDataProperties.map { e2sc =>
+        val info = ops.fromEntityStructuredDataProperty(e2sc)
+        schema.tables.EntityStructuredDataProperty(
           graphUUID = guuid,
-          uuid = info._1.toString,
-          name = info._2,
-          iri = info._3.toString,
-          domainUUID = ops.getTermUUID(info._4).toString,
-          rangeUUID = ops.getTermUUID(info._5).toString)
+          uuid = info.uuid.toString,
+          name = info.name,
+          iri = info.iri.toString,
+          domainUUID = ops.getTermUUID(info.domain).toString,
+          rangeUUID = ops.getTermUUID(info.range).toString)
       }
-    }.to[Seq]
+    }.to[Seq].sorted
 
-    val allScalarProperties = sigs.flatMap { case (g, sig) =>
+    val allScalarProperties = tsigs.flatMap { case (g, sig) =>
       val guuid = sig.uuid.toString
-      sig.structure2scalarDataRelationships.map { s2sc =>
-        val info = ops.fromDataRelationshipFromStructureToScalar(s2sc)
-        ScalarDataProperty(
+      sig.scalarDataProperties.map { s2sc =>
+        val info = ops.fromScalarDataProperty(s2sc)
+        schema.tables.ScalarDataProperty(
           graphUUID = guuid,
-          uuid = info._1.toString,
-          name = info._2,
-          iri = info._3.toString,
-          domainUUID = ops.getTermUUID(info._4).toString,
-          rangeUUID = ops.getTermUUID(info._5).toString)
+          uuid = info.uuid.toString,
+          name = info.name,
+          iri = info.iri.toString,
+          domainUUID = ops.getTermUUID(info.domain).toString,
+          rangeUUID = ops.getTermUUID(info.range).toString)
       }
-    }.to[Seq]
+    }.to[Seq].sorted
 
-    val allStructuredProperties = sigs.flatMap { case (g, sig) =>
+    val allStructuredProperties = tsigs.flatMap { case (g, sig) =>
       val guuid = sig.uuid.toString
-      sig.structure2structureDataRelationships.map { s2sc =>
-        val info = ops.fromDataRelationshipFromStructureToStructure(s2sc)
-        StructuredDataProperty(
+      sig.structuredDataProperties.map { s2sc =>
+        val info = ops.fromStructuredDataProperty(s2sc)
+        schema.tables.StructuredDataProperty(
           graphUUID = guuid,
-          uuid = info._1.toString,
-          name = info._2,
-          iri = info._3.toString,
-          domainUUID = ops.getTermUUID(info._4).toString,
-          rangeUUID = ops.getTermUUID(info._5).toString)
+          uuid = info.uuid.toString,
+          name = info.name,
+          iri = info.iri.toString,
+          domainUUID = ops.getTermUUID(info.domain).toString,
+          rangeUUID = ops.getTermUUID(info.range).toString)
       }
-    }.to[Seq]
+    }.to[Seq].sorted
 
-    val allAxioms = sigs.aggregate(Axioms())(
+    val allBinaryScalarRestrictions = tsigs.flatMap { case (g, sig) =>
+      val guuid = sig.uuid.toString
+      sig.binaryScalarRestrictions.map { r =>
+        val info = ops.fromBinaryScalarRestriction(r)
+        schema.tables.BinaryScalarRestriction(
+          graphUUID = guuid,
+          uuid = info.uuid.toString,
+          name = info.name,
+          iri = info.iri.toString,
+          length = info.length,
+          maxLength = info.maxLength,
+          minLength = info.minLength,
+          restrictedRangeUUID = ops.getTermUUID(info.restrictedRange).toString)
+      }
+    }.to[Seq].sorted
+
+    val allIRIScalarRestrictions = tsigs.flatMap { case (g, sig) =>
+      val guuid = sig.uuid.toString
+      sig.iriScalarRestrictions.map { r =>
+        val info = ops.fromIRIScalarRestriction(r)
+        schema.tables.IRIScalarRestriction(
+          graphUUID = guuid,
+          uuid = info.uuid.toString,
+          name = info.name,
+          iri = info.iri.toString,
+          length = info.length,
+          maxLength = info.maxLength,
+          minLength = info.minLength,
+          pattern = info.pattern,
+          restrictedRangeUUID = ops.getTermUUID(info.restrictedRange).toString)
+      }
+    }.to[Seq].sorted
+
+    val allNumericScalarRestrictions = tsigs.flatMap { case (g, sig) =>
+      val guuid = sig.uuid.toString
+      sig.numericScalarRestrictions.map { r =>
+        val info = ops.fromNumericScalarRestriction(r)
+        schema.tables.NumericScalarRestriction(
+          graphUUID = guuid,
+          uuid = info.uuid.toString,
+          name = info.name,
+          iri = info.iri.toString,
+          maxExclusive = info.maxExclusive,
+          maxInclusive = info.maxInclusive,
+          minExclusive = info.minExclusive,
+          minInclusive = info.minInclusive,
+          restrictedRangeUUID = ops.getTermUUID(info.restrictedRange).toString)
+      }
+    }.to[Seq].sorted
+
+    val allPlainLiteralScalarRestrictions = tsigs.flatMap { case (g, sig) =>
+      val guuid = sig.uuid.toString
+      sig.plainLiteralScalarRestrictions.map { r =>
+        val info = ops.fromPlainLiteralScalarRestriction(r)
+        schema.tables.PlainLiteralScalarRestriction(
+          graphUUID = guuid,
+          uuid = info.uuid.toString,
+          name = info.name,
+          iri = info.iri.toString,
+          language = info.language,
+          length = info.length,
+          maxLength = info.maxLength,
+          minLength = info.minLength,
+          pattern = info.pattern,
+          restrictedRangeUUID = ops.getTermUUID(info.restrictedRange).toString)
+      }
+    }.to[Seq].sorted
+
+    val allScalarOneOfRestrictions = tsigs.flatMap { case (g, sig) =>
+      val guuid = sig.uuid.toString
+      sig.scalarOneOfRestrictions.map { r =>
+        val info = ops.fromScalarOneOfRestriction(r)
+        schema.tables.ScalarOneOfRestriction(
+          graphUUID = guuid,
+          uuid = info.uuid.toString,
+          name = info.name,
+          iri = info.iri.toString,
+          restrictedRangeUUID = ops.getTermUUID(info.restrictedRange).toString)
+      }
+    }.to[Seq].sorted
+
+    val allStringScalarRestrictions = tsigs.flatMap { case (g, sig) =>
+      val guuid = sig.uuid.toString
+      sig.stringScalarRestrictions.map { r =>
+        val info = ops.fromStringScalarRestriction(r)
+        schema.tables.StringScalarRestriction(
+          graphUUID = guuid,
+          uuid = info.uuid.toString,
+          name = info.name,
+          iri = info.iri.toString,
+          length = info.length,
+          maxLength = info.maxLength,
+          minLength = info.minLength,
+          pattern = info.pattern,
+          restrictedRangeUUID = ops.getTermUUID(info.restrictedRange).toString)
+      }
+    }.to[Seq].sorted
+
+    val allTimeScalarRestrictions = tsigs.flatMap { case (g, sig) =>
+      val guuid = sig.uuid.toString
+      sig.timeScalarRestrictions.map { r =>
+        val info = ops.fromTimeScalarRestriction(r)
+        schema.tables.TimeScalarRestriction(
+          graphUUID = guuid,
+          uuid = info.uuid.toString,
+          name = info.name,
+          iri = info.iri.toString,
+          maxExclusive = info.maxExclusive,
+          maxInclusive = info.maxInclusive,
+          minExclusive = info.minExclusive,
+          minInclusive = info.minInclusive,
+          restrictedRangeUUID = ops.getTermUUID(info.restrictedRange).toString)
+      }
+    }.to[Seq].sorted
+
+    val allAxioms = tsigs.aggregate(Axioms())(
       seqop = {
         case (acc: Axioms, (g, sig)) =>
           val guuid = sig.uuid.toString
@@ -374,20 +702,20 @@ object OMFTabularExport {
       },
       combop = Axioms.append)
 
-    val t = OMFSchemaTables.createEmptyOMFSchemaTables().copy(
+    val t = schema.tables.OMFSchemaTables.createEmptyOMFSchemaTables().copy(
       // graphs
       terminologyGraphs =
-        allGraphs,
+        allTGraphs,
       bundles =
-        Seq.empty,
+        allBGraphs,
 
       // graph axioms
-      conceptDesignationTerminologyGraphAxioms =
-        Seq.empty,
+      conceptDesignationTerminologyAxioms =
+        allConceptDesignationAxioms,
       terminologyExtensionAxioms =
-        allGraphExtensionAxioms,
+        allExtensionAxioms,
       terminologyNestingAxioms =
-        allGraphNestingAxioms,
+        allNestingAxioms,
 
       // terms
       aspects =
@@ -404,19 +732,19 @@ object OMFTabularExport {
         allStructures,
 
       binaryScalarRestrictions =
-        Seq.empty,
+        allBinaryScalarRestrictions,
       iriScalarRestrictions =
-        Seq.empty,
+        allIRIScalarRestrictions,
       numericScalarRestrictions =
-        Seq.empty,
+        allNumericScalarRestrictions,
       plainLiteralScalarRestrictions =
-        Seq.empty,
+        allPlainLiteralScalarRestrictions,
       scalarOneOfRestrictions =
-        Seq.empty,
+        allScalarOneOfRestrictions,
       stringScalarRestrictions =
-        Seq.empty,
+        allStringScalarRestrictions,
       timeScalarRestrictions =
-        Seq.empty,
+        allTimeScalarRestrictions,
 
       entityScalarDataProperties =
         allEntity2ScalarProperties,
@@ -429,23 +757,33 @@ object OMFTabularExport {
 
       // axioms
       aspectSpecializationAxioms =
-        allAxioms.aspectSpecializationAxioms,
+        allAxioms.aspectSpecializationAxioms.sorted,
       conceptSpecializationAxioms =
-        allAxioms.conceptSpecializationAxioms,
+        allAxioms.conceptSpecializationAxioms.sorted,
       reifiedRelationshipSpecializationAxioms =
-        allAxioms.reifiedRelationshipSpecializationAxioms,
+        allAxioms.reifiedRelationshipSpecializationAxioms.sorted,
       entityExistentialRestrictionAxioms =
-        allAxioms.entityExistentialRestrictionAxioms,
+        allAxioms.entityExistentialRestrictionAxioms.sorted,
       entityUniversalRestrictionAxioms =
-        allAxioms.entityUniversalRestrictionAxioms,
+        allAxioms.entityUniversalRestrictionAxioms.sorted,
       entityScalarDataPropertyExistentialRestrictionAxioms =
-        allAxioms.entityScalarDataPropertyExistentialRestrictionAxioms,
+        allAxioms.entityScalarDataPropertyExistentialRestrictionAxioms.sorted,
       entityScalarDataPropertyParticularRestrictionAxioms =
-        allAxioms.entityScalarDataPropertyParticularRestrictionAxioms,
+        allAxioms.entityScalarDataPropertyParticularRestrictionAxioms.sorted,
       entityScalarDataPropertyUniversalRestrictionAxioms =
-        allAxioms.entityScalarDataPropertyUniversalRestrictionAxioms,
+        allAxioms.entityScalarDataPropertyUniversalRestrictionAxioms.sorted,
       scalarOneOfLiteralAxioms =
-        allAxioms.scalarOneOfLiteralAxioms
+        allAxioms.scalarOneOfLiteralAxioms.sorted,
+
+      bundledTerminologyAxioms =
+        allBundledTerminologyAxioms,
+
+      anonymousConceptTaxonomyAxioms =
+        allAnonymousConceptTaxonomyAxioms,
+      rootConceptTaxonomyAxioms =
+        allRootConceptTaxonomyAxioms,
+      specificDisjointConceptAxioms =
+        allSpecificDisjointConceptAxioms
     )
 
     t
