@@ -54,8 +54,14 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF]
         preOMFSave()
         val result = testCode(saveStore, saveOps)
         postOMFSave()
-        val errors: Set[java.lang.Throwable] = result.swap.getOrElse(Set.empty)
-        errors should be(Set.empty)
+        result.leftMap { errors =>
+          throw new TestFailedException(
+            message=Some(s"withOMFSave ${errors.size} errors"),
+            cause=errors.headOption,
+            failedCodeStackDepth = 1
+          )
+        }
+        ()
       })
 
 
@@ -78,7 +84,14 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF]
         preOMFLoad()
         val result = testCode(loadStore, loadOps)
         postOMFLoad()
-        result.isRight should equal(true)
+        result.leftMap { errors =>
+          throw new TestFailedException(
+            message=Some(s"withOMFLoad ${errors.size} errors"),
+            cause=errors.headOption,
+            failedCodeStackDepth = 1
+          )
+        }
+        ()
       })
 
   "vocabulary roundtrip test" when {

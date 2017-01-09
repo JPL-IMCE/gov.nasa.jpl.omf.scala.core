@@ -21,12 +21,12 @@ package gov.nasa.jpl.omf.scala.core
 import java.io.File
 import java.util.UUID
 
-import gov.nasa.jpl.imce.omf.schema.tables.{LexicalValue, LocalName}
+import gov.nasa.jpl.imce.omf.schema.tables.{Annotation, AnnotationProperty, LexicalValue, LocalName}
 import gov.nasa.jpl.omf.scala.core.RelationshipCharacteristics._
 
 import scala.{Boolean, Int, None, Option, Some, StringContext, Unit}
 import scala.Predef.String
-import scala.collection.immutable.{Iterable, Set}
+import scala.collection.immutable.{Iterable, Seq, Set}
 import scalaz._
 
 object OMFOps {
@@ -154,6 +154,21 @@ trait IRIOps[omf <: OMF] {
 
 trait OMFStoreOps[omf <: OMF] { self : IRIOps[omf] =>
 
+  def getTerminologyThingUUID
+  (th: omf#TerminologyThing)
+  (implicit store: omf#Store)
+  : UUID
+
+  def annotationProperties
+  ()
+  (implicit store: omf#Store)
+  : Seq[AnnotationProperty]
+
+  def addAnnotationProperty
+  (ap: AnnotationProperty)
+  (implicit store: omf#Store)
+  : Set[java.lang.Throwable] \/ AnnotationProperty
+
   def foldTerminology[T]
   (funImmutableTerminologyGraph: omf#ImmutableTerminologyGraph => T,
    funMutableTerminologyGraph: omf#MutableTerminologyGraph => T,
@@ -192,8 +207,7 @@ trait OMFStoreOps[omf <: OMF] { self : IRIOps[omf] =>
     funImmutableTerminologyBundle = (_: omf#ImmutableBundle) => None,
     funMutableTerminologyBundle = (_: omf#MutableBundle) => None
   )(t)
-
-
+  
   def foldBundle
   (t: omf#TerminologyBox)
   : Option[omf#Bundle]
@@ -257,7 +271,7 @@ trait OMFStoreOps[omf <: OMF] { self : IRIOps[omf] =>
   (implicit store: omf#Store)
   : Boolean
 
-  def asMutableTerminology
+  def toMutableTerminology
   (graph: omf#TerminologyBox)
   (implicit store: omf#Store)
   : Option[omf#MutableTerminologyBox]
@@ -267,11 +281,15 @@ trait OMFStoreOps[omf <: OMF] { self : IRIOps[omf] =>
   (implicit store: omf#Store)
   : Boolean
 
-  def asImmutableTerminology
+  def toImmutableTerminology
   (graph: omf#TerminologyBox)
   (implicit store: omf#Store)
   : Option[omf#ImmutableTerminologyBox]
 
+  def getTerminologyIRI
+  (tbox: omf#TerminologyBox)
+  : omf#IRI
+  
   def fromTerminology
   (graph: omf#TerminologyBox)
   (implicit store: omf#Store)
@@ -466,9 +484,9 @@ trait OMFStoreOps[omf <: OMF] { self : IRIOps[omf] =>
 
 trait ImmutableTerminologyGraphOps[omf <: OMF] { self: OMFStoreOps[omf] with IRIOps[omf] =>
 
-  def getTerminologyIRI
+  def getAnnotations
   (graph: omf#TerminologyBox)
-  : omf#IRI
+  : Seq[Annotation]
 
   def getTerminologyName
   (graph: omf#TerminologyBox)
@@ -514,6 +532,11 @@ trait ImmutableTerminologyGraphOps[omf <: OMF] { self: OMFStoreOps[omf] with IRI
 
   def lookupDataRange
   (graph: omf#TerminologyBox, iri: omf#IRI, recursively: Boolean)
+  (implicit store: omf#Store)
+  : Option[omf#DataRange]
+
+  def restrictedDataRangeOf
+  (dr: omf#DataRange)
   (implicit store: omf#Store)
   : Option[omf#DataRange]
 
@@ -819,6 +842,14 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   extends ImmutableTerminologyGraphOps[omf] {
   self: OMFStoreOps[omf] with IRIOps[omf] =>
 
+  def addAnnotation
+  (graph: omf#MutableTerminologyBox,
+   subject: omf#TerminologyThing,
+   property: AnnotationProperty,
+   value: String)
+  (implicit store: omf#Store)
+  : Set[java.lang.Throwable] \/ Annotation
+
   /**
     * Add to a terminology graph a new OMF Aspect.
     *
@@ -853,7 +884,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   (implicit store: omf#Store)
   : Set[java.lang.Throwable] \/ omf#Aspect
   = for {
-    iri <- withFragment(fromTerminology(graph).iri, aspectName)
+    iri <- withFragment(getTerminologyIRI(graph), aspectName)
     uuid = generateUUID(fromIRI(iri))
     ax <- addAspect(graph, uuid, iri, aspectName)
   } yield ax
@@ -895,7 +926,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   (implicit store: omf#Store)
   : Set[java.lang.Throwable] \/ omf#Concept
   = for {
-    iri <- withFragment(fromTerminology(graph).iri, conceptName)
+    iri <- withFragment(getTerminologyIRI(graph), conceptName)
     uuid = generateUUID(fromIRI(iri))
     ax <- addConcept(graph, uuid, iri, conceptName, isAbstract)
   } yield ax
@@ -964,7 +995,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   (implicit store: omf#Store)
   : Set[java.lang.Throwable] \/ omf#ReifiedRelationship
   = for {
-    iri <- withFragment(fromTerminology(graph).iri, reifiedRelationshipName)
+    iri <- withFragment(getTerminologyIRI(graph), reifiedRelationshipName)
     uuid = generateUUID(fromIRI(iri))
     ax <- addReifiedRelationship(
       graph, uuid, iri, source, target, characteristics,
@@ -1021,7 +1052,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   (implicit store: omf#Store)
   : Set[java.lang.Throwable] \/ omf#UnreifiedRelationship
   = for {
-    iri <- withFragment(fromTerminology(graph).iri, unreifiedRelationshipName)
+    iri <- withFragment(getTerminologyIRI(graph), unreifiedRelationshipName)
     uuid = generateUUID(fromIRI(iri))
     ax <- addUnreifiedRelationship(graph, uuid, iri, source, target, characteristics, unreifiedRelationshipName)
   } yield ax
@@ -1062,7 +1093,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   (implicit store: omf#Store)
   : Set[java.lang.Throwable] \/ omf#Scalar
   = for {
-    iri <- withFragment(fromTerminology(graph).iri, scalarDataTypeName)
+    iri <- withFragment(getTerminologyIRI(graph), scalarDataTypeName)
     uuid = generateUUID(fromIRI(iri))
     ax <- addScalarDataType(graph, uuid, iri, scalarDataTypeName)
   } yield ax
@@ -1103,7 +1134,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   (implicit store: omf#Store)
   : Set[java.lang.Throwable] \/ omf#Structure
   = for {
-    iri <- withFragment(fromTerminology(graph).iri, structureDatatypeName)
+    iri <- withFragment(getTerminologyIRI(graph), structureDatatypeName)
     uuid = generateUUID(fromIRI(iri))
     ax <- addStructuredDataType(graph, uuid, iri, structureDatatypeName)
   } yield ax
@@ -1124,9 +1155,39 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   (implicit store: omf#Store)
   : Set[java.lang.Throwable] \/ omf#ScalarOneOfRestriction
   = for {
-    dataTypeIRI <- withFragment(fromTerminology(graph).iri, dataTypeName)
+    dataTypeIRI <- withFragment(getTerminologyIRI(graph), dataTypeName)
     dataTypeUUID = generateUUID(fromIRI(dataTypeIRI))
     ax <- addScalarOneOfRestriction(graph, dataTypeUUID, dataTypeIRI, dataTypeName, restrictedRange)
+  } yield ax
+
+  def scalarOneOfLiteralAxiomUUID
+  (graph: omf#MutableTerminologyBox,
+   scalarOneOfRestriction: omf#ScalarOneOfRestriction,
+   value: String)
+  : Set[java.lang.Throwable] \/ UUID
+  = for {
+    iri <- withFragment(getTerminologyIRI(graph),
+      s"ScalarOneOfLiteralAxiom(${fromIRI(getTermIRI(scalarOneOfRestriction))}, $value)")
+    uuid = generateUUID(fromIRI(iri))
+  } yield uuid
+
+  protected def addScalarOneOfLiteralAxiom
+  (graph: omf#MutableTerminologyBox,
+   axiomUUID: UUID,
+   scalarOneOfRestriction: omf#ScalarOneOfRestriction,
+   value: String)
+  (implicit store: omf#Store)
+  : Set[java.lang.Throwable] \/ omf#ScalarOneOfLiteralAxiom
+
+  final def addScalarOneOfLiteralAxiom
+  (graph: omf#MutableTerminologyBox,
+   scalarOneOfRestriction: omf#ScalarOneOfRestriction,
+   value: String)
+  (implicit store: omf#Store)
+  : Set[java.lang.Throwable] \/ omf#ScalarOneOfLiteralAxiom
+  = for {
+    axiomUUID <- scalarOneOfLiteralAxiomUUID(graph, scalarOneOfRestriction, value)
+    ax <- addScalarOneOfLiteralAxiom(graph, axiomUUID, scalarOneOfRestriction, value)
   } yield ax
 
   protected def addBinaryScalarRestriction
@@ -1151,7 +1212,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   (implicit store: omf#Store)
   : Set[java.lang.Throwable] \/ omf#BinaryScalarRestriction
   = for {
-    dataTypeIRI <- withFragment(fromTerminology(graph).iri, dataTypeName)
+    dataTypeIRI <- withFragment(getTerminologyIRI(graph), dataTypeName)
     dataTypeUUID = generateUUID(fromIRI(dataTypeIRI))
     ax <- addBinaryScalarRestriction(
       graph, dataTypeUUID, dataTypeIRI, dataTypeName,
@@ -1182,7 +1243,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   (implicit store: omf#Store)
   : Set[java.lang.Throwable] \/ omf#IRIScalarRestriction
   = for {
-    dataTypeIRI <- withFragment(fromTerminology(graph).iri, dataTypeName)
+    dataTypeIRI <- withFragment(getTerminologyIRI(graph), dataTypeName)
     dataTypeUUID = generateUUID(fromIRI(dataTypeIRI))
     ax <- addIRIScalarRestriction(
       graph, dataTypeUUID, dataTypeIRI, dataTypeName,
@@ -1213,7 +1274,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   (implicit store: omf#Store)
   : Set[java.lang.Throwable] \/ omf#NumericScalarRestriction
   = for {
-    dataTypeIRI <- withFragment(fromTerminology(graph).iri, dataTypeName)
+    dataTypeIRI <- withFragment(getTerminologyIRI(graph), dataTypeName)
     dataTypeUUID = generateUUID(fromIRI(dataTypeIRI))
     ax <- addNumericScalarRestriction(
       graph, dataTypeUUID, dataTypeIRI, dataTypeName,
@@ -1246,7 +1307,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   (implicit store: omf#Store)
   : Set[java.lang.Throwable] \/ omf#PlainLiteralScalarRestriction
   = for {
-    dataTypeIRI <- withFragment(fromTerminology(graph).iri, dataTypeName)
+    dataTypeIRI <- withFragment(getTerminologyIRI(graph), dataTypeName)
     dataTypeUUID = generateUUID(fromIRI(dataTypeIRI))
     ax <- addPlainLiteralScalarRestriction(
       graph, dataTypeUUID, dataTypeIRI, dataTypeName,
@@ -1277,7 +1338,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   (implicit store: omf#Store)
   : Set[java.lang.Throwable] \/ omf#StringScalarRestriction
   = for {
-    dataTypeIRI <- withFragment(fromTerminology(graph).iri, dataTypeName)
+    dataTypeIRI <- withFragment(getTerminologyIRI(graph), dataTypeName)
     dataTypeUUID = generateUUID(fromIRI(dataTypeIRI))
     ax <- addStringScalarRestriction(
       graph, dataTypeUUID, dataTypeIRI, dataTypeName,
@@ -1308,7 +1369,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   (implicit store: omf#Store)
   : Set[java.lang.Throwable] \/ omf#TimeScalarRestriction
   = for {
-    dataTypeIRI <- withFragment(fromTerminology(graph).iri, dataTypeName)
+    dataTypeIRI <- withFragment(getTerminologyIRI(graph), dataTypeName)
     dataTypeUUID = generateUUID(fromIRI(dataTypeIRI))
     ax <- addTimeScalarRestriction(
       graph, dataTypeUUID, dataTypeIRI, dataTypeName,
@@ -1360,7 +1421,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   (implicit store: omf#Store)
   : Set[java.lang.Throwable] \/ omf#EntityScalarDataProperty
   = for {
-    iri <- withFragment(fromTerminology(graph).iri,dataPropertyName)
+    iri <- withFragment(getTerminologyIRI(graph),dataPropertyName)
     uuid = generateUUID(fromIRI(iri))
     ax <- addEntityScalarDataProperty(graph, uuid, iri, source, target, dataPropertyName)
   } yield ax
@@ -1409,7 +1470,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   (implicit store: omf#Store)
   : Set[java.lang.Throwable] \/ omf#EntityStructuredDataProperty
   = for {
-    iri <- withFragment(fromTerminology(graph).iri, dataPropertyName)
+    iri <- withFragment(getTerminologyIRI(graph), dataPropertyName)
     uuid = generateUUID(fromIRI(iri))
     ax <- addEntityStructuredDataProperty(graph, uuid, iri, source, target, dataPropertyName)
   } yield ax
@@ -1458,7 +1519,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   (implicit store: omf#Store)
   : Set[java.lang.Throwable] \/ omf#ScalarDataProperty
   = for {
-    iri <- withFragment(fromTerminology(graph).iri, dataPropertyName)
+    iri <- withFragment(getTerminologyIRI(graph), dataPropertyName)
     uuid = generateUUID(fromIRI(iri))
     ax <- addScalarDataProperty(graph, uuid, iri, source, target, dataPropertyName)
   } yield ax
@@ -1507,7 +1568,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   (implicit store: omf#Store)
   : Set[java.lang.Throwable] \/ omf#StructuredDataProperty
   = for {
-    iri <- withFragment(fromTerminology(graph).iri, dataPropertyName)
+    iri <- withFragment(getTerminologyIRI(graph), dataPropertyName)
     uuid = generateUUID(fromIRI(iri))
     ax <- addStructuredDataProperty(graph, uuid, iri, source, target, dataPropertyName)
   } yield ax
@@ -1542,7 +1603,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   : Set[java.lang.Throwable] \/ UUID
   = for {
      iri <- withFragment(
-      fromTerminology(graph).iri,
+      getTerminologyIRI(graph),
       s"AspectSpecializationAxiom("+
         fromIRI(getTermIRI(sub))+","+
         fromIRI(getTermIRI(sup))+")")
@@ -1580,7 +1641,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   : Set[java.lang.Throwable] \/ UUID
   = for {
      iri <- withFragment(
-      fromTerminology(graph).iri,
+      getTerminologyIRI(graph),
       s"ConceptSpecializationAxiom("+
         fromIRI(getTermIRI(sub))+","+
         fromIRI(getTermIRI(sup))+")")
@@ -1626,10 +1687,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   (implicit store: omf#Store)
   : Set[java.lang.Throwable] \/ omf#ConceptSpecializationAxiom
   = for {
-    iri <- withFragment(
-      fromTerminology(graph).iri,
-      s"ConceptSpecializationAxiom(${fromIRI(getTermIRI(sub))}, ${fromIRI(getTermIRI(sup))}")
-    uuid = generateUUID(fromIRI(iri))
+    uuid <- conceptSpecializationAxiomUUID(graph, sub, sup)
     ax <- addConceptSpecializationAxiom(graph, uuid, sub, sup)
   } yield ax
 
@@ -1641,7 +1699,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   : Set[java.lang.Throwable] \/ UUID
   = for {
     iri <- withFragment(
-      fromTerminology(graph).iri,
+      getTerminologyIRI(graph),
       s"ReifiedRelationshipSpecializationAxiom("+
         fromIRI(getTermIRI(sub))+","+
         fromIRI(getTermIRI(sup))+")")
@@ -1687,10 +1745,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   (implicit store: omf#Store)
   : Set[java.lang.Throwable] \/ omf#ReifiedRelationshipSpecializationAxiom
   = for {
-    iri <- withFragment(
-      fromTerminology(graph).iri,
-      s"ReifiedRelationshipSpecializationAxiom(${fromIRI(getTermIRI(sub))}, ${fromIRI(getTermIRI(sup))}")
-    uuid = generateUUID(fromIRI(iri))
+    uuid <- reifiedRelationshipSpecializationAxiomUUID(graph, sub, sup)
     ax <- addReifiedRelationshipSpecializationAxiom(graph, uuid, sub, sup)
   } yield ax
 
@@ -1725,7 +1780,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   : Set[java.lang.Throwable] \/ UUID
   = for {
      iri <- withFragment(
-      fromTerminology(graph).iri,
+      getTerminologyIRI(graph),
       s"EntityUniversalRestrictionAxiom("+
         fromIRI(getTermIRI(sub))+","+
         fromIRI(getTermIRI(rel))+","+
@@ -1789,7 +1844,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   : Set[java.lang.Throwable] \/ UUID
   = for {
      iri <- withFragment(
-      fromTerminology(graph).iri,
+      getTerminologyIRI(graph),
       s"EntityExistentialRestrictionAxiom("+
         fromIRI(getTermIRI(sub))+","+
         fromIRI(getTermIRI(rel))+","+
@@ -1840,7 +1895,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   : Set[java.lang.Throwable] \/ UUID
   = for {
     iri <- withFragment(
-      fromTerminology(graph).iri,
+      getTerminologyIRI(graph),
       s"EntityScalarDataPropertyExistentialRestrictionAxiom("+
         fromIRI(getTermIRI(restrictedEntity))+","+
         fromIRI(getTermIRI(scalarProperty))+","+
@@ -1878,7 +1933,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   : Set[java.lang.Throwable] \/ UUID
   = for {
     iri <- withFragment(
-      fromTerminology(graph).iri,
+      getTerminologyIRI(graph),
       s"EntityScalarDataPropertyUniversalRestrictionAxiom("+
         fromIRI(getTermIRI(restrictedEntity))+","+
         fromIRI(getTermIRI(scalarProperty))+","+
@@ -1915,7 +1970,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   : Set[java.lang.Throwable] \/ UUID
   = for {
     iri <- withFragment(
-      fromTerminology(graph).iri,
+      getTerminologyIRI(graph),
       s"EntityScalarDataPropertyParticularRestrictionAxiom("+
         fromIRI(getTermIRI(restrictedEntity))+","+
         fromIRI(getTermIRI(scalarProperty))+")")
@@ -1958,8 +2013,8 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   (implicit store: omf#Store)
   : Set[java.lang.Throwable] \/ UUID
   = for {
-    iri <- withFragment(fromTerminology(extendingG).iri,
-      s"TerminologyExtensionAxiom(${fromIRI(fromTerminology(extendedG).iri)})")
+    iri <- withFragment(getTerminologyIRI(extendingG),
+      s"TerminologyExtensionAxiom(${fromIRI(getTerminologyIRI(extendedG))})")
     uuid = generateUUID(fromIRI(iri))
   } yield uuid
 
@@ -2000,7 +2055,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   (uuid: UUID,
    nestingTerminology: omf#TerminologyBox,
    nestingContext: omf#Concept,
-   nestedTerminology: omf#MutableTerminologyBox)
+   nestedTerminology: omf#MutableTerminologyGraph)
   (implicit store: omf#Store)
   : Set[java.lang.Throwable] \/ omf#TerminologyNestingAxiom
 
@@ -2011,7 +2066,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   : Set[java.lang.Throwable] \/ UUID
   = for {
     iri <- withFragment(
-      fromTerminology(nestedGraph).iri,
+      getTerminologyIRI(nestedGraph),
       s"TerminologyNestingAxiom(${fromConcept(nestingContext).name})")
     uuid = generateUUID(fromIRI(iri))
   } yield uuid
@@ -2031,7 +2086,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   final def addNestedTerminology
   (nestingGraph: omf#TerminologyBox,
    nestingContext: omf#Concept,
-   nestedGraph: omf#MutableTerminologyBox)
+   nestedGraph: omf#MutableTerminologyGraph)
   (implicit store: omf#Store)
   : Set[java.lang.Throwable] \/ omf#TerminologyNestingAxiom
   = for {
@@ -2080,10 +2135,10 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   : Set[java.lang.Throwable] \/ omf#ConceptDesignationTerminologyAxiom
   = for {
     iri <- withFragment(
-      fromTerminology(graph).iri,
+      getTerminologyIRI(graph),
       s"ConceptDesignationTerminologyAxiom("+
         fromConcept(entityConceptDesignation).name+","+
-        fromIRI(fromTerminology(designationTerminologyGraph).iri)+
+        fromIRI(getTerminologyIRI(designationTerminologyGraph))+
         ")")
     ax <- addEntityConceptDesignationTerminologyAxiom(
       graph,
@@ -2116,8 +2171,8 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   (implicit store: omf#Store)
   : Set[java.lang.Throwable] \/ UUID
   = for {
-    iri <- withFragment(fromTerminology(terminologyBundle).iri,
-      s"BundledTerminologyAxiom(${fromIRI(fromTerminology(bundledTerminology).iri)})")
+    iri <- withFragment(getTerminologyIRI(terminologyBundle),
+      s"BundledTerminologyAxiom(${fromIRI(getTerminologyIRI(bundledTerminology))})")
     uuid = generateUUID(fromIRI(iri))
   } yield uuid
 
@@ -2168,7 +2223,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   (implicit store: omf#Store)
   : Set[java.lang.Throwable] \/ UUID
   = for {
-    iri <- withFragment(fromTerminology(terminologyBundle).iri,
+    iri <- withFragment(getTerminologyIRI(terminologyBundle),
       s"RootConceptTaxonomyAxiom(${getTermIRI(root)})")
     uuid = generateUUID(fromIRI(iri))
   } yield uuid
@@ -2219,7 +2274,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   (implicit store: omf#Store)
   : Set[java.lang.Throwable] \/ UUID
   = for {
-    iri <- withFragment(fromTerminology(terminologyBundle).iri,
+    iri <- withFragment(getTerminologyIRI(terminologyBundle),
       s"AnonymousConceptTaxonomyAxiom(${getConceptTreeDisjunctionUUID(disjointTerminologyParent)})")
     uuid = generateUUID(fromIRI(iri))
   } yield uuid
@@ -2273,7 +2328,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   (implicit store: omf#Store)
   : Set[java.lang.Throwable] \/ UUID
   = for {
-    iri <- withFragment(fromTerminology(terminologyBundle).iri,
+    iri <- withFragment(getTerminologyIRI(terminologyBundle),
       s"SpecificDisjointConceptAxiom(${getConceptTreeDisjunctionUUID(disjointTerminologyParent)},${getTermIRI(disjointLeaf)})")
     uuid = generateUUID(fromIRI(iri))
   } yield uuid

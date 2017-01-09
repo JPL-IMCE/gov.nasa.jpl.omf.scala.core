@@ -18,6 +18,7 @@
 
 package test.gov.nasa.jpl.omf.scala.core.functionalAPI
 
+import java.io.File
 import gov.nasa.jpl.imce.omf.schema.tables.OMFSchemaTables
 import gov.nasa.jpl.omf.scala.core._
 import gov.nasa.jpl.omf.scala.core.RelationshipCharacteristics._
@@ -27,14 +28,18 @@ import org.scalatest.exceptions.TestFailedException
 import exceptions._
 import gov.nasa.jpl.omf.scala.core.tables.OMFTabularExport
 
-import scala.{Some, StringContext, Unit}
+import scala.{Option, Some, StringContext, Unit}
+import scala.Predef.String
 import scala.util.control.Exception._
 import scalaz._
 import Scalaz._
 import scala.collection.immutable.{List, Set}
 
 abstract class OMFNestedGraphTest[omf <: OMF]
-( val saveStore: omf#Store, saveOps: OMFOps[omf],
+( testName: String,
+  var createdTables: Option[File],
+  var loadedTables: Option[File],
+  val saveStore: omf#Store, saveOps: OMFOps[omf],
   val loadStore: omf#Store, loadOps: OMFOps[omf]
 ) extends WordSpec with Matchers {
 
@@ -44,9 +49,8 @@ abstract class OMFNestedGraphTest[omf <: OMF]
 
   def withOMFSave
   (testCode: (omf#Store, OMFOps[omf]) => Set[java.lang.Throwable] \/ Unit)
-  : Unit =
-
-    nonFatalCatch[Unit]
+  : Unit
+  = nonFatalCatch[Unit]
       .withApply {
         (cause: java.lang.Throwable) =>
           throw new TestFailedException(
@@ -75,9 +79,8 @@ abstract class OMFNestedGraphTest[omf <: OMF]
 
   def withOMFLoad
   (testCode: (omf#Store, OMFOps[omf]) => Set[java.lang.Throwable] \/ Unit)
-  : Unit =
-
-    nonFatalCatch[Unit]
+  : Unit
+  = nonFatalCatch[Unit]
       .withApply {
         (cause: java.lang.Throwable) =>
           throw new TestFailedException(
@@ -115,7 +118,7 @@ abstract class OMFNestedGraphTest[omf <: OMF]
         string_iri <- makeIRI("http://www.w3.org/2001/XMLSchema#string")
         string = lookupDataRange(xsd._1, string_iri, recursively = false)
 
-        base_iri <- makeIRI("http://imce.jpl.nasa.gov/test/nestedGraph/foundation/base/base")
+        base_iri <- makeIRI(s"http://imce.jpl.nasa.gov/test/$testName/foundation/base/base")
         base <- makeTerminologyGraph(base_iri, isDefinition)
         base_extends_xsd <- addTerminologyExtension(base, xsd._1)
         identifiedElement <- addAspect(base, "IdentifiedElement")
@@ -125,7 +128,7 @@ abstract class OMFNestedGraphTest[omf <: OMF]
           target = string.get,
           dataPropertyName = "hasIdentifier")
 
-        mission_iri <- makeIRI("http://imce.jpl.nasa.gov/test/nestedGraph/foundation/mission/mission")
+        mission_iri <- makeIRI(s"http://imce.jpl.nasa.gov/test/$testName/foundation/mission/mission")
         mission <- makeTerminologyGraph(mission_iri, isDefinition)
         mission_extends_base <- addTerminologyExtension(mission, base)
         component <- addConcept(mission, "Component", isAbstract = false)
@@ -148,12 +151,12 @@ abstract class OMFNestedGraphTest[omf <: OMF]
           unreifiedInverseRelationshipName = "isPerformedBy".some,
           isAbstract = false)
 
-        project_iri <- makeIRI("http://imce.jpl.nasa.gov/test/nestedGraph/foundation/project/project")
+        project_iri <- makeIRI(s"http://imce.jpl.nasa.gov/test/$testName/foundation/project/project")
         project <- makeTerminologyGraph(project_iri, isDefinition)
         project_extends_mission <- addTerminologyExtension(project, mission)
         workPackage <- addConcept(project, "WorkPackage", isAbstract = false)
 
-        g_iri <- makeIRI("http://imce.jpl.nasa.gov/test/nestedGraph/example/G")
+        g_iri <- makeIRI(s"http://imce.jpl.nasa.gov/test/$testName/example/G")
         g <- makeTerminologyGraph(g_iri, isDefinition)
         g_extends_project <- addTerminologyExtension(g, project)
 
@@ -166,7 +169,7 @@ abstract class OMFNestedGraphTest[omf <: OMF]
         g_C <- addConcept(g, "C", isAbstract=false)
         g_C_isa_function <- addConceptSpecializationAxiom(g, g_C, component)
 
-        p1_iri <- makeIRI("http://imce.jpl.nasa.gov/test/nestedGraph/example/P1")
+        p1_iri <- makeIRI(s"http://imce.jpl.nasa.gov/test/$testName/example/P1")
         p1 <- makeTerminologyGraph(p1_iri, isDefinition)
         _ <- addTerminologyExtension(p1, g)
         g_authorizes_p1 <- addConcept(g, "P1", isAbstract=false)
@@ -186,7 +189,7 @@ abstract class OMFNestedGraphTest[omf <: OMF]
 
         g_nests_p1 <- addNestedTerminology(nestingGraph=g, nestingContext=g_authorizes_p1, nestedGraph=p1)
 
-        p2_iri <- makeIRI("http://imce.jpl.nasa.gov/test/nestedGraph/example/P2")
+        p2_iri <- makeIRI(s"http://imce.jpl.nasa.gov/test/$testName/example/P2")
         p2 <- makeTerminologyGraph(p2_iri, isDefinition)
         _ <- addTerminologyExtension(p2, g)
         g_authorizes_p2 <- addConcept(g, "P2", isAbstract=false)
@@ -228,7 +231,7 @@ abstract class OMFNestedGraphTest[omf <: OMF]
           Set[omf#ImmutableTerminologyBox](
             ibase._1, imission._1, iproject._1, ig._1, ip1._1, ip2._1))
 
-        tablesIRI <- makeIRI("http://imce.jpl.nasa.gov/test/nestedGraph/Constructed/tables.json.zip")
+        tablesIRI <- makeIRI(s"http://imce.jpl.nasa.gov/test/$testName/Constructed/tables.json.zip")
 
         tablesFile <- resolveIRIAsLocalFile(tablesIRI)
 
@@ -238,6 +241,8 @@ abstract class OMFNestedGraphTest[omf <: OMF]
           .saveOMFSchemaTables(tables, tablesFile)
           .toDisjunction
           .leftMap(Set[java.lang.Throwable](_))
+
+        _ = createdTables = Some(tablesFile)
 
       } yield {
         lookupNestingAxiomForNestedChildIfAny(nestedG = g).isEmpty should be(true)
@@ -274,47 +279,47 @@ abstract class OMFNestedGraphTest[omf <: OMF]
         integer = lookupDataRange(xsd._1, int_iri, recursively = false)
         string_iri <- makeIRI("http://www.w3.org/2001/XMLSchema#string")
 
-        base_iri <- makeIRI("http://imce.jpl.nasa.gov/foundation/base/base")
+        base_iri <- makeIRI(s"http://imce.jpl.nasa.gov/test/$testName/foundation/base/base")
         base <- loadTerminology(base_iri)
 
-        mission_iri <- makeIRI("http://imce.jpl.nasa.gov/test/nestedGraph/foundation/mission/mission")
+        mission_iri <- makeIRI(s"http://imce.jpl.nasa.gov/test/$testName/foundation/mission/mission")
         mission <- loadTerminology(mission_iri)
 
-        component_iri <- makeIRI("http://imce.jpl.nasa.gov/test/nestedGraph/foundation/mission/mission#Component")
+        component_iri <- makeIRI(s"http://imce.jpl.nasa.gov/test/$testName/foundation/mission/mission#Component")
         component = lookupConcept(mission._1, component_iri, recursively=false)
 
-        function_iri <- makeIRI("http://imce.jpl.nasa.gov/test/nestedGraph/foundation/mission/mission#Function")
+        function_iri <- makeIRI(s"http://imce.jpl.nasa.gov/test/$testName/foundation/mission/mission#Function")
         function = lookupConcept(mission._1, function_iri, recursively=false)
 
-        component_performs_function_iri <- makeIRI("http://imce.jpl.nasa.gov/test/nestedGraph/foundation/mission/mission#Performs")
+        component_performs_function_iri <- makeIRI(s"http://imce.jpl.nasa.gov/test/$testName/foundation/mission/mission#Performs")
 
-        project_iri <- makeIRI("http://imce.jpl.nasa.gov/test/nestedGraph/foundation/project/project")
+        project_iri <- makeIRI(s"http://imce.jpl.nasa.gov/test/$testName/foundation/project/project")
         project <- loadTerminology(project_iri)
 
-        workPackage_iri <- makeIRI("http://imce.jpl.nasa.gov/test/nestedGraph/foundation/project/project#WorkPackage")
+        workPackage_iri <- makeIRI(s"http://imce.jpl.nasa.gov/test/$testName/foundation/project/project#WorkPackage")
 
-        g_iri <- makeIRI("http://imce.jpl.nasa.gov/test/nestedGraph/example/G")
+        g_iri <- makeIRI(s"http://imce.jpl.nasa.gov/test/$testName/example/G")
         g <- loadTerminology(g_iri)
 
-        a_iri <- makeIRI("http://imce.jpl.nasa.gov/test/nestedGraph/example/G#A")
+        a_iri <- makeIRI(s"http://imce.jpl.nasa.gov/test/$testName/example/G#A")
         a = lookupConcept(g._1, a_iri, recursively=false)
 
-        b_iri <- makeIRI("http://imce.jpl.nasa.gov/test/nestedGraph/example/G#B")
+        b_iri <- makeIRI(s"http://imce.jpl.nasa.gov/test/$testName/example/G#B")
         b = lookupConcept(g._1, b_iri, recursively=false)
 
-        c_iri <- makeIRI("http://imce.jpl.nasa.gov/test/nestedGraph/example/G#C")
+        c_iri <- makeIRI(s"http://imce.jpl.nasa.gov/test/$testName/example/G#C")
         c = lookupConcept(g._1, c_iri, recursively=false)
 
-        p1_iri <- makeIRI("http://imce.jpl.nasa.gov/test/nestedGraph/example/P1")
+        p1_iri <- makeIRI(s"http://imce.jpl.nasa.gov/test/$testName/example/P1")
         p1 <- loadTerminology(p1_iri)
 
-        g_authorizes_p1_iri <- makeIRI("http://imce.jpl.nasa.gov/test/nestedGraph/example/G#P1")
+        g_authorizes_p1_iri <- makeIRI(s"http://imce.jpl.nasa.gov/test/$testName/example/G#P1")
         g_authorizes_p1 = lookupConcept(g._1, g_authorizes_p1_iri, recursively=false)
 
-        p2_iri <- makeIRI("http://imce.jpl.nasa.gov/test/nestedGraph/example/P2")
+        p2_iri <- makeIRI(s"http://imce.jpl.nasa.gov/test/$testName/example/P2")
         p2 <- loadTerminology(p2_iri)
 
-        g_authorizes_p2_iri <- makeIRI("http://imce.jpl.nasa.gov/test/nestedGraph/example/G#P2")
+        g_authorizes_p2_iri <- makeIRI(s"http://imce.jpl.nasa.gov/test/$testName/example/G#P2")
         g_authorizes_p2 = lookupConcept(g._1, g_authorizes_p2_iri, recursively=false)
 
 
@@ -322,14 +327,18 @@ abstract class OMFNestedGraphTest[omf <: OMF]
           Set[omf#ImmutableTerminologyBox](
             base._1, mission._1, project._1, g._1, p1._1, p2._1))
 
-        tablesIRI <- makeIRI("http://imce.jpl.nasa.gov/test/nestedGraph/Loaded/tables.json.zip")
+        tablesIRI <- makeIRI(s"http://imce.jpl.nasa.gov/test/$testName/Loaded/tables.json.zip")
 
         tablesFile <- resolveIRIAsLocalFile(tablesIRI)
+
+        _ = java.nio.file.Files.createDirectories(tablesFile.getParentFile.toPath)
 
         _ <- OMFSchemaTables
           .saveOMFSchemaTables(tables, tablesFile)
           .toDisjunction
           .leftMap(Set[java.lang.Throwable](_))
+
+        _ = loadedTables = Some(tablesFile)
 
       } yield {
         a.isDefined should be(true)
@@ -352,6 +361,20 @@ abstract class OMFNestedGraphTest[omf <: OMF]
         lookupNestingAxiomsForNestingContext(nestingC = g_authorizes_p1.get).nonEmpty should be(true)
         lookupNestingAxiomsForNestingContext(nestingC = g_authorizes_p2.get).nonEmpty should be(true)
       }
+
+    }
+
+    "compare created vs loaded" in {
+      import scala.sys.process._
+
+      createdTables.nonEmpty should be(true)
+      loadedTables.nonEmpty should be(true)
+      java.lang.System.out.println(s"$testName.Created: ${createdTables.get}")
+      java.lang.System.out.println(s"$testName.Loaded: ${loadedTables.get}")
+      val created: String = (s"unzip -p -a ${createdTables.get}" #| "sum").!!
+      val loaded: String = (s"unzip -p -a ${loadedTables.get}" #| "sum").!!
+
+      created shouldEqual loaded
 
     }
   }

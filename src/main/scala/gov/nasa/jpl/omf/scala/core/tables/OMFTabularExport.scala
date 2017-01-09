@@ -18,10 +18,11 @@
 
 package gov.nasa.jpl.omf.scala.core.tables
 
+import gov.nasa.jpl.imce.omf.schema.tables.{annotationOrdering, Annotation}
 import gov.nasa.jpl.omf.scala.core._
 import gov.nasa.jpl.imce.omf._
 
-import scala.collection.immutable.{Seq,Set}
+import scala.collection.immutable.{Seq,Set,SortedSet}
 import scala.{Option,None,Some}
 import scala.Predef.{ArrowAssoc,String}
 
@@ -278,6 +279,10 @@ object OMFTabularExport {
   (implicit store: omf#Store, ops: OMFOps[omf])
   : schema.tables.OMFSchemaTables
   = {
+    val as
+    : SortedSet[Annotation]
+    = s.foldLeft[SortedSet[Annotation]](SortedSet.empty[Annotation])(_ ++ ops.getAnnotations(_))
+
     val bs: Set[omf#ImmutableBundle] = s.flatMap(ops.foldImmutableBundle)
 
     val tsigs = s.map(g => g -> ops.fromTerminology(g))
@@ -462,6 +467,8 @@ object OMFTabularExport {
           uuid = sig.uuid.toString,
           isAbstract = sig.isAbstract,
           name = sig.name,
+          unreifiedPropertyName = sig.unreifiedPropertyName,
+          unreifiedInversePropertyName = sig.unreifiedInversePropertyName,
           iri = sig.iri.toString,
           isAsymmetric = sig.characteristics.exists(RelationshipCharacteristics.isAsymmetric == _),
           isEssential = sig.characteristics.exists(RelationshipCharacteristics.isEssential == _),
@@ -703,6 +710,7 @@ object OMFTabularExport {
       combop = Axioms.append)
 
     val t = schema.tables.OMFSchemaTables.createEmptyOMFSchemaTables().copy(
+      annotationProperties = ops.annotationProperties(),
       // graphs
       terminologyGraphs =
         allTGraphs,
@@ -783,7 +791,10 @@ object OMFTabularExport {
       rootConceptTaxonomyAxioms =
         allRootConceptTaxonomyAxioms,
       specificDisjointConceptAxioms =
-        allSpecificDisjointConceptAxioms
+        allSpecificDisjointConceptAxioms,
+
+      annotations =
+        as.iterator.to[Seq]
     )
 
     t

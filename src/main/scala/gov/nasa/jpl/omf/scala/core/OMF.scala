@@ -20,7 +20,7 @@ package gov.nasa.jpl.omf.scala.core
 
 import java.util.UUID
 
-import gov.nasa.jpl.imce.omf.schema.tables.LocalName
+import gov.nasa.jpl.imce.omf.schema.tables.{Annotation, LocalName}
 import gov.nasa.jpl.omf.scala.core.RelationshipCharacteristics._
 
 import scala.collection.immutable.{Iterable, Map}
@@ -634,6 +634,8 @@ trait TerminologySignature[omf <: OMF] {
   val rTAxioms: Iterable[omf#RootConceptTaxonomyAxiom]
   val aTAxioms: Iterable[omf#AnonymousConceptTaxonomyAxiom]
   val sTAxioms: Iterable[omf#SpecificDisjointConceptAxiom]
+
+  val annotations: Iterable[Annotation]
 }
 
 
@@ -664,6 +666,8 @@ trait EntityConceptSignature[omf <: OMF] {
 trait EntityReifiedRelationshipSignature[omf <: OMF] {
   val uuid: UUID
   val name: LocalName
+  val unreifiedPropertyName: LocalName
+  val unreifiedInversePropertyName: Option[LocalName]
   val iri: omf#IRI
   val source: omf#Entity
   val target: omf#Entity

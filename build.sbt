@@ -53,8 +53,10 @@ lazy val core = Project("omf-scala-core", file("."))
     Seq(
       "gov.nasa.jpl.imce" %% "jpl.omf.schema.resolver"
         % Versions_omf_schema_resolver.version
-        % "compile" artifacts
+        % "compile" withSources() withJavadoc() artifacts(
+        Artifact("jpl.omf.schema.resolver"),
         Artifact("jpl.omf.schema.resolver", "zip", "zip", "resource")
+        )
     )
   )
 

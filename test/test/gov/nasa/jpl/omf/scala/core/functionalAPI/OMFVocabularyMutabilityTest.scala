@@ -23,6 +23,7 @@ import gov.nasa.jpl.omf.scala.core.RelationshipCharacteristics._
 import gov.nasa.jpl.omf.scala.core.TerminologyKind._
 
 import org.scalatest._, exceptions._
+import scala.Some
 import scala.{StringContext,Unit}
 import scala.util.control.Exception._
 import scalaz._, Scalaz._
@@ -52,7 +53,14 @@ abstract class OMFVocabularyMutabilityTest[omf <: OMF]
       preOMFSave()
       val result = testCode(saveStore, saveOps)
       postOMFSave()
-      result.isRight should equal(true)
+      result.leftMap { errors =>
+        throw new TestFailedException(
+          message=Some(s"withOMFSave ${errors.size} errors"),
+          cause=errors.headOption,
+          failedCodeStackDepth = 1
+        )
+      }
+      ()
     })
 
 
@@ -75,7 +83,14 @@ abstract class OMFVocabularyMutabilityTest[omf <: OMF]
         preOMFLoad()
         val result = testCode(loadStore, loadOps)
         postOMFLoad()
-        result.isRight should equal(true)
+        result.leftMap { errors =>
+          throw new TestFailedException(
+            message=Some(s"withOMFLoad ${errors.size} errors"),
+            cause=errors.headOption,
+            failedCodeStackDepth = 1
+          )
+        }
+        ()
       })
 
   "vocabulary roundtrip test" when {
