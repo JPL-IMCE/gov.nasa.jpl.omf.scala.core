@@ -18,17 +18,47 @@
 
 package gov.nasa.jpl.omf.scala
 
-
 import java.util.UUID
 
 import com.fasterxml.uuid.Generators
 import com.fasterxml.uuid.impl.NameBasedGenerator
+import gov.nasa.jpl.imce.omf.schema.tables.{Annotation, AnnotationProperty}
 
-import scala.Boolean
+import scala.{Boolean,Int,Ordering}
 import scala.collection.immutable._
 import scala.Predef.String
 
 package object core {
+
+  implicit def annotationPropertyOrdering
+  : Ordering[AnnotationProperty]
+  = new Ordering[AnnotationProperty] {
+
+    def compare(x: AnnotationProperty, y: AnnotationProperty)
+    : Int
+    = x.uuid.compareTo(y.uuid)
+
+  }
+
+  implicit def annotationOrdering
+  : Ordering[Annotation]
+  = new Ordering[Annotation] {
+
+    def compare(x: Annotation, y: Annotation)
+    : Int
+    = x.terminologyUUID.compareTo(y.terminologyUUID) match {
+      case c if 0 != c =>
+        c
+      case 0 =>
+        x.subjectUUID.compareTo(y.subjectUUID) match {
+          case c if 0 != c =>
+            c
+          case 0 =>
+            x.value.compareTo(y.value)
+        }
+    }
+
+  }
 
   /**
     * Version 4 random UUID
@@ -52,18 +82,18 @@ package object core {
     .nameBasedGenerator(NameBasedGenerator.NAMESPACE_URL)
     .generate(url)
 
-  def getImportedTerminologyGraphs[Omf <: OMF]
-  ( tbox: Omf#ModelTerminologyGraph,
-    onlyCompatibleKind: Boolean = true  )
+  def getImportedTerminologies[Omf <: OMF]
+  (tbox: Omf#TerminologyBox,
+   onlyCompatibleKind: Boolean = true  )
   ( implicit ops: OMFOps[Omf], store: Omf#Store )
-  : Set[Omf#ModelTerminologyGraph]
+  : Set[Omf#TerminologyBox]
   = {
 
-    val s = ops.fromTerminologyGraph(tbox)
+    val s = ops.fromTerminology(tbox)
 
-    def hasCompatibleKind(g: Omf#ModelTerminologyGraph)
+    def hasCompatibleKind(g: Omf#TerminologyBox)
     : Boolean
-    = !onlyCompatibleKind || TerminologyKind.compatibleKind(s.kind)(ops.getTerminologyGraphKind(g))
+    = !onlyCompatibleKind || TerminologyKind.compatibleKind(s.kind)(ops.getTerminologyKind(g))
 
     val imported = s.imports.filter(hasCompatibleKind).to[Set]
     imported
@@ -107,20 +137,20 @@ package object core {
    * G1 imports G2a,G3,G4
    * G3 imports G4
    */
-  def terminologyGraphImportClosure[Omf <: OMF, TG <: Omf#ModelTerminologyGraph]
+  def terminologyImportClosure[Omf <: OMF, TG <: Omf#TerminologyBox]
   ( g: TG,
     onlyCompatibleKind: Boolean = true )
   ( implicit ops: OMFOps[Omf], store: Omf#Store )
-  : Set[Omf#ModelTerminologyGraph] = {
+  : Set[Omf#TerminologyBox] = {
 
     def step
-    (gi: Omf#ModelTerminologyGraph)
-    : Set[Omf#ModelTerminologyGraph]
-    = getImportedTerminologyGraphs(gi, onlyCompatibleKind)
+    (gi: Omf#TerminologyBox)
+    : Set[Omf#TerminologyBox]
+    = getImportedTerminologies(gi, onlyCompatibleKind)
 
     val result
-    : Set[Omf#ModelTerminologyGraph]
-    = OMFOps.closure[Omf#ModelTerminologyGraph, Omf#ModelTerminologyGraph](g, step) + g
+    : Set[Omf#TerminologyBox]
+    = OMFOps.closure[Omf#TerminologyBox, Omf#TerminologyBox](g, step) + g
 
     result
   }
@@ -131,22 +161,24 @@ package object core {
    * @return a 3-tuple of the aspects, concepts and relationships entities defined in the graphs:
    */
   def allEntities[Omf <: OMF]
-  ( tboxes: Set[Omf#ModelTerminologyGraph] )
+  ( tboxes: Set[Omf#TerminologyBox] )
   ( implicit ops: OMFOps[Omf], store: Omf#Store )
-  : ( Set[Omf#ModelEntityAspect],
-    Set[Omf#ModelEntityConcept],
-    Set[Omf#ModelEntityReifiedRelationship] ) = {
+  : (
+    Set[Omf#Aspect],
+    Set[Omf#Concept],
+    Set[Omf#ReifiedRelationship],
+    Set[Omf#UnreifiedRelationship]) = {
 
     import ops._
 
     val entities0 =
-      ( Set[Omf#ModelEntityAspect](), Set[Omf#ModelEntityConcept](), Set[Omf#ModelEntityReifiedRelationship]() )
+      ( Set[Omf#Aspect](), Set[Omf#Concept](), Set[Omf#ReifiedRelationship](), Set[Omf#UnreifiedRelationship]() )
     val entitiesN =
       ( entities0 /: ( for { tbox <- tboxes } yield {
         val s =
-          fromTerminologyGraph( tbox )
-        ( s.aspects.toSet, s.concepts.toSet, s.reifiedRelationships.toSet )
-      } ) ) { case ( ( ai, ci, ri ), ( aj, cj, rj ) ) => ( ai ++ aj, ci ++ cj, ri ++ rj ) }
+          fromTerminology( tbox )
+        ( s.aspects.toSet, s.concepts.toSet, s.reifiedRelationships.toSet, s.unreifiedRelationships.toSet )
+      } ) ) { case ( ( ai, ci, ri, ui ), ( aj, cj, rj, uj) ) => ( ai ++ aj, ci ++ cj, ri ++ rj, ui ++ uj ) }
 
     entitiesN
   }

@@ -23,6 +23,7 @@ import gov.nasa.jpl.omf.scala.core.RelationshipCharacteristics._
 import gov.nasa.jpl.omf.scala.core.TerminologyKind._
 
 import org.scalatest._, exceptions._
+import scala.Some
 import scala.{StringContext,Unit}
 import scala.util.control.Exception._
 import scalaz._, Scalaz._
@@ -52,7 +53,14 @@ abstract class OMFVocabularyMutabilityTest[omf <: OMF]
       preOMFSave()
       val result = testCode(saveStore, saveOps)
       postOMFSave()
-      result.isRight should equal(true)
+      result.leftMap { errors =>
+        throw new TestFailedException(
+          message=Some(s"withOMFSave ${errors.size} errors"),
+          cause=errors.headOption,
+          failedCodeStackDepth = 1
+        )
+      }
+      ()
     })
 
 
@@ -75,7 +83,14 @@ abstract class OMFVocabularyMutabilityTest[omf <: OMF]
         preOMFLoad()
         val result = testCode(loadStore, loadOps)
         postOMFLoad()
-        result.isRight should equal(true)
+        result.leftMap { errors =>
+          throw new TestFailedException(
+            message=Some(s"withOMFLoad ${errors.size} errors"),
+            cause=errors.headOption,
+            failedCodeStackDepth = 1
+          )
+        }
+        ()
       })
 
   "vocabulary roundtrip test" when {
@@ -88,34 +103,34 @@ abstract class OMFVocabularyMutabilityTest[omf <: OMF]
 
       for {
         xsd_iri <- makeIRI("http://www.w3.org/2001/XMLSchema")
-        xsd <- loadTerminologyGraph(xsd_iri)
+        xsd <- loadTerminology(xsd_iri)
         int_iri <- makeIRI("http://www.w3.org/2001/XMLSchema#integer")
-        integer = lookupScalarDataType(xsd._1, int_iri, recursively = false)
+        integer = lookupDataRange(xsd._1, int_iri, recursively = false)
         string_iri <- makeIRI("http://www.w3.org/2001/XMLSchema#string")
-        string = lookupScalarDataType(xsd._1, string_iri, recursively = false)
+        string = lookupDataRange(xsd._1, string_iri, recursively = false)
         base_iri <- makeIRI("http://imce.jpl.nasa.gov/test/mutability/foundation/base/base")
         base <- makeTerminologyGraph(base_iri, isDefinition)
-        base_extends_xsd <- addTerminologyGraphExtension(base, xsd._1)
-        identifiedElement <- addEntityAspect(base, "IdentifiedElement")
-        hasIdentifier = addDataRelationshipFromEntityToScalar(
+        base_extends_xsd <- addTerminologyExtension(base, xsd._1)
+        identifiedElement <- addAspect(base, "IdentifiedElement")
+        hasIdentifier = addEntityScalarDataProperty(
           graph = base,
           source = identifiedElement,
           target = string.get,
           dataPropertyName = "hasIdentifier")
         mission_iri <- makeIRI("http://imce.jpl.nasa.gov/test/mutability/foundation/mission/mission")
         mission <- makeTerminologyGraph(mission_iri, isDefinition)
-        mission_extends_base <- addTerminologyGraphExtension(mission, base)
-        component <- addEntityConcept(mission, "Component", isAbstract = false)
-        component_extends_identifiedElement <- addEntityDefinitionAspectSubClassAxiom(
+        mission_extends_base <- addTerminologyExtension(mission, base)
+        component <- addConcept(mission, "Component", isAbstract = false)
+        component_extends_identifiedElement <- addAspectSpecializationAxiom(
           graph = mission,
           sub = component,
           sup = identifiedElement)
-        function <- addEntityConcept(mission, "Function", isAbstract = false)
-        function_extends_identifiedElement <- addEntityDefinitionAspectSubClassAxiom(
+        function <- addConcept(mission, "Function", isAbstract = false)
+        function_extends_identifiedElement <- addAspectSpecializationAxiom(
           graph = mission,
           sub = function,
           sup = identifiedElement)
-        component_performs_function <- addEntityReifiedRelationship(
+        component_performs_function <- addReifiedRelationship(
           graph = mission,
           source = component,
           target = function,
@@ -124,19 +139,19 @@ abstract class OMFVocabularyMutabilityTest[omf <: OMF]
           unreifiedRelationshipName = "performs",
           unreifiedInverseRelationshipName = "isPerformedBy".some,
           isAbstract = false)
-        item <- addEntityConcept(mission, "Item", isAbstract = false)
+        item <- addConcept(mission, "Item", isAbstract = false)
 
-        message <- addEntityConcept(mission, "Message", isAbstract = false)
+        message <- addConcept(mission, "Message", isAbstract = false)
 
-        materialItem <- addEntityConcept(mission, "MaterialItem", isAbstract = false)
+        materialItem <- addConcept(mission, "MaterialItem", isAbstract = false)
 
-        message_extends_item <- addEntityConceptSubClassAxiom(mission, message, item)
+        message_extends_item <- addConceptSpecializationAxiom(mission, message, item)
 
-        materialItem_extends_item <- addEntityConceptSubClassAxiom(mission, materialItem, item)
+        materialItem_extends_item <- addConceptSpecializationAxiom(mission, materialItem, item)
 
-        baseSaved <- saveTerminologyGraph(base)
+        baseSaved <- saveTerminology(base)
 
-        missionSaved <- saveTerminologyGraph(mission)
+        missionSaved <- saveTerminology(mission)
       } yield {
         integer.isDefined should be(true)
         string.isDefined should be(true)
@@ -152,21 +167,21 @@ abstract class OMFVocabularyMutabilityTest[omf <: OMF]
 
       for {
         xsd_iri <- makeIRI("http://www.w3.org/2001/XMLSchema")
-        xsd <- loadTerminologyGraph(xsd_iri)
+        xsd <- loadTerminology(xsd_iri)
         int_iri <- makeIRI("http://www.w3.org/2001/XMLSchema#integer")
-        integer = lookupScalarDataType(xsd._1, int_iri, recursively = false)
+        integer = lookupDataRange(xsd._1, int_iri, recursively = false)
         string_iri <- makeIRI("http://www.w3.org/2001/XMLSchema#string")
         base_iri <- makeIRI("http://imce.jpl.nasa.gov/test/mutability/foundation/base/base")
-        base <- loadTerminologyGraph(base_iri)
+        base <- loadTerminology(base_iri)
         mission_iri <- makeIRI("http://imce.jpl.nasa.gov/test/mutability/foundation/mission/mission")
-        mission <- loadTerminologyGraph(mission_iri)
+        mission <- loadTerminology(mission_iri)
         identifiedElement_iri <- makeIRI("http://imce.jpl.nasa.gov/test/mutability/foundation/base/base#IdentifiedElement")
         hasIdentifier_iri <- makeIRI("http://imce.jpl.nasa.gov/test/mutability/foundation/base/base#hasIdentifier")
         function_iri <- makeIRI("http://imce.jpl.nasa.gov/test/mutability/foundation/mission/mission#Function")
         component_iri <- makeIRI("http://imce.jpl.nasa.gov/test/mutability/foundation/mission/mission#Component")
         component_performs_function_iri <- makeIRI("http://imce.jpl.nasa.gov/test/mutability/foundation/mission/mission#Performs")
       } yield {
-        val s = ops.fromTerminologyGraph(base._1)
+        val s = ops.fromTerminology(base._1)
         s.imports.isEmpty should be(false)
         s.imports.toSet.contains(xsd._1) should be(true)
         s.aspects.isEmpty should be(false)
@@ -174,30 +189,29 @@ abstract class OMFVocabularyMutabilityTest[omf <: OMF]
         s.reifiedRelationships.isEmpty should be(true)
         s.scalarDataTypes.isEmpty should be(true)
         s.structuredDataTypes.isEmpty should be(true)
-        s.entity2scalarDataRelationships.isEmpty should be(false)
-        s.entity2structureDataRelationships.isEmpty should be(true)
-        s.structure2scalarDataRelationships.isEmpty should be(true)
-        s.structure2structureDataRelationships.isEmpty should be(true)
+        s.entityScalarDataProperties.isEmpty should be(false)
+        s.entityStructuredDataProperties.isEmpty should be(true)
+        s.scalarDataProperties.isEmpty should be(true)
+        s.structuredDataProperties.isEmpty should be(true)
         s.axioms.isEmpty should be(true)
 
         val string =
-          lookupScalarDataType(base._1, string_iri, recursively = true)
+          lookupDataRange(base._1, string_iri, recursively = true)
         string.isDefined should be(true)
 
-        val identifiedElement = lookupEntityAspect(base._1, identifiedElement_iri, recursively = false)
+        val identifiedElement = lookupAspect(base._1, identifiedElement_iri, recursively = false)
         identifiedElement.isDefined should be(true)
 
         val hasIdentifier =
-          lookupEntityDataRelationshipFromEntityToScalar(base._1, hasIdentifier_iri, recursively = false)
+          lookupEntityScalarDataProperty(base._1, hasIdentifier_iri, recursively = false)
         hasIdentifier.isDefined should be(true)
 
-        val (_, _, _, hasIdentifierSource, hasIdentifierTarget) =
-          fromDataRelationshipFromEntityToScalar(hasIdentifier.get)
-        identifiedElement.get should be(hasIdentifierSource)
-        string.get should be(hasIdentifierTarget)
+        val prop = fromEntityScalarDataProperty(hasIdentifier.get)
+        identifiedElement.get should be(prop.domain)
+        string.get should be(prop.range)
 
         {
-          val s = ops.fromTerminologyGraph(mission._1)
+          val s = ops.fromTerminology(mission._1)
           s.imports.isEmpty should be(false)
           s.imports.toSet.contains(base._1) should be(true)
           s.aspects.isEmpty should be(true)
@@ -205,27 +219,27 @@ abstract class OMFVocabularyMutabilityTest[omf <: OMF]
           s.reifiedRelationships.isEmpty should be(false)
           s.scalarDataTypes.isEmpty should be(true)
           s.structuredDataTypes.isEmpty should be(true)
-          s.entity2scalarDataRelationships.isEmpty should be(true)
-          s.entity2structureDataRelationships.isEmpty should be(true)
-          s.structure2scalarDataRelationships.isEmpty should be(true)
-          s.structure2structureDataRelationships.isEmpty should be(true)
+          s.entityScalarDataProperties.isEmpty should be(true)
+          s.entityStructuredDataProperties.isEmpty should be(true)
+          s.scalarDataProperties.isEmpty should be(true)
+          s.structuredDataProperties.isEmpty should be(true)
           s.axioms.isEmpty should be(false)
         }
 
         val component =
-          lookupEntityConcept(mission._1, component_iri, recursively = false)
+          lookupConcept(mission._1, component_iri, recursively = false)
         component.isDefined should be(true)
 
         val function =
-          lookupEntityConcept(mission._1, function_iri, recursively = false)
+          lookupConcept(mission._1, function_iri, recursively = false)
         function.isDefined should be(true)
 
         val component_performs_function =
-          lookupEntityReifiedRelationship(mission._1, component_performs_function_iri, recursively = false)
+          lookupReifiedRelationship(mission._1, component_performs_function_iri, recursively = false)
         component_performs_function.isDefined should be(true)
 
         val component_performs_function_info =
-          fromEntityReifiedRelationship(component_performs_function.get)
+          fromReifiedRelationship(component_performs_function.get)
         component_performs_function_info.source should be(component.get)
         component_performs_function_info.target should be(function.get)
         component_performs_function_info.isAbstract should be(false)

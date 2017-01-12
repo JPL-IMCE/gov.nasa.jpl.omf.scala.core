@@ -20,12 +20,13 @@ package gov.nasa.jpl.omf.scala.core
 
 import java.util.UUID
 
-import gov.nasa.jpl.imce.omf.schema.tables.LocalName
-
-import scala.{Boolean, Option}
-import scala.collection.immutable.{Iterable, Map}
+import gov.nasa.jpl.imce.omf.schema.tables.{Annotation, AnnotationProperty, LocalName}
 import gov.nasa.jpl.omf.scala.core.RelationshipCharacteristics._
-import gov.nasa.jpl.omf.scala.core.TerminologyKind._
+
+import scala.collection.immutable.{Iterable, Map, Seq}
+import scala.{Boolean, Int, Option}
+import scala.Predef.String
+
 
 /**
   * OMF is JPL's Ontological Modeling Framework, a pure functional interface specification
@@ -73,13 +74,33 @@ trait OMFiri {
   */
 trait OMFtbox {
 
+  type Resource
+
+  type TerminologyThing
+
+  type TerminologyContext
+
+  type TerminologyStatement <: TerminologyThing
+  type TerminologyBoxStatement <: TerminologyStatement
+  type TerminologyBundleStatement <: TerminologyStatement
+
+
   /**
     * In OMF, the specification of the conceptual model of a domain is defined in a TBox graph.
     */
-  type ModelTerminologyGraph
-  type ImmutableModelTerminologyGraph <: ModelTerminologyGraph
-  type MutableModelTerminologyGraph <: ModelTerminologyGraph
-  type Mutable2ImmutableTerminologyMap <: Map[MutableModelTerminologyGraph, ImmutableModelTerminologyGraph]
+  type TerminologyBox <: TerminologyThing with Resource
+  type TerminologyGraph <: TerminologyBox
+  type Bundle <: TerminologyBox
+
+  type ImmutableTerminologyBox <: TerminologyBox
+  type ImmutableTerminologyGraph <: ImmutableTerminologyBox with TerminologyGraph
+  type ImmutableBundle <: ImmutableTerminologyBox with Bundle
+
+  type MutableTerminologyBox <: TerminologyBox
+  type MutableTerminologyGraph <: MutableTerminologyBox with TerminologyGraph
+  type MutableBundle <: MutableTerminologyBox with Bundle
+
+  type Mutable2ImmutableTerminologyMap <: Map[MutableTerminologyBox, ImmutableTerminologyBox]
 
   /**
     * A ModelTypeTerm is the basic unit for defining the conceptual model of a domain in an OMF ModelTerminologyGraph.
@@ -98,9 +119,7 @@ trait OMFtbox {
     * - ModelEntityUnreifiedRelationship:
     * binary, directed relationships whose domain & range are entities and whose identity is the related objects
     */
-  type ModelTypeTerm
-
-  type ModelEntityUnreifiedRelationship <: ModelTypeTerm
+  type Term <: TerminologyBoxStatement with Resource
 
   /**
     * A ModelEntityDefinition defines the vocabulary for the conceptual modeling
@@ -110,7 +129,7 @@ trait OMFtbox {
     * - ModelEntityConcept
     * - ModelEntityReifiedRelationship
     */
-  type ModelEntityDefinition <: ModelTypeTerm
+  type Entity <: Term
 
   /**
     * A ModelEntityAspect defines an abstraction that can be the superclass of other
@@ -120,21 +139,25 @@ trait OMFtbox {
     * however, a ModelEntityConcept or ModelEntityReifiedRelationship specialization
     * of a ModelEntityAspect can be explicitly instantiated.
     */
-  type ModelEntityAspect <: ModelEntityDefinition
+  type Aspect <: Entity
 
   /**
     * A ModelEntityConcept defines a concept in the conceptual modeling of a domain.
     *
     * In an OMF ABox, each instance of a ModelEntityConcept has a unique identity.
     */
-  type ModelEntityConcept <: ModelEntityDefinition
+  type Concept <: Entity
+
+  type EntityRelationship <: Term
+
+  type UnreifiedRelationship <: EntityRelationship
 
   /**
     * A ModelEntityReifiedRelationship defines a binary, directed relationship in the conceptual modeling of a domain.
     *
     * The relationship domain (aka source) and range (aka target) can be any kind of ModelEntityDefinition
     */
-  type ModelEntityReifiedRelationship <: ModelEntityDefinition
+  type ReifiedRelationship <: EntityRelationship with Entity
 
   /**
     * A ModelDataTypeDefinition defines the vocabulary for the conceptual modeling
@@ -144,7 +167,17 @@ trait OMFtbox {
     * - ModelScalarDataType, an atomic datatype in the sense of XML Schema 1.1 DataTypes
     * - ModelStructuredDataType, a structured datatype with data property relationships to other ModelDataTypeDefinitions
     */
-  type ModelDataTypeDefinition <: ModelTypeTerm
+  type Datatype <: Term
+
+  /**
+    * A ModelStructuredDataType defines a structured datatype in a conceptual model
+    * in the sense that a structured datatype is defined only in terms of ModelDataRelationships
+    * to other ModelDataTypeDefinitions and that the value semantics of a structured datatype
+    * is based on the equality of the value of its ModelDataRelationships.
+    */
+  type Structure <: Datatype
+
+  type DataRange <: Datatype
 
   /**
     * A ModelScalarDataType defines a scalar datatype in a conceptual model
@@ -156,15 +189,25 @@ trait OMFtbox {
     *
     * @see http://www.w3.org/TR/xmlschema11-2/#anyAtomicType
     */
-  type ModelScalarDataType <: ModelDataTypeDefinition
+  type Scalar <: DataRange
 
-  /**
-    * A ModelStructuredDataType defines a structured datatype in a conceptual model
-    * in the sense that a structured datatype is defined only in terms of ModelDataRelationships
-    * to other ModelDataTypeDefinitions and that the value semantics of a structured datatype
-    * is based on the equality of the value of its ModelDataRelationships.
-    */
-  type ModelStructuredDataType <: ModelDataTypeDefinition
+  type RestrictedDataRange <: DataRange
+
+  type BinaryScalarRestriction <: RestrictedDataRange
+
+  type IRIScalarRestriction <: RestrictedDataRange
+
+  type NumericScalarRestriction <: RestrictedDataRange
+
+  type PlainLiteralScalarRestriction <: RestrictedDataRange
+
+  type ScalarOneOfRestriction <: RestrictedDataRange
+
+  type StringScalarRestriction <: RestrictedDataRange
+
+  type SynonymScalarRestriction <: RestrictedDataRange
+
+  type TimeScalarRestriction <: RestrictedDataRange
 
   /**
     * A ModelDataRelationship is an abstraction for a 2x2 matrix for
@@ -178,93 +221,71 @@ trait OMFtbox {
     * - ModelDataRelationshipToScalar
     * - ModelDataRelationshipToStructure
     */
-  type ModelDataRelationship <: ModelTypeTerm
+  type DataRelationship <: Term
 
   /**
     * A ModelDataRelationshipFrom is the abstraction of the domain of a ModelDataRelationship:
     * - ModelDataRelationshipFromEntity
     * - ModelDataRelationshipFromStructure
     */
-  type ModelDataRelationshipFrom
-  type ModelDataRelationshipFromEntity <: ModelDataRelationshipFrom
-  type ModelDataRelationshipFromStructure <: ModelDataRelationshipFrom
+  type DataRelationshipDomain
+  type DataRelationshipFromEntity <: DataRelationshipDomain
+  type DataRelationshipFromStructure <: DataRelationshipDomain
 
   /**
     * A ModelDataRelationshipFrom is the abstraction of the range of a ModelDataRelationship:
     * - ModelDataRelationshipToScalar
     * - ModelDataRelationshipToStructure
     */
-  type ModelDataRelationshipTo
-  type ModelDataRelationshipToScalar <: ModelDataRelationshipTo
-  type ModelDataRelationshipToStructure <: ModelDataRelationshipTo
+  type DataRelationshipRange
+  type DataRelationshipToScalar <: DataRelationshipRange
+  type DataRelationshipToStructure <: DataRelationshipRange
 
   /**
     * A ModelDataRelationshipFromEntityToScalar is a ModelDataRelationship
     * with a domain that is a ModelDataRelationshipFromEntity
     * and with a range that is a ModelDataRelationshipToScalar
     */
-  type ModelDataRelationshipFromEntityToScalar <: ModelDataRelationship
-    with ModelDataRelationshipFromEntity
-    with ModelDataRelationshipToScalar
+  type EntityScalarDataProperty <: DataRelationship
+    with DataRelationshipFromEntity
+    with DataRelationshipToScalar
 
   /**
     * A ModelDataRelationshipFromEntityToStructure is a ModelDataRelationship
     * with a domain that is a ModelDataRelationshipFromEntity
     * and with a range that is a ModelDataRelationshipToStructure
     */
-  type ModelDataRelationshipFromEntityToStructure <: ModelDataRelationship
-    with ModelDataRelationshipFromEntity
-    with ModelDataRelationshipToStructure
+  type EntityStructuredDataProperty <: DataRelationship
+    with DataRelationshipFromEntity
+    with DataRelationshipToStructure
 
   /**
     * A ModelDataRelationshipFromStructureToScalar is a ModelDataRelationship
     * with a domain that is a ModelDataRelationshipFromStructure
     * and with a range that is a ModelDataRelationshipToScalar
     */
-  type ModelDataRelationshipFromStructureToScalar <: ModelDataRelationship
-    with ModelDataRelationshipFromStructure
-    with ModelDataRelationshipToScalar
+  type ScalarDataProperty <: DataRelationship
+    with DataRelationshipFromStructure
+    with DataRelationshipToScalar
 
   /**
     * A ModelDataRelationshipFromStructureToStructure is a ModelDataRelationship
     * with a domain that is a ModelDataRelationshipFromStructure
     * and with a range that is a ModelDataRelationshipToStructure
     */
-  type ModelDataRelationshipFromStructureToStructure <: ModelDataRelationship
-    with ModelDataRelationshipFromStructure
-    with ModelDataRelationshipToStructure
+  type StructuredDataProperty <: DataRelationship
+    with DataRelationshipFromStructure
+    with DataRelationshipToStructure
 
   /**
     * A ModelTermAxiom is the abstraction for statements about
     * ModelTypeTerms in an ModelTerminologyGraph
     */
-  type ModelTermAxiom
+  type Axiom <: TerminologyBoxStatement
 
-  /**
-    * A ModelScalarDataRelationshipRestrictionAxiomFromEntityToLiteral is a ModelTermAxiom assertion
-    * about a ModelEntityDefinition that is in the domain of a ModelDataRelationshipFromEntityToScalar
-    * with a range restricted to be exactly a singleton set of one literal value.
-    */
-  type ModelScalarDataRelationshipRestrictionAxiomFromEntityToLiteral <: ModelTermAxiom
+  type ScalarOneOfLiteralAxiom <: Axiom
 
-  /**
-    * An EntityDefinitionAspectSubClassAxiom is a ModelTermAxion assertion
-    * about a ModelEntityDefinition as a subclass for a superclass ModelEntityAspect
-    */
-  type EntityDefinitionAspectSubClassAxiom <: ModelTermAxiom
-
-  /**
-    * An EntityConceptDesignationTerminologyGraphAxiom is a ModelTermAxion assertion
-    * about a ModelEntityConcept whose complete concept designation
-    * is specified in a designation ModelTerminologyGraph.
-    */
-  type EntityConceptDesignationTerminologyGraphAxiom <: ModelTermAxiom
-
-  /**
-    * An EntityConceptSubClassAxiom is a ModelTermAxiom assertion about
-    * a subclass/superclass relationship between two ModelEntityConcepts
-    */
-  type EntityConceptSubClassAxiom <: ModelTermAxiom
+  type TermAxiom <: Axiom
 
   /**
     * An EntityDefinitionRestrictionAxiom is a ModelTermAxiom assertion about
@@ -274,15 +295,7 @@ trait OMFtbox {
     *
     * This restriction constraint can be universal or existential.
     */
-  type EntityDefinitionRestrictionAxiom <: ModelTermAxiom
-
-  /**
-    * An EntityDefinitionUniversalRestrictionAxiom is a ModelTermAxiom assertion about
-    * constraining a ModelEntityReifiedRelationship
-    * for objects of a sub-domain ModelEntityDefinition
-    * to be related to only a restricted sub-range ModelEntityDefinition.
-    */
-  type EntityDefinitionUniversalRestrictionAxiom <: EntityDefinitionRestrictionAxiom
+  type EntityRestrictionAxiom <: TermAxiom
 
   /**
     * An EntityDefinitionUniversalRestrictionAxiom is a ModelTermAxiom assertion about
@@ -290,32 +303,67 @@ trait OMFtbox {
     * for objects of a sub-domain ModelEntityDefinition
     * to be related to include a sub-range ModelEntityDefinition.
     */
-  type EntityDefinitionExistentialRestrictionAxiom <: EntityDefinitionRestrictionAxiom
+  type EntityExistentialRestrictionAxiom <: EntityRestrictionAxiom
+
+  /**
+    * An EntityDefinitionUniversalRestrictionAxiom is a ModelTermAxiom assertion about
+    * constraining a ModelEntityReifiedRelationship
+    * for objects of a sub-domain ModelEntityDefinition
+    * to be related to only a restricted sub-range ModelEntityDefinition.
+    */
+  type EntityUniversalRestrictionAxiom <: EntityRestrictionAxiom
+
+  type EntityScalarDataPropertyRestrictionAxiom <: TermAxiom
+
+  type EntityScalarDataPropertyExistentialRestrictionAxiom <: EntityScalarDataPropertyRestrictionAxiom
+  type EntityScalarDataPropertyParticularRestrictionAxiom <: EntityScalarDataPropertyRestrictionAxiom
+  type EntityScalarDataPropertyUniversalRestrictionAxiom <: EntityScalarDataPropertyRestrictionAxiom
+
+  type SpecializationAxiom <: TermAxiom
+
+  /**
+    * An EntityDefinitionAspectSubClassAxiom is a ModelTermAxion assertion
+    * about a ModelEntityDefinition as a subclass for a superclass ModelEntityAspect
+    */
+  type AspectSpecializationAxiom <: SpecializationAxiom
+
+  /**
+    * An EntityConceptSubClassAxiom is a ModelTermAxiom assertion about
+    * a subclass/superclass relationship between two ModelEntityConcepts
+    */
+  type ConceptSpecializationAxiom <: SpecializationAxiom
 
   /**
     * An EntityReifiedRelationshipSubClassAxiom is a ModelTermAxiom assertion about
     * a subclass/superclass relationship between two ModelEntityReifiedRelationships
     */
-  type EntityReifiedRelationshipSubClassAxiom <: ModelTermAxiom
-
-  /**
-    * A ScalarDataTypeFacetRestrictionAxiom is a ModelTermAxiom assertion about
-    * a subtype/supertype relationship between two ModelScalarDataTypes according
-    * to one or more XML Schema 1.1 DataType facet restrictions:
-    * the value space of the subtype ModelScalarDataType is the subset of the supertype ModelScalarDataType
-    * such that a value from the value space of the supertype is in the value space of the subtype
-    * if and only if the value satisfies all the facet restrictions.
-    *
-    * @see http://www.w3.org/TR/xmlschema11-2/#sec-datatypes-and-facets
-    * @see http://www.w3.org/TR/owl2-syntax/#Datatype_Restrictions
-    */
-  type ScalarDataTypeFacetRestrictionAxiom <: ModelTermAxiom
+  type ReifiedRelationshipSpecializationAxiom <: SpecializationAxiom
 
   /**
     * A TerminologyGraphAxiom is the abstraction for statements about
     * ModelTerminologyGraphs
     */
-  type TerminologyGraphAxiom
+  type TerminologyAxiom <: TerminologyThing
+
+  type TerminologyBoxAxiom <: TerminologyAxiom
+  type TerminologyBundleAxiom <: TerminologyAxiom
+
+  type RootConceptTaxonomyAxiom <: TerminologyBundleStatement with ConceptTreeDisjunction
+
+  type ConceptTreeDisjunction
+
+  type DisjointUnionOfConceptsAxiom <: TerminologyBundleStatement
+  type SpecificDisjointConceptAxiom <: DisjointUnionOfConceptsAxiom
+  type AnonymousConceptTaxonomyAxiom <: DisjointUnionOfConceptsAxiom with ConceptTreeDisjunction
+
+  type BundledTerminologyAxiom <: TerminologyBundleAxiom
+
+  /**
+    * An EntityConceptDesignationTerminologyAxiom is a ModelTermAxion assertion
+    * about a ModelEntityConcept whose complete concept designation
+    * is specified in a designation ModelTerminologyGraph.
+    */
+  type ConceptDesignationTerminologyAxiom <: TerminologyBoxAxiom
 
   /**
     * A TerminologyGraphDirectExtensionAxiom(extendingChild=G1, extendedParent=G1)
@@ -348,7 +396,7 @@ trait OMFtbox {
     * G1 extends G2a,G3,G4
     * G3 extends G4
     */
-  type TerminologyGraphDirectExtensionAxiom <: TerminologyGraphAxiom
+  type TerminologyExtensionAxiom <: TerminologyBoxAxiom
 
   /**
     * A TerminologyGraphDirectNestingAxiom(nestingParent=G1, nestingContext=C, nestedChild=G2)
@@ -370,7 +418,7 @@ trait OMFtbox {
     * G2 has nested children G1
     * G3 has nested children G1,G2
     */
-  type TerminologyGraphDirectNestingAxiom <: TerminologyGraphAxiom
+  type TerminologyNestingAxiom <: TerminologyBoxAxiom
 }
 
 /**
@@ -481,79 +529,134 @@ trait OMFabox {
 
 
 /**
-  * A Terminology graph signature is a tuple.
+  * A Terminology signature is a tuple.
   *
   * @tparam omf OMF Adaptation/Binding.
   */
-trait TerminologyGraphSignature[omf <: OMF] {
+trait TerminologySignature[omf <: OMF] {
+  val isBundle: Boolean
   val uuid: UUID
   val name: LocalName
   /**
-    * the identity of the terminology graph as a container for several descriptions and as the context
-    * for extending other terminology graphs
+    * the identity of the terminology as a container for several descriptions and as the context
+    * for extending other terminologies
     */
   val iri: omf#IRI
   /**
-    * the semantic commitment of this terminology graph (open-world definitions vs. closed-world designations)
+    * the semantic commitment of this terminology (open-world definitions vs. closed-world designations)
     */
   val kind: TerminologyKind
   /**
     * this terminology graph can use or specialize vocabulary terms
     * defined in the transitive closure of imported terminology graphs
     */
-  val imports: Iterable[omf#ModelTerminologyGraph]
+  val imports: Iterable[omf#TerminologyBox]
   /**
-    * this terminology graph can be the nested graph for a parent model term concept
+    * this terminology can be a nested terminology for a parent concept in a parent terminology
     */
-  val nesting: Option[omf#ModelEntityConcept]
+  val nesting: Option[omf#Concept]
   /**
-    * the aspects described in this terminology graph
+    * the aspects described in this terminology
     */
-  val aspects: Iterable[omf#ModelEntityAspect]
+  val aspects: Iterable[omf#Aspect]
   /**
-    * the concepts described in this terminology graph
+    * the concepts described in this terminology
     */
-  val concepts: Iterable[omf#ModelEntityConcept]
+  val concepts: Iterable[omf#Concept]
   /**
-    * the reified relationships described in this terminology graph
+    * the reified relationships described in this terminology
     */
-  val reifiedRelationships: Iterable[omf#ModelEntityReifiedRelationship]
+  val reifiedRelationships: Iterable[omf#ReifiedRelationship]
   /**
-    * the unreified relationships described in scope of this terminology graph
+    * the unreified relationships described in scope of this terminology
     */
-  val unreifiedRelationships: Iterable[omf#ModelEntityUnreifiedRelationship]
+  val unreifiedRelationships: Iterable[omf#UnreifiedRelationship]
   /**
-    * the scalar datatypes described in this terminology graph
+    * the scalar datatypes described in this terminology
     */
-  val scalarDataTypes: Iterable[omf#ModelScalarDataType]
+  val scalarDataTypes: Iterable[omf#Scalar]
   /**
-    * the structured datatypes described in this terminology graph
+    * the structured datatypes described in this terminology
     */
-  val structuredDataTypes: Iterable[omf#ModelStructuredDataType]
+  val structuredDataTypes: Iterable[omf#Structure]
+
+  val scalarOneOfRestrictions: Iterable[omf#ScalarOneOfRestriction]
+  val binaryScalarRestrictions: Iterable[omf#BinaryScalarRestriction]
+  val iriScalarRestrictions: Iterable[omf#IRIScalarRestriction]
+  val numericScalarRestrictions: Iterable[omf#NumericScalarRestriction]
+  val plainLiteralScalarRestrictions: Iterable[omf#PlainLiteralScalarRestriction]
+  val stringScalarRestrictions: Iterable[omf#StringScalarRestriction]
+  val synonymScalarRestrictions: Iterable[omf#SynonymScalarRestriction]
+  val timeScalarRestrictions: Iterable[omf#TimeScalarRestriction]
+
   /**
-    * the entity to scalar data relationships described in this terminology graph
+    * the entity to scalar data relationships described in this terminology
     */
-  val entity2scalarDataRelationships: Iterable[omf#ModelDataRelationshipFromEntityToScalar]
+  val entityScalarDataProperties: Iterable[omf#EntityScalarDataProperty]
   /**
-    * the entity to structured data relationships described in this terminology graph
+    * the entity to structured data relationships described in this terminology
     */
-  val entity2structureDataRelationships: Iterable[omf#ModelDataRelationshipFromEntityToStructure]
+  val entityStructuredDataProperties: Iterable[omf#EntityStructuredDataProperty]
   /**
-    * the entity to scalar data  relationships described in this terminology graph
+    * the entity to scalar data  relationships described in this terminology
     */
-  val structure2scalarDataRelationships: Iterable[omf#ModelDataRelationshipFromStructureToScalar]
+  val scalarDataProperties: Iterable[omf#ScalarDataProperty]
   /**
-    * the entity to scalar data  relationships described in this terminology graph
+    * the entity to scalar data  relationships described in this terminology
     */
-  val structure2structureDataRelationships: Iterable[omf#ModelDataRelationshipFromStructureToStructure]
+  val structuredDataProperties: Iterable[omf#StructuredDataProperty]
+
+  val terms: Iterable[omf#Term]
+  = aspects ++
+    concepts ++
+    reifiedRelationships ++
+    unreifiedRelationships ++
+    scalarDataTypes ++
+    structuredDataTypes ++
+    scalarOneOfRestrictions ++
+    binaryScalarRestrictions ++
+    iriScalarRestrictions ++
+    plainLiteralScalarRestrictions ++
+    stringScalarRestrictions ++
+    timeScalarRestrictions ++
+    entityScalarDataProperties ++
+    entityStructuredDataProperties ++
+    scalarDataProperties ++
+    structuredDataProperties
+
   /**
-    * the model term axioms asserted in this terminology graph
+    * the model term axioms asserted in this terminology
     */
-  val axioms: Iterable[omf#ModelTermAxiom]
+  val axioms: Iterable[omf#Axiom]
   /**
-    * The terminology graph axioms asserted in this terminology graph
+    * The terminology graph axioms asserted in this terminology
     */
-  val gaxioms: Iterable[omf#TerminologyGraphAxiom]
+  val gaxioms: Iterable[omf#TerminologyBoxAxiom]
+
+  val bAxioms: Iterable[omf#BundledTerminologyAxiom]
+  val rTAxioms: Iterable[omf#RootConceptTaxonomyAxiom]
+  val aTAxioms: Iterable[omf#AnonymousConceptTaxonomyAxiom]
+  val sTAxioms: Iterable[omf#SpecificDisjointConceptAxiom]
+
+  val annotations: Map[AnnotationProperty, Seq[Annotation]]
+}
+
+
+trait ConceptDesignationTerminologySignature[omf <: OMF] {
+  val uuid: UUID
+  val parentConcept: omf#Concept
+  val parentGraph: omf#TerminologyBox
+}
+
+trait TerminologyExtensionSignature[omf <: OMF] {
+  val uuid: UUID
+  val extendedTerminology: omf#TerminologyBox
+}
+
+trait TerminologyNestingSignature[omf <: OMF] {
+  val uuid: UUID
+  val nestingTerminology: omf#TerminologyBox
+  val nestingContext: omf#Concept
 }
 
 trait EntityConceptSignature[omf <: OMF] {
@@ -566,9 +669,11 @@ trait EntityConceptSignature[omf <: OMF] {
 trait EntityReifiedRelationshipSignature[omf <: OMF] {
   val uuid: UUID
   val name: LocalName
+  val unreifiedPropertyName: LocalName
+  val unreifiedInversePropertyName: Option[LocalName]
   val iri: omf#IRI
-  val source: omf#ModelEntityDefinition
-  val target: omf#ModelEntityDefinition
+  val source: omf#Entity
+  val target: omf#Entity
   val characteristics: Iterable[RelationshipCharacteristics]
   val isAbstract: Boolean
 }
@@ -577,7 +682,189 @@ trait EntityUnreifiedRelationshipSignature[omf <: OMF] {
   val uuid: UUID
   val name: LocalName
   val iri: omf#IRI
-  val source: omf#ModelEntityDefinition
-  val target: omf#ModelEntityDefinition
+  val source: omf#Entity
+  val target: omf#Entity
   val characteristics: Iterable[RelationshipCharacteristics]
+}
+
+trait EntityScalarDataPropertySignature[omf <: OMF] {
+  val uuid: UUID
+  val name: LocalName
+  val iri: omf#IRI
+  val domain: omf#Entity
+  val range: omf#DataRange
+}
+
+trait EntityStructuredDataPropertySignature[omf <: OMF] {
+  val uuid: UUID
+  val name: LocalName
+  val iri: omf#IRI
+  val domain: omf#Entity
+  val range: omf#Structure
+}
+
+trait ScalarDataPropertySignature[omf <: OMF] {
+  val uuid: UUID
+  val name: LocalName
+  val iri: omf#IRI
+  val domain: omf#Structure
+  val range: omf#DataRange
+}
+
+trait StructuredDataPropertySignature[omf <: OMF] {
+  val uuid: UUID
+  val name: LocalName
+  val iri: omf#IRI
+  val domain: omf#Structure
+  val range: omf#Structure
+}
+
+trait AspectSpecializationSignature[omf <: OMF] {
+  val uuid: UUID
+  val sub: omf#Entity
+  val sup: omf#Aspect
+}
+
+trait ConceptSpecializationSignature[omf <: OMF] {
+  val uuid: UUID
+  val sub: omf#Concept
+  val sup: omf#Concept
+}
+
+trait ReifiedRelationshipSpecializationSignature[omf <: OMF] {
+  val uuid: UUID
+  val sub: omf#ReifiedRelationship
+  val sup: omf#ReifiedRelationship
+}
+
+trait EntityRestrictionSignature[omf <: OMF] {
+  val uuid: UUID
+  val domain: omf#Entity
+  val restrictedRelation: omf#ReifiedRelationship
+  val range: omf#Entity
+}
+
+trait EntityScalarDataPropertyQuantifiedRestrictionSignature[omf <: OMF] {
+  val uuid: UUID
+  val restrictedEntity: omf#Entity
+  val scalarDataProperty: omf#EntityScalarDataProperty
+  val restrictedRange: omf#DataRange
+}
+
+trait EntityScalarDataPropertyParticularRestrictionSignature[omf <: OMF] {
+  val uuid: UUID
+  val restrictedEntity: omf#Entity
+  val scalarDataProperty: omf#EntityScalarDataProperty
+  val literalValue: String
+}
+
+trait ScalarOneOfLiteralSignature[omf <: OMF] {
+  val uuid: UUID
+  val restriction: omf#ScalarOneOfRestriction
+  val value: String
+}
+
+trait BinaryScalarRestrictionSignature[omf <: OMF] {
+  val uuid: UUID
+  val name: LocalName
+  val iri: omf#IRI
+  val length: Option[Int]
+  val minLength: Option[Int]
+  val maxLength: Option[Int]
+  val restrictedRange: omf#DataRange
+}
+
+trait IRIScalarRestrictionSignature[omf <: OMF] {
+  val uuid: UUID
+  val name: LocalName
+  val iri: omf#IRI
+  val length: Option[Int]
+  val minLength: Option[Int]
+  val maxLength: Option[Int]
+  val pattern: Option[String]
+  val restrictedRange: omf#DataRange
+}
+
+trait NumericScalarRestrictionSignature[omf <: OMF] {
+  val uuid: UUID
+  val name: LocalName
+  val iri: omf#IRI
+  val minInclusive: Option[String]
+  val maxInclusive: Option[String]
+  val minExclusive: Option[String]
+  val maxExclusive: Option[String]
+  val restrictedRange: omf#DataRange
+}
+
+trait PlainLiteralScalarRestrictionSignature[omf <: OMF] {
+  val uuid: UUID
+  val name: LocalName
+  val iri: omf#IRI
+  val length: Option[Int]
+  val minLength: Option[Int]
+  val maxLength: Option[Int]
+  val pattern: Option[String]
+  val language: Option[String]
+  val restrictedRange: omf#DataRange
+}
+
+trait ScalarOneOfRestrictionSignature[omf <: OMF] {
+  val uuid: UUID
+  val name: LocalName
+  val iri: omf#IRI
+  val restrictedRange: omf#DataRange
+}
+
+trait StringScalarRestrictionSignature[omf <: OMF] {
+  val uuid: UUID
+  val name: LocalName
+  val iri: omf#IRI
+  val length: Option[Int]
+  val minLength: Option[Int]
+  val maxLength: Option[Int]
+  val pattern: Option[String]
+  val restrictedRange: omf#DataRange
+}
+
+trait SynonymScalarRestrictionSignature[omf <: OMF] {
+  val uuid: UUID
+  val name: LocalName
+  val iri: omf#IRI
+  val restrictedRange: omf#DataRange
+}
+
+trait TimeScalarRestrictionSignature[omf <: OMF] {
+  val uuid: UUID
+  val name: LocalName
+  val iri: omf#IRI
+  val minInclusive: Option[String]
+  val maxInclusive: Option[String]
+  val minExclusive: Option[String]
+  val maxExclusive: Option[String]
+  val restrictedRange: omf#DataRange
+}
+
+trait BundledTerminologySignature[omf <: OMF] {
+  val uuid: UUID
+  val bundle: omf#Bundle
+  val bundledTerminology: omf#TerminologyBox
+}
+
+trait AnonymousConceptTaxonomySignature[omf <: OMF] {
+  val uuid: UUID
+  val bundle: omf#Bundle
+  val disjointTaxonomyParent: omf#ConceptTreeDisjunction
+}
+
+trait RootConceptTaxonomySignature[omf <: OMF] {
+  val uuid: UUID
+  val bundle: omf#Bundle
+  val root: omf#Concept
+}
+
+trait SpecificDisjointConceptSignature[omf <: OMF] {
+  val uuid: UUID
+  val bundle: omf#Bundle
+  val disjointTaxonomyParent: omf#ConceptTreeDisjunction
+  val disjointLeaf: omf#Concept
 }

@@ -37,7 +37,7 @@ abstract class IMCEMissionDomainTBoxExample[omf <: OMF]()(
         for {
           i_m0 <- makeIRI( "http://imce.jpl.nasa.gov/foundation/mission/mission0" )
           g <- makeTerminologyGraph(i_m0, isDefinition)
-          s = ops.fromTerminologyGraph(g)
+          s = ops.fromTerminology(g)
         } yield {
           s.imports.isEmpty should be(true)
           s.aspects.isEmpty should be(true)
@@ -46,10 +46,10 @@ abstract class IMCEMissionDomainTBoxExample[omf <: OMF]()(
           s.unreifiedRelationships.isEmpty should be(true)
           s.structuredDataTypes.isEmpty should be(true)
           s.scalarDataTypes.isEmpty should be(true)
-          s.entity2scalarDataRelationships.isEmpty should be(true)
-          s.entity2structureDataRelationships.isEmpty should be(true)
-          s.structure2scalarDataRelationships.isEmpty should be(true)
-          s.structure2structureDataRelationships.isEmpty should be(true)
+          s.entityScalarDataProperties.isEmpty should be(true)
+          s.entityStructuredDataProperties.isEmpty should be(true)
+          s.scalarDataProperties.isEmpty should be(true)
+          s.structuredDataProperties.isEmpty should be(true)
           s.axioms.isEmpty should be(true)
         }
       result.isRight should be(true)
@@ -61,9 +61,9 @@ abstract class IMCEMissionDomainTBoxExample[omf <: OMF]()(
         for {
           i_m1 <- makeIRI( "http://imce.jpl.nasa.gov/foundation/mission/mission1" )
           g <- makeTerminologyGraph(i_m1, isDefinition)
-          component <- addEntityConcept(g, "Component", isAbstract = false)
-          function <- addEntityConcept(g, "Function", isAbstract = false)
-          s = fromTerminologyGraph(g)
+          component <- addConcept(g, "Component", isAbstract = false)
+          function <- addConcept(g, "Function", isAbstract = false)
+          s = fromTerminology(g)
         } yield {
           s.iri should be(i_m1)
           s.imports.isEmpty should be(true)
@@ -77,10 +77,10 @@ abstract class IMCEMissionDomainTBoxExample[omf <: OMF]()(
           s.reifiedRelationships.isEmpty should be(true)
           s.scalarDataTypes.isEmpty should be(true)
           s.structuredDataTypes.isEmpty should be(true)
-          s.entity2scalarDataRelationships.isEmpty should be(true)
-          s.entity2structureDataRelationships.isEmpty should be(true)
-          s.structure2scalarDataRelationships.isEmpty should be(true)
-          s.structure2structureDataRelationships.isEmpty should be(true)
+          s.entityScalarDataProperties.isEmpty should be(true)
+          s.entityStructuredDataProperties.isEmpty should be(true)
+          s.scalarDataProperties.isEmpty should be(true)
+          s.structuredDataProperties.isEmpty should be(true)
           s.axioms.isEmpty should be(true)
         }
       result.isRight should be(true)

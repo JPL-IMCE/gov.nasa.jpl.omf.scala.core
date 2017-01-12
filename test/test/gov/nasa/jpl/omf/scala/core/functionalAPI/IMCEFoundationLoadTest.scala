@@ -20,6 +20,7 @@ package test.gov.nasa.jpl.omf.scala.core.functionalAPI
 
 import gov.nasa.jpl.omf.scala.core._
 
+import scala.{Some,StringContext}
 import org.scalatest._
 
 abstract class IMCEFoundationLoadTest[omf <: OMF](
@@ -38,107 +39,145 @@ abstract class IMCEFoundationLoadTest[omf <: OMF](
       val result1 =
         for {
           xsd_iri <- makeIRI( "http://www.w3.org/2001/XMLSchema" )
-          xsd_tbox <- loadTerminologyGraph( xsd_iri )
+          xsd_tbox <- loadTerminology( xsd_iri )
           integer_iri <- withFragment( xsd_iri, "integer" )
           string_iri <- withFragment( xsd_iri, "string" )
         } yield {
-          val xsd_integer = lookupScalarDataType( xsd_tbox._1, integer_iri, recursively=false )
+          val xsd_integer = lookupDataRange( xsd_tbox._1, integer_iri, recursively=false )
           xsd_integer.isDefined should be( true )
 
-          val xsd_string = lookupScalarDataType( xsd_tbox._1, string_iri, recursively=false )
+          val xsd_string = lookupDataRange( xsd_tbox._1, string_iri, recursively=false )
           xsd_string.isDefined should be( true )
         }
-      result1.isRight should be( true )
+      result1.leftMap { errors =>
+        throw new exceptions.TestFailedException(
+          message=Some(s"load XMLSchema: ${errors.size} errors"),
+          cause=errors.headOption,
+          failedCodeStackDepth = 1
+        )
+      }
 
       val result2 =
         for {
           base_iri <- makeIRI( "http://imce.jpl.nasa.gov/foundation/base/base" )
-          base_tbox <- loadTerminologyGraph( base_iri )
+          base_tbox <- loadTerminology( base_iri )
           identifiedElement_iri <- withFragment( base_iri, "IdentifiedElement" )
           hasIdentifier_iri <- withFragment( base_iri, "hasIdentifier" )
         } yield {
           val identifiedElement =
-            lookupEntityAspect( base_tbox._1, identifiedElement_iri, recursively=false )
+            lookupAspect( base_tbox._1, identifiedElement_iri, recursively=false )
           identifiedElement.isDefined should be(true)
 
           val hasIdentifier =
-            lookupEntityDataRelationshipFromEntityToScalar( base_tbox._1, hasIdentifier_iri, recursively=false )
+            lookupEntityScalarDataProperty( base_tbox._1, hasIdentifier_iri, recursively=false )
           hasIdentifier.isDefined should be(true)
         }
-      result2.isRight should be (true)
+      result2.leftMap { errors =>
+        throw new exceptions.TestFailedException(
+          message=Some(s"load base: ${errors.size} errors"),
+          cause=errors.headOption,
+          failedCodeStackDepth = 1
+        )
+      }
 
       val result3 =
         for {
           mission_iri <- makeIRI( "http://imce.jpl.nasa.gov/foundation/mission/mission" )
-          mission_tbox <- loadTerminologyGraph( mission_iri )
+          mission_tbox <- loadTerminology( mission_iri )
           component_iri <- withFragment( mission_iri, "Component" )
           function_iri <- withFragment( mission_iri, "Function" )
           performs_iri <- withFragment( mission_iri, "Performs" )
         } yield {
           val component =
-            lookupEntityConcept( mission_tbox._1, component_iri, recursively=false )
+            lookupConcept( mission_tbox._1, component_iri, recursively=false )
           component.isDefined should be(true)
 
           val function =
-            lookupEntityConcept( mission_tbox._1, function_iri, recursively=false )
+            lookupConcept( mission_tbox._1, function_iri, recursively=false )
           function.isDefined should be(true)
 
           val component_performs_function =
-            lookupEntityReifiedRelationship( mission_tbox._1, performs_iri, recursively=false )
+            lookupReifiedRelationship( mission_tbox._1, performs_iri, recursively=false )
           component_performs_function.isDefined should be(true)
         }
-      result3.isRight should be (true)
+      result3.leftMap { errors =>
+        throw new exceptions.TestFailedException(
+          message=Some(s"load mission: ${errors.size} errors"),
+          cause=errors.headOption,
+          failedCodeStackDepth = 1
+        )
+      }
 
       val result4 =
         for {
           analysis_iri <- makeIRI( "http://imce.jpl.nasa.gov/foundation/analysis/analysis" )
-          analysis_tbox <- loadTerminologyGraph( analysis_iri )
+          analysis_tbox <- loadTerminology( analysis_iri )
           characterization_iri <- withFragment( analysis_iri, "Characterization" )
           characterizedElement_iri <- withFragment( analysis_iri, "CharacterizedElement" )
         } yield {
           val characterization =
-            lookupEntityConcept( analysis_tbox._1, characterization_iri, recursively=false  )
+            lookupConcept( analysis_tbox._1, characterization_iri, recursively=false  )
           characterization.isDefined should be(true)
 
           val characterizedElement =
-            lookupEntityAspect( analysis_tbox._1, characterizedElement_iri, recursively=false  )
+            lookupAspect( analysis_tbox._1, characterizedElement_iri, recursively=false  )
           characterizedElement.isDefined should be(true)
         }
-      result4.isRight should be(true)
+      result4.leftMap { errors =>
+        throw new exceptions.TestFailedException(
+          message=Some(s"load analysis: ${errors.size} errors"),
+          cause=errors.headOption,
+          failedCodeStackDepth = 1
+        )
+      }
 
       val result5 =
         for {
           behavior_iri <- makeIRI( "http://imce.jpl.nasa.gov/foundation/behavior/behavior" )
-          behavior_tbox <- loadTerminologyGraph( behavior_iri )
+          behavior_tbox <- loadTerminology( behavior_iri )
           stateVariable_iri <- withFragment( behavior_iri, "StateVariable" )
           parameter_iri <- withFragment( behavior_iri, "Parameter" )
         } yield {
           val stateVariable =
-            lookupEntityConcept( behavior_tbox._1, stateVariable_iri, recursively=false  )
+            lookupConcept( behavior_tbox._1, stateVariable_iri, recursively=false  )
           stateVariable.isDefined should be(true)
 
           val parameter =
-            lookupEntityConcept( behavior_tbox._1, parameter_iri, recursively=false  )
+            lookupConcept( behavior_tbox._1, parameter_iri, recursively=false  )
           parameter.isDefined should be(true)
         }
-      result5.isRight should be(true)
+      result5.leftMap { errors =>
+        throw new exceptions.TestFailedException(
+          message=Some(s"load behavior: ${errors.size} errors"),
+          cause=errors.headOption,
+          failedCodeStackDepth = 1
+        )
+      }
 
       val result6 =
         for {
           project_iri <- makeIRI( "http://imce.jpl.nasa.gov/foundation/project/project" )
-          project_tbox <- loadTerminologyGraph( project_iri )
+          project_tbox <- loadTerminology( project_iri )
           organization_iri <- withFragment( project_iri, "Organization" )
           workPackage_iri <- withFragment( project_iri, "WorkPackage" )
         } yield {
           val organization =
-            lookupEntityConcept( project_tbox._1, organization_iri, recursively=false  )
+            lookupConcept( project_tbox._1, organization_iri, recursively=false  )
           organization.isDefined should be(true)
 
           val workPackage =
-            lookupEntityConcept( project_tbox._1, workPackage_iri, recursively=false  )
+            lookupConcept( project_tbox._1, workPackage_iri, recursively=false  )
           workPackage.isDefined should be(true)
         }
-      result6.isRight should be (true)
+      result6.leftMap { errors =>
+        throw new exceptions.TestFailedException(
+          message=Some(s"load project: ${errors.size} errors"),
+          cause=errors.headOption,
+          failedCodeStackDepth = 1
+        )
+      }
+
+      result6.isRight should be(true)
     }
     
   }

@@ -18,14 +18,34 @@
 
 package gov.nasa.jpl.omf.scala.core
 
-import scala.{Boolean,Enumeration}
+import scala.{Boolean,Int,Ordering}
+import scala.collection.immutable.{List,Nil,Set}
+
+sealed trait TerminologyKind { val index: Int }
+
+case object TerminologyDefinitionKind extends TerminologyKind {
+  override val index = 1
+}
+
+case object TerminologyDesignationKind extends TerminologyKind {
+  override val index = 2
+}
 
 /**
  * TerminologyKind indicates whether the semantics of the vocabulary of type terms defined 
  * in a TerminologyGraph (TBox graph) is open-world (isDefinition) or closed-world (isDesignation)
  */
-object TerminologyKind extends Enumeration {
-  type TerminologyKind = Value
+object TerminologyKind {
+
+  import TerminologyKindHelper._
+
+  implicit def ordering: Ordering[TerminologyKind] =
+    new Ordering[TerminologyKind] {
+      def compare(x: TerminologyKind, y: TerminologyKind): Int
+      = if (x.index < y.index) -1
+        else if (x.index == y.index) 0
+        else 1
+    }
 
   /**
    * isDefinition indicates that the semantics of a TerminologyGraph (TBox graph) is open-world.
@@ -37,7 +57,7 @@ object TerminologyKind extends Enumeration {
    * that there may exist another concept distinct from B or C that is asserted to be subclass of A in a some
    * other Definition TBox graph that directly or indirectly imports G.
    */
-  val isDefinition = Value
+  val isDefinition = TerminologyDefinitionKind
 
   /**
    * isDesignation indicates that the semantics of a TerminologyGraph (TBox graph) is closed-world.
@@ -49,19 +69,23 @@ object TerminologyKind extends Enumeration {
    * B and C designate distinct sets of things (this is the so-called "Unique Name Assumption") and 
    * that there does not exist any other concept distinct from B or C that can be a subclass of A anywhere else.
    */
-  val isDesignation = Value
+  val isDesignation = TerminologyDesignationKind
 
-  def isDefinitionKind( k: TerminologyKind ): Boolean =
-  k match {
+  val values: Set[TerminologyKind] = Values
+
+  def isDefinitionKind( k: TerminologyKind )
+  : Boolean
+  = k match {
     case TerminologyKind.isDefinition => true
     case _ => false
   }
 
-  def isDesignationKind( k: TerminologyKind ): Boolean =
-    k match {
-      case TerminologyKind.isDesignation => true
-      case _ => false
-    }
+  def isDesignationKind( k: TerminologyKind )
+  : Boolean
+  = k match {
+    case TerminologyKind.isDesignation => true
+    case _ => false
+  }
 
   /**
    * Asymmetric comparison
@@ -74,7 +98,47 @@ object TerminologyKind extends Enumeration {
   ( childKind: TerminologyKind )
   ( parentKind: TerminologyKind )
   : Boolean =
-    isDesignationKind(childKind) || isDefinitionKind(childKind) && isDefinitionKind(parentKind)
+    isDesignationKind(childKind)  ||
+      isDefinitionKind(childKind) && isDefinitionKind(parentKind)
 
+
+}
+
+object TerminologyKindHelper {
+
+  import shapeless.{:+:,CNil,Coproduct,Generic,Witness}
+
+  // Infrastructure for the above. Original version due to Travis Brown,
+  //
+  //   http://stackoverflow.com/questions/25838411
+  //
+  object Values {
+    implicit def conv[T](self: this.type)(implicit v: MkValues[T]): Set[T] = Values[T]
+
+    def apply[T](implicit v: MkValues[T]): Set[T] = v.values.toSet
+
+    trait MkValues[T] {
+      def values: List[T]
+    }
+
+    object MkValues {
+      implicit def values[T, Repr <: Coproduct]
+      (implicit gen: Generic.Aux[T, Repr], v: Aux[T, Repr]): MkValues[T] =
+        new MkValues[T] { def values = v.values }
+
+      trait Aux[T, Repr] {
+        def values: List[T]
+      }
+
+      object Aux {
+        implicit def cnilAux[A]: Aux[A, CNil] =
+          new Aux[A, CNil] { def values = Nil }
+
+        implicit def cconsAux[T, L <: T, R <: Coproduct]
+        (implicit l: Witness.Aux[L], r: Aux[T, R]): Aux[T, L :+: R] =
+          new Aux[T, L :+: R] { def values = l.value :: r.values }
+      }
+    }
+  }
 
 }

@@ -3,6 +3,7 @@ import sbt.Keys._
 import sbt._
 
 import gov.nasa.jpl.imce.sbt._
+import gov.nasa.jpl.imce.sbt.ProjectHelper._
 
 updateOptions := updateOptions.value.withCachedResolution(true)
 
@@ -36,21 +37,31 @@ lazy val core = Project("omf-scala-core", file("."))
 
     scalaSource in Test := baseDirectory.value / "test",
 
-    libraryDependencies ++= Seq(
+    libraryDependencies +=
       "gov.nasa.jpl.imce" %% "imce.third_party.other_scala_libraries"
         % Versions_other_scala_libraries.version artifacts
-        Artifact("imce.third_party.other_scala_libraries", "zip", "zip", Some("resource"), Seq(), None, Map()),
-
-      "gov.nasa.jpl.imce" %% "jpl-omf-schema-tables"
-        % Versions_omf_schema_tables.version artifacts(
-        Artifact("jpl-omf-schema-tables"),
-        Artifact("jpl-omf-schema-tables", "zip", "zip", Some("resource"), Seq(), None, Map()))
-    ),
+        Artifact("imce.third_party.other_scala_libraries", "zip", "zip", "resource"),
 
     extractArchives := {},
 
     resolvers += Resolver.bintrayRepo("jpl-imce", "gov.nasa.jpl.imce"),
-    resolvers += Resolver.bintrayRepo("tiwg", "org.omg.tiwg")
+    resolvers += Resolver.bintrayRepo("tiwg", "org.omg.tiwg"),
+
+    resolvers += "Artima Maven Repository" at "http://repo.artima.com/releases",
+    scalacOptions += s"-P:artima-supersafe:config-file:${baseDirectory.value}/project/supersafe.cfg",
+    scalacOptions in (Compile, doc) += "-Xplugin-disable:artima-supersafe"
+  )
+  .dependsOnSourceProjectOrLibraryArtifacts(
+    "jpl.omf.schema.resolver",
+    "jpl.omf.schema.resolver",
+    Seq(
+      "gov.nasa.jpl.imce" %% "jpl.omf.schema.resolver"
+        % Versions_omf_schema_resolver.version
+        % "compile" artifacts(
+        Artifact("jpl.omf.schema.resolver"),
+        Artifact("jpl.omf.schema.resolver", "zip", "zip", "resource")
+        )
+    )
   )
 
 def dynamicScriptsResourceSettings(projectName: String): Seq[Setting[_]] = {

@@ -11,4 +11,5 @@ target
 *.bak
 *.iml
 local.*
+*links.json
 gh-pages/
