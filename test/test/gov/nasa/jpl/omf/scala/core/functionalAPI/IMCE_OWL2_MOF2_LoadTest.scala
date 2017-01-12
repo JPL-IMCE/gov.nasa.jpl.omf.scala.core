@@ -20,10 +20,9 @@ package test.gov.nasa.jpl.omf.scala.core.functionalAPI
 
 import gov.nasa.jpl.omf.scala.core._
 
+import scala.collection.immutable.Set
 import scala.Option
 import org.scalatest._
-
-import scalaz.NonEmptyList
 
 abstract class IMCE_OWL2_MOF2_LoadTest[omf <: OMF](
   val loadStore: omf#Store,
@@ -77,7 +76,7 @@ abstract class IMCE_OWL2_MOF2_LoadTest[omf <: OMF](
           binaryAssociationEndType.isDefined should be(true)
           binaryAssociation.isDefined should be(true)
         }
-      result.swap.toOption should be(Option.empty[NonEmptyList[java.lang.Throwable]])
+      result.swap.toOption should be(Option.empty[Set[java.lang.Throwable]])
     }
         
   }

@@ -26,7 +26,7 @@ import gov.nasa.jpl.omf.scala.core.RelationshipCharacteristics._
 
 import scala.{Boolean, Int, None, Option, Some, StringContext, Unit}
 import scala.Predef.String
-import scala.collection.immutable.{Iterable, Seq, Set}
+import scala.collection.immutable.{Iterable, Map, Seq, Set}
 import scalaz._
 
 object OMFOps {
@@ -486,7 +486,7 @@ trait ImmutableTerminologyGraphOps[omf <: OMF] { self: OMFStoreOps[omf] with IRI
 
   def getAnnotations
   (graph: omf#TerminologyBox)
-  : Seq[Annotation]
+  : Map[AnnotationProperty, Seq[Annotation]]
 
   def getTerminologyName
   (graph: omf#TerminologyBox)
@@ -804,6 +804,10 @@ trait ImmutableTerminologyGraphOps[omf <: OMF] { self: OMFStoreOps[omf] with IRI
   (ax: omf#StringScalarRestriction)
   : StringScalarRestrictionSignature[omf]
 
+  def fromSynonymScalarRestriction
+  (ax: omf#SynonymScalarRestriction)
+  : SynonymScalarRestrictionSignature[omf]
+
   def fromTimeScalarRestriction
   (ax: omf#TimeScalarRestriction)
   : TimeScalarRestrictionSignature[omf]
@@ -849,6 +853,13 @@ trait MutableTerminologyGraphOps[omf <: OMF]
    value: String)
   (implicit store: omf#Store)
   : Set[java.lang.Throwable] \/ Annotation
+
+  def removeAnnotations
+  (graph: omf#MutableTerminologyBox,
+   subject: omf#TerminologyThing,
+   property: AnnotationProperty)
+  (implicit store: omf#Store)
+  : Set[java.lang.Throwable] \/ Seq[Annotation]
 
   /**
     * Add to a terminology graph a new OMF Aspect.
@@ -1343,6 +1354,29 @@ trait MutableTerminologyGraphOps[omf <: OMF]
     ax <- addStringScalarRestriction(
       graph, dataTypeUUID, dataTypeIRI, dataTypeName,
       length, minLength, maxLength, pattern, restrictedRange)
+  } yield ax
+
+  protected def addSynonymScalarRestriction
+  (graph: omf#MutableTerminologyBox,
+   dataTypeUUID: UUID,
+   iri: omf#IRI,
+   dataTypeName: LocalName,
+   restrictedRange: omf#DataRange)
+  (implicit store: omf#Store)
+  : Set[java.lang.Throwable] \/ omf#SynonymScalarRestriction
+
+  final def addSynonymScalarRestriction
+  (graph: omf#MutableTerminologyBox,
+   dataTypeName: LocalName,
+   restrictedRange: omf#DataRange)
+  (implicit store: omf#Store)
+  : Set[java.lang.Throwable] \/ omf#SynonymScalarRestriction
+  = for {
+    dataTypeIRI <- withFragment(getTerminologyIRI(graph), dataTypeName)
+    dataTypeUUID = generateUUID(fromIRI(dataTypeIRI))
+    ax <- addSynonymScalarRestriction(
+      graph, dataTypeUUID, dataTypeIRI, dataTypeName,
+      restrictedRange)
   } yield ax
 
   protected def addTimeScalarRestriction

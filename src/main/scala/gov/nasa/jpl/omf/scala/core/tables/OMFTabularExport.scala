@@ -18,13 +18,14 @@
 
 package gov.nasa.jpl.omf.scala.core.tables
 
-import gov.nasa.jpl.imce.omf.schema.tables.{annotationOrdering, Annotation}
+import gov.nasa.jpl.imce.omf.schema.tables.{Annotation, AnnotationProperty}
 import gov.nasa.jpl.omf.scala.core._
 import gov.nasa.jpl.imce.omf._
+import gov.nasa.jpl.imce.omf.schema.resolver.OMFSchemaResolver
 
-import scala.collection.immutable.{Seq,Set,SortedSet}
-import scala.{Option,None,Some}
-import scala.Predef.{ArrowAssoc,String}
+import scala.collection.immutable.{Map, Seq, Set}
+import scala.{None, Option, Some}
+import scala.Predef.{ArrowAssoc, String}
 
 case class Axioms
 ( aspectSpecializationAxioms : Seq[schema.tables.AspectSpecializationAxiom] = Seq.empty,
@@ -280,8 +281,12 @@ object OMFTabularExport {
   : schema.tables.OMFSchemaTables
   = {
     val as
-    : SortedSet[Annotation]
-    = s.foldLeft[SortedSet[Annotation]](SortedSet.empty[Annotation])(_ ++ ops.getAnnotations(_))
+    : Map[AnnotationProperty, Seq[Annotation]]
+    = s
+      .foldLeft[Map[AnnotationProperty, Seq[Annotation]]](Map.empty) { case (acc, tbox) =>
+      val next = OMFSchemaResolver.mergeMapOfSeq(acc, ops.getAnnotations(tbox))
+      next
+    }
 
     val bs: Set[omf#ImmutableBundle] = s.flatMap(ops.foldImmutableBundle)
 
@@ -794,7 +799,7 @@ object OMFTabularExport {
         allSpecificDisjointConceptAxioms,
 
       annotations =
-        as.iterator.to[Seq]
+        as
     )
 
     t

@@ -20,10 +20,10 @@ package gov.nasa.jpl.omf.scala.core
 
 import java.util.UUID
 
-import gov.nasa.jpl.imce.omf.schema.tables.{Annotation, LocalName}
+import gov.nasa.jpl.imce.omf.schema.tables.{Annotation, AnnotationProperty, LocalName}
 import gov.nasa.jpl.omf.scala.core.RelationshipCharacteristics._
 
-import scala.collection.immutable.{Iterable, Map}
+import scala.collection.immutable.{Iterable, Map, Seq}
 import scala.{Boolean, Int, Option}
 import scala.Predef.String
 
@@ -204,6 +204,8 @@ trait OMFtbox {
   type ScalarOneOfRestriction <: RestrictedDataRange
 
   type StringScalarRestriction <: RestrictedDataRange
+
+  type SynonymScalarRestriction <: RestrictedDataRange
 
   type TimeScalarRestriction <: RestrictedDataRange
 
@@ -584,6 +586,7 @@ trait TerminologySignature[omf <: OMF] {
   val numericScalarRestrictions: Iterable[omf#NumericScalarRestriction]
   val plainLiteralScalarRestrictions: Iterable[omf#PlainLiteralScalarRestriction]
   val stringScalarRestrictions: Iterable[omf#StringScalarRestriction]
+  val synonymScalarRestrictions: Iterable[omf#SynonymScalarRestriction]
   val timeScalarRestrictions: Iterable[omf#TimeScalarRestriction]
 
   /**
@@ -635,7 +638,7 @@ trait TerminologySignature[omf <: OMF] {
   val aTAxioms: Iterable[omf#AnonymousConceptTaxonomyAxiom]
   val sTAxioms: Iterable[omf#SpecificDisjointConceptAxiom]
 
-  val annotations: Iterable[Annotation]
+  val annotations: Map[AnnotationProperty, Seq[Annotation]]
 }
 
 
@@ -820,6 +823,13 @@ trait StringScalarRestrictionSignature[omf <: OMF] {
   val minLength: Option[Int]
   val maxLength: Option[Int]
   val pattern: Option[String]
+  val restrictedRange: omf#DataRange
+}
+
+trait SynonymScalarRestrictionSignature[omf <: OMF] {
+  val uuid: UUID
+  val name: LocalName
+  val iri: omf#IRI
   val restrictedRange: omf#DataRange
 }
 

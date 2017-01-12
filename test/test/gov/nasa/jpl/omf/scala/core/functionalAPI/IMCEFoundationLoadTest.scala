@@ -20,6 +20,7 @@ package test.gov.nasa.jpl.omf.scala.core.functionalAPI
 
 import gov.nasa.jpl.omf.scala.core._
 
+import scala.{Some,StringContext}
 import org.scalatest._
 
 abstract class IMCEFoundationLoadTest[omf <: OMF](
@@ -48,7 +49,13 @@ abstract class IMCEFoundationLoadTest[omf <: OMF](
           val xsd_string = lookupDataRange( xsd_tbox._1, string_iri, recursively=false )
           xsd_string.isDefined should be( true )
         }
-      result1.isRight should be( true )
+      result1.leftMap { errors =>
+        throw new exceptions.TestFailedException(
+          message=Some(s"load XMLSchema: ${errors.size} errors"),
+          cause=errors.headOption,
+          failedCodeStackDepth = 1
+        )
+      }
 
       val result2 =
         for {
@@ -65,7 +72,13 @@ abstract class IMCEFoundationLoadTest[omf <: OMF](
             lookupEntityScalarDataProperty( base_tbox._1, hasIdentifier_iri, recursively=false )
           hasIdentifier.isDefined should be(true)
         }
-      result2.isRight should be (true)
+      result2.leftMap { errors =>
+        throw new exceptions.TestFailedException(
+          message=Some(s"load base: ${errors.size} errors"),
+          cause=errors.headOption,
+          failedCodeStackDepth = 1
+        )
+      }
 
       val result3 =
         for {
@@ -87,7 +100,13 @@ abstract class IMCEFoundationLoadTest[omf <: OMF](
             lookupReifiedRelationship( mission_tbox._1, performs_iri, recursively=false )
           component_performs_function.isDefined should be(true)
         }
-      result3.isRight should be (true)
+      result3.leftMap { errors =>
+        throw new exceptions.TestFailedException(
+          message=Some(s"load mission: ${errors.size} errors"),
+          cause=errors.headOption,
+          failedCodeStackDepth = 1
+        )
+      }
 
       val result4 =
         for {
@@ -104,7 +123,13 @@ abstract class IMCEFoundationLoadTest[omf <: OMF](
             lookupAspect( analysis_tbox._1, characterizedElement_iri, recursively=false  )
           characterizedElement.isDefined should be(true)
         }
-      result4.isRight should be(true)
+      result4.leftMap { errors =>
+        throw new exceptions.TestFailedException(
+          message=Some(s"load analysis: ${errors.size} errors"),
+          cause=errors.headOption,
+          failedCodeStackDepth = 1
+        )
+      }
 
       val result5 =
         for {
@@ -121,7 +146,13 @@ abstract class IMCEFoundationLoadTest[omf <: OMF](
             lookupConcept( behavior_tbox._1, parameter_iri, recursively=false  )
           parameter.isDefined should be(true)
         }
-      result5.isRight should be(true)
+      result5.leftMap { errors =>
+        throw new exceptions.TestFailedException(
+          message=Some(s"load behavior: ${errors.size} errors"),
+          cause=errors.headOption,
+          failedCodeStackDepth = 1
+        )
+      }
 
       val result6 =
         for {
@@ -138,7 +169,15 @@ abstract class IMCEFoundationLoadTest[omf <: OMF](
             lookupConcept( project_tbox._1, workPackage_iri, recursively=false  )
           workPackage.isDefined should be(true)
         }
-      result6.isRight should be (true)
+      result6.leftMap { errors =>
+        throw new exceptions.TestFailedException(
+          message=Some(s"load project: ${errors.size} errors"),
+          cause=errors.headOption,
+          failedCodeStackDepth = 1
+        )
+      }
+
+      result6.isRight should be(true)
     }
     
   }

@@ -18,17 +18,47 @@
 
 package gov.nasa.jpl.omf.scala
 
-
 import java.util.UUID
 
 import com.fasterxml.uuid.Generators
 import com.fasterxml.uuid.impl.NameBasedGenerator
+import gov.nasa.jpl.imce.omf.schema.tables.{Annotation, AnnotationProperty}
 
-import scala.Boolean
+import scala.{Boolean,Int,Ordering}
 import scala.collection.immutable._
 import scala.Predef.String
 
 package object core {
+
+  implicit def annotationPropertyOrdering
+  : Ordering[AnnotationProperty]
+  = new Ordering[AnnotationProperty] {
+
+    def compare(x: AnnotationProperty, y: AnnotationProperty)
+    : Int
+    = x.uuid.compareTo(y.uuid)
+
+  }
+
+  implicit def annotationOrdering
+  : Ordering[Annotation]
+  = new Ordering[Annotation] {
+
+    def compare(x: Annotation, y: Annotation)
+    : Int
+    = x.terminologyUUID.compareTo(y.terminologyUUID) match {
+      case c if 0 != c =>
+        c
+      case 0 =>
+        x.subjectUUID.compareTo(y.subjectUUID) match {
+          case c if 0 != c =>
+            c
+          case 0 =>
+            x.value.compareTo(y.value)
+        }
+    }
+
+  }
 
   /**
     * Version 4 random UUID
