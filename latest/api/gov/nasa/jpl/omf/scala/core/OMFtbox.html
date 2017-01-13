@@ -94,176 +94,237 @@
 
         <div id="types" class="types members">
               <h3>Type Members</h3>
-              <ol><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.EntityConceptDesignationTerminologyGraphAxiom" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
-      <a id="EntityConceptDesignationTerminologyGraphAxiom&lt;:OMFtbox.this.ModelTermAxiom"></a>
-      <a id="EntityConceptDesignationTerminologyGraphAxiom:EntityConceptDesignationTerminologyGraphAxiom"></a>
+              <ol><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.AnonymousConceptTaxonomyAxiom" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="AnonymousConceptTaxonomyAxiom&lt;:OMFtbox.this.DisjointUnionOfConceptsAxiomwithOMFtbox.this.ConceptTreeDisjunction"></a>
+      <a id="AnonymousConceptTaxonomyAxiom:AnonymousConceptTaxonomyAxiom"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">abstract </span>
         <span class="kind">type</span>
       </span>
       <span class="symbol">
-        <span class="name">EntityConceptDesignationTerminologyGraphAxiom</span><span class="result"> &lt;: <a href="#ModelTermAxiom" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelTermAxiom">ModelTermAxiom</a></span>
+        <span class="name">AnonymousConceptTaxonomyAxiom</span><span class="result"> &lt;: <a href="#DisjointUnionOfConceptsAxiom&lt;:OMFtbox.this.TerminologyBundleStatement" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DisjointUnionOfConceptsAxiom">DisjointUnionOfConceptsAxiom</a> with <a href="#ConceptTreeDisjunction" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ConceptTreeDisjunction">ConceptTreeDisjunction</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@EntityConceptDesignationTerminologyGraphAxiom&lt;:OMFtbox.this.ModelTermAxiom" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@AnonymousConceptTaxonomyAxiom&lt;:OMFtbox.this.DisjointUnionOfConceptsAxiomwithOMFtbox.this.ConceptTreeDisjunction" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">An EntityConceptDesignationTerminologyGraphAxiom is a ModelTermAxion assertion
-about a ModelEntityConcept whose complete concept designation
-is specified in a designation ModelTerminologyGraph.</p>
-    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.EntityConceptSubClassAxiom" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
-      <a id="EntityConceptSubClassAxiom&lt;:OMFtbox.this.ModelTermAxiom"></a>
-      <a id="EntityConceptSubClassAxiom:EntityConceptSubClassAxiom"></a>
+      
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.Aspect" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="Aspect&lt;:OMFtbox.this.Entity"></a>
+      <a id="Aspect:Aspect"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">abstract </span>
         <span class="kind">type</span>
       </span>
       <span class="symbol">
-        <span class="name">EntityConceptSubClassAxiom</span><span class="result"> &lt;: <a href="#ModelTermAxiom" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelTermAxiom">ModelTermAxiom</a></span>
+        <span class="name">Aspect</span><span class="result"> &lt;: <a href="#Entity&lt;:OMFtbox.this.Term" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.Entity">Entity</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@EntityConceptSubClassAxiom&lt;:OMFtbox.this.ModelTermAxiom" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@Aspect&lt;:OMFtbox.this.Entity" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">An EntityConceptSubClassAxiom is a ModelTermAxiom assertion about
-a subclass/superclass relationship between two ModelEntityConcepts
-</p>
-    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.EntityDefinitionAspectSubClassAxiom" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
-      <a id="EntityDefinitionAspectSubClassAxiom&lt;:OMFtbox.this.ModelTermAxiom"></a>
-      <a id="EntityDefinitionAspectSubClassAxiom:EntityDefinitionAspectSubClassAxiom"></a>
+      <p class="shortcomment cmt">A ModelEntityAspect defines an abstraction that can be the superclass of other
+ModelEntityAspects, ModelEntityConcepts or ModelEntityReifiedRelationships.</p><div class="fullcomment"><div class="comment cmt"><p>A ModelEntityAspect defines an abstraction that can be the superclass of other
+ModelEntityAspects, ModelEntityConcepts or ModelEntityReifiedRelationships.</p><p>In an OMF ABox graph, a ModelEntityAspect cannot be explicitly instantiated;
+however, a ModelEntityConcept or ModelEntityReifiedRelationship specialization
+of a ModelEntityAspect can be explicitly instantiated.
+</p></div></div>
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.AspectSpecializationAxiom" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="AspectSpecializationAxiom&lt;:OMFtbox.this.SpecializationAxiom"></a>
+      <a id="AspectSpecializationAxiom:AspectSpecializationAxiom"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">abstract </span>
         <span class="kind">type</span>
       </span>
       <span class="symbol">
-        <span class="name">EntityDefinitionAspectSubClassAxiom</span><span class="result"> &lt;: <a href="#ModelTermAxiom" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelTermAxiom">ModelTermAxiom</a></span>
+        <span class="name">AspectSpecializationAxiom</span><span class="result"> &lt;: <a href="#SpecializationAxiom&lt;:OMFtbox.this.TermAxiom" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.SpecializationAxiom">SpecializationAxiom</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@EntityDefinitionAspectSubClassAxiom&lt;:OMFtbox.this.ModelTermAxiom" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@AspectSpecializationAxiom&lt;:OMFtbox.this.SpecializationAxiom" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <p class="shortcomment cmt">An EntityDefinitionAspectSubClassAxiom is a ModelTermAxion assertion
 about a ModelEntityDefinition as a subclass for a superclass ModelEntityAspect
 </p>
-    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.EntityDefinitionExistentialRestrictionAxiom" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
-      <a id="EntityDefinitionExistentialRestrictionAxiom&lt;:OMFtbox.this.EntityDefinitionRestrictionAxiom"></a>
-      <a id="EntityDefinitionExistentialRestrictionAxiom:EntityDefinitionExistentialRestrictionAxiom"></a>
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.Axiom" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="Axiom&lt;:OMFtbox.this.TerminologyBoxStatement"></a>
+      <a id="Axiom:Axiom"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">abstract </span>
         <span class="kind">type</span>
       </span>
       <span class="symbol">
-        <span class="name">EntityDefinitionExistentialRestrictionAxiom</span><span class="result"> &lt;: <a href="#EntityDefinitionRestrictionAxiom&lt;:OMFtbox.this.ModelTermAxiom" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.EntityDefinitionRestrictionAxiom">EntityDefinitionRestrictionAxiom</a></span>
+        <span class="name">Axiom</span><span class="result"> &lt;: <a href="#TerminologyBoxStatement&lt;:OMFtbox.this.TerminologyStatement" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.TerminologyBoxStatement">TerminologyBoxStatement</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@EntityDefinitionExistentialRestrictionAxiom&lt;:OMFtbox.this.EntityDefinitionRestrictionAxiom" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@Axiom&lt;:OMFtbox.this.TerminologyBoxStatement" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">An EntityDefinitionUniversalRestrictionAxiom is a ModelTermAxiom assertion about
-constraining a ModelEntityReifiedRelationship
-for objects of a sub-domain ModelEntityDefinition
-to be related to include a sub-range ModelEntityDefinition.</p>
-    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.EntityDefinitionRestrictionAxiom" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
-      <a id="EntityDefinitionRestrictionAxiom&lt;:OMFtbox.this.ModelTermAxiom"></a>
-      <a id="EntityDefinitionRestrictionAxiom:EntityDefinitionRestrictionAxiom"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier">abstract </span>
-        <span class="kind">type</span>
-      </span>
-      <span class="symbol">
-        <span class="name">EntityDefinitionRestrictionAxiom</span><span class="result"> &lt;: <a href="#ModelTermAxiom" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelTermAxiom">ModelTermAxiom</a></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@EntityDefinitionRestrictionAxiom&lt;:OMFtbox.this.ModelTermAxiom" title="Permalink" target="_top">
-        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">An EntityDefinitionRestrictionAxiom is a ModelTermAxiom assertion about
-constraining a ModelEntityReifiedRelationship
-for a sub-domain ModelEntityDefinition
-to a restricted sub-range ModelEntityDefinition.</p><div class="fullcomment"><div class="comment cmt"><p>An EntityDefinitionRestrictionAxiom is a ModelTermAxiom assertion about
-constraining a ModelEntityReifiedRelationship
-for a sub-domain ModelEntityDefinition
-to a restricted sub-range ModelEntityDefinition.</p><p>This restriction constraint can be universal or existential.
-</p></div></div>
-    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.EntityDefinitionUniversalRestrictionAxiom" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
-      <a id="EntityDefinitionUniversalRestrictionAxiom&lt;:OMFtbox.this.EntityDefinitionRestrictionAxiom"></a>
-      <a id="EntityDefinitionUniversalRestrictionAxiom:EntityDefinitionUniversalRestrictionAxiom"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier">abstract </span>
-        <span class="kind">type</span>
-      </span>
-      <span class="symbol">
-        <span class="name">EntityDefinitionUniversalRestrictionAxiom</span><span class="result"> &lt;: <a href="#EntityDefinitionRestrictionAxiom&lt;:OMFtbox.this.ModelTermAxiom" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.EntityDefinitionRestrictionAxiom">EntityDefinitionRestrictionAxiom</a></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@EntityDefinitionUniversalRestrictionAxiom&lt;:OMFtbox.this.EntityDefinitionRestrictionAxiom" title="Permalink" target="_top">
-        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">An EntityDefinitionUniversalRestrictionAxiom is a ModelTermAxiom assertion about
-constraining a ModelEntityReifiedRelationship
-for objects of a sub-domain ModelEntityDefinition
-to be related to only a restricted sub-range ModelEntityDefinition.</p>
-    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.EntityReifiedRelationshipSubClassAxiom" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
-      <a id="EntityReifiedRelationshipSubClassAxiom&lt;:OMFtbox.this.ModelTermAxiom"></a>
-      <a id="EntityReifiedRelationshipSubClassAxiom:EntityReifiedRelationshipSubClassAxiom"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier">abstract </span>
-        <span class="kind">type</span>
-      </span>
-      <span class="symbol">
-        <span class="name">EntityReifiedRelationshipSubClassAxiom</span><span class="result"> &lt;: <a href="#ModelTermAxiom" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelTermAxiom">ModelTermAxiom</a></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@EntityReifiedRelationshipSubClassAxiom&lt;:OMFtbox.this.ModelTermAxiom" title="Permalink" target="_top">
-        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">An EntityReifiedRelationshipSubClassAxiom is a ModelTermAxiom assertion about
-a subclass/superclass relationship between two ModelEntityReifiedRelationships
+      <p class="shortcomment cmt">A ModelTermAxiom is the abstraction for statements about
+ModelTypeTerms in an ModelTerminologyGraph
 </p>
-    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.ImmutableModelTerminologyGraph" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
-      <a id="ImmutableModelTerminologyGraph&lt;:OMFtbox.this.ModelTerminologyGraph"></a>
-      <a id="ImmutableModelTerminologyGraph:ImmutableModelTerminologyGraph"></a>
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.BinaryScalarRestriction" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="BinaryScalarRestriction&lt;:OMFtbox.this.RestrictedDataRange"></a>
+      <a id="BinaryScalarRestriction:BinaryScalarRestriction"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">abstract </span>
         <span class="kind">type</span>
       </span>
       <span class="symbol">
-        <span class="name">ImmutableModelTerminologyGraph</span><span class="result"> &lt;: <a href="#ModelTerminologyGraph" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelTerminologyGraph">ModelTerminologyGraph</a></span>
+        <span class="name">BinaryScalarRestriction</span><span class="result"> &lt;: <a href="#RestrictedDataRange&lt;:OMFtbox.this.DataRange" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.RestrictedDataRange">RestrictedDataRange</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@ImmutableModelTerminologyGraph&lt;:OMFtbox.this.ModelTerminologyGraph" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@BinaryScalarRestriction&lt;:OMFtbox.this.RestrictedDataRange" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       
-    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelDataRelationship" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
-      <a id="ModelDataRelationship&lt;:OMFtbox.this.ModelTypeTerm"></a>
-      <a id="ModelDataRelationship:ModelDataRelationship"></a>
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.Bundle" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="Bundle&lt;:OMFtbox.this.TerminologyBox"></a>
+      <a id="Bundle:Bundle"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">abstract </span>
         <span class="kind">type</span>
       </span>
       <span class="symbol">
-        <span class="name">ModelDataRelationship</span><span class="result"> &lt;: <a href="#ModelTypeTerm" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelTypeTerm">ModelTypeTerm</a></span>
+        <span class="name">Bundle</span><span class="result"> &lt;: <a href="#TerminologyBox&lt;:OMFtbox.this.TerminologyThingwithOMFtbox.this.Resource" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.TerminologyBox">TerminologyBox</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@ModelDataRelationship&lt;:OMFtbox.this.ModelTypeTerm" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@Bundle&lt;:OMFtbox.this.TerminologyBox" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.BundledTerminologyAxiom" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="BundledTerminologyAxiom&lt;:OMFtbox.this.TerminologyBundleAxiom"></a>
+      <a id="BundledTerminologyAxiom:BundledTerminologyAxiom"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">BundledTerminologyAxiom</span><span class="result"> &lt;: <a href="#TerminologyBundleAxiom&lt;:OMFtbox.this.TerminologyAxiom" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.TerminologyBundleAxiom">TerminologyBundleAxiom</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@BundledTerminologyAxiom&lt;:OMFtbox.this.TerminologyBundleAxiom" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.Concept" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="Concept&lt;:OMFtbox.this.Entity"></a>
+      <a id="Concept:Concept"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">Concept</span><span class="result"> &lt;: <a href="#Entity&lt;:OMFtbox.this.Term" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.Entity">Entity</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@Concept&lt;:OMFtbox.this.Entity" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">A ModelEntityConcept defines a concept in the conceptual modeling of a domain.</p><div class="fullcomment"><div class="comment cmt"><p>A ModelEntityConcept defines a concept in the conceptual modeling of a domain.</p><p>In an OMF ABox, each instance of a ModelEntityConcept has a unique identity.
+</p></div></div>
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.ConceptDesignationTerminologyAxiom" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="ConceptDesignationTerminologyAxiom&lt;:OMFtbox.this.TerminologyBoxAxiom"></a>
+      <a id="ConceptDesignationTerminologyAxiom:ConceptDesignationTerminologyAxiom"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">ConceptDesignationTerminologyAxiom</span><span class="result"> &lt;: <a href="#TerminologyBoxAxiom&lt;:OMFtbox.this.TerminologyAxiom" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.TerminologyBoxAxiom">TerminologyBoxAxiom</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@ConceptDesignationTerminologyAxiom&lt;:OMFtbox.this.TerminologyBoxAxiom" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">An EntityConceptDesignationTerminologyAxiom is a ModelTermAxion assertion
+about a ModelEntityConcept whose complete concept designation
+is specified in a designation ModelTerminologyGraph.</p>
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.ConceptSpecializationAxiom" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="ConceptSpecializationAxiom&lt;:OMFtbox.this.SpecializationAxiom"></a>
+      <a id="ConceptSpecializationAxiom:ConceptSpecializationAxiom"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">ConceptSpecializationAxiom</span><span class="result"> &lt;: <a href="#SpecializationAxiom&lt;:OMFtbox.this.TermAxiom" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.SpecializationAxiom">SpecializationAxiom</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@ConceptSpecializationAxiom&lt;:OMFtbox.this.SpecializationAxiom" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">An EntityConceptSubClassAxiom is a ModelTermAxiom assertion about
+a subclass/superclass relationship between two ModelEntityConcepts
+</p>
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.ConceptTreeDisjunction" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="ConceptTreeDisjunction"></a>
+      <a id="ConceptTreeDisjunction:ConceptTreeDisjunction"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">ConceptTreeDisjunction</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@ConceptTreeDisjunction" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="DataRange&lt;:OMFtbox.this.Datatype"></a>
+      <a id="DataRange:DataRange"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">DataRange</span><span class="result"> &lt;: <a href="#Datatype&lt;:OMFtbox.this.Term" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.Datatype">Datatype</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@DataRange&lt;:OMFtbox.this.Datatype" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRelationship" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="DataRelationship&lt;:OMFtbox.this.Term"></a>
+      <a id="DataRelationship:DataRelationship"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">DataRelationship</span><span class="result"> &lt;: <a href="#Term&lt;:OMFtbox.this.TerminologyBoxStatementwithOMFtbox.this.Resource" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.Term">Term</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@DataRelationship&lt;:OMFtbox.this.Term" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -275,19 +336,19 @@ binary directed relationships whose range is a ModelDataTypeDefinition.</p><p>On
 - ModelDataRelationshipToScalar
 - ModelDataRelationshipToStructure
 </p></div></div>
-    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelDataRelationshipFrom" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
-      <a id="ModelDataRelationshipFrom"></a>
-      <a id="ModelDataRelationshipFrom:ModelDataRelationshipFrom"></a>
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRelationshipDomain" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="DataRelationshipDomain"></a>
+      <a id="DataRelationshipDomain:DataRelationshipDomain"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">abstract </span>
         <span class="kind">type</span>
       </span>
       <span class="symbol">
-        <span class="name">ModelDataRelationshipFrom</span>
+        <span class="name">DataRelationshipDomain</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@ModelDataRelationshipFrom" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@DataRelationshipDomain" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -295,133 +356,53 @@ binary directed relationships whose range is a ModelDataTypeDefinition.</p><p>On
 - ModelDataRelationshipFromEntity
 - ModelDataRelationshipFromStructure
 </p>
-    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelDataRelationshipFromEntity" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
-      <a id="ModelDataRelationshipFromEntity&lt;:OMFtbox.this.ModelDataRelationshipFrom"></a>
-      <a id="ModelDataRelationshipFromEntity:ModelDataRelationshipFromEntity"></a>
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRelationshipFromEntity" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="DataRelationshipFromEntity&lt;:OMFtbox.this.DataRelationshipDomain"></a>
+      <a id="DataRelationshipFromEntity:DataRelationshipFromEntity"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">abstract </span>
         <span class="kind">type</span>
       </span>
       <span class="symbol">
-        <span class="name">ModelDataRelationshipFromEntity</span><span class="result"> &lt;: <a href="#ModelDataRelationshipFrom" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelDataRelationshipFrom">ModelDataRelationshipFrom</a></span>
+        <span class="name">DataRelationshipFromEntity</span><span class="result"> &lt;: <a href="#DataRelationshipDomain" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRelationshipDomain">DataRelationshipDomain</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@ModelDataRelationshipFromEntity&lt;:OMFtbox.this.ModelDataRelationshipFrom" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@DataRelationshipFromEntity&lt;:OMFtbox.this.DataRelationshipDomain" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       
-    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelDataRelationshipFromEntityToScalar" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
-      <a id="ModelDataRelationshipFromEntityToScalar&lt;:OMFtbox.this.ModelDataRelationshipwithOMFtbox.this.ModelDataRelationshipFromEntitywithOMFtbox.this.ModelDataRelationshipToScalar"></a>
-      <a id="ModelDataRelationshipFromEntityToScalar:ModelDataRelationshipFromEntityToScalar"></a>
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRelationshipFromStructure" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="DataRelationshipFromStructure&lt;:OMFtbox.this.DataRelationshipDomain"></a>
+      <a id="DataRelationshipFromStructure:DataRelationshipFromStructure"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">abstract </span>
         <span class="kind">type</span>
       </span>
       <span class="symbol">
-        <span class="name">ModelDataRelationshipFromEntityToScalar</span><span class="result"> &lt;: <a href="#ModelDataRelationship&lt;:OMFtbox.this.ModelTypeTerm" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelDataRelationship">ModelDataRelationship</a> with <a href="#ModelDataRelationshipFromEntity&lt;:OMFtbox.this.ModelDataRelationshipFrom" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelDataRelationshipFromEntity">ModelDataRelationshipFromEntity</a> with <a href="#ModelDataRelationshipToScalar&lt;:OMFtbox.this.ModelDataRelationshipTo" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelDataRelationshipToScalar">ModelDataRelationshipToScalar</a></span>
+        <span class="name">DataRelationshipFromStructure</span><span class="result"> &lt;: <a href="#DataRelationshipDomain" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRelationshipDomain">DataRelationshipDomain</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@ModelDataRelationshipFromEntityToScalar&lt;:OMFtbox.this.ModelDataRelationshipwithOMFtbox.this.ModelDataRelationshipFromEntitywithOMFtbox.this.ModelDataRelationshipToScalar" title="Permalink" target="_top">
-        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">A ModelDataRelationshipFromEntityToScalar is a ModelDataRelationship
-with a domain that is a ModelDataRelationshipFromEntity
-and with a range that is a ModelDataRelationshipToScalar
-</p>
-    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelDataRelationshipFromEntityToStructure" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
-      <a id="ModelDataRelationshipFromEntityToStructure&lt;:OMFtbox.this.ModelDataRelationshipwithOMFtbox.this.ModelDataRelationshipFromEntitywithOMFtbox.this.ModelDataRelationshipToStructure"></a>
-      <a id="ModelDataRelationshipFromEntityToStructure:ModelDataRelationshipFromEntityToStructure"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier">abstract </span>
-        <span class="kind">type</span>
-      </span>
-      <span class="symbol">
-        <span class="name">ModelDataRelationshipFromEntityToStructure</span><span class="result"> &lt;: <a href="#ModelDataRelationship&lt;:OMFtbox.this.ModelTypeTerm" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelDataRelationship">ModelDataRelationship</a> with <a href="#ModelDataRelationshipFromEntity&lt;:OMFtbox.this.ModelDataRelationshipFrom" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelDataRelationshipFromEntity">ModelDataRelationshipFromEntity</a> with <a href="#ModelDataRelationshipToStructure&lt;:OMFtbox.this.ModelDataRelationshipTo" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelDataRelationshipToStructure">ModelDataRelationshipToStructure</a></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@ModelDataRelationshipFromEntityToStructure&lt;:OMFtbox.this.ModelDataRelationshipwithOMFtbox.this.ModelDataRelationshipFromEntitywithOMFtbox.this.ModelDataRelationshipToStructure" title="Permalink" target="_top">
-        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">A ModelDataRelationshipFromEntityToStructure is a ModelDataRelationship
-with a domain that is a ModelDataRelationshipFromEntity
-and with a range that is a ModelDataRelationshipToStructure
-</p>
-    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelDataRelationshipFromStructure" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
-      <a id="ModelDataRelationshipFromStructure&lt;:OMFtbox.this.ModelDataRelationshipFrom"></a>
-      <a id="ModelDataRelationshipFromStructure:ModelDataRelationshipFromStructure"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier">abstract </span>
-        <span class="kind">type</span>
-      </span>
-      <span class="symbol">
-        <span class="name">ModelDataRelationshipFromStructure</span><span class="result"> &lt;: <a href="#ModelDataRelationshipFrom" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelDataRelationshipFrom">ModelDataRelationshipFrom</a></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@ModelDataRelationshipFromStructure&lt;:OMFtbox.this.ModelDataRelationshipFrom" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@DataRelationshipFromStructure&lt;:OMFtbox.this.DataRelationshipDomain" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       
-    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelDataRelationshipFromStructureToScalar" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
-      <a id="ModelDataRelationshipFromStructureToScalar&lt;:OMFtbox.this.ModelDataRelationshipwithOMFtbox.this.ModelDataRelationshipFromStructurewithOMFtbox.this.ModelDataRelationshipToScalar"></a>
-      <a id="ModelDataRelationshipFromStructureToScalar:ModelDataRelationshipFromStructureToScalar"></a>
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRelationshipRange" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="DataRelationshipRange"></a>
+      <a id="DataRelationshipRange:DataRelationshipRange"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">abstract </span>
         <span class="kind">type</span>
       </span>
       <span class="symbol">
-        <span class="name">ModelDataRelationshipFromStructureToScalar</span><span class="result"> &lt;: <a href="#ModelDataRelationship&lt;:OMFtbox.this.ModelTypeTerm" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelDataRelationship">ModelDataRelationship</a> with <a href="#ModelDataRelationshipFromStructure&lt;:OMFtbox.this.ModelDataRelationshipFrom" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelDataRelationshipFromStructure">ModelDataRelationshipFromStructure</a> with <a href="#ModelDataRelationshipToScalar&lt;:OMFtbox.this.ModelDataRelationshipTo" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelDataRelationshipToScalar">ModelDataRelationshipToScalar</a></span>
+        <span class="name">DataRelationshipRange</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@ModelDataRelationshipFromStructureToScalar&lt;:OMFtbox.this.ModelDataRelationshipwithOMFtbox.this.ModelDataRelationshipFromStructurewithOMFtbox.this.ModelDataRelationshipToScalar" title="Permalink" target="_top">
-        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">A ModelDataRelationshipFromStructureToScalar is a ModelDataRelationship
-with a domain that is a ModelDataRelationshipFromStructure
-and with a range that is a ModelDataRelationshipToScalar
-</p>
-    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelDataRelationshipFromStructureToStructure" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
-      <a id="ModelDataRelationshipFromStructureToStructure&lt;:OMFtbox.this.ModelDataRelationshipwithOMFtbox.this.ModelDataRelationshipFromStructurewithOMFtbox.this.ModelDataRelationshipToStructure"></a>
-      <a id="ModelDataRelationshipFromStructureToStructure:ModelDataRelationshipFromStructureToStructure"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier">abstract </span>
-        <span class="kind">type</span>
-      </span>
-      <span class="symbol">
-        <span class="name">ModelDataRelationshipFromStructureToStructure</span><span class="result"> &lt;: <a href="#ModelDataRelationship&lt;:OMFtbox.this.ModelTypeTerm" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelDataRelationship">ModelDataRelationship</a> with <a href="#ModelDataRelationshipFromStructure&lt;:OMFtbox.this.ModelDataRelationshipFrom" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelDataRelationshipFromStructure">ModelDataRelationshipFromStructure</a> with <a href="#ModelDataRelationshipToStructure&lt;:OMFtbox.this.ModelDataRelationshipTo" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelDataRelationshipToStructure">ModelDataRelationshipToStructure</a></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@ModelDataRelationshipFromStructureToStructure&lt;:OMFtbox.this.ModelDataRelationshipwithOMFtbox.this.ModelDataRelationshipFromStructurewithOMFtbox.this.ModelDataRelationshipToStructure" title="Permalink" target="_top">
-        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">A ModelDataRelationshipFromStructureToStructure is a ModelDataRelationship
-with a domain that is a ModelDataRelationshipFromStructure
-and with a range that is a ModelDataRelationshipToStructure
-</p>
-    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelDataRelationshipTo" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
-      <a id="ModelDataRelationshipTo"></a>
-      <a id="ModelDataRelationshipTo:ModelDataRelationshipTo"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier">abstract </span>
-        <span class="kind">type</span>
-      </span>
-      <span class="symbol">
-        <span class="name">ModelDataRelationshipTo</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@ModelDataRelationshipTo" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@DataRelationshipRange" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -429,53 +410,53 @@ and with a range that is a ModelDataRelationshipToStructure
 - ModelDataRelationshipToScalar
 - ModelDataRelationshipToStructure
 </p>
-    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelDataRelationshipToScalar" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
-      <a id="ModelDataRelationshipToScalar&lt;:OMFtbox.this.ModelDataRelationshipTo"></a>
-      <a id="ModelDataRelationshipToScalar:ModelDataRelationshipToScalar"></a>
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRelationshipToScalar" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="DataRelationshipToScalar&lt;:OMFtbox.this.DataRelationshipRange"></a>
+      <a id="DataRelationshipToScalar:DataRelationshipToScalar"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">abstract </span>
         <span class="kind">type</span>
       </span>
       <span class="symbol">
-        <span class="name">ModelDataRelationshipToScalar</span><span class="result"> &lt;: <a href="#ModelDataRelationshipTo" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelDataRelationshipTo">ModelDataRelationshipTo</a></span>
+        <span class="name">DataRelationshipToScalar</span><span class="result"> &lt;: <a href="#DataRelationshipRange" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRelationshipRange">DataRelationshipRange</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@ModelDataRelationshipToScalar&lt;:OMFtbox.this.ModelDataRelationshipTo" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@DataRelationshipToScalar&lt;:OMFtbox.this.DataRelationshipRange" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       
-    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelDataRelationshipToStructure" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
-      <a id="ModelDataRelationshipToStructure&lt;:OMFtbox.this.ModelDataRelationshipTo"></a>
-      <a id="ModelDataRelationshipToStructure:ModelDataRelationshipToStructure"></a>
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRelationshipToStructure" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="DataRelationshipToStructure&lt;:OMFtbox.this.DataRelationshipRange"></a>
+      <a id="DataRelationshipToStructure:DataRelationshipToStructure"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">abstract </span>
         <span class="kind">type</span>
       </span>
       <span class="symbol">
-        <span class="name">ModelDataRelationshipToStructure</span><span class="result"> &lt;: <a href="#ModelDataRelationshipTo" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelDataRelationshipTo">ModelDataRelationshipTo</a></span>
+        <span class="name">DataRelationshipToStructure</span><span class="result"> &lt;: <a href="#DataRelationshipRange" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRelationshipRange">DataRelationshipRange</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@ModelDataRelationshipToStructure&lt;:OMFtbox.this.ModelDataRelationshipTo" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@DataRelationshipToStructure&lt;:OMFtbox.this.DataRelationshipRange" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       
-    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelDataTypeDefinition" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
-      <a id="ModelDataTypeDefinition&lt;:OMFtbox.this.ModelTypeTerm"></a>
-      <a id="ModelDataTypeDefinition:ModelDataTypeDefinition"></a>
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.Datatype" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="Datatype&lt;:OMFtbox.this.Term"></a>
+      <a id="Datatype:Datatype"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">abstract </span>
         <span class="kind">type</span>
       </span>
       <span class="symbol">
-        <span class="name">ModelDataTypeDefinition</span><span class="result"> &lt;: <a href="#ModelTypeTerm" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelTypeTerm">ModelTypeTerm</a></span>
+        <span class="name">Datatype</span><span class="result"> &lt;: <a href="#Term&lt;:OMFtbox.this.TerminologyBoxStatementwithOMFtbox.this.Resource" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.Term">Term</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@ModelDataTypeDefinition&lt;:OMFtbox.this.ModelTypeTerm" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@Datatype&lt;:OMFtbox.this.Term" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -485,59 +466,36 @@ of a domain in terms of data that has value semantics (i.e, equality).</p><p>The
 - ModelScalarDataType, an atomic datatype in the sense of XML Schema 1.1 DataTypes
 - ModelStructuredDataType, a structured datatype with data property relationships to other ModelDataTypeDefinitions
 </p></div></div>
-    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelEntityAspect" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
-      <a id="ModelEntityAspect&lt;:OMFtbox.this.ModelEntityDefinition"></a>
-      <a id="ModelEntityAspect:ModelEntityAspect"></a>
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.DisjointUnionOfConceptsAxiom" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="DisjointUnionOfConceptsAxiom&lt;:OMFtbox.this.TerminologyBundleStatement"></a>
+      <a id="DisjointUnionOfConceptsAxiom:DisjointUnionOfConceptsAxiom"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">abstract </span>
         <span class="kind">type</span>
       </span>
       <span class="symbol">
-        <span class="name">ModelEntityAspect</span><span class="result"> &lt;: <a href="#ModelEntityDefinition&lt;:OMFtbox.this.ModelTypeTerm" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelEntityDefinition">ModelEntityDefinition</a></span>
+        <span class="name">DisjointUnionOfConceptsAxiom</span><span class="result"> &lt;: <a href="#TerminologyBundleStatement&lt;:OMFtbox.this.TerminologyStatement" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.TerminologyBundleStatement">TerminologyBundleStatement</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@ModelEntityAspect&lt;:OMFtbox.this.ModelEntityDefinition" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@DisjointUnionOfConceptsAxiom&lt;:OMFtbox.this.TerminologyBundleStatement" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">A ModelEntityAspect defines an abstraction that can be the superclass of other
-ModelEntityAspects, ModelEntityConcepts or ModelEntityReifiedRelationships.</p><div class="fullcomment"><div class="comment cmt"><p>A ModelEntityAspect defines an abstraction that can be the superclass of other
-ModelEntityAspects, ModelEntityConcepts or ModelEntityReifiedRelationships.</p><p>In an OMF ABox graph, a ModelEntityAspect cannot be explicitly instantiated;
-however, a ModelEntityConcept or ModelEntityReifiedRelationship specialization
-of a ModelEntityAspect can be explicitly instantiated.
-</p></div></div>
-    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelEntityConcept" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
-      <a id="ModelEntityConcept&lt;:OMFtbox.this.ModelEntityDefinition"></a>
-      <a id="ModelEntityConcept:ModelEntityConcept"></a>
+      
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.Entity" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="Entity&lt;:OMFtbox.this.Term"></a>
+      <a id="Entity:Entity"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">abstract </span>
         <span class="kind">type</span>
       </span>
       <span class="symbol">
-        <span class="name">ModelEntityConcept</span><span class="result"> &lt;: <a href="#ModelEntityDefinition&lt;:OMFtbox.this.ModelTypeTerm" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelEntityDefinition">ModelEntityDefinition</a></span>
+        <span class="name">Entity</span><span class="result"> &lt;: <a href="#Term&lt;:OMFtbox.this.TerminologyBoxStatementwithOMFtbox.this.Resource" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.Term">Term</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@ModelEntityConcept&lt;:OMFtbox.this.ModelEntityDefinition" title="Permalink" target="_top">
-        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">A ModelEntityConcept defines a concept in the conceptual modeling of a domain.</p><div class="fullcomment"><div class="comment cmt"><p>A ModelEntityConcept defines a concept in the conceptual modeling of a domain.</p><p>In an OMF ABox, each instance of a ModelEntityConcept has a unique identity.
-</p></div></div>
-    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelEntityDefinition" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
-      <a id="ModelEntityDefinition&lt;:OMFtbox.this.ModelTypeTerm"></a>
-      <a id="ModelEntityDefinition:ModelEntityDefinition"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier">abstract </span>
-        <span class="kind">type</span>
-      </span>
-      <span class="symbol">
-        <span class="name">ModelEntityDefinition</span><span class="result"> &lt;: <a href="#ModelTypeTerm" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelTypeTerm">ModelTypeTerm</a></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@ModelEntityDefinition&lt;:OMFtbox.this.ModelTypeTerm" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@Entity&lt;:OMFtbox.this.Term" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -547,73 +505,466 @@ of a domain in terms of &quot;things&quot; that have an intrinsic identity seman
 - ModelEntityConcept
 - ModelEntityReifiedRelationship
 </p></div></div>
-    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelEntityReifiedRelationship" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
-      <a id="ModelEntityReifiedRelationship&lt;:OMFtbox.this.ModelEntityDefinition"></a>
-      <a id="ModelEntityReifiedRelationship:ModelEntityReifiedRelationship"></a>
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.EntityExistentialRestrictionAxiom" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="EntityExistentialRestrictionAxiom&lt;:OMFtbox.this.EntityRestrictionAxiom"></a>
+      <a id="EntityExistentialRestrictionAxiom:EntityExistentialRestrictionAxiom"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">abstract </span>
         <span class="kind">type</span>
       </span>
       <span class="symbol">
-        <span class="name">ModelEntityReifiedRelationship</span><span class="result"> &lt;: <a href="#ModelEntityDefinition&lt;:OMFtbox.this.ModelTypeTerm" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelEntityDefinition">ModelEntityDefinition</a></span>
+        <span class="name">EntityExistentialRestrictionAxiom</span><span class="result"> &lt;: <a href="#EntityRestrictionAxiom&lt;:OMFtbox.this.TermAxiom" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.EntityRestrictionAxiom">EntityRestrictionAxiom</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@ModelEntityReifiedRelationship&lt;:OMFtbox.this.ModelEntityDefinition" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@EntityExistentialRestrictionAxiom&lt;:OMFtbox.this.EntityRestrictionAxiom" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">An EntityDefinitionUniversalRestrictionAxiom is a ModelTermAxiom assertion about
+constraining a ModelEntityReifiedRelationship
+for objects of a sub-domain ModelEntityDefinition
+to be related to include a sub-range ModelEntityDefinition.</p>
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.EntityRelationship" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="EntityRelationship&lt;:OMFtbox.this.Term"></a>
+      <a id="EntityRelationship:EntityRelationship"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">EntityRelationship</span><span class="result"> &lt;: <a href="#Term&lt;:OMFtbox.this.TerminologyBoxStatementwithOMFtbox.this.Resource" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.Term">Term</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@EntityRelationship&lt;:OMFtbox.this.Term" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.EntityRestrictionAxiom" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="EntityRestrictionAxiom&lt;:OMFtbox.this.TermAxiom"></a>
+      <a id="EntityRestrictionAxiom:EntityRestrictionAxiom"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">EntityRestrictionAxiom</span><span class="result"> &lt;: <a href="#TermAxiom&lt;:OMFtbox.this.Axiom" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.TermAxiom">TermAxiom</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@EntityRestrictionAxiom&lt;:OMFtbox.this.TermAxiom" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">An EntityDefinitionRestrictionAxiom is a ModelTermAxiom assertion about
+constraining a ModelEntityReifiedRelationship
+for a sub-domain ModelEntityDefinition
+to a restricted sub-range ModelEntityDefinition.</p><div class="fullcomment"><div class="comment cmt"><p>An EntityDefinitionRestrictionAxiom is a ModelTermAxiom assertion about
+constraining a ModelEntityReifiedRelationship
+for a sub-domain ModelEntityDefinition
+to a restricted sub-range ModelEntityDefinition.</p><p>This restriction constraint can be universal or existential.
+</p></div></div>
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.EntityScalarDataProperty" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="EntityScalarDataProperty&lt;:OMFtbox.this.DataRelationshipwithOMFtbox.this.DataRelationshipFromEntitywithOMFtbox.this.DataRelationshipToScalar"></a>
+      <a id="EntityScalarDataProperty:EntityScalarDataProperty"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">EntityScalarDataProperty</span><span class="result"> &lt;: <a href="#DataRelationship&lt;:OMFtbox.this.Term" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRelationship">DataRelationship</a> with <a href="#DataRelationshipFromEntity&lt;:OMFtbox.this.DataRelationshipDomain" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRelationshipFromEntity">DataRelationshipFromEntity</a> with <a href="#DataRelationshipToScalar&lt;:OMFtbox.this.DataRelationshipRange" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRelationshipToScalar">DataRelationshipToScalar</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@EntityScalarDataProperty&lt;:OMFtbox.this.DataRelationshipwithOMFtbox.this.DataRelationshipFromEntitywithOMFtbox.this.DataRelationshipToScalar" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">A ModelDataRelationshipFromEntityToScalar is a ModelDataRelationship
+with a domain that is a ModelDataRelationshipFromEntity
+and with a range that is a ModelDataRelationshipToScalar
+</p>
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.EntityScalarDataPropertyExistentialRestrictionAxiom" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="EntityScalarDataPropertyExistentialRestrictionAxiom&lt;:OMFtbox.this.EntityScalarDataPropertyRestrictionAxiom"></a>
+      <a id="EntityScalarDataPropertyExistentialRestrictionAxiom:EntityScalarDataPropertyExistentialRestrictionAxiom"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">EntityScalarDataPropertyExistentialRestrictionAxiom</span><span class="result"> &lt;: <a href="#EntityScalarDataPropertyRestrictionAxiom&lt;:OMFtbox.this.TermAxiom" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.EntityScalarDataPropertyRestrictionAxiom">EntityScalarDataPropertyRestrictionAxiom</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@EntityScalarDataPropertyExistentialRestrictionAxiom&lt;:OMFtbox.this.EntityScalarDataPropertyRestrictionAxiom" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.EntityScalarDataPropertyParticularRestrictionAxiom" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="EntityScalarDataPropertyParticularRestrictionAxiom&lt;:OMFtbox.this.EntityScalarDataPropertyRestrictionAxiom"></a>
+      <a id="EntityScalarDataPropertyParticularRestrictionAxiom:EntityScalarDataPropertyParticularRestrictionAxiom"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">EntityScalarDataPropertyParticularRestrictionAxiom</span><span class="result"> &lt;: <a href="#EntityScalarDataPropertyRestrictionAxiom&lt;:OMFtbox.this.TermAxiom" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.EntityScalarDataPropertyRestrictionAxiom">EntityScalarDataPropertyRestrictionAxiom</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@EntityScalarDataPropertyParticularRestrictionAxiom&lt;:OMFtbox.this.EntityScalarDataPropertyRestrictionAxiom" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.EntityScalarDataPropertyRestrictionAxiom" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="EntityScalarDataPropertyRestrictionAxiom&lt;:OMFtbox.this.TermAxiom"></a>
+      <a id="EntityScalarDataPropertyRestrictionAxiom:EntityScalarDataPropertyRestrictionAxiom"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">EntityScalarDataPropertyRestrictionAxiom</span><span class="result"> &lt;: <a href="#TermAxiom&lt;:OMFtbox.this.Axiom" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.TermAxiom">TermAxiom</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@EntityScalarDataPropertyRestrictionAxiom&lt;:OMFtbox.this.TermAxiom" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.EntityScalarDataPropertyUniversalRestrictionAxiom" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="EntityScalarDataPropertyUniversalRestrictionAxiom&lt;:OMFtbox.this.EntityScalarDataPropertyRestrictionAxiom"></a>
+      <a id="EntityScalarDataPropertyUniversalRestrictionAxiom:EntityScalarDataPropertyUniversalRestrictionAxiom"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">EntityScalarDataPropertyUniversalRestrictionAxiom</span><span class="result"> &lt;: <a href="#EntityScalarDataPropertyRestrictionAxiom&lt;:OMFtbox.this.TermAxiom" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.EntityScalarDataPropertyRestrictionAxiom">EntityScalarDataPropertyRestrictionAxiom</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@EntityScalarDataPropertyUniversalRestrictionAxiom&lt;:OMFtbox.this.EntityScalarDataPropertyRestrictionAxiom" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.EntityStructuredDataProperty" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="EntityStructuredDataProperty&lt;:OMFtbox.this.DataRelationshipwithOMFtbox.this.DataRelationshipFromEntitywithOMFtbox.this.DataRelationshipToStructure"></a>
+      <a id="EntityStructuredDataProperty:EntityStructuredDataProperty"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">EntityStructuredDataProperty</span><span class="result"> &lt;: <a href="#DataRelationship&lt;:OMFtbox.this.Term" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRelationship">DataRelationship</a> with <a href="#DataRelationshipFromEntity&lt;:OMFtbox.this.DataRelationshipDomain" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRelationshipFromEntity">DataRelationshipFromEntity</a> with <a href="#DataRelationshipToStructure&lt;:OMFtbox.this.DataRelationshipRange" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRelationshipToStructure">DataRelationshipToStructure</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@EntityStructuredDataProperty&lt;:OMFtbox.this.DataRelationshipwithOMFtbox.this.DataRelationshipFromEntitywithOMFtbox.this.DataRelationshipToStructure" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">A ModelDataRelationshipFromEntityToStructure is a ModelDataRelationship
+with a domain that is a ModelDataRelationshipFromEntity
+and with a range that is a ModelDataRelationshipToStructure
+</p>
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.EntityUniversalRestrictionAxiom" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="EntityUniversalRestrictionAxiom&lt;:OMFtbox.this.EntityRestrictionAxiom"></a>
+      <a id="EntityUniversalRestrictionAxiom:EntityUniversalRestrictionAxiom"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">EntityUniversalRestrictionAxiom</span><span class="result"> &lt;: <a href="#EntityRestrictionAxiom&lt;:OMFtbox.this.TermAxiom" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.EntityRestrictionAxiom">EntityRestrictionAxiom</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@EntityUniversalRestrictionAxiom&lt;:OMFtbox.this.EntityRestrictionAxiom" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">An EntityDefinitionUniversalRestrictionAxiom is a ModelTermAxiom assertion about
+constraining a ModelEntityReifiedRelationship
+for objects of a sub-domain ModelEntityDefinition
+to be related to only a restricted sub-range ModelEntityDefinition.</p>
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.IRIScalarRestriction" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="IRIScalarRestriction&lt;:OMFtbox.this.RestrictedDataRange"></a>
+      <a id="IRIScalarRestriction:IRIScalarRestriction"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">IRIScalarRestriction</span><span class="result"> &lt;: <a href="#RestrictedDataRange&lt;:OMFtbox.this.DataRange" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.RestrictedDataRange">RestrictedDataRange</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@IRIScalarRestriction&lt;:OMFtbox.this.RestrictedDataRange" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.ImmutableBundle" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="ImmutableBundle&lt;:OMFtbox.this.ImmutableTerminologyBoxwithOMFtbox.this.Bundle"></a>
+      <a id="ImmutableBundle:ImmutableBundle"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">ImmutableBundle</span><span class="result"> &lt;: <a href="#ImmutableTerminologyBox&lt;:OMFtbox.this.TerminologyBox" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ImmutableTerminologyBox">ImmutableTerminologyBox</a> with <a href="#Bundle&lt;:OMFtbox.this.TerminologyBox" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.Bundle">Bundle</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@ImmutableBundle&lt;:OMFtbox.this.ImmutableTerminologyBoxwithOMFtbox.this.Bundle" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.ImmutableTerminologyBox" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="ImmutableTerminologyBox&lt;:OMFtbox.this.TerminologyBox"></a>
+      <a id="ImmutableTerminologyBox:ImmutableTerminologyBox"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">ImmutableTerminologyBox</span><span class="result"> &lt;: <a href="#TerminologyBox&lt;:OMFtbox.this.TerminologyThingwithOMFtbox.this.Resource" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.TerminologyBox">TerminologyBox</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@ImmutableTerminologyBox&lt;:OMFtbox.this.TerminologyBox" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.ImmutableTerminologyGraph" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="ImmutableTerminologyGraph&lt;:OMFtbox.this.ImmutableTerminologyBoxwithOMFtbox.this.TerminologyGraph"></a>
+      <a id="ImmutableTerminologyGraph:ImmutableTerminologyGraph"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">ImmutableTerminologyGraph</span><span class="result"> &lt;: <a href="#ImmutableTerminologyBox&lt;:OMFtbox.this.TerminologyBox" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ImmutableTerminologyBox">ImmutableTerminologyBox</a> with <a href="#TerminologyGraph&lt;:OMFtbox.this.TerminologyBox" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.TerminologyGraph">TerminologyGraph</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@ImmutableTerminologyGraph&lt;:OMFtbox.this.ImmutableTerminologyBoxwithOMFtbox.this.TerminologyGraph" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.Mutable2ImmutableTerminologyMap" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="Mutable2ImmutableTerminologyMap&lt;:scala.collection.immutable.Map[OMFtbox.this.MutableTerminologyBox,OMFtbox.this.ImmutableTerminologyBox]"></a>
+      <a id="Mutable2ImmutableTerminologyMap:Mutable2ImmutableTerminologyMap"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">Mutable2ImmutableTerminologyMap</span><span class="result"> &lt;: <span class="extype" name="scala.collection.immutable.Map">Map</span>[<a href="#MutableTerminologyBox&lt;:OMFtbox.this.TerminologyBox" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.MutableTerminologyBox">MutableTerminologyBox</a>, <a href="#ImmutableTerminologyBox&lt;:OMFtbox.this.TerminologyBox" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ImmutableTerminologyBox">ImmutableTerminologyBox</a>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@Mutable2ImmutableTerminologyMap&lt;:scala.collection.immutable.Map[OMFtbox.this.MutableTerminologyBox,OMFtbox.this.ImmutableTerminologyBox]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.MutableBundle" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="MutableBundle&lt;:OMFtbox.this.MutableTerminologyBoxwithOMFtbox.this.Bundle"></a>
+      <a id="MutableBundle:MutableBundle"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">MutableBundle</span><span class="result"> &lt;: <a href="#MutableTerminologyBox&lt;:OMFtbox.this.TerminologyBox" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.MutableTerminologyBox">MutableTerminologyBox</a> with <a href="#Bundle&lt;:OMFtbox.this.TerminologyBox" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.Bundle">Bundle</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@MutableBundle&lt;:OMFtbox.this.MutableTerminologyBoxwithOMFtbox.this.Bundle" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.MutableTerminologyBox" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="MutableTerminologyBox&lt;:OMFtbox.this.TerminologyBox"></a>
+      <a id="MutableTerminologyBox:MutableTerminologyBox"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">MutableTerminologyBox</span><span class="result"> &lt;: <a href="#TerminologyBox&lt;:OMFtbox.this.TerminologyThingwithOMFtbox.this.Resource" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.TerminologyBox">TerminologyBox</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@MutableTerminologyBox&lt;:OMFtbox.this.TerminologyBox" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.MutableTerminologyGraph" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="MutableTerminologyGraph&lt;:OMFtbox.this.MutableTerminologyBoxwithOMFtbox.this.TerminologyGraph"></a>
+      <a id="MutableTerminologyGraph:MutableTerminologyGraph"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">MutableTerminologyGraph</span><span class="result"> &lt;: <a href="#MutableTerminologyBox&lt;:OMFtbox.this.TerminologyBox" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.MutableTerminologyBox">MutableTerminologyBox</a> with <a href="#TerminologyGraph&lt;:OMFtbox.this.TerminologyBox" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.TerminologyGraph">TerminologyGraph</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@MutableTerminologyGraph&lt;:OMFtbox.this.MutableTerminologyBoxwithOMFtbox.this.TerminologyGraph" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.NumericScalarRestriction" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="NumericScalarRestriction&lt;:OMFtbox.this.RestrictedDataRange"></a>
+      <a id="NumericScalarRestriction:NumericScalarRestriction"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">NumericScalarRestriction</span><span class="result"> &lt;: <a href="#RestrictedDataRange&lt;:OMFtbox.this.DataRange" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.RestrictedDataRange">RestrictedDataRange</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@NumericScalarRestriction&lt;:OMFtbox.this.RestrictedDataRange" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.PlainLiteralScalarRestriction" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="PlainLiteralScalarRestriction&lt;:OMFtbox.this.RestrictedDataRange"></a>
+      <a id="PlainLiteralScalarRestriction:PlainLiteralScalarRestriction"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">PlainLiteralScalarRestriction</span><span class="result"> &lt;: <a href="#RestrictedDataRange&lt;:OMFtbox.this.DataRange" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.RestrictedDataRange">RestrictedDataRange</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@PlainLiteralScalarRestriction&lt;:OMFtbox.this.RestrictedDataRange" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.ReifiedRelationship" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="ReifiedRelationship&lt;:OMFtbox.this.EntityRelationshipwithOMFtbox.this.Entity"></a>
+      <a id="ReifiedRelationship:ReifiedRelationship"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">ReifiedRelationship</span><span class="result"> &lt;: <a href="#EntityRelationship&lt;:OMFtbox.this.Term" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.EntityRelationship">EntityRelationship</a> with <a href="#Entity&lt;:OMFtbox.this.Term" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.Entity">Entity</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@ReifiedRelationship&lt;:OMFtbox.this.EntityRelationshipwithOMFtbox.this.Entity" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <p class="shortcomment cmt">A ModelEntityReifiedRelationship defines a binary, directed relationship in the conceptual modeling of a domain.</p><div class="fullcomment"><div class="comment cmt"><p>A ModelEntityReifiedRelationship defines a binary, directed relationship in the conceptual modeling of a domain.</p><p>The relationship domain (aka source) and range (aka target) can be any kind of ModelEntityDefinition
 </p></div></div>
-    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelEntityUnreifiedRelationship" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
-      <a id="ModelEntityUnreifiedRelationship&lt;:OMFtbox.this.ModelTypeTerm"></a>
-      <a id="ModelEntityUnreifiedRelationship:ModelEntityUnreifiedRelationship"></a>
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.ReifiedRelationshipSpecializationAxiom" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="ReifiedRelationshipSpecializationAxiom&lt;:OMFtbox.this.SpecializationAxiom"></a>
+      <a id="ReifiedRelationshipSpecializationAxiom:ReifiedRelationshipSpecializationAxiom"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">abstract </span>
         <span class="kind">type</span>
       </span>
       <span class="symbol">
-        <span class="name">ModelEntityUnreifiedRelationship</span><span class="result"> &lt;: <a href="#ModelTypeTerm" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelTypeTerm">ModelTypeTerm</a></span>
+        <span class="name">ReifiedRelationshipSpecializationAxiom</span><span class="result"> &lt;: <a href="#SpecializationAxiom&lt;:OMFtbox.this.TermAxiom" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.SpecializationAxiom">SpecializationAxiom</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@ModelEntityUnreifiedRelationship&lt;:OMFtbox.this.ModelTypeTerm" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@ReifiedRelationshipSpecializationAxiom&lt;:OMFtbox.this.SpecializationAxiom" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">An EntityReifiedRelationshipSubClassAxiom is a ModelTermAxiom assertion about
+a subclass/superclass relationship between two ModelEntityReifiedRelationships
+</p>
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.Resource" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="Resource"></a>
+      <a id="Resource:Resource"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">Resource</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@Resource" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       
-    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelScalarDataRelationshipRestrictionAxiomFromEntityToLiteral" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
-      <a id="ModelScalarDataRelationshipRestrictionAxiomFromEntityToLiteral&lt;:OMFtbox.this.ModelTermAxiom"></a>
-      <a id="ModelScalarDataRelationshipRestrictionAxiomFromEntityToLiteral:ModelScalarDataRelationshipRestrictionAxiomFromEntityToLiteral"></a>
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.RestrictedDataRange" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="RestrictedDataRange&lt;:OMFtbox.this.DataRange"></a>
+      <a id="RestrictedDataRange:RestrictedDataRange"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">abstract </span>
         <span class="kind">type</span>
       </span>
       <span class="symbol">
-        <span class="name">ModelScalarDataRelationshipRestrictionAxiomFromEntityToLiteral</span><span class="result"> &lt;: <a href="#ModelTermAxiom" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelTermAxiom">ModelTermAxiom</a></span>
+        <span class="name">RestrictedDataRange</span><span class="result"> &lt;: <a href="#DataRange&lt;:OMFtbox.this.Datatype" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">DataRange</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@ModelScalarDataRelationshipRestrictionAxiomFromEntityToLiteral&lt;:OMFtbox.this.ModelTermAxiom" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@RestrictedDataRange&lt;:OMFtbox.this.DataRange" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">A ModelScalarDataRelationshipRestrictionAxiomFromEntityToLiteral is a ModelTermAxiom assertion
-about a ModelEntityDefinition that is in the domain of a ModelDataRelationshipFromEntityToScalar
-with a range restricted to be exactly a singleton set of one literal value.</p>
-    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelScalarDataType" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
-      <a id="ModelScalarDataType&lt;:OMFtbox.this.ModelDataTypeDefinition"></a>
-      <a id="ModelScalarDataType:ModelScalarDataType"></a>
+      
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.RootConceptTaxonomyAxiom" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="RootConceptTaxonomyAxiom&lt;:OMFtbox.this.TerminologyBundleStatementwithOMFtbox.this.ConceptTreeDisjunction"></a>
+      <a id="RootConceptTaxonomyAxiom:RootConceptTaxonomyAxiom"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">abstract </span>
         <span class="kind">type</span>
       </span>
       <span class="symbol">
-        <span class="name">ModelScalarDataType</span><span class="result"> &lt;: <a href="#ModelDataTypeDefinition&lt;:OMFtbox.this.ModelTypeTerm" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelDataTypeDefinition">ModelDataTypeDefinition</a></span>
+        <span class="name">RootConceptTaxonomyAxiom</span><span class="result"> &lt;: <a href="#TerminologyBundleStatement&lt;:OMFtbox.this.TerminologyStatement" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.TerminologyBundleStatement">TerminologyBundleStatement</a> with <a href="#ConceptTreeDisjunction" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ConceptTreeDisjunction">ConceptTreeDisjunction</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@ModelScalarDataType&lt;:OMFtbox.this.ModelDataTypeDefinition" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@RootConceptTaxonomyAxiom&lt;:OMFtbox.this.TerminologyBundleStatementwithOMFtbox.this.ConceptTreeDisjunction" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.Scalar" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="Scalar&lt;:OMFtbox.this.DataRange"></a>
+      <a id="Scalar:Scalar"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">Scalar</span><span class="result"> &lt;: <a href="#DataRange&lt;:OMFtbox.this.Datatype" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">DataRange</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@Scalar&lt;:OMFtbox.this.DataRange" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -623,19 +974,124 @@ in the sense that a scala datatype is 'atomic' in the sense of XML Schema 1.1 Da
 The value semantics of a ModelScalarDataType follows XML Schema 1.1 DataTypes, that is, it is simply
 the equality of the lexical representation of a value of a ModelScalarDataType.
 </p></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>http://www.w3.org/TR/xmlschema11-2/#anyAtomicType</p></span></dd></dl></div>
-    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelStructuredDataType" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
-      <a id="ModelStructuredDataType&lt;:OMFtbox.this.ModelDataTypeDefinition"></a>
-      <a id="ModelStructuredDataType:ModelStructuredDataType"></a>
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.ScalarDataProperty" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="ScalarDataProperty&lt;:OMFtbox.this.DataRelationshipwithOMFtbox.this.DataRelationshipFromStructurewithOMFtbox.this.DataRelationshipToScalar"></a>
+      <a id="ScalarDataProperty:ScalarDataProperty"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">abstract </span>
         <span class="kind">type</span>
       </span>
       <span class="symbol">
-        <span class="name">ModelStructuredDataType</span><span class="result"> &lt;: <a href="#ModelDataTypeDefinition&lt;:OMFtbox.this.ModelTypeTerm" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelDataTypeDefinition">ModelDataTypeDefinition</a></span>
+        <span class="name">ScalarDataProperty</span><span class="result"> &lt;: <a href="#DataRelationship&lt;:OMFtbox.this.Term" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRelationship">DataRelationship</a> with <a href="#DataRelationshipFromStructure&lt;:OMFtbox.this.DataRelationshipDomain" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRelationshipFromStructure">DataRelationshipFromStructure</a> with <a href="#DataRelationshipToScalar&lt;:OMFtbox.this.DataRelationshipRange" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRelationshipToScalar">DataRelationshipToScalar</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@ModelStructuredDataType&lt;:OMFtbox.this.ModelDataTypeDefinition" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@ScalarDataProperty&lt;:OMFtbox.this.DataRelationshipwithOMFtbox.this.DataRelationshipFromStructurewithOMFtbox.this.DataRelationshipToScalar" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">A ModelDataRelationshipFromStructureToScalar is a ModelDataRelationship
+with a domain that is a ModelDataRelationshipFromStructure
+and with a range that is a ModelDataRelationshipToScalar
+</p>
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.ScalarOneOfLiteralAxiom" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="ScalarOneOfLiteralAxiom&lt;:OMFtbox.this.Axiom"></a>
+      <a id="ScalarOneOfLiteralAxiom:ScalarOneOfLiteralAxiom"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">ScalarOneOfLiteralAxiom</span><span class="result"> &lt;: <a href="#Axiom&lt;:OMFtbox.this.TerminologyBoxStatement" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.Axiom">Axiom</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@ScalarOneOfLiteralAxiom&lt;:OMFtbox.this.Axiom" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.ScalarOneOfRestriction" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="ScalarOneOfRestriction&lt;:OMFtbox.this.RestrictedDataRange"></a>
+      <a id="ScalarOneOfRestriction:ScalarOneOfRestriction"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">ScalarOneOfRestriction</span><span class="result"> &lt;: <a href="#RestrictedDataRange&lt;:OMFtbox.this.DataRange" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.RestrictedDataRange">RestrictedDataRange</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@ScalarOneOfRestriction&lt;:OMFtbox.this.RestrictedDataRange" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.SpecializationAxiom" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="SpecializationAxiom&lt;:OMFtbox.this.TermAxiom"></a>
+      <a id="SpecializationAxiom:SpecializationAxiom"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">SpecializationAxiom</span><span class="result"> &lt;: <a href="#TermAxiom&lt;:OMFtbox.this.Axiom" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.TermAxiom">TermAxiom</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@SpecializationAxiom&lt;:OMFtbox.this.TermAxiom" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.SpecificDisjointConceptAxiom" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="SpecificDisjointConceptAxiom&lt;:OMFtbox.this.DisjointUnionOfConceptsAxiom"></a>
+      <a id="SpecificDisjointConceptAxiom:SpecificDisjointConceptAxiom"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">SpecificDisjointConceptAxiom</span><span class="result"> &lt;: <a href="#DisjointUnionOfConceptsAxiom&lt;:OMFtbox.this.TerminologyBundleStatement" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DisjointUnionOfConceptsAxiom">DisjointUnionOfConceptsAxiom</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@SpecificDisjointConceptAxiom&lt;:OMFtbox.this.DisjointUnionOfConceptsAxiom" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.StringScalarRestriction" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="StringScalarRestriction&lt;:OMFtbox.this.RestrictedDataRange"></a>
+      <a id="StringScalarRestriction:StringScalarRestriction"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">StringScalarRestriction</span><span class="result"> &lt;: <a href="#RestrictedDataRange&lt;:OMFtbox.this.DataRange" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.RestrictedDataRange">RestrictedDataRange</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@StringScalarRestriction&lt;:OMFtbox.this.RestrictedDataRange" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.Structure" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="Structure&lt;:OMFtbox.this.Datatype"></a>
+      <a id="Structure:Structure"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">Structure</span><span class="result"> &lt;: <a href="#Datatype&lt;:OMFtbox.this.Term" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.Datatype">Datatype</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@Structure&lt;:OMFtbox.this.Datatype" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -643,55 +1099,56 @@ the equality of the lexical representation of a value of a ModelScalarDataType.
 in the sense that a structured datatype is defined only in terms of ModelDataRelationships
 to other ModelDataTypeDefinitions and that the value semantics of a structured datatype
 is based on the equality of the value of its ModelDataRelationships.</p>
-    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelTermAxiom" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
-      <a id="ModelTermAxiom"></a>
-      <a id="ModelTermAxiom:ModelTermAxiom"></a>
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.StructuredDataProperty" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="StructuredDataProperty&lt;:OMFtbox.this.DataRelationshipwithOMFtbox.this.DataRelationshipFromStructurewithOMFtbox.this.DataRelationshipToStructure"></a>
+      <a id="StructuredDataProperty:StructuredDataProperty"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">abstract </span>
         <span class="kind">type</span>
       </span>
       <span class="symbol">
-        <span class="name">ModelTermAxiom</span>
+        <span class="name">StructuredDataProperty</span><span class="result"> &lt;: <a href="#DataRelationship&lt;:OMFtbox.this.Term" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRelationship">DataRelationship</a> with <a href="#DataRelationshipFromStructure&lt;:OMFtbox.this.DataRelationshipDomain" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRelationshipFromStructure">DataRelationshipFromStructure</a> with <a href="#DataRelationshipToStructure&lt;:OMFtbox.this.DataRelationshipRange" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRelationshipToStructure">DataRelationshipToStructure</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@ModelTermAxiom" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@StructuredDataProperty&lt;:OMFtbox.this.DataRelationshipwithOMFtbox.this.DataRelationshipFromStructurewithOMFtbox.this.DataRelationshipToStructure" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">A ModelTermAxiom is the abstraction for statements about
-ModelTypeTerms in an ModelTerminologyGraph
+      <p class="shortcomment cmt">A ModelDataRelationshipFromStructureToStructure is a ModelDataRelationship
+with a domain that is a ModelDataRelationshipFromStructure
+and with a range that is a ModelDataRelationshipToStructure
 </p>
-    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelTerminologyGraph" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
-      <a id="ModelTerminologyGraph"></a>
-      <a id="ModelTerminologyGraph:ModelTerminologyGraph"></a>
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.SynonymScalarRestriction" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="SynonymScalarRestriction&lt;:OMFtbox.this.RestrictedDataRange"></a>
+      <a id="SynonymScalarRestriction:SynonymScalarRestriction"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">abstract </span>
         <span class="kind">type</span>
       </span>
       <span class="symbol">
-        <span class="name">ModelTerminologyGraph</span>
+        <span class="name">SynonymScalarRestriction</span><span class="result"> &lt;: <a href="#RestrictedDataRange&lt;:OMFtbox.this.DataRange" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.RestrictedDataRange">RestrictedDataRange</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@ModelTerminologyGraph" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@SynonymScalarRestriction&lt;:OMFtbox.this.RestrictedDataRange" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">In OMF, the specification of the conceptual model of a domain is defined in a TBox graph.</p>
-    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelTypeTerm" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
-      <a id="ModelTypeTerm"></a>
-      <a id="ModelTypeTerm:ModelTypeTerm"></a>
+      
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.Term" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="Term&lt;:OMFtbox.this.TerminologyBoxStatementwithOMFtbox.this.Resource"></a>
+      <a id="Term:Term"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">abstract </span>
         <span class="kind">type</span>
       </span>
       <span class="symbol">
-        <span class="name">ModelTypeTerm</span>
+        <span class="name">Term</span><span class="result"> &lt;: <a href="#TerminologyBoxStatement&lt;:OMFtbox.this.TerminologyStatement" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.TerminologyBoxStatement">TerminologyBoxStatement</a> with <a href="#Resource" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.Resource">Resource</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@ModelTypeTerm" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@Term&lt;:OMFtbox.this.TerminologyBoxStatementwithOMFtbox.this.Resource" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -701,100 +1158,157 @@ the vocabulary for the conceptual modeling of a domain in terms of data that has
 binary, directed relationships whose domain is either an entity or datatype and whose range is a datatype</p><p>- ModelEntityUnreifiedRelationship:
 binary, directed relationships whose domain &amp; range are entities and whose identity is the related objects
 </p></div></div>
-    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.Mutable2ImmutableTerminologyMap" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
-      <a id="Mutable2ImmutableTerminologyMap&lt;:scala.collection.immutable.Map[OMFtbox.this.MutableModelTerminologyGraph,OMFtbox.this.ImmutableModelTerminologyGraph]"></a>
-      <a id="Mutable2ImmutableTerminologyMap:Mutable2ImmutableTerminologyMap"></a>
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.TermAxiom" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="TermAxiom&lt;:OMFtbox.this.Axiom"></a>
+      <a id="TermAxiom:TermAxiom"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">abstract </span>
         <span class="kind">type</span>
       </span>
       <span class="symbol">
-        <span class="name">Mutable2ImmutableTerminologyMap</span><span class="result"> &lt;: <span class="extype" name="scala.collection.immutable.Map">Map</span>[<a href="#MutableModelTerminologyGraph&lt;:OMFtbox.this.ModelTerminologyGraph" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.MutableModelTerminologyGraph">MutableModelTerminologyGraph</a>, <a href="#ImmutableModelTerminologyGraph&lt;:OMFtbox.this.ModelTerminologyGraph" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ImmutableModelTerminologyGraph">ImmutableModelTerminologyGraph</a>]</span>
+        <span class="name">TermAxiom</span><span class="result"> &lt;: <a href="#Axiom&lt;:OMFtbox.this.TerminologyBoxStatement" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.Axiom">Axiom</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@Mutable2ImmutableTerminologyMap&lt;:scala.collection.immutable.Map[OMFtbox.this.MutableModelTerminologyGraph,OMFtbox.this.ImmutableModelTerminologyGraph]" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@TermAxiom&lt;:OMFtbox.this.Axiom" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       
-    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.MutableModelTerminologyGraph" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
-      <a id="MutableModelTerminologyGraph&lt;:OMFtbox.this.ModelTerminologyGraph"></a>
-      <a id="MutableModelTerminologyGraph:MutableModelTerminologyGraph"></a>
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.TerminologyAxiom" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="TerminologyAxiom&lt;:OMFtbox.this.TerminologyThing"></a>
+      <a id="TerminologyAxiom:TerminologyAxiom"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">abstract </span>
         <span class="kind">type</span>
       </span>
       <span class="symbol">
-        <span class="name">MutableModelTerminologyGraph</span><span class="result"> &lt;: <a href="#ModelTerminologyGraph" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelTerminologyGraph">ModelTerminologyGraph</a></span>
+        <span class="name">TerminologyAxiom</span><span class="result"> &lt;: <a href="#TerminologyThing" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.TerminologyThing">TerminologyThing</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@MutableModelTerminologyGraph&lt;:OMFtbox.this.ModelTerminologyGraph" title="Permalink" target="_top">
-        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      
-    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.ScalarDataTypeFacetRestrictionAxiom" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
-      <a id="ScalarDataTypeFacetRestrictionAxiom&lt;:OMFtbox.this.ModelTermAxiom"></a>
-      <a id="ScalarDataTypeFacetRestrictionAxiom:ScalarDataTypeFacetRestrictionAxiom"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier">abstract </span>
-        <span class="kind">type</span>
-      </span>
-      <span class="symbol">
-        <span class="name">ScalarDataTypeFacetRestrictionAxiom</span><span class="result"> &lt;: <a href="#ModelTermAxiom" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ModelTermAxiom">ModelTermAxiom</a></span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@ScalarDataTypeFacetRestrictionAxiom&lt;:OMFtbox.this.ModelTermAxiom" title="Permalink" target="_top">
-        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
-      </a>
-    </span>
-      <p class="shortcomment cmt">A ScalarDataTypeFacetRestrictionAxiom is a ModelTermAxiom assertion about
-a subtype/supertype relationship between two ModelScalarDataTypes according
-to one or more XML Schema 1.1 DataType facet restrictions:
-the value space of the subtype ModelScalarDataType is the subset of the supertype ModelScalarDataType
-such that a value from the value space of the supertype is in the value space of the subtype
-if and only if the value satisfies all the facet restrictions.</p><div class="fullcomment"><div class="comment cmt"><p>A ScalarDataTypeFacetRestrictionAxiom is a ModelTermAxiom assertion about
-a subtype/supertype relationship between two ModelScalarDataTypes according
-to one or more XML Schema 1.1 DataType facet restrictions:
-the value space of the subtype ModelScalarDataType is the subset of the supertype ModelScalarDataType
-such that a value from the value space of the supertype is in the value space of the subtype
-if and only if the value satisfies all the facet restrictions.
-</p></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>http://www.w3.org/TR/owl2-syntax/#Datatype_Restrictions</p></span><span class="cmt"><p>http://www.w3.org/TR/xmlschema11-2/#sec-datatypes-and-facets</p></span></dd></dl></div>
-    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.TerminologyGraphAxiom" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
-      <a id="TerminologyGraphAxiom"></a>
-      <a id="TerminologyGraphAxiom:TerminologyGraphAxiom"></a>
-      <h4 class="signature">
-      <span class="modifier_kind">
-        <span class="modifier">abstract </span>
-        <span class="kind">type</span>
-      </span>
-      <span class="symbol">
-        <span class="name">TerminologyGraphAxiom</span>
-      </span>
-      </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@TerminologyGraphAxiom" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@TerminologyAxiom&lt;:OMFtbox.this.TerminologyThing" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <p class="shortcomment cmt">A TerminologyGraphAxiom is the abstraction for statements about
 ModelTerminologyGraphs
 </p>
-    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.TerminologyGraphDirectExtensionAxiom" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
-      <a id="TerminologyGraphDirectExtensionAxiom&lt;:OMFtbox.this.TerminologyGraphAxiom"></a>
-      <a id="TerminologyGraphDirectExtensionAxiom:TerminologyGraphDirectExtensionAxiom"></a>
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.TerminologyBox" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="TerminologyBox&lt;:OMFtbox.this.TerminologyThingwithOMFtbox.this.Resource"></a>
+      <a id="TerminologyBox:TerminologyBox"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">abstract </span>
         <span class="kind">type</span>
       </span>
       <span class="symbol">
-        <span class="name">TerminologyGraphDirectExtensionAxiom</span><span class="result"> &lt;: <a href="#TerminologyGraphAxiom" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.TerminologyGraphAxiom">TerminologyGraphAxiom</a></span>
+        <span class="name">TerminologyBox</span><span class="result"> &lt;: <a href="#TerminologyThing" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.TerminologyThing">TerminologyThing</a> with <a href="#Resource" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.Resource">Resource</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@TerminologyGraphDirectExtensionAxiom&lt;:OMFtbox.this.TerminologyGraphAxiom" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@TerminologyBox&lt;:OMFtbox.this.TerminologyThingwithOMFtbox.this.Resource" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">In OMF, the specification of the conceptual model of a domain is defined in a TBox graph.</p>
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.TerminologyBoxAxiom" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="TerminologyBoxAxiom&lt;:OMFtbox.this.TerminologyAxiom"></a>
+      <a id="TerminologyBoxAxiom:TerminologyBoxAxiom"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">TerminologyBoxAxiom</span><span class="result"> &lt;: <a href="#TerminologyAxiom&lt;:OMFtbox.this.TerminologyThing" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.TerminologyAxiom">TerminologyAxiom</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@TerminologyBoxAxiom&lt;:OMFtbox.this.TerminologyAxiom" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.TerminologyBoxStatement" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="TerminologyBoxStatement&lt;:OMFtbox.this.TerminologyStatement"></a>
+      <a id="TerminologyBoxStatement:TerminologyBoxStatement"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">TerminologyBoxStatement</span><span class="result"> &lt;: <a href="#TerminologyStatement&lt;:OMFtbox.this.TerminologyThing" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.TerminologyStatement">TerminologyStatement</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@TerminologyBoxStatement&lt;:OMFtbox.this.TerminologyStatement" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.TerminologyBundleAxiom" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="TerminologyBundleAxiom&lt;:OMFtbox.this.TerminologyAxiom"></a>
+      <a id="TerminologyBundleAxiom:TerminologyBundleAxiom"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">TerminologyBundleAxiom</span><span class="result"> &lt;: <a href="#TerminologyAxiom&lt;:OMFtbox.this.TerminologyThing" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.TerminologyAxiom">TerminologyAxiom</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@TerminologyBundleAxiom&lt;:OMFtbox.this.TerminologyAxiom" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.TerminologyBundleStatement" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="TerminologyBundleStatement&lt;:OMFtbox.this.TerminologyStatement"></a>
+      <a id="TerminologyBundleStatement:TerminologyBundleStatement"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">TerminologyBundleStatement</span><span class="result"> &lt;: <a href="#TerminologyStatement&lt;:OMFtbox.this.TerminologyThing" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.TerminologyStatement">TerminologyStatement</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@TerminologyBundleStatement&lt;:OMFtbox.this.TerminologyStatement" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.TerminologyContext" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="TerminologyContext"></a>
+      <a id="TerminologyContext:TerminologyContext"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">TerminologyContext</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@TerminologyContext" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.TerminologyExtensionAxiom" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="TerminologyExtensionAxiom&lt;:OMFtbox.this.TerminologyBoxAxiom"></a>
+      <a id="TerminologyExtensionAxiom:TerminologyExtensionAxiom"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">TerminologyExtensionAxiom</span><span class="result"> &lt;: <a href="#TerminologyBoxAxiom&lt;:OMFtbox.this.TerminologyAxiom" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.TerminologyBoxAxiom">TerminologyBoxAxiom</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@TerminologyExtensionAxiom&lt;:OMFtbox.this.TerminologyBoxAxiom" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -826,19 +1340,36 @@ Then:
 G1 extends G2a,G3,G4
 G3 extends G4
 </p></div></div>
-    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.TerminologyGraphDirectNestingAxiom" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
-      <a id="TerminologyGraphDirectNestingAxiom&lt;:OMFtbox.this.TerminologyGraphAxiom"></a>
-      <a id="TerminologyGraphDirectNestingAxiom:TerminologyGraphDirectNestingAxiom"></a>
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.TerminologyGraph" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="TerminologyGraph&lt;:OMFtbox.this.TerminologyBox"></a>
+      <a id="TerminologyGraph:TerminologyGraph"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">abstract </span>
         <span class="kind">type</span>
       </span>
       <span class="symbol">
-        <span class="name">TerminologyGraphDirectNestingAxiom</span><span class="result"> &lt;: <a href="#TerminologyGraphAxiom" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.TerminologyGraphAxiom">TerminologyGraphAxiom</a></span>
+        <span class="name">TerminologyGraph</span><span class="result"> &lt;: <a href="#TerminologyBox&lt;:OMFtbox.this.TerminologyThingwithOMFtbox.this.Resource" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.TerminologyBox">TerminologyBox</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@TerminologyGraphDirectNestingAxiom&lt;:OMFtbox.this.TerminologyGraphAxiom" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@TerminologyGraph&lt;:OMFtbox.this.TerminologyBox" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.TerminologyNestingAxiom" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="TerminologyNestingAxiom&lt;:OMFtbox.this.TerminologyBoxAxiom"></a>
+      <a id="TerminologyNestingAxiom:TerminologyNestingAxiom"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">TerminologyNestingAxiom</span><span class="result"> &lt;: <a href="#TerminologyBoxAxiom&lt;:OMFtbox.this.TerminologyAxiom" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.TerminologyBoxAxiom">TerminologyBoxAxiom</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@TerminologyNestingAxiom&lt;:OMFtbox.this.TerminologyBoxAxiom" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -860,6 +1391,74 @@ G2 has nesting parents G3
 G2 has nested children G1
 G3 has nested children G1,G2
 </p></div></div>
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.TerminologyStatement" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="TerminologyStatement&lt;:OMFtbox.this.TerminologyThing"></a>
+      <a id="TerminologyStatement:TerminologyStatement"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">TerminologyStatement</span><span class="result"> &lt;: <a href="#TerminologyThing" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.TerminologyThing">TerminologyThing</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@TerminologyStatement&lt;:OMFtbox.this.TerminologyThing" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.TerminologyThing" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="TerminologyThing"></a>
+      <a id="TerminologyThing:TerminologyThing"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">TerminologyThing</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@TerminologyThing" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.TimeScalarRestriction" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="TimeScalarRestriction&lt;:OMFtbox.this.RestrictedDataRange"></a>
+      <a id="TimeScalarRestriction:TimeScalarRestriction"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">TimeScalarRestriction</span><span class="result"> &lt;: <a href="#RestrictedDataRange&lt;:OMFtbox.this.DataRange" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.RestrictedDataRange">RestrictedDataRange</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@TimeScalarRestriction&lt;:OMFtbox.this.RestrictedDataRange" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.UnreifiedRelationship" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="UnreifiedRelationship&lt;:OMFtbox.this.EntityRelationship"></a>
+      <a id="UnreifiedRelationship:UnreifiedRelationship"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">UnreifiedRelationship</span><span class="result"> &lt;: <a href="#EntityRelationship&lt;:OMFtbox.this.Term" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.EntityRelationship">EntityRelationship</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@UnreifiedRelationship&lt;:OMFtbox.this.EntityRelationship" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
     </li></ol>
             </div>
 
