@@ -48,7 +48,7 @@ lazy val core = Project("omf-scala-core", file("."))
     resolvers += Resolver.bintrayRepo("tiwg", "org.omg.tiwg"),
 
     resolvers += "Artima Maven Repository" at "http://repo.artima.com/releases",
-    scalacOptions += s"-P:artima-supersafe:config-file:${baseDirectory.value}/project/supersafe.cfg",
+    scalacOptions in (Compile, compile) += s"-P:artima-supersafe:config-file:${baseDirectory.value}/project/supersafe.cfg",
     scalacOptions in (Compile, doc) += "-Xplugin-disable:artima-supersafe"
   )
   .dependsOnSourceProjectOrLibraryArtifacts(
