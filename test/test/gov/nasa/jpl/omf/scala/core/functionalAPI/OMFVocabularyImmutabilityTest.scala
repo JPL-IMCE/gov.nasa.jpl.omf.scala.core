@@ -218,6 +218,8 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF]
 
         val systemSaved = saveTerminology(system)
         systemSaved.isRight should equal(true)
+
+        ()
       }
     }
 
@@ -379,6 +381,8 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF]
           )(ax)
         }
         s2Restrictions.size should be(1)
+
+        ()
       }
     }
   }

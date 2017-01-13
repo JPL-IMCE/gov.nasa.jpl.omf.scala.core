@@ -262,6 +262,8 @@ abstract class OMFNestedGraphTest[omf <: OMF]
         lookupNestingAxiomsForNestingContext(nestingC = function).isEmpty should be(true)
         lookupNestingAxiomsForNestingContext(nestingC = g_authorizes_p1).contains(g_nests_p1) should be(true)
         lookupNestingAxiomsForNestingContext(nestingC = g_authorizes_p2).contains(g_nests_p2) should be(true)
+
+        ()
       }
 
     }
@@ -360,6 +362,8 @@ abstract class OMFNestedGraphTest[omf <: OMF]
         lookupNestingAxiomsForNestingContext(nestingC = function.get).isEmpty should be(true)
         lookupNestingAxiomsForNestingContext(nestingC = g_authorizes_p1.get).nonEmpty should be(true)
         lookupNestingAxiomsForNestingContext(nestingC = g_authorizes_p2.get).nonEmpty should be(true)
+
+        ()
       }
 
     }

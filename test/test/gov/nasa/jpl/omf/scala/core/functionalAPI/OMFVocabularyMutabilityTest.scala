@@ -156,6 +156,7 @@ abstract class OMFVocabularyMutabilityTest[omf <: OMF]
         integer.isDefined should be(true)
         string.isDefined should be(true)
 
+        ()
       }
     }
 
@@ -243,6 +244,8 @@ abstract class OMFVocabularyMutabilityTest[omf <: OMF]
         component_performs_function_info.source should be(component.get)
         component_performs_function_info.target should be(function.get)
         component_performs_function_info.isAbstract should be(false)
+
+        ()
       }
     }
 
