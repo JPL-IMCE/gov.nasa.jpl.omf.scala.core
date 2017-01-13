@@ -589,6 +589,7 @@ trait ImmutableTerminologyGraphOps[omf <: OMF] { self: OMFStoreOps[omf] with IRI
    funIRIScalarRestriction: omf#IRIScalarRestriction => T,
    funPlainLiteralScalarRestriction: omf#PlainLiteralScalarRestriction => T,
    funStringScalarRestriction: omf#StringScalarRestriction => T,
+   funSynonymScalarRestriction: omf#SynonymScalarRestriction => T,
    funTimeScalarRestriction: omf#TimeScalarRestriction => T,
    funEntityScalarDataProperty: omf#EntityScalarDataProperty => T,
    funEntityStructuredDataProperty: omf#EntityStructuredDataProperty => T,
