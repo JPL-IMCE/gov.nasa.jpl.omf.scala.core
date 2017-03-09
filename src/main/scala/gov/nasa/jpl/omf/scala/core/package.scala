@@ -22,7 +22,7 @@ import java.util.UUID
 
 import com.fasterxml.uuid.Generators
 import com.fasterxml.uuid.impl.NameBasedGenerator
-import gov.nasa.jpl.imce.omf.schema.tables.{Annotation, AnnotationProperty}
+import gov.nasa.jpl.imce.oml.tables.{AnnotationEntry, AnnotationProperty}
 
 import scala.{Boolean,Int,Ordering}
 import scala.collection.immutable._
@@ -41,12 +41,12 @@ package object core {
   }
 
   implicit def annotationOrdering
-  : Ordering[Annotation]
-  = new Ordering[Annotation] {
+  : Ordering[AnnotationEntry]
+  = new Ordering[AnnotationEntry] {
 
-    def compare(x: Annotation, y: Annotation)
+    def compare(x: AnnotationEntry, y: AnnotationEntry)
     : Int
-    = x.terminologyUUID.compareTo(y.terminologyUUID) match {
+    = x.moduleUUID.compareTo(y.moduleUUID) match {
       case c if 0 != c =>
         c
       case 0 =>

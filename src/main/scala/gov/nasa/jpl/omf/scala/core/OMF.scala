@@ -20,7 +20,7 @@ package gov.nasa.jpl.omf.scala.core
 
 import java.util.UUID
 
-import gov.nasa.jpl.imce.omf.schema.tables.{Annotation, AnnotationProperty, LocalName}
+import gov.nasa.jpl.imce.oml.tables.{AnnotationEntry, AnnotationProperty, LocalName}
 import gov.nasa.jpl.omf.scala.core.RelationshipCharacteristics._
 
 import scala.collection.immutable.{Iterable, Map, Seq}
@@ -638,7 +638,7 @@ trait TerminologySignature[omf <: OMF] {
   val aTAxioms: Iterable[omf#AnonymousConceptTaxonomyAxiom]
   val sTAxioms: Iterable[omf#SpecificDisjointConceptAxiom]
 
-  val annotations: Map[AnnotationProperty, Seq[Annotation]]
+  val annotations: Map[AnnotationProperty, Seq[AnnotationEntry]]
 }
 
 
@@ -693,6 +693,7 @@ trait EntityScalarDataPropertySignature[omf <: OMF] {
   val iri: omf#IRI
   val domain: omf#Entity
   val range: omf#DataRange
+  val isIdentityCriteria: Boolean
 }
 
 trait EntityStructuredDataPropertySignature[omf <: OMF] {
@@ -701,6 +702,7 @@ trait EntityStructuredDataPropertySignature[omf <: OMF] {
   val iri: omf#IRI
   val domain: omf#Entity
   val range: omf#Structure
+  val isIdentityCriteria: Boolean
 }
 
 trait ScalarDataPropertySignature[omf <: OMF] {
@@ -804,7 +806,7 @@ trait PlainLiteralScalarRestrictionSignature[omf <: OMF] {
   val minLength: Option[Int]
   val maxLength: Option[Int]
   val pattern: Option[String]
-  val language: Option[String]
+  val langRange: Option[String]
   val restrictedRange: omf#DataRange
 }
 

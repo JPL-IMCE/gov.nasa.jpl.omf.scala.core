@@ -21,7 +21,7 @@ package gov.nasa.jpl.omf.scala.core
 import java.io.File
 import java.util.UUID
 
-import gov.nasa.jpl.imce.omf.schema.tables.{Annotation, AnnotationProperty, LexicalValue, LocalName}
+import gov.nasa.jpl.imce.oml.tables.{AnnotationEntry, AnnotationProperty, LexicalValue, LocalName}
 import gov.nasa.jpl.omf.scala.core.RelationshipCharacteristics._
 
 import scala.{Boolean, Int, None, Option, Some, StringContext, Unit}
@@ -486,7 +486,7 @@ trait ImmutableTerminologyGraphOps[omf <: OMF] { self: OMFStoreOps[omf] with IRI
 
   def getAnnotations
   (graph: omf#TerminologyBox)
-  : Map[AnnotationProperty, Seq[Annotation]]
+  : Map[AnnotationProperty, Seq[AnnotationEntry]]
 
   def getTerminologyName
   (graph: omf#TerminologyBox)
@@ -853,14 +853,14 @@ trait MutableTerminologyGraphOps[omf <: OMF]
    property: AnnotationProperty,
    value: String)
   (implicit store: omf#Store)
-  : Set[java.lang.Throwable] \/ Annotation
+  : Set[java.lang.Throwable] \/ AnnotationEntry
 
   def removeAnnotations
   (graph: omf#MutableTerminologyBox,
    subject: omf#TerminologyThing,
    property: AnnotationProperty)
   (implicit store: omf#Store)
-  : Set[java.lang.Throwable] \/ Seq[Annotation]
+  : Set[java.lang.Throwable] \/ Seq[AnnotationEntry]
 
   /**
     * Add to a terminology graph a new OMF Aspect.

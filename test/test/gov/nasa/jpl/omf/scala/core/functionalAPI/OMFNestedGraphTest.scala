@@ -19,7 +19,7 @@
 package test.gov.nasa.jpl.omf.scala.core.functionalAPI
 
 import java.io.File
-import gov.nasa.jpl.imce.omf.schema.tables.OMFSchemaTables
+import gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables
 import gov.nasa.jpl.omf.scala.core._
 import gov.nasa.jpl.omf.scala.core.RelationshipCharacteristics._
 import gov.nasa.jpl.omf.scala.core.TerminologyKind._
@@ -237,8 +237,8 @@ abstract class OMFNestedGraphTest[omf <: OMF]
 
         _ = java.nio.file.Files.createDirectories(tablesFile.getParentFile.toPath)
 
-        _ <- OMFSchemaTables
-          .saveOMFSchemaTables(tables, tablesFile)
+        _ <- OMLSpecificationTables
+          .saveOMLSpecificationTables(tables, tablesFile)
           .toDisjunction
           .leftMap(Set[java.lang.Throwable](_))
 
@@ -335,8 +335,8 @@ abstract class OMFNestedGraphTest[omf <: OMF]
 
         _ = java.nio.file.Files.createDirectories(tablesFile.getParentFile.toPath)
 
-        _ <- OMFSchemaTables
-          .saveOMFSchemaTables(tables, tablesFile)
+        _ <- OMLSpecificationTables
+          .saveOMLSpecificationTables(tables, tablesFile)
           .toDisjunction
           .leftMap(Set[java.lang.Throwable](_))
 
