@@ -908,7 +908,6 @@ trait MutableTerminologyGraphOps[omf <: OMF]
     * @param graph
     * @param uuid
     * @param conceptName
-    * @param isAbstract
     * @param store
     * @return
     */
@@ -916,8 +915,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   (graph: omf#MutableTerminologyBox,
    uuid: UUID,
    iri: omf#IRI,
-   conceptName: LocalName,
-   isAbstract: Boolean)
+   conceptName: LocalName)
   (implicit store: omf#Store)
   : Set[java.lang.Throwable] \/ omf#Concept
 
@@ -929,18 +927,16 @@ trait MutableTerminologyGraphOps[omf <: OMF]
     *
     * @param graph       : a terminology graph
     * @param conceptName : the name of a new entity concept
-    * @param isAbstract  : boolean flag
     */
   final def addConcept
   (graph: omf#MutableTerminologyBox,
-   conceptName: LocalName,
-   isAbstract: Boolean)
+   conceptName: LocalName)
   (implicit store: omf#Store)
   : Set[java.lang.Throwable] \/ omf#Concept
   = for {
     iri <- withFragment(getTerminologyIRI(graph), conceptName)
     uuid = generateUUID(fromIRI(iri))
-    ax <- addConcept(graph, uuid, iri, conceptName, isAbstract)
+    ax <- addConcept(graph, uuid, iri, conceptName)
   } yield ax
 
   /**
@@ -956,7 +952,6 @@ trait MutableTerminologyGraphOps[omf <: OMF]
     * @param reifiedRelationshipName
     * @param unreifiedRelationshipName
     * @param unreifiedInverseRelationshipName
-    * @param isAbstract
     * @param store
     * @return
     */
@@ -969,8 +964,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
    characteristics: Iterable[RelationshipCharacteristics],
    reifiedRelationshipName: LocalName,
    unreifiedRelationshipName: LocalName,
-   unreifiedInverseRelationshipName: Option[LocalName],
-   isAbstract: Boolean)
+   unreifiedInverseRelationshipName: Option[LocalName])
   (implicit store: omf#Store)
   : Set[java.lang.Throwable] \/ omf#ReifiedRelationship
 
@@ -993,7 +987,6 @@ trait MutableTerminologyGraphOps[omf <: OMF]
     * @param unreifiedInverseRelationshipName if applicable, the name of the entity relationship from
     *                                         the perspective of a directed inverse property
     *                                         from the target to the source
-    * @param isAbstract                       boolean flag
     */
   final def addReifiedRelationship
   (graph: omf#MutableTerminologyBox,
@@ -1002,8 +995,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
    characteristics: Iterable[RelationshipCharacteristics],
    reifiedRelationshipName: LocalName,
    unreifiedRelationshipName: LocalName,
-   unreifiedInverseRelationshipName: Option[LocalName],
-   isAbstract: Boolean)
+   unreifiedInverseRelationshipName: Option[LocalName])
   (implicit store: omf#Store)
   : Set[java.lang.Throwable] \/ omf#ReifiedRelationship
   = for {
@@ -1011,8 +1003,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
     uuid = generateUUID(fromIRI(iri))
     ax <- addReifiedRelationship(
       graph, uuid, iri, source, target, characteristics,
-      reifiedRelationshipName, unreifiedRelationshipName, unreifiedInverseRelationshipName,
-      isAbstract)
+      reifiedRelationshipName, unreifiedRelationshipName, unreifiedInverseRelationshipName)
   } yield ax
 
   /**

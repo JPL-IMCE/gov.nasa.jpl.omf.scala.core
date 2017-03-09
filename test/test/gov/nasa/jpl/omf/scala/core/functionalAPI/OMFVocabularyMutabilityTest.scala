@@ -120,12 +120,12 @@ abstract class OMFVocabularyMutabilityTest[omf <: OMF]
         mission_iri <- makeIRI("http://imce.jpl.nasa.gov/test/mutability/foundation/mission/mission")
         mission <- makeTerminologyGraph(mission_iri, isDefinition)
         mission_extends_base <- addTerminologyExtension(mission, base)
-        component <- addConcept(mission, "Component", isAbstract = false)
+        component <- addConcept(mission, "Component")
         component_extends_identifiedElement <- addAspectSpecializationAxiom(
           graph = mission,
           sub = component,
           sup = identifiedElement)
-        function <- addConcept(mission, "Function", isAbstract = false)
+        function <- addConcept(mission, "Function")
         function_extends_identifiedElement <- addAspectSpecializationAxiom(
           graph = mission,
           sub = function,
@@ -137,13 +137,12 @@ abstract class OMFVocabularyMutabilityTest[omf <: OMF]
           characteristics = List(isAsymmetric, isIrreflexive, isInverseFunctional),
           reifiedRelationshipName = "Performs",
           unreifiedRelationshipName = "performs",
-          unreifiedInverseRelationshipName = "isPerformedBy".some,
-          isAbstract = false)
-        item <- addConcept(mission, "Item", isAbstract = false)
+          unreifiedInverseRelationshipName = "isPerformedBy".some)
+        item <- addConcept(mission, "Item")
 
-        message <- addConcept(mission, "Message", isAbstract = false)
+        message <- addConcept(mission, "Message")
 
-        materialItem <- addConcept(mission, "MaterialItem", isAbstract = false)
+        materialItem <- addConcept(mission, "MaterialItem")
 
         message_extends_item <- addConceptSpecializationAxiom(mission, message, item)
 
@@ -243,7 +242,6 @@ abstract class OMFVocabularyMutabilityTest[omf <: OMF]
           fromReifiedRelationship(component_performs_function.get)
         component_performs_function_info.source should be(component.get)
         component_performs_function_info.target should be(function.get)
-        component_performs_function_info.isAbstract should be(false)
 
         ()
       }

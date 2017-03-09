@@ -61,8 +61,8 @@ abstract class IMCEMissionDomainTBoxExample[omf <: OMF]()(
         for {
           i_m1 <- makeIRI( "http://imce.jpl.nasa.gov/foundation/mission/mission1" )
           g <- makeTerminologyGraph(i_m1, isDefinition)
-          component <- addConcept(g, "Component", isAbstract = false)
-          function <- addConcept(g, "Function", isAbstract = false)
+          component <- addConcept(g, "Component")
+          function <- addConcept(g, "Function")
           s = fromTerminology(g)
         } yield {
           s.iri should be(i_m1)

@@ -128,8 +128,8 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF]
         mission <- makeTerminologyGraph(mission_iri, isDefinition)
         mission_extends_ibase <- addTerminologyExtension(mission, ibase._1)
 
-        component <- addConcept(mission, "Component", isAbstract = false)
-        function <- addConcept(mission, "Function", isAbstract = false)
+        component <- addConcept(mission, "Component")
+        function <- addConcept(mission, "Function")
         component_performs_function <- addReifiedRelationship(
           graph = mission,
           source = component,
@@ -137,24 +137,23 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF]
           characteristics = List(isAsymmetric, isIrreflexive, isInverseFunctional),
           reifiedRelationshipName = "Performs",
           unreifiedRelationshipName = "performs",
-          unreifiedInverseRelationshipName = "isPerformedBy".some,
-          isAbstract = false)
-        item <- addConcept(mission, "Item", isAbstract = false)
-        message <- addConcept(mission, "Message", isAbstract = false)
-        materialItem <- addConcept(mission, "MaterialItem", isAbstract = false)
+          unreifiedInverseRelationshipName = "isPerformedBy".some)
+        item <- addConcept(mission, "Item")
+        message <- addConcept(mission, "Message")
+        materialItem <- addConcept(mission, "MaterialItem")
         identifiedElement_iri <- makeIRI("http://imce.jpl.nasa.gov/test/immutability/foundation/base/base#IdentifiedElement")
 
         library_iri <- makeIRI("http://imce.jpl.nasa.gov/test/immutability/library")
         library <- makeTerminologyGraph(library_iri, isDefinition)
         library_extends_mission <- addTerminologyExtension(library, mission)
 
-        starTracker <- addConcept(library, "StarTracker", isAbstract=true)
+        starTracker <- addConcept(library, "StarTracker")
         starTracker_isa_component <- addConceptSpecializationAxiom(library, starTracker, component)
 
-        determinesAttitude <- addConcept(library, "DeterminesAttitude", isAbstract=true)
+        determinesAttitude <- addConcept(library, "DeterminesAttitude")
         determinesAttitude_is_function <- addConceptSpecializationAxiom(library, determinesAttitude, function)
 
-        determinesDeltaV <- addConcept(library, "DeterminesDeltaV", isAbstract=true)
+        determinesDeltaV <- addConcept(library, "DeterminesDeltaV")
         determinesDeltaV_is_function <- addConceptSpecializationAxiom(library, determinesDeltaV, function)
 
         starTracker_performs_determinesAttitude <- addEntityExistentialRestrictionAxiom(
@@ -170,11 +169,11 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF]
         system <- makeTerminologyGraph(system_iri, isDefinition)
         system_extends_library <- addTerminologyExtension(system, library)
 
-        s1 <- addConcept(system, "S1", isAbstract=false)
+        s1 <- addConcept(system, "S1")
         s1_is_starTracker <- addConceptSpecializationAxiom(system, s1, starTracker)
         s1_hasIdentifier <- addEntityScalarDataPropertyParticularRestrictionAxiom(system, s1, hasIdentifier, "ST.primary")
 
-        s2 <- addConcept(system, "S2", isAbstract=false)
+        s2 <- addConcept(system, "S2")
         s2_is_starTracker <- addConceptSpecializationAxiom(system, s2, starTracker)
         s2_hasIdentifier <- addEntityScalarDataPropertyParticularRestrictionAxiom(system, s2, hasIdentifier, "ST.backup")
 
@@ -328,7 +327,6 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF]
         val component_performs_function_info = fromReifiedRelationship(component_performs_function.get)
         component_performs_function_info.source should be(component.get)
         component_performs_function_info.target should be(function.get)
-        component_performs_function_info.isAbstract should be(false)
 
         val starTracker = lookupConcept(library._1, starTracker_iri, recursively = false)
         starTracker.isDefined should be(true)

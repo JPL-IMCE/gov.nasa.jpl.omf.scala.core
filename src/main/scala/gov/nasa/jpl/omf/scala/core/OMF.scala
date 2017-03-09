@@ -663,7 +663,6 @@ trait EntityConceptSignature[omf <: OMF] {
   val uuid: UUID
   val name: LocalName
   val iri: omf#IRI
-  val isAbstract: Boolean
 }
 
 trait EntityReifiedRelationshipSignature[omf <: OMF] {
@@ -675,7 +674,6 @@ trait EntityReifiedRelationshipSignature[omf <: OMF] {
   val source: omf#Entity
   val target: omf#Entity
   val characteristics: Iterable[RelationshipCharacteristics]
-  val isAbstract: Boolean
 }
 
 trait EntityUnreifiedRelationshipSignature[omf <: OMF] {
