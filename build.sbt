@@ -45,7 +45,6 @@ lazy val core = Project("omf-scala-core", file("."))
     extractArchives := {},
 
     resolvers += Resolver.bintrayRepo("jpl-imce", "gov.nasa.jpl.imce"),
-    resolvers += Resolver.bintrayRepo("tiwg", "org.omg.tiwg"),
 
     resolvers += "Artima Maven Repository" at "http://repo.artima.com/releases",
     scalacOptions in (Compile, compile) += s"-P:artima-supersafe:config-file:${baseDirectory.value}/project/supersafe.cfg",
@@ -54,14 +53,14 @@ lazy val core = Project("omf-scala-core", file("."))
     scalacOptions in (Test, doc) += "-Xplugin-disable:artima-supersafe"
   )
   .dependsOnSourceProjectOrLibraryArtifacts(
-    "jpl.omf.schema.resolver",
-    "jpl.omf.schema.resolver",
+    "gov.nasa.jpl.imce.oml.resolver",
+    "gov.nasa.jpl.imce.oml.resolver",
     Seq(
-      "gov.nasa.jpl.imce" %% "jpl.omf.schema.resolver"
+      "gov.nasa.jpl.imce" %% "gov.nasa.jpl.imce.oml.resolver"
         % Versions_omf_schema_resolver.version
         % "compile" artifacts(
-        Artifact("jpl.omf.schema.resolver"),
-        Artifact("jpl.omf.schema.resolver", "zip", "zip", "resource")
+        Artifact("gov.nasa.jpl.imce.oml.resolver"),
+        Artifact("gov.nasa.jpl.imce.oml.resolver", "zip", "zip", "resource")
         )
     )
   )
