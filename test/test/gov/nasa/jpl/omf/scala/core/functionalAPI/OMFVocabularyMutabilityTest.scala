@@ -116,7 +116,8 @@ abstract class OMFVocabularyMutabilityTest[omf <: OMF]
           graph = base,
           source = identifiedElement,
           target = string.get,
-          dataPropertyName = "hasIdentifier")
+          dataPropertyName = "hasIdentifier",
+          isIdentityCriteria = false)
         mission_iri <- makeIRI("http://imce.jpl.nasa.gov/test/mutability/foundation/mission/mission")
         mission <- makeTerminologyGraph(mission_iri, isDefinition)
         mission_extends_base <- addTerminologyExtension(mission, base)

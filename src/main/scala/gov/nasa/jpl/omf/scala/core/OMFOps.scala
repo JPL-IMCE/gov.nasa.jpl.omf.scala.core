@@ -1412,6 +1412,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
     * @param source
     * @param target
     * @param dataPropertyName
+    * @param isIdentityCriteria
     * @param store
     * @return
     */
@@ -1421,7 +1422,8 @@ trait MutableTerminologyGraphOps[omf <: OMF]
    iri: omf#IRI,
    source: omf#Entity,
    target: omf#DataRange,
-   dataPropertyName: LocalName)
+   dataPropertyName: LocalName,
+   isIdentityCriteria: Boolean)
   (implicit store: omf#Store)
   : Set[java.lang.Throwable] \/ omf#EntityScalarDataProperty
 
@@ -1436,6 +1438,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
     * @param source
     * @param target
     * @param dataPropertyName
+    * @param isIdentityCriteria
     * @param store
     * @return
     */
@@ -1443,13 +1446,14 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   (graph: omf#MutableTerminologyBox,
    source: omf#Entity,
    target: omf#DataRange,
-   dataPropertyName: LocalName)
+   dataPropertyName: LocalName,
+   isIdentityCriteria: Boolean)
   (implicit store: omf#Store)
   : Set[java.lang.Throwable] \/ omf#EntityScalarDataProperty
   = for {
     iri <- withFragment(getTerminologyIRI(graph),dataPropertyName)
     uuid = generateUUID(fromIRI(iri))
-    ax <- addEntityScalarDataProperty(graph, uuid, iri, source, target, dataPropertyName)
+    ax <- addEntityScalarDataProperty(graph, uuid, iri, source, target, dataPropertyName, isIdentityCriteria)
   } yield ax
 
   /**
@@ -1462,6 +1466,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
     * @param source
     * @param target
     * @param dataPropertyName
+    * @param isIdentityCriteria
     * @param store
     * @return
     */
@@ -1471,7 +1476,8 @@ trait MutableTerminologyGraphOps[omf <: OMF]
    iri: omf#IRI,
    source: omf#Entity,
    target: omf#Structure,
-   dataPropertyName: LocalName)
+   dataPropertyName: LocalName,
+   isIdentityCriteria: Boolean)
   (implicit store: omf#Store)
   : Set[java.lang.Throwable] \/ omf#EntityStructuredDataProperty
 
@@ -1485,6 +1491,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
     * @param source
     * @param target
     * @param dataPropertyName
+    * @param isIdentityCriteria
     * @param store
     * @return
     */
@@ -1492,13 +1499,14 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   (graph: omf#MutableTerminologyBox,
    source: omf#Entity,
    target: omf#Structure,
-   dataPropertyName: LocalName)
+   dataPropertyName: LocalName,
+   isIdentityCriteria: Boolean)
   (implicit store: omf#Store)
   : Set[java.lang.Throwable] \/ omf#EntityStructuredDataProperty
   = for {
     iri <- withFragment(getTerminologyIRI(graph), dataPropertyName)
     uuid = generateUUID(fromIRI(iri))
-    ax <- addEntityStructuredDataProperty(graph, uuid, iri, source, target, dataPropertyName)
+    ax <- addEntityStructuredDataProperty(graph, uuid, iri, source, target, dataPropertyName, isIdentityCriteria)
   } yield ax
 
   /**

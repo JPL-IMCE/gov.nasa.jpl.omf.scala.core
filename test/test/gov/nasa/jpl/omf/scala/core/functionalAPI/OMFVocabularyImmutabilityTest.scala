@@ -120,7 +120,8 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF]
           graph = base,
           source = identifiedElement,
           target = string.get,
-          dataPropertyName = "hasIdentifier")
+          dataPropertyName = "hasIdentifier",
+          isIdentityCriteria = false)
 
         ibase <- asImmutableTerminology(base)
 
