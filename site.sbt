@@ -4,7 +4,7 @@ enablePlugins(PreprocessPlugin)
 
 enablePlugins(SiteScaladocPlugin)
 
-import com.typesafe.sbt.SbtGhPages._
+enablePlugins(GhpagesPlugin)
 
 preprocessVars in Preprocess := Map(
   "CI" -> "https://travis-ci.org/JPL-IMCE/gov.nasa.jpl.omf.scala.core",
@@ -44,8 +44,6 @@ preprocessVars in Preprocess := Map(
 
 target in preprocess := (target in makeSite).value
 
-ghpages.settings
-
 dependencyDotFile := baseDirectory.value / "target" / "dependencies.dot"
 
 lazy val dependencySvgFile = settingKey[File]("Location of the dependency graph in SVG format")
@@ -77,9 +75,3 @@ siteMappings += dependencySvgFile.value -> "dependencies.svg"
 previewFixedPort := Some(4004)
 
 previewLaunchBrowser := false
-
-
-releasePublishArtifactsAction := {
-  val _ = GhPagesKeys.pushSite.value
-  releasePublishArtifactsAction.value
-}

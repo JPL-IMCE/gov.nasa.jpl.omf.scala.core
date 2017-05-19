@@ -10,12 +10,16 @@ updateOptions := updateOptions.value.withCachedResolution(true)
 import scala.io.Source
 import scala.util.control.Exception._
 
+val extractArchives
+: TaskKey[Unit]
+= TaskKey[Unit]("extract-archives", "Extracts ZIP files")
+
 lazy val core = Project("omf-scala-core", file("."))
   .enablePlugins(IMCEGitPlugin)
-  .enablePlugins(IMCEReleasePlugin)
+  //.enablePlugins(IMCEReleasePlugin)
+  //.settings(IMCEReleasePlugin.packageReleaseProcessSettings)
   .settings(dynamicScriptsResourceSettings("gov.nasa.jpl.omf.scala.core"))
   .settings(IMCEPlugin.strictScalacFatalWarningsSettings)
-  .settings(IMCEReleasePlugin.packageReleaseProcessSettings)
   .settings(
     IMCEKeys.licenseYearOrRange := "2015",
     IMCEKeys.organizationInfo := IMCEPlugin.Organizations.omf,
@@ -50,15 +54,27 @@ lazy val core = Project("omf-scala-core", file("."))
     scalacOptions in (Compile, compile) += s"-P:artima-supersafe:config-file:${baseDirectory.value}/project/supersafe.cfg",
     scalacOptions in (Test, compile) += s"-P:artima-supersafe:config-file:${baseDirectory.value}/project/supersafe.cfg",
     scalacOptions in (Compile, doc) += "-Xplugin-disable:artima-supersafe",
-    scalacOptions in (Test, doc) += "-Xplugin-disable:artima-supersafe"
+    scalacOptions in (Test, doc) += "-Xplugin-disable:artima-supersafe",
+
+    // Avoid unresolvable dependencies from old versions of log4j
+    libraryDependencies ~= {
+      _ map {
+        case m if m.organization == "log4j" =>
+          m
+            .exclude("javax.jms", "jms")
+            .exclude("com.sun.jmx", "jmxri")
+            .exclude("com.sun.jdmk", "jmxtools")
+        case m => m
+      }
+    }
   )
   .dependsOnSourceProjectOrLibraryArtifacts(
     "gov.nasa.jpl.imce.oml.resolver",
     "gov.nasa.jpl.imce.oml.resolver",
     Seq(
       "gov.nasa.jpl.imce" %% "gov.nasa.jpl.imce.oml.resolver"
-        % Versions_omf_schema_resolver.version
-        % "compile" artifacts(
+        % Versions_oml_resolver.version
+        % "compile" withSources() artifacts(
         Artifact("gov.nasa.jpl.imce.oml.resolver"),
         Artifact("gov.nasa.jpl.imce.oml.resolver", "zip", "zip", "resource")
         )
