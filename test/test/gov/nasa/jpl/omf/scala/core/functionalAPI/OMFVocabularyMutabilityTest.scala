@@ -21,6 +21,7 @@ package test.gov.nasa.jpl.omf.scala.core.functionalAPI
 import gov.nasa.jpl.omf.scala.core._
 import gov.nasa.jpl.omf.scala.core.RelationshipCharacteristics._
 import gov.nasa.jpl.omf.scala.core.TerminologyKind._
+import gov.nasa.jpl.omf.scala.core.OMLString.LocalName
 
 import org.scalatest._, exceptions._
 import scala.Some
@@ -103,30 +104,32 @@ abstract class OMFVocabularyMutabilityTest[omf <: OMF]
 
       for {
         xsd_iri <- makeIRI("http://www.w3.org/2001/XMLSchema")
-        xsd <- loadTerminology(xsd_iri)
+        xsd_table <- loadTerminology(Mutable2ImmutableModuleTable.empty[omf], xsd_iri)
+        (xsd, table1) = xsd_table
+
         int_iri <- makeIRI("http://www.w3.org/2001/XMLSchema#integer")
-        integer = lookupDataRange(xsd._1, int_iri, recursively = false)
+        integer = lookupDataRange(xsd, int_iri, recursively = false)
         string_iri <- makeIRI("http://www.w3.org/2001/XMLSchema#string")
-        string = lookupDataRange(xsd._1, string_iri, recursively = false)
+        string = lookupDataRange(xsd, string_iri, recursively = false)
         base_iri <- makeIRI("http://imce.jpl.nasa.gov/test/mutability/foundation/base/base")
         base <- makeTerminologyGraph(base_iri, isDefinition)
-        base_extends_xsd <- addTerminologyExtension(base, xsd._1)
-        identifiedElement <- addAspect(base, "IdentifiedElement")
+        base_extends_xsd <- addTerminologyExtension(base, xsd)
+        identifiedElement <- addAspect(base, LocalName("IdentifiedElement"))
         hasIdentifier = addEntityScalarDataProperty(
           graph = base,
           source = identifiedElement,
           target = string.get,
-          dataPropertyName = "hasIdentifier",
+          dataPropertyName = LocalName("hasIdentifier"),
           isIdentityCriteria = false)
         mission_iri <- makeIRI("http://imce.jpl.nasa.gov/test/mutability/foundation/mission/mission")
         mission <- makeTerminologyGraph(mission_iri, isDefinition)
         mission_extends_base <- addTerminologyExtension(mission, base)
-        component <- addConcept(mission, "Component")
+        component <- addConcept(mission, LocalName("Component"))
         component_extends_identifiedElement <- addAspectSpecializationAxiom(
           graph = mission,
           sub = component,
           sup = identifiedElement)
-        function <- addConcept(mission, "Function")
+        function <- addConcept(mission, LocalName("Function"))
         function_extends_identifiedElement <- addAspectSpecializationAxiom(
           graph = mission,
           sub = function,
@@ -136,14 +139,14 @@ abstract class OMFVocabularyMutabilityTest[omf <: OMF]
           source = component,
           target = function,
           characteristics = List(isAsymmetric, isIrreflexive, isInverseFunctional),
-          reifiedRelationshipName = "Performs",
-          unreifiedRelationshipName = "performs",
-          unreifiedInverseRelationshipName = "isPerformedBy".some)
-        item <- addConcept(mission, "Item")
+          reifiedRelationshipName = LocalName("Performs"),
+          unreifiedRelationshipName = LocalName("performs"),
+          unreifiedInverseRelationshipName = LocalName("isPerformedBy").some)
+        item <- addConcept(mission, LocalName("Item"))
 
-        message <- addConcept(mission, "Message")
+        message <- addConcept(mission, LocalName("Message"))
 
-        materialItem <- addConcept(mission, "MaterialItem")
+        materialItem <- addConcept(mission, LocalName("MaterialItem"))
 
         message_extends_item <- addConceptSpecializationAxiom(mission, message, item)
 
@@ -168,23 +171,29 @@ abstract class OMFVocabularyMutabilityTest[omf <: OMF]
 
       for {
         xsd_iri <- makeIRI("http://www.w3.org/2001/XMLSchema")
-        xsd <- loadTerminology(xsd_iri)
+        xsd_table <- loadTerminology(Mutable2ImmutableModuleTable.empty[omf], xsd_iri)
+        (xsd, table1) = xsd_table
+
         int_iri <- makeIRI("http://www.w3.org/2001/XMLSchema#integer")
-        integer = lookupDataRange(xsd._1, int_iri, recursively = false)
+        integer = lookupDataRange(xsd, int_iri, recursively = false)
         string_iri <- makeIRI("http://www.w3.org/2001/XMLSchema#string")
         base_iri <- makeIRI("http://imce.jpl.nasa.gov/test/mutability/foundation/base/base")
-        base <- loadTerminology(base_iri)
+        base_table <- loadTerminology(table1, base_iri)
+        (base, table2) = base_table
+
         mission_iri <- makeIRI("http://imce.jpl.nasa.gov/test/mutability/foundation/mission/mission")
-        mission <- loadTerminology(mission_iri)
+        mission_table <- loadTerminology(table2, mission_iri)
+        (mission, _) = mission_table
+
         identifiedElement_iri <- makeIRI("http://imce.jpl.nasa.gov/test/mutability/foundation/base/base#IdentifiedElement")
         hasIdentifier_iri <- makeIRI("http://imce.jpl.nasa.gov/test/mutability/foundation/base/base#hasIdentifier")
         function_iri <- makeIRI("http://imce.jpl.nasa.gov/test/mutability/foundation/mission/mission#Function")
         component_iri <- makeIRI("http://imce.jpl.nasa.gov/test/mutability/foundation/mission/mission#Component")
         component_performs_function_iri <- makeIRI("http://imce.jpl.nasa.gov/test/mutability/foundation/mission/mission#Performs")
       } yield {
-        val s = ops.fromTerminology(base._1)
-        s.imports.isEmpty should be(false)
-        s.imports.toSet.contains(xsd._1) should be(true)
+        val s = ops.fromImmutableTerminology(base)
+        s.importedModules.isEmpty should be(false)
+        s.importedModules.contains(xsd) should be(true)
         s.aspects.isEmpty should be(false)
         s.concepts.isEmpty should be(true)
         s.reifiedRelationships.isEmpty should be(true)
@@ -197,14 +206,14 @@ abstract class OMFVocabularyMutabilityTest[omf <: OMF]
         s.axioms.isEmpty should be(true)
 
         val string =
-          lookupDataRange(base._1, string_iri, recursively = true)
+          lookupDataRange(base, string_iri, recursively = true)
         string.isDefined should be(true)
 
-        val identifiedElement = lookupAspect(base._1, identifiedElement_iri, recursively = false)
+        val identifiedElement = lookupAspect(base, identifiedElement_iri, recursively = false)
         identifiedElement.isDefined should be(true)
 
         val hasIdentifier =
-          lookupEntityScalarDataProperty(base._1, hasIdentifier_iri, recursively = false)
+          lookupEntityScalarDataProperty(base, hasIdentifier_iri, recursively = false)
         hasIdentifier.isDefined should be(true)
 
         val prop = fromEntityScalarDataProperty(hasIdentifier.get)
@@ -212,9 +221,9 @@ abstract class OMFVocabularyMutabilityTest[omf <: OMF]
         string.get should be(prop.range)
 
         {
-          val s = ops.fromTerminology(mission._1)
-          s.imports.isEmpty should be(false)
-          s.imports.toSet.contains(base._1) should be(true)
+          val s = ops.fromImmutableTerminology(mission)
+          s.importedModules.isEmpty should be(false)
+          s.importedModules.contains(base) should be(true)
           s.aspects.isEmpty should be(true)
           s.concepts.isEmpty should be(false)
           s.reifiedRelationships.isEmpty should be(false)
@@ -228,15 +237,15 @@ abstract class OMFVocabularyMutabilityTest[omf <: OMF]
         }
 
         val component =
-          lookupConcept(mission._1, component_iri, recursively = false)
+          lookupConcept(mission, component_iri, recursively = false)
         component.isDefined should be(true)
 
         val function =
-          lookupConcept(mission._1, function_iri, recursively = false)
+          lookupConcept(mission, function_iri, recursively = false)
         function.isDefined should be(true)
 
         val component_performs_function =
-          lookupReifiedRelationship(mission._1, component_performs_function_iri, recursively = false)
+          lookupReifiedRelationship(mission, component_performs_function_iri, recursively = false)
         component_performs_function.isDefined should be(true)
 
         val component_performs_function_info =

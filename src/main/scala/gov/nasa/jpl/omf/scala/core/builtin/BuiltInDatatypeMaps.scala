@@ -18,10 +18,12 @@
 
 package gov.nasa.jpl.omf.scala.core.builtin
 
-import gov.nasa.jpl.omf.scala.core.{OMF, OMFOps}
+import gov.nasa.jpl.omf.scala.core.OMFError.Throwables
+import gov.nasa.jpl.omf.scala.core.{Mutable2ImmutableModuleTable, OMF, OMFOps}
+import gov.nasa.jpl.omf.scala.core.OMLString.{LexicalValue, LocalName, Pattern}
 
-import scala.collection.immutable.{Iterable,Set}
-import scala.{Boolean,Some,Tuple3}
+import scala.collection.immutable.{Iterable, Set}
+import scala.{Boolean, Some, Tuple3}
 import scalaz.\/
 
 object BuiltInDatatypeMaps {
@@ -107,13 +109,13 @@ object BuiltInDatatypeMaps {
   }
 
   def createBuiltInDatatypeMaps[omf <: OMF]
-  (makeW3CTerminologyGraphDefinition: omf#IRI => Set[java.lang.Throwable] \/ omf#MutableTerminologyBox)
+  (makeW3CTerminologyGraphDefinition: omf#IRI => Throwables \/ omf#MutableTerminologyBox)
   (implicit
    ops: OMFOps[omf],
    store: omf#Store)
-  : Set[java.lang.Throwable] \/
-    ( omf#ImmutableTerminologyBox,
-      omf#Mutable2ImmutableTerminologyMap,
+  : Throwables \/
+    ( omf#ImmutableModule,
+      Mutable2ImmutableModuleTable[omf],
       DataRangeCategories[omf] )
   = {
     import ops._
@@ -126,174 +128,174 @@ object BuiltInDatatypeMaps {
 
       // @see http://www.w3.org/TR/2012/REC-xmlschema11-2-20120405/datatypes.html#anyAtomicType
       anyAtomicType <- addScalarDataType(
-        xsd_mgraph, "anyAtomicType")
+        xsd_mgraph, LocalName("anyAtomicType"))
 
       // @see http://www.w3.org/TR/2012/REC-xmlschema11-2-20120405/datatypes.html#anyURI
       anyURI <- addScalarDataType(
-        xsd_mgraph, "anyURI")
+        xsd_mgraph, LocalName("anyURI"))
       dcr1 = dcr0.withIRI(anyURI)
 
       // @see http://www.w3.org/TR/2012/REC-xmlschema11-2-20120405/datatypes.html#base64Binary
       base64Binary <- addScalarDataType(
-        xsd_mgraph, "base64Binary")
+        xsd_mgraph, LocalName("base64Binary"))
       dcr2 = dcr1.withBinary(base64Binary)
 
       // @see http://www.w3.org/TR/2012/REC-xmlschema11-2-20120405/datatypes.html#hexBinary
       hexBinary <- addStringScalarRestriction(
-        xsd_mgraph, "hexBinary", anyAtomicType, pattern=Some("([0-9a-fA-F]{2})*"))
+        xsd_mgraph, LocalName("hexBinary"), anyAtomicType, pattern=Some(Pattern("([0-9a-fA-F]{2})*")))
       dcr3 = dcr2.withBinary(hexBinary)
 
       // @see http://www.w3.org/TR/2012/REC-xmlschema11-2-20120405/datatypes.html#boolean
       boolean <- addScalarDataType(
-        xsd_mgraph, "boolean")
+        xsd_mgraph, LocalName("boolean"))
 
       // @see http://www.w3.org/TR/2012/REC-xmlschema11-2-20120405/datatypes.html#date
       date <- addScalarDataType(
-        xsd_mgraph, "date")
+        xsd_mgraph, LocalName("date"))
 
       // @see http://www.w3.org/TR/2012/REC-xmlschema11-2-20120405/datatypes.html#dateTime
       dateTime <- addScalarDataType(
-        xsd_mgraph, "dateTime")
+        xsd_mgraph, LocalName("dateTime"))
       dcr4 = dcr3.withTime(dateTime)
 
       // @see http://www.w3.org/TR/2012/REC-xmlschema11-2-20120405/datatypes.html#dateTimeStamp
       dateTimeStamp <- addScalarDataType(
-        xsd_mgraph, "dateTimeStamp")
+        xsd_mgraph, LocalName("dateTimeStamp"))
       dcr5 = dcr4.withTime(dateTimeStamp)
 
       // @see http://www.w3.org/TR/2012/REC-xmlschema11-2-20120405/datatypes.html#decimal
       decimal <- addScalarDataType(
-        xsd_mgraph, "decimal")
+        xsd_mgraph, LocalName("decimal"))
       dcr6 = dcr5.withNumeric(decimal)
 
       // @see http://www.w3.org/TR/2012/REC-xmlschema11-2-20120405/datatypes.html#integer
       integer <- addStringScalarRestriction(
-        xsd_mgraph, "integer", decimal, pattern=Some("[\\-+]?[0-9]+"))
+        xsd_mgraph, LocalName("integer"), decimal, pattern=Some(Pattern("[\\-+]?[0-9]+")))
       dcr7 = dcr6.withNumeric(integer)
 
       // @see http://www.w3.org/TR/2012/REC-xmlschema11-2-20120405/datatypes.html#long
       long <- addNumericScalarRestriction(
-        xsd_mgraph, "long", integer,
-        minInclusive=Some("-9223372036854775808"), maxInclusive=Some("9223372036854775807"))
+        xsd_mgraph, LocalName("long"), integer,
+        minInclusive=Some(LexicalValue("-9223372036854775808")), maxInclusive=Some(LexicalValue("9223372036854775807")))
       dcr8 = dcr7.withNumeric(long)
 
       // @see http://www.w3.org/TR/2012/REC-xmlschema11-2-20120405/datatypes.html#int
       int <- addNumericScalarRestriction(
-        xsd_mgraph, "int", long,
-        minInclusive=Some("-2147483648"), maxInclusive=Some("2147483647"))
+        xsd_mgraph, LocalName("int"), long,
+        minInclusive=Some(LexicalValue("-2147483648")), maxInclusive=Some(LexicalValue("2147483647")))
       dcr9 = dcr8.withNumeric(int)
 
       // @see http://www.w3.org/TR/2012/REC-xmlschema11-2-20120405/datatypes.html#short
       short <- addNumericScalarRestriction(
-        xsd_mgraph, "short", int,
-        minInclusive=Some("-32768"), maxInclusive=Some("32767"))
+        xsd_mgraph, LocalName("short"), int,
+        minInclusive=Some(LexicalValue("-32768")), maxInclusive=Some(LexicalValue("32767")))
       dcr10 = dcr9.withNumeric(short)
 
       // @see http://www.w3.org/TR/2012/REC-xmlschema11-2-20120405/datatypes.html#byte
       byte <- addNumericScalarRestriction(
-        xsd_mgraph, "byte", short,
-        minInclusive=Some("-128"), maxInclusive=Some("127"))
+        xsd_mgraph, LocalName("byte"), short,
+        minInclusive=Some(LexicalValue("-128")), maxInclusive=Some(LexicalValue("127")))
       dcr11 = dcr10.withNumeric(byte)
 
       // @see http://www.w3.org/TR/2012/REC-xmlschema11-2-20120405/datatypes.html#nonNegativeInteger
       nonNegativeInteger <- addNumericScalarRestriction(
-        xsd_mgraph, "nonNegativeInteger", integer,
-        minInclusive=Some("0"))
+        xsd_mgraph, LocalName("nonNegativeInteger"), integer,
+        minInclusive=Some(LexicalValue("0")))
       dcr12 = dcr11.withNumeric(nonNegativeInteger)
 
       // @see http://www.w3.org/TR/2012/REC-xmlschema11-2-20120405/datatypes.html#positiveInteger
       positiveInteger <- addNumericScalarRestriction(
-        xsd_mgraph, "positiveInteger", nonNegativeInteger,
-        minInclusive=Some("1"))
+        xsd_mgraph, LocalName("positiveInteger"), nonNegativeInteger,
+        minInclusive=Some(LexicalValue("1")))
       dcr13 = dcr12.withNumeric(positiveInteger)
 
       // @see http://www.w3.org/TR/2012/REC-xmlschema11-2-20120405/datatypes.html#unsignedLong
       unsignedLong <- addNumericScalarRestriction(
-        xsd_mgraph, "unsignedLong", nonNegativeInteger,
-        maxInclusive=Some("18446744073709551615"))
+        xsd_mgraph, LocalName("unsignedLong"), nonNegativeInteger,
+        maxInclusive=Some(LexicalValue("18446744073709551615")))
       dcr14 = dcr13.withNumeric(unsignedLong)
 
       // @see http://www.w3.org/TR/2012/REC-xmlschema11-2-20120405/datatypes.html#unsignedInt
       unsignedInt <- addNumericScalarRestriction(
-        xsd_mgraph, "unsignedInt", unsignedLong,
-        maxInclusive=Some("4294967295"))
+        xsd_mgraph, LocalName("unsignedInt"), unsignedLong,
+        maxInclusive=Some(LexicalValue("4294967295")))
       dcr15 = dcr14.withNumeric(unsignedInt)
 
       // @see http://www.w3.org/TR/2012/REC-xmlschema11-2-20120405/datatypes.html#unsignedShort
       unsignedShort <- addNumericScalarRestriction(
-        xsd_mgraph, "unsignedShort", unsignedInt,
-        maxInclusive=Some("65535"))
+        xsd_mgraph, LocalName("unsignedShort"), unsignedInt,
+        maxInclusive=Some(LexicalValue("65535")))
       dcr16 = dcr15.withNumeric(unsignedShort)
 
       // @see http://www.w3.org/TR/2012/REC-xmlschema11-2-20120405/datatypes.html#unsignedByte
       unsignedByte <- addNumericScalarRestriction(
-        xsd_mgraph, "unsignedByte", unsignedShort,
-        maxInclusive=Some("255"))
+        xsd_mgraph, LocalName("unsignedByte"), unsignedShort,
+        maxInclusive=Some(LexicalValue("255")))
       dcr17 = dcr16.withNumeric(unsignedByte)
 
       // @see http://www.w3.org/TR/2012/REC-xmlschema11-2-20120405/datatypes.html#nonPositiveInteger
       nonPositiveInteger <- addNumericScalarRestriction(
-        xsd_mgraph, "nonPositiveInteger", integer,
-        maxInclusive=Some("0"))
+        xsd_mgraph, LocalName("nonPositiveInteger"), integer,
+        maxInclusive=Some(LexicalValue("0")))
       dcr18 = dcr17.withNumeric(nonPositiveInteger)
 
       // @see http://www.w3.org/TR/2012/REC-xmlschema11-2-20120405/datatypes.html#negativeInteger
       negativeInteger <- addNumericScalarRestriction(
-        xsd_mgraph, "negativeInteger", nonPositiveInteger,
-        maxInclusive=Some("-1"))
+        xsd_mgraph, LocalName("negativeInteger"), nonPositiveInteger,
+        maxInclusive=Some(LexicalValue("-1")))
       dcr19 = dcr18.withNumeric(negativeInteger)
 
       // @see http://www.w3.org/TR/2012/REC-xmlschema11-2-20120405/datatypes.html#double
       double <- addStringScalarRestriction(
-        xsd_mgraph, "double", anyAtomicType,
-        pattern=Some("(\\+|\\-)?([0-9]+(\\.[0-9]*)?|\\.[0-9]+)([Ee](\\+|\\-)?[0-9]+)?|(\\+|\\-)?INF|NaN"))
+        xsd_mgraph, LocalName("double"), anyAtomicType,
+        pattern=Some(Pattern("(\\+|\\-)?([0-9]+(\\.[0-9]*)?|\\.[0-9]+)([Ee](\\+|\\-)?[0-9]+)?|(\\+|\\-)?INF|NaN")))
       dcr20 = dcr19.withNumeric(double)
 
       // @see http://www.w3.org/TR/2012/REC-xmlschema11-2-20120405/datatypes.html#float
       float <- addStringScalarRestriction(
-        xsd_mgraph, "float", anyAtomicType,
-        pattern=Some("(\\+|\\-)?([0-9]+(\\.[0-9]*)?|\\.[0-9]+)([Ee](\\+|\\-)?[0-9]+)?|(\\+|\\-)?INF|NaN"))
+        xsd_mgraph, LocalName("float"), anyAtomicType,
+        pattern=Some(Pattern("(\\+|\\-)?([0-9]+(\\.[0-9]*)?|\\.[0-9]+)([Ee](\\+|\\-)?[0-9]+)?|(\\+|\\-)?INF|NaN")))
       dcr21 = dcr20.withNumeric(float)
 
       // @see http://www.w3.org/TR/2012/REC-xmlschema11-2-20120405/datatypes.html#duration
       duration <- addStringScalarRestriction(
-        xsd_mgraph, "duration", anyAtomicType,
-        pattern=Some("-?P((([0-9]+Y([0-9]+M)?([0-9]+D)?|([0-9]+M)([0-9]+D)?|([0-9]+D))(T(([0-9]+H)([0-9]+M)?([0-9]+(\\.[0-9]+)?S)?|([0-9]+M)([0-9]+(\\.[0-9]+)?S)?|([0-9]+(\\.[0-9]+)?S)))?)|(T(([0-9]+H)([0-9]+M)?([0-9]+(\\.[0-9]+)?S)?|([0-9]+M)([0-9]+(\\.[0-9]+)?S)?|([0-9]+(\\.[0-9]+)?S))))"))
+        xsd_mgraph, LocalName("duration"), anyAtomicType,
+        pattern=Some(Pattern("-?P((([0-9]+Y([0-9]+M)?([0-9]+D)?|([0-9]+M)([0-9]+D)?|([0-9]+D))(T(([0-9]+H)([0-9]+M)?([0-9]+(\\.[0-9]+)?S)?|([0-9]+M)([0-9]+(\\.[0-9]+)?S)?|([0-9]+(\\.[0-9]+)?S)))?)|(T(([0-9]+H)([0-9]+M)?([0-9]+(\\.[0-9]+)?S)?|([0-9]+M)([0-9]+(\\.[0-9]+)?S)?|([0-9]+(\\.[0-9]+)?S))))")))
 
       // @see http://www.w3.org/TR/2012/REC-xmlschema11-2-20120405/datatypes.html#dayTimeDuration
       dayTimeDuration <- addStringScalarRestriction(
-        xsd_mgraph, "dayTimeDuration", duration,
-        pattern=Some("[^YM]*(T.*)?"))
+        xsd_mgraph, LocalName("dayTimeDuration"), duration,
+        pattern=Some(Pattern("[^YM]*(T.*)?")))
 
       // @see http://www.w3.org/TR/2012/REC-xmlschema11-2-20120405/datatypes.html#yearMonthDuration
       yearMonthDuration <- addStringScalarRestriction(
-        xsd_mgraph, "yearMonthDuration", duration,
-        pattern=Some("[^DT]*"))
+        xsd_mgraph, LocalName("yearMonthDuration"), duration,
+        pattern=Some(Pattern("[^DT]*")))
 
       // @see http://www.w3.org/TR/2012/REC-xmlschema11-2-20120405/datatypes.html#gDay
       gDay <- addStringScalarRestriction(
-        xsd_mgraph, "gDay", anyAtomicType,
-        pattern=Some("---(0[1-9]|[12][0-9]|3[01])(Z|(\\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?"))
+        xsd_mgraph, LocalName("gDay"), anyAtomicType,
+        pattern=Some(Pattern("---(0[1-9]|[12][0-9]|3[01])(Z|(\\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?")))
 
       // @see http://www.w3.org/TR/2012/REC-xmlschema11-2-20120405/datatypes.html#gMonth
       gMonth <- addStringScalarRestriction(
-        xsd_mgraph, "gMonth", anyAtomicType,
-        pattern=Some("--(0[1-9]|1[0-2])(Z|(\\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?"))
+        xsd_mgraph, LocalName("gMonth"), anyAtomicType,
+        pattern=Some(Pattern("--(0[1-9]|1[0-2])(Z|(\\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?")))
 
       // @see http://www.w3.org/TR/2012/REC-xmlschema11-2-20120405/datatypes.html#gMonthDay
       gMonthDay <- addStringScalarRestriction(
-        xsd_mgraph, "gMonthDay", anyAtomicType,
-        pattern=Some("--(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])(Z|(\\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?"))
+        xsd_mgraph, LocalName("gMonthDay"), anyAtomicType,
+        pattern=Some(Pattern("--(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])(Z|(\\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?")))
 
       // @see http://www.w3.org/TR/2012/REC-xmlschema11-2-20120405/datatypes.html#gYear
       gYear <- addStringScalarRestriction(
-        xsd_mgraph, "gYear", anyAtomicType,
-        pattern=Some("-?([1-9][0-9]{3,}|0[0-9]{3})(Z|(\\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?"))
+        xsd_mgraph, LocalName("gYear"), anyAtomicType,
+        pattern=Some(Pattern("-?([1-9][0-9]{3,}|0[0-9]{3})(Z|(\\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?")))
 
       // @see http://www.w3.org/TR/2012/REC-xmlschema11-2-20120405/datatypes.html#gYearMonth
       gYearMonth <- addStringScalarRestriction(
-        xsd_mgraph, "gYearMonth", anyAtomicType,
-        pattern=Some("-?([1-9][0-9]{3,}|0[0-9]{3})-(0[1-9]|1[0-2])(Z|(\\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?"))
+        xsd_mgraph, LocalName("gYearMonth"), anyAtomicType,
+        pattern=Some(Pattern("-?([1-9][0-9]{3,}|0[0-9]{3})-(0[1-9]|1[0-2])(Z|(\\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?")))
 
       // @see http://www.w3.org/TR/rdf11-concepts/#xsd-datatypes
       // should not be used: this is not intended for direct use
@@ -304,49 +306,49 @@ object BuiltInDatatypeMaps {
       // @see http://www.w3.org/TR/2012/REC-xmlschema11-2-20120405/datatypes.html#QName
 
       // @see http://www.w3.org/TR/2012/REC-xmlschema11-2-20120405/datatypes.html#string
-      string <- addScalarDataType(xsd_mgraph, "string")
+      string <- addScalarDataType(xsd_mgraph, LocalName("string"))
       dcr22 = dcr21.withString(string)
 
       // @see http://www.w3.org/TR/2012/REC-xmlschema11-2-20120405/datatypes.html#normalizedString
       normalizedString <- addStringScalarRestriction(
-        xsd_mgraph, "normalizedString", string,
-        pattern=Some("[^\\n\\r\\t]"))
+        xsd_mgraph, LocalName("normalizedString"), string,
+        pattern=Some(Pattern("[^\\n\\r\\t]")))
       dcr23 = dcr22.withString(normalizedString)
 
       // @see http://www.w3.org/TR/2012/REC-xmlschema11-2-20120405/datatypes.html#token
       token <- addStringScalarRestriction(
-        xsd_mgraph, "token", normalizedString,
-        pattern=Some("\\S[\\S[ ]{0,2}]\\S"))
+        xsd_mgraph, LocalName("token"), normalizedString,
+        pattern=Some(Pattern("\\S[\\S[ ]{0,2}]\\S")))
       dcr24 = dcr23.withString(token)
 
       // @see http://www.w3.org/TR/2012/REC-xmlschema11-2-20120405/datatypes.html#language
       language <- addStringScalarRestriction(
-        xsd_mgraph, "language", token,
-        pattern=Some("[a-zA-Z]{1,8}(-[a-zA-Z0-9]{1,8})*"))
+        xsd_mgraph, LocalName("language"), token,
+        pattern=Some(Pattern("[a-zA-Z]{1,8}(-[a-zA-Z0-9]{1,8})*")))
       dcr25 = dcr24.withString(language)
 
       // @see http://www.w3.org/TR/2012/REC-xmlschema11-2-20120405/datatypes.html#NMTOKEN
       nmtoken <- addStringScalarRestriction(
-        xsd_mgraph, "NMTOKEN", token,
-        pattern=Some("\\c+"))
+        xsd_mgraph, LocalName("NMTOKEN"), token,
+        pattern=Some(Pattern("\\c+")))
       dcr26 = dcr25.withString(nmtoken)
 
       // @see http://www.w3.org/TR/2012/REC-xmlschema11-2-20120405/datatypes.html#name
       name <- addStringScalarRestriction(
-        xsd_mgraph, "name", token,
-        pattern=Some("\\i\\c*"))
+        xsd_mgraph, LocalName("name"), token,
+        pattern=Some(Pattern("\\i\\c*")))
       dcr27 = dcr26.withString(name)
 
       // @see http://www.w3.org/TR/2012/REC-xmlschema11-2-20120405/datatypes.html#NCName
       ncname <- addStringScalarRestriction(
-        xsd_mgraph, "NCName", name,
-        pattern=Some("[\\i\\c*&&[\\i-[:]][\\c-[:]]*]"))
+        xsd_mgraph, LocalName("NCName"), name,
+        pattern=Some(Pattern("[\\i\\c*&&[\\i-[:]][\\c-[:]]*]")))
       dcr28 = dcr27.withString(ncname)
 
       // @see http://www.w3.org/TR/2012/REC-xmlschema11-2-20120405/datatypes.html#time
       time <- addStringScalarRestriction(
-        xsd_mgraph, "time", anyAtomicType,
-        pattern=Some("(([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\\.[0-9]+)?|(24:00:00(\\.0+)?))(Z|(\\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?"))
+        xsd_mgraph, LocalName("time"), anyAtomicType,
+        pattern=Some(Pattern("(([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\\.[0-9]+)?|(24:00:00(\\.0+)?))(Z|(\\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?")))
 
       // @see http://www.w3.org/TR/rdf11-concepts/#xsd-datatypes
       // should not be used: requires an enclosing XML document context
@@ -368,10 +370,10 @@ object BuiltInDatatypeMaps {
       // rdf:HTML
 
       // @see http://www.w3.org/TR/rdf11-concepts/#section-XMLLiteral
-      xmlLiteral <- addScalarDataType(rdfs_mgraph, "XMLLiteral")
+      xmlLiteral <- addScalarDataType(rdfs_mgraph, LocalName("XMLLiteral"))
 
       // @see https://www.w3.org/TR/2012/REC-rdf-plain-literal-20121211/
-      plainLiteral <- addScalarDataType(rdfs_mgraph, "PlainLiteral")
+      plainLiteral <- addScalarDataType(rdfs_mgraph, LocalName("PlainLiteral"))
       dcr29 = dcr28.withString(plainLiteral)
 
       owl_iri <- makeIRI("http://www.w3.org/2002/07/owl")
@@ -380,17 +382,21 @@ object BuiltInDatatypeMaps {
 
       // @see http://www.w3.org/TR/owl2-syntax/#Datatype_Maps
       // owl:real
-      owl_real <- addStringScalarRestriction(owl_mgraph, "real", anyAtomicType)
+      owl_real <- addStringScalarRestriction(owl_mgraph, LocalName("real"), anyAtomicType)
       dcr30 = dcr29.withNumeric(owl_real)
 
       // @see http://www.w3.org/TR/owl2-syntax/#Datatype_Maps
       owl_rational <- addStringScalarRestriction(
-        owl_mgraph, "rational", owl_real,
-        pattern=Some("[\\-+]?[0-9]+/[1-9][0-9]*"))
+        owl_mgraph, LocalName("rational"), owl_real,
+        pattern=Some(Pattern("[\\-+]?[0-9]+/[1-9][0-9]*")))
       dcr31 = dcr30.withNumeric(owl_rational)
 
-      result <- asImmutableTerminology(owl_mgraph)
-    } yield Tuple3(result._1, result._2, dcr31)
+      dcr = dcr31
+
+      result <- asImmutableModule(owl_mgraph, Mutable2ImmutableModuleTable.empty[omf])
+      (owl_igraph, m2i) = result
+
+    } yield Tuple3(owl_igraph, m2i, dcr)
   }
 
 }

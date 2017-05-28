@@ -18,6 +18,7 @@
 
 package test.gov.nasa.jpl.omf.scala.core.functionalAPI
 
+import gov.nasa.jpl.omf.scala.core.OMLString.LocalName
 import gov.nasa.jpl.omf.scala.core._
 
 import scala.collection.immutable.Set
@@ -40,14 +41,16 @@ abstract class IMCE_OWL2_MOF2_LoadTest[omf <: OMF](
       val result =
         for {
           xsd_iri <- makeIRI( "http://www.w3.org/2001/XMLSchema" )
-          xsd_tbox <- loadTerminology(xsd_iri)
-          integer_iri <- withFragment(xsd_iri, "integer")
-          string_iri <- withFragment(xsd_iri, "string")
-          xsd_integer = lookupDataRange(xsd_tbox._1, integer_iri, recursively = false)
-          xsd_string = lookupDataRange(xsd_tbox._1, string_iri, recursively = false)
+          xsd_tbox <- loadTerminology(Mutable2ImmutableModuleTable.empty[omf], xsd_iri)
+          (xsd, table1) = xsd_tbox
+          integer_iri <- withFragment(xsd_iri, LocalName("integer"))
+          string_iri <- withFragment(xsd_iri, LocalName("string"))
+          xsd_integer = lookupDataRange(xsd, integer_iri, recursively = false)
+          xsd_string = lookupDataRange(xsd, string_iri, recursively = false)
         } yield {
           xsd_integer.isDefined should be(true)
           xsd_string.isDefined should be( true )
+          table1
         }
       result.isRight should be(true)
     }
@@ -56,7 +59,7 @@ abstract class IMCE_OWL2_MOF2_LoadTest[omf <: OMF](
 
       val result = for {
         annotation_iri <- makeIRI( "http://imce.jpl.nasa.gov/foundation/annotation/annotation" )
-        annotation_tbox <- loadTerminology( annotation_iri )
+        annotation_tbox <- loadTerminology( Mutable2ImmutableModuleTable.empty[omf], annotation_iri )
       } yield ()
       result.isRight should be(true)
 
@@ -67,14 +70,16 @@ abstract class IMCE_OWL2_MOF2_LoadTest[omf <: OMF](
       val result =
         for {
           owl2_mof2_iri <- makeIRI( "http://imce.jpl.nasa.gov/foundation/owl2-mof2/owl2-mof2" )
-          owl2_mof2_tbox <- loadTerminology(owl2_mof2_iri)
-          binaryAssociationEndType_iri <- withFragment(owl2_mof2_iri, "BinaryAssociationEndType")
-          binaryAssociation_iri <- withFragment(owl2_mof2_iri, "BinaryAssociation")
-          binaryAssociationEndType = lookupConcept(owl2_mof2_tbox._1, binaryAssociationEndType_iri, recursively = false)
-          binaryAssociation = lookupReifiedRelationship( owl2_mof2_tbox._1, binaryAssociation_iri, recursively=false  )
+          owl2_mof2_tbox <- loadTerminology(Mutable2ImmutableModuleTable.empty[omf], owl2_mof2_iri)
+          (owl2_mof2, table1) = owl2_mof2_tbox
+          binaryAssociationEndType_iri <- withFragment(owl2_mof2_iri, LocalName("BinaryAssociationEndType"))
+          binaryAssociation_iri <- withFragment(owl2_mof2_iri, LocalName("BinaryAssociation"))
+          binaryAssociationEndType = lookupConcept(owl2_mof2, binaryAssociationEndType_iri, recursively = false)
+          binaryAssociation = lookupReifiedRelationship( owl2_mof2, binaryAssociation_iri, recursively=false  )
         } yield {
           binaryAssociationEndType.isDefined should be(true)
           binaryAssociation.isDefined should be(true)
+          table1
         }
       result.swap.toOption should be(Option.empty[Set[java.lang.Throwable]])
     }

@@ -18,10 +18,10 @@
 
 package test.gov.nasa.jpl.omf.scala.core.functionalAPI
 
+import gov.nasa.jpl.omf.scala.core.OMLString.LocalName
 import gov.nasa.jpl.omf.scala.core._
 import gov.nasa.jpl.omf.scala.core.TerminologyKind._
-
-import org.scalatest.{Matchers,WordSpec}
+import org.scalatest.{Matchers, WordSpec}
 
 abstract class IMCEMissionDomainTBoxExample[omf <: OMF]()(
   implicit val ops: OMFOps[omf],
@@ -37,9 +37,9 @@ abstract class IMCEMissionDomainTBoxExample[omf <: OMF]()(
         for {
           i_m0 <- makeIRI( "http://imce.jpl.nasa.gov/foundation/mission/mission0" )
           g <- makeTerminologyGraph(i_m0, isDefinition)
-          s = ops.fromTerminology(g)
+          s = ops.fromMutableTerminology(g)
         } yield {
-          s.imports.isEmpty should be(true)
+          s.importedModules.isEmpty should be(true)
           s.aspects.isEmpty should be(true)
           s.concepts.isEmpty should be(true)
           s.reifiedRelationships.isEmpty should be(true)
@@ -61,12 +61,12 @@ abstract class IMCEMissionDomainTBoxExample[omf <: OMF]()(
         for {
           i_m1 <- makeIRI( "http://imce.jpl.nasa.gov/foundation/mission/mission1" )
           g <- makeTerminologyGraph(i_m1, isDefinition)
-          component <- addConcept(g, "Component")
-          function <- addConcept(g, "Function")
-          s = fromTerminology(g)
+          component <- addConcept(g, LocalName("Component"))
+          function <- addConcept(g, LocalName("Function"))
+          s = fromMutableTerminology(g)
         } yield {
           s.iri should be(i_m1)
-          s.imports.isEmpty should be(true)
+          s.importedModules.isEmpty should be(true)
           s.aspects.isEmpty should be(true)
 
           s.concepts.nonEmpty should be(true)

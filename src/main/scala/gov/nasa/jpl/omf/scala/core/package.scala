@@ -20,15 +20,25 @@ package gov.nasa.jpl.omf.scala
 
 import java.util.UUID
 
-import com.fasterxml.uuid.Generators
-import com.fasterxml.uuid.impl.NameBasedGenerator
 import gov.nasa.jpl.imce.oml.tables.{AnnotationEntry, AnnotationProperty}
 
-import scala.{Boolean,Int,Ordering}
+import scala.{Int,Ordering}
 import scala.collection.immutable._
 import scala.Predef.String
 
 package object core {
+
+  type ImmutableTerminologyBoxSignature[omf <: OMF] =
+    TerminologyBoxSignature[omf, scala.collection.immutable.Set, scala.collection.immutable.Set]
+
+  type MutableTerminologyBoxSignature[omf <: OMF] =
+    TerminologyBoxSignature[omf, scala.collection.mutable.HashSet, scala.collection.mutable.HashSet]
+
+  type ImmutableDescriptionBoxSignature[omf <: OMF] =
+    DescriptionBoxSignature[omf, scala.collection.immutable.Set, scala.collection.immutable.Set]
+
+  type MutableDescriptionBoxSignature[omf <: OMF] =
+    DescriptionBoxSignature[omf, scala.collection.mutable.HashSet, scala.collection.mutable.HashSet]
 
   implicit def annotationPropertyOrdering
   : Ordering[AnnotationProperty]
@@ -70,117 +80,62 @@ package object core {
   : UUID
   = UUID.randomUUID()
 
+  private val uuidG = gov.nasa.jpl.imce.oml.uuid.JVMUUIDGenerator()
   /**
     * Version 5 UUID based on a URL name in the standard URL namespace.
     *
-    * @param url The url to encode as a version 5 UUID in the standard URL namespace.
-    * @return Version 5 UUID encoding of the url
+    * @param namespace The prefix for the namespace.
+    * @param factors key/value pairs that will be added to prefix to form the complete namespace
+    * @return Version 5 UUID encoding of the namespace constructed from the prefix and key/value pairs
     */
-  def generateUUID(url: String)
+  def generateUUID(namespace: String, factors: (String,_ <: String)*)
   : UUID
-  = Generators
-    .nameBasedGenerator(NameBasedGenerator.NAMESPACE_URL)
-    .generate(url)
+  = uuidG.namespaceUUID(namespace, factors : _*)
 
-  def getImportedTerminologies[Omf <: OMF]
-  (tbox: Omf#TerminologyBox,
-   onlyCompatibleKind: Boolean = true  )
+  def generateUUID(parentUUID: UUID, factors: (String,_ <: String)*)
+  : UUID
+  = generateUUID(parentUUID.toString, factors : _*)
+
+  def getImportedModules[omf <: OMF]
+  (m: omf#Module)
+  ( implicit ops: OMFOps[omf], store: omf#Store )
+  : Set[omf#Module]
+  = ops.foldModule[Set[omf#Module]](
+    funImmutableTerminologyGraph =
+      (ig: omf#ImmutableTerminologyGraph) =>
+        ops.immutableTerminologyGraphSignature(ig).importedModules,
+    funMutableTerminologyGraph =
+      (ig: omf#MutableTerminologyGraph) =>
+        ops.mutableTerminologyGraphSignature(ig).importedModules,
+    funImmutableTerminologyBundle =
+      (ib: omf#ImmutableBundle) =>
+        ops.immutableBundleSignature(ib).importedModules,
+    funMutableTerminologyBundle =
+      (ib: omf#MutableBundle) =>
+        ops.mutableBundleSignature(ib).importedModules,
+    funImmutableDescriptionBox =
+      (id: omf#ImmutableDescriptionBox) =>
+        ops.immutableDescriptionBoxSignature(id).importedModules,
+    funMutableDescriptionBox =
+      (id: omf#MutableDescriptionBox) =>
+        ops.mutableDescriptionBoxSignature(id).importedModules
+  )(m)
+
+  def moduleImportClosure[Omf <: OMF, TG <: Omf#Module]
+  ( g: TG )
   ( implicit ops: OMFOps[Omf], store: Omf#Store )
-  : Set[Omf#TerminologyBox]
-  = {
-
-    val s = ops.fromTerminology(tbox)
-
-    def hasCompatibleKind(g: Omf#TerminologyBox)
-    : Boolean
-    = !onlyCompatibleKind || TerminologyKind.compatibleKind(s.kind)(ops.getTerminologyKind(g))
-
-    val imported = s.imports.filter(hasCompatibleKind).to[Set]
-    imported
-  }
-
-  /**
-   * The reflexive transitive closure of terminology graphs reachable by following
-   * TerminologyGraphDirectImportAxiom (from importing to imported) and
-   * TerminologyGraphDirectNestingParentAxiom (from nested child to nesting parent).
-   *
-   * @param g The terminology graph whose direct & indirect imports and nesting parents are included in the result
-   *          (subject to kind filtering)
-   * @param onlyCompatibleKind determines the filtering for imported & nesting parent terminology graphs
-   * @return gs:
-   *         if onlyCompatibleKind is true; then gs contains g and all directly or indirectly
-   *         imported / nesting parents g' where g has compatible kind with g'
-   *         if onlyCompatibleKind is false; then gs contains g and all directly or indirectly
-   *         imported / nesting parents g' regardless of whether g is compatible with g'
-   *
-   * If:
-   * TerminologyGraphDirectImportAxiom(importing=G1, imported=G2)
-   * TerminologyGraphDirectImportAxiom(importing=G2, imported=G3)
-   * Then:
-   * G1 imports G2,G3
-   * G2 imports G3
-   *
-   * If:
-   * TerminologyGraphDirectImportAxiom(importing=G1, imported=G2)
-   * TerminologyGraphDirectNestingParentAxiom(nestedChild=G2, nestingParent=G3)
-   * TerminologyGraphDirectImportAxiom(importing=G3, imported=G4)
-   * Then:
-   * G1 imports G2,G3,G4
-   * G3 imports G4
-   *
-   * If:
-   * TerminologyGraphDirectImportAxiom(importing=G1, imported=G2a)
-   * TerminologyGraphDirectNestingParentAxiom(nestedChild=G2a, nestingParent=G3)
-   * TerminologyGraphDirectNestingParentAxiom(nestedChild=G2b, nestingParent=G3)
-   * TerminologyGraphDirectImportAxiom(importing=G3, imported=G4)
-   * Then:
-   * G1 imports G2a,G3,G4
-   * G3 imports G4
-   */
-  def terminologyImportClosure[Omf <: OMF, TG <: Omf#TerminologyBox]
-  ( g: TG,
-    onlyCompatibleKind: Boolean = true )
-  ( implicit ops: OMFOps[Omf], store: Omf#Store )
-  : Set[Omf#TerminologyBox] = {
+  : Set[Omf#Module] = {
 
     def step
-    (gi: Omf#TerminologyBox)
-    : Set[Omf#TerminologyBox]
-    = getImportedTerminologies(gi, onlyCompatibleKind)
+    (gi: Omf#Module)
+    : Set[Omf#Module]
+    = getImportedModules(gi)
 
     val result
-    : Set[Omf#TerminologyBox]
-    = OMFOps.closure[Omf#TerminologyBox, Omf#TerminologyBox](g, step) + g
+    : Set[Omf#Module]
+    = OMFOps.closure[Omf#Module, Omf#Module](g, step) + g
 
     result
-  }
-
-  /**
-   * Aggregates all entities defined in terminology graphs
-   * @param tboxes: a set of terminology graphs
-   * @return a 3-tuple of the aspects, concepts and relationships entities defined in the graphs:
-   */
-  def allEntities[Omf <: OMF]
-  ( tboxes: Set[Omf#TerminologyBox] )
-  ( implicit ops: OMFOps[Omf], store: Omf#Store )
-  : (
-    Set[Omf#Aspect],
-    Set[Omf#Concept],
-    Set[Omf#ReifiedRelationship],
-    Set[Omf#UnreifiedRelationship]) = {
-
-    import ops._
-
-    val entities0 =
-      ( Set[Omf#Aspect](), Set[Omf#Concept](), Set[Omf#ReifiedRelationship](), Set[Omf#UnreifiedRelationship]() )
-    val entitiesN =
-      ( entities0 /: ( for { tbox <- tboxes } yield {
-        val s =
-          fromTerminology( tbox )
-        ( s.aspects.toSet, s.concepts.toSet, s.reifiedRelationships.toSet, s.unreifiedRelationships.toSet )
-      } ) ) { case ( ( ai, ci, ri, ui ), ( aj, cj, rj, uj) ) => ( ai ++ aj, ci ++ cj, ri ++ rj, ui ++ uj ) }
-
-    entitiesN
   }
 
 }

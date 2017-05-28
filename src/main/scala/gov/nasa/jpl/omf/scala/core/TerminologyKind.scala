@@ -87,21 +87,6 @@ object TerminologyKind {
     case _ => false
   }
 
-  /**
-   * Asymmetric comparison
-   *
-   * @param childKind The TerminologyKind of a "child" graph (child means extending child or nested child)
-   * @param parentKind The TerminologyKind of a "parent" graph (parent means extended parent or nesting parent)
-   * @return
-   */
-  def compatibleKind
-  ( childKind: TerminologyKind )
-  ( parentKind: TerminologyKind )
-  : Boolean =
-    isDesignationKind(childKind)  ||
-      isDefinitionKind(childKind) && isDefinitionKind(parentKind)
-
-
 }
 
 object TerminologyKindHelper {

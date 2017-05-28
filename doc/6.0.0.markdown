@@ -1,0 +1,5 @@
+gov.nasa.jpl.omf.scala.core 6.0.0 is a major refactoring to align the OMF API to the OML metamodels.
+
+## Issues resolved
+
+- [#3 Update OMF API per OML metamodels](https://github.com/JPL-IMCE/gov.nasa.jpl.omf.scala.core/issues/3)
