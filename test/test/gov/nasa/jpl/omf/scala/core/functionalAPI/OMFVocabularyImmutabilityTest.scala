@@ -275,8 +275,8 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF]
 
         {
           val s = ops.fromImmutableTerminology(base)
-          s.importedModules.isEmpty should be(false)
-          s.importedModules.contains(xsd) should be(true)
+          s.importedTerminologies.isEmpty should be(false)
+          s.importedTerminologies.contains(xsd) should be(true)
           s.aspects.isEmpty should be(false)
           s.concepts.isEmpty should be(true)
           s.reifiedRelationships.isEmpty should be(true)
@@ -316,8 +316,8 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF]
 
         {
           val s = ops.fromImmutableTerminology(mission)
-          s.importedModules.isEmpty should be(false)
-          s.importedModules.toSet.contains(base) should be(true)
+          s.importedTerminologies.isEmpty should be(false)
+          s.importedTerminologies.toSet.contains(base) should be(true)
           s.aspects.isEmpty should be(true)
           s.concepts.isEmpty should be(false)
           s.reifiedRelationships.isEmpty should be(false)

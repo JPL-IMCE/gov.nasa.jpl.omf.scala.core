@@ -22,23 +22,23 @@ import java.util.UUID
 
 import gov.nasa.jpl.imce.oml.tables.{AnnotationEntry, AnnotationProperty}
 
-import scala.{Int,Ordering}
+import scala.{Int,Ordering,None,Some}
 import scala.collection.immutable._
 import scala.Predef.String
 
 package object core {
 
   type ImmutableTerminologyBoxSignature[omf <: OMF] =
-    TerminologyBoxSignature[omf, scala.collection.immutable.Set, scala.collection.immutable.Set]
+    TerminologyBoxSignature[omf, scala.collection.immutable.Set, scala.collection.immutable.Set, scala.collection.immutable.Map]
 
   type MutableTerminologyBoxSignature[omf <: OMF] =
-    TerminologyBoxSignature[omf, scala.collection.mutable.HashSet, scala.collection.mutable.HashSet]
+    TerminologyBoxSignature[omf, scala.collection.mutable.HashSet, scala.collection.mutable.HashSet, scala.collection.mutable.HashMap]
 
   type ImmutableDescriptionBoxSignature[omf <: OMF] =
-    DescriptionBoxSignature[omf, scala.collection.immutable.Set, scala.collection.immutable.Set]
+    DescriptionBoxSignature[omf, scala.collection.immutable.Set, scala.collection.immutable.Set, scala.collection.immutable.Map]
 
   type MutableDescriptionBoxSignature[omf <: OMF] =
-    DescriptionBoxSignature[omf, scala.collection.mutable.HashSet, scala.collection.mutable.HashSet]
+    DescriptionBoxSignature[omf, scala.collection.mutable.HashSet, scala.collection.mutable.HashSet, scala.collection.mutable.HashMap]
 
   implicit def annotationPropertyOrdering
   : Ordering[AnnotationProperty]
@@ -96,46 +96,98 @@ package object core {
   : UUID
   = generateUUID(parentUUID.toString, factors : _*)
 
-  def getImportedModules[omf <: OMF]
+  def importedTerminologies[omf <: OMF]
   (m: omf#Module)
   ( implicit ops: OMFOps[omf], store: omf#Store )
-  : Set[omf#Module]
-  = ops.foldModule[Set[omf#Module]](
+  : Set[omf#TerminologyBox]
+  = ops.foldModule[Set[omf#TerminologyBox]](
     funImmutableTerminologyGraph =
       (ig: omf#ImmutableTerminologyGraph) =>
-        ops.immutableTerminologyGraphSignature(ig).importedModules,
+        ops.immutableTerminologyGraphSignature(ig).importedTerminologies,
     funMutableTerminologyGraph =
       (ig: omf#MutableTerminologyGraph) =>
-        ops.mutableTerminologyGraphSignature(ig).importedModules,
+        ops.mutableTerminologyGraphSignature(ig).importedTerminologies,
     funImmutableTerminologyBundle =
       (ib: omf#ImmutableBundle) =>
-        ops.immutableBundleSignature(ib).importedModules,
+        ops.immutableBundleSignature(ib).importedTerminologies,
     funMutableTerminologyBundle =
       (ib: omf#MutableBundle) =>
-        ops.mutableBundleSignature(ib).importedModules,
+        ops.mutableBundleSignature(ib).importedTerminologies,
     funImmutableDescriptionBox =
       (id: omf#ImmutableDescriptionBox) =>
-        ops.immutableDescriptionBoxSignature(id).importedModules,
+        ops.immutableDescriptionBoxSignature(id).importedTerminologies,
     funMutableDescriptionBox =
       (id: omf#MutableDescriptionBox) =>
-        ops.mutableDescriptionBoxSignature(id).importedModules
+        ops.mutableDescriptionBoxSignature(id).importedTerminologies
   )(m)
 
-  def moduleImportClosure[Omf <: OMF, TG <: Omf#Module]
-  ( g: TG )
-  ( implicit ops: OMFOps[Omf], store: Omf#Store )
-  : Set[Omf#Module] = {
+  def importedDescriptions[omf <: OMF]
+  (m: omf#Module)
+  ( implicit ops: OMFOps[omf], store: omf#Store )
+  : Set[omf#DescriptionBox]
+  = ops.foldModule[Set[omf#DescriptionBox]](
+    funImmutableTerminologyGraph =
+      (_: omf#ImmutableTerminologyGraph) =>
+        Set.empty[omf#DescriptionBox],
+    funMutableTerminologyGraph =
+      (_: omf#MutableTerminologyGraph) =>
+        Set.empty[omf#DescriptionBox],
+    funImmutableTerminologyBundle =
+      (_: omf#ImmutableBundle) =>
+        Set.empty[omf#DescriptionBox],
+    funMutableTerminologyBundle =
+      (_: omf#MutableBundle) =>
+        Set.empty[omf#DescriptionBox],
+    funImmutableDescriptionBox =
+      (id: omf#ImmutableDescriptionBox) =>
+        ops.immutableDescriptionBoxSignature(id).importedDescriptions,
+    funMutableDescriptionBox =
+      (id: omf#MutableDescriptionBox) =>
+        ops.mutableDescriptionBoxSignature(id).importedDescriptions
+  )(m)
+
+  def terminologyBoxImportClosure[omf <: OMF]
+  ( m: omf#Module )
+  ( implicit ops: OMFOps[omf], store: omf#Store )
+  : Set[omf#TerminologyBox] = {
 
     def step
-    (gi: Omf#Module)
-    : Set[Omf#Module]
-    = getImportedModules(gi)
+    (mi: omf#Module)
+    : Set[omf#TerminologyBox]
+    = importedTerminologies(mi)
 
     val result
-    : Set[Omf#Module]
-    = OMFOps.closure[Omf#Module, Omf#Module](g, step) + g
+    : Set[omf#TerminologyBox]
+    = OMFOps.closure[omf#Module, omf#TerminologyBox](m, step)
 
-    result
+    ops.toTerminologyBox(m) match {
+      case Some(t) =>
+        result + t
+      case None =>
+        result
+    }
+  }
+
+  def descriptionBoxImportClosure[omf <: OMF]
+  ( m: omf#Module )
+  ( implicit ops: OMFOps[omf], store: omf#Store )
+  : Set[omf#DescriptionBox] = {
+
+    def step
+    (mi: omf#Module)
+    : Set[omf#DescriptionBox]
+    = importedDescriptions(mi)
+
+    val result
+    : Set[omf#DescriptionBox]
+    = OMFOps.closure[omf#Module, omf#DescriptionBox](m, step)
+
+    ops.toDescriptionBox(m) match {
+      case Some(d) =>
+        result + d
+      case None =>
+        result
+    }
   }
 
 }

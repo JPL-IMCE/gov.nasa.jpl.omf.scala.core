@@ -6,10 +6,14 @@ import gov.nasa.jpl.imce.oml.tables.{AnnotationEntry, AnnotationProperty, LocalN
 
 import scala.collection.immutable.Set
 
-case class DescriptionBoxSignature[omf <: OMF, +S[A] <: scala.collection.Iterable[A], I[A] <: scala.collection.Iterable[A]]
-( uuid: UUID,
-  name: LocalName,
-  iri: omf#IRI,
+case class DescriptionBoxSignature[
+omf <: OMF,
++S[A] <: scala.collection.Iterable[A],
+I[A] <: scala.collection.Iterable[A],
++M[AP, AES] <: scala.collection.Map[AP,AES]]
+( override val uuid: UUID,
+  override val name: LocalName,
+  override val iri: omf#IRI,
   kind: DescriptionKind,
 
   descriptionBoxRefinements: S[omf#DescriptionBoxRefinement],
@@ -24,15 +28,21 @@ case class DescriptionBoxSignature[omf <: OMF, +S[A] <: scala.collection.Iterabl
   scalarDataPropertyValues: S[omf#ScalarDataPropertyValue],
   structuredDataPropertyTuples: S[omf#StructuredDataPropertyTuple],
 
-  annotationProperties: S[AnnotationProperty],
+  override val annotationProperties: S[AnnotationProperty],
 
-  annotations: S[(AnnotationProperty, I[AnnotationEntry])]) {
+  override val annotations: M[AnnotationProperty, I[AnnotationEntry]])
+  extends ModuleSignature[omf]  {
 
-  def importedModules
+  override def importedTerminologies
   (implicit ops: OMFOps[omf])
-  : Set[omf#Module]
-  = Set.empty[omf#Module] ++
-    descriptionBoxRefinements.map(ops.fromDescriptionBoxRefinementAxiom(_).importedModule) ++
-    closedWorldDefinitions.map(ops.fromClosedWorldDefinitionsAxiom(_).importedModule)
+  : Set[omf#TerminologyBox]
+  = Set.empty[omf#TerminologyBox] ++
+    closedWorldDefinitions.map(ops.fromClosedWorldDefinitionsAxiom(_).extendedClosedWorldDefinitions)
+
+  override def importedDescriptions
+  (implicit ops: OMFOps[omf])
+  : Set[omf#DescriptionBox]
+  = Set.empty[omf#DescriptionBox] ++
+    descriptionBoxRefinements.map(ops.fromDescriptionBoxRefinementAxiom(_).refinedDescriptionBox)
 
 }

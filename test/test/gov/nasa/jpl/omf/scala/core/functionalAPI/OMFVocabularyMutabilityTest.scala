@@ -192,8 +192,8 @@ abstract class OMFVocabularyMutabilityTest[omf <: OMF]
         component_performs_function_iri <- makeIRI("http://imce.jpl.nasa.gov/test/mutability/foundation/mission/mission#Performs")
       } yield {
         val s = ops.fromImmutableTerminology(base)
-        s.importedModules.isEmpty should be(false)
-        s.importedModules.contains(xsd) should be(true)
+        s.importedTerminologies.isEmpty should be(false)
+        s.importedTerminologies.contains(xsd) should be(true)
         s.aspects.isEmpty should be(false)
         s.concepts.isEmpty should be(true)
         s.reifiedRelationships.isEmpty should be(true)
@@ -222,8 +222,8 @@ abstract class OMFVocabularyMutabilityTest[omf <: OMF]
 
         {
           val s = ops.fromImmutableTerminology(mission)
-          s.importedModules.isEmpty should be(false)
-          s.importedModules.contains(base) should be(true)
+          s.importedTerminologies.isEmpty should be(false)
+          s.importedTerminologies.contains(base) should be(true)
           s.aspects.isEmpty should be(true)
           s.concepts.isEmpty should be(false)
           s.reifiedRelationships.isEmpty should be(false)

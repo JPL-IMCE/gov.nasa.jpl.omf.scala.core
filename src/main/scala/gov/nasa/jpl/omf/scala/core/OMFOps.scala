@@ -172,22 +172,18 @@ trait OMFStoreOps[omf <: OMF] { self : IRIOps[omf] =>
   : omf#IRI
 
   def getModuleName
-  (graph: omf#Module)
+  (m: omf#Module)
   : LocalName
 
   def getModuleUUID
-  (graph: omf#Module)
+  (m: omf#Module)
   : UUID
 
   def annotationProperties
-  ()
+  (m: omf#Module)
   (implicit store: omf#Store)
   : Seq[AnnotationProperty]
 
-  def addAnnotationProperty
-  (ap: AnnotationProperty)
-  (implicit store: omf#Store)
-  : Throwables \/ AnnotationProperty
 
   def foldModule[T]
   (funImmutableTerminologyGraph: omf#ImmutableTerminologyGraph => T,
@@ -196,7 +192,7 @@ trait OMFStoreOps[omf <: OMF] { self : IRIOps[omf] =>
    funMutableTerminologyBundle: omf#MutableBundle => T,
    funImmutableDescriptionBox: omf#ImmutableDescriptionBox => T,
    funMutableDescriptionBox: omf#MutableDescriptionBox => T)
-  (t: omf#Module)
+  (m: omf#Module)
   : T
 
   def foldImmutableModule[T]
@@ -213,7 +209,7 @@ trait OMFStoreOps[omf <: OMF] { self : IRIOps[omf] =>
   (t: omf#MutableModule)
   : T
 
-  def foldTerminologyBox
+  final def foldTerminologyBox
   (t: omf#Module)
   : Option[omf#TerminologyBox]
   = foldModule[Option[omf#TerminologyBox]](
@@ -225,7 +221,7 @@ trait OMFStoreOps[omf <: OMF] { self : IRIOps[omf] =>
     funMutableDescriptionBox = (_: omf#MutableDescriptionBox) => None
   )(t)
 
-  def foldMutableTerminologyBox
+  final def foldMutableTerminologyBox
   (t: omf#Module)
   : Option[omf#MutableTerminologyBox]
   = foldModule[Option[omf#MutableTerminologyBox]](
@@ -237,7 +233,7 @@ trait OMFStoreOps[omf <: OMF] { self : IRIOps[omf] =>
     funMutableDescriptionBox = (_: omf#MutableDescriptionBox) => None
   )(t)
 
-  def foldImmutableTerminologyBox
+  final def foldImmutableTerminologyBox
   (t: omf#Module)
   : Option[omf#ImmutableTerminologyBox]
   = foldModule[Option[omf#ImmutableTerminologyBox]](
@@ -257,7 +253,7 @@ trait OMFStoreOps[omf <: OMF] { self : IRIOps[omf] =>
   (mg: omf#MutableTerminologyGraph)
   : MutableTerminologyBoxSignature[omf]
 
-  def foldTerminologyGraph
+  final def foldTerminologyGraph
   (t: omf#Module)
   : Option[omf#TerminologyGraph]
   = foldModule[Option[omf#TerminologyGraph]](
@@ -269,7 +265,7 @@ trait OMFStoreOps[omf <: OMF] { self : IRIOps[omf] =>
     funMutableDescriptionBox = (_: omf#MutableDescriptionBox) => None
   )(t)
 
-  def foldMutableTerminologyGraph
+  final def foldMutableTerminologyGraph
   (t: omf#Module)
   : Option[omf#MutableTerminologyGraph]
   = foldModule[Option[omf#MutableTerminologyGraph]](
@@ -281,8 +277,7 @@ trait OMFStoreOps[omf <: OMF] { self : IRIOps[omf] =>
     funMutableDescriptionBox = (_: omf#MutableDescriptionBox) => None
   )(t)
 
-
-  def foldImmutableTerminologyGraph
+  final def foldImmutableTerminologyGraph
   (t: omf#Module)
   : Option[omf#ImmutableTerminologyGraph]
   = foldModule[Option[omf#ImmutableTerminologyGraph]](
@@ -302,7 +297,7 @@ trait OMFStoreOps[omf <: OMF] { self : IRIOps[omf] =>
   (mb: omf#MutableBundle)
   : MutableTerminologyBoxSignature[omf]
 
-  def foldBundle
+  final def foldBundle
   (t: omf#Module)
   : Option[omf#Bundle]
   = foldModule[Option[omf#Bundle]](
@@ -314,8 +309,7 @@ trait OMFStoreOps[omf <: OMF] { self : IRIOps[omf] =>
     funMutableDescriptionBox = (_: omf#MutableDescriptionBox) => None
   )(t)
 
-
-  def foldMutableBundle
+  final def foldMutableBundle
   (t: omf#Module)
   : Option[omf#MutableBundle]
   = foldModule[Option[omf#MutableBundle]](
@@ -327,7 +321,7 @@ trait OMFStoreOps[omf <: OMF] { self : IRIOps[omf] =>
     funMutableDescriptionBox = (_: omf#MutableDescriptionBox) => None
   )(t)
 
-  def foldImmutableBundle
+  final def foldImmutableBundle
   (t: omf#Module)
   : Option[omf#ImmutableBundle]
   = foldModule[Option[omf#ImmutableBundle]](
@@ -347,7 +341,7 @@ trait OMFStoreOps[omf <: OMF] { self : IRIOps[omf] =>
   (md: omf#MutableDescriptionBox)
   : MutableDescriptionBoxSignature[omf]
 
-  def foldDescriptionBox
+  final def foldDescriptionBox
   (t: omf#Module)
   : Option[omf#DescriptionBox]
   = foldModule[Option[omf#DescriptionBox]](
@@ -359,7 +353,7 @@ trait OMFStoreOps[omf <: OMF] { self : IRIOps[omf] =>
     funMutableDescriptionBox = (d: omf#MutableDescriptionBox) => Some(d)
   )(t)
 
-  def foldMutableDescriptionBox
+  final def foldMutableDescriptionBox
   (t: omf#Module)
   : Option[omf#MutableDescriptionBox]
   = foldModule[Option[omf#MutableDescriptionBox]](
@@ -371,7 +365,7 @@ trait OMFStoreOps[omf <: OMF] { self : IRIOps[omf] =>
     funMutableDescriptionBox = (d: omf#MutableDescriptionBox) => Some(d)
   )(t)
 
-  def foldImmutableDescriptionBox
+  final def foldImmutableDescriptionBox
   (t: omf#Module)
   : Option[omf#ImmutableDescriptionBox]
   = foldModule[Option[omf#ImmutableDescriptionBox]](
@@ -412,7 +406,7 @@ trait OMFStoreOps[omf <: OMF] { self : IRIOps[omf] =>
   (implicit store: omf#Store)
   : Throwables \/ (omf#ImmutableModule, Mutable2ImmutableModuleTable[omf])
 
-  def loadTerminology
+  final def loadTerminology
   (m2i: Mutable2ImmutableModuleTable[omf],
    iri: omf#IRI)
   (implicit store: omf#Store)
@@ -426,7 +420,7 @@ trait OMFStoreOps[omf <: OMF] { self : IRIOps[omf] =>
           s"loadTerminology($iri) results in a DescriptionBox, not a TerminologyBox")).left
   }
 
-  def loadDescription
+  final def loadDescription
   (m2i: Mutable2ImmutableModuleTable[omf],
    iri: omf#IRI)
   (implicit store: omf#Store)
@@ -440,6 +434,11 @@ trait OMFStoreOps[omf <: OMF] { self : IRIOps[omf] =>
           s"loadDescription($iri) results in a TerminologyBox, not a DescriptionBox")).left
   }
 
+  def isMutable
+  (m: omf#Module)
+  (implicit store: omf#Store)
+  : Boolean
+
   def asImmutableModule
   (m: omf#MutableModule,
    m2i: Mutable2ImmutableModuleTable[omf])
@@ -447,7 +446,7 @@ trait OMFStoreOps[omf <: OMF] { self : IRIOps[omf] =>
   : Throwables \/
     (omf#ImmutableModule, Mutable2ImmutableModuleTable[omf])
 
-  def asImmutableTerminology
+  final def asImmutableTerminology
   (m: omf#MutableModule,
    m2i: Mutable2ImmutableModuleTable[omf])
   (implicit store: omf#Store)
@@ -462,7 +461,7 @@ trait OMFStoreOps[omf <: OMF] { self : IRIOps[omf] =>
           s"asImmutableTerminology($m) results in a DescriptionBox, not a TerminologyBox")).left
   }
 
-  def asImmutableDescription
+  final def asImmutableDescription
   (m: omf#MutableModule,
    m2i: Mutable2ImmutableModuleTable[omf])
   (implicit store: omf#Store)
@@ -477,15 +476,50 @@ trait OMFStoreOps[omf <: OMF] { self : IRIOps[omf] =>
           s"asImmutableDescription($m) results in a TerminologyBox, not a DescriptionBox")).left
   }
 
-  def isMutable
-  (graph: omf#Module)
-  (implicit store: omf#Store)
-  : Boolean
-
   def toMutableModule
-  (graph: omf#Module)
+  (m: omf#Module)
   (implicit store: omf#Store)
   : Option[omf#MutableModule]
+
+  def toTerminologyBox
+  (m: omf#Module)
+  (implicit store: omf#Store)
+  : Option[omf#TerminologyBox]
+
+  def toImmutableTerminologyBox
+  (m: omf#Module)
+  (implicit store: omf#Store)
+  : Option[omf#ImmutableTerminologyBox]
+
+  def toTerminologyGraph
+  (m: omf#Module)
+  (implicit store: omf#Store)
+  : Option[omf#TerminologyGraph]
+
+  def toImmutableTerminologyGraph
+  (m: omf#Module)
+  (implicit store: omf#Store)
+  : Option[omf#ImmutableTerminologyGraph]
+
+  def toBundle
+  (m: omf#Module)
+  (implicit store: omf#Store)
+  : Option[omf#Bundle]
+
+  def toImmutableBundle
+  (m: omf#Module)
+  (implicit store: omf#Store)
+  : Option[omf#ImmutableBundle]
+
+  def toDescriptionBox
+  (m: omf#Module)
+  (implicit store: omf#Store)
+  : Option[omf#DescriptionBox]
+
+  def toImmutableDescriptionBox
+  (m: omf#Module)
+  (implicit store: omf#Store)
+  : Option[omf#ImmutableDescriptionBox]
 
   def fromImmutableTerminology
   (tbox: omf#ImmutableTerminologyBox)
@@ -497,12 +531,12 @@ trait OMFStoreOps[omf <: OMF] { self : IRIOps[omf] =>
   (implicit store: omf#Store)
   : MutableTerminologyBoxSignature[omf]
 
-  def fromImmutableDescription
+  def fromImmutableDescriptionBox
   (dbox: omf#ImmutableDescriptionBox)
   (implicit store: omf#Store)
   : ImmutableDescriptionBoxSignature[omf]
 
-  def fromMutableDescription
+  def fromMutableDescriptionBox
   (dbox: omf#MutableDescriptionBox)
   (implicit store: omf#Store)
   : MutableDescriptionBoxSignature[omf]
@@ -511,22 +545,6 @@ trait OMFStoreOps[omf <: OMF] { self : IRIOps[omf] =>
   (ax: omf#TerminologyAxiom)
   (implicit store: omf#Store)
   : UUID
-
-  /**
-    * Find the axiom TerminologyGraphDirectNestingAxiom(nestedChild==nestedG), if any.
-    */
-  def lookupNestingAxiomForNestedChildIfAny
-  (nestedG: omf#TerminologyBox)
-  (implicit store: omf#Store)
-  : Option[omf#TerminologyNestingAxiom]
-
-  /**
-    * Find the axioms TerminologyGraphDirectNestingAxiom(nestingContext=nestingC).
-    */
-  def lookupNestingAxiomsForNestingContext
-  (nestingC: omf#Concept)
-  (implicit store: omf#Store)
-  : Set[omf#TerminologyNestingAxiom]
 
   def getExtensionAxioms
   (extendingChildG: omf#TerminologyBox)
@@ -635,45 +653,45 @@ trait OMFStoreOps[omf <: OMF] { self : IRIOps[omf] =>
 trait ImmutableTerminologyGraphOps[omf <: OMF] { self: OMFStoreOps[omf] with IRIOps[omf] =>
 
   def getAnnotations
-  (graph: omf#TerminologyBox)
-  : Map[AnnotationProperty, Seq[AnnotationEntry]]
+  (tbox: omf#TerminologyBox)
+  : Map[AnnotationProperty, Set[AnnotationEntry]]
 
   def getTerminologyKind
-  (graph: omf#TerminologyBox)
+  (tbox: omf#TerminologyBox)
   : TerminologyKind
 
   def lookupTerm
-  (graph: omf#TerminologyBox, iri: omf#IRI, recursively: Boolean)
+  (tbox: omf#TerminologyBox, iri: omf#IRI, recursively: Boolean)
   (implicit store: omf#Store)
   : Option[omf#Term]
 
   def lookupEntity
-  (graph: omf#TerminologyBox, iri: omf#IRI, recursively: Boolean)
+  (tbox: omf#TerminologyBox, iri: omf#IRI, recursively: Boolean)
   (implicit store: omf#Store)
   : Option[omf#Entity]
 
   def lookupAspect
-  (graph: omf#TerminologyBox, iri: omf#IRI, recursively: Boolean)
+  (tbox: omf#TerminologyBox, iri: omf#IRI, recursively: Boolean)
   (implicit store: omf#Store)
   : Option[omf#Aspect]
 
   def lookupConcept
-  (graph: omf#TerminologyBox, iri: omf#IRI, recursively: Boolean)
+  (tbox: omf#TerminologyBox, iri: omf#IRI, recursively: Boolean)
   (implicit store: omf#Store)
   : Option[omf#Concept]
 
   def lookupReifiedRelationship
-  (graph: omf#TerminologyBox, iri: omf#IRI, recursively: Boolean)
+  (tbox: omf#TerminologyBox, iri: omf#IRI, recursively: Boolean)
   (implicit store: omf#Store)
   : Option[omf#ReifiedRelationship]
 
   def lookupUnreifiedRelationship
-  (graph: omf#TerminologyBox, iri: omf#IRI, recursively: Boolean)
+  (tbox: omf#TerminologyBox, iri: omf#IRI, recursively: Boolean)
   (implicit store: omf#Store)
   : Option[omf#UnreifiedRelationship]
 
   def lookupDataRange
-  (graph: omf#TerminologyBox, iri: omf#IRI, recursively: Boolean)
+  (tbox: omf#TerminologyBox, iri: omf#IRI, recursively: Boolean)
   (implicit store: omf#Store)
   : Option[omf#DataRange]
 
@@ -683,27 +701,27 @@ trait ImmutableTerminologyGraphOps[omf <: OMF] { self: OMFStoreOps[omf] with IRI
   : Option[omf#DataRange]
 
   def lookupStructure
-  (graph: omf#TerminologyBox, iri: omf#IRI, recursively: Boolean)
+  (tbox: omf#TerminologyBox, iri: omf#IRI, recursively: Boolean)
   (implicit store: omf#Store)
   : Option[omf#Structure]
 
   def lookupEntityScalarDataProperty
-  (graph: omf#TerminologyBox, iri: omf#IRI, recursively: Boolean)
+  (tbox: omf#TerminologyBox, iri: omf#IRI, recursively: Boolean)
   (implicit store: omf#Store)
   : Option[omf#EntityScalarDataProperty]
 
   def lookupEntityStructuredDataProperty
-  (graph: omf#TerminologyBox, iri: omf#IRI, recursively: Boolean)
+  (tbox: omf#TerminologyBox, iri: omf#IRI, recursively: Boolean)
   (implicit store: omf#Store)
   : Option[omf#EntityStructuredDataProperty]
 
   def lookupScalarDataProperty
-  (graph: omf#TerminologyBox, iri: omf#IRI, recursively: Boolean)
+  (tbox: omf#TerminologyBox, iri: omf#IRI, recursively: Boolean)
   (implicit store: omf#Store)
   : Option[omf#ScalarDataProperty]
 
   def lookupStructuredDataProperty
-  (graph: omf#TerminologyBox, iri: omf#IRI, recursively: Boolean)
+  (tbox: omf#TerminologyBox, iri: omf#IRI, recursively: Boolean)
   (implicit store: omf#Store)
   : Option[omf#StructuredDataProperty]
 
@@ -712,11 +730,11 @@ trait ImmutableTerminologyGraphOps[omf <: OMF] { self: OMFStoreOps[omf] with IRI
   : UUID
 
   def getAxioms
-  (graph: omf#TerminologyBox)
+  (tbox: omf#TerminologyBox)
   : (omf#IRI, Iterable[omf#Axiom])
 
   def getTerms
-  (graph: omf#TerminologyBox)
+  (tbox: omf#TerminologyBox)
   : (omf#IRI, Iterable[omf#Term])
 
   def foldTerm[T]
@@ -762,6 +780,22 @@ trait ImmutableTerminologyGraphOps[omf <: OMF] { self: OMFStoreOps[omf] with IRI
   def getConceptTreeDisjunctionUUID
   (ctd: omf#ConceptTreeDisjunction)
   : UUID
+
+  /**
+    * Find the axiom TerminologyGraphDirectNestingAxiom(nestedChild==nestedG), if any.
+    */
+  def lookupNestingAxiomForNestedChildIfAny
+  (nestedG: omf#TerminologyBox)
+  (implicit store: omf#Store)
+  : Option[omf#TerminologyNestingAxiom]
+
+  /**
+    * Find the axioms TerminologyGraphDirectNestingAxiom(nestingContext=nestingC).
+    */
+  def lookupNestingAxiomsForNestingContext
+  (nestingC: omf#Concept)
+  (implicit store: omf#Store)
+  : Set[omf#TerminologyNestingAxiom]
 
   // entity concept
 
@@ -989,7 +1023,13 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   extends ImmutableTerminologyGraphOps[omf] {
   self: OMFStoreOps[omf] with IRIOps[omf] =>
 
-  def addAnnotation
+  def addTerminologyAnnotationProperty
+  (graph: omf#MutableTerminologyBox,
+   ap: AnnotationProperty)
+  (implicit store: omf#Store)
+  : Throwables \/ AnnotationProperty
+
+  def addTerminologyAnnotation
   (graph: omf#MutableTerminologyBox,
    subject: omf#Element,
    property: AnnotationProperty,
@@ -2558,6 +2598,20 @@ trait ImmutableDescriptionBoxOps[omf <: OMF] { self: OMFStoreOps[omf] with IRIOp
 trait MutableDescriptionBoxOps[omf <: OMF]
   extends ImmutableDescriptionBoxOps[omf] {
   self: OMFStoreOps[omf] with IRIOps[omf] =>
+
+  def addDescriptionAnnotationProperty
+  (dbox: omf#MutableDescriptionBox,
+   ap: AnnotationProperty)
+  (implicit store: omf#Store)
+  : Throwables \/ AnnotationProperty
+
+  def addDescriptionAnnotation
+  (dbox: omf#MutableDescriptionBox,
+   subject: omf#Element,
+   property: AnnotationProperty,
+   value: String)
+  (implicit store: omf#Store)
+  : Throwables \/ AnnotationEntry
 
   def getMutableDescriptionBoxIRI
   (dbox: omf#MutableDescriptionBox)

@@ -19,6 +19,26 @@ case class Mutable2ImmutableModuleTable[omf <: OMF]
 
   def values: Seq[omf#ImmutableModule] = pairs.map(_._2)
 
+  def terminologyBoxValues
+  (implicit store: omf#Store, ops: OMFOps[omf])
+  : Seq[omf#ImmutableTerminologyBox]
+  = pairs.map(_._2) flatMap ops.toImmutableTerminologyBox
+
+  def terminologyGraphValues
+  (implicit store: omf#Store, ops: OMFOps[omf])
+  : Seq[omf#ImmutableTerminologyGraph]
+  = pairs.map(_._2) flatMap ops.toImmutableTerminologyGraph
+
+  def bundleValues
+  (implicit store: omf#Store, ops: OMFOps[omf])
+  : Seq[omf#ImmutableBundle]
+  = pairs.map(_._2) flatMap ops.toImmutableBundle
+
+  def descriptionBoxValues
+  (implicit store: omf#Store, ops: OMFOps[omf])
+  : Seq[omf#ImmutableDescriptionBox]
+  = pairs.map(_._2) flatMap ops.toImmutableDescriptionBox
+
   def containsKey
   (mm: omf#MutableModule)
   (implicit ops: OMFOps[omf])
@@ -59,6 +79,29 @@ case class Mutable2ImmutableModuleTable[omf <: OMF]
 
   def get(m: omf#MutableModule): Option[omf#ImmutableModule] = pairs.find(_._1 == m).map(_._2)
 
+  def getImmutableTerminologyBox
+  (m: omf#MutableModule)
+  (implicit store: omf#Store, ops: OMFOps[omf])
+  : Option[omf#ImmutableTerminologyBox]
+  = get(m) flatMap ops.toImmutableTerminologyBox
+
+  def getImmutableTerminologyGraph
+  (m: omf#MutableModule)
+  (implicit store: omf#Store, ops: OMFOps[omf])
+  : Option[omf#ImmutableTerminologyGraph]
+  = get(m) flatMap ops.toImmutableTerminologyGraph
+
+  def getImmutableBundle
+  (m: omf#MutableModule)
+  (implicit store: omf#Store, ops: OMFOps[omf])
+  : Option[omf#ImmutableBundle]
+  = get(m) flatMap ops.toImmutableBundle
+
+  def getImmutableDescriptionBox
+  (m: omf#MutableModule)
+  (implicit store: omf#Store, ops: OMFOps[omf])
+  : Option[omf#ImmutableDescriptionBox]
+  = get(m) flatMap ops.toImmutableDescriptionBox
 }
 
 object Mutable2ImmutableModuleTable {

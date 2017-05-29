@@ -26,7 +26,7 @@ object OMFTabularExportFromDescriptionBox {
 
     all_aps = all_tables.flatMap(_.annotationProperties)
 
-    s = ops.fromImmutableDescription(dbox)
+    s = ops.fromImmutableDescriptionBox(dbox)
     suuid = s.uuid.toString
 
     // Check that there are no overlaping annotation properties

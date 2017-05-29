@@ -12,15 +12,19 @@ import scala.Boolean
   *
   * @tparam omf OMF Adaptation/Binding.
   */
-case class TerminologyBoxSignature[omf <: OMF, +S[A] <: scala.collection.Iterable[A], I[A] <: scala.collection.Iterable[A]]
+case class TerminologyBoxSignature[
+omf <: OMF,
++S[A] <: scala.collection.Iterable[A],
+I[A] <: scala.collection.Iterable[A],
++M[AP, AES] <: scala.collection.Map[AP,AES]]
 ( isBundle: Boolean,
-  uuid: UUID,
-  name: LocalName,
+  override val uuid: UUID,
+  override val name: LocalName,
   /**
     * the identity of the terminology as a container for several descriptions and as the context
     * for extending other terminologies
     */
-  iri: omf#IRI,
+  override val iri: omf#IRI,
   /**
     * the semantic commitment of this terminology (open-world definitions vs. closed-world designations)
     */
@@ -92,18 +96,25 @@ case class TerminologyBoxSignature[omf <: OMF, +S[A] <: scala.collection.Iterabl
   rTAxioms: S[omf#RootConceptTaxonomyAxiom],
   aTAxioms: S[omf#AnonymousConceptTaxonomyAxiom],
   sTAxioms: S[omf#SpecificDisjointConceptAxiom],
+  bAxioms: S[omf#BundledTerminologyAxiom],
 
-  annotationProperties: S[AnnotationProperty],
+  override val annotationProperties: S[AnnotationProperty],
 
-  annotations: S[(AnnotationProperty, I[AnnotationEntry])]) {
+  override val annotations: M[AnnotationProperty, I[AnnotationEntry]])
+  extends ModuleSignature[omf] {
 
-  def importedModules
+  override def importedTerminologies
   (implicit ops: OMFOps[omf])
-  : Set[omf#Module]
-  = Set.empty[omf#Module] ++
-    extensions.map(ops.fromTerminologyExtensionAxiom(_).importedModule) ++
-    conceptDesignation.map(ops.fromConceptDesignationTerminologyAxiom(_).importedModule) ++
-    bundledTerminologies.map(ops.fromBundledTerminologyAxiom(_).importedModule)
+  : Set[omf#TerminologyBox]
+  = Set.empty[omf#TerminologyBox] ++
+    extensions.map(ops.fromTerminologyExtensionAxiom(_).importedTerminologyBox) ++
+    conceptDesignation.map(ops.fromConceptDesignationTerminologyAxiom(_).importedTerminologyBox) ++
+    bundledTerminologies.map(ops.fromBundledTerminologyAxiom(_).importedTerminologyBox)
+
+  override def importedDescriptions
+  (implicit ops: OMFOps[omf])
+  : Set[omf#DescriptionBox]
+  = Set.empty
 
   def terms
   : Set[omf#Term]

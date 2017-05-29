@@ -39,7 +39,7 @@ abstract class IMCEMissionDomainTBoxExample[omf <: OMF]()(
           g <- makeTerminologyGraph(i_m0, isDefinition)
           s = ops.fromMutableTerminology(g)
         } yield {
-          s.importedModules.isEmpty should be(true)
+          s.importedTerminologies.isEmpty should be(true)
           s.aspects.isEmpty should be(true)
           s.concepts.isEmpty should be(true)
           s.reifiedRelationships.isEmpty should be(true)
@@ -66,7 +66,7 @@ abstract class IMCEMissionDomainTBoxExample[omf <: OMF]()(
           s = fromMutableTerminology(g)
         } yield {
           s.iri should be(i_m1)
-          s.importedModules.isEmpty should be(true)
+          s.importedTerminologies.isEmpty should be(true)
           s.aspects.isEmpty should be(true)
 
           s.concepts.nonEmpty should be(true)
