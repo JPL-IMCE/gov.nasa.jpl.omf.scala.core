@@ -63,6 +63,33 @@ case class Mutable2ImmutableModuleTable[omf <: OMF]
   : Option[omf#ImmutableModule]
   = values.find(ops.getModuleIRI(_) == iri)
 
+  def getImmutableModule
+  (iri: omf#IRI)
+  (implicit store: omf#Store, ops: OMFOps[omf])
+  : Throwables \/ omf#ImmutableModule
+  = values.find(ops.getModuleIRI(_) == iri) match {
+    case Some(i) =>
+      i.right
+    case _ =>
+      Set[java.lang.Throwable](OMFError.omfError(
+        s"getImmutableModule: $iri not found"
+      )).left
+  }
+
+  def getImmutableTerminologyBox
+  (iri: omf#IRI)
+  (implicit store: omf#Store, ops: OMFOps[omf])
+  : Throwables \/ omf#ImmutableTerminologyBox
+  = terminologyBoxValues
+    .find(ops.getModuleIRI(_) == iri) match {
+    case Some(i) =>
+      i.right
+    case _ =>
+      Set[java.lang.Throwable](OMFError.omfError(
+        s"getImmutableTerminologyBox: $iri not found"
+      )).left
+  }
+
   def getImmutableTerminologyGraph
   (iri: omf#IRI)
   (implicit store: omf#Store, ops: OMFOps[omf])
@@ -74,6 +101,34 @@ case class Mutable2ImmutableModuleTable[omf <: OMF]
     case _ =>
       Set[java.lang.Throwable](OMFError.omfError(
         s"getImmutableTerminologyGraph: $iri not found"
+      )).left
+  }
+
+  def getImmutableBundle
+  (iri: omf#IRI)
+  (implicit store: omf#Store, ops: OMFOps[omf])
+  : Throwables \/ omf#ImmutableBundle
+  = bundleValues
+    .find(ops.getModuleIRI(_) == iri) match {
+    case Some(i) =>
+      i.right
+    case _ =>
+      Set[java.lang.Throwable](OMFError.omfError(
+        s"getImmutableBundle: $iri not found"
+      )).left
+  }
+
+  def getImmutableDescriptionBox
+  (iri: omf#IRI)
+  (implicit store: omf#Store, ops: OMFOps[omf])
+  : Throwables \/ omf#ImmutableDescriptionBox
+  = descriptionBoxValues
+    .find(ops.getModuleIRI(_) == iri) match {
+    case Some(i) =>
+      i.right
+    case _ =>
+      Set[java.lang.Throwable](OMFError.omfError(
+        s"getImmutableDescriptionBox: $iri not found"
       )).left
   }
 

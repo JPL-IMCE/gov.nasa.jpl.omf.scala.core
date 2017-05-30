@@ -29,16 +29,16 @@ import scala.Predef.String
 package object core {
 
   type ImmutableTerminologyBoxSignature[omf <: OMF] =
-    TerminologyBoxSignature[omf, scala.collection.immutable.Set, scala.collection.immutable.Set, scala.collection.immutable.Map]
+    TerminologyBoxSignature[omf, scala.collection.immutable.Set]
 
   type MutableTerminologyBoxSignature[omf <: OMF] =
-    TerminologyBoxSignature[omf, scala.collection.mutable.HashSet, scala.collection.mutable.HashSet, scala.collection.mutable.HashMap]
+    TerminologyBoxSignature[omf, scala.collection.mutable.HashSet]
 
   type ImmutableDescriptionBoxSignature[omf <: OMF] =
-    DescriptionBoxSignature[omf, scala.collection.immutable.Set, scala.collection.immutable.Set, scala.collection.immutable.Map]
+    DescriptionBoxSignature[omf, scala.collection.immutable.Set]
 
   type MutableDescriptionBoxSignature[omf <: OMF] =
-    DescriptionBoxSignature[omf, scala.collection.mutable.HashSet, scala.collection.mutable.HashSet, scala.collection.mutable.HashMap]
+    DescriptionBoxSignature[omf, scala.collection.mutable.HashSet]
 
   implicit def annotationPropertyOrdering
   : Ordering[AnnotationProperty]

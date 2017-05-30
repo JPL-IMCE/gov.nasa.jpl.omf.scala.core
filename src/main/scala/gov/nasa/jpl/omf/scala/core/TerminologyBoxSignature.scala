@@ -12,11 +12,7 @@ import scala.Boolean
   *
   * @tparam omf OMF Adaptation/Binding.
   */
-case class TerminologyBoxSignature[
-omf <: OMF,
-+S[A] <: scala.collection.Iterable[A],
-I[A] <: scala.collection.Iterable[A],
-+M[AP, AES] <: scala.collection.Map[AP,AES]]
+case class TerminologyBoxSignature[omf <: OMF, +S[A] <: scala.collection.Iterable[A]]
 ( isBundle: Boolean,
   override val uuid: UUID,
   override val name: LocalName,
@@ -100,7 +96,7 @@ I[A] <: scala.collection.Iterable[A],
 
   override val annotationProperties: S[AnnotationProperty],
 
-  override val annotations: M[AnnotationProperty, I[AnnotationEntry]])
+  override val annotations: S[(AnnotationProperty, scala.collection.immutable.Set[AnnotationEntry])])
   extends ModuleSignature[omf] {
 
   override def importedTerminologies

@@ -16,7 +16,7 @@ trait ModuleSignature[omf <: OMF] {
   val iri: omf#IRI
   val annotationProperties: scala.collection.Iterable[AnnotationProperty]
 
-  val annotations: scala.collection.Iterable[(AnnotationProperty, scala.collection.Iterable[AnnotationEntry])]
+  val annotations: scala.collection.Iterable[(AnnotationProperty, scala.collection.immutable.Set[AnnotationEntry])]
 
   def importedTerminologies
   (implicit ops: OMFOps[omf])

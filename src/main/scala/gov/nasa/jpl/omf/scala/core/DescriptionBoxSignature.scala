@@ -6,11 +6,7 @@ import gov.nasa.jpl.imce.oml.tables.{AnnotationEntry, AnnotationProperty, LocalN
 
 import scala.collection.immutable.Set
 
-case class DescriptionBoxSignature[
-omf <: OMF,
-+S[A] <: scala.collection.Iterable[A],
-I[A] <: scala.collection.Iterable[A],
-+M[AP, AES] <: scala.collection.Map[AP,AES]]
+case class DescriptionBoxSignature[omf <: OMF, +S[A] <: scala.collection.Iterable[A]]
 ( override val uuid: UUID,
   override val name: LocalName,
   override val iri: omf#IRI,
@@ -30,7 +26,7 @@ I[A] <: scala.collection.Iterable[A],
 
   override val annotationProperties: S[AnnotationProperty],
 
-  override val annotations: M[AnnotationProperty, I[AnnotationEntry]])
+  override val annotations: S[(AnnotationProperty, scala.collection.immutable.Set[AnnotationEntry])])
   extends ModuleSignature[omf]  {
 
   override def importedTerminologies

@@ -1088,12 +1088,12 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   (implicit store: omf#Store)
   : Throwables \/ AnnotationEntry
 
-  def removeAnnotations
+  def removeTerminologyAnnotations
   (graph: omf#MutableTerminologyBox,
    subject: omf#Element,
    property: AnnotationProperty)
   (implicit store: omf#Store)
-  : Throwables \/ Seq[AnnotationEntry]
+  : Throwables \/ Set[AnnotationEntry]
 
   /**
     * Add to a terminology graph a new OMF Aspect.
@@ -2663,6 +2663,13 @@ trait MutableDescriptionBoxOps[omf <: OMF]
    value: String)
   (implicit store: omf#Store)
   : Throwables \/ AnnotationEntry
+
+  def removeDescriptionAnnotations
+  (dbox: omf#MutableDescriptionBox,
+   subject: omf#Element,
+   property: AnnotationProperty)
+  (implicit store: omf#Store)
+  : Throwables \/ Set[AnnotationEntry]
 
   def getMutableDescriptionBoxIRI
   (dbox: omf#MutableDescriptionBox)
