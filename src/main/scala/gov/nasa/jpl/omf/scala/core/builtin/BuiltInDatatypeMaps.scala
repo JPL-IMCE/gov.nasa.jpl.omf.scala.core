@@ -23,13 +23,13 @@ import gov.nasa.jpl.omf.scala.core.{Mutable2ImmutableModuleTable, OMF, OMFOps}
 import gov.nasa.jpl.omf.scala.core.OMLString.{LexicalValue, LocalName, Pattern}
 
 import scala.collection.immutable.{Iterable, Set}
-import scala.{Boolean, None, Option, Some, Tuple3}
+import scala.{Boolean, None, Option, Some}
 import scalaz.\/
 
 object BuiltInDatatypeMaps {
 
   case class DataRangeCategories[omf <: OMF]
-  ( builtInImport: Option[omf#ImmutableTerminologyGraph] = None,
+  ( builtInImport: Option[omf#TerminologyBox] = None,
     numeric: Set[omf#DataRange] = Set.empty[omf#DataRange],
     string: Set[omf#DataRange] = Set.empty[omf#DataRange],
     plainLiteral: Set[omf#DataRange] = Set.empty[omf#DataRange],
@@ -37,7 +37,7 @@ object BuiltInDatatypeMaps {
     iri: Set[omf#DataRange] = Set.empty[omf#DataRange],
     time: Set[omf#DataRange] = Set.empty[omf#DataRange] ) {
 
-    def withBuiltInImport(tbox: omf#ImmutableTerminologyGraph)
+    def withBuiltInImport(tbox: omf#TerminologyBox)
     : DataRangeCategories[omf]
     = copy(builtInImport = Some(tbox))
 
@@ -253,10 +253,7 @@ object BuiltInDatatypeMaps {
   (implicit
    ops: OMFOps[omf],
    store: omf#Store)
-  : Throwables \/
-    ( omf#ImmutableModule,
-      Mutable2ImmutableModuleTable[omf],
-      DataRangeCategories[omf] )
+  : Throwables \/ DataRangeCategories[omf]
   = {
     import ops._
 
@@ -533,12 +530,9 @@ object BuiltInDatatypeMaps {
         pattern=Some(Pattern("[\\-+]?[0-9]+/[1-9][0-9]*")))
       dcr33 = dcr32.withNumeric(owl_rational)
 
-      result <- asImmutableTerminologyGraph(owl_mgraph, Mutable2ImmutableModuleTable.empty[omf])
-      (owl_igraph, m2i) = result
+      dcr = dcr33.withBuiltInImport(owl_mgraph)
 
-      dcr = dcr33.withBuiltInImport(owl_igraph)
-
-    } yield Tuple3(owl_igraph, m2i, dcr)
+    } yield dcr
   }
 
 }
