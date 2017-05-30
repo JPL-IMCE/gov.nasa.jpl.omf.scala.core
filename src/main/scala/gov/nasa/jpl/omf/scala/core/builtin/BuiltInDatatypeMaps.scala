@@ -30,6 +30,7 @@ object BuiltInDatatypeMaps {
 
   case class DataRangeCategories[omf <: OMF]
   ( builtInImport: Option[omf#TerminologyBox] = None,
+    builtInDatatypeModules: Set[omf#Module] = Set.empty[omf#Module],
     numeric: Set[omf#DataRange] = Set.empty[omf#DataRange],
     string: Set[omf#DataRange] = Set.empty[omf#DataRange],
     plainLiteral: Set[omf#DataRange] = Set.empty[omf#DataRange],
@@ -39,7 +40,11 @@ object BuiltInDatatypeMaps {
 
     def withBuiltInImport(tbox: omf#TerminologyBox)
     : DataRangeCategories[omf]
-    = copy(builtInImport = Some(tbox))
+    = copy(builtInImport = Some(tbox), builtInDatatypeModules = builtInDatatypeModules + tbox)
+
+    def withBuiltInDatatypeModule(m: omf#Module)
+    : DataRangeCategories[omf]
+    = copy(builtInDatatypeModules = builtInDatatypeModules + m)
 
     protected def isCategoryRestriction
     (category: Set[omf#DataRange],
@@ -243,7 +248,7 @@ object BuiltInDatatypeMaps {
       owl_rational <- getDataRange(xsd, LocalName("rational"))
       dcr33 = dcr32.withNumeric(owl_rational)
 
-      dcr = dcr33.withBuiltInImport(owl)
+      dcr = dcr33.withBuiltInImport(owl).withBuiltInDatatypeModule(xsd).withBuiltInDatatypeModule(rdfs)
 
     } yield dcr
   }
@@ -530,7 +535,10 @@ object BuiltInDatatypeMaps {
         pattern=Some(Pattern("[\\-+]?[0-9]+/[1-9][0-9]*")))
       dcr33 = dcr32.withNumeric(owl_rational)
 
-      dcr = dcr33.withBuiltInImport(owl_mgraph)
+      dcr = dcr33
+        .withBuiltInImport(owl_mgraph)
+        .withBuiltInDatatypeModule(xsd_mgraph)
+        .withBuiltInDatatypeModule(rdfs_mgraph)
 
     } yield dcr
   }
