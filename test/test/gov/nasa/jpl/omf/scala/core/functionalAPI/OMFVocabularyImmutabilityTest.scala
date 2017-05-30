@@ -128,7 +128,7 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF]
           dataPropertyName = LocalName("hasIdentifier"),
           isIdentityCriteria = false)
 
-        m2i_base <- asImmutableTerminology(base, table1)
+        m2i_base <- asImmutableTerminologyGraph(base, table1)
         (ibase, table2) = m2i_base
 
         mission_iri <- makeIRI("http://imce.jpl.nasa.gov/test/immutability/foundation/mission/mission")

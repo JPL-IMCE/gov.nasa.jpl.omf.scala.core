@@ -45,6 +45,12 @@ case class Mutable2ImmutableModuleTable[omf <: OMF]
   : Boolean
   = ms.contains(ops.getModuleUUID(mm))
 
+  def lookupKey
+  (iri: omf#IRI)
+  (implicit ops: OMFOps[omf])
+  : Option[omf#MutableModule]
+  = keys.find(ops.getModuleIRI(_) == iri)
+
   def containsValue
   (im: omf#ImmutableModule)
   (implicit ops: OMFOps[omf])
@@ -56,6 +62,20 @@ case class Mutable2ImmutableModuleTable[omf <: OMF]
   (implicit ops: OMFOps[omf])
   : Option[omf#ImmutableModule]
   = values.find(ops.getModuleIRI(_) == iri)
+
+  def getImmutableTerminologyGraph
+  (iri: omf#IRI)
+  (implicit store: omf#Store, ops: OMFOps[omf])
+  : Throwables \/ omf#ImmutableTerminologyGraph
+  = terminologyGraphValues
+    .find(ops.getModuleIRI(_) == iri) match {
+    case Some(i) =>
+      i.right
+    case _ =>
+      Set[java.lang.Throwable](OMFError.omfError(
+        s"getImmutableTerminologyGraph: $iri not found"
+      )).left
+  }
 
   def size: Int = pairs.size
 

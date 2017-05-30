@@ -184,6 +184,10 @@ trait OMFStoreOps[omf <: OMF] { self : IRIOps[omf] =>
   (implicit store: omf#Store)
   : Seq[AnnotationProperty]
 
+  def annotations
+  (m: omf#Module)
+  (implicit store: omf#Store)
+  : Map[AnnotationProperty, Set[AnnotationEntry]]
 
   def foldModule[T]
   (funImmutableTerminologyGraph: omf#ImmutableTerminologyGraph => T,
@@ -377,16 +381,6 @@ trait OMFStoreOps[omf <: OMF] { self : IRIOps[omf] =>
     funMutableDescriptionBox = (_: omf#MutableDescriptionBox) => None
   )(t)
 
-  def lookupModule
-  (iri: omf#IRI)
-  (implicit store: omf#Store)
-  : Option[omf#Module]
-
-  def lookupModule
-  (uuid: UUID)
-  (implicit store: omf#Store)
-  : Option[omf#Module]
-
   /**
     * If supported, load the built-in datatype maps corresponding to OWL, RDFS, XML Schema 1.1 as a terminology graph
     *
@@ -439,6 +433,9 @@ trait OMFStoreOps[omf <: OMF] { self : IRIOps[omf] =>
   (implicit store: omf#Store)
   : Boolean
 
+  /*
+   * Note: callers include createBuiltInDatatypeMaps
+   */
   def asImmutableModule
   (m: omf#MutableModule,
    m2i: Mutable2ImmutableModuleTable[omf])
@@ -446,7 +443,7 @@ trait OMFStoreOps[omf <: OMF] { self : IRIOps[omf] =>
   : Throwables \/
     (omf#ImmutableModule, Mutable2ImmutableModuleTable[omf])
 
-  final def asImmutableTerminology
+  final def asImmutableTerminologyBox
   (m: omf#MutableModule,
    m2i: Mutable2ImmutableModuleTable[omf])
   (implicit store: omf#Store)
@@ -459,6 +456,44 @@ trait OMFStoreOps[omf <: OMF] { self : IRIOps[omf] =>
       Set[java.lang.Throwable](
         OMFError.omfError(
           s"asImmutableTerminology($m) results in a DescriptionBox, not a TerminologyBox")).left
+  }
+
+  final def asImmutableBundle
+  (m: omf#MutableModule,
+   m2i: Mutable2ImmutableModuleTable[omf])
+  (implicit store: omf#Store)
+  : Throwables \/
+    (omf#ImmutableBundle, Mutable2ImmutableModuleTable[omf])
+  = asImmutableModule(m, m2i).flatMap {
+    case (bundle: omf#ImmutableBundle, table) =>
+      (bundle -> table).right
+    case (tbox: omf#ImmutableTerminologyGraph, table) =>
+      Set[java.lang.Throwable](
+        OMFError.omfError(
+          s"asImmutableBundle($m) results in a TerminologyGraph, not a Bundle")).left
+    case (_: omf#ImmutableDescriptionBox, _) =>
+      Set[java.lang.Throwable](
+        OMFError.omfError(
+          s"asImmutableBundle($m) results in a DescriptionBox, not a Bundle")).left
+  }
+
+  final def asImmutableTerminologyGraph
+  (m: omf#MutableModule,
+   m2i: Mutable2ImmutableModuleTable[omf])
+  (implicit store: omf#Store)
+  : Throwables \/
+    (omf#ImmutableTerminologyGraph, Mutable2ImmutableModuleTable[omf])
+  = asImmutableModule(m, m2i).flatMap {
+    case (tbox: omf#ImmutableTerminologyGraph, table) =>
+      (tbox -> table).right
+    case (tbox: omf#ImmutableBundle, table) =>
+      Set[java.lang.Throwable](
+        OMFError.omfError(
+          s"asImmutableTerminologyGraph($m) results in a Bundle, not a TerminologyGraph")).left
+    case (_: omf#ImmutableDescriptionBox, _) =>
+      Set[java.lang.Throwable](
+        OMFError.omfError(
+          s"asImmutableTerminologyGraph($m) results in a DescriptionBox, not a TerminologyGraph")).left
   }
 
   final def asImmutableDescription
@@ -694,6 +729,22 @@ trait ImmutableTerminologyGraphOps[omf <: OMF] { self: OMFStoreOps[omf] with IRI
   (tbox: omf#TerminologyBox, iri: omf#IRI, recursively: Boolean)
   (implicit store: omf#Store)
   : Option[omf#DataRange]
+
+  final def getDataRange
+  (tbox: omf#TerminologyBox, name: LocalName, recursively: Boolean = true)
+  (implicit store: omf#Store, ops: OMFOps[omf])
+  : Throwables \/ omf#DataRange
+  = for {
+    iri <- withFragment(getModuleIRI(tbox), name)
+    dr <- lookupDataRange(tbox, iri, recursively) match {
+      case Some(_dr) =>
+        _dr.right
+      case None =>
+        Set[java.lang.Throwable](OMFError.omfError(
+          s"getDataRange(tbox=${getModuleIRI(tbox)}, name=$name, recursively=$recursively}: not found!"
+        )).left
+    }
+  } yield dr
 
   def restrictedDataRangeOf
   (dr: omf#DataRange)

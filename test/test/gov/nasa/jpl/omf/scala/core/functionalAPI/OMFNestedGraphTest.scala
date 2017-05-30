@@ -213,29 +213,29 @@ abstract class OMFNestedGraphTest[omf <: OMF]
 
         g_nests_p2 <- addNestedTerminology(nestingGraph=g, nestingContext=g_authorizes_p2, nestedGraph=p2)
 
-        m2i_base <- asImmutableTerminology(base, table1)
+        m2i_base <- asImmutableTerminologyGraph(base, table1)
         (ibase, table2) = m2i_base
         _ <- saveTerminology(ibase)
 
-        m2i_mission <- asImmutableTerminology(mission, table2)
+        m2i_mission <- asImmutableTerminologyGraph(mission, table2)
         (imission, table3) = m2i_mission
 
         _ <- saveTerminology(imission)
 
-        m2i_project <- asImmutableTerminology(project, table3)
+        m2i_project <- asImmutableTerminologyGraph(project, table3)
         (iproject, table4) = m2i_project
 
         _ <- saveTerminology(iproject)
 
-        m2i_g <- asImmutableTerminology(g, table4)
+        m2i_g <- asImmutableTerminologyGraph(g, table4)
         (ig, table5) = m2i_g
         _ <- saveTerminology(ig)
 
-        m2i_p1 <- asImmutableTerminology(p1, table5)
+        m2i_p1 <- asImmutableTerminologyGraph(p1, table5)
         (ip1, table6) = m2i_p1
         _ <- saveTerminology(ip1)
 
-        m2i_p2 <- asImmutableTerminology(p2, table6)
+        m2i_p2 <- asImmutableTerminologyGraph(p2, table6)
         (ip2, table7) = m2i_p2
         _ <- saveTerminology(ip2)
 

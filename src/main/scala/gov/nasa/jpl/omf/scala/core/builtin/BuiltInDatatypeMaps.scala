@@ -23,18 +23,23 @@ import gov.nasa.jpl.omf.scala.core.{Mutable2ImmutableModuleTable, OMF, OMFOps}
 import gov.nasa.jpl.omf.scala.core.OMLString.{LexicalValue, LocalName, Pattern}
 
 import scala.collection.immutable.{Iterable, Set}
-import scala.{Boolean, Some, Tuple3}
+import scala.{Boolean, None, Option, Some, Tuple3}
 import scalaz.\/
 
 object BuiltInDatatypeMaps {
 
   case class DataRangeCategories[omf <: OMF]
-  ( numeric: Set[omf#DataRange] = Set.empty[omf#DataRange],
+  ( builtInImport: Option[omf#ImmutableTerminologyGraph] = None,
+    numeric: Set[omf#DataRange] = Set.empty[omf#DataRange],
     string: Set[omf#DataRange] = Set.empty[omf#DataRange],
     plainLiteral: Set[omf#DataRange] = Set.empty[omf#DataRange],
     binary: Set[omf#DataRange] = Set.empty[omf#DataRange],
     iri: Set[omf#DataRange] = Set.empty[omf#DataRange],
     time: Set[omf#DataRange] = Set.empty[omf#DataRange] ) {
+
+    def withBuiltInImport(tbox: omf#ImmutableTerminologyGraph)
+    : DataRangeCategories[omf]
+    = copy(builtInImport = Some(tbox))
 
     protected def isCategoryRestriction
     (category: Set[omf#DataRange],
@@ -106,6 +111,141 @@ object BuiltInDatatypeMaps {
     : DataRangeCategories[omf]
     = copy(time = this.time + dr)
 
+  }
+
+  def resolveBuiltInDatatypeMaps[omf <: OMF]
+  (m2i: Mutable2ImmutableModuleTable[omf])
+  (implicit store: omf#Store, ops: OMFOps[omf])
+  : Throwables \/ DataRangeCategories[omf]
+  = {
+    import ops._
+
+    val dcr0 = DataRangeCategories[omf]()
+
+    for {
+      xsd_iri <- makeIRI("http://www.w3.org/2001/XMLSchema")
+      xsd <- m2i.getImmutableTerminologyGraph(xsd_iri)
+
+      anyURI <- getDataRange(xsd, LocalName("anyURI"))
+      dcr1 = dcr0.withIRI(anyURI)
+
+      base64Binary <- getDataRange(xsd, LocalName("base64Binary"))
+      dcr2 = dcr1.withBinary(base64Binary)
+
+      hexBinary <- getDataRange(xsd, LocalName("hexBinary"))
+      dcr3 = dcr2.withBinary(hexBinary)
+
+      //boolean <- getDataRange(xsd, LocalName("boolean"))
+      //date <- getDataRange(xsd, LocalName("date"))
+
+      dateTime <- getDataRange(xsd, LocalName("dateTime"))
+      dcr4 = dcr3.withTime(dateTime)
+
+      dateTimeStamp <- getDataRange(xsd, LocalName("dateTimeStamp"))
+      dcr5 = dcr4.withTime(dateTimeStamp)
+
+      decimal <- getDataRange(xsd, LocalName("decimal"))
+      dcr6 = dcr5.withNumeric(decimal)
+
+      integer <- getDataRange(xsd, LocalName("integer"))
+      dcr7 = dcr6.withNumeric(integer)
+
+      long <- getDataRange(xsd, LocalName("long"))
+      dcr8 = dcr7.withNumeric(long)
+
+      int <- getDataRange(xsd, LocalName("int"))
+      dcr9 = dcr8.withNumeric(int)
+
+      short <- getDataRange(xsd, LocalName("short"))
+      dcr10 = dcr9.withNumeric(short)
+
+      byte <- getDataRange(xsd, LocalName("byte"))
+      dcr11 = dcr10.withNumeric(byte)
+
+      nonNegativeInteger <- getDataRange(xsd, LocalName("nonNegativeInteger"))
+      dcr12 = dcr11.withNumeric(nonNegativeInteger)
+
+      positiveInteger <- getDataRange(xsd, LocalName("positiveInteger"))
+      dcr13 = dcr12.withNumeric(positiveInteger)
+
+      unsignedLong <- getDataRange(xsd, LocalName("unsignedLong"))
+      dcr14 = dcr13.withNumeric(unsignedLong)
+
+      unsignedInt <- getDataRange(xsd, LocalName("unsignedInt"))
+      dcr15 = dcr14.withNumeric(unsignedInt)
+
+      unsignedShort <- getDataRange(xsd, LocalName("unsignedShort"))
+      dcr16 = dcr15.withNumeric(unsignedShort)
+
+      unsignedByte <- getDataRange(xsd, LocalName("unsignedByte"))
+      dcr17 = dcr16.withNumeric(unsignedByte)
+
+      nonPositiveInteger <- getDataRange(xsd, LocalName("nonPositiveInteger"))
+      dcr18 = dcr17.withNumeric(nonPositiveInteger)
+
+      negativeInteger <- getDataRange(xsd, LocalName("negativeInteger"))
+      dcr19 = dcr18.withNumeric(negativeInteger)
+
+      double <- getDataRange(xsd, LocalName("double"))
+      dcr20 = dcr19.withNumeric(double)
+
+      float <- getDataRange(xsd, LocalName("float"))
+      dcr21 = dcr20.withNumeric(float)
+
+      //duration <- getDataRange(xsd, LocalName("duration"))
+      //dayTimeDuration <- getDataRange(xsd, LocalName("dayTimeDuration"))
+      //yearMonthDuration <- getDataRange(xsd, LocalName("yearMonthDuration"))
+      //gDay <- getDataRange(xsd, LocalName("gDay"))
+      //gMonth <- getDataRange(xsd, LocalName("gMonth"))
+      //gMonthDay <- getDataRange(xsd, LocalName("gMonthDay"))
+      //gYear <- getDataRange(xsd, LocalName("gYear"))
+      //gYearMonth <- getDataRange(xsd, LocalName("gYearMonth"))
+
+      string <- getDataRange(xsd, LocalName("string"))
+      dcr22 = dcr21.withString(string)
+
+      normalizedString <- getDataRange(xsd, LocalName("normalizedString"))
+      dcr23 = dcr22.withString(normalizedString)
+
+      token <- getDataRange(xsd, LocalName("token"))
+      dcr24 = dcr23.withString(token)
+
+      language <- getDataRange(xsd, LocalName("language"))
+      dcr25 = dcr24.withString(language)
+
+      nmtoken <- getDataRange(xsd, LocalName("NMTOKEN"))
+      dcr26 = dcr25.withString(nmtoken)
+
+      name <- getDataRange(xsd, LocalName("name"))
+      dcr27 = dcr26.withString(name)
+
+      ncname <- getDataRange(xsd, LocalName("NCName"))
+      dcr28 = dcr27.withString(ncname)
+
+      time <- getDataRange(xsd, LocalName("time"))
+      dcr29 = dcr28.withTime(time)
+
+      rdfs_iri <- makeIRI("http://www.w3.org/1999/02/22-rdf-syntax-ns")
+      rdfs <- m2i.getImmutableTerminologyGraph(rdfs_iri)
+
+      xmlLiteral <- getDataRange(xsd, LocalName("XMLLiteral"))
+      dcr30 = dcr29.withString(xmlLiteral)
+
+      plainLiteral <- getDataRange(xsd, LocalName("PlainLiteral"))
+      dcr31 = dcr30.withString(plainLiteral)
+
+      owl_iri <- makeIRI("http://www.w3.org/2002/07/owl")
+      owl <- m2i.getImmutableTerminologyGraph(owl_iri)
+
+      owl_real <- getDataRange(xsd, LocalName("real"))
+      dcr32 = dcr31.withNumeric(owl_real)
+
+      owl_rational <- getDataRange(xsd, LocalName("rational"))
+      dcr33 = dcr32.withNumeric(owl_rational)
+
+      dcr = dcr33.withBuiltInImport(owl)
+
+    } yield dcr
   }
 
   def createBuiltInDatatypeMaps[omf <: OMF]
@@ -349,6 +489,7 @@ object BuiltInDatatypeMaps {
       time <- addStringScalarRestriction(
         xsd_mgraph, LocalName("time"), anyAtomicType,
         pattern=Some(Pattern("(([01][0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9](\\.[0-9]+)?|(24:00:00(\\.0+)?))(Z|(\\+|-)((0[0-9]|1[0-3]):[0-5][0-9]|14:00))?")))
+      dcr29 = dcr28.withTime(time)
 
       // @see http://www.w3.org/TR/rdf11-concepts/#xsd-datatypes
       // should not be used: requires an enclosing XML document context
@@ -371,10 +512,11 @@ object BuiltInDatatypeMaps {
 
       // @see http://www.w3.org/TR/rdf11-concepts/#section-XMLLiteral
       xmlLiteral <- addScalarDataType(rdfs_mgraph, LocalName("XMLLiteral"))
+      dcr30 = dcr29.withString(xmlLiteral)
 
       // @see https://www.w3.org/TR/2012/REC-rdf-plain-literal-20121211/
       plainLiteral <- addScalarDataType(rdfs_mgraph, LocalName("PlainLiteral"))
-      dcr29 = dcr28.withString(plainLiteral)
+      dcr31 = dcr30.withString(plainLiteral)
 
       owl_iri <- makeIRI("http://www.w3.org/2002/07/owl")
       owl_mgraph <- makeW3CTerminologyGraphDefinition(owl_iri)
@@ -383,18 +525,18 @@ object BuiltInDatatypeMaps {
       // @see http://www.w3.org/TR/owl2-syntax/#Datatype_Maps
       // owl:real
       owl_real <- addStringScalarRestriction(owl_mgraph, LocalName("real"), anyAtomicType)
-      dcr30 = dcr29.withNumeric(owl_real)
+      dcr32 = dcr31.withNumeric(owl_real)
 
       // @see http://www.w3.org/TR/owl2-syntax/#Datatype_Maps
       owl_rational <- addStringScalarRestriction(
         owl_mgraph, LocalName("rational"), owl_real,
         pattern=Some(Pattern("[\\-+]?[0-9]+/[1-9][0-9]*")))
-      dcr31 = dcr30.withNumeric(owl_rational)
+      dcr33 = dcr32.withNumeric(owl_rational)
 
-      dcr = dcr31
-
-      result <- asImmutableModule(owl_mgraph, Mutable2ImmutableModuleTable.empty[omf])
+      result <- asImmutableTerminologyGraph(owl_mgraph, Mutable2ImmutableModuleTable.empty[omf])
       (owl_igraph, m2i) = result
+
+      dcr = dcr33.withBuiltInImport(owl_igraph)
 
     } yield Tuple3(owl_igraph, m2i, dcr)
   }
