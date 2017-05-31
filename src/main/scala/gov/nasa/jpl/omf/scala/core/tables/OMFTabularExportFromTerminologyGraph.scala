@@ -45,7 +45,7 @@ object OMFTabularExportFromTerminologyGraph {
       for {
         axs <- acc1
         omf_info = ops.fromConceptDesignationTerminologyAxiom(omf_ax)
-        _ <- if (all_tboxes.contains(omf_info.designatedTerminology))
+        _ <- if (all_tboxes.exists(i => ops.getModuleUUID(i) == ops.getModuleUUID(omf_info.designatedTerminology)))
           ().right[Throwables]
         else
           Set[java.lang.Throwable](OMFError.omfError(
@@ -68,7 +68,7 @@ object OMFTabularExportFromTerminologyGraph {
       for {
         axs <- acc1
         omf_info = ops.fromTerminologyExtensionAxiom(omf_ax)
-        _ <- if (all_tboxes.contains(omf_info.extendedTerminology))
+        _ <- if (all_tboxes.exists(i => ops.getModuleUUID(i) == ops.getModuleUUID(omf_info.extendedTerminology)))
           ().right[Throwables]
         else
           Set[java.lang.Throwable](OMFError.omfError(
@@ -90,7 +90,7 @@ object OMFTabularExportFromTerminologyGraph {
       for {
         axs <- acc1
         omf_info = ops.fromTerminologyNestingAxiom(omf_ax)
-        _ <- if (all_tboxes.contains(omf_info.nestingTerminology))
+        _ <- if (all_tboxes.exists(i => ops.getModuleUUID(i) == ops.getModuleUUID(omf_info.nestingTerminology)))
           ().right[Throwables]
         else
           Set[java.lang.Throwable](OMFError.omfError(

@@ -25,6 +25,7 @@ import gov.nasa.jpl.imce.oml.tables.{AnnotationEntry, AnnotationProperty}
 import gov.nasa.jpl.omf.scala.core.OMFError.Throwables
 import gov.nasa.jpl.omf.scala.core.OMLString._
 import gov.nasa.jpl.omf.scala.core.RelationshipCharacteristics._
+import gov.nasa.jpl.omf.scala.core.builtin.BuiltInDatatypeMaps.DataRangeCategories
 
 import scala.{Boolean, Int, None, Option, Some, StringContext, Unit}
 import scala.Predef.{ArrowAssoc, String}
@@ -385,14 +386,12 @@ trait OMFStoreOps[omf <: OMF] { self : IRIOps[omf] =>
     * If supported, load the built-in datatype maps corresponding to OWL, RDFS, XML Schema 1.1 as a terminology graph
     *
     * @param store OMF storage provider
-    * @return If supported, the terminology graph with the built-in datatype maps corresponding to
-    *         the datatype maps defined in OWL, RDFS, XML Schema 1.1 and the map of
-    *         mutable/immutable terminology graphs conversions that have been performed.
+    * @return The DataRangeCategories corresponding to the OWL2-DL datatype map.
     */
   def loadBuiltinDatatypeMap
   ()
   (implicit store: omf#Store)
-  : Throwables \/ Mutable2ImmutableModuleTable[omf]
+  : Throwables \/ DataRangeCategories[omf]
 
   def loadModule
   (m2i: Mutable2ImmutableModuleTable[omf],

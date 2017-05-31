@@ -10,4 +10,5 @@ case class ConceptDesignationTerminologySignature[omf <: OMF]
   extends TerminologyAxiomSignature[omf] {
 
   override val importedTerminologyBox: omf#TerminologyBox = designatedTerminology
+  override val importedModule: omf#Module = designatedTerminology
 }

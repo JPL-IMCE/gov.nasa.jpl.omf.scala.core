@@ -9,5 +9,6 @@ case class TerminologyNestingSignature[omf <: OMF]
   extends TerminologyAxiomSignature[omf] {
 
   override val importedTerminologyBox: omf#TerminologyBox = nestingTerminology
+  override val importedModule: omf#Module = nestingTerminology
 
 }
