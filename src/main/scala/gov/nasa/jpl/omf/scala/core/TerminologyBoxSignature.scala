@@ -1,3 +1,21 @@
+/*
+ * Copyright 2015 California Institute of Technology ("Caltech").
+ * U.S. Government sponsorship acknowledged.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * License Terms
+ */
+
 package gov.nasa.jpl.omf.scala.core
 
 import java.util.UUID
@@ -8,22 +26,52 @@ import scala.collection.immutable.Set
 import scala.Boolean
 
 /**
-  * A Terminology signature is a tuple.
+  * Information about the contents of a TerminologyBox
   *
+  * @param isBundle
+  * @param uuid
+  * @param name
+  * @param iri identity of the terminology
+  * @param kind semantic commitment of this terminology (open-world definitions vs. closed-world designations)
+  * @param extensions
+  * @param nesting
+  * @param conceptDesignation
+  * @param bundledTerminologies
+  * @param aspects
+  * @param concepts
+  * @param reifiedRelationships
+  * @param unreifiedRelationships
+  * @param scalarDataTypes
+  * @param structuredDataTypes
+  * @param scalarOneOfRestrictions
+  * @param scalarOneOfLiterals
+  * @param binaryScalarRestrictions
+  * @param iriScalarRestrictions
+  * @param numericScalarRestrictions
+  * @param plainLiteralScalarRestrictions
+  * @param stringScalarRestrictions
+  * @param synonymScalarRestrictions
+  * @param timeScalarRestrictions
+  * @param entityScalarDataProperties
+  * @param entityStructuredDataProperties
+  * @param scalarDataProperties
+  * @param structuredDataProperties
+  * @param axioms
+  * @param rTAxioms
+  * @param aTAxioms
+  * @param sTAxioms
+  * @param bAxioms
+  * @param annotationProperties
+  * @param annotations
   * @tparam omf OMF Adaptation/Binding.
+  * @tparam S A container type (either scala.collection.immutable.Set or scala.collection.mutable.HashSet)
   */
 case class TerminologyBoxSignature[omf <: OMF, +S[A] <: scala.collection.Iterable[A]]
 ( isBundle: Boolean,
   override val uuid: UUID,
   override val name: LocalName,
-  /**
-    * the identity of the terminology as a container for several descriptions and as the context
-    * for extending other terminologies
-    */
+
   override val iri: omf#IRI,
-  /**
-    * the semantic commitment of this terminology (open-world definitions vs. closed-world designations)
-    */
   kind: TerminologyKind,
 
   extensions: S[omf#TerminologyExtensionAxiom],
@@ -31,29 +79,11 @@ case class TerminologyBoxSignature[omf <: OMF, +S[A] <: scala.collection.Iterabl
   conceptDesignation: S[omf#ConceptDesignationTerminologyAxiom],
   bundledTerminologies: S[omf#BundledTerminologyAxiom],
 
-  /**
-    * the aspects described in this terminology
-    */
   aspects: S[omf#Aspect],
-  /**
-    * the concepts described in this terminology
-    */
   concepts: S[omf#Concept],
-  /**
-    * the reified relationships described in this terminology
-    */
   reifiedRelationships: S[omf#ReifiedRelationship],
-  /**
-    * the unreified relationships described in scope of this terminology
-    */
   unreifiedRelationships: S[omf#UnreifiedRelationship],
-  /**
-    * the scalar datatypes described in this terminology
-    */
   scalarDataTypes: S[omf#Scalar],
-  /**
-    * the structured datatypes described in this terminology
-    */
   structuredDataTypes: S[omf#Structure],
 
   scalarOneOfRestrictions: S[omf#ScalarOneOfRestriction],
@@ -67,26 +97,11 @@ case class TerminologyBoxSignature[omf <: OMF, +S[A] <: scala.collection.Iterabl
   synonymScalarRestrictions: S[omf#SynonymScalarRestriction],
   timeScalarRestrictions: S[omf#TimeScalarRestriction],
 
-  /**
-    * the entity to scalar data relationships described in this terminology
-    */
   entityScalarDataProperties: S[omf#EntityScalarDataProperty],
-  /**
-    * the entity to structured data relationships described in this terminology
-    */
   entityStructuredDataProperties: S[omf#EntityStructuredDataProperty],
-  /**
-    * the entity to scalar data  relationships described in this terminology
-    */
   scalarDataProperties: S[omf#ScalarDataProperty],
-  /**
-    * the entity to scalar data  relationships described in this terminology
-    */
   structuredDataProperties: S[omf#StructuredDataProperty],
 
-  /**
-    * the model term axioms asserted in this terminology
-    */
   axioms: S[omf#Axiom],
 
   rTAxioms: S[omf#RootConceptTaxonomyAxiom],
