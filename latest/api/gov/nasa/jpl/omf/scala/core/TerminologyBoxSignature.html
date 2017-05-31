@@ -1,0 +1,1108 @@
+<!DOCTYPE html >
+<html>
+        <head>
+          <title>TerminologyBoxSignature - gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature</title>
+          <meta name="description" content="TerminologyBoxSignature - gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature" />
+          <meta name="keywords" content="TerminologyBoxSignature gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature" />
+          <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+          
+      <link href="../../../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
+      <link href="../../../../../../lib/diagrams.css" media="screen" type="text/css" rel="stylesheet" id="diagrams-css" />
+      <script type="text/javascript" src="../../../../../../lib/jquery.js" id="jquery-js"></script>
+      <script type="text/javascript" src="../../../../../../lib/jquery-ui.js"></script>
+      <script type="text/javascript" src="../../../../../../lib/template.js"></script>
+      <script type="text/javascript" src="../../../../../../lib/tools.tooltip.js"></script>
+      
+      <script type="text/javascript">
+         if(top === self) {
+            var url = '../../../../../../index.html';
+            var hash = 'gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature';
+            var anchor = window.location.hash;
+            var anchor_opt = '';
+            if (anchor.length >= 1)
+              anchor_opt = '@' + anchor.substring(1);
+            window.location.href = url + '#' + hash + anchor_opt;
+         }
+   	  </script>
+    
+        </head>
+        <body class="type">
+      <div id="definition">
+        <img alt="Class" src="../../../../../../lib/class_big.png" />
+        <p id="owner"><a href="../../../../../package.html" class="extype" name="gov">gov</a>.<a href="../../../../package.html" class="extype" name="gov.nasa">nasa</a>.<a href="../../../package.html" class="extype" name="gov.nasa.jpl">jpl</a>.<a href="../../package.html" class="extype" name="gov.nasa.jpl.omf">omf</a>.<a href="../package.html" class="extype" name="gov.nasa.jpl.omf.scala">scala</a>.<a href="package.html" class="extype" name="gov.nasa.jpl.omf.scala.core">core</a></p>
+        <h1>TerminologyBoxSignature</h1><h3><span class="morelinks"><div>Related Doc:
+            <a href="package.html" class="extype" name="gov.nasa.jpl.omf.scala.core">package core</a>
+          </div></span></h3><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      </div>
+
+      <h4 id="signature" class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <span class="name">TerminologyBoxSignature</span><span class="tparams">[<span name="omf">omf &lt;: <a href="OMF.html" class="extype" name="gov.nasa.jpl.omf.scala.core.OMF">OMF</a></span>, <span name="S">+S<span class="tparams">[<span name="A">A</span>]</span> &lt;: <span class="extype" name="scala.collection.Iterable">Iterable</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S.A">A</span>]</span>]</span><span class="params">(<span name="isBundle">isBundle: <span class="extype" name="scala.Boolean">Boolean</span></span>, <span name="uuid">uuid: <span class="extype" name="java.util.UUID">UUID</span></span>, <span name="name">name: <span class="extype" name="gov.nasa.jpl.imce.oml.tables.LocalName">LocalName</span></span>, <span name="iri">iri: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFiri.IRI">omf.IRI</span></span>, <span name="kind">kind: <a href="TerminologyKind.html" class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyKind">TerminologyKind</a></span>, <span name="extensions">extensions: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.TerminologyExtensionAxiom">omf.TerminologyExtensionAxiom</span>]</span>, <span name="nesting">nesting: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.TerminologyNestingAxiom">omf.TerminologyNestingAxiom</span>]</span>, <span name="conceptDesignation">conceptDesignation: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ConceptDesignationTerminologyAxiom">omf.ConceptDesignationTerminologyAxiom</span>]</span>, <span name="bundledTerminologies">bundledTerminologies: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.BundledTerminologyAxiom">omf.BundledTerminologyAxiom</span>]</span>, <span name="aspects">aspects: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.Aspect">omf.Aspect</span>]</span>, <span name="concepts">concepts: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.Concept">omf.Concept</span>]</span>, <span name="reifiedRelationships">reifiedRelationships: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ReifiedRelationship">omf.ReifiedRelationship</span>]</span>, <span name="unreifiedRelationships">unreifiedRelationships: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.UnreifiedRelationship">omf.UnreifiedRelationship</span>]</span>, <span name="scalarDataTypes">scalarDataTypes: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.Scalar">omf.Scalar</span>]</span>, <span name="structuredDataTypes">structuredDataTypes: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.Structure">omf.Structure</span>]</span>, <span name="scalarOneOfRestrictions">scalarOneOfRestrictions: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ScalarOneOfRestriction">omf.ScalarOneOfRestriction</span>]</span>, <span name="scalarOneOfLiterals">scalarOneOfLiterals: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ScalarOneOfLiteralAxiom">omf.ScalarOneOfLiteralAxiom</span>]</span>, <span name="binaryScalarRestrictions">binaryScalarRestrictions: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.BinaryScalarRestriction">omf.BinaryScalarRestriction</span>]</span>, <span name="iriScalarRestrictions">iriScalarRestrictions: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.IRIScalarRestriction">omf.IRIScalarRestriction</span>]</span>, <span name="numericScalarRestrictions">numericScalarRestrictions: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.NumericScalarRestriction">omf.NumericScalarRestriction</span>]</span>, <span name="plainLiteralScalarRestrictions">plainLiteralScalarRestrictions: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.PlainLiteralScalarRestriction">omf.PlainLiteralScalarRestriction</span>]</span>, <span name="stringScalarRestrictions">stringScalarRestrictions: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.StringScalarRestriction">omf.StringScalarRestriction</span>]</span>, <span name="synonymScalarRestrictions">synonymScalarRestrictions: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.SynonymScalarRestriction">omf.SynonymScalarRestriction</span>]</span>, <span name="timeScalarRestrictions">timeScalarRestrictions: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.TimeScalarRestriction">omf.TimeScalarRestriction</span>]</span>, <span name="entityScalarDataProperties">entityScalarDataProperties: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.EntityScalarDataProperty">omf.EntityScalarDataProperty</span>]</span>, <span name="entityStructuredDataProperties">entityStructuredDataProperties: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.EntityStructuredDataProperty">omf.EntityStructuredDataProperty</span>]</span>, <span name="scalarDataProperties">scalarDataProperties: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ScalarDataProperty">omf.ScalarDataProperty</span>]</span>, <span name="structuredDataProperties">structuredDataProperties: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.StructuredDataProperty">omf.StructuredDataProperty</span>]</span>, <span name="axioms">axioms: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.Axiom">omf.Axiom</span>]</span>, <span name="rTAxioms">rTAxioms: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.RootConceptTaxonomyAxiom">omf.RootConceptTaxonomyAxiom</span>]</span>, <span name="aTAxioms">aTAxioms: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.AnonymousConceptTaxonomyAxiom">omf.AnonymousConceptTaxonomyAxiom</span>]</span>, <span name="sTAxioms">sTAxioms: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.SpecificDisjointConceptAxiom">omf.SpecificDisjointConceptAxiom</span>]</span>, <span name="bAxioms">bAxioms: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.BundledTerminologyAxiom">omf.BundledTerminologyAxiom</span>]</span>, <span name="annotationProperties">annotationProperties: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.imce.oml.tables.AnnotationProperty">AnnotationProperty</span>]</span>, <span name="annotations">annotations: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[(<span class="extype" name="gov.nasa.jpl.imce.oml.tables.AnnotationProperty">AnnotationProperty</span>, <span class="extype" name="scala.collection.immutable.Set">Set</span>[<span class="extype" name="gov.nasa.jpl.imce.oml.tables.AnnotationEntry">AnnotationEntry</span>])]</span>)</span><span class="result"> extends <a href="ModuleSignature.html" class="extype" name="gov.nasa.jpl.omf.scala.core.ModuleSignature">ModuleSignature</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.omf">omf</span>] with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+      </span>
+      </h4>
+      
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>Information about the contents of a TerminologyBox
+</p></div><dl class="paramcmts block"><dt class="tparam">omf</dt><dd class="cmt"><p>OMF Adaptation/Binding.</p></dd><dt class="tparam">S</dt><dd class="cmt"><p>A container type (either scala.collection.immutable.Set or scala.collection.mutable.HashSet)</p></dd><dt class="param">iri</dt><dd class="cmt"><p>identity of the terminology</p></dd><dt class="param">kind</dt><dd class="cmt"><p>semantic commitment of this terminology (open-world definitions vs. closed-world designations)</p></dd></dl><div class="toggleContainer block">
+          <span class="toggle">Linear Supertypes</span>
+          <div class="superTypes hiddenContent"><span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <span class="extype" name="scala.Product">Product</span>, <span class="extype" name="scala.Equals">Equals</span>, <a href="ModuleSignature.html" class="extype" name="gov.nasa.jpl.omf.scala.core.ModuleSignature">ModuleSignature</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.omf">omf</span>], <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
+        </div></div>
+        
+
+      <div id="mbrsel">
+        <div id="textfilter"><span class="pre"></span><span class="input"><input id="mbrsel-input" type="text" accesskey="/" /></span><span class="post"></span></div>
+        <div id="order">
+              <span class="filtertype">Ordering</span>
+              <ol>
+                
+                <li class="alpha in"><span>Alphabetic</span></li>
+                <li class="inherit out"><span>By Inheritance</span></li>
+              </ol>
+            </div>
+        <div id="ancestors">
+                <span class="filtertype">Inherited<br />
+                </span>
+                <ol id="linearization">
+                  <li class="in" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature"><span>TerminologyBoxSignature</span></li><li class="in" name="scala.Serializable"><span>Serializable</span></li><li class="in" name="java.io.Serializable"><span>Serializable</span></li><li class="in" name="scala.Product"><span>Product</span></li><li class="in" name="scala.Equals"><span>Equals</span></li><li class="in" name="gov.nasa.jpl.omf.scala.core.ModuleSignature"><span>ModuleSignature</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                </ol>
+              </div><div id="ancestors">
+            <span class="filtertype"></span>
+            <ol>
+              <li class="hideall out"><span>Hide All</span></li>
+              <li class="showall in"><span>Show All</span></li>
+            </ol>
+          </div>
+        <div id="visbl">
+            <span class="filtertype">Visibility</span>
+            <ol><li class="public in"><span>Public</span></li><li class="all out"><span>All</span></li></ol>
+          </div>
+      </div>
+
+      <div id="template">
+        <div id="allMembers">
+        <div id="constructors" class="members">
+              <h3>Instance Constructors</h3>
+              <ol><li name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="&lt;init&gt;(isBundle:Boolean,uuid:java.util.UUID,name:gov.nasa.jpl.imce.oml.tables.LocalName,iri:omf#IRI,kind:gov.nasa.jpl.omf.scala.core.TerminologyKind,extensions:S[omf#TerminologyExtensionAxiom],nesting:S[omf#TerminologyNestingAxiom],conceptDesignation:S[omf#ConceptDesignationTerminologyAxiom],bundledTerminologies:S[omf#BundledTerminologyAxiom],aspects:S[omf#Aspect],concepts:S[omf#Concept],reifiedRelationships:S[omf#ReifiedRelationship],unreifiedRelationships:S[omf#UnreifiedRelationship],scalarDataTypes:S[omf#Scalar],structuredDataTypes:S[omf#Structure],scalarOneOfRestrictions:S[omf#ScalarOneOfRestriction],scalarOneOfLiterals:S[omf#ScalarOneOfLiteralAxiom],binaryScalarRestrictions:S[omf#BinaryScalarRestriction],iriScalarRestrictions:S[omf#IRIScalarRestriction],numericScalarRestrictions:S[omf#NumericScalarRestriction],plainLiteralScalarRestrictions:S[omf#PlainLiteralScalarRestriction],stringScalarRestrictions:S[omf#StringScalarRestriction],synonymScalarRestrictions:S[omf#SynonymScalarRestriction],timeScalarRestrictions:S[omf#TimeScalarRestriction],entityScalarDataProperties:S[omf#EntityScalarDataProperty],entityStructuredDataProperties:S[omf#EntityStructuredDataProperty],scalarDataProperties:S[omf#ScalarDataProperty],structuredDataProperties:S[omf#StructuredDataProperty],axioms:S[omf#Axiom],rTAxioms:S[omf#RootConceptTaxonomyAxiom],aTAxioms:S[omf#AnonymousConceptTaxonomyAxiom],sTAxioms:S[omf#SpecificDisjointConceptAxiom],bAxioms:S[omf#BundledTerminologyAxiom],annotationProperties:S[gov.nasa.jpl.imce.oml.tables.AnnotationProperty],annotations:S[(gov.nasa.jpl.imce.oml.tables.AnnotationProperty,scala.collection.immutable.Set[gov.nasa.jpl.imce.oml.tables.AnnotationEntry])]):gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature[omf,S]"></a>
+      <a id="&lt;init&gt;:TerminologyBoxSignature[omf,S]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">new</span>
+      </span>
+      <span class="symbol">
+        <span class="name">TerminologyBoxSignature</span><span class="params">(<span name="isBundle">isBundle: <span class="extype" name="scala.Boolean">Boolean</span></span>, <span name="uuid">uuid: <span class="extype" name="java.util.UUID">UUID</span></span>, <span name="name">name: <span class="extype" name="gov.nasa.jpl.imce.oml.tables.LocalName">LocalName</span></span>, <span name="iri">iri: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFiri.IRI">omf.IRI</span></span>, <span name="kind">kind: <a href="TerminologyKind.html" class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyKind">TerminologyKind</a></span>, <span name="extensions">extensions: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.TerminologyExtensionAxiom">omf.TerminologyExtensionAxiom</span>]</span>, <span name="nesting">nesting: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.TerminologyNestingAxiom">omf.TerminologyNestingAxiom</span>]</span>, <span name="conceptDesignation">conceptDesignation: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ConceptDesignationTerminologyAxiom">omf.ConceptDesignationTerminologyAxiom</span>]</span>, <span name="bundledTerminologies">bundledTerminologies: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.BundledTerminologyAxiom">omf.BundledTerminologyAxiom</span>]</span>, <span name="aspects">aspects: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.Aspect">omf.Aspect</span>]</span>, <span name="concepts">concepts: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.Concept">omf.Concept</span>]</span>, <span name="reifiedRelationships">reifiedRelationships: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ReifiedRelationship">omf.ReifiedRelationship</span>]</span>, <span name="unreifiedRelationships">unreifiedRelationships: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.UnreifiedRelationship">omf.UnreifiedRelationship</span>]</span>, <span name="scalarDataTypes">scalarDataTypes: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.Scalar">omf.Scalar</span>]</span>, <span name="structuredDataTypes">structuredDataTypes: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.Structure">omf.Structure</span>]</span>, <span name="scalarOneOfRestrictions">scalarOneOfRestrictions: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ScalarOneOfRestriction">omf.ScalarOneOfRestriction</span>]</span>, <span name="scalarOneOfLiterals">scalarOneOfLiterals: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ScalarOneOfLiteralAxiom">omf.ScalarOneOfLiteralAxiom</span>]</span>, <span name="binaryScalarRestrictions">binaryScalarRestrictions: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.BinaryScalarRestriction">omf.BinaryScalarRestriction</span>]</span>, <span name="iriScalarRestrictions">iriScalarRestrictions: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.IRIScalarRestriction">omf.IRIScalarRestriction</span>]</span>, <span name="numericScalarRestrictions">numericScalarRestrictions: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.NumericScalarRestriction">omf.NumericScalarRestriction</span>]</span>, <span name="plainLiteralScalarRestrictions">plainLiteralScalarRestrictions: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.PlainLiteralScalarRestriction">omf.PlainLiteralScalarRestriction</span>]</span>, <span name="stringScalarRestrictions">stringScalarRestrictions: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.StringScalarRestriction">omf.StringScalarRestriction</span>]</span>, <span name="synonymScalarRestrictions">synonymScalarRestrictions: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.SynonymScalarRestriction">omf.SynonymScalarRestriction</span>]</span>, <span name="timeScalarRestrictions">timeScalarRestrictions: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.TimeScalarRestriction">omf.TimeScalarRestriction</span>]</span>, <span name="entityScalarDataProperties">entityScalarDataProperties: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.EntityScalarDataProperty">omf.EntityScalarDataProperty</span>]</span>, <span name="entityStructuredDataProperties">entityStructuredDataProperties: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.EntityStructuredDataProperty">omf.EntityStructuredDataProperty</span>]</span>, <span name="scalarDataProperties">scalarDataProperties: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ScalarDataProperty">omf.ScalarDataProperty</span>]</span>, <span name="structuredDataProperties">structuredDataProperties: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.StructuredDataProperty">omf.StructuredDataProperty</span>]</span>, <span name="axioms">axioms: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.Axiom">omf.Axiom</span>]</span>, <span name="rTAxioms">rTAxioms: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.RootConceptTaxonomyAxiom">omf.RootConceptTaxonomyAxiom</span>]</span>, <span name="aTAxioms">aTAxioms: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.AnonymousConceptTaxonomyAxiom">omf.AnonymousConceptTaxonomyAxiom</span>]</span>, <span name="sTAxioms">sTAxioms: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.SpecificDisjointConceptAxiom">omf.SpecificDisjointConceptAxiom</span>]</span>, <span name="bAxioms">bAxioms: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.BundledTerminologyAxiom">omf.BundledTerminologyAxiom</span>]</span>, <span name="annotationProperties">annotationProperties: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.imce.oml.tables.AnnotationProperty">AnnotationProperty</span>]</span>, <span name="annotations">annotations: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[(<span class="extype" name="gov.nasa.jpl.imce.oml.tables.AnnotationProperty">AnnotationProperty</span>, <span class="extype" name="scala.collection.immutable.Set">Set</span>[<span class="extype" name="gov.nasa.jpl.imce.oml.tables.AnnotationEntry">AnnotationEntry</span>])]</span>)</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature@&lt;init&gt;(isBundle:Boolean,uuid:java.util.UUID,name:gov.nasa.jpl.imce.oml.tables.LocalName,iri:omf#IRI,kind:gov.nasa.jpl.omf.scala.core.TerminologyKind,extensions:S[omf#TerminologyExtensionAxiom],nesting:S[omf#TerminologyNestingAxiom],conceptDesignation:S[omf#ConceptDesignationTerminologyAxiom],bundledTerminologies:S[omf#BundledTerminologyAxiom],aspects:S[omf#Aspect],concepts:S[omf#Concept],reifiedRelationships:S[omf#ReifiedRelationship],unreifiedRelationships:S[omf#UnreifiedRelationship],scalarDataTypes:S[omf#Scalar],structuredDataTypes:S[omf#Structure],scalarOneOfRestrictions:S[omf#ScalarOneOfRestriction],scalarOneOfLiterals:S[omf#ScalarOneOfLiteralAxiom],binaryScalarRestrictions:S[omf#BinaryScalarRestriction],iriScalarRestrictions:S[omf#IRIScalarRestriction],numericScalarRestrictions:S[omf#NumericScalarRestriction],plainLiteralScalarRestrictions:S[omf#PlainLiteralScalarRestriction],stringScalarRestrictions:S[omf#StringScalarRestriction],synonymScalarRestrictions:S[omf#SynonymScalarRestriction],timeScalarRestrictions:S[omf#TimeScalarRestriction],entityScalarDataProperties:S[omf#EntityScalarDataProperty],entityStructuredDataProperties:S[omf#EntityStructuredDataProperty],scalarDataProperties:S[omf#ScalarDataProperty],structuredDataProperties:S[omf#StructuredDataProperty],axioms:S[omf#Axiom],rTAxioms:S[omf#RootConceptTaxonomyAxiom],aTAxioms:S[omf#AnonymousConceptTaxonomyAxiom],sTAxioms:S[omf#SpecificDisjointConceptAxiom],bAxioms:S[omf#BundledTerminologyAxiom],annotationProperties:S[gov.nasa.jpl.imce.oml.tables.AnnotationProperty],annotations:S[(gov.nasa.jpl.imce.oml.tables.AnnotationProperty,scala.collection.immutable.Set[gov.nasa.jpl.imce.oml.tables.AnnotationEntry])]):gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature[omf,S]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">iri</dt><dd class="cmt"><p>identity of the terminology</p></dd><dt class="param">kind</dt><dd class="cmt"><p>semantic commitment of this terminology (open-world definitions vs. closed-world designations)</p></dd></dl></div>
+    </li></ol>
+            </div>
+
+        
+
+        
+
+        <div id="values" class="values members">
+              <h3>Value Members</h3>
+              <ol><li name="scala.AnyRef#!=" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="!=(x$1:Any):Boolean"></a>
+      <a id="!=(Any):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: $bang$eq" class="name">!=</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature@!=(x$1:Any):Boolean" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.AnyRef###" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="##():Int"></a>
+      <a id="##():Int"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: $hash$hash" class="name">##</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature@##():Int" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="scala.AnyRef#==" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="==(x$1:Any):Boolean"></a>
+      <a id="==(Any):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span title="gt4s: $eq$eq" class="name">==</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature@==(x$1:Any):Boolean" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature#aTAxioms" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="aTAxioms:S[omf#AnonymousConceptTaxonomyAxiom]"></a>
+      <a id="aTAxioms:S[omf.AnonymousConceptTaxonomyAxiom]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">aTAxioms</span><span class="result">: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.AnonymousConceptTaxonomyAxiom">omf.AnonymousConceptTaxonomyAxiom</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature@aTAxioms:S[omf#AnonymousConceptTaxonomyAxiom]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature#annotationProperties" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="annotationProperties:S[gov.nasa.jpl.imce.oml.tables.AnnotationProperty]"></a>
+      <a id="annotationProperties:S[AnnotationProperty]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">annotationProperties</span><span class="result">: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.imce.oml.tables.AnnotationProperty">AnnotationProperty</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature@annotationProperties:S[gov.nasa.jpl.imce.oml.tables.AnnotationProperty]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature">TerminologyBoxSignature</a> → <a href="ModuleSignature.html" class="extype" name="gov.nasa.jpl.omf.scala.core.ModuleSignature">ModuleSignature</a></dd></dl></div>
+    </li><li name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature#annotations" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="annotations:S[(gov.nasa.jpl.imce.oml.tables.AnnotationProperty,scala.collection.immutable.Set[gov.nasa.jpl.imce.oml.tables.AnnotationEntry])]"></a>
+      <a id="annotations:S[(AnnotationProperty,Set[AnnotationEntry])]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">annotations</span><span class="result">: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[(<span class="extype" name="gov.nasa.jpl.imce.oml.tables.AnnotationProperty">AnnotationProperty</span>, <span class="extype" name="scala.collection.immutable.Set">Set</span>[<span class="extype" name="gov.nasa.jpl.imce.oml.tables.AnnotationEntry">AnnotationEntry</span>])]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature@annotations:S[(gov.nasa.jpl.imce.oml.tables.AnnotationProperty,scala.collection.immutable.Set[gov.nasa.jpl.imce.oml.tables.AnnotationEntry])]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature">TerminologyBoxSignature</a> → <a href="ModuleSignature.html" class="extype" name="gov.nasa.jpl.omf.scala.core.ModuleSignature">ModuleSignature</a></dd></dl></div>
+    </li><li name="scala.Any#asInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="asInstanceOf[T0]:T0"></a>
+      <a id="asInstanceOf[T0]:T0"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">asInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Any.asInstanceOf.T0">T0</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature@asInstanceOf[T0]:T0" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature#aspects" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="aspects:S[omf#Aspect]"></a>
+      <a id="aspects:S[omf.Aspect]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">aspects</span><span class="result">: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.Aspect">omf.Aspect</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature@aspects:S[omf#Aspect]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature#axioms" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="axioms:S[omf#Axiom]"></a>
+      <a id="axioms:S[omf.Axiom]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">axioms</span><span class="result">: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.Axiom">omf.Axiom</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature@axioms:S[omf#Axiom]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature#bAxioms" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="bAxioms:S[omf#BundledTerminologyAxiom]"></a>
+      <a id="bAxioms:S[omf.BundledTerminologyAxiom]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">bAxioms</span><span class="result">: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.BundledTerminologyAxiom">omf.BundledTerminologyAxiom</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature@bAxioms:S[omf#BundledTerminologyAxiom]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature#binaryScalarRestrictions" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="binaryScalarRestrictions:S[omf#BinaryScalarRestriction]"></a>
+      <a id="binaryScalarRestrictions:S[omf.BinaryScalarRestriction]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">binaryScalarRestrictions</span><span class="result">: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.BinaryScalarRestriction">omf.BinaryScalarRestriction</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature@binaryScalarRestrictions:S[omf#BinaryScalarRestriction]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature#bundledTerminologies" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="bundledTerminologies:S[omf#BundledTerminologyAxiom]"></a>
+      <a id="bundledTerminologies:S[omf.BundledTerminologyAxiom]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">bundledTerminologies</span><span class="result">: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.BundledTerminologyAxiom">omf.BundledTerminologyAxiom</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature@bundledTerminologies:S[omf#BundledTerminologyAxiom]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="scala.AnyRef#clone" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="clone():Object"></a>
+      <a id="clone():AnyRef"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">clone</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature@clone():Object" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../../../../../java$lang.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.CloneNotSupportedException]">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature#conceptDesignation" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="conceptDesignation:S[omf#ConceptDesignationTerminologyAxiom]"></a>
+      <a id="conceptDesignation:S[omf.ConceptDesignationTerminologyAxiom]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">conceptDesignation</span><span class="result">: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ConceptDesignationTerminologyAxiom">omf.ConceptDesignationTerminologyAxiom</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature@conceptDesignation:S[omf#ConceptDesignationTerminologyAxiom]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature#concepts" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="concepts:S[omf#Concept]"></a>
+      <a id="concepts:S[omf.Concept]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">concepts</span><span class="result">: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.Concept">omf.Concept</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature@concepts:S[omf#Concept]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature#entityScalarDataProperties" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="entityScalarDataProperties:S[omf#EntityScalarDataProperty]"></a>
+      <a id="entityScalarDataProperties:S[omf.EntityScalarDataProperty]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">entityScalarDataProperties</span><span class="result">: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.EntityScalarDataProperty">omf.EntityScalarDataProperty</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature@entityScalarDataProperties:S[omf#EntityScalarDataProperty]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature#entityStructuredDataProperties" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="entityStructuredDataProperties:S[omf#EntityStructuredDataProperty]"></a>
+      <a id="entityStructuredDataProperties:S[omf.EntityStructuredDataProperty]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">entityStructuredDataProperties</span><span class="result">: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.EntityStructuredDataProperty">omf.EntityStructuredDataProperty</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature@entityStructuredDataProperties:S[omf#EntityStructuredDataProperty]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="scala.AnyRef#eq" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="eq(x$1:AnyRef):Boolean"></a>
+      <a id="eq(AnyRef):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">eq</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature@eq(x$1:AnyRef):Boolean" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature#extensions" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="extensions:S[omf#TerminologyExtensionAxiom]"></a>
+      <a id="extensions:S[omf.TerminologyExtensionAxiom]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">extensions</span><span class="result">: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.TerminologyExtensionAxiom">omf.TerminologyExtensionAxiom</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature@extensions:S[omf#TerminologyExtensionAxiom]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="scala.AnyRef#finalize" visbl="prt" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="finalize():Unit"></a>
+      <a id="finalize():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">finalize</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature@finalize():Unit" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected[<a href="../../../../../../java$lang.html" class="extype" name="java.lang">java.lang</a>] </dd><dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="symbol">classOf[java.lang.Throwable]</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="scala.AnyRef#getClass" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="getClass():Class[_]"></a>
+      <a id="getClass():Class[_]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getClass</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.Class">Class</span>[_]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature@getClass():Class[_]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature#importedDescriptions" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="importedDescriptions(implicitops:gov.nasa.jpl.omf.scala.core.OMFOps[omf]):scala.collection.immutable.Set[omf#DescriptionBox]"></a>
+      <a id="importedDescriptions(OMFOps[omf]):Set[omf.DescriptionBox]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">importedDescriptions</span><span class="params">(<span class="implicit">implicit </span><span name="ops">ops: <a href="OMFOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps">OMFOps</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.omf">omf</span>]</span>)</span><span class="result">: <span class="extype" name="scala.collection.immutable.Set">Set</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFdbox.DescriptionBox">omf.DescriptionBox</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature@importedDescriptions(implicitops:gov.nasa.jpl.omf.scala.core.OMFOps[omf]):scala.collection.immutable.Set[omf#DescriptionBox]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature">TerminologyBoxSignature</a> → <a href="ModuleSignature.html" class="extype" name="gov.nasa.jpl.omf.scala.core.ModuleSignature">ModuleSignature</a></dd></dl></div>
+    </li><li name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature#importedTerminologies" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="importedTerminologies(implicitops:gov.nasa.jpl.omf.scala.core.OMFOps[omf]):scala.collection.immutable.Set[omf#TerminologyBox]"></a>
+      <a id="importedTerminologies(OMFOps[omf]):Set[omf.TerminologyBox]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">importedTerminologies</span><span class="params">(<span class="implicit">implicit </span><span name="ops">ops: <a href="OMFOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps">OMFOps</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.omf">omf</span>]</span>)</span><span class="result">: <span class="extype" name="scala.collection.immutable.Set">Set</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.TerminologyBox">omf.TerminologyBox</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature@importedTerminologies(implicitops:gov.nasa.jpl.omf.scala.core.OMFOps[omf]):scala.collection.immutable.Set[omf#TerminologyBox]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature">TerminologyBoxSignature</a> → <a href="ModuleSignature.html" class="extype" name="gov.nasa.jpl.omf.scala.core.ModuleSignature">ModuleSignature</a></dd></dl></div>
+    </li><li name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature#iri" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="iri:omf#IRI"></a>
+      <a id="iri:omf.IRI"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">iri</span><span class="result">: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFiri.IRI">omf.IRI</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature@iri:omf#IRI" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">identity of the terminology</p><div class="fullcomment"><div class="comment cmt"><p>identity of the terminology</p></div><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature">TerminologyBoxSignature</a> → <a href="ModuleSignature.html" class="extype" name="gov.nasa.jpl.omf.scala.core.ModuleSignature">ModuleSignature</a></dd></dl></div>
+    </li><li name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature#iriScalarRestrictions" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="iriScalarRestrictions:S[omf#IRIScalarRestriction]"></a>
+      <a id="iriScalarRestrictions:S[omf.IRIScalarRestriction]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">iriScalarRestrictions</span><span class="result">: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.IRIScalarRestriction">omf.IRIScalarRestriction</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature@iriScalarRestrictions:S[omf#IRIScalarRestriction]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature#isBundle" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="isBundle:Boolean"></a>
+      <a id="isBundle:Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">isBundle</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature@isBundle:Boolean" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="scala.Any#isInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="isInstanceOf[T0]:Boolean"></a>
+      <a id="isInstanceOf[T0]:Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">isInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature@isInstanceOf[T0]:Boolean" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
+    </li><li name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature#kind" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="kind:gov.nasa.jpl.omf.scala.core.TerminologyKind"></a>
+      <a id="kind:TerminologyKind"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">kind</span><span class="result">: <a href="TerminologyKind.html" class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyKind">TerminologyKind</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature@kind:gov.nasa.jpl.omf.scala.core.TerminologyKind" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">semantic commitment of this terminology (open-world definitions vs.</p><div class="fullcomment"><div class="comment cmt"><p>semantic commitment of this terminology (open-world definitions vs. closed-world designations)</p></div></div>
+    </li><li name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature#name" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="name:gov.nasa.jpl.imce.oml.tables.LocalName"></a>
+      <a id="name:LocalName"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">name</span><span class="result">: <span class="extype" name="gov.nasa.jpl.imce.oml.tables.LocalName">LocalName</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature@name:gov.nasa.jpl.imce.oml.tables.LocalName" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature">TerminologyBoxSignature</a> → <a href="ModuleSignature.html" class="extype" name="gov.nasa.jpl.omf.scala.core.ModuleSignature">ModuleSignature</a></dd></dl></div>
+    </li><li name="scala.AnyRef#ne" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="ne(x$1:AnyRef):Boolean"></a>
+      <a id="ne(AnyRef):Boolean"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">ne</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature@ne(x$1:AnyRef):Boolean" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature#nesting" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="nesting:S[omf#TerminologyNestingAxiom]"></a>
+      <a id="nesting:S[omf.TerminologyNestingAxiom]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">nesting</span><span class="result">: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.TerminologyNestingAxiom">omf.TerminologyNestingAxiom</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature@nesting:S[omf#TerminologyNestingAxiom]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="scala.AnyRef#notify" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="notify():Unit"></a>
+      <a id="notify():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">notify</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature@notify():Unit" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="scala.AnyRef#notifyAll" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="notifyAll():Unit"></a>
+      <a id="notifyAll():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">notifyAll</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature@notifyAll():Unit" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature#numericScalarRestrictions" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="numericScalarRestrictions:S[omf#NumericScalarRestriction]"></a>
+      <a id="numericScalarRestrictions:S[omf.NumericScalarRestriction]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">numericScalarRestrictions</span><span class="result">: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.NumericScalarRestriction">omf.NumericScalarRestriction</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature@numericScalarRestrictions:S[omf#NumericScalarRestriction]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature#plainLiteralScalarRestrictions" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="plainLiteralScalarRestrictions:S[omf#PlainLiteralScalarRestriction]"></a>
+      <a id="plainLiteralScalarRestrictions:S[omf.PlainLiteralScalarRestriction]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">plainLiteralScalarRestrictions</span><span class="result">: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.PlainLiteralScalarRestriction">omf.PlainLiteralScalarRestriction</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature@plainLiteralScalarRestrictions:S[omf#PlainLiteralScalarRestriction]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature#rTAxioms" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="rTAxioms:S[omf#RootConceptTaxonomyAxiom]"></a>
+      <a id="rTAxioms:S[omf.RootConceptTaxonomyAxiom]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">rTAxioms</span><span class="result">: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.RootConceptTaxonomyAxiom">omf.RootConceptTaxonomyAxiom</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature@rTAxioms:S[omf#RootConceptTaxonomyAxiom]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature#reifiedRelationships" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="reifiedRelationships:S[omf#ReifiedRelationship]"></a>
+      <a id="reifiedRelationships:S[omf.ReifiedRelationship]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">reifiedRelationships</span><span class="result">: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ReifiedRelationship">omf.ReifiedRelationship</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature@reifiedRelationships:S[omf#ReifiedRelationship]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature#sTAxioms" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="sTAxioms:S[omf#SpecificDisjointConceptAxiom]"></a>
+      <a id="sTAxioms:S[omf.SpecificDisjointConceptAxiom]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">sTAxioms</span><span class="result">: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.SpecificDisjointConceptAxiom">omf.SpecificDisjointConceptAxiom</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature@sTAxioms:S[omf#SpecificDisjointConceptAxiom]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature#scalarDataProperties" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="scalarDataProperties:S[omf#ScalarDataProperty]"></a>
+      <a id="scalarDataProperties:S[omf.ScalarDataProperty]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">scalarDataProperties</span><span class="result">: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ScalarDataProperty">omf.ScalarDataProperty</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature@scalarDataProperties:S[omf#ScalarDataProperty]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature#scalarDataTypes" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="scalarDataTypes:S[omf#Scalar]"></a>
+      <a id="scalarDataTypes:S[omf.Scalar]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">scalarDataTypes</span><span class="result">: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.Scalar">omf.Scalar</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature@scalarDataTypes:S[omf#Scalar]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature#scalarOneOfLiterals" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="scalarOneOfLiterals:S[omf#ScalarOneOfLiteralAxiom]"></a>
+      <a id="scalarOneOfLiterals:S[omf.ScalarOneOfLiteralAxiom]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">scalarOneOfLiterals</span><span class="result">: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ScalarOneOfLiteralAxiom">omf.ScalarOneOfLiteralAxiom</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature@scalarOneOfLiterals:S[omf#ScalarOneOfLiteralAxiom]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature#scalarOneOfRestrictions" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="scalarOneOfRestrictions:S[omf#ScalarOneOfRestriction]"></a>
+      <a id="scalarOneOfRestrictions:S[omf.ScalarOneOfRestriction]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">scalarOneOfRestrictions</span><span class="result">: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ScalarOneOfRestriction">omf.ScalarOneOfRestriction</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature@scalarOneOfRestrictions:S[omf#ScalarOneOfRestriction]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature#stringScalarRestrictions" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="stringScalarRestrictions:S[omf#StringScalarRestriction]"></a>
+      <a id="stringScalarRestrictions:S[omf.StringScalarRestriction]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">stringScalarRestrictions</span><span class="result">: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.StringScalarRestriction">omf.StringScalarRestriction</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature@stringScalarRestrictions:S[omf#StringScalarRestriction]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature#structuredDataProperties" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="structuredDataProperties:S[omf#StructuredDataProperty]"></a>
+      <a id="structuredDataProperties:S[omf.StructuredDataProperty]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">structuredDataProperties</span><span class="result">: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.StructuredDataProperty">omf.StructuredDataProperty</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature@structuredDataProperties:S[omf#StructuredDataProperty]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature#structuredDataTypes" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="structuredDataTypes:S[omf#Structure]"></a>
+      <a id="structuredDataTypes:S[omf.Structure]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">structuredDataTypes</span><span class="result">: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.Structure">omf.Structure</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature@structuredDataTypes:S[omf#Structure]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="scala.AnyRef#synchronized" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="synchronized[T0](x$1:=&gt;T0):T0"></a>
+      <a id="synchronized[T0](⇒T0):T0"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">synchronized</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="params">(<span name="arg0">arg0: ⇒ <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>)</span><span class="result">: <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature@synchronized[T0](x$1:=&gt;T0):T0" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
+    </li><li name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature#synonymScalarRestrictions" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="synonymScalarRestrictions:S[omf#SynonymScalarRestriction]"></a>
+      <a id="synonymScalarRestrictions:S[omf.SynonymScalarRestriction]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">synonymScalarRestrictions</span><span class="result">: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.SynonymScalarRestriction">omf.SynonymScalarRestriction</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature@synonymScalarRestrictions:S[omf#SynonymScalarRestriction]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature#terms" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="terms:scala.collection.immutable.Set[omf#Term]"></a>
+      <a id="terms:Set[omf.Term]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">terms</span><span class="result">: <span class="extype" name="scala.collection.immutable.Set">Set</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.Term">omf.Term</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature@terms:scala.collection.immutable.Set[omf#Term]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature#timeScalarRestrictions" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="timeScalarRestrictions:S[omf#TimeScalarRestriction]"></a>
+      <a id="timeScalarRestrictions:S[omf.TimeScalarRestriction]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">timeScalarRestrictions</span><span class="result">: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.TimeScalarRestriction">omf.TimeScalarRestriction</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature@timeScalarRestrictions:S[omf#TimeScalarRestriction]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature#unreifiedRelationships" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="unreifiedRelationships:S[omf#UnreifiedRelationship]"></a>
+      <a id="unreifiedRelationships:S[omf.UnreifiedRelationship]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">unreifiedRelationships</span><span class="result">: <span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.S">S</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.UnreifiedRelationship">omf.UnreifiedRelationship</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature@unreifiedRelationships:S[omf#UnreifiedRelationship]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature#uuid" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="uuid:java.util.UUID"></a>
+      <a id="uuid:UUID"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">uuid</span><span class="result">: <span class="extype" name="java.util.UUID">UUID</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature@uuid:java.util.UUID" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="" class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature">TerminologyBoxSignature</a> → <a href="ModuleSignature.html" class="extype" name="gov.nasa.jpl.omf.scala.core.ModuleSignature">ModuleSignature</a></dd></dl></div>
+    </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="wait():Unit"></a>
+      <a id="wait():Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature@wait():Unit" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.InterruptedException]">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="wait(x$1:Long,x$2:Int):Unit"></a>
+      <a id="wait(Long,Int):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>, <span name="arg1">arg1: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature@wait(x$1:Long,x$2:Int):Unit" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.InterruptedException]">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="wait(x$1:Long):Unit"></a>
+      <a id="wait(Long):Unit"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">final </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature@wait(x$1:Long):Unit" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd><dt>Annotations</dt><dd>
+                <span class="name">@throws</span><span class="args">(<span>
+      
+      <span class="defval" name="classOf[java.lang.InterruptedException]">...</span>
+    </span>)</span>
+              
+        </dd></dl></div>
+    </li></ol>
+            </div>
+
+        
+
+        
+        </div>
+
+        <div id="inheritedMembers">
+        <div class="parent" name="scala.Serializable">
+              <h3>Inherited from <span class="extype" name="scala.Serializable">Serializable</span></h3>
+            </div><div class="parent" name="java.io.Serializable">
+              <h3>Inherited from <span class="extype" name="java.io.Serializable">Serializable</span></h3>
+            </div><div class="parent" name="scala.Product">
+              <h3>Inherited from <span class="extype" name="scala.Product">Product</span></h3>
+            </div><div class="parent" name="scala.Equals">
+              <h3>Inherited from <span class="extype" name="scala.Equals">Equals</span></h3>
+            </div><div class="parent" name="gov.nasa.jpl.omf.scala.core.ModuleSignature">
+              <h3>Inherited from <a href="ModuleSignature.html" class="extype" name="gov.nasa.jpl.omf.scala.core.ModuleSignature">ModuleSignature</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature.omf">omf</span>]</h3>
+            </div><div class="parent" name="scala.AnyRef">
+              <h3>Inherited from <span class="extype" name="scala.AnyRef">AnyRef</span></h3>
+            </div><div class="parent" name="scala.Any">
+              <h3>Inherited from <span class="extype" name="scala.Any">Any</span></h3>
+            </div>
+        
+        </div>
+
+        <div id="groupedMembers">
+        <div class="group" name="Ungrouped">
+              <h3>Ungrouped</h3>
+              
+            </div>
+        </div>
+
+      </div>
+
+      <div id="tooltip"></div>
+
+      <div id="footer">  </div>
+
+
+    </body>
+      </html>

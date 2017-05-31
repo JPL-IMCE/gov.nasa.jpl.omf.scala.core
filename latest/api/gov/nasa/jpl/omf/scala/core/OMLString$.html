@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>ImmutableInstanceGraphOps - gov.nasa.jpl.omf.scala.core.ImmutableInstanceGraphOps</title>
-          <meta name="description" content="ImmutableInstanceGraphOps - gov.nasa.jpl.omf.scala.core.ImmutableInstanceGraphOps" />
-          <meta name="keywords" content="ImmutableInstanceGraphOps gov.nasa.jpl.omf.scala.core.ImmutableInstanceGraphOps" />
+          <title>OMLString - gov.nasa.jpl.omf.scala.core.OMLString</title>
+          <meta name="description" content="OMLString - gov.nasa.jpl.omf.scala.core.OMLString" />
+          <meta name="keywords" content="OMLString gov.nasa.jpl.omf.scala.core.OMLString" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -16,7 +16,7 @@
       <script type="text/javascript">
          if(top === self) {
             var url = '../../../../../../index.html';
-            var hash = 'gov.nasa.jpl.omf.scala.core.ImmutableInstanceGraphOps';
+            var hash = 'gov.nasa.jpl.omf.scala.core.OMLString$';
             var anchor = window.location.hash;
             var anchor_opt = '';
             if (anchor.length >= 1)
@@ -26,14 +26,14 @@
    	  </script>
     
         </head>
-        <body class="type">
+        <body class="value">
       <div id="definition">
-        <img alt="Trait" src="../../../../../../lib/trait_big.png" />
+        <img alt="Object" src="../../../../../../lib/object_big.png" />
         <p id="owner"><a href="../../../../../package.html" class="extype" name="gov">gov</a>.<a href="../../../../package.html" class="extype" name="gov.nasa">nasa</a>.<a href="../../../package.html" class="extype" name="gov.nasa.jpl">jpl</a>.<a href="../../package.html" class="extype" name="gov.nasa.jpl.omf">omf</a>.<a href="../package.html" class="extype" name="gov.nasa.jpl.omf.scala">scala</a>.<a href="package.html" class="extype" name="gov.nasa.jpl.omf.scala.core">core</a></p>
-        <h1>ImmutableInstanceGraphOps</h1><h3><span class="morelinks"><div>Related Doc:
+        <h1>OMLString</h1><h3><span class="morelinks"><div>Related Doc:
             <a href="package.html" class="extype" name="gov.nasa.jpl.omf.scala.core">package core</a>
           </div></span></h3><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.ImmutableInstanceGraphOps" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMLString$" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -42,20 +42,29 @@
       <h4 id="signature" class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
-        <span class="kind">trait</span>
+        <span class="kind">object</span>
       </span>
       <span class="symbol">
-        <span class="name">ImmutableInstanceGraphOps</span><span class="tparams">[<span name="omf">omf &lt;: <a href="OMF.html" class="extype" name="gov.nasa.jpl.omf.scala.core.OMF">OMF</a></span>]</span><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+        <span class="name">OMLString</span>
       </span>
       </h4>
       
-          <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
+          <div id="comment" class="fullcommenttop"><div class="comment cmt"><p>OMLString defines multiple tag types on String:
+- LocalName
+- LexicalValue
+- LexicalNumber
+- LexicalTime
+- Pattern
+- LangRange
+- AbbrevIRI
+- NamespacePrefix</p><p>Since these String-tagged types are disjoint from each other,
+there is a compile-time guarantee that a particular tagged-String value can't be misused
+as a legimate String of a different tag.
+(e.g., an AbbrevIRI String value can't be used as an argument for a function accepting a Pattern String)
+</p></div><dl class="attributes block"> <dt>See also</dt><dd><span class="cmt"><p>https://failex.blogspot.com/2017/04/the-high-cost-of-anyval-subclasses.html</p></span><span class="cmt"><p>https://code.launchpad.net/~scompall/+junk/high-cost-of-anyval-subclasses</p></span></dd></dl><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
           <div class="superTypes hiddenContent"><span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
-        </div><div class="toggleContainer block">
-            <span class="toggle">Known Subclasses</span>
-            <div class="subClasses hiddenContent"><a href="MutableInstanceGraphOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.MutableInstanceGraphOps">MutableInstanceGraphOps</a>, <a href="OMFOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps">OMFOps</a></div>
-          </div></div>
+        </div></div>
         
 
       <div id="mbrsel">
@@ -72,7 +81,7 @@
                 <span class="filtertype">Inherited<br />
                 </span>
                 <ol id="linearization">
-                  <li class="in" name="gov.nasa.jpl.omf.scala.core.ImmutableInstanceGraphOps"><span>ImmutableInstanceGraphOps</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
+                  <li class="in" name="gov.nasa.jpl.omf.scala.core.OMLString"><span>OMLString</span></li><li class="in" name="scala.AnyRef"><span>AnyRef</span></li><li class="in" name="scala.Any"><span>Any</span></li>
                 </ol>
               </div><div id="ancestors">
             <span class="filtertype"></span>
@@ -91,159 +100,157 @@
         <div id="allMembers">
         
 
-        
-
-        <div id="values" class="values members">
-              <h3>Abstract Value Members</h3>
-              <ol><li name="gov.nasa.jpl.omf.scala.core.ImmutableInstanceGraphOps#fromDataLiteral" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
-      <a id="fromDataLiteral(dl:omf#ModelInstanceDataLiteral):(String,omf#Scalar)"></a>
-      <a id="fromDataLiteral(omf.ModelInstanceDataLiteral):(String,omf.Scalar)"></a>
+        <div id="types" class="types members">
+              <h3>Type Members</h3>
+              <ol><li name="gov.nasa.jpl.omf.scala.core.OMLString.AbbrevIRI" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="AbbrevIRI=gov.nasa.jpl.omf.scala.core.OMLString.AbbrevIRI.T"></a>
+      <a id="AbbrevIRI:AbbrevIRI"></a>
       <h4 class="signature">
       <span class="modifier_kind">
-        <span class="modifier">abstract </span>
-        <span class="kind">def</span>
+        <span class="modifier"></span>
+        <span class="kind">type</span>
       </span>
       <span class="symbol">
-        <span class="name">fromDataLiteral</span><span class="params">(<span name="dl">dl: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFabox.ModelInstanceDataLiteral">omf.ModelInstanceDataLiteral</span></span>)</span><span class="result">: (<span class="extype" name="scala.Predef.String">String</span>, <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.Scalar">omf.Scalar</span>)</span>
+        <span class="name">AbbrevIRI</span><span class="result"> = <a href="OMLString$$OMLStringImpl.html#T&lt;:String" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMLString.OMLStringImpl.T">T</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.ImmutableInstanceGraphOps@fromDataLiteral(dl:omf#ModelInstanceDataLiteral):(String,omf#Scalar)" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMLString$@AbbrevIRI=gov.nasa.jpl.omf.scala.core.OMLString.AbbrevIRI.T" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       
-    </li><li name="gov.nasa.jpl.omf.scala.core.ImmutableInstanceGraphOps#fromDataStructure" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
-      <a id="fromDataStructure(ds:omf#ModelInstanceDataStructure):(omf#IRI,omf#Structure)"></a>
-      <a id="fromDataStructure(omf.ModelInstanceDataStructure):(omf.IRI,omf.Structure)"></a>
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMLString.LangRange" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="LangRange=gov.nasa.jpl.omf.scala.core.OMLString.LangRange.T"></a>
+      <a id="LangRange:LangRange"></a>
       <h4 class="signature">
       <span class="modifier_kind">
-        <span class="modifier">abstract </span>
-        <span class="kind">def</span>
+        <span class="modifier"></span>
+        <span class="kind">type</span>
       </span>
       <span class="symbol">
-        <span class="name">fromDataStructure</span><span class="params">(<span name="ds">ds: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFabox.ModelInstanceDataStructure">omf.ModelInstanceDataStructure</span></span>)</span><span class="result">: (<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFiri.IRI">omf.IRI</span>, <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.Structure">omf.Structure</span>)</span>
+        <span class="name">LangRange</span><span class="result"> = <a href="OMLString$$OMLStringImpl.html#T&lt;:String" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMLString.OMLStringImpl.T">T</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.ImmutableInstanceGraphOps@fromDataStructure(ds:omf#ModelInstanceDataStructure):(omf#IRI,omf#Structure)" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMLString$@LangRange=gov.nasa.jpl.omf.scala.core.OMLString.LangRange.T" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       
-    </li><li name="gov.nasa.jpl.omf.scala.core.ImmutableInstanceGraphOps#fromInstanceDataRelationshipFromEntityToScalar" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
-      <a id="fromInstanceDataRelationshipFromEntityToScalar(e2sc:omf#ModelInstanceDataRelationshipFromEntityToScalar):(omf#ModelEntityInstance,omf#EntityScalarDataProperty,omf#ModelInstanceDataLiteral)"></a>
-      <a id="fromInstanceDataRelationshipFromEntityToScalar(omf.ModelInstanceDataRelationshipFromEntityToScalar):(omf.ModelEntityInstance,omf.EntityScalarDataProperty,omf.ModelInstanceDataLiteral)"></a>
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMLString.LexicalNumber" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="LexicalNumber=gov.nasa.jpl.omf.scala.core.OMLString.LexicalNumber.T"></a>
+      <a id="LexicalNumber:LexicalNumber"></a>
       <h4 class="signature">
       <span class="modifier_kind">
-        <span class="modifier">abstract </span>
-        <span class="kind">def</span>
+        <span class="modifier"></span>
+        <span class="kind">type</span>
       </span>
       <span class="symbol">
-        <span class="name">fromInstanceDataRelationshipFromEntityToScalar</span><span class="params">(<span name="e2sc">e2sc: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFabox.ModelInstanceDataRelationshipFromEntityToScalar">omf.ModelInstanceDataRelationshipFromEntityToScalar</span></span>)</span><span class="result">: (<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFabox.ModelEntityInstance">omf.ModelEntityInstance</span>, <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.EntityScalarDataProperty">omf.EntityScalarDataProperty</span>, <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFabox.ModelInstanceDataLiteral">omf.ModelInstanceDataLiteral</span>)</span>
+        <span class="name">LexicalNumber</span><span class="result"> = <a href="OMLString$$OMLStringImpl.html#T&lt;:String" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMLString.OMLStringImpl.T">T</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.ImmutableInstanceGraphOps@fromInstanceDataRelationshipFromEntityToScalar(e2sc:omf#ModelInstanceDataRelationshipFromEntityToScalar):(omf#ModelEntityInstance,omf#EntityScalarDataProperty,omf#ModelInstanceDataLiteral)" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMLString$@LexicalNumber=gov.nasa.jpl.omf.scala.core.OMLString.LexicalNumber.T" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       
-    </li><li name="gov.nasa.jpl.omf.scala.core.ImmutableInstanceGraphOps#fromInstanceDataRelationshipFromEntityToStructure" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
-      <a id="fromInstanceDataRelationshipFromEntityToStructure(e2sc:omf#ModelInstanceDataRelationshipFromEntityToStructure):(omf#ModelEntityInstance,omf#EntityStructuredDataProperty,omf#ModelInstanceDataStructure)"></a>
-      <a id="fromInstanceDataRelationshipFromEntityToStructure(omf.ModelInstanceDataRelationshipFromEntityToStructure):(omf.ModelEntityInstance,omf.EntityStructuredDataProperty,omf.ModelInstanceDataStructure)"></a>
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMLString.LexicalTime" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="LexicalTime=gov.nasa.jpl.omf.scala.core.OMLString.LexicalTime.T"></a>
+      <a id="LexicalTime:LexicalTime"></a>
       <h4 class="signature">
       <span class="modifier_kind">
-        <span class="modifier">abstract </span>
-        <span class="kind">def</span>
+        <span class="modifier"></span>
+        <span class="kind">type</span>
       </span>
       <span class="symbol">
-        <span class="name">fromInstanceDataRelationshipFromEntityToStructure</span><span class="params">(<span name="e2sc">e2sc: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFabox.ModelInstanceDataRelationshipFromEntityToStructure">omf.ModelInstanceDataRelationshipFromEntityToStructure</span></span>)</span><span class="result">: (<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFabox.ModelEntityInstance">omf.ModelEntityInstance</span>, <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.EntityStructuredDataProperty">omf.EntityStructuredDataProperty</span>, <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFabox.ModelInstanceDataStructure">omf.ModelInstanceDataStructure</span>)</span>
+        <span class="name">LexicalTime</span><span class="result"> = <a href="OMLString$$OMLStringImpl.html#T&lt;:String" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMLString.OMLStringImpl.T">T</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.ImmutableInstanceGraphOps@fromInstanceDataRelationshipFromEntityToStructure(e2sc:omf#ModelInstanceDataRelationshipFromEntityToStructure):(omf#ModelEntityInstance,omf#EntityStructuredDataProperty,omf#ModelInstanceDataStructure)" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMLString$@LexicalTime=gov.nasa.jpl.omf.scala.core.OMLString.LexicalTime.T" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       
-    </li><li name="gov.nasa.jpl.omf.scala.core.ImmutableInstanceGraphOps#fromInstanceDataRelationshipFromStructureToScalar" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
-      <a id="fromInstanceDataRelationshipFromStructureToScalar(e2sc:omf#ModelInstanceDataRelationshipFromStructureToScalar):(omf#ModelInstanceDataStructure,omf#ScalarDataProperty,omf#ModelInstanceDataLiteral)"></a>
-      <a id="fromInstanceDataRelationshipFromStructureToScalar(omf.ModelInstanceDataRelationshipFromStructureToScalar):(omf.ModelInstanceDataStructure,omf.ScalarDataProperty,omf.ModelInstanceDataLiteral)"></a>
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMLString.LexicalValue" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="LexicalValue=gov.nasa.jpl.omf.scala.core.OMLString.LexicalValue.T"></a>
+      <a id="LexicalValue:LexicalValue"></a>
       <h4 class="signature">
       <span class="modifier_kind">
-        <span class="modifier">abstract </span>
-        <span class="kind">def</span>
+        <span class="modifier"></span>
+        <span class="kind">type</span>
       </span>
       <span class="symbol">
-        <span class="name">fromInstanceDataRelationshipFromStructureToScalar</span><span class="params">(<span name="e2sc">e2sc: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFabox.ModelInstanceDataRelationshipFromStructureToScalar">omf.ModelInstanceDataRelationshipFromStructureToScalar</span></span>)</span><span class="result">: (<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFabox.ModelInstanceDataStructure">omf.ModelInstanceDataStructure</span>, <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ScalarDataProperty">omf.ScalarDataProperty</span>, <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFabox.ModelInstanceDataLiteral">omf.ModelInstanceDataLiteral</span>)</span>
+        <span class="name">LexicalValue</span><span class="result"> = <a href="OMLString$$OMLStringImpl.html#T&lt;:String" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMLString.OMLStringImpl.T">T</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.ImmutableInstanceGraphOps@fromInstanceDataRelationshipFromStructureToScalar(e2sc:omf#ModelInstanceDataRelationshipFromStructureToScalar):(omf#ModelInstanceDataStructure,omf#ScalarDataProperty,omf#ModelInstanceDataLiteral)" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMLString$@LexicalValue=gov.nasa.jpl.omf.scala.core.OMLString.LexicalValue.T" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       
-    </li><li name="gov.nasa.jpl.omf.scala.core.ImmutableInstanceGraphOps#fromInstanceDataRelationshipFromStructureToStructure" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
-      <a id="fromInstanceDataRelationshipFromStructureToStructure(e2sc:omf#ModelInstanceDataRelationshipFromStructureToStructure):(omf#ModelInstanceDataStructure,omf#StructuredDataProperty,omf#ModelInstanceDataStructure)"></a>
-      <a id="fromInstanceDataRelationshipFromStructureToStructure(omf.ModelInstanceDataRelationshipFromStructureToStructure):(omf.ModelInstanceDataStructure,omf.StructuredDataProperty,omf.ModelInstanceDataStructure)"></a>
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMLString.LocalName" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="LocalName=gov.nasa.jpl.omf.scala.core.OMLString.LocalName.T"></a>
+      <a id="LocalName:LocalName"></a>
       <h4 class="signature">
       <span class="modifier_kind">
-        <span class="modifier">abstract </span>
-        <span class="kind">def</span>
+        <span class="modifier"></span>
+        <span class="kind">type</span>
       </span>
       <span class="symbol">
-        <span class="name">fromInstanceDataRelationshipFromStructureToStructure</span><span class="params">(<span name="e2sc">e2sc: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFabox.ModelInstanceDataRelationshipFromStructureToStructure">omf.ModelInstanceDataRelationshipFromStructureToStructure</span></span>)</span><span class="result">: (<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFabox.ModelInstanceDataStructure">omf.ModelInstanceDataStructure</span>, <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.StructuredDataProperty">omf.StructuredDataProperty</span>, <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFabox.ModelInstanceDataStructure">omf.ModelInstanceDataStructure</span>)</span>
+        <span class="name">LocalName</span><span class="result"> = <a href="OMLString$$OMLStringImpl.html#T&lt;:String" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMLString.OMLStringImpl.T">T</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.ImmutableInstanceGraphOps@fromInstanceDataRelationshipFromStructureToStructure(e2sc:omf#ModelInstanceDataRelationshipFromStructureToStructure):(omf#ModelInstanceDataStructure,omf#StructuredDataProperty,omf#ModelInstanceDataStructure)" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMLString$@LocalName=gov.nasa.jpl.omf.scala.core.OMLString.LocalName.T" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       
-    </li><li name="gov.nasa.jpl.omf.scala.core.ImmutableInstanceGraphOps#fromInstanceObject" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
-      <a id="fromInstanceObject(o:omf#ModelInstanceObject):(omf#IRI,omf#Concept)"></a>
-      <a id="fromInstanceObject(omf.ModelInstanceObject):(omf.IRI,omf.Concept)"></a>
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMLString.NamespacePrefix" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="NamespacePrefix=gov.nasa.jpl.omf.scala.core.OMLString.NamespacePrefix.T"></a>
+      <a id="NamespacePrefix:NamespacePrefix"></a>
       <h4 class="signature">
       <span class="modifier_kind">
-        <span class="modifier">abstract </span>
-        <span class="kind">def</span>
+        <span class="modifier"></span>
+        <span class="kind">type</span>
       </span>
       <span class="symbol">
-        <span class="name">fromInstanceObject</span><span class="params">(<span name="o">o: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFabox.ModelInstanceObject">omf.ModelInstanceObject</span></span>)</span><span class="result">: (<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFiri.IRI">omf.IRI</span>, <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.Concept">omf.Concept</span>)</span>
+        <span class="name">NamespacePrefix</span><span class="result"> = <a href="OMLString$$OMLStringImpl.html#T&lt;:String" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMLString.OMLStringImpl.T">T</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.ImmutableInstanceGraphOps@fromInstanceObject(o:omf#ModelInstanceObject):(omf#IRI,omf#Concept)" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMLString$@NamespacePrefix=gov.nasa.jpl.omf.scala.core.OMLString.NamespacePrefix.T" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       
-    </li><li name="gov.nasa.jpl.omf.scala.core.ImmutableInstanceGraphOps#fromInstanceRelation" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
-      <a id="fromInstanceRelation(r:omf#ModelInstanceRelation):(omf#IRI,omf#ReifiedRelationship,omf#ModelEntityInstance,omf#ModelEntityInstance)"></a>
-      <a id="fromInstanceRelation(omf.ModelInstanceRelation):(omf.IRI,omf.ReifiedRelationship,omf.ModelEntityInstance,omf.ModelEntityInstance)"></a>
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMLString.OMLStringImpl" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="OMLStringImplextendsAnyRef"></a>
+      <a id="OMLStringImpl:OMLStringImpl"></a>
       <h4 class="signature">
       <span class="modifier_kind">
-        <span class="modifier">abstract </span>
-        <span class="kind">def</span>
+        <span class="modifier">sealed abstract </span>
+        <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <span class="name">fromInstanceRelation</span><span class="params">(<span name="r">r: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFabox.ModelInstanceRelation">omf.ModelInstanceRelation</span></span>)</span><span class="result">: (<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFiri.IRI">omf.IRI</span>, <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ReifiedRelationship">omf.ReifiedRelationship</span>, <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFabox.ModelEntityInstance">omf.ModelEntityInstance</span>, <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFabox.ModelEntityInstance">omf.ModelEntityInstance</span>)</span>
+        <a href="OMLString$$OMLStringImpl.html"><span class="name">OMLStringImpl</span></a><span class="result"> extends <span class="extype" name="scala.AnyRef">AnyRef</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.ImmutableInstanceGraphOps@fromInstanceRelation(r:omf#ModelInstanceRelation):(omf#IRI,omf#ReifiedRelationship,omf#ModelEntityInstance,omf#ModelEntityInstance)" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMLString$@OMLStringImplextendsAnyRef" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       
-    </li><li name="gov.nasa.jpl.omf.scala.core.ImmutableInstanceGraphOps#getInstanceGraphIRI" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
-      <a id="getInstanceGraphIRI(graph:omf#ModelInstanceGraph):omf#IRI"></a>
-      <a id="getInstanceGraphIRI(omf.ModelInstanceGraph):omf.IRI"></a>
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMLString.Pattern" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="Pattern=gov.nasa.jpl.omf.scala.core.OMLString.Pattern.T"></a>
+      <a id="Pattern:Pattern"></a>
       <h4 class="signature">
       <span class="modifier_kind">
-        <span class="modifier">abstract </span>
-        <span class="kind">def</span>
+        <span class="modifier"></span>
+        <span class="kind">type</span>
       </span>
       <span class="symbol">
-        <span class="name">getInstanceGraphIRI</span><span class="params">(<span name="graph">graph: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFabox.ModelInstanceGraph">omf.ModelInstanceGraph</span></span>)</span><span class="result">: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFiri.IRI">omf.IRI</span></span>
+        <span class="name">Pattern</span><span class="result"> = <a href="OMLString$$OMLStringImpl.html#T&lt;:String" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMLString.OMLStringImpl.T">T</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.ImmutableInstanceGraphOps@getInstanceGraphIRI(graph:omf#ModelInstanceGraph):omf#IRI" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMLString$@Pattern=gov.nasa.jpl.omf.scala.core.OMLString.Pattern.T" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -251,8 +258,10 @@
     </li></ol>
             </div>
 
+        
+
         <div id="values" class="values members">
-              <h3>Concrete Value Members</h3>
+              <h3>Value Members</h3>
               <ol><li name="scala.AnyRef#!=" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="!=(x$1:Any):Boolean"></a>
       <a id="!=(Any):Boolean"></a>
@@ -265,7 +274,7 @@
         <span title="gt4s: $bang$eq" class="name">!=</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.ImmutableInstanceGraphOps@!=(x$1:Any):Boolean" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMLString$@!=(x$1:Any):Boolean" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -282,7 +291,7 @@
         <span title="gt4s: $hash$hash" class="name">##</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.ImmutableInstanceGraphOps@##():Int" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMLString$@##():Int" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -299,11 +308,155 @@
         <span title="gt4s: $eq$eq" class="name">==</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.ImmutableInstanceGraphOps@==(x$1:Any):Boolean" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMLString$@==(x$1:Any):Boolean" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMLString#AbbrevIRI" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="AbbrevIRI:gov.nasa.jpl.omf.scala.core.OMLString.OMLStringImpl"></a>
+      <a id="AbbrevIRI:OMLStringImpl"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">AbbrevIRI</span><span class="result">: <a href="OMLString$$OMLStringImpl.html" class="extype" name="gov.nasa.jpl.omf.scala.core.OMLString.OMLStringImpl">OMLStringImpl</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMLString$@AbbrevIRI:gov.nasa.jpl.omf.scala.core.OMLString.OMLStringImpl" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">OMLCommon#AbbrevIRI
+</p>
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMLString#LangRange" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="LangRange:gov.nasa.jpl.omf.scala.core.OMLString.OMLStringImpl"></a>
+      <a id="LangRange:OMLStringImpl"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">LangRange</span><span class="result">: <a href="OMLString$$OMLStringImpl.html" class="extype" name="gov.nasa.jpl.omf.scala.core.OMLString.OMLStringImpl">OMLStringImpl</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMLString$@LangRange:gov.nasa.jpl.omf.scala.core.OMLString.OMLStringImpl" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">OMLCommon#LangRange
+</p>
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMLString#LexicalNumber" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="LexicalNumber:gov.nasa.jpl.omf.scala.core.OMLString.OMLStringImpl"></a>
+      <a id="LexicalNumber:OMLStringImpl"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">LexicalNumber</span><span class="result">: <a href="OMLString$$OMLStringImpl.html" class="extype" name="gov.nasa.jpl.omf.scala.core.OMLString.OMLStringImpl">OMLStringImpl</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMLString$@LexicalNumber:gov.nasa.jpl.omf.scala.core.OMLString.OMLStringImpl" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">OMLCommon#LexicalNumber
+</p>
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMLString#LexicalTime" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="LexicalTime:gov.nasa.jpl.omf.scala.core.OMLString.OMLStringImpl"></a>
+      <a id="LexicalTime:OMLStringImpl"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">LexicalTime</span><span class="result">: <a href="OMLString$$OMLStringImpl.html" class="extype" name="gov.nasa.jpl.omf.scala.core.OMLString.OMLStringImpl">OMLStringImpl</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMLString$@LexicalTime:gov.nasa.jpl.omf.scala.core.OMLString.OMLStringImpl" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">OMLCommon#LexicalTime
+</p>
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMLString#LexicalValue" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="LexicalValue:gov.nasa.jpl.omf.scala.core.OMLString.OMLStringImpl"></a>
+      <a id="LexicalValue:OMLStringImpl"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">LexicalValue</span><span class="result">: <a href="OMLString$$OMLStringImpl.html" class="extype" name="gov.nasa.jpl.omf.scala.core.OMLString.OMLStringImpl">OMLStringImpl</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMLString$@LexicalValue:gov.nasa.jpl.omf.scala.core.OMLString.OMLStringImpl" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">OMLCommon#LexicalValue
+</p>
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMLString#LocalName" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="LocalName:gov.nasa.jpl.omf.scala.core.OMLString.OMLStringImpl"></a>
+      <a id="LocalName:OMLStringImpl"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">LocalName</span><span class="result">: <a href="OMLString$$OMLStringImpl.html" class="extype" name="gov.nasa.jpl.omf.scala.core.OMLString.OMLStringImpl">OMLStringImpl</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMLString$@LocalName:gov.nasa.jpl.omf.scala.core.OMLString.OMLStringImpl" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">OMLCommon#LocalName
+</p>
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMLString#NamespacePrefix" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="NamespacePrefix:gov.nasa.jpl.omf.scala.core.OMLString.OMLStringImpl"></a>
+      <a id="NamespacePrefix:OMLStringImpl"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">NamespacePrefix</span><span class="result">: <a href="OMLString$$OMLStringImpl.html" class="extype" name="gov.nasa.jpl.omf.scala.core.OMLString.OMLStringImpl">OMLStringImpl</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMLString$@NamespacePrefix:gov.nasa.jpl.omf.scala.core.OMLString.OMLStringImpl" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">OMLCommon#NamespacePrefix
+</p>
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMLString#Pattern" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="Pattern:gov.nasa.jpl.omf.scala.core.OMLString.OMLStringImpl"></a>
+      <a id="Pattern:OMLStringImpl"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">val</span>
+      </span>
+      <span class="symbol">
+        <span class="name">Pattern</span><span class="result">: <a href="OMLString$$OMLStringImpl.html" class="extype" name="gov.nasa.jpl.omf.scala.core.OMLString.OMLStringImpl">OMLStringImpl</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMLString$@Pattern:gov.nasa.jpl.omf.scala.core.OMLString.OMLStringImpl" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <p class="shortcomment cmt">OMLCommon#Pattern
+</p>
     </li><li name="scala.Any#asInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="asInstanceOf[T0]:T0"></a>
       <a id="asInstanceOf[T0]:T0"></a>
@@ -316,7 +469,7 @@
         <span class="name">asInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Any.asInstanceOf.T0">T0</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.ImmutableInstanceGraphOps@asInstanceOf[T0]:T0" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMLString$@asInstanceOf[T0]:T0" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -333,7 +486,7 @@
         <span class="name">clone</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.AnyRef">AnyRef</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.ImmutableInstanceGraphOps@clone():Object" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMLString$@clone():Object" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -356,7 +509,7 @@
         <span class="name">eq</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.ImmutableInstanceGraphOps@eq(x$1:AnyRef):Boolean" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMLString$@eq(x$1:AnyRef):Boolean" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -373,7 +526,7 @@
         <span class="name">equals</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.ImmutableInstanceGraphOps@equals(x$1:Any):Boolean" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMLString$@equals(x$1:Any):Boolean" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -390,7 +543,7 @@
         <span class="name">finalize</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.ImmutableInstanceGraphOps@finalize():Unit" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMLString$@finalize():Unit" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -413,7 +566,7 @@
         <span class="name">getClass</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.Class">Class</span>[_]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.ImmutableInstanceGraphOps@getClass():Class[_]" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMLString$@getClass():Class[_]" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -430,7 +583,7 @@
         <span class="name">hashCode</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.ImmutableInstanceGraphOps@hashCode():Int" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMLString$@hashCode():Int" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -447,7 +600,7 @@
         <span class="name">isInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.ImmutableInstanceGraphOps@isInstanceOf[T0]:Boolean" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMLString$@isInstanceOf[T0]:Boolean" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -464,7 +617,7 @@
         <span class="name">ne</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.ImmutableInstanceGraphOps@ne(x$1:AnyRef):Boolean" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMLString$@ne(x$1:AnyRef):Boolean" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -481,7 +634,7 @@
         <span class="name">notify</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.ImmutableInstanceGraphOps@notify():Unit" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMLString$@notify():Unit" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -498,7 +651,7 @@
         <span class="name">notifyAll</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.ImmutableInstanceGraphOps@notifyAll():Unit" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMLString$@notifyAll():Unit" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -515,7 +668,7 @@
         <span class="name">synchronized</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="params">(<span name="arg0">arg0: ⇒ <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>)</span><span class="result">: <span class="extype" name="java.lang.AnyRef.synchronized.T0">T0</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.ImmutableInstanceGraphOps@synchronized[T0](x$1:=&gt;T0):T0" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMLString$@synchronized[T0](x$1:=&gt;T0):T0" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -532,7 +685,7 @@
         <span class="name">toString</span><span class="params">()</span><span class="result">: <span class="extype" name="java.lang.String">String</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.ImmutableInstanceGraphOps@toString():String" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMLString$@toString():String" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -549,7 +702,7 @@
         <span class="name">wait</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.ImmutableInstanceGraphOps@wait():Unit" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMLString$@wait():Unit" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -572,7 +725,7 @@
         <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>, <span name="arg1">arg1: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.ImmutableInstanceGraphOps@wait(x$1:Long,x$2:Int):Unit" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMLString$@wait(x$1:Long,x$2:Int):Unit" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -595,7 +748,7 @@
         <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.ImmutableInstanceGraphOps@wait(x$1:Long):Unit" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMLString$@wait(x$1:Long):Unit" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
