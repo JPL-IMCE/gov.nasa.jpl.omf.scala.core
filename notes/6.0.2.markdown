@@ -1,1 +1,7 @@
 gov.nasa.jpl.omf.scala.core 6.0.2 is a minor update for scaladoc & source headers
+
+## Issues Resolved
+
+- [#4 Add convenience accessor for all datatypes defined in the builtin datatype map](https://github.com/JPL-IMCE/gov.nasa.jpl.omf.scala.core/issues/4)
+
+    Done.
