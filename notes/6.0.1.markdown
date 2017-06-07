@@ -1,0 +1,1 @@
+gov.nasa.jpl.omf.scala.core 6.0.1 is a minor update for scaladoc & source headers

@@ -42,6 +42,19 @@ object BuiltInDatatypeMaps {
     time: Set[omf#DataRange] = Set.empty[omf#DataRange],
     nonNormative: Set[omf#DataRange] = Set.empty[omf#DataRange]) {
 
+    def dataRanges
+    : Set[omf#DataRange]
+    = anyAtomicType.to[Set] ++
+    boolean.to[Set] ++
+    numeric ++
+    string ++
+    plainLiteral ++
+    xmlLiteral ++
+    binary ++
+    iri ++
+    time ++
+    nonNormative
+
     protected def isCategoryRestriction
     (category: Set[omf#DataRange],
      dr: omf#DataRange)
