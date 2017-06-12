@@ -1,0 +1,6 @@
+gov.nasa.jpl.omf.scala.core 6.0.3 is a minor update
+
+## Issues Resolved
+
+- [#5 Add missing API for creating UnreifiedRelationshipInstanceTuples](https://github.com/JPL-IMCE/gov.nasa.jpl.omf.scala.core/issues/5)
+

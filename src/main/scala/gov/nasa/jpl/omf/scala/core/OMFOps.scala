@@ -2846,6 +2846,41 @@ trait MutableDescriptionBoxOps[omf <: OMF]
     ax <- addReifiedRelationshipInstanceRange(uuid, dbox, relationshipInstance, target)
   } yield ax
 
+  def unreifiedRelationshipInstanceTupleUUID
+  (dbox: omf#MutableDescriptionBox,
+   unreifiedRelationship: omf#UnreifiedRelationship,
+   source: omf#ConceptualEntitySingletonInstance,
+   target: omf#ConceptualEntitySingletonInstance)
+  (implicit store: omf#Store)
+  : Throwables \/ UUID
+  = generateUUID(
+    "UnreifiedRelationshipInstanceTuple",
+    "descriptionBox" -> getModuleUUID(dbox).toString,
+    "unreifiedRelationship" -> getElementUUID(unreifiedRelationship).toString,
+    "romain" -> getElementUUID(source).toString,
+    "range" -> getElementUUID(target).toString).right
+
+  def addUnreifiedRelationshipInstanceTuple
+  (uuid: UUID,
+   dbox: omf#MutableDescriptionBox,
+   unreifiedRelationship: omf#UnreifiedRelationship,
+   source: omf#ConceptualEntitySingletonInstance,
+   target: omf#ConceptualEntitySingletonInstance)
+  (implicit store: omf#Store)
+  : Throwables \/ omf#UnreifiedRelationshipInstanceTuple
+
+  def addUnreifiedRelationshipInstanceTuple
+  (dbox: omf#MutableDescriptionBox,
+   unreifiedRelationship: omf#UnreifiedRelationship,
+   source: omf#ConceptualEntitySingletonInstance,
+   target: omf#ConceptualEntitySingletonInstance)
+  (implicit store: omf#Store)
+  : Throwables \/ omf#UnreifiedRelationshipInstanceTuple
+  = for {
+    uuid <- unreifiedRelationshipInstanceTupleUUID(dbox, unreifiedRelationship, source, target)
+    ax <- addUnreifiedRelationshipInstanceTuple(uuid, dbox, unreifiedRelationship, source, target)
+  } yield ax
+
   def singletonInstanceScalarDataPropertyValueUUID
   (dbox: omf#MutableDescriptionBox,
    ei: omf#ConceptualEntitySingletonInstance,
