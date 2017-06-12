@@ -899,6 +899,23 @@
     </span>
       <p class="shortcomment cmt">Add to a terminology graph a new OMF UnreifiedRelationship.</p><div class="fullcomment"><div class="comment cmt"><p>Add to a terminology graph a new OMF UnreifiedRelationship.
 </p></div><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="MutableTerminologyGraphOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.MutableTerminologyGraphOps">MutableTerminologyGraphOps</a></dd><dt>See also</dt><dd><span class="cmt"><p>https://jpl-imce.github.io/jpl.omf.schema.tables/latest/api/index.html#gov.nasa.jpl.imce.omf.schema.tables.ReifiedRelationship</p></span></dd></dl></div>
+    </li><li name="gov.nasa.jpl.omf.scala.core.MutableDescriptionBoxOps#addUnreifiedRelationshipInstanceTuple" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="addUnreifiedRelationshipInstanceTuple(uuid:java.util.UUID,dbox:omf#MutableDescriptionBox,unreifiedRelationship:omf#UnreifiedRelationship,source:omf#ConceptualEntitySingletonInstance,target:omf#ConceptualEntitySingletonInstance)(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,omf#UnreifiedRelationshipInstanceTuple]"></a>
+      <a id="addUnreifiedRelationshipInstanceTuple(UUID,omf.MutableDescriptionBox,omf.UnreifiedRelationship,omf.ConceptualEntitySingletonInstance,omf.ConceptualEntitySingletonInstance)(omf.Store):\/[Throwables,omf.UnreifiedRelationshipInstanceTuple]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">addUnreifiedRelationshipInstanceTuple</span><span class="params">(<span name="uuid">uuid: <span class="extype" name="java.util.UUID">UUID</span></span>, <span name="dbox">dbox: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFdbox.MutableDescriptionBox">omf.MutableDescriptionBox</span></span>, <span name="unreifiedRelationship">unreifiedRelationship: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.UnreifiedRelationship">omf.UnreifiedRelationship</span></span>, <span name="source">source: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFdbox.ConceptualEntitySingletonInstance">omf.ConceptualEntitySingletonInstance</span></span>, <span name="target">target: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFdbox.ConceptualEntitySingletonInstance">omf.ConceptualEntitySingletonInstance</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <span class="extype" name="scalaz.\/">\/</span>[<a href="OMFError$.html#Throwables=scala.collection.immutable.Set[Throwable]" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFError.Throwables">Throwables</a>, <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFdbox.UnreifiedRelationshipInstanceTuple">omf.UnreifiedRelationshipInstanceTuple</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFOps@addUnreifiedRelationshipInstanceTuple(uuid:java.util.UUID,dbox:omf#MutableDescriptionBox,unreifiedRelationship:omf#UnreifiedRelationship,source:omf#ConceptualEntitySingletonInstance,target:omf#ConceptualEntitySingletonInstance)(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,omf#UnreifiedRelationshipInstanceTuple]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="MutableDescriptionBoxOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.MutableDescriptionBoxOps">MutableDescriptionBoxOps</a></dd></dl></div>
     </li><li name="gov.nasa.jpl.omf.scala.core.OMFStoreOps#annotationProperties" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
       <a id="annotationProperties(m:omf#Module)(implicitstore:omf#Store):scala.collection.immutable.Seq[gov.nasa.jpl.imce.oml.tables.AnnotationProperty]"></a>
       <a id="annotationProperties(omf.Module)(omf.Store):Seq[AnnotationProperty]"></a>
@@ -4028,6 +4045,23 @@ with a version 5 UUID based on the <code>graph</code> IRI and <code>unreifiedRel
                                         the source of the new entity relationship</p></dd><dt class="param">target</dt><dd class="cmt"><p>an existing entity definition that will be
                                         the target of the new entity relationship</p></dd><dt class="param">characteristics</dt><dd class="cmt"><p>the characteristics of the new entity relationship</p></dd><dt class="param">unreifiedRelationshipName</dt><dd class="cmt"><p>the name of the unreified relationship from the perspective
                                         of a directed property from the source to the target</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="MutableTerminologyGraphOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.MutableTerminologyGraphOps">MutableTerminologyGraphOps</a></dd><dt>See also</dt><dd><span class="cmt"><p>https://jpl-imce.github.io/jpl.omf.schema.tables/latest/api/index.html#gov.nasa.jpl.imce.omf.schema.tables.UnreifiedRelationship</p></span></dd></dl></div>
+    </li><li name="gov.nasa.jpl.omf.scala.core.MutableDescriptionBoxOps#addUnreifiedRelationshipInstanceTuple" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="addUnreifiedRelationshipInstanceTuple(dbox:omf#MutableDescriptionBox,unreifiedRelationship:omf#UnreifiedRelationship,source:omf#ConceptualEntitySingletonInstance,target:omf#ConceptualEntitySingletonInstance)(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,omf#UnreifiedRelationshipInstanceTuple]"></a>
+      <a id="addUnreifiedRelationshipInstanceTuple(omf.MutableDescriptionBox,omf.UnreifiedRelationship,omf.ConceptualEntitySingletonInstance,omf.ConceptualEntitySingletonInstance)(omf.Store):\/[Throwables,omf.UnreifiedRelationshipInstanceTuple]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">addUnreifiedRelationshipInstanceTuple</span><span class="params">(<span name="dbox">dbox: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFdbox.MutableDescriptionBox">omf.MutableDescriptionBox</span></span>, <span name="unreifiedRelationship">unreifiedRelationship: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.UnreifiedRelationship">omf.UnreifiedRelationship</span></span>, <span name="source">source: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFdbox.ConceptualEntitySingletonInstance">omf.ConceptualEntitySingletonInstance</span></span>, <span name="target">target: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFdbox.ConceptualEntitySingletonInstance">omf.ConceptualEntitySingletonInstance</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <span class="extype" name="scalaz.\/">\/</span>[<a href="OMFError$.html#Throwables=scala.collection.immutable.Set[Throwable]" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFError.Throwables">Throwables</a>, <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFdbox.UnreifiedRelationshipInstanceTuple">omf.UnreifiedRelationshipInstanceTuple</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFOps@addUnreifiedRelationshipInstanceTuple(dbox:omf#MutableDescriptionBox,unreifiedRelationship:omf#UnreifiedRelationship,source:omf#ConceptualEntitySingletonInstance,target:omf#ConceptualEntitySingletonInstance)(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,omf#UnreifiedRelationshipInstanceTuple]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="MutableDescriptionBoxOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.MutableDescriptionBoxOps">MutableDescriptionBoxOps</a></dd></dl></div>
     </li><li name="gov.nasa.jpl.omf.scala.core.MutableTerminologyGraphOps#anonymousConceptTaxonomyAxiomUUID" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="anonymousConceptTaxonomyAxiomUUID(terminologyBundle:omf#MutableBundle,disjointTerminologyParent:omf#ConceptTreeDisjunction,name:String)(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,java.util.UUID]"></a>
       <a id="anonymousConceptTaxonomyAxiomUUID(omf.MutableBundle,omf.ConceptTreeDisjunction,String)(omf.Store):\/[Throwables,UUID]"></a>
@@ -5118,6 +5152,23 @@ via <code>addTerminologyGraphExtension</code>
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="gov.nasa.jpl.omf.scala.core.MutableDescriptionBoxOps#unreifiedRelationshipInstanceTupleUUID" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="unreifiedRelationshipInstanceTupleUUID(dbox:omf#MutableDescriptionBox,unreifiedRelationship:omf#UnreifiedRelationship,source:omf#ConceptualEntitySingletonInstance,target:omf#ConceptualEntitySingletonInstance)(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,java.util.UUID]"></a>
+      <a id="unreifiedRelationshipInstanceTupleUUID(omf.MutableDescriptionBox,omf.UnreifiedRelationship,omf.ConceptualEntitySingletonInstance,omf.ConceptualEntitySingletonInstance)(omf.Store):\/[Throwables,UUID]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">unreifiedRelationshipInstanceTupleUUID</span><span class="params">(<span name="dbox">dbox: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFdbox.MutableDescriptionBox">omf.MutableDescriptionBox</span></span>, <span name="unreifiedRelationship">unreifiedRelationship: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.UnreifiedRelationship">omf.UnreifiedRelationship</span></span>, <span name="source">source: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFdbox.ConceptualEntitySingletonInstance">omf.ConceptualEntitySingletonInstance</span></span>, <span name="target">target: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFdbox.ConceptualEntitySingletonInstance">omf.ConceptualEntitySingletonInstance</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <span class="extype" name="scalaz.\/">\/</span>[<a href="OMFError$.html#Throwables=scala.collection.immutable.Set[Throwable]" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFError.Throwables">Throwables</a>, <span class="extype" name="java.util.UUID">UUID</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFOps@unreifiedRelationshipInstanceTupleUUID(dbox:omf#MutableDescriptionBox,unreifiedRelationship:omf#UnreifiedRelationship,source:omf#ConceptualEntitySingletonInstance,target:omf#ConceptualEntitySingletonInstance)(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,java.util.UUID]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="MutableDescriptionBoxOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.MutableDescriptionBoxOps">MutableDescriptionBoxOps</a></dd></dl></div>
     </li><li name="scala.AnyRef#wait" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="wait():Unit"></a>
       <a id="wait():Unit"></a>
