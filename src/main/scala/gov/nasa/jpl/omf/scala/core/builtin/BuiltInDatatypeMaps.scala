@@ -22,6 +22,9 @@ import gov.nasa.jpl.omf.scala.core.OMFError.Throwables
 import gov.nasa.jpl.omf.scala.core.{Mutable2ImmutableModuleTable, OMF, OMFOps}
 import gov.nasa.jpl.omf.scala.core.OMLString.{LexicalValue, LocalName, Pattern}
 
+import gov.nasa.jpl.imce.oml.tables
+import gov.nasa.jpl.imce.oml.uuid.JVMUUIDGenerator
+
 import scala.collection.immutable.{Iterable, Set}
 import scala.{Boolean, None, Option, Some}
 import scalaz.\/
@@ -41,6 +44,18 @@ object BuiltInDatatypeMaps {
     iri: Set[omf#DataRange] = Set.empty[omf#DataRange],
     time: Set[omf#DataRange] = Set.empty[omf#DataRange],
     nonNormative: Set[omf#DataRange] = Set.empty[omf#DataRange]) {
+
+    def lookupBuiltInModule
+    (iri: omf#IRI)
+    (implicit ops: OMFOps[omf])
+    : Option[omf#Module]
+    = builtInDatatypeModules.find { m => ops.getModuleIRI(m) == iri }
+
+    def isBuiltInModule
+    (iri: omf#IRI)
+    (implicit ops: OMFOps[omf])
+    : Boolean
+    = lookupBuiltInModule(iri).nonEmpty
 
     def dataRanges
     : Set[omf#DataRange]
@@ -606,24 +621,24 @@ object BuiltInDatatypeMaps {
       // should not be used: this is intended for cross-references within an XML document
       // @see http://www.w3.org/TR/2012/REC-xmlschema11-2-20120405/datatypes.html#IDREF
 
-      rdfs_iri <- makeIRI("http://www.w3.org/1999/02/22-rdf-syntax-ns")
-      rdfs_mgraph <- makeW3CTerminologyGraphDefinition(rdfs_iri)
-      _ <- addTerminologyExtension(rdfs_mgraph, xsd_mgraph)
+      rdf_iri <- makeIRI("http://www.w3.org/1999/02/22-rdf-syntax-ns")
+      rdf_mgraph <- makeW3CTerminologyGraphDefinition(rdf_iri)
+      _ <- addTerminologyExtension(rdf_mgraph, xsd_mgraph)
 
       // @see http://www.w3.org/TR/rdf11-concepts/#section-html
       // rdf:HTML
 
       // @see http://www.w3.org/TR/rdf11-concepts/#section-XMLLiteral
-      xmlLiteral <- addScalarDataType(rdfs_mgraph, LocalName("XMLLiteral"))
+      xmlLiteral <- addScalarDataType(rdf_mgraph, LocalName("XMLLiteral"))
       dcr40 = dcr39.withXMLLiteral(xmlLiteral)
 
       // @see https://www.w3.org/TR/2012/REC-rdf-plain-literal-20121211/
-      plainLiteral <- addScalarDataType(rdfs_mgraph, LocalName("PlainLiteral"))
+      plainLiteral <- addScalarDataType(rdf_mgraph, LocalName("PlainLiteral"))
       dcr41 = dcr40.withPlainLiteral(plainLiteral)
 
       owl_iri <- makeIRI("http://www.w3.org/2002/07/owl")
       owl_mgraph <- makeW3CTerminologyGraphDefinition(owl_iri)
-      _ <- addTerminologyExtension(owl_mgraph, rdfs_mgraph)
+      _ <- addTerminologyExtension(owl_mgraph, rdf_mgraph)
 
       // @see http://www.w3.org/TR/owl2-syntax/#Datatype_Maps
       // owl:real
@@ -636,8 +651,72 @@ object BuiltInDatatypeMaps {
         pattern=Some(Pattern("[\\-+]?[0-9]+/[1-9][0-9]*")))
       dcr43 = dcr42.withNumeric(owl_rational)
 
+      uuidGen = JVMUUIDGenerator()
+
+      _ <- addTerminologyAnnotationProperty(
+        owl_mgraph,
+        new tables.AnnotationProperty(
+          uuidGen,
+          abbrevIRI = "owl:backwardCompatibleWith",
+          iri = "http://www.w3.org/2002/07/owl#backwardCompatibleWith"))
+
+      _ <- addTerminologyAnnotationProperty(
+        owl_mgraph,
+        new tables.AnnotationProperty(
+          uuidGen,
+          abbrevIRI = "owl:incompatibleWith",
+          iri = "http://www.w3.org/2002/07/owl#incompatibleWith"))
+
+      _ <- addTerminologyAnnotationProperty(
+        owl_mgraph,
+        new tables.AnnotationProperty(
+          uuidGen,
+          abbrevIRI = "owl:deprecated",
+          iri = "http://www.w3.org/2002/07/owl#deprecated"))
+
+      _ <- addTerminologyAnnotationProperty(
+        owl_mgraph,
+        new tables.AnnotationProperty(
+          uuidGen,
+          abbrevIRI = "owl:priorVersion",
+          iri = "http://www.w3.org/2002/07/owl#priorVersion"))
+
+      rdfs_iri <- makeIRI("http://www.w3.org/2000/01/rdf-schema")
+      rdfs_mgraph <- makeW3CTerminologyGraphDefinition(rdfs_iri)
+
+      _ <- addTerminologyAnnotationProperty(
+        rdfs_mgraph,
+        new tables.AnnotationProperty(
+          uuidGen,
+          abbrevIRI = "rdfs:isDefinedBy",
+          iri = "http://www.w3.org/2000/01/rdf-schema#isDefinedBy"))
+
+      _ <- addTerminologyAnnotationProperty(
+        rdfs_mgraph,
+        new tables.AnnotationProperty(
+          uuidGen,
+          abbrevIRI = "rdfs:comment",
+          iri = "http://www.w3.org/2000/01/rdf-schema#comment"))
+
+      _ <- addTerminologyAnnotationProperty(
+        rdfs_mgraph,
+        new tables.AnnotationProperty(
+          uuidGen,
+          abbrevIRI = "rdfs:seeAlso",
+          iri = "http://www.w3.org/2000/01/rdf-schema#seeAlso"))
+
+      _ <- addTerminologyAnnotationProperty(
+        rdfs_mgraph,
+        new tables.AnnotationProperty(
+          uuidGen,
+          abbrevIRI = "rdfs:label",
+          iri = "http://www.w3.org/2000/01/rdf-schema#label"))
+
+      _ <- addTerminologyExtension(owl_mgraph, rdfs_mgraph)
+
       dcr = dcr43
         .withBuiltInImport(owl_mgraph)
+        .withBuiltInDatatypeModule(rdf_mgraph)
         .withBuiltInDatatypeModule(xsd_mgraph)
         .withBuiltInDatatypeModule(rdfs_mgraph)
 
