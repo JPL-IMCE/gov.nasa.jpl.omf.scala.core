@@ -81,7 +81,7 @@ object OMFTabularExportFromTerminologyGraph {
           uuid = omf_info.uuid.toString,
           tboxUUID = omf_info.graphUUID.toString,
           designatedConceptUUID = ops.getTermUUID(omf_info.designatedConcept).toString,
-          designatedTerminologyUUID = ops.getModuleUUID(omf_info.designatedTerminology).toString)
+          designatedTerminologyIRI = ops.getModuleIRI(omf_info.designatedTerminology).toString)
 
       } yield axs :+ ax
     }
@@ -93,17 +93,9 @@ object OMFTabularExportFromTerminologyGraph {
       for {
         axs <- acc1
         omf_info = ops.fromTerminologyExtensionAxiom(omf_ax)
-        _ <- if (all_tboxes.exists(i => ops.getModuleUUID(i) == ops.getModuleUUID(omf_info.extendedTerminology)))
-          ().right[Throwables]
-        else
-          Set[java.lang.Throwable](OMFError.omfError(
-            s"TerminologyGraph ${s.iri} has a TerminologyExtensionAxiom (uuid=${omf_info.uuid}) "+
-              s" whose extended terminology is not imported: ${ops.getModuleIRI(omf_info.extendedTerminology)}"))
-            .left[Unit]
         ax = oml.tables.TerminologyExtensionAxiom(
           uuid = omf_info.uuid.toString,
-          tboxUUID = suuid,
-          extendedTerminologyUUID = ops.getModuleUUID(omf_info.extendedTerminology).toString)
+          tboxUUID = suuid, extendedTerminologyIRI = ops.getModuleIRI(omf_info.extendedTerminology).toString)
 
       } yield axs :+ ax
     }
@@ -115,17 +107,10 @@ object OMFTabularExportFromTerminologyGraph {
       for {
         axs <- acc1
         omf_info = ops.fromTerminologyNestingAxiom(omf_ax)
-        _ <- if (all_tboxes.exists(i => ops.getModuleUUID(i) == ops.getModuleUUID(omf_info.nestingTerminology)))
-          ().right[Throwables]
-        else
-          Set[java.lang.Throwable](OMFError.omfError(
-            s"TerminologyGraph ${s.iri} has a TerminologyNestingAxiom (uuid=${omf_info.uuid}) "+
-              s" whose nesting terminology is not imported: ${ops.getModuleIRI(omf_info.nestingTerminology)}"))
-            .left[Unit]
         ax = oml.tables.TerminologyNestingAxiom(
           uuid = omf_info.uuid.toString,
           tboxUUID = suuid,
-          nestingTerminologyUUID = ops.getModuleUUID(omf_info.nestingTerminology).toString,
+          nestingTerminologyIRI = ops.getModuleIRI(omf_info.nestingTerminology).toString,
           nestingContextUUID = ops.getTermUUID(omf_info.nestingContext).toString)
 
       } yield axs :+ ax

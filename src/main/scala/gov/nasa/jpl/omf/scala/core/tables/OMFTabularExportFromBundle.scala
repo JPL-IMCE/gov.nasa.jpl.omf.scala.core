@@ -74,7 +74,7 @@ object OMFTabularExportFromBundle {
           uuid = omf_info.uuid.toString,
           tboxUUID = omf_info.graphUUID.toString,
           designatedConceptUUID = ops.getTermUUID(omf_info.designatedConcept).toString,
-          designatedTerminologyUUID = ops.getModuleUUID(omf_info.designatedTerminology).toString)
+          designatedTerminologyIRI = ops.getModuleIRI(omf_info.designatedTerminology).toString)
 
       } yield axs :+ ax
     }
@@ -96,7 +96,7 @@ object OMFTabularExportFromBundle {
         ax = oml.tables.TerminologyExtensionAxiom(
           uuid = omf_info.uuid.toString,
           tboxUUID = suuid,
-          extendedTerminologyUUID = ops.getModuleUUID(omf_info.extendedTerminology).toString)
+          extendedTerminologyIRI = ops.getModuleIRI(omf_info.extendedTerminology).toString)
 
       } yield axs :+ ax
     }
@@ -118,7 +118,7 @@ object OMFTabularExportFromBundle {
         ax = oml.tables.TerminologyNestingAxiom(
           uuid = omf_info.uuid.toString,
           tboxUUID = suuid,
-          nestingTerminologyUUID = ops.getModuleUUID(omf_info.nestingTerminology).toString,
+          nestingTerminologyIRI = ops.getModuleIRI(omf_info.nestingTerminology).toString,
           nestingContextUUID = ops.getTermUUID(omf_info.nestingContext).toString)
 
       } yield axs :+ ax
@@ -141,7 +141,7 @@ object OMFTabularExportFromBundle {
         ax = oml.tables.BundledTerminologyAxiom(
           uuid = omf_info.uuid.toString,
           bundleUUID = suuid,
-          bundledTerminologyUUID = ops.getModuleUUID(omf_info.bundledTerminology).toString)
+          bundledTerminologyIRI = ops.getModuleIRI(omf_info.bundledTerminology).toString)
 
       } yield axs :+ ax
     }

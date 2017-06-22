@@ -76,7 +76,7 @@ object OMFTabularExportFromDescriptionBox {
         ax = oml.tables.DescriptionBoxExtendsClosedWorldDefinitions(
           uuid = omf_info.uuid.toString,
           descriptionBoxUUID = suuid,
-          closedWorldDefinitionsUUID = ops.getModuleUUID(omf_info.extendedClosedWorldDefinitions).toString)
+          closedWorldDefinitionsIRI = ops.getModuleIRI(omf_info.extendedClosedWorldDefinitions).toString)
 
       } yield axs :+ ax
     }
@@ -98,7 +98,7 @@ object OMFTabularExportFromDescriptionBox {
         ax = oml.tables.DescriptionBoxRefinement(
           uuid = omf_info.uuid.toString,
           refiningDescriptionBoxUUID = omf_info.descriptionBox.toString,
-          refinedDescriptionBoxUUID = ops.getModuleUUID(omf_info.refinedDescriptionBox).toString)
+          refinedDescriptionBoxIRI = ops.getModuleIRI(omf_info.refinedDescriptionBox).toString)
 
       } yield axs :+ ax
     }
