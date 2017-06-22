@@ -1,0 +1,7 @@
+gov.nasa.jpl.omf.scala.core 6.1.0 is a minor update
+
+## Issues Resolved
+
+- [#3 Update OMF API per OML metamodels](https://github.com/JPL-IMCE/gov.nasa.jpl.omf.scala.core/issues/3)
+
+- [#6 Add missing annotations to built-in vocabulary and correct rdf vs rdfs](https://github.com/JPL-IMCE/gov.nasa.jpl.omf.scala.core/issues/6)
