@@ -20,7 +20,7 @@ package gov.nasa.jpl.omf.scala
 
 import java.util.UUID
 
-import gov.nasa.jpl.imce.oml.tables.{AnnotationEntry, AnnotationProperty}
+import gov.nasa.jpl.imce.oml.tables.AnnotationProperty
 
 import scala.{Int,Ordering,None,Some}
 import scala.collection.immutable._
@@ -50,26 +50,6 @@ package object core {
 
   }
 
-  implicit def annotationOrdering
-  : Ordering[AnnotationEntry]
-  = new Ordering[AnnotationEntry] {
-
-    def compare(x: AnnotationEntry, y: AnnotationEntry)
-    : Int
-    = x.moduleUUID.compareTo(y.moduleUUID) match {
-      case c if 0 != c =>
-        c
-      case 0 =>
-        x.subjectUUID.compareTo(y.subjectUUID) match {
-          case c if 0 != c =>
-            c
-          case 0 =>
-            x.value.compareTo(y.value)
-        }
-    }
-
-  }
-
   /**
     * Version 4 random UUID
     * @see https://en.wikipedia.org/wiki/Universally_unique_identifier#Version_4_.28random.29
@@ -80,7 +60,7 @@ package object core {
   : UUID
   = UUID.randomUUID()
 
-  private val uuidG = gov.nasa.jpl.imce.oml.uuid.JVMUUIDGenerator()
+  val uuidG = gov.nasa.jpl.imce.oml.uuid.JVMUUIDGenerator()
   /**
     * Version 5 UUID based on a URL name in the standard URL namespace.
     *

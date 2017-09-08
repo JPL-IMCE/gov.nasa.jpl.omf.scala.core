@@ -20,10 +20,10 @@ package gov.nasa.jpl.omf.scala.core
 
 import java.util.UUID
 
-import gov.nasa.jpl.omf.scala.core.OMLString.LexicalValue
+import gov.nasa.jpl.imce.oml.tables.LiteralValue
 
 case class ScalarDataPropertyValueSignature[omf <: OMF]
 ( uuid: UUID,
   singletonInstanceStructuredDataPropertyContextUUID: omf#SingletonInstanceStructuredDataPropertyContext,
   scalarDataProperty: omf#DataRelationshipToScalar,
-  scalarPropertyValue: LexicalValue)
+  scalarPropertyValue: LiteralValue)

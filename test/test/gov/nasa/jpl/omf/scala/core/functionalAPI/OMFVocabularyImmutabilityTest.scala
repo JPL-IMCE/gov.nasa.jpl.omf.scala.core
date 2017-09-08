@@ -20,12 +20,13 @@ package test.gov.nasa.jpl.omf.scala.core.functionalAPI
 
 import java.util.UUID
 
+import gov.nasa.jpl.imce.oml.tables
 import gov.nasa.jpl.omf.scala.core._
 import gov.nasa.jpl.omf.scala.core.RelationshipCharacteristics._
 import gov.nasa.jpl.omf.scala.core.TerminologyKind._
 import org.scalatest._
 import exceptions._
-import gov.nasa.jpl.omf.scala.core.OMLString.{LexicalValue, LocalName}
+import gov.nasa.jpl.omf.scala.core.OMLString.LocalName
 
 import scala.collection.immutable.{List, Set}
 import scala.util.control.Exception._
@@ -178,11 +179,15 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF]
 
         s1 <- addConcept(system, LocalName("S1"))
         s1_is_starTracker <- addConceptSpecializationAxiom(system, s1, starTracker)
-        s1_hasIdentifier <- addEntityScalarDataPropertyParticularRestrictionAxiom(system, s1, hasIdentifier, LexicalValue("ST.primary"))
+        s1_hasIdentifier <- addEntityScalarDataPropertyParticularRestrictionAxiom(
+          system, s1, hasIdentifier,
+          tables.LiteralValue(tables.LiteralStringType, "ST.primary"))
 
         s2 <- addConcept(system, LocalName("S2"))
         s2_is_starTracker <- addConceptSpecializationAxiom(system, s2, starTracker)
-        s2_hasIdentifier <- addEntityScalarDataPropertyParticularRestrictionAxiom(system, s2, hasIdentifier, LexicalValue("ST.backup"))
+        s2_hasIdentifier <- addEntityScalarDataPropertyParticularRestrictionAxiom(
+          system, s2, hasIdentifier,
+          tables.LiteralValue(tables.LiteralStringType, "ST.backup"))
 
       } yield {
 

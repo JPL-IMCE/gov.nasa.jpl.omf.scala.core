@@ -20,17 +20,16 @@ package gov.nasa.jpl.omf.scala.core
 
 import java.util.UUID
 
-import gov.nasa.jpl.imce.oml.tables.LocalName
+import gov.nasa.jpl.imce.oml.tables.{LiteralDateTime,LocalName}
 import scala.Option
-import scala.Predef.String
 
 case class TimeScalarRestrictionSignature[omf <: OMF]
 ( uuid: UUID,
   name: LocalName,
   iri: omf#IRI,
-  minInclusive: Option[String],
-  maxInclusive: Option[String],
-  minExclusive: Option[String],
-  maxExclusive: Option[String],
+  minInclusive: Option[LiteralDateTime],
+  maxInclusive: Option[LiteralDateTime],
+  minExclusive: Option[LiteralDateTime],
+  maxExclusive: Option[LiteralDateTime],
   restrictedRange: omf#DataRange
 )

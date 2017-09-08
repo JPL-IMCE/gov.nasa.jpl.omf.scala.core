@@ -20,7 +20,7 @@ package gov.nasa.jpl.omf.scala.core
 
 import java.util.UUID
 
-import gov.nasa.jpl.imce.oml.tables.{AnnotationEntry, AnnotationProperty, LocalName}
+import gov.nasa.jpl.imce.oml.tables.{AnnotationProperty, AnnotationPropertyValue, LocalName}
 
 import scala.collection.immutable.Set
 import scala.Boolean
@@ -109,9 +109,8 @@ case class TerminologyBoxSignature[omf <: OMF, +S[A] <: scala.collection.Iterabl
   sTAxioms: S[omf#SpecificDisjointConceptAxiom],
   bAxioms: S[omf#BundledTerminologyAxiom],
 
-  override val annotationProperties: S[AnnotationProperty],
-
-  override val annotations: S[(AnnotationProperty, scala.collection.immutable.Set[AnnotationEntry])])
+  override val annotations: S[AnnotationPropertyValue],
+  override val annotationProperties: S[AnnotationProperty])
   extends ModuleSignature[omf] {
 
   override def importedTerminologies

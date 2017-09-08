@@ -40,20 +40,20 @@ object OMFTabularExportFromBundle {
     all_tboxes = im2st.map(_._1).toSet[omf#Module]
     all_tables = im2st.map(_._2).to[Set]
 
-    all_aps = all_tables.flatMap(_.annotationProperties)
+    all_aps = all_tables.flatMap(_.annotations.map { a => a.subjectUUID -> a.propertyUUID })
 
     s = ops.fromImmutableTerminology(bundle)
     suuid = s.uuid.toString
 
     // Check that there are no overlaping annotation properties
     _ <- {
-      val ap_overlap = all_aps intersect s.annotationProperties
+      val ap_overlap = all_aps intersect s.annotations.map { a => a.subjectUUID -> a.propertyUUID }
       if (ap_overlap.isEmpty)
         ().right[Throwables]
       else
         Set[java.lang.Throwable](OMFError.omfError(
-          s"TerminologyGraph ${s.iri} duplicates ${ap_overlap.size} AnnotationProperties defined in imported modules: "+
-            ap_overlap.map(_.abbrevIRI).mkString(","))).left[Unit]
+          s"TerminologyGraph ${s.iri} duplicates ${ap_overlap.size} Annotations defined in imported modules: "+
+            ap_overlap.map { case (subject, prop) => s"$subject.@$prop"}.mkString(","))).left[Unit]
     }
 
     allConceptDesignationTerminologyAxioms <-
@@ -380,7 +380,6 @@ object OMFTabularExportFromBundle {
 
     table = oml.tables.OMLSpecificationTables.createEmptyOMLSpecificationTables()
       .copy(
-        annotationProperties = s.annotationProperties.to[Seq].sortBy(_.uuid),
 
         terminologyGraphs = Seq(oml.tables.TerminologyGraph(
           uuid = suuid.toString,
@@ -437,7 +436,7 @@ object OMFTabularExportFromBundle {
         specificDisjointConceptAxioms = allSpecificDisjointConceptAxioms,
         anonymousConceptUnionAxioms = allAnonymousConceptUnionAxioms,
 
-        annotations = s.annotations.map { case (ap, aes) => ap -> aes.to[Seq].sortBy(_.subjectUUID) }.toMap
+        annotations = s.annotations.to[Seq].sortBy(_.subjectUUID)
       )
 
   } yield im2st :+ (bundle -> table)

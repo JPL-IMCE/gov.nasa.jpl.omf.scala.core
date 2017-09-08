@@ -20,15 +20,15 @@ package gov.nasa.jpl.omf.scala.core
 
 import java.util.UUID
 
-import gov.nasa.jpl.imce.oml.tables.LocalName
-import scala.{Int,Option}
+import gov.nasa.jpl.imce.oml.tables.{PositiveIntegerLiteral,LocalName}
+import scala.Option
 
 case class BinaryScalarRestrictionSignature[omf <: OMF]
 ( uuid: UUID,
   name: LocalName,
   iri: omf#IRI,
-  length: Option[Int],
-  minLength: Option[Int],
-  maxLength: Option[Int],
+  length: Option[PositiveIntegerLiteral],
+  minLength: Option[PositiveIntegerLiteral],
+  maxLength: Option[PositiveIntegerLiteral],
   restrictedRange: omf#DataRange
 )

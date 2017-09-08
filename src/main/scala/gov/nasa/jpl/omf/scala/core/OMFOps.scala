@@ -21,15 +21,15 @@ package gov.nasa.jpl.omf.scala.core
 import java.io.File
 import java.util.UUID
 
-import gov.nasa.jpl.imce.oml.tables.{AnnotationEntry, AnnotationProperty}
+import gov.nasa.jpl.imce.oml.tables.{AnnotationProperty, AnnotationPropertyValue, LiteralDateTime, LiteralNumber, LiteralPattern, LiteralValue, PositiveIntegerLiteral}
 import gov.nasa.jpl.omf.scala.core.OMFError.Throwables
 import gov.nasa.jpl.omf.scala.core.OMLString._
 import gov.nasa.jpl.omf.scala.core.RelationshipCharacteristics._
 import gov.nasa.jpl.omf.scala.core.builtin.BuiltInDatatypeMaps.DataRangeCategories
 
-import scala.{Boolean, Int, None, Option, Some, StringContext, Unit}
+import scala.{Boolean, None, Option, Some, StringContext, Unit}
 import scala.Predef.{ArrowAssoc, String}
-import scala.collection.immutable.{Iterable, Map, Seq, Set}
+import scala.collection.immutable.{Iterable, Seq, Set}
 import scalaz._
 import Scalaz._
 import scala.reflect.ClassTag
@@ -188,7 +188,7 @@ trait OMFStoreOps[omf <: OMF] { self : IRIOps[omf] =>
   def annotations
   (m: omf#Module)
   (implicit store: omf#Store)
-  : Map[AnnotationProperty, Set[AnnotationEntry]]
+  : Set[AnnotationPropertyValue]
 
   def foldModule[T]
   (funImmutableTerminologyGraph: omf#ImmutableTerminologyGraph => T,
@@ -688,7 +688,7 @@ trait ImmutableTerminologyGraphOps[omf <: OMF] { self: OMFStoreOps[omf] with IRI
 
   def getAnnotations
   (tbox: omf#TerminologyBox)
-  : Map[AnnotationProperty, Set[AnnotationEntry]]
+  : Set[AnnotationPropertyValue]
 
   def getTerminologyKind
   (tbox: omf#TerminologyBox)
@@ -1085,14 +1085,14 @@ trait MutableTerminologyGraphOps[omf <: OMF]
    property: AnnotationProperty,
    value: String)
   (implicit store: omf#Store)
-  : Throwables \/ AnnotationEntry
+  : Throwables \/ AnnotationPropertyValue
 
   def removeTerminologyAnnotations
   (graph: omf#MutableTerminologyBox,
    subject: omf#Element,
    property: AnnotationProperty)
   (implicit store: omf#Store)
-  : Throwables \/ Set[AnnotationEntry]
+  : Throwables \/ Set[AnnotationPropertyValue]
 
   /**
     * Add to a terminology graph a new OMF Aspect.
@@ -1398,7 +1398,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   def scalarOneOfLiteralAxiomUUID
   (graph: omf#MutableTerminologyBox,
    scalarOneOfRestriction: omf#ScalarOneOfRestriction,
-   value: String)
+   value: LiteralValue)
   : Throwables \/ UUID
   = generateUUID(
       "ScalarOneOfLiteralAxiom",
@@ -1409,14 +1409,14 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   (graph: omf#MutableTerminologyBox,
    axiomUUID: UUID,
    scalarOneOfRestriction: omf#ScalarOneOfRestriction,
-   value: String)
+   value: LiteralValue)
   (implicit store: omf#Store)
   : Throwables \/ omf#ScalarOneOfLiteralAxiom
 
   final def addScalarOneOfLiteralAxiom
   (graph: omf#MutableTerminologyBox,
    scalarOneOfRestriction: omf#ScalarOneOfRestriction,
-   value: String)
+   value: LiteralValue)
   (implicit store: omf#Store)
   : Throwables \/ omf#ScalarOneOfLiteralAxiom
   = for {
@@ -1429,9 +1429,9 @@ trait MutableTerminologyGraphOps[omf <: OMF]
    dataTypeUUID: UUID,
    dataTypeIRI: omf#IRI,
    dataTypeName: LocalName,
-   length: Option[Int],
-   minLength: Option[Int],
-   maxLength: Option[Int],
+   length: Option[PositiveIntegerLiteral],
+   minLength: Option[PositiveIntegerLiteral],
+   maxLength: Option[PositiveIntegerLiteral],
    restrictedRange: omf#DataRange)
   (implicit store: omf#Store)
   : Throwables \/ omf#BinaryScalarRestriction
@@ -1440,9 +1440,9 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   (graph: omf#MutableTerminologyBox,
    dataTypeName: LocalName,
    restrictedRange: omf#DataRange,
-   length: Option[Int]=None,
-   minLength: Option[Int]=None,
-   maxLength: Option[Int]=None)
+   length: Option[PositiveIntegerLiteral]=None,
+   minLength: Option[PositiveIntegerLiteral]=None,
+   maxLength: Option[PositiveIntegerLiteral]=None)
   (implicit store: omf#Store)
   : Throwables \/ omf#BinaryScalarRestriction
   = for {
@@ -1458,10 +1458,10 @@ trait MutableTerminologyGraphOps[omf <: OMF]
    dataTypeUUID: UUID,
    iri: omf#IRI,
    dataTypeName: LocalName,
-   length: Option[Int],
-   minLength: Option[Int],
-   maxLength: Option[Int],
-   pattern: Option[Pattern],
+   length: Option[PositiveIntegerLiteral],
+   minLength: Option[PositiveIntegerLiteral],
+   maxLength: Option[PositiveIntegerLiteral],
+   pattern: Option[LiteralPattern],
    restrictedRange: omf#DataRange)
   (implicit store: omf#Store)
   : Throwables \/ omf#IRIScalarRestriction
@@ -1470,10 +1470,10 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   (graph: omf#MutableTerminologyBox,
    dataTypeName: LocalName,
    restrictedRange: omf#DataRange,
-   length: Option[Int]=None,
-   minLength: Option[Int]=None,
-   maxLength: Option[Int]=None,
-   pattern: Option[Pattern]=None)
+   length: Option[PositiveIntegerLiteral]=None,
+   minLength: Option[PositiveIntegerLiteral]=None,
+   maxLength: Option[PositiveIntegerLiteral]=None,
+   pattern: Option[LiteralPattern]=None)
   (implicit store: omf#Store)
   : Throwables \/ omf#IRIScalarRestriction
   = for {
@@ -1489,10 +1489,10 @@ trait MutableTerminologyGraphOps[omf <: OMF]
    dataTypeUUID: UUID,
    iri: omf#IRI,
    dataTypeName: LocalName,
-   minInclusive: Option[LexicalValue],
-   maxInclusive: Option[LexicalValue],
-   minExclusive: Option[LexicalValue],
-   maxExclusive: Option[LexicalValue],
+   minInclusive: Option[LiteralNumber],
+   maxInclusive: Option[LiteralNumber],
+   minExclusive: Option[LiteralNumber],
+   maxExclusive: Option[LiteralNumber],
    restrictedRange: omf#DataRange)
   (implicit store: omf#Store)
   : Throwables \/ omf#NumericScalarRestriction
@@ -1501,10 +1501,10 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   (graph: omf#MutableTerminologyBox,
    dataTypeName: LocalName,
    restrictedRange: omf#DataRange,
-   minInclusive: Option[LexicalValue]=None,
-   maxInclusive: Option[LexicalValue]=None,
-   minExclusive: Option[LexicalValue]=None,
-   maxExclusive: Option[LexicalValue]=None)
+   minInclusive: Option[LiteralNumber]=None,
+   maxInclusive: Option[LiteralNumber]=None,
+   minExclusive: Option[LiteralNumber]=None,
+   maxExclusive: Option[LiteralNumber]=None)
   (implicit store: omf#Store)
   : Throwables \/ omf#NumericScalarRestriction
   = for {
@@ -1520,10 +1520,10 @@ trait MutableTerminologyGraphOps[omf <: OMF]
    dataTypeUUID: UUID,
    iri: omf#IRI,
    dataTypeName: LocalName,
-   length: Option[Int],
-   minLength: Option[Int],
-   maxLength: Option[Int],
-   pattern: Option[Pattern],
+   length: Option[PositiveIntegerLiteral],
+   minLength: Option[PositiveIntegerLiteral],
+   maxLength: Option[PositiveIntegerLiteral],
+   pattern: Option[LiteralPattern],
    language: Option[LangRange],
    restrictedRange: omf#DataRange)
   (implicit store: omf#Store)
@@ -1533,10 +1533,10 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   (graph: omf#MutableTerminologyBox,
    dataTypeName: LocalName,
    restrictedRange: omf#DataRange,
-   length: Option[Int]=None,
-   minLength: Option[Int]=None,
-   maxLength: Option[Int]=None,
-   pattern: Option[Pattern]=None,
+   length: Option[PositiveIntegerLiteral]=None,
+   minLength: Option[PositiveIntegerLiteral]=None,
+   maxLength: Option[PositiveIntegerLiteral]=None,
+   pattern: Option[LiteralPattern]=None,
    language: Option[LangRange]=None)
   (implicit store: omf#Store)
   : Throwables \/ omf#PlainLiteralScalarRestriction
@@ -1553,10 +1553,10 @@ trait MutableTerminologyGraphOps[omf <: OMF]
    dataTypeUUID: UUID,
    iri: omf#IRI,
    dataTypeName: LocalName,
-   length: Option[Int],
-   minLength: Option[Int],
-   maxLength: Option[Int],
-   pattern: Option[Pattern],
+   length: Option[PositiveIntegerLiteral],
+   minLength: Option[PositiveIntegerLiteral],
+   maxLength: Option[PositiveIntegerLiteral],
+   pattern: Option[LiteralPattern],
    restrictedRange: omf#DataRange)
   (implicit store: omf#Store)
   : Throwables \/ omf#StringScalarRestriction
@@ -1565,10 +1565,10 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   (graph: omf#MutableTerminologyBox,
    dataTypeName: LocalName,
    restrictedRange: omf#DataRange,
-   length: Option[Int]=None,
-   minLength: Option[Int]=None,
-   maxLength: Option[Int]=None,
-   pattern: Option[Pattern]=None)
+   length: Option[PositiveIntegerLiteral]=None,
+   minLength: Option[PositiveIntegerLiteral]=None,
+   maxLength: Option[PositiveIntegerLiteral]=None,
+   pattern: Option[LiteralPattern]=None)
   (implicit store: omf#Store)
   : Throwables \/ omf#StringScalarRestriction
   = for {
@@ -1607,10 +1607,10 @@ trait MutableTerminologyGraphOps[omf <: OMF]
    dataTypeUUID: UUID,
    iri: omf#IRI,
    dataTypeName: LocalName,
-   minInclusive: Option[LexicalValue],
-   maxInclusive: Option[LexicalValue],
-   minExclusive: Option[LexicalValue],
-   maxExclusive: Option[LexicalValue],
+   minInclusive: Option[LiteralDateTime],
+   maxInclusive: Option[LiteralDateTime],
+   minExclusive: Option[LiteralDateTime],
+   maxExclusive: Option[LiteralDateTime],
    restrictedRange: omf#DataRange)
   (implicit store: omf#Store)
   : Throwables \/ omf#TimeScalarRestriction
@@ -1619,10 +1619,10 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   (graph: omf#MutableTerminologyBox,
    dataTypeName: LocalName,
    restrictedRange: omf#DataRange,
-   minInclusive: Option[LexicalValue]=None,
-   maxInclusive: Option[LexicalValue]=None,
-   minExclusive: Option[LexicalValue]=None,
-   maxExclusive: Option[LexicalValue]=None)
+   minInclusive: Option[LiteralDateTime]=None,
+   maxInclusive: Option[LiteralDateTime]=None,
+   minExclusive: Option[LiteralDateTime]=None,
+   maxExclusive: Option[LiteralDateTime]=None)
   (implicit store: omf#Store)
   : Throwables \/ omf#TimeScalarRestriction
   = for {
@@ -2202,7 +2202,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
    uuid: UUID,
    restrictedEntity: omf#Entity,
    scalarProperty: omf#EntityScalarDataProperty,
-   literalValue: LexicalValue)
+   literalValue: LiteralValue)
   (implicit store: omf#Store)
   : Throwables \/ omf#EntityScalarDataPropertyParticularRestrictionAxiom
 
@@ -2222,7 +2222,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   (graph: omf#MutableTerminologyBox,
    restrictedEntity: omf#Entity,
    scalarProperty: omf#EntityScalarDataProperty,
-   literalValue: LexicalValue)
+   literalValue: LiteralValue)
   (implicit store: omf#Store)
   : Throwables \/ omf#EntityScalarDataPropertyParticularRestrictionAxiom
   = for {
@@ -2661,14 +2661,14 @@ trait MutableDescriptionBoxOps[omf <: OMF]
    property: AnnotationProperty,
    value: String)
   (implicit store: omf#Store)
-  : Throwables \/ AnnotationEntry
+  : Throwables \/ AnnotationPropertyValue
 
   def removeDescriptionAnnotations
   (dbox: omf#MutableDescriptionBox,
    subject: omf#Element,
    property: AnnotationProperty)
   (implicit store: omf#Store)
-  : Throwables \/ Set[AnnotationEntry]
+  : Throwables \/ Set[AnnotationPropertyValue]
 
   def getMutableDescriptionBoxIRI
   (dbox: omf#MutableDescriptionBox)
@@ -2894,7 +2894,7 @@ trait MutableDescriptionBoxOps[omf <: OMF]
    dbox: omf#MutableDescriptionBox,
    ei: omf#ConceptualEntitySingletonInstance,
    e2sc: omf#EntityScalarDataProperty,
-   value: LexicalValue)
+   value: LiteralValue)
   (implicit store: omf#Store)
   : Throwables \/ omf#SingletonInstanceScalarDataPropertyValue
 
@@ -2902,7 +2902,7 @@ trait MutableDescriptionBoxOps[omf <: OMF]
   (dbox: omf#MutableDescriptionBox,
    ei: omf#ConceptualEntitySingletonInstance,
    e2sc: omf#EntityScalarDataProperty,
-   value: LexicalValue)
+   value: LiteralValue)
   (implicit store: omf#Store)
   : Throwables \/ omf#SingletonInstanceScalarDataPropertyValue
   = for {
@@ -2958,7 +2958,7 @@ trait MutableDescriptionBoxOps[omf <: OMF]
    dbox: omf#MutableDescriptionBox,
    structuredDataPropertyContext: omf#SingletonInstanceStructuredDataPropertyContext,
    scalarDataProperty: omf#ScalarDataProperty,
-   value: LexicalValue)
+   value: LiteralValue)
   (implicit store: omf#Store)
   : Throwables \/ omf#ScalarDataPropertyValue
 
@@ -2966,7 +2966,7 @@ trait MutableDescriptionBoxOps[omf <: OMF]
   (dbox: omf#MutableDescriptionBox,
    structuredDataPropertyContext: omf#SingletonInstanceStructuredDataPropertyContext,
    scalarDataProperty: omf#ScalarDataProperty,
-   value: LexicalValue)
+   value: LiteralValue)
   (implicit store: omf#Store)
   : Throwables \/ omf#ScalarDataPropertyValue
   = for {

@@ -20,8 +20,7 @@ package gov.nasa.jpl.omf.scala.core.builtin
 
 import gov.nasa.jpl.omf.scala.core.OMFError.Throwables
 import gov.nasa.jpl.omf.scala.core.{Mutable2ImmutableModuleTable, OMF, OMFOps}
-import gov.nasa.jpl.omf.scala.core.OMLString.{LexicalValue, LocalName, Pattern}
-
+import gov.nasa.jpl.omf.scala.core.OMLString.{LocalName, Pattern}
 import gov.nasa.jpl.imce.oml.tables
 import gov.nasa.jpl.imce.oml.uuid.JVMUUIDGenerator
 
@@ -420,79 +419,84 @@ object BuiltInDatatypeMaps {
 
       // @see http://www.w3.org/TR/2012/REC-xmlschema11-2-20120405/datatypes.html#integer
       integer <- addStringScalarRestriction(
-        xsd_mgraph, LocalName("integer"), decimal, pattern=Some(Pattern("[\\-+]?[0-9]+")))
+        xsd_mgraph, LocalName("integer"), decimal,
+        pattern=Some(Pattern("[\\-+]?[0-9]+")))
       dcr9 = dcr8.withNumeric(integer)
 
       // @see http://www.w3.org/TR/2012/REC-xmlschema11-2-20120405/datatypes.html#long
       long <- addNumericScalarRestriction(
         xsd_mgraph, LocalName("long"), integer,
-        minInclusive=Some(LexicalValue("-9223372036854775808")), maxInclusive=Some(LexicalValue("9223372036854775807")))
+        minInclusive=Some(tables.LiteralNumber(tables.LiteralDecimalType,"-9223372036854775808")),
+        maxInclusive=Some(tables.LiteralNumber(tables.LiteralPositiveIntegerType, "9223372036854775807")))
       dcr10 = dcr9.withNumeric(long)
 
       // @see http://www.w3.org/TR/2012/REC-xmlschema11-2-20120405/datatypes.html#int
       int <- addNumericScalarRestriction(
         xsd_mgraph, LocalName("int"), long,
-        minInclusive=Some(LexicalValue("-2147483648")), maxInclusive=Some(LexicalValue("2147483647")))
+        minInclusive=Some(tables.LiteralNumber(tables.LiteralDecimalType,"-2147483648")),
+        maxInclusive=Some(tables.LiteralNumber(tables.LiteralPositiveIntegerType,"2147483647")))
       dcr11 = dcr10.withNumeric(int)
 
       // @see http://www.w3.org/TR/2012/REC-xmlschema11-2-20120405/datatypes.html#short
       short <- addNumericScalarRestriction(
         xsd_mgraph, LocalName("short"), int,
-        minInclusive=Some(LexicalValue("-32768")), maxInclusive=Some(LexicalValue("32767")))
+        minInclusive=Some(tables.LiteralNumber(tables.LiteralDecimalType,"-32768")),
+        maxInclusive=Some(tables.LiteralNumber(tables.LiteralPositiveIntegerType,"32767")))
       dcr12 = dcr11.withNumeric(short)
 
       // @see http://www.w3.org/TR/2012/REC-xmlschema11-2-20120405/datatypes.html#byte
       byte <- addNumericScalarRestriction(
         xsd_mgraph, LocalName("byte"), short,
-        minInclusive=Some(LexicalValue("-128")), maxInclusive=Some(LexicalValue("127")))
+        minInclusive=Some(tables.LiteralNumber(tables.LiteralDecimalType,"-128")),
+        maxInclusive=Some(tables.LiteralNumber(tables.LiteralPositiveIntegerType,"127")))
       dcr13 = dcr12.withNumeric(byte)
 
       // @see http://www.w3.org/TR/2012/REC-xmlschema11-2-20120405/datatypes.html#nonNegativeInteger
       nonNegativeInteger <- addNumericScalarRestriction(
         xsd_mgraph, LocalName("nonNegativeInteger"), integer,
-        minInclusive=Some(LexicalValue("0")))
+        minInclusive=Some(tables.LiteralNumber(tables.LiteralPositiveIntegerType,"0")))
       dcr14 = dcr13.withNumeric(nonNegativeInteger)
 
       // @see http://www.w3.org/TR/2012/REC-xmlschema11-2-20120405/datatypes.html#positiveInteger
       positiveInteger <- addNumericScalarRestriction(
         xsd_mgraph, LocalName("positiveInteger"), nonNegativeInteger,
-        minInclusive=Some(LexicalValue("1")))
+        minInclusive=Some(tables.LiteralNumber(tables.LiteralPositiveIntegerType,"1")))
       dcr15 = dcr14.withNumeric(positiveInteger)
 
       // @see http://www.w3.org/TR/2012/REC-xmlschema11-2-20120405/datatypes.html#unsignedLong
       unsignedLong <- addNumericScalarRestriction(
         xsd_mgraph, LocalName("unsignedLong"), nonNegativeInteger,
-        maxInclusive=Some(LexicalValue("18446744073709551615")))
+        maxInclusive=Some(tables.LiteralNumber(tables.LiteralPositiveIntegerType,"18446744073709551615")))
       dcr16 = dcr15.withNumeric(unsignedLong)
 
       // @see http://www.w3.org/TR/2012/REC-xmlschema11-2-20120405/datatypes.html#unsignedInt
       unsignedInt <- addNumericScalarRestriction(
         xsd_mgraph, LocalName("unsignedInt"), unsignedLong,
-        maxInclusive=Some(LexicalValue("4294967295")))
+        maxInclusive=Some(tables.LiteralNumber(tables.LiteralPositiveIntegerType,"4294967295")))
       dcr17 = dcr16.withNumeric(unsignedInt)
 
       // @see http://www.w3.org/TR/2012/REC-xmlschema11-2-20120405/datatypes.html#unsignedShort
       unsignedShort <- addNumericScalarRestriction(
         xsd_mgraph, LocalName("unsignedShort"), unsignedInt,
-        maxInclusive=Some(LexicalValue("65535")))
+        maxInclusive=Some(tables.LiteralNumber(tables.LiteralPositiveIntegerType,"65535")))
       dcr18 = dcr17.withNumeric(unsignedShort)
 
       // @see http://www.w3.org/TR/2012/REC-xmlschema11-2-20120405/datatypes.html#unsignedByte
       unsignedByte <- addNumericScalarRestriction(
         xsd_mgraph, LocalName("unsignedByte"), unsignedShort,
-        maxInclusive=Some(LexicalValue("255")))
+        maxInclusive=Some(tables.LiteralNumber(tables.LiteralPositiveIntegerType,"255")))
       dcr19 = dcr18.withNumeric(unsignedByte)
 
       // @see http://www.w3.org/TR/2012/REC-xmlschema11-2-20120405/datatypes.html#nonPositiveInteger
       nonPositiveInteger <- addNumericScalarRestriction(
         xsd_mgraph, LocalName("nonPositiveInteger"), integer,
-        maxInclusive=Some(LexicalValue("0")))
+        maxInclusive=Some(tables.LiteralNumber(tables.LiteralPositiveIntegerType,"0")))
       dcr20 = dcr19.withNumeric(nonPositiveInteger)
 
       // @see http://www.w3.org/TR/2012/REC-xmlschema11-2-20120405/datatypes.html#negativeInteger
       negativeInteger <- addNumericScalarRestriction(
         xsd_mgraph, LocalName("negativeInteger"), nonPositiveInteger,
-        maxInclusive=Some(LexicalValue("-1")))
+        maxInclusive=Some(tables.LiteralNumber(tables.LiteralDecimalType,"-1")))
       dcr21 = dcr20.withNumeric(negativeInteger)
 
       // @see http://www.w3.org/TR/2012/REC-xmlschema11-2-20120405/datatypes.html#double
