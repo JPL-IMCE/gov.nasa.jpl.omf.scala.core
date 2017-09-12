@@ -42,7 +42,7 @@ case class DescriptionBoxSignature[omf <: OMF, +S[A] <: scala.collection.Iterabl
   scalarDataPropertyValues: S[omf#ScalarDataPropertyValue],
   structuredDataPropertyTuples: S[omf#StructuredDataPropertyTuple],
 
-  override val annotations: S[AnnotationPropertyValue],
+  override val annotationPropertyValues: S[AnnotationPropertyValue],
   override val annotationProperties: S[AnnotationProperty])
   extends ModuleSignature[omf]  {
 

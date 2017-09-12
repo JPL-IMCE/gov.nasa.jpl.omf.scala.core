@@ -109,7 +109,7 @@ case class TerminologyBoxSignature[omf <: OMF, +S[A] <: scala.collection.Iterabl
   sTAxioms: S[omf#SpecificDisjointConceptAxiom],
   bAxioms: S[omf#BundledTerminologyAxiom],
 
-  override val annotations: S[AnnotationPropertyValue],
+  override val annotationPropertyValues: S[AnnotationPropertyValue],
   override val annotationProperties: S[AnnotationProperty])
   extends ModuleSignature[omf] {
 

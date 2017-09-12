@@ -18,6 +18,8 @@
 
 package gov.nasa.jpl.omf.scala.core.tables
 
+import java.lang.System
+
 import gov.nasa.jpl.imce.oml
 import gov.nasa.jpl.omf.scala.core.OMFError.Throwables
 import gov.nasa.jpl.omf.scala.core.{OMF, OMFError, OMFOps, RelationshipCharacteristics, TerminologyKind}
@@ -40,20 +42,22 @@ object OMFTabularExportFromTerminologyGraph {
     all_tboxes = im2st.map(_._1).toSet[omf#Module]
     all_tables = im2st.map(_._2).to[Set]
 
-    all_aps = all_tables.flatMap(_.annotations.map { a => a.subjectUUID -> a.propertyUUID })
+    all_aps = all_tables.flatMap(_.annotationProperties)
 
     s = ops.fromImmutableTerminology(tbox)
     suuid = s.uuid.toString
 
+    s_common_aps = s.annotationProperties intersect all_aps
+    s_ap = s.annotationProperties -- s_common_aps
+
     // Check that there are no overlaping annotation properties
-    _ <- {
-      val ap_overlap = all_aps intersect s.annotations.map { a => a.subjectUUID -> a.propertyUUID }
-      if (ap_overlap.isEmpty)
-        ().right[Throwables]
-      else
-        Set[java.lang.Throwable](OMFError.omfError(
-          s"TerminologyGraph ${s.iri} duplicates ${ap_overlap.size} Annotations defined in imported modules: "+
-            ap_overlap.map { case (subject, prop) => s"$subject.@$prop"}.mkString(","))).left[Unit]
+    _ = {
+      if (s_common_aps.nonEmpty) {
+        val common = s_common_aps.to[Seq].sortBy(_.abbrevIRI)
+        System.out.println(
+          s"TerminologyGraph ${s.iri} duplicates ${common.size} Annotations defined in imported modules: " +
+            common.map(_.abbrevIRI).mkString(","))
+      }
     }
 
     allConceptDesignationTerminologyAxioms <-
@@ -369,7 +373,9 @@ object OMFTabularExportFromTerminologyGraph {
         scalarOneOfLiteralAxioms =
           allAxioms.scalarOneOfLiteralAxioms.sorted,
 
-        annotations = s.annotations.to[Seq].sortBy(_.subjectUUID)
+        annotationProperties = s_ap.to[Seq].sortBy(_.uuid),
+
+        annotationPropertyValues = s.annotationPropertyValues.to[Seq].sortBy(_.subjectUUID)
       )
 
   } yield im2st :+ (tbox -> table)

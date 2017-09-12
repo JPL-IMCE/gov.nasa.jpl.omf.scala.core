@@ -33,7 +33,7 @@ trait ModuleSignature[omf <: OMF] {
     */
   val iri: omf#IRI
 
-  val annotations: scala.collection.Iterable[AnnotationPropertyValue]
+  val annotationPropertyValues: scala.collection.Iterable[AnnotationPropertyValue]
 
   val annotationProperties: scala.collection.Iterable[AnnotationProperty]
 

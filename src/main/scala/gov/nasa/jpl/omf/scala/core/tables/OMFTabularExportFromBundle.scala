@@ -40,20 +40,20 @@ object OMFTabularExportFromBundle {
     all_tboxes = im2st.map(_._1).toSet[omf#Module]
     all_tables = im2st.map(_._2).to[Set]
 
-    all_aps = all_tables.flatMap(_.annotations.map { a => a.subjectUUID -> a.propertyUUID })
+    all_aps = all_tables.flatMap(_.annotationProperties)
 
     s = ops.fromImmutableTerminology(bundle)
     suuid = s.uuid.toString
 
     // Check that there are no overlaping annotation properties
     _ <- {
-      val ap_overlap = all_aps intersect s.annotations.map { a => a.subjectUUID -> a.propertyUUID }
+      val ap_overlap = all_aps intersect s.annotationProperties
       if (ap_overlap.isEmpty)
         ().right[Throwables]
       else
         Set[java.lang.Throwable](OMFError.omfError(
           s"TerminologyGraph ${s.iri} duplicates ${ap_overlap.size} Annotations defined in imported modules: "+
-            ap_overlap.map { case (subject, prop) => s"$subject.@$prop"}.mkString(","))).left[Unit]
+            ap_overlap.map(_.abbrevIRI).mkString(","))).left[Unit]
     }
 
     allConceptDesignationTerminologyAxioms <-
@@ -436,7 +436,7 @@ object OMFTabularExportFromBundle {
         specificDisjointConceptAxioms = allSpecificDisjointConceptAxioms,
         anonymousConceptUnionAxioms = allAnonymousConceptUnionAxioms,
 
-        annotations = s.annotations.to[Seq].sortBy(_.subjectUUID)
+        annotationPropertyValues = s.annotationPropertyValues.to[Seq].sortBy(_.subjectUUID)
       )
 
   } yield im2st :+ (bundle -> table)
