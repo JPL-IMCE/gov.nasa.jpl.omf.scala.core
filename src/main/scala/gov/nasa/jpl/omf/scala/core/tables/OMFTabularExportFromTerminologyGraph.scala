@@ -56,7 +56,7 @@ object OMFTabularExportFromTerminologyGraph {
         val common = s_common_aps.to[Seq].sortBy(_.abbrevIRI)
         System.out.println(
           s"TerminologyGraph ${s.iri} duplicates ${common.size} Annotations defined in imported modules: " +
-            common.map(_.abbrevIRI).mkString(","))
+            common.map(_.abbrevIRI).mkString("\n\t",", ","\n"))
       }
     }
 
@@ -202,7 +202,7 @@ object OMFTabularExportFromTerminologyGraph {
         length = info.length,
         maxLength = info.maxLength,
         minLength = info.minLength,
-        pattern = info.pattern,
+        pattern = info.pattern.map(canonicalLiteralPattern),
         restrictedRangeUUID = ops.getTermUUID(info.restrictedRange).toString)
     }.to[Seq].sorted
 
@@ -229,7 +229,7 @@ object OMFTabularExportFromTerminologyGraph {
         length = info.length,
         maxLength = info.maxLength,
         minLength = info.minLength,
-        pattern = info.pattern,
+        pattern = info.pattern.map(canonicalLiteralPattern),
         restrictedRangeUUID = ops.getTermUUID(info.restrictedRange).toString)
     }.to[Seq].sorted
 
@@ -251,7 +251,7 @@ object OMFTabularExportFromTerminologyGraph {
         length = info.length,
         maxLength = info.maxLength,
         minLength = info.minLength,
-        pattern = info.pattern,
+        pattern = info.pattern.map(canonicalLiteralPattern),
         restrictedRangeUUID = ops.getTermUUID(info.restrictedRange).toString)
     }.to[Seq].sorted
 
