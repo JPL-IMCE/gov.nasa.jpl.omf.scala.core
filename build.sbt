@@ -16,8 +16,6 @@ val extractArchives
 
 lazy val core = Project("omf-scala-core", file("."))
   .enablePlugins(IMCEGitPlugin)
-  //.enablePlugins(IMCEReleasePlugin)
-  //.settings(IMCEReleasePlugin.packageReleaseProcessSettings)
   .settings(dynamicScriptsResourceSettings("gov.nasa.jpl.omf.scala.core"))
   .settings(IMCEPlugin.strictScalacFatalWarningsSettings)
   .settings(
@@ -40,11 +38,6 @@ lazy val core = Project("omf-scala-core", file("."))
     publishArtifact in Test := true,
 
     scalaSource in Test := baseDirectory.value / "test",
-
-    libraryDependencies +=
-      "gov.nasa.jpl.imce" %% "imce.third_party.other_scala_libraries"
-        % Versions_other_scala_libraries.version artifacts
-        Artifact("imce.third_party.other_scala_libraries", "zip", "zip", "resource"),
 
     extractArchives := {},
 
