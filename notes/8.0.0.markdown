@@ -3,3 +3,5 @@ gov.nasa.jpl.omf.scala.core 8.0.0 is a major update
 ## Issues Resolved
 
 - [#7 Update for OML Datatypes and AnnotationPropertyValues](https://github.com/JPL-IMCE/gov.nasa.jpl.omf.scala.core/issues/7)
+
+- [#8 Update for OML Table annotationPropertyValues](https://github.com/JPL-IMCE/gov.nasa.jpl.omf.scala.core/issues/8)
