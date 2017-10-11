@@ -47,6 +47,8 @@ object OMFTabularExportFromTerminologyGraph {
     s = ops.fromImmutableTerminology(tbox)
     suuid = s.uuid.toString
 
+    oug = oml.uuid.JVMUUIDGenerator()
+
     s_common_aps = s.annotationProperties intersect all_aps
     s_ap = s.annotationProperties -- s_common_aps
 
@@ -321,15 +323,27 @@ object OMFTabularExportFromTerminologyGraph {
 
     allAxioms = s.axioms.foldLeft(Axioms())(Axioms.combine(suuid, ops))
 
+    tg = new oml.tables.TerminologyGraph(
+      oug = oug,
+      kind = if (TerminologyKind.isOpenWorldKind(s.kind))
+        oml.tables.OpenWorldDefinitions
+      else
+        oml.tables.ClosedWorldDesignations,
+      iri = s.iri.toString)
+
+    tuuid = tg.uuid
+    _ <- {
+      if (tuuid == suuid)
+        ().right[Throwables]
+      else
+        Set[java.lang.Throwable](new java.lang.IllegalArgumentException(
+          s"tables.TerminologyGraph(kind=${tg.kind}, iri=${tg.iri}) UUID mismatch:\n input=$suuid\n derived=${tg.uuid}"
+        )).left[Unit]
+    }
+
     table = oml.tables.OMLSpecificationTables.createEmptyOMLSpecificationTables()
       .copy(
-        terminologyGraphs = Seq(oml.tables.TerminologyGraph(
-          uuid = suuid,
-          kind = if (TerminologyKind.isDefinitionKind(s.kind))
-            oml.tables.OpenWorldDefinitions
-          else
-            oml.tables.ClosedWorldDesignations,
-          iri = s.iri.toString)),
+        terminologyGraphs = Seq(tg),
 
         conceptDesignationTerminologyAxioms = allConceptDesignationTerminologyAxioms.sorted,
         terminologyExtensionAxioms = allExtensionAxioms.sorted,

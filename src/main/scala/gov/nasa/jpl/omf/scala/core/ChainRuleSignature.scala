@@ -20,12 +20,6 @@ package gov.nasa.jpl.omf.scala.core
 
 import java.util.UUID
 
-import gov.nasa.jpl.imce.oml.tables.LiteralValue
-import scala.Option
-
-case class EntityScalarDataPropertyParticularRestrictionSignature[omf <: OMF]
-( uuid: UUID,
-  restrictedEntity: omf#Entity,
-  scalarDataProperty: omf#EntityScalarDataProperty,
-  literalValue: LiteralValue,
-  valueType: Option[omf#DataRange])
+case class ChainRuleSignature[omf <: OMF]
+(uuid: UUID,
+ head: omf#UnreifiedRelationship)

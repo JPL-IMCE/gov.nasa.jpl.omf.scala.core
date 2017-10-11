@@ -118,7 +118,7 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF]
         string = lookupDataRange(xsd, string_iri, recursively = false)
 
         base_iri <- makeIRI("http://imce.jpl.nasa.gov/test/immutability/foundation/base/base")
-        base <- makeTerminologyGraph(base_iri, isDefinition)
+        base <- makeTerminologyGraph(base_iri, isOpenWorld)
         base_extends_xsd <- addTerminologyExtension(base, xsd)
 
         identifiedElement <- addAspect(base, LocalName("IdentifiedElement"))
@@ -133,7 +133,7 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF]
         (ibase, table2) = m2i_base
 
         mission_iri <- makeIRI("http://imce.jpl.nasa.gov/test/immutability/foundation/mission/mission")
-        mission <- makeTerminologyGraph(mission_iri, isDefinition)
+        mission <- makeTerminologyGraph(mission_iri, isOpenWorld)
         mission_extends_ibase <- addTerminologyExtension(mission, ibase)
 
         component <- addConcept(mission, LocalName("Component"))
@@ -152,7 +152,7 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF]
         identifiedElement_iri <- makeIRI("http://imce.jpl.nasa.gov/test/immutability/foundation/base/base#IdentifiedElement")
 
         library_iri <- makeIRI("http://imce.jpl.nasa.gov/test/immutability/library")
-        library <- makeTerminologyGraph(library_iri, isDefinition)
+        library <- makeTerminologyGraph(library_iri, isOpenWorld)
         library_extends_mission <- addTerminologyExtension(library, mission)
 
         starTracker <- addConcept(library, LocalName("StarTracker"))
@@ -174,20 +174,20 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF]
           library, starTracker, component_performs_function, determinesAttitude)
 
         system_iri <- makeIRI("http://imce.jpl.nasa.gov/test/immutability/system")
-        system <- makeTerminologyGraph(system_iri, isDefinition)
+        system <- makeTerminologyGraph(system_iri, isOpenWorld)
         system_extends_library <- addTerminologyExtension(system, library)
 
         s1 <- addConcept(system, LocalName("S1"))
         s1_is_starTracker <- addConceptSpecializationAxiom(system, s1, starTracker)
         s1_hasIdentifier <- addEntityScalarDataPropertyParticularRestrictionAxiom(
           system, s1, hasIdentifier,
-          tables.LiteralValue(tables.LiteralStringType, "ST.primary"))
+          tables.LiteralValue(tables.LiteralStringType, "ST.primary"), string)
 
         s2 <- addConcept(system, LocalName("S2"))
         s2_is_starTracker <- addConceptSpecializationAxiom(system, s2, starTracker)
         s2_hasIdentifier <- addEntityScalarDataPropertyParticularRestrictionAxiom(
           system, s2, hasIdentifier,
-          tables.LiteralValue(tables.LiteralStringType, "ST.backup"))
+          tables.LiteralValue(tables.LiteralStringType, "ST.backup"), string)
 
       } yield {
 

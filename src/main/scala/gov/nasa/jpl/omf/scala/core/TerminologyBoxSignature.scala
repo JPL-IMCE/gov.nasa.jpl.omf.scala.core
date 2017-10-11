@@ -61,8 +61,8 @@ import scala.Boolean
   * @param aTAxioms
   * @param sTAxioms
   * @param bAxioms
+  * @param annotationPropertyValues
   * @param annotationProperties
-  * @param annotations
   * @tparam omf OMF Adaptation/Binding.
   * @tparam S A container type (either scala.collection.immutable.Set or scala.collection.mutable.HashSet)
   */

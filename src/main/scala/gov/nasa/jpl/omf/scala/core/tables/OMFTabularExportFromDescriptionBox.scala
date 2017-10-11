@@ -154,7 +154,8 @@ object OMFTabularExportFromDescriptionBox {
         uuid = info.uuid.toString,
         scalarDataPropertyUUID = ops.getTermUUID(info.scalarDataProperty).toString,
         scalarPropertyValue = info.scalarPropertyValue,
-        structuredDataPropertyContextUUID = info.singletonInstanceStructuredDataPropertyContextUUID.toString)
+        structuredDataPropertyContextUUID = info.singletonInstanceStructuredDataPropertyContextUUID.toString,
+        valueTypeUUID = info.valueType.map { vt => ops.getTermUUID(vt).toString })
     }.to[Seq].sorted
 
     allStructuredDataPropertyTuples =
@@ -174,7 +175,8 @@ object OMFTabularExportFromDescriptionBox {
         descriptionBoxUUID = suuid,
         singletonInstanceUUID = ops.getElementUUID(info.singletonInstance).toString,
         scalarDataPropertyUUID = ops.getTermUUID(info.scalarDataProperty).toString,
-        scalarPropertyValue = info.scalarDataPropertyValue)
+        scalarPropertyValue = info.scalarDataPropertyValue,
+        valueTypeUUID = info.valueType.map { vt => ops.getTermUUID(vt).toString })
     }.to[Seq].sorted
 
     allSingletonInstanceStructuredDataPropertyValues =

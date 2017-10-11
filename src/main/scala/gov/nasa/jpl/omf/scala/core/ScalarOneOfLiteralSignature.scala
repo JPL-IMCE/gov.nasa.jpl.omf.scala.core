@@ -21,9 +21,11 @@ package gov.nasa.jpl.omf.scala.core
 import java.util.UUID
 
 import gov.nasa.jpl.imce.oml.tables.LiteralValue
+import scala.Option
 
 case class ScalarOneOfLiteralSignature[omf <: OMF]
 ( uuid: UUID,
   restriction: omf#ScalarOneOfRestriction,
-  value: LiteralValue
+  value: LiteralValue,
+  valueType: Option[omf#DataRange]
 )

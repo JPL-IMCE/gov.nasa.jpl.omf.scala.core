@@ -592,8 +592,6 @@ trait OMFStoreOps[omf <: OMF] { self : IRIOps[omf] =>
     * For a mutable terminology graph, imported/extended graphs must be specified
     * via `addTerminologyGraphExtension`
     *
-    * @param uuid A version 4 (random) or 5 (name) based UUID.
-    *             For version 5, use generateUUID(fromIRI(iri))
     * @param name the name of the new graph
     * @param iri  the identity of the new mutable terminology graph
     * @param kind the kind of the new mutable terminology graph
@@ -601,16 +599,14 @@ trait OMFStoreOps[omf <: OMF] { self : IRIOps[omf] =>
     * @return A new mutable terminology graph, if successful
     */
   protected def makeTerminologyGraph
-  (uuid: UUID,
-   name: LocalName,
+  (name: LocalName,
    iri: omf#IRI,
    kind: TerminologyKind)
   (implicit store: omf#Store)
   : Throwables \/ omf#MutableTerminologyGraph
 
   protected def makeBundle
-  (uuid: UUID,
-   name: LocalName,
+  (name: LocalName,
    iri: omf#IRI,
    kind: TerminologyKind)
   (implicit store: omf#Store)
@@ -636,7 +632,7 @@ trait OMFStoreOps[omf <: OMF] { self : IRIOps[omf] =>
   : Throwables \/ omf#MutableTerminologyGraph
   = for {
     name <- lastSegment(iri)
-    g <- makeTerminologyGraph(generateUUID(fromIRI(iri)+"#TerminologyGraph"), name, iri, kind)
+    g <- makeTerminologyGraph(name, iri, kind)
   } yield g
 
   def makeBundle
@@ -646,7 +642,7 @@ trait OMFStoreOps[omf <: OMF] { self : IRIOps[omf] =>
   : Throwables \/ omf#MutableBundle
   = for {
     name <- lastSegment(iri)
-    g <- makeBundle(generateUUID(fromIRI(iri)+"#Bundle"), name, iri, kind)
+    g <- makeBundle(name, iri, kind)
   } yield g
 
   def saveTerminology
@@ -661,8 +657,17 @@ trait OMFStoreOps[omf <: OMF] { self : IRIOps[omf] =>
   : Throwables \/ Unit
 
   def makeDescriptionBox
-  (uuid: UUID,
-   name: LocalName,
+  (iri: omf#IRI,
+   kind: DescriptionKind)
+  (implicit store: omf#Store)
+  : Throwables \/ omf#MutableDescriptionBox
+  = for {
+    name <- lastSegment(iri)
+    g <- makeDescriptionBox(name, iri, kind)
+  } yield g
+
+  protected def makeDescriptionBox
+  (name: LocalName,
    iri: omf#IRI,
    k: DescriptionKind)
   (implicit store: omf#Store)
@@ -804,7 +809,8 @@ trait ImmutableTerminologyGraphOps[omf <: OMF] { self: OMFStoreOps[omf] with IRI
    funEntityScalarDataProperty: omf#EntityScalarDataProperty => T,
    funEntityStructuredDataProperty: omf#EntityStructuredDataProperty => T,
    funScalarDataProperty: omf#ScalarDataProperty => T,
-   funStructuredDataProperty: omf#StructuredDataProperty => T)
+   funStructuredDataProperty: omf#StructuredDataProperty => T,
+   funChainRule: omf#ChainRule => T)
   (t: omf#Term)
   : T
 
@@ -1066,6 +1072,14 @@ trait ImmutableTerminologyGraphOps[omf <: OMF] { self: OMFStoreOps[omf] with IRI
   def fromSpecificDisjointConceptAxiom
   (ax: omf#SpecificDisjointConceptAxiom)
   : SpecificDisjointConceptSignature[omf]
+
+  def fromChainRule
+  (ax: omf#ChainRule)
+  : ChainRuleSignature[omf]
+
+  def fromRuleBodySegment
+  (ax: omf#RuleBodySegment)
+  : RuleBodySegmentSignature[omf]
 
 }
 
@@ -1397,8 +1411,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
 
   def scalarOneOfLiteralAxiomUUID
   (graph: omf#MutableTerminologyBox,
-   scalarOneOfRestriction: omf#ScalarOneOfRestriction,
-   value: LiteralValue)
+   scalarOneOfRestriction: omf#ScalarOneOfRestriction)
   : Throwables \/ UUID
   = generateUUID(
       "ScalarOneOfLiteralAxiom",
@@ -1409,19 +1422,21 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   (graph: omf#MutableTerminologyBox,
    axiomUUID: UUID,
    scalarOneOfRestriction: omf#ScalarOneOfRestriction,
-   value: LiteralValue)
+   value: LiteralValue,
+   valueType: Option[omf#DataRange])
   (implicit store: omf#Store)
   : Throwables \/ omf#ScalarOneOfLiteralAxiom
 
   final def addScalarOneOfLiteralAxiom
   (graph: omf#MutableTerminologyBox,
    scalarOneOfRestriction: omf#ScalarOneOfRestriction,
-   value: LiteralValue)
+   value: LiteralValue,
+   valueType: Option[omf#DataRange])
   (implicit store: omf#Store)
   : Throwables \/ omf#ScalarOneOfLiteralAxiom
   = for {
-    axiomUUID <- scalarOneOfLiteralAxiomUUID(graph, scalarOneOfRestriction, value)
-    ax <- addScalarOneOfLiteralAxiom(graph, axiomUUID, scalarOneOfRestriction, value)
+    axiomUUID <- scalarOneOfLiteralAxiomUUID(graph, scalarOneOfRestriction)
+    ax <- addScalarOneOfLiteralAxiom(graph, axiomUUID, scalarOneOfRestriction, value, valueType)
   } yield ax
 
   protected def addBinaryScalarRestriction
@@ -1838,6 +1853,332 @@ trait MutableTerminologyGraphOps[omf <: OMF]
     ax <- addStructuredDataProperty(graph, uuid, iri, source, target, dataPropertyName)
   } yield ax
 
+  protected def addChainRule
+  (graph: omf#MutableTerminologyBox,
+   uuid: UUID,
+   iri: omf#IRI,
+   head: omf#UnreifiedRelationship)
+  (implicit store: omf#Store)
+  : Throwables \/ omf#ChainRule
+
+  final def addChainRule
+  (graph: omf#MutableTerminologyBox,
+   head: omf#UnreifiedRelationship,
+   ruleName: LocalName)
+  (implicit store: omf#Store)
+  : Throwables \/ omf#ChainRule
+  = for {
+    iri <- withFragment(getModuleIRI(graph), ruleName)
+    uuid = generateUUID(getModuleUUID(graph), "name" -> ruleName)
+    ax <- addChainRule(graph, uuid, iri, head)
+  } yield ax
+
+  protected def addRuleBodySegment
+  (graph: omf#MutableTerminologyBox,
+   uuid: UUID,
+   chainRule: Option[omf#ChainRule],
+   previousSegment: Option[omf#RuleBodySegment])
+  (implicit store: omf#Store)
+  : Throwables \/ omf#RuleBodySegment
+
+  final def addRuleBodySegment
+  (graph: omf#MutableTerminologyBox,
+   chainRule: Option[omf#ChainRule],
+   previousSegment: Option[omf#RuleBodySegment])
+  (implicit store: omf#Store)
+  : Throwables \/ omf#RuleBodySegment
+  = for {
+      cr <- chainRule match {
+        case Some(cr) =>
+          fromChainRule(cr).uuid.toString.right
+        case None =>
+          previousSegment match {
+            case Some(ps) =>
+              fromRuleBodySegment(ps).position.toString.right
+            case None =>
+              Set[java.lang.Throwable](
+                OMFError.omfError(
+                  "addRuleBodySegment: either the chainRule or the previousSegment must be specified"
+                )).left
+          }
+      }
+      ps = previousSegment match {
+        case Some(seg) =>
+          fromRuleBodySegment(seg).position.toString
+        case None =>
+          "1"
+      }
+      uuid = generateUUID(
+        "RuleBodySegment",
+        "chainRule" -> cr,
+        "position" -> ps)
+      ax <- addRuleBodySegment(graph, uuid, chainRule, previousSegment)
+  } yield ax
+
+  protected def addAspectPredicate
+  (graph: omf#MutableTerminologyBox,
+   uuid: UUID,
+   bodySegment: omf#RuleBodySegment,
+   aspect: omf#Aspect)
+  (implicit store: omf#Store)
+  : Throwables \/ omf#AspectPredicate
+
+  final def addAspectPredicate
+  (graph: omf#MutableTerminologyBox,
+   bodySegment: omf#RuleBodySegment,
+   aspect: omf#Aspect)
+  (implicit store: omf#Store)
+  : Throwables \/ omf#AspectPredicate
+  = {
+    val termUUID = getTermUUID(aspect).toString
+    val bodySegmentUUID = fromRuleBodySegment(bodySegment).uuid.toString
+    val uuid = generateUUID(
+      "AspectPredicate",
+      "aspect" -> termUUID,
+      "bodySegment" -> bodySegmentUUID)
+    addAspectPredicate(graph, uuid, bodySegment, aspect)
+  }
+
+  protected def addConceptPredicate
+  (graph: omf#MutableTerminologyBox,
+   uuid: UUID,
+   bodySegment: omf#RuleBodySegment,
+   concept: omf#Concept)
+  (implicit store: omf#Store)
+  : Throwables \/ omf#ConceptPredicate
+
+  final def addConceptPredicate
+  (graph: omf#MutableTerminologyBox,
+   bodySegment: omf#RuleBodySegment,
+   concept: omf#Concept)
+  (implicit store: omf#Store)
+  : Throwables \/ omf#ConceptPredicate
+  = {
+    val termUUID = getTermUUID(concept).toString
+    val bodySegmentUUID = fromRuleBodySegment(bodySegment).uuid.toString
+    val uuid = generateUUID(
+      "ConceptPredicate",
+      "bodySegment" -> bodySegmentUUID,
+      "concept" -> termUUID)
+    addConceptPredicate(graph, uuid, bodySegment, concept)
+  }
+
+  protected def addReifiedRelationshipPredicate
+  (graph: omf#MutableTerminologyBox,
+   uuid: UUID,
+   bodySegment: omf#RuleBodySegment,
+   reifiedRelationship: omf#ReifiedRelationship)
+  (implicit store: omf#Store)
+  : Throwables \/ omf#ReifiedRelationshipPredicate
+
+  final def addReifiedRelationshipPredicate
+  (graph: omf#MutableTerminologyBox,
+   bodySegment: omf#RuleBodySegment,
+   reifiedRelationship: omf#ReifiedRelationship)
+  (implicit store: omf#Store)
+  : Throwables \/ omf#ReifiedRelationshipPredicate
+  = {
+    val termUUID = getTermUUID(reifiedRelationship).toString
+    val bodySegmentUUID = fromRuleBodySegment(bodySegment).uuid.toString
+    val uuid = generateUUID(
+      "ReifiedRelationshipPredicate",
+      "bodySegment" -> bodySegmentUUID,
+      "reifiedRelationship" -> termUUID)
+    addReifiedRelationshipPredicate(graph, uuid, bodySegment, reifiedRelationship)
+  }
+
+  protected def addReifiedRelationshipPropertyPredicate
+  (graph: omf#MutableTerminologyBox,
+   uuid: UUID,
+   bodySegment: omf#RuleBodySegment,
+   reifiedRelationship: omf#ReifiedRelationship)
+  (implicit store: omf#Store)
+  : Throwables \/ omf#ReifiedRelationshipPropertyPredicate
+
+  final def addReifiedRelationshipPropertyPredicate
+  (graph: omf#MutableTerminologyBox,
+   bodySegment: omf#RuleBodySegment,
+   reifiedRelationship: omf#ReifiedRelationship)
+  (implicit store: omf#Store)
+  : Throwables \/ omf#ReifiedRelationshipPropertyPredicate
+  = {
+    val termUUID = getTermUUID(reifiedRelationship).toString
+    val bodySegmentUUID = fromRuleBodySegment(bodySegment).uuid.toString
+    val uuid = generateUUID(
+      "ReifiedRelationshipPropertyPredicate",
+      "bodySegment" -> bodySegmentUUID,
+      "reifiedRelationship" -> termUUID)
+    addReifiedRelationshipPropertyPredicate(graph, uuid, bodySegment, reifiedRelationship)
+  }
+
+  protected def addReifiedRelationshipInversePropertyPredicate
+  (graph: omf#MutableTerminologyBox,
+   uuid: UUID,
+   bodySegment: omf#RuleBodySegment,
+   reifiedRelationship: omf#ReifiedRelationship)
+  (implicit store: omf#Store)
+  : Throwables \/ omf#ReifiedRelationshipInversePropertyPredicate
+
+  final def addReifiedRelationshipInversePropertyPredicate
+  (graph: omf#MutableTerminologyBox,
+   bodySegment: omf#RuleBodySegment,
+   reifiedRelationship: omf#ReifiedRelationship)
+  (implicit store: omf#Store)
+  : Throwables \/ omf#ReifiedRelationshipInversePropertyPredicate
+  = {
+    val termUUID = getTermUUID(reifiedRelationship).toString
+    val bodySegmentUUID = fromRuleBodySegment(bodySegment).uuid.toString
+    val uuid = generateUUID(
+      "ReifiedRelationshipInversePropertyPredicate",
+      "bodySegment" -> bodySegmentUUID,
+      "reifiedRelationship" -> termUUID)
+    addReifiedRelationshipInversePropertyPredicate(graph, uuid, bodySegment, reifiedRelationship)
+  }
+
+  protected def addReifiedRelationshipSourcePropertyPredicate
+  (graph: omf#MutableTerminologyBox,
+   uuid: UUID,
+   bodySegment: omf#RuleBodySegment,
+   reifiedRelationship: omf#ReifiedRelationship)
+  (implicit store: omf#Store)
+  : Throwables \/ omf#ReifiedRelationshipSourcePropertyPredicate
+
+  final def addReifiedRelationshipSourcePropertyPredicate
+  (graph: omf#MutableTerminologyBox,
+   bodySegment: omf#RuleBodySegment,
+   reifiedRelationship: omf#ReifiedRelationship)
+  (implicit store: omf#Store)
+  : Throwables \/ omf#ReifiedRelationshipSourcePropertyPredicate
+  = {
+    val termUUID = getTermUUID(reifiedRelationship).toString
+    val bodySegmentUUID = fromRuleBodySegment(bodySegment).uuid.toString
+    val uuid = generateUUID(
+      "ReifiedRelationshipSourcePropertyPredicate",
+      "bodySegment" -> bodySegmentUUID,
+      "reifiedRelationship" -> termUUID)
+    addReifiedRelationshipSourcePropertyPredicate(graph, uuid, bodySegment, reifiedRelationship)
+  }
+
+  protected def addReifiedRelationshipSourceInversePropertyPredicate
+  (graph: omf#MutableTerminologyBox,
+   uuid: UUID,
+   bodySegment: omf#RuleBodySegment,
+   reifiedRelationship: omf#ReifiedRelationship)
+  (implicit store: omf#Store)
+  : Throwables \/ omf#ReifiedRelationshipSourceInversePropertyPredicate
+
+  final def addReifiedRelationshipSourceInversePropertyPredicate
+  (graph: omf#MutableTerminologyBox,
+   bodySegment: omf#RuleBodySegment,
+   reifiedRelationship: omf#ReifiedRelationship)
+  (implicit store: omf#Store)
+  : Throwables \/ omf#ReifiedRelationshipSourceInversePropertyPredicate
+  = {
+    val termUUID = getTermUUID(reifiedRelationship).toString
+    val bodySegmentUUID = fromRuleBodySegment(bodySegment).uuid.toString
+    val uuid = generateUUID(
+      "ReifiedRelationshipSourceInversePropertyPredicate",
+      "bodySegment" -> bodySegmentUUID,
+      "reifiedRelationship" -> termUUID)
+    addReifiedRelationshipSourceInversePropertyPredicate(graph, uuid, bodySegment, reifiedRelationship)
+  }
+
+  protected def addReifiedRelationshipTargetPropertyPredicate
+  (graph: omf#MutableTerminologyBox,
+   uuid: UUID,
+   bodySegment: omf#RuleBodySegment,
+   reifiedRelationship: omf#ReifiedRelationship)
+  (implicit store: omf#Store)
+  : Throwables \/ omf#ReifiedRelationshipTargetPropertyPredicate
+
+  final def addReifiedRelationshipTargetPropertyPredicate
+  (graph: omf#MutableTerminologyBox,
+   bodySegment: omf#RuleBodySegment,
+   reifiedRelationship: omf#ReifiedRelationship)
+  (implicit store: omf#Store)
+  : Throwables \/ omf#ReifiedRelationshipTargetPropertyPredicate
+  = {
+    val termUUID = getTermUUID(reifiedRelationship).toString
+    val bodySegmentUUID = fromRuleBodySegment(bodySegment).uuid.toString
+    val uuid = generateUUID(
+      "ReifiedRelationshipTargetPropertyPredicate",
+      "bodySegment" -> bodySegmentUUID,
+      "reifiedRelationship" -> termUUID)
+    addReifiedRelationshipTargetPropertyPredicate(graph, uuid, bodySegment, reifiedRelationship)
+  }
+
+  protected def addReifiedRelationshipTargetInversePropertyPredicate
+  (graph: omf#MutableTerminologyBox,
+   uuid: UUID,
+   bodySegment: omf#RuleBodySegment,
+   reifiedRelationship: omf#ReifiedRelationship)
+  (implicit store: omf#Store)
+  : Throwables \/ omf#ReifiedRelationshipTargetInversePropertyPredicate
+
+  final def addReifiedRelationshipTargetInversePropertyPredicate
+  (graph: omf#MutableTerminologyBox,
+   bodySegment: omf#RuleBodySegment,
+   reifiedRelationship: omf#ReifiedRelationship)
+  (implicit store: omf#Store)
+  : Throwables \/ omf#ReifiedRelationshipTargetInversePropertyPredicate
+  = {
+    val termUUID = getTermUUID(reifiedRelationship).toString
+    val bodySegmentUUID = fromRuleBodySegment(bodySegment).uuid.toString
+    val uuid = generateUUID(
+      "ReifiedRelationshipTargetInversePropertyPredicate",
+      "bodySegment" -> bodySegmentUUID,
+      "reifiedRelationship" -> termUUID)
+    addReifiedRelationshipTargetInversePropertyPredicate(graph, uuid, bodySegment, reifiedRelationship)
+  }
+
+  protected def addUnreifiedRelationshipPropertyPredicate
+  (graph: omf#MutableTerminologyBox,
+   uuid: UUID,
+   bodySegment: omf#RuleBodySegment,
+   unreifiedRelationship: omf#UnreifiedRelationship)
+  (implicit store: omf#Store)
+  : Throwables \/ omf#UnreifiedRelationshipPropertyPredicate
+
+  final def addUnreifiedRelationshipPropertyPredicate
+  (graph: omf#MutableTerminologyBox,
+   bodySegment: omf#RuleBodySegment,
+   unreifiedRelationship: omf#UnreifiedRelationship)
+  (implicit store: omf#Store)
+  : Throwables \/ omf#UnreifiedRelationshipPropertyPredicate
+  = {
+    val termUUID = getTermUUID(unreifiedRelationship).toString
+    val bodySegmentUUID = fromRuleBodySegment(bodySegment).uuid.toString
+    val uuid = generateUUID(
+      "UnreifiedRelationshipPropertyPredicate",
+      "bodySegment" -> bodySegmentUUID,
+      "unreifiedRelationship" -> termUUID)
+    addUnreifiedRelationshipPropertyPredicate(graph, uuid, bodySegment, unreifiedRelationship)
+  }
+
+  protected def addUnreifiedRelationshipInversePropertyPredicate
+  (graph: omf#MutableTerminologyBox,
+   uuid: UUID,
+   bodySegment: omf#RuleBodySegment,
+   unreifiedRelationship: omf#UnreifiedRelationship)
+  (implicit store: omf#Store)
+  : Throwables \/ omf#UnreifiedRelationshipInversePropertyPredicate
+
+  final def addUnreifiedRelationshipInversePropertyPredicate
+  (graph: omf#MutableTerminologyBox,
+   bodySegment: omf#RuleBodySegment,
+   unreifiedRelationship: omf#UnreifiedRelationship)
+  (implicit store: omf#Store)
+  : Throwables \/ omf#UnreifiedRelationshipInversePropertyPredicate
+  = {
+    val termUUID = getTermUUID(unreifiedRelationship).toString
+    val bodySegmentUUID = fromRuleBodySegment(bodySegment).uuid.toString
+    val uuid = generateUUID(
+      "UnreifiedRelationshipInversePropertyPredicate",
+      "bodySegment" -> bodySegmentUUID,
+      "unreifiedRelationship" -> termUUID)
+    addUnreifiedRelationshipInversePropertyPredicate(graph, uuid, bodySegment, unreifiedRelationship)
+  }
+
   // model term axioms
 
   /**
@@ -2022,7 +2363,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   (graph: omf#MutableTerminologyBox,
    uuid: UUID,
    sub: omf#Entity,
-   rel: omf#ReifiedRelationship,
+   rel: omf#EntityRelationship,
    range: omf#Entity)
   (implicit store: omf#Store)
   : Throwables \/ omf#EntityUniversalRestrictionAxiom
@@ -2030,7 +2371,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   def entityUniversalRestrictionAxiomUUID
   (graph: omf#MutableTerminologyBox,
    sub: omf#Entity,
-   rel: omf#ReifiedRelationship,
+   rel: omf#EntityRelationship,
    range: omf#Entity)
   (implicit store: omf#Store)
   : Throwables \/ UUID
@@ -2057,7 +2398,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   final def addEntityUniversalRestrictionAxiom
   (graph: omf#MutableTerminologyBox,
    sub: omf#Entity,
-   rel: omf#ReifiedRelationship,
+   rel: omf#EntityRelationship,
    range: omf#Entity)
   (implicit store: omf#Store)
   : Throwables \/ omf#EntityUniversalRestrictionAxiom
@@ -2083,7 +2424,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   (graph: omf#MutableTerminologyBox,
    uuid: UUID,
    sub: omf#Entity,
-   rel: omf#ReifiedRelationship,
+   rel: omf#EntityRelationship,
    range: omf#Entity)
   (implicit store: omf#Store)
   : Throwables \/ omf#EntityExistentialRestrictionAxiom
@@ -2091,7 +2432,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   def entityExistentialRestrictionAxiomUUID
   (graph: omf#MutableTerminologyBox,
    sub: omf#Entity,
-   rel: omf#ReifiedRelationship,
+   rel: omf#EntityRelationship,
    range: omf#Entity)
   (implicit store: omf#Store)
   : Throwables \/ UUID
@@ -2118,7 +2459,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   final def addEntityExistentialRestrictionAxiom
   (graph: omf#MutableTerminologyBox,
    sub: omf#Entity,
-   rel: omf#ReifiedRelationship,
+   rel: omf#EntityRelationship,
    range: omf#Entity)
   (implicit store: omf#Store)
   : Throwables \/ omf#EntityExistentialRestrictionAxiom
@@ -2202,7 +2543,8 @@ trait MutableTerminologyGraphOps[omf <: OMF]
    uuid: UUID,
    restrictedEntity: omf#Entity,
    scalarProperty: omf#EntityScalarDataProperty,
-   literalValue: LiteralValue)
+   literalValue: LiteralValue,
+   valueType: Option[omf#DataRange])
   (implicit store: omf#Store)
   : Throwables \/ omf#EntityScalarDataPropertyParticularRestrictionAxiom
 
@@ -2222,12 +2564,13 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   (graph: omf#MutableTerminologyBox,
    restrictedEntity: omf#Entity,
    scalarProperty: omf#EntityScalarDataProperty,
-   literalValue: LiteralValue)
+   literalValue: LiteralValue,
+   valueType: Option[omf#DataRange])
   (implicit store: omf#Store)
   : Throwables \/ omf#EntityScalarDataPropertyParticularRestrictionAxiom
   = for {
     uuid <- entityScalarDataPropertyParticularRestrictionAxiomUUID(graph, restrictedEntity, scalarProperty)
-    ax <- addEntityScalarDataPropertyParticularRestrictionAxiom(graph, uuid, restrictedEntity, scalarProperty, literalValue)
+    ax <- addEntityScalarDataPropertyParticularRestrictionAxiom(graph, uuid, restrictedEntity, scalarProperty, literalValue, valueType)
   } yield ax
 
   /**
@@ -2684,7 +3027,7 @@ trait MutableDescriptionBoxOps[omf <: OMF]
     "descriptionBox" -> getModuleUUID(dbox).toString,
     "closedWorldDefinitions" -> getModuleUUID(closedWorldDefinitions).toString).right
 
-  def addDescriptionBoxExtendsClosedWorldDefinitions
+  protected def addDescriptionBoxExtendsClosedWorldDefinitions
   (uuid: UUID,
    dbox: omf#MutableDescriptionBox,
    closedWorldDefinitions: omf#TerminologyBox)
@@ -2711,7 +3054,7 @@ trait MutableDescriptionBoxOps[omf <: OMF]
     "refiningDescriptionBox" -> getModuleUUID(refiningDescriptionBox).toString,
     "refinedDescriptionBox" -> getModuleUUID(refinedDescriptionBox).toString).right
 
-  def addDescriptionBoxRefinement
+  protected def addDescriptionBoxRefinement
   (uuid: UUID,
    refiningDescriptionBox: omf#MutableDescriptionBox,
    refinedDescriptionBox: omf#DescriptionBox)
@@ -2735,7 +3078,7 @@ trait MutableDescriptionBoxOps[omf <: OMF]
   : Throwables \/ UUID
   = generateUUID(getModuleUUID(dbox).toString, "name" -> fragment).right
 
-  def addConceptInstance
+  protected def addConceptInstance
   (uuid: UUID,
    dbox: omf#MutableDescriptionBox,
    iri: omf#IRI,
@@ -2763,7 +3106,7 @@ trait MutableDescriptionBoxOps[omf <: OMF]
   : Throwables \/ UUID
   = generateUUID(getModuleUUID(dbox).toString, "name" -> fragment).right
 
-  def addReifiedRelationshipInstance
+  protected def addReifiedRelationshipInstance
   (uuid: UUID,
    dbox: omf#MutableDescriptionBox,
    iri: omf#IRI,
@@ -2796,7 +3139,7 @@ trait MutableDescriptionBoxOps[omf <: OMF]
     "reifiedRelationshipInstance" -> getElementUUID(relationshipInstance).toString,
     "domain" -> getElementUUID(source).toString).right
 
-  def addReifiedRelationshipInstanceDomain
+  protected def addReifiedRelationshipInstanceDomain
   (uuid: UUID,
    dbox: omf#MutableDescriptionBox,
    relationshipInstance: omf#ReifiedRelationshipInstance,
@@ -2827,7 +3170,7 @@ trait MutableDescriptionBoxOps[omf <: OMF]
     "reifiedRelationshipInstance" -> getElementUUID(relationshipInstance).toString,
     "range" -> getElementUUID(target).toString).right
 
-  def addReifiedRelationshipInstanceRange
+  protected def addReifiedRelationshipInstanceRange
   (uuid: UUID,
    dbox: omf#MutableDescriptionBox,
    relationshipInstance: omf#ReifiedRelationshipInstance,
@@ -2860,7 +3203,7 @@ trait MutableDescriptionBoxOps[omf <: OMF]
     "romain" -> getElementUUID(source).toString,
     "range" -> getElementUUID(target).toString).right
 
-  def addUnreifiedRelationshipInstanceTuple
+  protected def addUnreifiedRelationshipInstanceTuple
   (uuid: UUID,
    dbox: omf#MutableDescriptionBox,
    unreifiedRelationship: omf#UnreifiedRelationship,
@@ -2889,12 +3232,13 @@ trait MutableDescriptionBoxOps[omf <: OMF]
   : Throwables \/ UUID
   = generateUUID().right
 
-  def addSingletonInstanceScalarDataPropertyValue
+  protected def addSingletonInstanceScalarDataPropertyValue
   (uuid: UUID,
    dbox: omf#MutableDescriptionBox,
    ei: omf#ConceptualEntitySingletonInstance,
    e2sc: omf#EntityScalarDataProperty,
-   value: LiteralValue)
+   value: LiteralValue,
+   valueType: Option[omf#DataRange])
   (implicit store: omf#Store)
   : Throwables \/ omf#SingletonInstanceScalarDataPropertyValue
 
@@ -2902,12 +3246,13 @@ trait MutableDescriptionBoxOps[omf <: OMF]
   (dbox: omf#MutableDescriptionBox,
    ei: omf#ConceptualEntitySingletonInstance,
    e2sc: omf#EntityScalarDataProperty,
-   value: LiteralValue)
+   value: LiteralValue,
+   valueType: Option[omf#DataRange])
   (implicit store: omf#Store)
   : Throwables \/ omf#SingletonInstanceScalarDataPropertyValue
   = for {
     uuid <- singletonInstanceScalarDataPropertyValueUUID(dbox, ei, e2sc)
-    ax <- addSingletonInstanceScalarDataPropertyValue(uuid, dbox, ei, e2sc, value)
+    ax <- addSingletonInstanceScalarDataPropertyValue(uuid, dbox, ei, e2sc, value, valueType)
   } yield ax
 
   def singletonInstanceStructuredDataPropertyValueUUID
@@ -2923,7 +3268,7 @@ trait MutableDescriptionBoxOps[omf <: OMF]
     "structuredDataProperty" -> getElementUUID(e2st).toString
   ).right
 
-  def addSingletonInstanceStructuredDataPropertyValue
+  protected def addSingletonInstanceStructuredDataPropertyValue
   (uuid: UUID,
    dbox: omf#MutableDescriptionBox,
    ei: omf#ConceptualEntitySingletonInstance,
@@ -2953,12 +3298,13 @@ trait MutableDescriptionBoxOps[omf <: OMF]
     "structuredDataPropertyContext" -> getElementUUID(structuredDataPropertyContext).toString
   ).right
 
-  def makeScalarDataPropertyValue
+  protected def makeScalarDataPropertyValue
   (uuid: UUID,
    dbox: omf#MutableDescriptionBox,
    structuredDataPropertyContext: omf#SingletonInstanceStructuredDataPropertyContext,
    scalarDataProperty: omf#ScalarDataProperty,
-   value: LiteralValue)
+   value: LiteralValue,
+   valueType: Option[omf#DataRange])
   (implicit store: omf#Store)
   : Throwables \/ omf#ScalarDataPropertyValue
 
@@ -2966,13 +3312,14 @@ trait MutableDescriptionBoxOps[omf <: OMF]
   (dbox: omf#MutableDescriptionBox,
    structuredDataPropertyContext: omf#SingletonInstanceStructuredDataPropertyContext,
    scalarDataProperty: omf#ScalarDataProperty,
-   value: LiteralValue)
+   value: LiteralValue,
+   valueType: Option[omf#DataRange])
   (implicit store: omf#Store)
   : Throwables \/ omf#ScalarDataPropertyValue
   = for {
     uuid <- scalarDataPropertyValueUUID(structuredDataPropertyContext, scalarDataProperty)
     ax <- makeScalarDataPropertyValue(uuid, dbox, structuredDataPropertyContext,
-      scalarDataProperty, value)
+      scalarDataProperty, value, valueType)
   } yield ax
 
   def structuredDataPropertyTupleUUID
@@ -2986,7 +3333,7 @@ trait MutableDescriptionBoxOps[omf <: OMF]
     "structuredDataPropertyContext" -> getElementUUID(structuredDataPropertyContext).toString
   ).right
 
-  def makeStructuredDataPropertyTuple
+  protected def makeStructuredDataPropertyTuple
   (uuid: UUID,
    dbox: omf#MutableDescriptionBox,
    structuredDataPropertyContext: omf#SingletonInstanceStructuredDataPropertyContext,

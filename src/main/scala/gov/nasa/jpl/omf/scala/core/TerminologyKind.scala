@@ -33,7 +33,7 @@ case object TerminologyDesignationKind extends TerminologyKind {
 
 /**
  * TerminologyKind indicates whether the semantics of the vocabulary of type terms defined 
- * in a TerminologyGraph (TBox graph) is open-world (isDefinition) or closed-world (isDesignation)
+ * in a TerminologyGraph (TBox graph) is open-world or closed-world
  */
 object TerminologyKind {
 
@@ -48,42 +48,50 @@ object TerminologyKind {
     }
 
   /**
-   * isDefinition indicates that the semantics of a TerminologyGraph (TBox graph) is open-world.
-   *
-   * For example, this means that the semantics of taxonomic relations (e.g., EntityConceptSubClassAxiom) 
-   * and restrictions (e.g., EntityConceptRestrictionAxiom) is open world in the following sense: 
-   * Suppose there is a Definition TBox graph G where a taxonomic relationship asserts 
-   * that concepts B and C are subclasses of concept A. The open world semantics of G as a Definition TBox means 
-   * that there may exist another concept distinct from B or C that is asserted to be subclass of A in a some
-   * other Definition TBox graph that directly or indirectly imports G.
-   */
-  val isDefinition = TerminologyDefinitionKind
+    * isOpenWorld indicates that the semantics of a TerminologyGraph (TBox graph) is open-world.
+    *
+    * For example, this means that the semantics of taxonomic relations (e.g., EntityConceptSubClassAxiom)
+    * and restrictions (e.g., EntityConceptRestrictionAxiom) is open world in the following sense:
+    * Suppose there is a Definition TBox graph G where a taxonomic relationship asserts
+    * that concepts B and C are subclasses of concept A. The open world semantics of G as a Definition TBox means
+    * that there may exist another concept distinct from B or C that is asserted to be subclass of A in a some
+    * other Definition TBox graph that directly or indirectly imports G.
+    *
+    * Additionally, the extent of each OML Entity represented as an OWL2 Class
+    * (i.e., OML Aspect, Concept, ReifiedRelationship) is a set of zero or more instances.
+    */
+  val isOpenWorld = TerminologyDefinitionKind
 
   /**
-   * isDesignation indicates that the semantics of a TerminologyGraph (TBox graph) is closed-world.
-   *
-   * For example, this means that the semantics of taxonomic relations (e.g., EntityConceptSubClassAxiom) 
-   * and restrictions (e.g., EntityConceptRestrictionAxiom) is closed world in the following sense: 
-   * Suppose there is a Designation TBox graph G where the only taxonomic relationships asserted about concept A is that
-   * concepts B and C are subclasses of concept A. The closed world semantics of G as a Designation TBox means that
-   * B and C designate distinct sets of things (this is the so-called "Unique Name Assumption") and 
-   * that there does not exist any other concept distinct from B or C that can be a subclass of A anywhere else.
-   */
-  val isDesignation = TerminologyDesignationKind
+    * isDesignation indicates that the semantics of a TerminologyGraph (TBox graph) is closed-world.
+    *
+    * For example, this means that the semantics of taxonomic relations (e.g., EntityConceptSubClassAxiom)
+    * and restrictions (e.g., EntityConceptRestrictionAxiom) is closed world in the following sense:
+    * Suppose there is a Designation TBox graph G where the only taxonomic relationships asserted about concept A is that
+    * concepts B and C are subclasses of concept A. The closed world semantics of G as a Designation TBox means that
+    * B and C designate distinct sets of things (this is the so-called "Unique Name Assumption") and
+    * that there does not exist any other concept distinct from B or C that can be a subclass of A anywhere else.
+    *
+    * Additionally, the extent of each OML Entity represented as an OWL2 Class
+    * (i.e., OML Aspect, Concept, ReifiedRelationship) is a set of exactly one instance
+    * due to an OWL2 Key axiom asserting the unicity of an instance according to the value of its
+    * essential identification properties (scalar or structured).
+    */
+  val isClosedWorld = TerminologyDesignationKind
 
   val values: Set[TerminologyKind] = Values
 
-  def isDefinitionKind( k: TerminologyKind )
+  def isOpenWorldKind(k: TerminologyKind )
   : Boolean
   = k match {
-    case TerminologyKind.isDefinition => true
+    case TerminologyKind.`isOpenWorld` => true
     case _ => false
   }
 
-  def isDesignationKind( k: TerminologyKind )
+  def isClosedWorldKind(k: TerminologyKind )
   : Boolean
   = k match {
-    case TerminologyKind.isDesignation => true
+    case TerminologyKind.`isClosedWorld` => true
     case _ => false
   }
 

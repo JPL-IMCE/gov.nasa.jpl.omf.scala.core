@@ -19,13 +19,10 @@
 package gov.nasa.jpl.omf.scala.core
 
 import java.util.UUID
+import scala.{Int,Option}
 
-import gov.nasa.jpl.imce.oml.tables.LiteralValue
-import scala.Option
-
-case class EntityScalarDataPropertyParticularRestrictionSignature[omf <: OMF]
-( uuid: UUID,
-  restrictedEntity: omf#Entity,
-  scalarDataProperty: omf#EntityScalarDataProperty,
-  literalValue: LiteralValue,
-  valueType: Option[omf#DataRange])
+case class RuleBodySegmentSignature[omf <: OMF]
+(uuid: UUID,
+ position: Int,
+ chainRule: Option[omf#ChainRule],
+ previousSegment: Option[omf#RuleBodySegment])

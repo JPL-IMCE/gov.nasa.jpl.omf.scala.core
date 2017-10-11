@@ -37,6 +37,8 @@ lazy val core = Project("omf-scala-core", file("."))
     // include all test artifacts
     publishArtifact in Test := true,
 
+    scalaVersion := Versions.scala,
+
     scalaSource in Test := baseDirectory.value / "test",
 
     extractArchives := {},

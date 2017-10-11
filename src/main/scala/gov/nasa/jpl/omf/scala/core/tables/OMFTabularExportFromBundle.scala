@@ -387,7 +387,7 @@ object OMFTabularExportFromBundle {
 
         terminologyGraphs = Seq(oml.tables.TerminologyGraph(
           uuid = suuid.toString,
-          kind = if (TerminologyKind.isDefinitionKind(s.kind))
+          kind = if (TerminologyKind.isOpenWorldKind(s.kind))
             oml.tables.OpenWorldDefinitions
           else
             oml.tables.ClosedWorldDesignations,

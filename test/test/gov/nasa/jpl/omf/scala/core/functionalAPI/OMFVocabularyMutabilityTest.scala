@@ -112,7 +112,7 @@ abstract class OMFVocabularyMutabilityTest[omf <: OMF]
         string_iri <- makeIRI("http://www.w3.org/2001/XMLSchema#string")
         string = lookupDataRange(xsd, string_iri, recursively = false)
         base_iri <- makeIRI("http://imce.jpl.nasa.gov/test/mutability/foundation/base/base")
-        base <- makeTerminologyGraph(base_iri, isDefinition)
+        base <- makeTerminologyGraph(base_iri, isOpenWorld)
         base_extends_xsd <- addTerminologyExtension(base, xsd)
         identifiedElement <- addAspect(base, LocalName("IdentifiedElement"))
         hasIdentifier = addEntityScalarDataProperty(
@@ -122,7 +122,7 @@ abstract class OMFVocabularyMutabilityTest[omf <: OMF]
           dataPropertyName = LocalName("hasIdentifier"),
           isIdentityCriteria = false)
         mission_iri <- makeIRI("http://imce.jpl.nasa.gov/test/mutability/foundation/mission/mission")
-        mission <- makeTerminologyGraph(mission_iri, isDefinition)
+        mission <- makeTerminologyGraph(mission_iri, isOpenWorld)
         mission_extends_base <- addTerminologyExtension(mission, base)
         component <- addConcept(mission, LocalName("Component"))
         component_extends_identifiedElement <- addAspectSpecializationAxiom(

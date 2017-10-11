@@ -24,7 +24,7 @@ import scala.Boolean
 case class EntityRestrictionSignature[omf <: OMF]
 ( uuid: UUID,
   domain: omf#Entity,
-  restrictedRelation: omf#ReifiedRelationship,
+  restrictedRelation: omf#EntityRelationship,
   range: omf#Entity,
   isExistential: Boolean
 )

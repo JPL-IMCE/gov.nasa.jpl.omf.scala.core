@@ -276,6 +276,33 @@ trait OMFtbox extends OMFcbox {
     with DataRelationshipFromStructure
     with DataRelationshipToStructure
 
+  type Rule <: Term
+  type ChainRule <: Rule
+
+  type RuleBodySegment <: Element
+  type SegmentPredicate <: Element
+
+  type UnarySegmentPredicate <: SegmentPredicate
+  type AspectPredicate <: UnarySegmentPredicate
+  type ConceptPredicate <: UnarySegmentPredicate
+  type ReifiedRelationshipPredicate <: UnarySegmentPredicate
+
+  type BinarySegmentPropertyPredicate <: SegmentPredicate
+  type BinarySegmentForwardPropertyPredicate <: BinarySegmentPropertyPredicate
+  type BinarySegmentReversePropertyPredicate <: BinarySegmentPropertyPredicate
+
+  type ReifiedRelationshipPropertyPredicate <: BinarySegmentForwardPropertyPredicate
+  type ReifiedRelationshipInversePropertyPredicate <: BinarySegmentReversePropertyPredicate
+
+  type ReifiedRelationshipSourcePropertyPredicate <: BinarySegmentForwardPropertyPredicate
+  type ReifiedRelationshipSourceInversePropertyPredicate <: BinarySegmentReversePropertyPredicate
+
+  type ReifiedRelationshipTargetPropertyPredicate <: BinarySegmentForwardPropertyPredicate
+  type ReifiedRelationshipTargetInversePropertyPredicate <: BinarySegmentReversePropertyPredicate
+
+  type UnreifiedRelationshipPropertyPredicate <: BinarySegmentForwardPropertyPredicate
+  type UnreifiedRelationshipInversePropertyPredicate <: BinarySegmentReversePropertyPredicate
+
   /**
     * A ModelTermAxiom is the abstraction for statements about
     * ModelTypeTerms in an ModelTerminologyGraph

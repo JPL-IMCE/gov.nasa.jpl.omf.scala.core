@@ -36,7 +36,7 @@ abstract class IMCEMissionDomainTBoxExample[omf <: OMF]()(
       val result =
         for {
           i_m0 <- makeIRI( "http://imce.jpl.nasa.gov/foundation/mission/mission0" )
-          g <- makeTerminologyGraph(i_m0, isDefinition)
+          g <- makeTerminologyGraph(i_m0, isOpenWorld)
           s = ops.fromMutableTerminology(g)
         } yield {
           s.importedTerminologies.isEmpty should be(true)
@@ -60,7 +60,7 @@ abstract class IMCEMissionDomainTBoxExample[omf <: OMF]()(
       val result =
         for {
           i_m1 <- makeIRI( "http://imce.jpl.nasa.gov/foundation/mission/mission1" )
-          g <- makeTerminologyGraph(i_m1, isDefinition)
+          g <- makeTerminologyGraph(i_m1, isOpenWorld)
           component <- addConcept(g, LocalName("Component"))
           function <- addConcept(g, LocalName("Function"))
           s = fromMutableTerminology(g)

@@ -21,9 +21,11 @@ package gov.nasa.jpl.omf.scala.core
 import java.util.UUID
 
 import gov.nasa.jpl.imce.oml.tables.LiteralValue
+import scala.Option
 
 case class ScalarDataPropertyValueSignature[omf <: OMF]
 ( uuid: UUID,
   singletonInstanceStructuredDataPropertyContextUUID: omf#SingletonInstanceStructuredDataPropertyContext,
   scalarDataProperty: omf#DataRelationshipToScalar,
-  scalarPropertyValue: LiteralValue)
+  scalarPropertyValue: LiteralValue,
+  valueType: Option[omf#DataRange])

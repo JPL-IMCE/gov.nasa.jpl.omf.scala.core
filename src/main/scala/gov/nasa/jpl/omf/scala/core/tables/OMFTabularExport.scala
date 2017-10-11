@@ -168,7 +168,8 @@ object Axioms {
         uuid = info.uuid.toString,
         restrictedEntityUUID = ops.getTermUUID(info.restrictedEntity).toString,
         scalarPropertyUUID = ops.getTermUUID(info.scalarDataProperty).toString,
-        literalValue = info.literalValue))
+        literalValue = info.literalValue,
+        valueTypeUUID = info.valueType.map { vt => ops.getTermUUID(vt).toString }))
   }
 
   def funEntityScalarDataPropertyUniversalRestrictionAxiom[omf <: OMF]
@@ -197,7 +198,8 @@ object Axioms {
         tboxUUID = guuid,
         uuid = info.uuid.toString,
         axiomUUID = ops.getTermUUID(info.restriction).toString,
-        value = info.value))
+        value = info.value,
+        valueTypeUUID = info.valueType.map { vt => ops.getTermUUID(vt).toString }))
   }
 
   def combine[omf <: OMF]

@@ -125,7 +125,7 @@ abstract class OMFNestedGraphTest[omf <: OMF]
         string = lookupDataRange(xsd, string_iri, recursively = false)
 
         base_iri <- makeIRI(s"http://imce.jpl.nasa.gov/test/$testName/foundation/base/base")
-        base <- makeTerminologyGraph(base_iri, isDefinition)
+        base <- makeTerminologyGraph(base_iri, isOpenWorld)
         base_extends_xsd <- addTerminologyExtension(base, xsd)
         identifiedElement <- addAspect(base, LocalName("IdentifiedElement"))
         hasIdentifier = addEntityScalarDataProperty(
@@ -136,7 +136,7 @@ abstract class OMFNestedGraphTest[omf <: OMF]
           isIdentityCriteria = false)
 
         mission_iri <- makeIRI(s"http://imce.jpl.nasa.gov/test/$testName/foundation/mission/mission")
-        mission <- makeTerminologyGraph(mission_iri, isDefinition)
+        mission <- makeTerminologyGraph(mission_iri, isOpenWorld)
         mission_extends_base <- addTerminologyExtension(mission, base)
         component <- addConcept(mission, LocalName("Component"))
         component_extends_identifiedElement <- addAspectSpecializationAxiom(
@@ -158,12 +158,12 @@ abstract class OMFNestedGraphTest[omf <: OMF]
           unreifiedInverseRelationshipName = LocalName("isPerformedBy").some)
 
         project_iri <- makeIRI(s"http://imce.jpl.nasa.gov/test/$testName/foundation/project/project")
-        project <- makeTerminologyGraph(project_iri, isDefinition)
+        project <- makeTerminologyGraph(project_iri, isOpenWorld)
         project_extends_mission <- addTerminologyExtension(project, mission)
         workPackage <- addConcept(project, LocalName("WorkPackage"))
 
         g_iri <- makeIRI(s"http://imce.jpl.nasa.gov/test/$testName/example/G")
-        g <- makeTerminologyGraph(g_iri, isDefinition)
+        g <- makeTerminologyGraph(g_iri, isOpenWorld)
         g_extends_project <- addTerminologyExtension(g, project)
 
         g_A <- addConcept(g, LocalName("A"))
@@ -176,7 +176,7 @@ abstract class OMFNestedGraphTest[omf <: OMF]
         g_C_isa_function <- addConceptSpecializationAxiom(g, g_C, component)
 
         p1_iri <- makeIRI(s"http://imce.jpl.nasa.gov/test/$testName/example/P1")
-        p1 <- makeTerminologyGraph(p1_iri, isDefinition)
+        p1 <- makeTerminologyGraph(p1_iri, isOpenWorld)
         _ <- addTerminologyExtension(p1, g)
         g_authorizes_p1 <- addConcept(g, LocalName("P1"))
         g_authorizes_p1_WP <- addConceptSpecializationAxiom(g, g_authorizes_p1, workPackage)
@@ -195,7 +195,7 @@ abstract class OMFNestedGraphTest[omf <: OMF]
         g_nests_p1 <- addNestedTerminology(nestingGraph=g, nestingContext=g_authorizes_p1, nestedGraph=p1)
 
         p2_iri <- makeIRI(s"http://imce.jpl.nasa.gov/test/$testName/example/P2")
-        p2 <- makeTerminologyGraph(p2_iri, isDefinition)
+        p2 <- makeTerminologyGraph(p2_iri, isOpenWorld)
         _ <- addTerminologyExtension(p2, g)
         g_authorizes_p2 <- addConcept(g, LocalName("P2"))
         g_authorizes_p2_WP <- addConceptSpecializationAxiom(g, g_authorizes_p2, workPackage)
