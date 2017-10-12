@@ -45,7 +45,7 @@
         <span class="kind">case class</span>
       </span>
       <span class="symbol">
-        <span class="name">EntityRestrictionSignature</span><span class="tparams">[<span name="omf">omf &lt;: <a href="OMF.html" class="extype" name="gov.nasa.jpl.omf.scala.core.OMF">OMF</a></span>]</span><span class="params">(<span name="uuid">uuid: <span class="extype" name="java.util.UUID">UUID</span></span>, <span name="domain">domain: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.Entity">omf.Entity</span></span>, <span name="restrictedRelation">restrictedRelation: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ReifiedRelationship">omf.ReifiedRelationship</span></span>, <span name="range">range: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.Entity">omf.Entity</span></span>, <span name="isExistential">isExistential: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+        <span class="name">EntityRestrictionSignature</span><span class="tparams">[<span name="omf">omf &lt;: <a href="OMF.html" class="extype" name="gov.nasa.jpl.omf.scala.core.OMF">OMF</a></span>]</span><span class="params">(<span name="uuid">uuid: <span class="extype" name="java.util.UUID">UUID</span></span>, <span name="domain">domain: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.Entity">omf.Entity</span></span>, <span name="restrictedRelation">restrictedRelation: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.EntityRelationship">omf.EntityRelationship</span></span>, <span name="range">range: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.Entity">omf.Entity</span></span>, <span name="isExistential">isExistential: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       </h4>
       
@@ -89,7 +89,7 @@
         <div id="constructors" class="members">
               <h3>Instance Constructors</h3>
               <ol><li name="gov.nasa.jpl.omf.scala.core.EntityRestrictionSignature#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="&lt;init&gt;(uuid:java.util.UUID,domain:omf#Entity,restrictedRelation:omf#ReifiedRelationship,range:omf#Entity,isExistential:Boolean):gov.nasa.jpl.omf.scala.core.EntityRestrictionSignature[omf]"></a>
+      <a id="&lt;init&gt;(uuid:java.util.UUID,domain:omf#Entity,restrictedRelation:omf#EntityRelationship,range:omf#Entity,isExistential:Boolean):gov.nasa.jpl.omf.scala.core.EntityRestrictionSignature[omf]"></a>
       <a id="&lt;init&gt;:EntityRestrictionSignature[omf]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -97,10 +97,10 @@
         <span class="kind">new</span>
       </span>
       <span class="symbol">
-        <span class="name">EntityRestrictionSignature</span><span class="params">(<span name="uuid">uuid: <span class="extype" name="java.util.UUID">UUID</span></span>, <span name="domain">domain: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.Entity">omf.Entity</span></span>, <span name="restrictedRelation">restrictedRelation: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ReifiedRelationship">omf.ReifiedRelationship</span></span>, <span name="range">range: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.Entity">omf.Entity</span></span>, <span name="isExistential">isExistential: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span>
+        <span class="name">EntityRestrictionSignature</span><span class="params">(<span name="uuid">uuid: <span class="extype" name="java.util.UUID">UUID</span></span>, <span name="domain">domain: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.Entity">omf.Entity</span></span>, <span name="restrictedRelation">restrictedRelation: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.EntityRelationship">omf.EntityRelationship</span></span>, <span name="range">range: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.Entity">omf.Entity</span></span>, <span name="isExistential">isExistential: <span class="extype" name="scala.Boolean">Boolean</span></span>)</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.EntityRestrictionSignature@&lt;init&gt;(uuid:java.util.UUID,domain:omf#Entity,restrictedRelation:omf#ReifiedRelationship,range:omf#Entity,isExistential:Boolean):gov.nasa.jpl.omf.scala.core.EntityRestrictionSignature[omf]" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.EntityRestrictionSignature@&lt;init&gt;(uuid:java.util.UUID,domain:omf#Entity,restrictedRelation:omf#EntityRelationship,range:omf#Entity,isExistential:Boolean):gov.nasa.jpl.omf.scala.core.EntityRestrictionSignature[omf]" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -382,18 +382,18 @@
     </span>
       
     </li><li name="gov.nasa.jpl.omf.scala.core.EntityRestrictionSignature#restrictedRelation" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="restrictedRelation:omf#ReifiedRelationship"></a>
-      <a id="restrictedRelation:omf.ReifiedRelationship"></a>
+      <a id="restrictedRelation:omf#EntityRelationship"></a>
+      <a id="restrictedRelation:omf.EntityRelationship"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">restrictedRelation</span><span class="result">: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ReifiedRelationship">omf.ReifiedRelationship</span></span>
+        <span class="name">restrictedRelation</span><span class="result">: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.EntityRelationship">omf.EntityRelationship</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.EntityRestrictionSignature@restrictedRelation:omf#ReifiedRelationship" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.EntityRestrictionSignature@restrictedRelation:omf#EntityRelationship" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
