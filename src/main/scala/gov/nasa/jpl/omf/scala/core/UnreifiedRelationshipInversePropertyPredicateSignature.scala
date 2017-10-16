@@ -20,9 +20,7 @@ package gov.nasa.jpl.omf.scala.core
 
 import java.util.UUID
 
-import gov.nasa.jpl.imce.oml.tables.LocalName
-
-case class ChainRuleSignature[omf <: OMF]
-(name: LocalName,
- uuid: UUID,
- head: omf#UnreifiedRelationship)
+case class UnreifiedRelationshipInversePropertyPredicateSignature[omf <: OMF]
+(uuid: UUID,
+ bodySegment: omf#RuleBodySegment,
+ predicate: omf#UnreifiedRelationship)

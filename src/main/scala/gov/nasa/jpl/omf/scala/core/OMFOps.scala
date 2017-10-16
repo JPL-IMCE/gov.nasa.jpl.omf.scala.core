@@ -1081,6 +1081,50 @@ trait ImmutableTerminologyGraphOps[omf <: OMF] { self: OMFStoreOps[omf] with IRI
   (ax: omf#RuleBodySegment)
   : RuleBodySegmentSignature[omf]
 
+  def fromAspectPredicate
+  (ax: omf#AspectPredicate)
+  : AspectPredicateSignature[omf]
+
+  def fromConceptPredicate
+  (ax: omf#ConceptPredicate)
+  : ConceptPredicateSignature[omf]
+
+  def fromReifiedRelationshipPredicate
+  (ax: omf#ReifiedRelationshipPredicate)
+  : ReifiedRelationshipPredicateSignature[omf]
+
+  def fromReifiedRelationshipPropertyPredicate
+  (ax: omf#ReifiedRelationshipPropertyPredicate)
+  : ReifiedRelationshipPropertyPredicateSignature[omf]
+
+  def fromReifiedRelationshipInversePropertyPredicate
+  (ax: omf#ReifiedRelationshipInversePropertyPredicate)
+  : ReifiedRelationshipInversePropertyPredicateSignature[omf]
+
+  def fromReifiedRelationshipSourcePropertyPredicate
+  (ax: omf#ReifiedRelationshipSourcePropertyPredicate)
+  : ReifiedRelationshipSourcePropertyPredicateSignature[omf]
+
+  def fromReifiedRelationshipSourceInversePropertyPredicate
+  (ax: omf#ReifiedRelationshipSourceInversePropertyPredicate)
+  : ReifiedRelationshipSourceInversePropertyPredicateSignature[omf]
+
+  def fromReifiedRelationshipTargetPropertyPredicate
+  (ax: omf#ReifiedRelationshipTargetPropertyPredicate)
+  : ReifiedRelationshipTargetPropertyPredicateSignature[omf]
+
+  def fromReifiedRelationshipTargetInversePropertyPredicate
+  (ax: omf#ReifiedRelationshipTargetInversePropertyPredicate)
+  : ReifiedRelationshipTargetInversePropertyPredicateSignature[omf]
+
+  def fromUnreifiedRelationshipPropertyPredicate
+  (ax: omf#UnreifiedRelationshipPropertyPredicate)
+  : UnreifiedRelationshipPropertyPredicateSignature[omf]
+
+  def fromUnreifiedRelationshipInversePropertyPredicate
+  (ax: omf#UnreifiedRelationshipInversePropertyPredicate)
+  : UnreifiedRelationshipInversePropertyPredicateSignature[omf]
+
 }
 
 trait MutableTerminologyGraphOps[omf <: OMF]

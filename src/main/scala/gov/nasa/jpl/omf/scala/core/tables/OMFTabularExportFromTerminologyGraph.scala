@@ -321,6 +321,116 @@ object OMFTabularExportFromTerminologyGraph {
         rangeUUID = ops.getTermUUID(info.range).toString)
     }.to[Seq].sorted
 
+    allChainRules = s.chainRules.map { cr =>
+      val info = ops.fromChainRule(cr)
+      oml.tables.ChainRule(
+        uuid = info.uuid.toString,
+        tboxUUID = suuid,
+        name = info.name,
+        headUUID = ops.getTermUUID(info.head).toString)
+    }.to[Seq].sorted
+
+    allRuleBodySegments = s.ruleBodySegments.map { rbs =>
+      val info = ops.fromRuleBodySegment(rbs)
+      oml.tables.RuleBodySegment(
+        uuid = info.uuid.toString,
+        previousSegmentUUID = info.previousSegment.map { prev =>
+          ops.fromRuleBodySegment(prev).uuid.toString
+        },
+        ruleUUID = info.chainRule.map { rule =>
+          ops.fromChainRule(rule).uuid.toString
+        }
+      )
+    }.to[Seq].sorted
+
+    allAspectPredicates = s.aspectPredicates.map { p =>
+      val info = ops.fromAspectPredicate(p)
+      oml.tables.AspectPredicate(
+        uuid = info.uuid.toString,
+        aspectUUID = ops.getTermUUID(info.predicate).toString,
+        bodySegmentUUID = ops.fromRuleBodySegment(info.bodySegment).uuid.toString)
+    }.to[Seq].sorted
+
+    allConceptPredicates = s.conceptPredicates.map { p =>
+      val info = ops.fromConceptPredicate(p)
+      oml.tables.ConceptPredicate(
+        uuid = info.uuid.toString,
+        conceptUUID = ops.getTermUUID(info.predicate).toString,
+        bodySegmentUUID = ops.fromRuleBodySegment(info.bodySegment).uuid.toString)
+    }.to[Seq].sorted
+
+    allReifiedRelationshipPredicates = s.reifiedRelationshipPredicates.map { p =>
+      val info = ops.fromReifiedRelationshipPredicate(p)
+      oml.tables.ReifiedRelationshipPredicate(
+        uuid = info.uuid.toString,
+        reifiedRelationshipUUID = ops.getTermUUID(info.predicate).toString,
+        bodySegmentUUID = ops.fromRuleBodySegment(info.bodySegment).uuid.toString)
+    }.to[Seq].sorted
+
+    allReifiedRelationshipPropertyPredicates = s.reifiedRelationshipPropertyPredicates.map { p =>
+      val info = ops.fromReifiedRelationshipPropertyPredicate(p)
+      oml.tables.ReifiedRelationshipPropertyPredicate(
+        uuid = info.uuid.toString,
+        reifiedRelationshipUUID = ops.getTermUUID(info.predicate).toString,
+        bodySegmentUUID = ops.fromRuleBodySegment(info.bodySegment).uuid.toString)
+    }.to[Seq].sorted
+
+    allReifiedRelationshipInversePropertyPredicates = s.reifiedRelationshipInversePropertyPredicates.map { p =>
+      val info = ops.fromReifiedRelationshipInversePropertyPredicate(p)
+      oml.tables.ReifiedRelationshipInversePropertyPredicate(
+        uuid = info.uuid.toString,
+        reifiedRelationshipUUID = ops.getTermUUID(info.predicate).toString,
+        bodySegmentUUID = ops.fromRuleBodySegment(info.bodySegment).uuid.toString)
+    }.to[Seq].sorted
+
+    allReifiedRelationshipSourcePropertyPredicates = s.reifiedRelationshipSourcePropertyPredicates.map { p =>
+      val info = ops.fromReifiedRelationshipSourcePropertyPredicate(p)
+      oml.tables.ReifiedRelationshipSourcePropertyPredicate(
+        uuid = info.uuid.toString,
+        reifiedRelationshipUUID = ops.getTermUUID(info.predicate).toString,
+        bodySegmentUUID = ops.fromRuleBodySegment(info.bodySegment).uuid.toString)
+    }.to[Seq].sorted
+
+    allReifiedRelationshipSourceInversePropertyPredicates = s.reifiedRelationshipSourceInversePropertyPredicates.map { p =>
+      val info = ops.fromReifiedRelationshipSourceInversePropertyPredicate(p)
+      oml.tables.ReifiedRelationshipSourceInversePropertyPredicate(
+        uuid = info.uuid.toString,
+        reifiedRelationshipUUID = ops.getTermUUID(info.predicate).toString,
+        bodySegmentUUID = ops.fromRuleBodySegment(info.bodySegment).uuid.toString)
+    }.to[Seq].sorted
+
+    allReifiedRelationshipTargetPropertyPredicates = s.reifiedRelationshipTargetPropertyPredicates.map { p =>
+      val info = ops.fromReifiedRelationshipTargetPropertyPredicate(p)
+      oml.tables.ReifiedRelationshipTargetPropertyPredicate(
+        uuid = info.uuid.toString,
+        reifiedRelationshipUUID = ops.getTermUUID(info.predicate).toString,
+        bodySegmentUUID = ops.fromRuleBodySegment(info.bodySegment).uuid.toString)
+    }.to[Seq].sorted
+
+    allReifiedRelationshipTargetInversePropertyPredicates = s.reifiedRelationshipTargetInversePropertyPredicates.map { p =>
+      val info = ops.fromReifiedRelationshipTargetInversePropertyPredicate(p)
+      oml.tables.ReifiedRelationshipTargetInversePropertyPredicate(
+        uuid = info.uuid.toString,
+        reifiedRelationshipUUID = ops.getTermUUID(info.predicate).toString,
+        bodySegmentUUID = ops.fromRuleBodySegment(info.bodySegment).uuid.toString)
+    }.to[Seq].sorted
+
+    allUnreifiedRelationshipPropertyPredicates = s.unreifiedRelationshipPropertyPredicates.map { p =>
+      val info = ops.fromUnreifiedRelationshipPropertyPredicate(p)
+      oml.tables.UnreifiedRelationshipPropertyPredicate(
+        uuid = info.uuid.toString,
+        unreifiedRelationshipUUID = ops.getTermUUID(info.predicate).toString,
+        bodySegmentUUID = ops.fromRuleBodySegment(info.bodySegment).uuid.toString)
+    }.to[Seq].sorted
+
+    allUnreifiedRelationshipInversePropertyPredicates = s.unreifiedRelationshipInversePropertyPredicates.map { p =>
+      val info = ops.fromUnreifiedRelationshipInversePropertyPredicate(p)
+      oml.tables.UnreifiedRelationshipInversePropertyPredicate(
+        uuid = info.uuid.toString,
+        unreifiedRelationshipUUID = ops.getTermUUID(info.predicate).toString,
+        bodySegmentUUID = ops.fromRuleBodySegment(info.bodySegment).uuid.toString)
+    }.to[Seq].sorted
+
     allAxioms = s.axioms.foldLeft(Axioms())(Axioms.combine(suuid, ops))
 
     tg = new oml.tables.TerminologyGraph(
@@ -386,6 +496,25 @@ object OMFTabularExportFromTerminologyGraph {
           allAxioms.entityScalarDataPropertyUniversalRestrictionAxioms.sorted,
         scalarOneOfLiteralAxioms =
           allAxioms.scalarOneOfLiteralAxioms.sorted,
+
+        chainRules = allChainRules,
+        ruleBodySegments = allRuleBodySegments,
+
+        aspectPredicates = allAspectPredicates,
+        conceptPredicates = allConceptPredicates,
+        reifiedRelationshipPredicates = allReifiedRelationshipPredicates,
+
+        reifiedRelationshipPropertyPredicates = allReifiedRelationshipPropertyPredicates,
+        reifiedRelationshipInversePropertyPredicates = allReifiedRelationshipInversePropertyPredicates,
+
+        reifiedRelationshipSourcePropertyPredicates = allReifiedRelationshipSourcePropertyPredicates,
+        reifiedRelationshipSourceInversePropertyPredicates = allReifiedRelationshipSourceInversePropertyPredicates,
+
+        reifiedRelationshipTargetPropertyPredicates = allReifiedRelationshipTargetPropertyPredicates,
+        reifiedRelationshipTargetInversePropertyPredicates = allReifiedRelationshipTargetInversePropertyPredicates,
+
+        unreifiedRelationshipPropertyPredicates = allUnreifiedRelationshipPropertyPredicates,
+        unreifiedRelationshipInversePropertyPredicates = allUnreifiedRelationshipInversePropertyPredicates,
 
         annotationProperties = s_ap.to[Seq].sortBy(_.uuid),
 

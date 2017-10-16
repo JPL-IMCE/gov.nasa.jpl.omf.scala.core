@@ -102,6 +102,24 @@ case class TerminologyBoxSignature[omf <: OMF, +S[A] <: scala.collection.Iterabl
   scalarDataProperties: S[omf#ScalarDataProperty],
   structuredDataProperties: S[omf#StructuredDataProperty],
 
+  chainRules: S[omf#ChainRule],
+  ruleBodySegments: S[omf#RuleBodySegment],
+  aspectPredicates: S[omf#AspectPredicate],
+  conceptPredicates: S[omf#ConceptPredicate],
+  reifiedRelationshipPredicates: S[omf#ReifiedRelationshipPredicate],
+
+  reifiedRelationshipPropertyPredicates: S[omf#ReifiedRelationshipPropertyPredicate],
+  reifiedRelationshipInversePropertyPredicates: S[omf#ReifiedRelationshipInversePropertyPredicate],
+
+  reifiedRelationshipSourcePropertyPredicates: S[omf#ReifiedRelationshipSourcePropertyPredicate],
+  reifiedRelationshipSourceInversePropertyPredicates: S[omf#ReifiedRelationshipSourceInversePropertyPredicate],
+
+  reifiedRelationshipTargetPropertyPredicates: S[omf#ReifiedRelationshipTargetPropertyPredicate],
+  reifiedRelationshipTargetInversePropertyPredicates: S[omf#ReifiedRelationshipTargetInversePropertyPredicate],
+
+  unreifiedRelationshipPropertyPredicates: S[omf#UnreifiedRelationshipPropertyPredicate],
+  unreifiedRelationshipInversePropertyPredicates: S[omf#UnreifiedRelationshipInversePropertyPredicate],
+
   axioms: S[omf#Axiom],
 
   rTAxioms: S[omf#RootConceptTaxonomyAxiom],
@@ -143,6 +161,7 @@ case class TerminologyBoxSignature[omf <: OMF, +S[A] <: scala.collection.Iterabl
       entityScalarDataProperties ++
       entityStructuredDataProperties ++
       scalarDataProperties ++
-      structuredDataProperties
+      structuredDataProperties ++
+      chainRules
 
 }
