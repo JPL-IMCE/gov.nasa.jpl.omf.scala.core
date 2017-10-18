@@ -1897,6 +1897,12 @@ trait MutableTerminologyGraphOps[omf <: OMF]
     ax <- addStructuredDataProperty(graph, uuid, iri, source, target, dataPropertyName)
   } yield ax
 
+  def makeChainRule
+  (graph: omf#MutableTerminologyBox,
+   rule: omf#ChainRule)
+  (implicit store: omf#Store)
+  : Throwables \/ Unit
+
   protected def addChainRule
   (graph: omf#MutableTerminologyBox,
    uuid: UUID,

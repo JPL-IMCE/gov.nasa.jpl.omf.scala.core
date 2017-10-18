@@ -3,3 +3,5 @@ gov.nasa.jpl.omf.scala.core 9.0.0 is a major update
 ## Issues Resolved
 
 - [#9 Update for OML Conversions](https://github.com/JPL-IMCE/gov.nasa.jpl.omf.scala.core/issues/9)
+
+- [#10 Add factory method for ChainRules](https://github.com/JPL-IMCE/gov.nasa.jpl.omf.scala.core/issues/10)
