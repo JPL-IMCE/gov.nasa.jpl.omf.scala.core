@@ -1944,7 +1944,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
         case None =>
           previousSegment match {
             case Some(ps) =>
-              fromRuleBodySegment(ps).position.toString.right
+              fromRuleBodySegment(ps).uuid.toString.right
             case None =>
               Set[java.lang.Throwable](
                 OMFError.omfError(
@@ -1954,7 +1954,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
       }
       ps = previousSegment match {
         case Some(seg) =>
-          fromRuleBodySegment(seg).position.toString
+          (1 + fromRuleBodySegment(seg).position).toString
         case None =>
           "1"
       }
