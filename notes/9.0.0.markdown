@@ -7,3 +7,5 @@ gov.nasa.jpl.omf.scala.core 9.0.0 is a major update
 - [#10 Add factory method for ChainRules](https://github.com/JPL-IMCE/gov.nasa.jpl.omf.scala.core/issues/10)
 
 - [#11 Fix RuleBodySegment UUID calculation](https://github.com/JPL-IMCE/gov.nasa.jpl.omf.scala.core/issues/11)
+
+- [#12 Add missing API to lookup the chain rule of a rule body segment](https://github.com/JPL-IMCE/gov.nasa.jpl.omf.scala.core/issues/12)
