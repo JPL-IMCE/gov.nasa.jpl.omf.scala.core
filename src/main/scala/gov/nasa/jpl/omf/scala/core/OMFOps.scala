@@ -1077,6 +1077,10 @@ trait ImmutableTerminologyGraphOps[omf <: OMF] { self: OMFStoreOps[omf] with IRI
   (ax: omf#ChainRule)
   : ChainRuleSignature[omf]
 
+  def getChainRule
+  (ax: omf#RuleBodySegment)
+  : Throwables \/ omf#ChainRule
+
   def fromRuleBodySegment
   (ax: omf#RuleBodySegment)
   : RuleBodySegmentSignature[omf]
