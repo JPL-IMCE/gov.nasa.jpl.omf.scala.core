@@ -102,6 +102,9 @@ case class TerminologyBoxSignature[omf <: OMF, +S[A] <: scala.collection.Iterabl
   scalarDataProperties: S[omf#ScalarDataProperty],
   structuredDataProperties: S[omf#StructuredDataProperty],
 
+  restrictionStructuredDataPropertyTuples: S[omf#RestrictionStructuredDataPropertyTuple],
+  restrictionScalarDataPropertyValues: S[omf#RestrictionScalarDataPropertyValue],
+
   chainRules: S[omf#ChainRule],
   ruleBodySegments: S[omf#RuleBodySegment],
   aspectPredicates: S[omf#AspectPredicate],

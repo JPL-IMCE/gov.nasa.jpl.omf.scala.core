@@ -1009,6 +1009,18 @@ trait ImmutableTerminologyGraphOps[omf <: OMF] { self: OMFStoreOps[omf] with IRI
   (ax: omf#EntityScalarDataPropertyUniversalRestrictionAxiom)
   : EntityScalarDataPropertyQuantifiedRestrictionSignature[omf]
 
+  def fromEntityStructuredDataPropertyParticularRestrictionAxiom
+  (ax: omf#EntityStructuredDataPropertyParticularRestrictionAxiom)
+  : EntityStructuredDataPropertyParticularRestrictionSignature[omf]
+
+  def fromRestrictionStructuredDataPropertyTuple
+  (ax: omf#RestrictionStructuredDataPropertyTuple)
+  : RestrictionStructuredDataPropertyTupleSignature[omf]
+
+  def fromRestrictionScalarDataPropertyValue
+  (ax: omf#RestrictionScalarDataPropertyValue)
+  : RestrictionScalarDataPropertyValueSignature[omf]
+
   def fromScalarOneOfLiteralAxiom
   (ax: omf#ScalarOneOfLiteralAxiom)
   : ScalarOneOfLiteralSignature[omf]
@@ -2625,6 +2637,101 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   = for {
     uuid <- entityScalarDataPropertyParticularRestrictionAxiomUUID(graph, restrictedEntity, scalarProperty)
     ax <- addEntityScalarDataPropertyParticularRestrictionAxiom(graph, uuid, restrictedEntity, scalarProperty, literalValue, valueType)
+  } yield ax
+  
+  protected def addEntityStructuredDataPropertyParticularRestrictionAxiom
+  (graph: omf#MutableTerminologyBox,
+   uuid: UUID,
+   restrictedEntity: omf#Entity,
+   structuredProperty: omf#EntityStructuredDataProperty)
+  (implicit store: omf#Store)
+  : Throwables \/ omf#EntityStructuredDataPropertyParticularRestrictionAxiom
+
+  def entityStructuredDataPropertyParticularRestrictionAxiomUUID
+  (graph: omf#MutableTerminologyBox,
+   restrictedEntity: omf#Entity,
+   structuredProperty: omf#EntityStructuredDataProperty)
+  (implicit store: omf#Store)
+  : Throwables \/ UUID
+  = generateUUID(
+    "EntityStructuredDataPropertyParticularRestrictionAxiom",
+    "tbox" -> getModuleUUID(graph).toString,
+    "restrictedEntity" -> getTermUUID(restrictedEntity).toString,
+    "structuredDataProperty" -> getTermUUID(structuredProperty).toString).right
+
+  final def addEntityStructuredDataPropertyParticularRestrictionAxiom
+  (graph: omf#MutableTerminologyBox,
+   restrictedEntity: omf#Entity,
+   structuredProperty: omf#EntityStructuredDataProperty)
+  (implicit store: omf#Store)
+  : Throwables \/ omf#EntityStructuredDataPropertyParticularRestrictionAxiom
+  = for {
+    uuid <- entityStructuredDataPropertyParticularRestrictionAxiomUUID(graph, restrictedEntity, structuredProperty)
+    ax <- addEntityStructuredDataPropertyParticularRestrictionAxiom(graph, uuid, restrictedEntity, structuredProperty)
+  } yield ax
+
+  protected def addRestrictionStructuredDataPropertyTuple
+  (graph: omf#MutableTerminologyBox,
+   uuid: UUID,
+   structuredDataPropertyContext: omf#RestrictionStructuredDataPropertyContext,
+   structuredProperty: omf#DataRelationshipToStructure)
+  (implicit store: omf#Store)
+  : Throwables \/ omf#RestrictionStructuredDataPropertyTuple
+
+  def restrictionStructuredDataPropertyTupleUUID
+  (graph: omf#MutableTerminologyBox,
+   structuredDataPropertyContext: omf#RestrictionStructuredDataPropertyContext,
+   structuredProperty: omf#DataRelationshipToStructure)
+  (implicit store: omf#Store)
+  : Throwables \/ UUID
+  = generateUUID(
+    "RestrictionStructuredDataPropertyTuple",
+    "structuredDataPropertyContext" -> getElementUUID(structuredDataPropertyContext).toString,
+    "structuredDataProperty" -> getTermUUID(structuredProperty).toString).right
+
+  final def addRestrictionStructuredDataPropertyTuple
+  (graph: omf#MutableTerminologyBox,
+   structuredDataPropertyContext: omf#RestrictionStructuredDataPropertyContext,
+   structuredProperty: omf#DataRelationshipToStructure)
+  (implicit store: omf#Store)
+  : Throwables \/ omf#RestrictionStructuredDataPropertyTuple
+  = for {
+    uuid <- restrictionStructuredDataPropertyTupleUUID(graph, structuredDataPropertyContext, structuredProperty)
+    ax <- addRestrictionStructuredDataPropertyTuple(graph, uuid, structuredDataPropertyContext, structuredProperty)
+  } yield ax
+
+  protected def addRestrictionScalarDataPropertyValue
+  (graph: omf#MutableTerminologyBox,
+   uuid: UUID,
+   structuredDataPropertyContext: omf#RestrictionStructuredDataPropertyContext,
+   scalarProperty: omf#DataRelationshipToScalar,
+   literalValue: LiteralValue,
+   valueType: Option[omf#DataRange])
+  (implicit store: omf#Store)
+  : Throwables \/ omf#RestrictionScalarDataPropertyValue
+
+  def restrictionScalarDataPropertyValueUUID
+  (graph: omf#MutableTerminologyBox,
+   structuredDataPropertyContext: omf#RestrictionStructuredDataPropertyContext,
+   scalarProperty: omf#DataRelationshipToScalar)
+  (implicit store: omf#Store)
+  : Throwables \/ UUID
+  = generateUUID(
+    "RestrictionScalarDataPropertyValue",
+    "structuredDataPropertyContext" -> getElementUUID(structuredDataPropertyContext).toString,
+    "scalarProperty" -> getTermUUID(scalarProperty).toString).right
+
+  final def addRestrictionScalarDataPropertyValue
+  (graph: omf#MutableTerminologyBox,
+   structuredDataPropertyContext: omf#RestrictionStructuredDataPropertyContext,
+   scalarProperty: omf#DataRelationshipToScalar,
+   literalValue: LiteralValue,
+   valueType: Option[omf#DataRange])
+  (implicit store: omf#Store)
+  : Throwables \/ omf#RestrictionScalarDataPropertyValue
+  = for {
+    uuid <- restrictionScalarDataPropertyValueUUID(graph, structuredDataPropertyContext, scalarProperty)
+    ax <- addRestrictionScalarDataPropertyValue(graph, uuid, structuredDataPropertyContext, scalarProperty, literalValue, valueType)
   } yield ax
 
   /**

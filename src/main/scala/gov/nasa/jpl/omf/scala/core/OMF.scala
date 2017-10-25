@@ -345,6 +345,17 @@ trait OMFtbox extends OMFcbox {
   type EntityScalarDataPropertyParticularRestrictionAxiom <: EntityScalarDataPropertyRestrictionAxiom
   type EntityScalarDataPropertyUniversalRestrictionAxiom <: EntityScalarDataPropertyRestrictionAxiom
 
+  type EntityStructuredDataPropertyRestrictionAxiom <: TermAxiom
+
+  type RestrictionStructuredDataPropertyContext <: ModuleElement
+
+  type EntityStructuredDataPropertyParticularRestrictionAxiom <:
+    EntityStructuredDataPropertyRestrictionAxiom with RestrictionStructuredDataPropertyContext
+
+  type RestrictionStructuredDataPropertyTuple <: RestrictionStructuredDataPropertyContext
+
+  type RestrictionScalarDataPropertyValue <: Element
+
   type SpecializationAxiom <: TermAxiom
 
   /**
