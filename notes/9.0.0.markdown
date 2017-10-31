@@ -11,3 +11,5 @@ gov.nasa.jpl.omf.scala.core 9.0.0 is a major update
 - [#12 Add missing API to lookup the chain rule of a rule body segment](https://github.com/JPL-IMCE/gov.nasa.jpl.omf.scala.core/issues/12)
 
 - [#13 Add support for EntityStructuredDataPropertyParticularRestrictionAxiom](https://github.com/JPL-IMCE/gov.nasa.jpl.omf.scala.core/issues/13)
+
+- [#14 Incorrect sorting of AnnotationProperties & AnnotationPropertyValues](https://github.com/JPL-IMCE/gov.nasa.jpl.omf.scala.core/issues/14)

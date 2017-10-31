@@ -516,9 +516,9 @@ object OMFTabularExportFromTerminologyGraph {
         unreifiedRelationshipPropertyPredicates = allUnreifiedRelationshipPropertyPredicates,
         unreifiedRelationshipInversePropertyPredicates = allUnreifiedRelationshipInversePropertyPredicates,
 
-        annotationProperties = s_ap.to[Seq].sortBy(_.uuid),
+        annotationProperties = s_ap.to[Seq].sorted,
 
-        annotationPropertyValues = s.annotationPropertyValues.to[Seq].sortBy(_.subjectUUID)
+        annotationPropertyValues = s.annotationPropertyValues.to[Seq].sorted
       )
 
   } yield im2st :+ (tbox -> table)
