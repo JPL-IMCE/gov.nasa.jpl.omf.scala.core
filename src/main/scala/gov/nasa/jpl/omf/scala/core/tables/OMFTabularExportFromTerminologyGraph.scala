@@ -244,6 +244,17 @@ object OMFTabularExportFromTerminologyGraph {
         restrictedRangeUUID = ops.getTermUUID(info.restrictedRange).toString)
     }.to[Seq].sorted
 
+    allScalarOneOfLiteralAxioms = s.scalarOneOfLiterals.map { ax =>
+      val info = ops.fromScalarOneOfLiteralAxiom(ax)
+      oml.tables.ScalarOneOfLiteralAxiom(
+        tboxUUID = suuid,
+        uuid = info.uuid.toString,
+        axiomUUID = ops.getTermUUID(info.restriction).toString,
+        value = info.value,
+        valueTypeUUID = info.valueType.map(ops.getTermUUID(_).toString)
+      )
+    }.to[Seq].sorted
+
     allStringScalarRestrictions = s.stringScalarRestrictions.map { dr =>
       val info = ops.fromStringScalarRestriction(dr)
       oml.tables.StringScalarRestriction(
@@ -495,7 +506,7 @@ object OMFTabularExportFromTerminologyGraph {
         entityScalarDataPropertyUniversalRestrictionAxioms =
           allAxioms.entityScalarDataPropertyUniversalRestrictionAxioms.sorted,
         scalarOneOfLiteralAxioms =
-          allAxioms.scalarOneOfLiteralAxioms.sorted,
+          allScalarOneOfLiteralAxioms,
 
         chainRules = allChainRules,
         ruleBodySegments = allRuleBodySegments,
