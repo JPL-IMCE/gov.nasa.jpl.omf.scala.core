@@ -111,9 +111,14 @@ abstract class OMFVocabularyMutabilityTest[omf <: OMF]
         integer = lookupDataRange(xsd, int_iri, recursively = false)
         string_iri <- makeIRI("http://www.w3.org/2001/XMLSchema#string")
         string = lookupDataRange(xsd, string_iri, recursively = false)
+
+        oml_iri <- makeIRI("http://imce.jpl.nasa.gov/oml/oml")
+        oml_table <- loadTerminology(table1, oml_iri)
+        (oml, table2) = oml_table
+
         base_iri <- makeIRI("http://imce.jpl.nasa.gov/test/mutability/foundation/base/base")
         base <- makeTerminologyGraph(base_iri, isOpenWorld)
-        base_extends_xsd <- addTerminologyExtension(base, xsd)
+        base_extends_xsd <- addTerminologyExtension(base, oml)
         identifiedElement <- addAspect(base, LocalName("IdentifiedElement"))
         hasIdentifier = addEntityScalarDataProperty(
           graph = base,
@@ -151,6 +156,8 @@ abstract class OMFVocabularyMutabilityTest[omf <: OMF]
         message_extends_item <- addConceptSpecializationAxiom(mission, message, item)
 
         materialItem_extends_item <- addConceptSpecializationAxiom(mission, materialItem, item)
+
+        omlSaved <- saveTerminology(oml)
 
         baseSaved <- saveTerminology(base)
 
@@ -193,7 +200,7 @@ abstract class OMFVocabularyMutabilityTest[omf <: OMF]
       } yield {
         val s = ops.fromImmutableTerminology(base)
         s.importedTerminologies.isEmpty should be(false)
-        s.importedTerminologies.contains(xsd) should be(true)
+        s.importedTerminologies.contains(xsd) should be(false)
         s.aspects.isEmpty should be(false)
         s.concepts.isEmpty should be(true)
         s.reifiedRelationships.isEmpty should be(true)
