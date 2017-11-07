@@ -22,11 +22,13 @@ import gov.nasa.jpl.omf.scala.core.OMFError.Throwables
 import gov.nasa.jpl.omf.scala.core.{Mutable2ImmutableModuleTable, OMF, OMFOps}
 import gov.nasa.jpl.omf.scala.core.OMLString.{LocalName, Pattern}
 import gov.nasa.jpl.imce.oml.tables
+import gov.nasa.jpl.imce.oml.tables.AnnotationProperty
 import gov.nasa.jpl.imce.oml.uuid.JVMUUIDGenerator
 
-import scala.collection.immutable.{Iterable, Set}
+import scala.collection.immutable.{Iterable, Seq, Set}
 import scala.{Boolean, None, Option, Some}
-import scalaz.\/
+import scalaz._
+import Scalaz._
 
 object BuiltInDatatypeMaps {
 
@@ -368,6 +370,8 @@ object BuiltInDatatypeMaps {
   = {
     import ops._
 
+    val uuidGen = JVMUUIDGenerator()
+
     for {
       xsd_iri <- makeIRI("http://www.w3.org/2001/XMLSchema")
       xsd_mgraph <- makeW3CTerminologyGraphDefinition(xsd_iri)
@@ -629,6 +633,10 @@ object BuiltInDatatypeMaps {
       rdf_mgraph <- makeW3CTerminologyGraphDefinition(rdf_iri)
       _ <- addTerminologyExtension(rdf_mgraph, xsd_mgraph)
 
+      about <- addTerminologyAnnotationProperty(
+        rdf_mgraph,
+        new AnnotationProperty(uuidGen, "http://www.w3.org/1999/02/22-rdf-syntax-ns#about", "rdf:about"))
+
       // @see http://www.w3.org/TR/rdf11-concepts/#section-html
       // rdf:HTML
 
@@ -654,8 +662,6 @@ object BuiltInDatatypeMaps {
         owl_mgraph, LocalName("rational"), owl_real,
         pattern=Some(Pattern("[\\-+]?[0-9]+/[1-9][0-9]*")))
       dcr43 = dcr42.withNumeric(owl_rational)
-
-      uuidGen = JVMUUIDGenerator()
 
       _ <- addTerminologyAnnotationProperty(
         owl_mgraph,
@@ -718,11 +724,42 @@ object BuiltInDatatypeMaps {
 
       _ <- addTerminologyExtension(owl_mgraph, rdfs_mgraph)
 
+      dc_iri <- makeIRI("http://purl.org/dc/elements/1.1/")
+      dc_mgraph <- makeW3CTerminologyGraphDefinition(dc_iri)
+
+      _ <- Seq(
+        "contributor",
+        "coverage",
+        "creator",
+        "date",
+        "description",
+        "format",
+        "identifier",
+        "language",
+        "publisher",
+        "relation",
+        "rights",
+        "source",
+        "subject",
+        "title",
+        "type").foldLeft(().right[Throwables]) { case (acc, name) =>
+        acc.flatMap { _ =>
+          addTerminologyAnnotationProperty(
+            dc_mgraph,
+            new tables.AnnotationProperty(
+              uuidGen,
+              abbrevIRI = "dc:" + name,
+              iri = "http://purl.org/dc/elements/1.1/" + name))
+            .map(_ => ())
+        }
+      }
+
       dcr = dcr43
         .withBuiltInImport(owl_mgraph)
         .withBuiltInDatatypeModule(rdf_mgraph)
         .withBuiltInDatatypeModule(xsd_mgraph)
         .withBuiltInDatatypeModule(rdfs_mgraph)
+        .withBuiltInDatatypeModule(dc_mgraph)
 
     } yield dcr
   }
