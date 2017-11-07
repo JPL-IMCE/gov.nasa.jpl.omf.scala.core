@@ -13,3 +13,7 @@ gov.nasa.jpl.omf.scala.core 9.0.0 is a major update
 - [#13 Add support for EntityStructuredDataPropertyParticularRestrictionAxiom](https://github.com/JPL-IMCE/gov.nasa.jpl.omf.scala.core/issues/13)
 
 - [#14 Incorrect sorting of AnnotationProperties & AnnotationPropertyValues](https://github.com/JPL-IMCE/gov.nasa.jpl.omf.scala.core/issues/14)
+
+- [#15 Missing built-in vocabulary](https://github.com/JPL-IMCE/gov.nasa.jpl.omf.scala.core/issues/15)
+
+- [#16 Incorrect conversion to OML Tables for OML ScalarOneOfLiteralAxioms](https://github.com/JPL-IMCE/gov.nasa.jpl.omf.scala.core/issues/16)
