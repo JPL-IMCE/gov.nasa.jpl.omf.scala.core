@@ -960,6 +960,8 @@ trait ImmutableTerminologyGraphOps[omf <: OMF] { self: OMFStoreOps[omf] with IRI
    : omf#EntityScalarDataPropertyParticularRestrictionAxiom => T,
    funEntityScalarDataPropertyUniversalRestrictionAxiom
    : omf#EntityScalarDataPropertyUniversalRestrictionAxiom => T,
+   funEntityStructuredDataPropertyParticularRestrictionAxiom
+   : omf#EntityStructuredDataPropertyParticularRestrictionAxiom => T,
    funScalarOneOfLiteralAxiom
    : omf#ScalarOneOfLiteralAxiom => T)
   (t: omf#Axiom)

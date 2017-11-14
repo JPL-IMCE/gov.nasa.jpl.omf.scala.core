@@ -19,3 +19,5 @@ gov.nasa.jpl.omf.scala.core 9.0.0 is a major update
 - [#16 Incorrect conversion to OML Tables for OML ScalarOneOfLiteralAxioms](https://github.com/JPL-IMCE/gov.nasa.jpl.omf.scala.core/issues/16)
 
 - [#17 Update vocabulary unit tests due to builtin vocabulary behavior changes](https://github.com/JPL-IMCE/gov.nasa.jpl.omf.scala.core/issues/17)
+
+- [#19 Missing entityStructuredDataPropertyParticularRestrictionAxioms in Axioms table](https://github.com/JPL-IMCE/gov.nasa.jpl.omf.scala.core/issues/19)

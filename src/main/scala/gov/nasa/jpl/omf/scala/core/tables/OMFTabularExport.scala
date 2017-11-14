@@ -27,18 +27,30 @@ import scala.Predef.String
 import scalaz._, Scalaz._
 
 case class Axioms
-( aspectSpecializationAxioms : Seq[oml.tables.AspectSpecializationAxiom] = Seq.empty,
-  conceptSpecializationAxioms : Seq[oml.tables.ConceptSpecializationAxiom] = Seq.empty,
-  reifiedRelationshipSpecializationAxioms : Seq[oml.tables.ReifiedRelationshipSpecializationAxiom] = Seq.empty,
+( aspectSpecializationAxioms
+  : Seq[oml.tables.AspectSpecializationAxiom] = Seq.empty,
+  conceptSpecializationAxioms
+  : Seq[oml.tables.ConceptSpecializationAxiom] = Seq.empty,
+  reifiedRelationshipSpecializationAxioms
+  : Seq[oml.tables.ReifiedRelationshipSpecializationAxiom] = Seq.empty,
 
-  entityExistentialRestrictionAxioms : Seq[oml.tables.EntityExistentialRestrictionAxiom] = Seq.empty,
-  entityUniversalRestrictionAxioms : Seq[oml.tables.EntityUniversalRestrictionAxiom] = Seq.empty,
+  entityExistentialRestrictionAxioms
+  : Seq[oml.tables.EntityExistentialRestrictionAxiom] = Seq.empty,
+  entityUniversalRestrictionAxioms
+  : Seq[oml.tables.EntityUniversalRestrictionAxiom] = Seq.empty,
 
-  entityScalarDataPropertyExistentialRestrictionAxioms : Seq[oml.tables.EntityScalarDataPropertyExistentialRestrictionAxiom] = Seq.empty,
-  entityScalarDataPropertyParticularRestrictionAxioms : Seq[oml.tables.EntityScalarDataPropertyParticularRestrictionAxiom] = Seq.empty,
-  entityScalarDataPropertyUniversalRestrictionAxioms : Seq[oml.tables.EntityScalarDataPropertyUniversalRestrictionAxiom] = Seq.empty,
+  entityScalarDataPropertyExistentialRestrictionAxioms
+  : Seq[oml.tables.EntityScalarDataPropertyExistentialRestrictionAxiom] = Seq.empty,
+  entityScalarDataPropertyParticularRestrictionAxioms
+  : Seq[oml.tables.EntityScalarDataPropertyParticularRestrictionAxiom] = Seq.empty,
+  entityScalarDataPropertyUniversalRestrictionAxioms
+  : Seq[oml.tables.EntityScalarDataPropertyUniversalRestrictionAxiom] = Seq.empty,
 
-  scalarOneOfLiteralAxioms : Seq[oml.tables.ScalarOneOfLiteralAxiom] = Seq.empty )
+  entityStructuredDataPropertyParticularRestrictionAxioms
+  : Seq[oml.tables.EntityStructuredDataPropertyParticularRestrictionAxiom] = Seq.empty,
+
+  scalarOneOfLiteralAxioms
+  : Seq[oml.tables.ScalarOneOfLiteralAxiom] = Seq.empty )
 
 object Axioms {
 
@@ -64,6 +76,9 @@ object Axioms {
       a1.entityScalarDataPropertyParticularRestrictionAxioms ++ a2.entityScalarDataPropertyParticularRestrictionAxioms,
     entityScalarDataPropertyUniversalRestrictionAxioms =
       a1.entityScalarDataPropertyUniversalRestrictionAxioms ++ a2.entityScalarDataPropertyUniversalRestrictionAxioms,
+
+    entityStructuredDataPropertyParticularRestrictionAxioms =
+      a1.entityStructuredDataPropertyParticularRestrictionAxioms ++ a2.entityStructuredDataPropertyParticularRestrictionAxioms,
 
     scalarOneOfLiteralAxioms =
       a1.scalarOneOfLiteralAxioms ++ a2.scalarOneOfLiteralAxioms
@@ -187,6 +202,20 @@ object Axioms {
         scalarRestrictionUUID = ops.getTermUUID(info.restrictedRange).toString))
   }
 
+  def funEntityStructuredDataPropertyParticularRestrictionAxiom[omf <: OMF]
+  (guuid: String, ops: OMFOps[omf], acc: Axioms)
+  (ax: omf#EntityStructuredDataPropertyParticularRestrictionAxiom)
+  : Axioms
+  = {
+    val info = ops.fromEntityStructuredDataPropertyParticularRestrictionAxiom(ax)
+    acc.copy(entityStructuredDataPropertyParticularRestrictionAxioms = acc.entityStructuredDataPropertyParticularRestrictionAxioms :+
+      oml.tables.EntityStructuredDataPropertyParticularRestrictionAxiom(
+        tboxUUID = guuid,
+        uuid = info.uuid.toString,
+        restrictedEntityUUID = ops.getTermUUID(info.restrictedEntity).toString,
+        structuredDataPropertyUUID = ops.getTermUUID(info.structuredDataProperty).toString))
+  }
+
   def funScalarOneOfLiteralAxiom[omf <: OMF]
   (guuid: String, ops: OMFOps[omf], acc: Axioms)
   (ax: omf#ScalarOneOfLiteralAxiom)
@@ -224,6 +253,8 @@ object Axioms {
       Axioms.funEntityScalarDataPropertyParticularRestrictionAxiom(guuid, ops, acc),
     funEntityScalarDataPropertyUniversalRestrictionAxiom =
       Axioms.funEntityScalarDataPropertyUniversalRestrictionAxiom(guuid, ops, acc),
+    funEntityStructuredDataPropertyParticularRestrictionAxiom =
+      Axioms.funEntityStructuredDataPropertyParticularRestrictionAxiom(guuid, ops, acc),
     funScalarOneOfLiteralAxiom =
       Axioms.funScalarOneOfLiteralAxiom(guuid, ops, acc)
   )(ax)

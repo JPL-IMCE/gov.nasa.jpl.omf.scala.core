@@ -383,6 +383,7 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF]
               else
                 None,
             funEntityScalarDataPropertyUniversalRestrictionAxiom = _ => None,
+            funEntityStructuredDataPropertyParticularRestrictionAxiom = _ => None,
             funScalarOneOfLiteralAxiom = _ => None
           )(ax)
         }
@@ -403,6 +404,7 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF]
                 else
                   None,
             funEntityScalarDataPropertyUniversalRestrictionAxiom = _ => None,
+            funEntityStructuredDataPropertyParticularRestrictionAxiom = _ => None,
             funScalarOneOfLiteralAxiom = _ => None
           )(ax)
         }
