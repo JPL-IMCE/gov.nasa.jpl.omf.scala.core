@@ -18,14 +18,13 @@
 
 package gov.nasa.jpl.omf.scala.core
 
-import java.util.UUID
-
-import gov.nasa.jpl.imce.oml.tables.{LiteralNumber,LocalName}
+import gov.nasa.jpl.imce.oml.resolver
+import gov.nasa.jpl.imce.oml.tables.{taggedTypes,LiteralNumber}
 import scala.Option
 
 case class NumericScalarRestrictionSignature[omf <: OMF]
-( uuid: UUID,
-  name: LocalName,
+( uuid: resolver.api.taggedTypes.NumericScalarRestrictionUUID,
+  name: taggedTypes.LocalName,
   iri: omf#IRI,
   minInclusive: Option[LiteralNumber],
   maxInclusive: Option[LiteralNumber],

@@ -18,13 +18,12 @@
 
 package gov.nasa.jpl.omf.scala.core
 
-import java.util.UUID
-
-import gov.nasa.jpl.imce.oml.tables.LocalName
+import gov.nasa.jpl.imce.oml.resolver
+import gov.nasa.jpl.imce.oml.tables.taggedTypes
 
 case class AnonymousConceptUnionSignature[omf <: OMF]
-( uuid: UUID,
-  name: LocalName,
+( uuid: resolver.api.taggedTypes.AnonymousConceptUnionAxiomUUID,
+  name: taggedTypes.LocalName,
   bundle: omf#Bundle,
   disjointTaxonomyParent: omf#ConceptTreeDisjunction
 )

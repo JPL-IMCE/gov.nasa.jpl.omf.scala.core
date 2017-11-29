@@ -18,14 +18,13 @@
 
 package gov.nasa.jpl.omf.scala.core
 
-import java.util.UUID
-
-import gov.nasa.jpl.imce.oml.tables.LocalName
+import gov.nasa.jpl.imce.oml.resolver
+import gov.nasa.jpl.imce.oml.tables.taggedTypes
 import scala.Boolean
 
 case class EntityScalarDataPropertySignature[omf <: OMF]
-( uuid: UUID,
-  name: LocalName,
+( uuid: resolver.api.taggedTypes.EntityScalarDataPropertyUUID,
+  name: taggedTypes.LocalName,
   iri: omf#IRI,
   domain: omf#Entity,
   range: omf#DataRange,

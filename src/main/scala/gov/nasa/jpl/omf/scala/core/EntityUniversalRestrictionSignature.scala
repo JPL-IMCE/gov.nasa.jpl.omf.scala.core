@@ -19,12 +19,10 @@
 package gov.nasa.jpl.omf.scala.core
 
 import gov.nasa.jpl.imce.oml.resolver
-import gov.nasa.jpl.imce.oml.tables.LiteralValue
-import scala.Option
 
-case class ScalarDataPropertyValueSignature[omf <: OMF]
-(uuid: resolver.api.taggedTypes.ScalarDataPropertyValueUUID,
- singletonInstanceStructuredDataPropertyContext: omf#SingletonInstanceStructuredDataPropertyContext,
- scalarDataProperty: omf#DataRelationshipToScalar,
- scalarPropertyValue: LiteralValue,
- valueType: Option[omf#DataRange])
+case class EntityUniversalRestrictionSignature[omf <: OMF]
+( uuid: resolver.api.taggedTypes.EntityUniversalRestrictionAxiomUUID,
+  domain: omf#Entity,
+  restrictedRelation: omf#EntityRelationship,
+  range: omf#Entity
+)

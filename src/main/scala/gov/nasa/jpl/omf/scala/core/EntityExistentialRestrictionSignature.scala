@@ -18,13 +18,11 @@
 
 package gov.nasa.jpl.omf.scala.core
 
-import java.util.UUID
-import scala.Boolean
+import gov.nasa.jpl.imce.oml.resolver
 
-case class EntityScalarDataPropertyQuantifiedRestrictionSignature[omf <: OMF]
-( uuid: UUID,
-  restrictedEntity: omf#Entity,
-  scalarDataProperty: omf#EntityScalarDataProperty,
-  restrictedRange: omf#DataRange,
-  isExistential: Boolean
+case class EntityExistentialRestrictionSignature[omf <: OMF]
+( uuid: resolver.api.taggedTypes.EntityExistentialRestrictionAxiomUUID,
+  domain: omf#Entity,
+  restrictedRelation: omf#EntityRelationship,
+  range: omf#Entity
 )

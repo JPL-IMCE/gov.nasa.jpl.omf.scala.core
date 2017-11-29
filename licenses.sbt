@@ -2,13 +2,12 @@
 import com.typesafe.sbt.license.{LicenseInfo, DepModuleInfo}
 
 import de.heikoseeberger.sbtheader.HeaderPlugin
-import de.heikoseeberger.sbtheader.HeaderPattern
-import de.heikoseeberger.sbtheader.license.CommentBlock
+import de.heikoseeberger.sbtheader.CommentStyle
 import scala.util.matching.Regex
 
 licenses in GlobalScope += "Apache-2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0.html")
 
-val oti_mof_schema_license =
+val license =
   s"""|Copyright 2015 California Institute of Technology ("Caltech").
       |U.S. Government sponsorship acknowledged.
       |
@@ -28,7 +27,10 @@ val oti_mof_schema_license =
 
 startYear := Some(2015)
 
-headers := Map("scala" -> (HeaderPattern.cStyleBlockComment, CommentBlock.cStyle(oti_mof_schema_license)))
+headerLicense := Some(HeaderLicense.ALv2("2015", license))
+
+headerMappings := headerMappings.value +
+  (HeaderFileType.scala -> CommentStyle.CStyleBlockComment)
 
 licenseReportTitle := "LicenseReportOfAggregatedSBTPluginsAndLibraries"
 

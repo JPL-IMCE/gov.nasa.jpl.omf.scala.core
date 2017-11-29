@@ -18,9 +18,8 @@
 
 package gov.nasa.jpl.omf.scala.core
 
-import java.util.UUID
-
-import gov.nasa.jpl.imce.oml.tables.{AnnotationProperty, AnnotationPropertyValue, LocalName}
+import gov.nasa.jpl.imce.oml.resolver
+import gov.nasa.jpl.imce.oml.tables.{taggedTypes, AnnotationProperty, AnnotationPropertyValue}
 
 import scala.collection.immutable.Set
 import scala.Boolean
@@ -68,8 +67,8 @@ import scala.Boolean
   */
 case class TerminologyBoxSignature[omf <: OMF, +S[A] <: scala.collection.Iterable[A]]
 ( isBundle: Boolean,
-  override val uuid: UUID,
-  override val name: LocalName,
+  override val uuid: resolver.api.taggedTypes.TerminologyBoxUUID,
+  override val name: taggedTypes.LocalName,
 
   override val iri: omf#IRI,
   kind: TerminologyKind,

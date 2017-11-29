@@ -24,7 +24,7 @@ import gov.nasa.jpl.imce.oml.tables.AnnotationProperty
 
 import scala.{Int,Ordering,None,Some}
 import scala.collection.immutable._
-import scala.Predef.String
+import scala.Predef.{ArrowAssoc,String}
 
 package object core {
 
@@ -68,13 +68,21 @@ package object core {
     * @param factors key/value pairs that will be added to prefix to form the complete namespace
     * @return Version 5 UUID encoding of the namespace constructed from the prefix and key/value pairs
     */
-  def generateUUID(namespace: String, factors: (String,_ <: String)*)
+  def generateUUIDFromString(namespace: String, factors: (String,_ <: String)*)
   : UUID
   = uuidG.namespaceUUID(namespace, factors : _*)
 
-  def generateUUID(parentUUID: UUID, factors: (String,_ <: String)*)
+  def generateUUIDFromUUID(parentUUID: String, factors: (String,_ <: UUID)*)
   : UUID
-  = generateUUID(parentUUID.toString, factors : _*)
+  = generateUUIDFromString(parentUUID, factors.map(f => f._1 -> f._2.toString) : _*)
+
+  def generateUUIDFromString(parentUUID: UUID, factors: (String,_ <: String)*)
+  : UUID
+  = generateUUIDFromString(parentUUID.toString, factors : _*)
+
+  def generateUUIDFromUUID(parentUUID: UUID, factors: (String,_ <: UUID)*)
+  : UUID
+  = generateUUIDFromString(parentUUID.toString, factors.map(f => f._1 -> f._2.toString) : _*)
 
   def importedTerminologies[omf <: OMF]
   (m: omf#Module)

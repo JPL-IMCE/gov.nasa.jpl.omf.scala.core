@@ -18,13 +18,12 @@
 
 package gov.nasa.jpl.omf.scala.core
 
-import java.util.UUID
-
+import gov.nasa.jpl.imce.oml.resolver
 import gov.nasa.jpl.imce.oml.tables.LiteralValue
 import scala.Option
 
 case class EntityScalarDataPropertyParticularRestrictionSignature[omf <: OMF]
-( uuid: UUID,
+( uuid: resolver.api.taggedTypes.EntityScalarDataPropertyParticularRestrictionAxiomUUID,
   restrictedEntity: omf#Entity,
   scalarDataProperty: omf#EntityScalarDataProperty,
   literalValue: LiteralValue,

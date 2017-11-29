@@ -18,7 +18,7 @@
 
 package test.gov.nasa.jpl.omf.scala.core.functionalAPI
 
-import gov.nasa.jpl.omf.scala.core.OMLString.LocalName
+import gov.nasa.jpl.imce.oml.tables.taggedTypes.localName
 import gov.nasa.jpl.omf.scala.core._
 
 import scala.collection.immutable.Set
@@ -43,8 +43,8 @@ abstract class IMCE_OWL2_MOF2_LoadTest[omf <: OMF](
           xsd_iri <- makeIRI( "http://www.w3.org/2001/XMLSchema" )
           xsd_tbox <- loadTerminology(Mutable2ImmutableModuleTable.empty[omf], xsd_iri)
           (xsd, table1) = xsd_tbox
-          integer_iri <- withFragment(xsd_iri, LocalName("integer"))
-          string_iri <- withFragment(xsd_iri, LocalName("string"))
+          integer_iri <- withFragment(xsd_iri, localName("integer"))
+          string_iri <- withFragment(xsd_iri, localName("string"))
           xsd_integer = lookupDataRange(xsd, integer_iri, recursively = false)
           xsd_string = lookupDataRange(xsd, string_iri, recursively = false)
         } yield {
@@ -72,8 +72,8 @@ abstract class IMCE_OWL2_MOF2_LoadTest[omf <: OMF](
           owl2_mof2_iri <- makeIRI( "http://imce.jpl.nasa.gov/foundation/owl2-mof2/owl2-mof2" )
           owl2_mof2_tbox <- loadTerminology(Mutable2ImmutableModuleTable.empty[omf], owl2_mof2_iri)
           (owl2_mof2, table1) = owl2_mof2_tbox
-          binaryAssociationEndType_iri <- withFragment(owl2_mof2_iri, LocalName("BinaryAssociationEndType"))
-          binaryAssociation_iri <- withFragment(owl2_mof2_iri, LocalName("BinaryAssociation"))
+          binaryAssociationEndType_iri <- withFragment(owl2_mof2_iri, localName("BinaryAssociationEndType"))
+          binaryAssociation_iri <- withFragment(owl2_mof2_iri, localName("BinaryAssociation"))
           binaryAssociationEndType = lookupConcept(owl2_mof2, binaryAssociationEndType_iri, recursively = false)
           binaryAssociation = lookupReifiedRelationship( owl2_mof2, binaryAssociation_iri, recursively=false  )
         } yield {

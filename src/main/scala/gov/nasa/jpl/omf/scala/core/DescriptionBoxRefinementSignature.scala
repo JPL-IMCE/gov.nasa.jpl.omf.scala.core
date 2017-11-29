@@ -18,11 +18,11 @@
 
 package gov.nasa.jpl.omf.scala.core
 
-import java.util.UUID
+import gov.nasa.jpl.imce.oml.resolver
 
 case class DescriptionBoxRefinementSignature[omf <: OMF]
-(uuid: UUID,
- descriptionBox: UUID,
+(uuid: resolver.api.taggedTypes.DescriptionBoxRefinementUUID,
+ descriptionBox: resolver.api.taggedTypes.DescriptionBoxUUID,
  refinedDescriptionBox: omf#DescriptionBox)
   extends ModuleEdgeSignature[omf] {
 

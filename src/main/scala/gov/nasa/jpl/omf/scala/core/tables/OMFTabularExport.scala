@@ -18,13 +18,19 @@
 
 package gov.nasa.jpl.omf.scala.core.tables
 
+import java.util.UUID
+
 import gov.nasa.jpl.omf.scala.core._
 import gov.nasa.jpl.imce._
+import gov.nasa.jpl.imce.oml.tables
+import gov.nasa.jpl.imce.oml.covariantTag
+import gov.nasa.jpl.imce.oml.covariantTag.@@
 import gov.nasa.jpl.omf.scala.core.OMFError.Throwables
 
 import scala.collection.immutable.Seq
 import scala.Predef.String
-import scalaz._, Scalaz._
+import scalaz._
+import Scalaz._
 
 case class Axioms
 ( aspectSpecializationAxioms
@@ -84,36 +90,40 @@ object Axioms {
       a1.scalarOneOfLiteralAxioms ++ a2.scalarOneOfLiteralAxioms
   )
 
+  implicit def toUUIDString[Tag](uuid: UUID @@ Tag)
+  : String @@ Tag
+  = covariantTag[Tag][String](uuid.toString)
+
   def funAspectSpecializationAxiom[omf <: OMF]
-  (guuid: String, ops: OMFOps[omf], acc: Axioms)
+  (guuid: tables.taggedTypes.TerminologyBoxUUID, ops: OMFOps[omf], acc: Axioms)
   (ax: omf#AspectSpecializationAxiom)
   : Axioms
   = {
     val info = ops.fromAspectSubClassAxiom(ax)
     acc.copy(aspectSpecializationAxioms = acc.aspectSpecializationAxioms :+
       oml.tables.AspectSpecializationAxiom(
-        uuid = info.uuid.toString,
+        uuid = info.uuid,
         tboxUUID = guuid,
-        subEntityUUID = ops.getTermUUID(info.sub).toString,
-        superAspectUUID = ops.getTermUUID(info.sup).toString))
+        subEntityUUID = ops.getEntityUUID(info.sub),
+        superAspectUUID = ops.getAspectUUID(info.sup)))
   }
 
   def funConceptSpecializationAxiom[omf <: OMF]
-  (guuid: String, ops: OMFOps[omf], acc: Axioms)
+  (guuid: tables.taggedTypes.TerminologyBoxUUID, ops: OMFOps[omf], acc: Axioms)
   (ax: omf#ConceptSpecializationAxiom)
   : Axioms
   = {
     val info = ops.fromConceptSpecializationAxiom(ax)
     acc.copy(conceptSpecializationAxioms = acc.conceptSpecializationAxioms :+
       oml.tables.ConceptSpecializationAxiom(
-        uuid = info.uuid.toString,
+        uuid = info.uuid,
         tboxUUID = guuid,
-        subConceptUUID = ops.getTermUUID(info.sub).toString,
-        superConceptUUID = ops.getTermUUID(info.sup).toString))
+        subConceptUUID = ops.getConceptUUID(info.sub),
+        superConceptUUID = ops.getConceptUUID(info.sup)))
   }
 
   def funReifiedRelationshipSpecializationAxiom[omf <: OMF]
-  (guuid: String, ops: OMFOps[omf], acc: Axioms)
+  (guuid: tables.taggedTypes.TerminologyBoxUUID, ops: OMFOps[omf], acc: Axioms)
   (ax: omf#ReifiedRelationshipSpecializationAxiom)
   : Axioms
   = {
@@ -121,43 +131,43 @@ object Axioms {
     acc.copy(reifiedRelationshipSpecializationAxioms = acc.reifiedRelationshipSpecializationAxioms :+
       oml.tables.ReifiedRelationshipSpecializationAxiom(
         tboxUUID = guuid,
-        uuid = info.uuid.toString,
-        subRelationshipUUID = ops.getTermUUID(info.sub).toString,
-        superRelationshipUUID = ops.getTermUUID(info.sup).toString))
+        uuid = info.uuid,
+        subRelationshipUUID = ops.getReifiedRelationshipUUID(info.sub),
+        superRelationshipUUID = ops.getReifiedRelationshipUUID(info.sup)))
   }
 
   def funEntityExistentialRestrictionAxiom[omf <: OMF]
-  (guuid: String, ops: OMFOps[omf], acc: Axioms)
+  (guuid: tables.taggedTypes.TerminologyBoxUUID, ops: OMFOps[omf], acc: Axioms)
   (ax: omf#EntityExistentialRestrictionAxiom)
   : Axioms
   = {
-    val info = ops.fromEntityRestrictionAxiom(ax)
+    val info = ops.fromEntityExistentialRestrictionAxiom(ax)
     acc.copy(entityExistentialRestrictionAxioms = acc.entityExistentialRestrictionAxioms :+
       oml.tables.EntityExistentialRestrictionAxiom(
         tboxUUID = guuid,
-        uuid = info.uuid.toString,
-        restrictedDomainUUID = ops.getTermUUID(info.domain).toString,
-        restrictedRangeUUID = ops.getTermUUID(info.range).toString,
-        restrictedRelationUUID = ops.getTermUUID(info.restrictedRelation).toString))
+        uuid = info.uuid,
+        restrictedDomainUUID = ops.getEntityUUID(info.domain),
+        restrictedRangeUUID = ops.getEntityUUID(info.range),
+        restrictedRelationUUID = ops.getEntityRelationshipUUID(info.restrictedRelation)))
   }
 
   def funEntityUniversalRestrictionAxiom[omf <: OMF]
-  (guuid: String, ops: OMFOps[omf], acc: Axioms)
+  (guuid: tables.taggedTypes.TerminologyBoxUUID, ops: OMFOps[omf], acc: Axioms)
   (ax: omf#EntityUniversalRestrictionAxiom)
   : Axioms
   = {
-    val info = ops.fromEntityRestrictionAxiom(ax)
+    val info = ops.fromEntityUniversalRestrictionAxiom(ax)
     acc.copy(entityUniversalRestrictionAxioms = acc.entityUniversalRestrictionAxioms :+
       oml.tables.EntityUniversalRestrictionAxiom(
         tboxUUID = guuid,
-        uuid = info.uuid.toString,
-        restrictedDomainUUID = ops.getTermUUID(info.domain).toString,
-        restrictedRangeUUID = ops.getTermUUID(info.range).toString,
-        restrictedRelationUUID = ops.getTermUUID(info.restrictedRelation).toString))
+        uuid = info.uuid,
+        restrictedDomainUUID = ops.getEntityUUID(info.domain),
+        restrictedRangeUUID = ops.getEntityUUID(info.range),
+        restrictedRelationUUID = ops.getEntityRelationshipUUID(info.restrictedRelation)))
   }
 
   def funEntityScalarDataPropertyExistentialRestrictionAxiom[omf <: OMF]
-  (guuid: String, ops: OMFOps[omf], acc: Axioms)
+  (guuid: tables.taggedTypes.TerminologyBoxUUID, ops: OMFOps[omf], acc: Axioms)
   (ax: omf#EntityScalarDataPropertyExistentialRestrictionAxiom)
   : Axioms
   = {
@@ -165,14 +175,14 @@ object Axioms {
     acc.copy(entityScalarDataPropertyExistentialRestrictionAxioms = acc.entityScalarDataPropertyExistentialRestrictionAxioms :+
       oml.tables.EntityScalarDataPropertyExistentialRestrictionAxiom(
         tboxUUID = guuid,
-        uuid = info.uuid.toString,
-        restrictedEntityUUID = ops.getTermUUID(info.restrictedEntity).toString,
-        scalarPropertyUUID = ops.getTermUUID(info.scalarDataProperty).toString,
-        scalarRestrictionUUID = ops.getTermUUID(info.restrictedRange).toString))
+        uuid = info.uuid,
+        restrictedEntityUUID = ops.getEntityUUID(info.restrictedEntity),
+        scalarPropertyUUID = ops.getEntityScalarDataPropertyUUID(info.scalarDataProperty),
+        scalarRestrictionUUID = ops.getDataRangeUUID(info.restrictedRange)))
   }
 
   def funEntityScalarDataPropertyParticularRestrictionAxiom[omf <: OMF]
-  (guuid: String, ops: OMFOps[omf], acc: Axioms)
+  (guuid: tables.taggedTypes.TerminologyBoxUUID, ops: OMFOps[omf], acc: Axioms)
   (ax: omf#EntityScalarDataPropertyParticularRestrictionAxiom)
   : Axioms
   = {
@@ -180,15 +190,15 @@ object Axioms {
     acc.copy(entityScalarDataPropertyParticularRestrictionAxioms = acc.entityScalarDataPropertyParticularRestrictionAxioms :+
       oml.tables.EntityScalarDataPropertyParticularRestrictionAxiom(
         tboxUUID = guuid,
-        uuid = info.uuid.toString,
-        restrictedEntityUUID = ops.getTermUUID(info.restrictedEntity).toString,
-        scalarPropertyUUID = ops.getTermUUID(info.scalarDataProperty).toString,
+        uuid = info.uuid,
+        restrictedEntityUUID = ops.getEntityUUID(info.restrictedEntity),
+        scalarPropertyUUID = ops.getEntityScalarDataPropertyUUID(info.scalarDataProperty),
         literalValue = info.literalValue,
-        valueTypeUUID = info.valueType.map { vt => ops.getTermUUID(vt).toString }))
+        valueTypeUUID = info.valueType.map { vt => ops.getDataRangeUUID(vt) }))
   }
 
   def funEntityScalarDataPropertyUniversalRestrictionAxiom[omf <: OMF]
-  (guuid: String, ops: OMFOps[omf], acc: Axioms)
+  (guuid: tables.taggedTypes.TerminologyBoxUUID, ops: OMFOps[omf], acc: Axioms)
   (ax: omf#EntityScalarDataPropertyUniversalRestrictionAxiom)
   : Axioms
   = {
@@ -196,14 +206,14 @@ object Axioms {
     acc.copy(entityScalarDataPropertyUniversalRestrictionAxioms = acc.entityScalarDataPropertyUniversalRestrictionAxioms :+
       oml.tables.EntityScalarDataPropertyUniversalRestrictionAxiom(
         tboxUUID = guuid,
-        uuid = info.uuid.toString,
-        restrictedEntityUUID = ops.getTermUUID(info.restrictedEntity).toString,
-        scalarPropertyUUID = ops.getTermUUID(info.scalarDataProperty).toString,
-        scalarRestrictionUUID = ops.getTermUUID(info.restrictedRange).toString))
+        uuid = info.uuid,
+        restrictedEntityUUID = ops.getEntityUUID(info.restrictedEntity),
+        scalarPropertyUUID = ops.getEntityScalarDataPropertyUUID(info.scalarDataProperty),
+        scalarRestrictionUUID = ops.getDataRangeUUID(info.restrictedRange)))
   }
 
   def funEntityStructuredDataPropertyParticularRestrictionAxiom[omf <: OMF]
-  (guuid: String, ops: OMFOps[omf], acc: Axioms)
+  (guuid: tables.taggedTypes.TerminologyBoxUUID, ops: OMFOps[omf], acc: Axioms)
   (ax: omf#EntityStructuredDataPropertyParticularRestrictionAxiom)
   : Axioms
   = {
@@ -211,13 +221,13 @@ object Axioms {
     acc.copy(entityStructuredDataPropertyParticularRestrictionAxioms = acc.entityStructuredDataPropertyParticularRestrictionAxioms :+
       oml.tables.EntityStructuredDataPropertyParticularRestrictionAxiom(
         tboxUUID = guuid,
-        uuid = info.uuid.toString,
-        restrictedEntityUUID = ops.getTermUUID(info.restrictedEntity).toString,
-        structuredDataPropertyUUID = ops.getTermUUID(info.structuredDataProperty).toString))
+        uuid = info.uuid,
+        restrictedEntityUUID = ops.getEntityUUID(info.restrictedEntity),
+        structuredDataPropertyUUID = ops.getEntityStructuredDataPropertyUUID(info.structuredDataProperty)))
   }
 
   def funScalarOneOfLiteralAxiom[omf <: OMF]
-  (guuid: String, ops: OMFOps[omf], acc: Axioms)
+  (guuid: tables.taggedTypes.TerminologyBoxUUID, ops: OMFOps[omf], acc: Axioms)
   (ax: omf#ScalarOneOfLiteralAxiom)
   : Axioms
   = {
@@ -225,14 +235,14 @@ object Axioms {
     acc.copy(scalarOneOfLiteralAxioms = acc.scalarOneOfLiteralAxioms :+
       oml.tables.ScalarOneOfLiteralAxiom(
         tboxUUID = guuid,
-        uuid = info.uuid.toString,
-        axiomUUID = ops.getTermUUID(info.restriction).toString,
+        uuid = info.uuid,
+        axiomUUID = ops.getScalarOneOfRestrictionUUID(info.restriction),
         value = info.value,
-        valueTypeUUID = info.valueType.map { vt => ops.getTermUUID(vt).toString }))
+        valueTypeUUID = info.valueType.map { vt => ops.getDataRangeUUID(vt) }))
   }
 
   def combine[omf <: OMF]
-  (guuid: String, ops: OMFOps[omf])
+  (guuid: tables.taggedTypes.TerminologyBoxUUID, ops: OMFOps[omf])
   (acc: Axioms,
    ax: omf#Axiom)
   : Axioms

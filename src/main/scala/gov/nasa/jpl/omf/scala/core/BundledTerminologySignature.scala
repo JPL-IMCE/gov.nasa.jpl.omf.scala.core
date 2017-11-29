@@ -18,11 +18,11 @@
 
 package gov.nasa.jpl.omf.scala.core
 
-import java.util.UUID
+import gov.nasa.jpl.imce.oml.resolver
 
 case class BundledTerminologySignature[omf <: OMF]
-(uuid: UUID,
- bundle: UUID,
+(uuid: resolver.api.taggedTypes.BundledTerminologyAxiomUUID,
+ bundle: resolver.api.taggedTypes.BundleUUID,
  bundledTerminology: omf#TerminologyBox)
   extends TerminologyAxiomSignature[omf] {
 

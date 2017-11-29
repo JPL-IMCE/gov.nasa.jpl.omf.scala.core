@@ -18,11 +18,11 @@
 
 package gov.nasa.jpl.omf.scala.core
 
-import java.util.UUID
+import gov.nasa.jpl.imce.oml.resolver
 import scala.{Int,Option}
 
 case class RuleBodySegmentSignature[omf <: OMF]
-(uuid: UUID,
+(uuid: resolver.api.taggedTypes.RuleBodySegmentUUID,
  position: Int,
  chainRule: Option[omf#ChainRule],
  previousSegment: Option[omf#RuleBodySegment])

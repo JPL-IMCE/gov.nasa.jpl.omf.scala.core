@@ -18,9 +18,9 @@
 
 package gov.nasa.jpl.omf.scala.core
 
-import java.util.UUID
+import gov.nasa.jpl.imce.oml.resolver
 
 case class StructuredDataPropertyTupleSignature[omf <: OMF]
-(uuid: UUID,
- singletonInstanceStructuredDataPropertyContextUUID: omf#SingletonInstanceStructuredDataPropertyContext,
+(uuid: resolver.api.taggedTypes.StructuredDataPropertyTupleUUID,
+ singletonInstanceStructuredDataPropertyContext: omf#SingletonInstanceStructuredDataPropertyContext,
  structuredataProperty: omf#DataRelationshipToStructure)

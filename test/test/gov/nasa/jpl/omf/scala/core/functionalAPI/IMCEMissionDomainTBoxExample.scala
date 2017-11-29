@@ -18,7 +18,7 @@
 
 package test.gov.nasa.jpl.omf.scala.core.functionalAPI
 
-import gov.nasa.jpl.omf.scala.core.OMLString.LocalName
+import gov.nasa.jpl.imce.oml.tables.taggedTypes.localName
 import gov.nasa.jpl.omf.scala.core._
 import gov.nasa.jpl.omf.scala.core.TerminologyKind._
 import org.scalatest.{Matchers, WordSpec}
@@ -61,8 +61,8 @@ abstract class IMCEMissionDomainTBoxExample[omf <: OMF]()(
         for {
           i_m1 <- makeIRI( "http://imce.jpl.nasa.gov/foundation/mission/mission1" )
           g <- makeTerminologyGraph(i_m1, isOpenWorld)
-          component <- addConcept(g, LocalName("Component"))
-          function <- addConcept(g, LocalName("Function"))
+          component <- addConcept(g, localName("Component"))
+          function <- addConcept(g, localName("Function"))
           s = fromMutableTerminology(g)
         } yield {
           s.iri should be(i_m1)

@@ -21,6 +21,9 @@ package gov.nasa.jpl.omf.scala.core.tables
 import java.lang.System
 
 import gov.nasa.jpl.imce.oml
+import gov.nasa.jpl.imce.oml.resolver
+import gov.nasa.jpl.imce.oml.resolver.toUUIDString
+import gov.nasa.jpl.imce.oml.tables.taggedTypes
 import gov.nasa.jpl.omf.scala.core.OMFError.Throwables
 import gov.nasa.jpl.omf.scala.core.{OMF, OMFError, OMFOps, RelationshipCharacteristics, TerminologyKind}
 
@@ -31,6 +34,8 @@ import scalaz._
 import Scalaz._
 
 object OMFTabularExportFromBundle {
+
+  implicit def toIRI[omf <: OMF](iri: omf#IRI): taggedTypes.IRI = taggedTypes.iri(iri.toString)
 
   def toTables[omf <: OMF]
   (acc: Throwables \/ Seq[(omf#ImmutableModule, oml.tables.OMLSpecificationTables)])
@@ -45,7 +50,7 @@ object OMFTabularExportFromBundle {
     all_aps = all_tables.flatMap(_.annotationProperties)
 
     s = ops.fromImmutableTerminology(bundle)
-    suuid = s.uuid.toString
+    suuid = s.uuid.asInstanceOf[resolver.api.taggedTypes.BundleUUID]
 
     s_common_aps = s.annotationProperties intersect all_aps
     s_ap = s.annotationProperties -- s_common_aps
@@ -53,7 +58,7 @@ object OMFTabularExportFromBundle {
     // Check that there are no overlaping annotation properties
     _ = {
       if (s_common_aps.nonEmpty) {
-        val common = s_common_aps.to[Seq].sortBy(_.abbrevIRI)
+        val common = s_common_aps.to[Seq].sortBy(_.abbrevIRI.toString)
         System.out.println(
           s"TerminologyGraph ${s.iri} duplicates ${common.size} Annotations defined in imported modules: " +
             common.map(_.abbrevIRI).mkString("\n\t",", ","\n"))
@@ -75,10 +80,10 @@ object OMFTabularExportFromBundle {
               s" whose designated terminology is not imported: ${ops.getModuleIRI(omf_info.designatedTerminology)}"))
             .left[Unit]
         ax = oml.tables.ConceptDesignationTerminologyAxiom(
-          uuid = omf_info.uuid.toString,
-          tboxUUID = omf_info.graphUUID.toString,
-          designatedConceptUUID = ops.getTermUUID(omf_info.designatedConcept).toString,
-          designatedTerminologyIRI = ops.getModuleIRI(omf_info.designatedTerminology).toString)
+          uuid = omf_info.uuid,
+          tboxUUID = omf_info.graphUUID,
+          designatedConceptUUID = ops.getConceptUUID(omf_info.designatedConcept),
+          designatedTerminologyIRI = ops.getModuleIRI(omf_info.designatedTerminology))
 
       } yield axs :+ ax
     }
@@ -98,9 +103,9 @@ object OMFTabularExportFromBundle {
               s" whose extended terminology is not imported: ${ops.getModuleIRI(omf_info.extendedTerminology)}"))
             .left[Unit]
         ax = oml.tables.TerminologyExtensionAxiom(
-          uuid = omf_info.uuid.toString,
+          uuid = omf_info.uuid,
           tboxUUID = suuid,
-          extendedTerminologyIRI = ops.getModuleIRI(omf_info.extendedTerminology).toString)
+          extendedTerminologyIRI = ops.getModuleIRI(omf_info.extendedTerminology))
 
       } yield axs :+ ax
     }
@@ -120,10 +125,10 @@ object OMFTabularExportFromBundle {
               s" whose nesting terminology is not imported: ${ops.getModuleIRI(omf_info.nestingTerminology)}"))
             .left[Unit]
         ax = oml.tables.TerminologyNestingAxiom(
-          uuid = omf_info.uuid.toString,
+          uuid = omf_info.uuid,
           tboxUUID = suuid,
-          nestingTerminologyIRI = ops.getModuleIRI(omf_info.nestingTerminology).toString,
-          nestingContextUUID = ops.getTermUUID(omf_info.nestingContext).toString)
+          nestingTerminologyIRI = ops.getModuleIRI(omf_info.nestingTerminology),
+          nestingContextUUID = ops.getConceptUUID(omf_info.nestingContext))
 
       } yield axs :+ ax
     }
@@ -143,9 +148,9 @@ object OMFTabularExportFromBundle {
               s" whose bundled terminology is not imported: ${ops.getModuleIRI(omf_info.bundledTerminology)}"))
             .left[Unit]
         ax = oml.tables.BundledTerminologyAxiom(
-          uuid = omf_info.uuid.toString,
+          uuid = omf_info.uuid,
           bundleUUID = suuid,
-          bundledTerminologyIRI = ops.getModuleIRI(omf_info.bundledTerminology).toString)
+          bundledTerminologyIRI = ops.getModuleIRI(omf_info.bundledTerminology))
 
       } yield axs :+ ax
     }
@@ -153,14 +158,14 @@ object OMFTabularExportFromBundle {
     allAspects = s.aspects.map { a =>
       oml.tables.Aspect(
         tboxUUID = suuid,
-        uuid = ops.getTermUUID(a).toString,
+        uuid = ops.getAspectUUID(a),
         name = ops.getTermName(a))
     }.to[Seq].sorted
 
     allConcepts = s.concepts.map { c =>
       oml.tables.Concept(
         tboxUUID = suuid,
-        uuid = ops.getTermUUID(c).toString,
+        uuid = ops.getConceptUUID(c),
         name = ops.getTermName(c))
     }.to[Seq].sorted
 
@@ -168,7 +173,7 @@ object OMFTabularExportFromBundle {
       val sig = ops.fromReifiedRelationship(rr)
       oml.tables.ReifiedRelationship(
         tboxUUID = suuid,
-        uuid = sig.uuid.toString,
+        uuid = sig.uuid,
         name = sig.name,
         unreifiedPropertyName = sig.unreifiedPropertyName,
         unreifiedInversePropertyName = sig.unreifiedInversePropertyName,
@@ -181,15 +186,15 @@ object OMFTabularExportFromBundle {
         isReflexive = sig.characteristics.exists(RelationshipCharacteristics.isReflexive == _),
         isSymmetric = sig.characteristics.exists(RelationshipCharacteristics.isSymmetric == _),
         isTransitive = sig.characteristics.exists(RelationshipCharacteristics.isTransitive == _),
-        sourceUUID = ops.getTermUUID(sig.source).toString,
-        targetUUID = ops.getTermUUID(sig.target).toString)
+        sourceUUID = ops.getEntityUUID(sig.source),
+        targetUUID = ops.getEntityUUID(sig.target))
     }.to[Seq].sorted
 
     allUnreifiedRelationships = s.unreifiedRelationships.map { ur =>
       val sig = ops.fromUnreifiedRelationship(ur)
       oml.tables.UnreifiedRelationship(
         tboxUUID = suuid,
-        uuid = sig.uuid.toString,
+        uuid = sig.uuid,
         name = sig.name,
         isAsymmetric = sig.characteristics.exists(RelationshipCharacteristics.isAsymmetric == _),
         isEssential = sig.characteristics.exists(RelationshipCharacteristics.isEssential == _),
@@ -200,21 +205,21 @@ object OMFTabularExportFromBundle {
         isReflexive = sig.characteristics.exists(RelationshipCharacteristics.isReflexive == _),
         isSymmetric = sig.characteristics.exists(RelationshipCharacteristics.isSymmetric == _),
         isTransitive = sig.characteristics.exists(RelationshipCharacteristics.isTransitive == _),
-        sourceUUID = ops.getTermUUID(sig.source).toString,
-        targetUUID = ops.getTermUUID(sig.target).toString)
+        sourceUUID = ops.getEntityUUID(sig.source),
+        targetUUID = ops.getEntityUUID(sig.target))
     }.to[Seq].sorted
 
     allScalars = s.scalarDataTypes.map { sc =>
       oml.tables.Scalar(
         tboxUUID = suuid,
-        uuid = ops.getTermUUID(sc).toString,
+        uuid = ops.getScalarUUID(sc),
         name = ops.getTermName(sc))
     }.to[Seq].sorted
 
     allStructures = s.structuredDataTypes.map { st =>
       oml.tables.Structure(
         tboxUUID = suuid,
-        uuid = ops.getTermUUID(st).toString,
+        uuid = ops.getStructureUUID(st),
         name = ops.getTermName(st))
     }.to[Seq].sorted
 
@@ -222,105 +227,105 @@ object OMFTabularExportFromBundle {
       val info = ops.fromBinaryScalarRestriction(dr)
       oml.tables.BinaryScalarRestriction(
         tboxUUID = suuid,
-        uuid = info.uuid.toString,
+        uuid = info.uuid,
         name = info.name,
         length = info.length,
         maxLength = info.maxLength,
         minLength = info.minLength,
-        restrictedRangeUUID = ops.getTermUUID(info.restrictedRange).toString)
+        restrictedRangeUUID = ops.getDataRangeUUID(info.restrictedRange))
     }.to[Seq].sorted
 
     allIRIScalarRestrictions = s.iriScalarRestrictions.map { dr =>
       val info = ops.fromIRIScalarRestriction(dr)
       oml.tables.IRIScalarRestriction(
         tboxUUID = suuid,
-        uuid = info.uuid.toString,
+        uuid = info.uuid,
         name = info.name,
         length = info.length,
         maxLength = info.maxLength,
         minLength = info.minLength,
         pattern = info.pattern.map(canonicalLiteralPattern),
-        restrictedRangeUUID = ops.getTermUUID(info.restrictedRange).toString)
+        restrictedRangeUUID = ops.getDataRangeUUID(info.restrictedRange))
     }.to[Seq].sorted
 
     allNumericScalarRestrictions = s.numericScalarRestrictions.map { dr =>
       val info = ops.fromNumericScalarRestriction(dr)
       oml.tables.NumericScalarRestriction(
         tboxUUID = suuid,
-        uuid = info.uuid.toString,
+        uuid = info.uuid,
         name = info.name,
         maxExclusive = info.maxExclusive,
         maxInclusive = info.maxInclusive,
         minExclusive = info.minExclusive,
         minInclusive = info.minInclusive,
-        restrictedRangeUUID = ops.getTermUUID(info.restrictedRange).toString)
+        restrictedRangeUUID = ops.getDataRangeUUID(info.restrictedRange))
     }.to[Seq].sorted
 
     allPlainLiteralScalarRestrictions = s.plainLiteralScalarRestrictions.map { dr =>
       val info = ops.fromPlainLiteralScalarRestriction(dr)
       oml.tables.PlainLiteralScalarRestriction(
         tboxUUID = suuid,
-        uuid = info.uuid.toString,
+        uuid = info.uuid,
         name = info.name,
         langRange = info.langRange,
         length = info.length,
         maxLength = info.maxLength,
         minLength = info.minLength,
         pattern = info.pattern.map(canonicalLiteralPattern),
-        restrictedRangeUUID = ops.getTermUUID(info.restrictedRange).toString)
+        restrictedRangeUUID = ops.getDataRangeUUID(info.restrictedRange))
     }.to[Seq].sorted
 
     allScalarOneOfRestrictions = s.scalarOneOfRestrictions.map { dr =>
       val info = ops.fromScalarOneOfRestriction(dr)
       oml.tables.ScalarOneOfRestriction(
         tboxUUID = suuid,
-        uuid = info.uuid.toString,
+        uuid = info.uuid,
         name = info.name,
-        restrictedRangeUUID = ops.getTermUUID(info.restrictedRange).toString)
+        restrictedRangeUUID = ops.getDataRangeUUID(info.restrictedRange))
     }.to[Seq].sorted
 
     allStringScalarRestrictions = s.stringScalarRestrictions.map { dr =>
       val info = ops.fromStringScalarRestriction(dr)
       oml.tables.StringScalarRestriction(
         tboxUUID = suuid,
-        uuid = info.uuid.toString,
+        uuid = info.uuid,
         name = info.name,
         length = info.length,
         maxLength = info.maxLength,
         minLength = info.minLength,
         pattern = info.pattern.map(canonicalLiteralPattern),
-        restrictedRangeUUID = ops.getTermUUID(info.restrictedRange).toString)
+        restrictedRangeUUID = ops.getDataRangeUUID(info.restrictedRange))
     }.to[Seq].sorted
 
     allSynonymScalarRestrictions = s.synonymScalarRestrictions.map { dr =>
       val info = ops.fromSynonymScalarRestriction(dr)
       oml.tables.SynonymScalarRestriction(
         tboxUUID = suuid,
-        uuid = info.uuid.toString,
+        uuid = info.uuid,
         name = info.name,
-        restrictedRangeUUID = ops.getTermUUID(info.restrictedRange).toString)
+        restrictedRangeUUID = ops.getDataRangeUUID(info.restrictedRange))
     }.to[Seq].sorted
 
     allTimeScalarRestrictions = s.timeScalarRestrictions.map { dr =>
       val info = ops.fromTimeScalarRestriction(dr)
       oml.tables.TimeScalarRestriction(
         tboxUUID = suuid,
-        uuid = info.uuid.toString,
+        uuid = info.uuid,
         name = info.name,
         maxExclusive = info.maxExclusive,
         maxInclusive = info.maxInclusive,
         minExclusive = info.minExclusive,
         minInclusive = info.minInclusive,
-        restrictedRangeUUID = ops.getTermUUID(info.restrictedRange).toString)
+        restrictedRangeUUID = ops.getDataRangeUUID(info.restrictedRange))
     }.to[Seq].sorted
 
     allEntity2ScalarProperties = s.entityScalarDataProperties.map { e2sc =>
       val info = ops.fromEntityScalarDataProperty(e2sc)
       oml.tables.EntityScalarDataProperty(
         tboxUUID = suuid,
-        uuid = info.uuid.toString,
-        domainUUID = ops.getTermUUID(info.domain).toString,
-        rangeUUID = ops.getTermUUID(info.range).toString,
+        uuid = info.uuid,
+        domainUUID = ops.getEntityUUID(info.domain),
+        rangeUUID = ops.getDataRangeUUID(info.range),
         isIdentityCriteria = info.isIdentityCriteria,
         name = info.name)
     }.to[Seq].sorted
@@ -329,9 +334,9 @@ object OMFTabularExportFromBundle {
       val info = ops.fromEntityStructuredDataProperty(e2sc)
       oml.tables.EntityStructuredDataProperty(
         tboxUUID = suuid,
-        uuid = info.uuid.toString,
-        domainUUID = ops.getTermUUID(info.domain).toString,
-        rangeUUID = ops.getTermUUID(info.range).toString,
+        uuid = info.uuid,
+        domainUUID = ops.getEntityUUID(info.domain),
+        rangeUUID = ops.getStructureUUID(info.range),
         isIdentityCriteria = info.isIdentityCriteria,
         name = info.name)
     }.to[Seq].sorted
@@ -340,20 +345,20 @@ object OMFTabularExportFromBundle {
       val info = ops.fromScalarDataProperty(s2sc)
       oml.tables.ScalarDataProperty(
         tboxUUID = suuid,
-        uuid = info.uuid.toString,
+        uuid = info.uuid,
         name = info.name,
-        domainUUID = ops.getTermUUID(info.domain).toString,
-        rangeUUID = ops.getTermUUID(info.range).toString)
+        domainUUID = ops.getStructureUUID(info.domain),
+        rangeUUID = ops.getDataRangeUUID(info.range))
     }.to[Seq].sorted
 
     allStructuredProperties = s.structuredDataProperties.map { s2sc =>
       val info = ops.fromStructuredDataProperty(s2sc)
       oml.tables.StructuredDataProperty(
         tboxUUID = suuid,
-        uuid = info.uuid.toString,
+        uuid = info.uuid,
         name = info.name,
-        domainUUID = ops.getTermUUID(info.domain).toString,
-        rangeUUID = ops.getTermUUID(info.range).toString)
+        domainUUID = ops.getStructureUUID(info.domain),
+        rangeUUID = ops.getStructureUUID(info.range))
     }.to[Seq].sorted
 
     allAxioms = s.axioms.foldLeft(Axioms())(Axioms.combine(suuid, ops))
@@ -361,37 +366,37 @@ object OMFTabularExportFromBundle {
     allRootConceptTaxonomyAxioms = s.rTAxioms.map { ax =>
       val info = ops.fromRootConceptTaxonomyAxiom(ax)
       oml.tables.RootConceptTaxonomyAxiom(
-        uuid = info.uuid.toString,
+        uuid = info.uuid,
         bundleUUID = suuid,
-        rootUUID = ops.getTermUUID(info.root).toString)
+        rootUUID = ops.getConceptUUID(info.root))
     }.to[Seq].sorted
 
     allSpecificDisjointConceptAxioms = s.sTAxioms.map { ax =>
       val info = ops.fromSpecificDisjointConceptAxiom(ax)
       oml.tables.SpecificDisjointConceptAxiom(
-        uuid = info.uuid.toString,
-        disjointLeafUUID = ops.getTermUUID(info.disjointLeaf).toString,
-        disjointTaxonomyParentUUID = ops.getConceptTreeDisjunctionUUID(info.disjointTaxonomyParent).toString)
+        uuid = info.uuid,
+        disjointLeafUUID = ops.getConceptUUID(info.disjointLeaf),
+        disjointTaxonomyParentUUID = ops.getConceptTreeDisjunctionUUID(info.disjointTaxonomyParent))
     }.to[Seq].sorted
 
     allAnonymousConceptUnionAxioms = s.aTAxioms.map { ax =>
       val info = ops.fromAnonymousConceptTaxonomyAxiom(ax)
       oml.tables.AnonymousConceptUnionAxiom(
-        uuid = info.uuid.toString,
-        disjointTaxonomyParentUUID = ops.getConceptTreeDisjunctionUUID(info.disjointTaxonomyParent).toString,
+        uuid = info.uuid,
+        disjointTaxonomyParentUUID = ops.getConceptTreeDisjunctionUUID(info.disjointTaxonomyParent),
         name = info.name)
     }.to[Seq].sorted
 
     table = oml.tables.OMLSpecificationTables.createEmptyOMLSpecificationTables()
       .copy(
 
-        terminologyGraphs = Seq(oml.tables.TerminologyGraph(
-          uuid = suuid.toString,
+        bundles = Seq(oml.tables.Bundle(
+          uuid = suuid,
           kind = if (TerminologyKind.isOpenWorldKind(s.kind))
             oml.tables.OpenWorldDefinitions
           else
             oml.tables.ClosedWorldDesignations,
-          iri = s.iri.toString)),
+          iri = s.iri)),
 
         conceptDesignationTerminologyAxioms = allConceptDesignationTerminologyAxioms.sorted,
         terminologyExtensionAxioms = allExtensionAxioms.sorted,

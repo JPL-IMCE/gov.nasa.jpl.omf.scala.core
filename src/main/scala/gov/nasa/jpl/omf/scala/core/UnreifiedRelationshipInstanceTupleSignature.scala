@@ -18,10 +18,10 @@
 
 package gov.nasa.jpl.omf.scala.core
 
-import java.util.UUID
+import gov.nasa.jpl.imce.oml.resolver
 
 case class UnreifiedRelationshipInstanceTupleSignature[omf <: OMF]
-( uuid: UUID,
+( uuid: resolver.api.taggedTypes.UnreifiedRelationshipInstanceTupleUUID,
   unreifiedRelationship: omf#UnreifiedRelationship,
   domain: omf#ConceptualEntitySingletonInstance,
   range: omf#ConceptualEntitySingletonInstance )

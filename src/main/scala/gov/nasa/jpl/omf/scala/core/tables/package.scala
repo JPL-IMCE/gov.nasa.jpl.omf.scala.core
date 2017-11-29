@@ -18,7 +18,7 @@
 
 package gov.nasa.jpl.omf.scala.core
 
-import gov.nasa.jpl.imce.oml.tables.LiteralPattern
+import gov.nasa.jpl.imce.oml.tables.taggedTypes.{literalPattern,LiteralPattern}
 
 import scala.StringContext
 
@@ -28,6 +28,6 @@ package object tables {
   = if (s.startsWith("/") && s.endsWith("/"))
     s
   else
-    s"/${s.replaceAll("([^\\\\])/", "$1\\\\\\\\/")}/"
+    literalPattern(s"/${s.replaceAll("([^\\\\])/", "$1\\\\\\\\/")}/")
 
 }

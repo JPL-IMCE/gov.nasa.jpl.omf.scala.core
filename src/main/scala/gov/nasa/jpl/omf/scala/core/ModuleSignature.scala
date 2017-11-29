@@ -18,15 +18,14 @@
 
 package gov.nasa.jpl.omf.scala.core
 
-import java.util.UUID
-
-import gov.nasa.jpl.imce.oml.tables.{AnnotationProperty, AnnotationPropertyValue, LocalName}
+import gov.nasa.jpl.imce.oml.resolver
+import gov.nasa.jpl.imce.oml.tables.{taggedTypes, AnnotationProperty, AnnotationPropertyValue}
 
 import scala.collection.immutable.Set
 
 trait ModuleSignature[omf <: OMF] {
-  val uuid: UUID
-  val name: LocalName
+  val uuid: resolver.api.taggedTypes.ModuleUUID
+  val name: taggedTypes.LocalName
   /**
     * the identity of the terminology as a container for several descriptions and as the context
     * for extending other terminologies

@@ -18,8 +18,8 @@
 
 package gov.nasa.jpl.omf.scala.core
 
-import java.util.UUID
+import gov.nasa.jpl.imce.oml.resolver
 
 case class ConceptInstanceSignature[omf <: OMF]
-( uuid: UUID,
+( uuid: resolver.api.taggedTypes.ConceptInstanceUUID,
   concept: omf#Concept )

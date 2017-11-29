@@ -18,7 +18,7 @@
 
 package gov.nasa.jpl.omf.scala.core
 
-import java.util.UUID
+import gov.nasa.jpl.imce.oml.resolver
 
 import gov.nasa.jpl.omf.scala.core.OMFError.Throwables
 
@@ -29,9 +29,15 @@ import scalaz._
 import Scalaz._
 
 case class Mutable2ImmutableModuleTable[omf <: OMF]
-( pairs: Seq[(omf#MutableModule, omf#ImmutableModule)] = Seq.empty[(omf#MutableModule, omf#ImmutableModule)],
-  ms: Map[UUID, omf#MutableModule] = Map.empty[UUID, omf#MutableModule],
-  is: Map[UUID, omf#ImmutableModule] = Map.empty[UUID, omf#ImmutableModule]) {
+( pairs
+  : Seq[(omf#MutableModule, omf#ImmutableModule)]
+  = Seq.empty[(omf#MutableModule, omf#ImmutableModule)],
+  ms
+  : Map[resolver.api.taggedTypes.ModuleUUID, omf#MutableModule]
+  = Map.empty[resolver.api.taggedTypes.ModuleUUID, omf#MutableModule],
+  is
+  : Map[resolver.api.taggedTypes.ModuleUUID, omf#ImmutableModule]
+  = Map.empty[resolver.api.taggedTypes.ModuleUUID, omf#ImmutableModule]) {
 
   def keys: Seq[omf#MutableModule] = pairs.map(_._1)
 

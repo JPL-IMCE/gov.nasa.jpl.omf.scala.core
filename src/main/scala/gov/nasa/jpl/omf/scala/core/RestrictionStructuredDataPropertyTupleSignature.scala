@@ -36,9 +36,9 @@ package gov.nasa.jpl.omf.scala.core
  * License Terms
  */
 
-import java.util.UUID
+import gov.nasa.jpl.imce.oml.resolver
 
 case class RestrictionStructuredDataPropertyTupleSignature[omf <: OMF]
-( uuid: UUID,
+( uuid: resolver.api.taggedTypes.RestrictionStructuredDataPropertyTupleUUID,
   structuredDataPropertyContext: omf#RestrictionStructuredDataPropertyContext,
   structuredDataProperty: omf#DataRelationshipToStructure)

@@ -18,13 +18,12 @@
 
 package gov.nasa.jpl.omf.scala.core
 
-import java.util.UUID
-
-import gov.nasa.jpl.imce.oml.tables.LocalName
+import gov.nasa.jpl.imce.oml.resolver
+import gov.nasa.jpl.imce.oml.tables.taggedTypes
 
 case class ScalarDataPropertySignature[omf <: OMF]
-( uuid: UUID,
-  name: LocalName,
+( uuid: resolver.api.taggedTypes.ScalarDataPropertyUUID,
+  name: taggedTypes.LocalName,
   iri: omf#IRI,
   domain: omf#Structure,
   range: omf#DataRange

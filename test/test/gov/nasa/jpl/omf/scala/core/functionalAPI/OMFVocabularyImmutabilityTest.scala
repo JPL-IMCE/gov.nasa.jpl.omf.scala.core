@@ -18,15 +18,13 @@
 
 package test.gov.nasa.jpl.omf.scala.core.functionalAPI
 
-import java.util.UUID
-
+import gov.nasa.jpl.imce.oml.tables.taggedTypes.localName
 import gov.nasa.jpl.imce.oml.tables
 import gov.nasa.jpl.omf.scala.core._
 import gov.nasa.jpl.omf.scala.core.RelationshipCharacteristics._
 import gov.nasa.jpl.omf.scala.core.TerminologyKind._
 import org.scalatest._
 import exceptions._
-import gov.nasa.jpl.omf.scala.core.OMLString.LocalName
 
 import scala.collection.immutable.{List, Set}
 import scala.util.control.Exception._
@@ -125,12 +123,12 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF]
         base <- makeTerminologyGraph(base_iri, isOpenWorld)
         base_extends_xsd <- addTerminologyExtension(base, oml)
 
-        identifiedElement <- addAspect(base, LocalName("IdentifiedElement"))
+        identifiedElement <- addAspect(base, localName("IdentifiedElement"))
         hasIdentifier <- addEntityScalarDataProperty(
           graph = base,
           source = identifiedElement,
           target = string.get,
-          dataPropertyName = LocalName("hasIdentifier"),
+          dataPropertyName = localName("hasIdentifier"),
           isIdentityCriteria = false)
 
         m2i_base <- asImmutableTerminologyGraph(base, table1)
@@ -140,32 +138,32 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF]
         mission <- makeTerminologyGraph(mission_iri, isOpenWorld)
         mission_extends_ibase <- addTerminologyExtension(mission, ibase)
 
-        component <- addConcept(mission, LocalName("Component"))
-        function <- addConcept(mission, LocalName("Function"))
+        component <- addConcept(mission, localName("Component"))
+        function <- addConcept(mission, localName("Function"))
         component_performs_function <- addReifiedRelationship(
           graph = mission,
           source = component,
           target = function,
           characteristics = List(isAsymmetric, isIrreflexive, isInverseFunctional),
-          reifiedRelationshipName = LocalName("Performs"),
-          unreifiedRelationshipName = LocalName("performs"),
-          unreifiedInverseRelationshipName = LocalName("isPerformedBy").some)
-        item <- addConcept(mission, LocalName("Item"))
-        message <- addConcept(mission, LocalName("Message"))
-        materialItem <- addConcept(mission, LocalName("MaterialItem"))
+          reifiedRelationshipName = localName("Performs"),
+          unreifiedRelationshipName = localName("performs"),
+          unreifiedInverseRelationshipName = localName("isPerformedBy").some)
+        item <- addConcept(mission, localName("Item"))
+        message <- addConcept(mission, localName("Message"))
+        materialItem <- addConcept(mission, localName("MaterialItem"))
         identifiedElement_iri <- makeIRI("http://imce.jpl.nasa.gov/test/immutability/foundation/base/base#IdentifiedElement")
 
         library_iri <- makeIRI("http://imce.jpl.nasa.gov/test/immutability/library")
         library <- makeTerminologyGraph(library_iri, isOpenWorld)
         library_extends_mission <- addTerminologyExtension(library, mission)
 
-        starTracker <- addConcept(library, LocalName("StarTracker"))
+        starTracker <- addConcept(library, localName("StarTracker"))
         starTracker_isa_component <- addConceptSpecializationAxiom(library, starTracker, component)
 
-        determinesAttitude <- addConcept(library, LocalName("DeterminesAttitude"))
+        determinesAttitude <- addConcept(library, localName("DeterminesAttitude"))
         determinesAttitude_is_function <- addConceptSpecializationAxiom(library, determinesAttitude, function)
 
-        determinesDeltaV <- addConcept(library, LocalName("DeterminesDeltaV"))
+        determinesDeltaV <- addConcept(library, localName("DeterminesDeltaV"))
         determinesDeltaV_is_function <- addConceptSpecializationAxiom(library, determinesDeltaV, function)
 
         starTracker_performs_determinesAttitude <- addEntityExistentialRestrictionAxiom(
@@ -181,13 +179,13 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF]
         system <- makeTerminologyGraph(system_iri, isOpenWorld)
         system_extends_library <- addTerminologyExtension(system, library)
 
-        s1 <- addConcept(system, LocalName("S1"))
+        s1 <- addConcept(system, localName("S1"))
         s1_is_starTracker <- addConceptSpecializationAxiom(system, s1, starTracker)
         s1_hasIdentifier <- addEntityScalarDataPropertyParticularRestrictionAxiom(
           system, s1, hasIdentifier,
           tables.LiteralValue(tables.LiteralStringType, "ST.primary"), string)
 
-        s2 <- addConcept(system, LocalName("S2"))
+        s2 <- addConcept(system, localName("S2"))
         s2_is_starTracker <- addConceptSpecializationAxiom(system, s2, starTracker)
         s2_hasIdentifier <- addEntityScalarDataPropertyParticularRestrictionAxiom(
           system, s2, hasIdentifier,
@@ -299,7 +297,7 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF]
         }
 
         getModuleName(base) should be("base")
-        getModuleUUID(base) should be(UUID.fromString("73468cd7-d400-5fa1-b460-a15aeb8f64b6"))
+        getModuleUUID(base).toString should be("73468cd7-d400-5fa1-b460-a15aeb8f64b6")
 
         val integer = lookupDataRange(xsd, integer_iri, recursively = false)
         integer.isDefined should be(true)
@@ -310,10 +308,10 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF]
         val identifiedElement = lookupAspect(base, identifiedElement_iri, recursively = false)
         identifiedElement.isDefined should be(true)
         getTermName(identifiedElement.get) should be("IdentifiedElement")
-        getTermUUID(identifiedElement.get) should be(UUID.fromString("e95bcdd1-d88c-5d2c-86e0-6eb42c968570"))
+        getTermUUID(identifiedElement.get).toString should be("e95bcdd1-d88c-5d2c-86e0-6eb42c968570")
 
-        val identifiedElementUUID = generateUUID(getModuleUUID(base), "name" -> LocalName("IdentifiedElement")).toString
-        identifiedElementUUID should be("e95bcdd1-d88c-5d2c-86e0-6eb42c968570")
+        val identifiedElementUUID = generateUUIDFromString(getModuleUUID(base), "name" -> localName("IdentifiedElement"))
+        identifiedElementUUID.toString should be("e95bcdd1-d88c-5d2c-86e0-6eb42c968570")
 
         val hasIdentifier =
           lookupEntityScalarDataProperty(base, hasIdentifier_iri, recursively = false)
@@ -340,7 +338,7 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF]
         }
 
         getModuleName(mission) should be("mission")
-        getModuleUUID(mission) should be(UUID.fromString("5551c7f4-1210-5c4b-bd2b-976625a971e4"))
+        getModuleUUID(mission).toString should be("5551c7f4-1210-5c4b-bd2b-976625a971e4")
 
         val component = lookupConcept(mission, component_iri, recursively = false)
         component.isDefined should be(true)

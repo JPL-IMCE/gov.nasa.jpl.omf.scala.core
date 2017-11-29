@@ -18,10 +18,10 @@
 
 package test.gov.nasa.jpl.omf.scala.core.functionalAPI
 
+import gov.nasa.jpl.imce.oml.tables.taggedTypes.localName
 import gov.nasa.jpl.omf.scala.core._
 import gov.nasa.jpl.omf.scala.core.RelationshipCharacteristics._
 import gov.nasa.jpl.omf.scala.core.TerminologyKind._
-import gov.nasa.jpl.omf.scala.core.OMLString.LocalName
 
 import org.scalatest._, exceptions._
 import scala.Some
@@ -119,22 +119,22 @@ abstract class OMFVocabularyMutabilityTest[omf <: OMF]
         base_iri <- makeIRI("http://imce.jpl.nasa.gov/test/mutability/foundation/base/base")
         base <- makeTerminologyGraph(base_iri, isOpenWorld)
         base_extends_xsd <- addTerminologyExtension(base, oml)
-        identifiedElement <- addAspect(base, LocalName("IdentifiedElement"))
+        identifiedElement <- addAspect(base, localName("IdentifiedElement"))
         hasIdentifier = addEntityScalarDataProperty(
           graph = base,
           source = identifiedElement,
           target = string.get,
-          dataPropertyName = LocalName("hasIdentifier"),
+          dataPropertyName = localName("hasIdentifier"),
           isIdentityCriteria = false)
         mission_iri <- makeIRI("http://imce.jpl.nasa.gov/test/mutability/foundation/mission/mission")
         mission <- makeTerminologyGraph(mission_iri, isOpenWorld)
         mission_extends_base <- addTerminologyExtension(mission, base)
-        component <- addConcept(mission, LocalName("Component"))
+        component <- addConcept(mission, localName("Component"))
         component_extends_identifiedElement <- addAspectSpecializationAxiom(
           graph = mission,
           sub = component,
           sup = identifiedElement)
-        function <- addConcept(mission, LocalName("Function"))
+        function <- addConcept(mission, localName("Function"))
         function_extends_identifiedElement <- addAspectSpecializationAxiom(
           graph = mission,
           sub = function,
@@ -144,14 +144,14 @@ abstract class OMFVocabularyMutabilityTest[omf <: OMF]
           source = component,
           target = function,
           characteristics = List(isAsymmetric, isIrreflexive, isInverseFunctional),
-          reifiedRelationshipName = LocalName("Performs"),
-          unreifiedRelationshipName = LocalName("performs"),
-          unreifiedInverseRelationshipName = LocalName("isPerformedBy").some)
-        item <- addConcept(mission, LocalName("Item"))
+          reifiedRelationshipName = localName("Performs"),
+          unreifiedRelationshipName = localName("performs"),
+          unreifiedInverseRelationshipName = localName("isPerformedBy").some)
+        item <- addConcept(mission, localName("Item"))
 
-        message <- addConcept(mission, LocalName("Message"))
+        message <- addConcept(mission, localName("Message"))
 
-        materialItem <- addConcept(mission, LocalName("MaterialItem"))
+        materialItem <- addConcept(mission, localName("MaterialItem"))
 
         message_extends_item <- addConceptSpecializationAxiom(mission, message, item)
 

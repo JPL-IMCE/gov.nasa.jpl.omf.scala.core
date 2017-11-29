@@ -18,9 +18,9 @@
 
 package gov.nasa.jpl.omf.scala.core
 
-import java.util.UUID
+import gov.nasa.jpl.imce.oml.resolver
 
 case class UnreifiedRelationshipPropertyPredicateSignature[omf <: OMF]
-(uuid: UUID,
+(uuid: resolver.api.taggedTypes.UnreifiedRelationshipPropertyPredicateUUID,
  bodySegment: omf#RuleBodySegment,
  predicate: omf#UnreifiedRelationship)

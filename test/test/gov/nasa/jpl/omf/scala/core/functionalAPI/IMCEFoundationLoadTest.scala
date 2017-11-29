@@ -18,7 +18,7 @@
 
 package test.gov.nasa.jpl.omf.scala.core.functionalAPI
 
-import gov.nasa.jpl.omf.scala.core.OMLString.LocalName
+import gov.nasa.jpl.imce.oml.tables.taggedTypes.localName
 import gov.nasa.jpl.omf.scala.core._
 
 import scala.{Some, StringContext}
@@ -42,8 +42,8 @@ abstract class IMCEFoundationLoadTest[omf <: OMF](
           xsd_iri <- makeIRI( "http://www.w3.org/2001/XMLSchema" )
           xsd_tbox <- loadTerminology( Mutable2ImmutableModuleTable.empty[omf], xsd_iri )
           (xsd, table1) = xsd_tbox
-          integer_iri <- withFragment( xsd_iri, LocalName("integer") )
-          string_iri <- withFragment( xsd_iri, LocalName("string") )
+          integer_iri <- withFragment( xsd_iri, localName("integer") )
+          string_iri <- withFragment( xsd_iri, localName("string") )
         } yield {
           val xsd_integer = lookupDataRange( xsd, integer_iri, recursively=false )
           xsd_integer.isDefined should be( true )
@@ -66,8 +66,8 @@ abstract class IMCEFoundationLoadTest[omf <: OMF](
           base_iri <- makeIRI( "http://imce.jpl.nasa.gov/foundation/base/base" )
           base_tbox <- loadTerminology( table1, base_iri )
           (base, table2) = base_tbox
-          identifiedElement_iri <- withFragment( base_iri, LocalName("IdentifiedElement") )
-          hasIdentifier_iri <- withFragment( base_iri, LocalName("hasIdentifier") )
+          identifiedElement_iri <- withFragment( base_iri, localName("IdentifiedElement") )
+          hasIdentifier_iri <- withFragment( base_iri, localName("hasIdentifier") )
         } yield {
           val identifiedElement =
             lookupAspect( base, identifiedElement_iri, recursively=false )
@@ -92,9 +92,9 @@ abstract class IMCEFoundationLoadTest[omf <: OMF](
           mission_iri <- makeIRI( "http://imce.jpl.nasa.gov/foundation/mission/mission" )
           mission_tbox <- loadTerminology( table2, mission_iri )
           (mission, table3) = mission_tbox
-          component_iri <- withFragment( mission_iri, LocalName("Component") )
-          function_iri <- withFragment( mission_iri, LocalName("Function") )
-          performs_iri <- withFragment( mission_iri, LocalName("Performs") )
+          component_iri <- withFragment( mission_iri, localName("Component") )
+          function_iri <- withFragment( mission_iri, localName("Function") )
+          performs_iri <- withFragment( mission_iri, localName("Performs") )
         } yield {
           val component =
             lookupConcept( mission, component_iri, recursively=false )
@@ -123,8 +123,8 @@ abstract class IMCEFoundationLoadTest[omf <: OMF](
           analysis_iri <- makeIRI( "http://imce.jpl.nasa.gov/foundation/analysis/analysis" )
           analysis_tbox <- loadTerminology( table3, analysis_iri )
           (analysis, table4) = analysis_tbox
-          characterization_iri <- withFragment( analysis_iri, LocalName("Characterization") )
-          characterizedElement_iri <- withFragment( analysis_iri, LocalName("CharacterizedElement") )
+          characterization_iri <- withFragment( analysis_iri, localName("Characterization") )
+          characterizedElement_iri <- withFragment( analysis_iri, localName("CharacterizedElement") )
         } yield {
           val characterization =
             lookupConcept( analysis, characterization_iri, recursively=false  )
@@ -149,8 +149,8 @@ abstract class IMCEFoundationLoadTest[omf <: OMF](
           behavior_iri <- makeIRI( "http://imce.jpl.nasa.gov/foundation/behavior/behavior" )
           behavior_tbox <- loadTerminology( table4, behavior_iri )
           (behavior, table5) = behavior_tbox
-          stateVariable_iri <- withFragment( behavior_iri, LocalName("StateVariable") )
-          parameter_iri <- withFragment( behavior_iri, LocalName("Parameter") )
+          stateVariable_iri <- withFragment( behavior_iri, localName("StateVariable") )
+          parameter_iri <- withFragment( behavior_iri, localName("Parameter") )
         } yield {
           val stateVariable =
             lookupConcept( behavior, stateVariable_iri, recursively=false  )
@@ -175,8 +175,8 @@ abstract class IMCEFoundationLoadTest[omf <: OMF](
           project_iri <- makeIRI( "http://imce.jpl.nasa.gov/foundation/project/project" )
           project_tbox <- loadTerminology( table5, project_iri )
           (project, table6) = project_tbox
-          organization_iri <- withFragment( project_iri, LocalName("Organization") )
-          workPackage_iri <- withFragment( project_iri, LocalName("WorkPackage") )
+          organization_iri <- withFragment( project_iri, localName("Organization") )
+          workPackage_iri <- withFragment( project_iri, localName("WorkPackage") )
         } yield {
           val organization =
             lookupConcept( project, organization_iri, recursively=false  )

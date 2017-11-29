@@ -18,11 +18,11 @@
 
 package gov.nasa.jpl.omf.scala.core
 
-import java.util.UUID
+import gov.nasa.jpl.imce.oml.resolver
 
 case class DescriptionBoxExtendsClosedWorldDefinitionsSignature[omf <: OMF]
-(uuid: UUID,
- descriptionBox: UUID,
+(uuid: resolver.api.taggedTypes.DescriptionBoxExtendsClosedWorldDefinitionsUUID,
+ descriptionBox: resolver.api.taggedTypes.DescriptionBoxUUID,
  extendedClosedWorldDefinitions: omf#TerminologyBox)
   extends ModuleEdgeSignature[omf] {
 

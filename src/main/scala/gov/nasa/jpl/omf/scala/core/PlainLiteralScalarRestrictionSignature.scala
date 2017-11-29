@@ -18,20 +18,18 @@
 
 package gov.nasa.jpl.omf.scala.core
 
-import java.util.UUID
-
-import gov.nasa.jpl.imce.oml.tables.{LocalName,LiteralPattern,PositiveIntegerLiteral}
+import gov.nasa.jpl.imce.oml.resolver
+import gov.nasa.jpl.imce.oml.tables.taggedTypes
 import scala.Option
-import scala.Predef.String
 
 case class PlainLiteralScalarRestrictionSignature[omf <: OMF]
-( uuid: UUID,
-  name: LocalName,
+( uuid: resolver.api.taggedTypes.PlainLiteralScalarRestrictionUUID,
+  name: taggedTypes.LocalName,
   iri: omf#IRI,
-  length: Option[PositiveIntegerLiteral],
-  minLength: Option[PositiveIntegerLiteral],
-  maxLength: Option[PositiveIntegerLiteral],
-  pattern: Option[LiteralPattern],
-  langRange: Option[String],
+  length: Option[taggedTypes.PositiveIntegerLiteral],
+  minLength: Option[taggedTypes.PositiveIntegerLiteral],
+  maxLength: Option[taggedTypes.PositiveIntegerLiteral],
+  pattern: Option[taggedTypes.LiteralPattern],
+  langRange: Option[taggedTypes.LanguageTagDataType],
   restrictedRange: omf#DataRange
 )

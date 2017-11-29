@@ -18,9 +18,9 @@
 
 package gov.nasa.jpl.omf.scala.core
 
-import java.util.UUID
+import gov.nasa.jpl.imce.oml.resolver
 
 case class ReifiedRelationshipInstanceDomainSignature[omf <: OMF]
-( uuid: UUID,
+( uuid: resolver.api.taggedTypes.ReifiedRelationshipInstanceDomainUUID,
   reifiedRelationshipInstance: omf#ReifiedRelationshipInstance,
   domain: omf#ConceptualEntitySingletonInstance )

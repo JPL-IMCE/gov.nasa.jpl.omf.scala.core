@@ -18,10 +18,10 @@
 
 package gov.nasa.jpl.omf.scala.core
 
-import java.util.UUID
+import gov.nasa.jpl.imce.oml.resolver
 
 case class ReifiedRelationshipSpecializationSignature[omf <: OMF]
-( uuid: UUID,
+( uuid: resolver.api.taggedTypes.ReifiedRelationshipSpecializationAxiomUUID,
   sub: omf#ReifiedRelationship,
   sup: omf#ReifiedRelationship
 )

@@ -21,6 +21,7 @@ package test.gov.nasa.jpl.omf.scala.core.functionalAPI
 import java.io.File
 
 import gov.nasa.jpl.imce.oml.tables.OMLSpecificationTables
+import gov.nasa.jpl.imce.oml.tables.taggedTypes.localName
 import gov.nasa.jpl.omf.scala.core._
 import gov.nasa.jpl.omf.scala.core.RelationshipCharacteristics._
 import gov.nasa.jpl.omf.scala.core.TerminologyKind._
@@ -28,7 +29,6 @@ import org.scalatest._
 import org.scalatest.exceptions.TestFailedException
 import exceptions._
 import gov.nasa.jpl.omf.scala.core.OMFError.Throwables
-import gov.nasa.jpl.omf.scala.core.OMLString.LocalName
 import gov.nasa.jpl.omf.scala.core.tables.OMFTabularExport
 
 import scala.collection.mutable.ArrayBuffer
@@ -127,23 +127,23 @@ abstract class OMFNestedGraphTest[omf <: OMF]
         base_iri <- makeIRI(s"http://imce.jpl.nasa.gov/test/$testName/foundation/base/base")
         base <- makeTerminologyGraph(base_iri, isOpenWorld)
         base_extends_xsd <- addTerminologyExtension(base, xsd)
-        identifiedElement <- addAspect(base, LocalName("IdentifiedElement"))
+        identifiedElement <- addAspect(base, localName("IdentifiedElement"))
         hasIdentifier = addEntityScalarDataProperty(
           graph = base,
           source = identifiedElement,
           target = string.get,
-          dataPropertyName = LocalName("hasIdentifier"),
+          dataPropertyName = localName("hasIdentifier"),
           isIdentityCriteria = false)
 
         mission_iri <- makeIRI(s"http://imce.jpl.nasa.gov/test/$testName/foundation/mission/mission")
         mission <- makeTerminologyGraph(mission_iri, isOpenWorld)
         mission_extends_base <- addTerminologyExtension(mission, base)
-        component <- addConcept(mission, LocalName("Component"))
+        component <- addConcept(mission, localName("Component"))
         component_extends_identifiedElement <- addAspectSpecializationAxiom(
           graph = mission,
           sub = component,
           sup = identifiedElement)
-        function <- addConcept(mission, LocalName("Function"))
+        function <- addConcept(mission, localName("Function"))
         function_extends_identifiedElement <- addAspectSpecializationAxiom(
           graph = mission,
           sub = function,
@@ -153,32 +153,32 @@ abstract class OMFNestedGraphTest[omf <: OMF]
           source = component,
           target = function,
           characteristics = List(isAsymmetric, isIrreflexive, isInverseFunctional),
-          reifiedRelationshipName = LocalName("Performs"),
-          unreifiedRelationshipName = LocalName("performs"),
-          unreifiedInverseRelationshipName = LocalName("isPerformedBy").some)
+          reifiedRelationshipName = localName("Performs"),
+          unreifiedRelationshipName = localName("performs"),
+          unreifiedInverseRelationshipName = localName("isPerformedBy").some)
 
         project_iri <- makeIRI(s"http://imce.jpl.nasa.gov/test/$testName/foundation/project/project")
         project <- makeTerminologyGraph(project_iri, isOpenWorld)
         project_extends_mission <- addTerminologyExtension(project, mission)
-        workPackage <- addConcept(project, LocalName("WorkPackage"))
+        workPackage <- addConcept(project, localName("WorkPackage"))
 
         g_iri <- makeIRI(s"http://imce.jpl.nasa.gov/test/$testName/example/G")
         g <- makeTerminologyGraph(g_iri, isOpenWorld)
         g_extends_project <- addTerminologyExtension(g, project)
 
-        g_A <- addConcept(g, LocalName("A"))
+        g_A <- addConcept(g, localName("A"))
         g_A_isa_component <- addConceptSpecializationAxiom(g, g_A, component)
 
-        g_B <- addConcept(g, LocalName("B"))
+        g_B <- addConcept(g, localName("B"))
         g_B_isa_component <- addConceptSpecializationAxiom(g, g_B, component)
 
-        g_C <- addConcept(g, LocalName("C"))
+        g_C <- addConcept(g, localName("C"))
         g_C_isa_function <- addConceptSpecializationAxiom(g, g_C, component)
 
         p1_iri <- makeIRI(s"http://imce.jpl.nasa.gov/test/$testName/example/P1")
         p1 <- makeTerminologyGraph(p1_iri, isOpenWorld)
         _ <- addTerminologyExtension(p1, g)
-        g_authorizes_p1 <- addConcept(g, LocalName("P1"))
+        g_authorizes_p1 <- addConcept(g, localName("P1"))
         g_authorizes_p1_WP <- addConceptSpecializationAxiom(g, g_authorizes_p1, workPackage)
 
         p1_asserts_A_performs_C <- addReifiedRelationship(
@@ -186,9 +186,9 @@ abstract class OMFNestedGraphTest[omf <: OMF]
           source = g_A,
           target = g_C,
           characteristics = List(isAsymmetric, isIrreflexive, isInverseFunctional),
-          reifiedRelationshipName = LocalName("Performs"),
-          unreifiedRelationshipName = LocalName("performs"),
-          unreifiedInverseRelationshipName = LocalName("isPerformedBy").some)
+          reifiedRelationshipName = localName("Performs"),
+          unreifiedRelationshipName = localName("performs"),
+          unreifiedInverseRelationshipName = localName("isPerformedBy").some)
         p1_asserts_A_performsFunction_C <-
         addReifiedRelationshipSpecializationAxiom(graph=p1, sub=p1_asserts_A_performs_C, sup=component_performs_function)
 
@@ -197,7 +197,7 @@ abstract class OMFNestedGraphTest[omf <: OMF]
         p2_iri <- makeIRI(s"http://imce.jpl.nasa.gov/test/$testName/example/P2")
         p2 <- makeTerminologyGraph(p2_iri, isOpenWorld)
         _ <- addTerminologyExtension(p2, g)
-        g_authorizes_p2 <- addConcept(g, LocalName("P2"))
+        g_authorizes_p2 <- addConcept(g, localName("P2"))
         g_authorizes_p2_WP <- addConceptSpecializationAxiom(g, g_authorizes_p2, workPackage)
 
         p2_asserts_B_performs_C <- addReifiedRelationship(
@@ -205,9 +205,9 @@ abstract class OMFNestedGraphTest[omf <: OMF]
           source = g_B,
           target = g_C,
           characteristics = List(isAsymmetric, isIrreflexive, isInverseFunctional),
-          reifiedRelationshipName = LocalName("Performs"),
-          unreifiedRelationshipName = LocalName("performs"),
-          unreifiedInverseRelationshipName = LocalName("isPerformedBy").some)
+          reifiedRelationshipName = localName("Performs"),
+          unreifiedRelationshipName = localName("performs"),
+          unreifiedInverseRelationshipName = localName("isPerformedBy").some)
         p2_asserts_B_performsFunction_C <-
         addReifiedRelationshipSpecializationAxiom(graph=p2, sub=p2_asserts_B_performs_C, sup=component_performs_function)
 

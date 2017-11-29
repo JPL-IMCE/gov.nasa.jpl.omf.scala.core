@@ -18,11 +18,10 @@
 
 package gov.nasa.jpl.omf.scala.core
 
-import java.util.UUID
-
-import gov.nasa.jpl.imce.oml.tables.LocalName
+import gov.nasa.jpl.imce.oml.resolver
+import gov.nasa.jpl.imce.oml.tables.taggedTypes
 
 case class ChainRuleSignature[omf <: OMF]
-(name: LocalName,
- uuid: UUID,
+(name: taggedTypes.LocalName,
+ uuid: resolver.api.taggedTypes.ChainRuleUUID,
  head: omf#UnreifiedRelationship)

@@ -18,10 +18,10 @@
 
 package gov.nasa.jpl.omf.scala.core
 
-import java.util.UUID
+import gov.nasa.jpl.imce.oml.resolver
 
 case class TerminologyNestingSignature[omf <: OMF]
-(uuid: UUID,
+(uuid: resolver.api.taggedTypes.TerminologyNestingAxiomUUID,
  nestingContext: omf#Concept,
  nestingTerminology: omf#TerminologyBox)
   extends TerminologyAxiomSignature[omf] {

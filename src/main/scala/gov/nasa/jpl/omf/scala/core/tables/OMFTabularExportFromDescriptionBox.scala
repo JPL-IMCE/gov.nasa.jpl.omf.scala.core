@@ -21,6 +21,8 @@ package gov.nasa.jpl.omf.scala.core.tables
 import java.lang.System
 
 import gov.nasa.jpl.imce.oml
+import gov.nasa.jpl.imce.oml.resolver.toUUIDString
+import gov.nasa.jpl.imce.oml.tables.taggedTypes
 import gov.nasa.jpl.omf.scala.core.OMFError.Throwables
 import gov.nasa.jpl.omf.scala.core.{DescriptionKind, OMF, OMFError, OMFOps}
 
@@ -31,6 +33,8 @@ import scalaz._
 import Scalaz._
 
 object OMFTabularExportFromDescriptionBox {
+
+  implicit def toIRI[omf <: OMF](iri: omf#IRI): taggedTypes.IRI = taggedTypes.iri(iri.toString)
 
   def toTables[omf <: OMF]
   (acc: Throwables \/ Seq[(omf#ImmutableModule, oml.tables.OMLSpecificationTables)])
@@ -47,7 +51,7 @@ object OMFTabularExportFromDescriptionBox {
     all_aps = all_tables.flatMap(_.annotationProperties)
 
     s = ops.fromImmutableDescriptionBox(dbox)
-    suuid = s.uuid.toString
+    suuid = s.uuid
 
     s_common_aps = s.annotationProperties intersect all_aps
     s_ap = s.annotationProperties -- s_common_aps
@@ -55,7 +59,7 @@ object OMFTabularExportFromDescriptionBox {
     // Check that there are no overlaping annotation properties
     _ = {
       if (s_common_aps.nonEmpty) {
-        val common = s_common_aps.to[Seq].sortBy(_.abbrevIRI)
+        val common = s_common_aps.to[Seq].sortBy(_.abbrevIRI.toString)
         System.out.println(
           s"TerminologyGraph ${s.iri} duplicates ${common.size} Annotations defined in imported modules: " +
             common.map(_.abbrevIRI).mkString("\n\t",", ","\n"))
@@ -78,9 +82,9 @@ object OMFTabularExportFromDescriptionBox {
               ops.getModuleIRI(omf_info.extendedClosedWorldDefinitions)))
             .left[Unit]
         ax = oml.tables.DescriptionBoxExtendsClosedWorldDefinitions(
-          uuid = omf_info.uuid.toString,
+          uuid = omf_info.uuid,
           descriptionBoxUUID = suuid,
-          closedWorldDefinitionsIRI = ops.getModuleIRI(omf_info.extendedClosedWorldDefinitions).toString)
+          closedWorldDefinitionsIRI = ops.getModuleIRI(omf_info.extendedClosedWorldDefinitions))
 
       } yield axs :+ ax
     }
@@ -100,9 +104,9 @@ object OMFTabularExportFromDescriptionBox {
               s" whose refined description is not imported: ${ops.getModuleIRI(omf_info.refinedDescriptionBox)}"))
             .left[Unit]
         ax = oml.tables.DescriptionBoxRefinement(
-          uuid = omf_info.uuid.toString,
-          refiningDescriptionBoxUUID = omf_info.descriptionBox.toString,
-          refinedDescriptionBoxIRI = ops.getModuleIRI(omf_info.refinedDescriptionBox).toString)
+          uuid = omf_info.uuid,
+          refiningDescriptionBoxUUID = omf_info.descriptionBox,
+          refinedDescriptionBoxIRI = ops.getModuleIRI(omf_info.refinedDescriptionBox))
 
       } yield axs :+ ax
     }
@@ -111,9 +115,9 @@ object OMFTabularExportFromDescriptionBox {
     s.conceptInstances.map { i =>
       val s = ops.fromConceptInstance(i)
       oml.tables.ConceptInstance(
-        uuid = s.uuid.toString,
+        uuid = s.uuid,
         descriptionBoxUUID = suuid,
-        singletonConceptClassifierUUID = ops.getTermUUID(s.concept).toString,
+        singletonConceptClassifierUUID = ops.getConceptUUID(s.concept),
         name = ops.getTermName(s.concept))
     }.to[Seq].sorted
 
@@ -121,9 +125,9 @@ object OMFTabularExportFromDescriptionBox {
     s.reifiedRelationshipInstances.map { i =>
       val info = ops.fromReifiedRelationshipInstance(i)
       oml.tables.ReifiedRelationshipInstance(
-        uuid = info.uuid.toString,
+        uuid = info.uuid,
         descriptionBoxUUID = suuid,
-        singletonReifiedRelationshipClassifierUUID = ops.getTermUUID(info.reifiedRelationshipClassifier).toString,
+        singletonReifiedRelationshipClassifierUUID = ops.getReifiedRelationshipUUID(info.reifiedRelationshipClassifier),
         name = ops.getTermName(info.reifiedRelationshipClassifier))
     }.to[Seq].sorted
 
@@ -131,73 +135,75 @@ object OMFTabularExportFromDescriptionBox {
     s.reifiedRelationshipInstanceDomains.map { i =>
       val info = ops.fromReifiedRelationshipInstanceDomain(i)
       oml.tables.ReifiedRelationshipInstanceDomain(
-        uuid = info.uuid.toString,
+        uuid = info.uuid,
         descriptionBoxUUID = suuid,
-        reifiedRelationshipInstanceUUID = ops.getElementUUID(info.reifiedRelationshipInstance).toString,
-        domainUUID = ops.getElementUUID(info.domain).toString)
+        reifiedRelationshipInstanceUUID = ops.getReifiedRelationshipInstanceUUID(info.reifiedRelationshipInstance),
+        domainUUID = ops.getConceptualEntitySingletonInstanceUUID(info.domain))
     }.to[Seq].sorted
 
     allReifiedRelationshipInstanceRanges =
     s.reifiedRelationshipInstanceRanges.map { i =>
       val info = ops.fromReifiedRelationshipInstanceRange(i)
       oml.tables.ReifiedRelationshipInstanceRange(
-        uuid = info.uuid.toString,
+        uuid = info.uuid,
         descriptionBoxUUID = suuid,
-        reifiedRelationshipInstanceUUID = ops.getElementUUID(info.reifiedRelationshipInstance).toString,
-        rangeUUID = ops.getElementUUID(info.range).toString)
+        reifiedRelationshipInstanceUUID = ops.getReifiedRelationshipInstanceUUID(info.reifiedRelationshipInstance),
+        rangeUUID = ops.getConceptualEntitySingletonInstanceUUID(info.range))
     }.to[Seq].sorted
 
     allScalarDataPropertyValues =
     s.scalarDataPropertyValues.map { i =>
       val info = ops.fromScalarDataPropertyValue(i)
       oml.tables.ScalarDataPropertyValue(
-        uuid = info.uuid.toString,
-        scalarDataPropertyUUID = ops.getTermUUID(info.scalarDataProperty).toString,
+        uuid = info.uuid,
+        scalarDataPropertyUUID = ops.getDataRelationshipToScalarUUID(info.scalarDataProperty),
         scalarPropertyValue = info.scalarPropertyValue,
-        structuredDataPropertyContextUUID = info.singletonInstanceStructuredDataPropertyContextUUID.toString,
-        valueTypeUUID = info.valueType.map { vt => ops.getTermUUID(vt).toString })
+        structuredDataPropertyContextUUID = ops.getSingletonInstanceStructuredDataPropertyContextUUID(
+          info.singletonInstanceStructuredDataPropertyContext),
+        valueTypeUUID = info.valueType.map { vt => ops.getDataRangeUUID(vt) })
     }.to[Seq].sorted
 
     allStructuredDataPropertyTuples =
     s.structuredDataPropertyTuples.map { i =>
       val info = ops.fromStructuredDataPropertyTuple(dbox, i)
       oml.tables.StructuredDataPropertyTuple(
-        uuid = info.uuid.toString,
-        structuredDataPropertyUUID = ops.getTermUUID(info.structuredataProperty).toString,
-        structuredDataPropertyContextUUID = info.singletonInstanceStructuredDataPropertyContextUUID.toString)
+        uuid = info.uuid,
+        structuredDataPropertyUUID = ops.getDataRelationshipToStructureUUID(info.structuredataProperty),
+        structuredDataPropertyContextUUID = ops.getSingletonInstanceStructuredDataPropertyContextUUID(
+          info.singletonInstanceStructuredDataPropertyContext))
     }.to[Seq].sorted
 
     allSingletonInstanceScalarDataPropertyValues =
     s.singletonScalarDataPropertyValues.map { i =>
       val info = ops.fromSingletonInstanceScalarDataPropertyValue(i)
       oml.tables.SingletonInstanceScalarDataPropertyValue(
-        uuid = info.uuid.toString,
+        uuid = info.uuid,
         descriptionBoxUUID = suuid,
-        singletonInstanceUUID = ops.getElementUUID(info.singletonInstance).toString,
-        scalarDataPropertyUUID = ops.getTermUUID(info.scalarDataProperty).toString,
+        singletonInstanceUUID = ops.getConceptualEntitySingletonInstanceUUID(info.singletonInstance),
+        scalarDataPropertyUUID = ops.getEntityScalarDataPropertyUUID(info.scalarDataProperty),
         scalarPropertyValue = info.scalarDataPropertyValue,
-        valueTypeUUID = info.valueType.map { vt => ops.getTermUUID(vt).toString })
+        valueTypeUUID = info.valueType.map { vt => ops.getDataRangeUUID(vt) })
     }.to[Seq].sorted
 
     allSingletonInstanceStructuredDataPropertyValues =
     s.singletonStructuredDataPropertyValues.map { i =>
       val info = ops.fromSingletonInstanceStructuredDataPropertyValue(dbox, i)
       oml.tables.SingletonInstanceStructuredDataPropertyValue(
-        uuid = info.uuid.toString,
+        uuid = info.uuid,
         descriptionBoxUUID = suuid,
-        singletonInstanceUUID = ops.getElementUUID(info.singletonInstance).toString,
-        structuredDataPropertyUUID = ops.getTermUUID(info.structuredDataProperty).toString)
+        singletonInstanceUUID = ops.getConceptualEntitySingletonInstanceUUID(info.singletonInstance),
+        structuredDataPropertyUUID = ops.getDataRelationshipToStructureUUID(info.structuredDataProperty))
     }.to[Seq].sorted
 
     allUnreifiedRelationshipInstanceTuples =
     s.unreifiedRelationshipInstanceTuples.map { i =>
       val info = ops.fromUnreifiedRelationshipInstanceTuple(i)
       oml.tables.UnreifiedRelationshipInstanceTuple(
-        uuid = info.uuid.toString,
+        uuid = info.uuid,
         descriptionBoxUUID = suuid,
-        unreifiedRelationshipUUID = ops.getTermUUID(info.unreifiedRelationship).toString,
-        domainUUID = ops.getElementUUID(info.domain).toString,
-        rangeUUID = ops.getElementUUID(info.range).toString)
+        unreifiedRelationshipUUID = ops.getUnreifiedRelationshipUUID(info.unreifiedRelationship),
+        domainUUID = ops.getConceptualEntitySingletonInstanceUUID(info.domain),
+        rangeUUID = ops.getConceptualEntitySingletonInstanceUUID(info.range))
     }.to[Seq].sorted
 
     table = oml.tables.OMLSpecificationTables.createEmptyOMLSpecificationTables()
@@ -208,7 +214,7 @@ object OMFTabularExportFromDescriptionBox {
             oml.tables.Final
           else
             oml.tables.Partial,
-          iri = s.iri.toString)),
+          iri = s.iri)),
 
         descriptionBoxExtendsClosedWorldDefinitions = allClosedWorldDefinitions.sorted,
         descriptionBoxRefinements = allDescriptionBoxRefinements.sorted,
