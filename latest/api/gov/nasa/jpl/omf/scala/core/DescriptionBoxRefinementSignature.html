@@ -45,7 +45,7 @@
         <span class="kind">case class</span>
       </span>
       <span class="symbol">
-        <span class="name">DescriptionBoxRefinementSignature</span><span class="tparams">[<span name="omf">omf &lt;: <a href="OMF.html" class="extype" name="gov.nasa.jpl.omf.scala.core.OMF">OMF</a></span>]</span><span class="params">(<span name="uuid">uuid: <span class="extype" name="java.util.UUID">UUID</span></span>, <span name="descriptionBox">descriptionBox: <span class="extype" name="java.util.UUID">UUID</span></span>, <span name="refinedDescriptionBox">refinedDescriptionBox: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFdbox.DescriptionBox">omf.DescriptionBox</span></span>)</span><span class="result"> extends <a href="ModuleEdgeSignature.html" class="extype" name="gov.nasa.jpl.omf.scala.core.ModuleEdgeSignature">ModuleEdgeSignature</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.DescriptionBoxRefinementSignature.omf">omf</span>] with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+        <span class="name">DescriptionBoxRefinementSignature</span><span class="tparams">[<span name="omf">omf &lt;: <a href="OMF.html" class="extype" name="gov.nasa.jpl.omf.scala.core.OMF">OMF</a></span>]</span><span class="params">(<span name="uuid">uuid: <span class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.DescriptionBoxRefinementUUID">DescriptionBoxRefinementUUID</span></span>, <span name="descriptionBox">descriptionBox: <span class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.DescriptionBoxUUID">DescriptionBoxUUID</span></span>, <span name="refinedDescriptionBox">refinedDescriptionBox: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFdbox.DescriptionBox">omf.DescriptionBox</span></span>)</span><span class="result"> extends <a href="ModuleEdgeSignature.html" class="extype" name="gov.nasa.jpl.omf.scala.core.ModuleEdgeSignature">ModuleEdgeSignature</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.DescriptionBoxRefinementSignature.omf">omf</span>] with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       </h4>
       
@@ -89,7 +89,7 @@
         <div id="constructors" class="members">
               <h3>Instance Constructors</h3>
               <ol><li name="gov.nasa.jpl.omf.scala.core.DescriptionBoxRefinementSignature#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="&lt;init&gt;(uuid:java.util.UUID,descriptionBox:java.util.UUID,refinedDescriptionBox:omf#DescriptionBox):gov.nasa.jpl.omf.scala.core.DescriptionBoxRefinementSignature[omf]"></a>
+      <a id="&lt;init&gt;(uuid:gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.DescriptionBoxRefinementUUID,descriptionBox:gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.DescriptionBoxUUID,refinedDescriptionBox:omf#DescriptionBox):gov.nasa.jpl.omf.scala.core.DescriptionBoxRefinementSignature[omf]"></a>
       <a id="&lt;init&gt;:DescriptionBoxRefinementSignature[omf]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -97,10 +97,10 @@
         <span class="kind">new</span>
       </span>
       <span class="symbol">
-        <span class="name">DescriptionBoxRefinementSignature</span><span class="params">(<span name="uuid">uuid: <span class="extype" name="java.util.UUID">UUID</span></span>, <span name="descriptionBox">descriptionBox: <span class="extype" name="java.util.UUID">UUID</span></span>, <span name="refinedDescriptionBox">refinedDescriptionBox: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFdbox.DescriptionBox">omf.DescriptionBox</span></span>)</span>
+        <span class="name">DescriptionBoxRefinementSignature</span><span class="params">(<span name="uuid">uuid: <span class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.DescriptionBoxRefinementUUID">DescriptionBoxRefinementUUID</span></span>, <span name="descriptionBox">descriptionBox: <span class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.DescriptionBoxUUID">DescriptionBoxUUID</span></span>, <span name="refinedDescriptionBox">refinedDescriptionBox: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFdbox.DescriptionBox">omf.DescriptionBox</span></span>)</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.DescriptionBoxRefinementSignature@&lt;init&gt;(uuid:java.util.UUID,descriptionBox:java.util.UUID,refinedDescriptionBox:omf#DescriptionBox):gov.nasa.jpl.omf.scala.core.DescriptionBoxRefinementSignature[omf]" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.DescriptionBoxRefinementSignature@&lt;init&gt;(uuid:gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.DescriptionBoxRefinementUUID,descriptionBox:gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.DescriptionBoxUUID,refinedDescriptionBox:omf#DescriptionBox):gov.nasa.jpl.omf.scala.core.DescriptionBoxRefinementSignature[omf]" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -206,18 +206,18 @@
               
         </dd></dl></div>
     </li><li name="gov.nasa.jpl.omf.scala.core.DescriptionBoxRefinementSignature#descriptionBox" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="descriptionBox:java.util.UUID"></a>
-      <a id="descriptionBox:UUID"></a>
+      <a id="descriptionBox:gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.DescriptionBoxUUID"></a>
+      <a id="descriptionBox:DescriptionBoxUUID"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">descriptionBox</span><span class="result">: <span class="extype" name="java.util.UUID">UUID</span></span>
+        <span class="name">descriptionBox</span><span class="result">: <span class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.DescriptionBoxUUID">DescriptionBoxUUID</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.DescriptionBoxRefinementSignature@descriptionBox:java.util.UUID" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.DescriptionBoxRefinementSignature@descriptionBox:gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.DescriptionBoxUUID" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -399,18 +399,18 @@
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
     </li><li name="gov.nasa.jpl.omf.scala.core.DescriptionBoxRefinementSignature#uuid" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="uuid:java.util.UUID"></a>
-      <a id="uuid:UUID"></a>
+      <a id="uuid:gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.DescriptionBoxRefinementUUID"></a>
+      <a id="uuid:DescriptionBoxRefinementUUID"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">uuid</span><span class="result">: <span class="extype" name="java.util.UUID">UUID</span></span>
+        <span class="name">uuid</span><span class="result">: <span class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.DescriptionBoxRefinementUUID">DescriptionBoxRefinementUUID</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.DescriptionBoxRefinementSignature@uuid:java.util.UUID" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.DescriptionBoxRefinementSignature@uuid:gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.DescriptionBoxRefinementUUID" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>

@@ -45,7 +45,7 @@
         <span class="kind">case class</span>
       </span>
       <span class="symbol">
-        <span class="name">BundledTerminologySignature</span><span class="tparams">[<span name="omf">omf &lt;: <a href="OMF.html" class="extype" name="gov.nasa.jpl.omf.scala.core.OMF">OMF</a></span>]</span><span class="params">(<span name="uuid">uuid: <span class="extype" name="java.util.UUID">UUID</span></span>, <span name="bundle">bundle: <span class="extype" name="java.util.UUID">UUID</span></span>, <span name="bundledTerminology">bundledTerminology: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.TerminologyBox">omf.TerminologyBox</span></span>)</span><span class="result"> extends <a href="TerminologyAxiomSignature.html" class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyAxiomSignature">TerminologyAxiomSignature</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.BundledTerminologySignature.omf">omf</span>] with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+        <span class="name">BundledTerminologySignature</span><span class="tparams">[<span name="omf">omf &lt;: <a href="OMF.html" class="extype" name="gov.nasa.jpl.omf.scala.core.OMF">OMF</a></span>]</span><span class="params">(<span name="uuid">uuid: <span class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.BundledTerminologyAxiomUUID">BundledTerminologyAxiomUUID</span></span>, <span name="bundle">bundle: <span class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.BundleUUID">BundleUUID</span></span>, <span name="bundledTerminology">bundledTerminology: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.TerminologyBox">omf.TerminologyBox</span></span>)</span><span class="result"> extends <a href="TerminologyAxiomSignature.html" class="extype" name="gov.nasa.jpl.omf.scala.core.TerminologyAxiomSignature">TerminologyAxiomSignature</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.BundledTerminologySignature.omf">omf</span>] with <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       </h4>
       
@@ -89,7 +89,7 @@
         <div id="constructors" class="members">
               <h3>Instance Constructors</h3>
               <ol><li name="gov.nasa.jpl.omf.scala.core.BundledTerminologySignature#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="&lt;init&gt;(uuid:java.util.UUID,bundle:java.util.UUID,bundledTerminology:omf#TerminologyBox):gov.nasa.jpl.omf.scala.core.BundledTerminologySignature[omf]"></a>
+      <a id="&lt;init&gt;(uuid:gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.BundledTerminologyAxiomUUID,bundle:gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.BundleUUID,bundledTerminology:omf#TerminologyBox):gov.nasa.jpl.omf.scala.core.BundledTerminologySignature[omf]"></a>
       <a id="&lt;init&gt;:BundledTerminologySignature[omf]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -97,10 +97,10 @@
         <span class="kind">new</span>
       </span>
       <span class="symbol">
-        <span class="name">BundledTerminologySignature</span><span class="params">(<span name="uuid">uuid: <span class="extype" name="java.util.UUID">UUID</span></span>, <span name="bundle">bundle: <span class="extype" name="java.util.UUID">UUID</span></span>, <span name="bundledTerminology">bundledTerminology: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.TerminologyBox">omf.TerminologyBox</span></span>)</span>
+        <span class="name">BundledTerminologySignature</span><span class="params">(<span name="uuid">uuid: <span class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.BundledTerminologyAxiomUUID">BundledTerminologyAxiomUUID</span></span>, <span name="bundle">bundle: <span class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.BundleUUID">BundleUUID</span></span>, <span name="bundledTerminology">bundledTerminology: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.TerminologyBox">omf.TerminologyBox</span></span>)</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.BundledTerminologySignature@&lt;init&gt;(uuid:java.util.UUID,bundle:java.util.UUID,bundledTerminology:omf#TerminologyBox):gov.nasa.jpl.omf.scala.core.BundledTerminologySignature[omf]" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.BundledTerminologySignature@&lt;init&gt;(uuid:gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.BundledTerminologyAxiomUUID,bundle:gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.BundleUUID,bundledTerminology:omf#TerminologyBox):gov.nasa.jpl.omf.scala.core.BundledTerminologySignature[omf]" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -183,18 +183,18 @@
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
     </li><li name="gov.nasa.jpl.omf.scala.core.BundledTerminologySignature#bundle" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="bundle:java.util.UUID"></a>
-      <a id="bundle:UUID"></a>
+      <a id="bundle:gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.BundleUUID"></a>
+      <a id="bundle:BundleUUID"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">bundle</span><span class="result">: <span class="extype" name="java.util.UUID">UUID</span></span>
+        <span class="name">bundle</span><span class="result">: <span class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.BundleUUID">BundleUUID</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.BundledTerminologySignature@bundle:java.util.UUID" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.BundledTerminologySignature@bundle:gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.BundleUUID" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -416,18 +416,18 @@
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
     </li><li name="gov.nasa.jpl.omf.scala.core.BundledTerminologySignature#uuid" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="uuid:java.util.UUID"></a>
-      <a id="uuid:UUID"></a>
+      <a id="uuid:gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.BundledTerminologyAxiomUUID"></a>
+      <a id="uuid:BundledTerminologyAxiomUUID"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">uuid</span><span class="result">: <span class="extype" name="java.util.UUID">UUID</span></span>
+        <span class="name">uuid</span><span class="result">: <span class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.BundledTerminologyAxiomUUID">BundledTerminologyAxiomUUID</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.BundledTerminologySignature@uuid:java.util.UUID" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.BundledTerminologySignature@uuid:gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.BundledTerminologyAxiomUUID" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>

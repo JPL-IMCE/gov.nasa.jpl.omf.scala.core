@@ -45,7 +45,7 @@
         <span class="kind">case class</span>
       </span>
       <span class="symbol">
-        <span class="name">RuleBodySegmentSignature</span><span class="tparams">[<span name="omf">omf &lt;: <a href="OMF.html" class="extype" name="gov.nasa.jpl.omf.scala.core.OMF">OMF</a></span>]</span><span class="params">(<span name="uuid">uuid: <span class="extype" name="java.util.UUID">UUID</span></span>, <span name="position">position: <span class="extype" name="scala.Int">Int</span></span>, <span name="chainRule">chainRule: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ChainRule">omf.ChainRule</span>]</span>, <span name="previousSegment">previousSegment: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.RuleBodySegment">omf.RuleBodySegment</span>]</span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+        <span class="name">RuleBodySegmentSignature</span><span class="tparams">[<span name="omf">omf &lt;: <a href="OMF.html" class="extype" name="gov.nasa.jpl.omf.scala.core.OMF">OMF</a></span>]</span><span class="params">(<span name="uuid">uuid: <span class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.RuleBodySegmentUUID">RuleBodySegmentUUID</span></span>, <span name="position">position: <span class="extype" name="scala.Int">Int</span></span>, <span name="chainRule">chainRule: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ChainRule">omf.ChainRule</span>]</span>, <span name="previousSegment">previousSegment: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.RuleBodySegment">omf.RuleBodySegment</span>]</span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
       </span>
       </h4>
       
@@ -89,7 +89,7 @@
         <div id="constructors" class="members">
               <h3>Instance Constructors</h3>
               <ol><li name="gov.nasa.jpl.omf.scala.core.RuleBodySegmentSignature#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="&lt;init&gt;(uuid:java.util.UUID,position:Int,chainRule:Option[omf#ChainRule],previousSegment:Option[omf#RuleBodySegment]):gov.nasa.jpl.omf.scala.core.RuleBodySegmentSignature[omf]"></a>
+      <a id="&lt;init&gt;(uuid:gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.RuleBodySegmentUUID,position:Int,chainRule:Option[omf#ChainRule],previousSegment:Option[omf#RuleBodySegment]):gov.nasa.jpl.omf.scala.core.RuleBodySegmentSignature[omf]"></a>
       <a id="&lt;init&gt;:RuleBodySegmentSignature[omf]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -97,10 +97,10 @@
         <span class="kind">new</span>
       </span>
       <span class="symbol">
-        <span class="name">RuleBodySegmentSignature</span><span class="params">(<span name="uuid">uuid: <span class="extype" name="java.util.UUID">UUID</span></span>, <span name="position">position: <span class="extype" name="scala.Int">Int</span></span>, <span name="chainRule">chainRule: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ChainRule">omf.ChainRule</span>]</span>, <span name="previousSegment">previousSegment: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.RuleBodySegment">omf.RuleBodySegment</span>]</span>)</span>
+        <span class="name">RuleBodySegmentSignature</span><span class="params">(<span name="uuid">uuid: <span class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.RuleBodySegmentUUID">RuleBodySegmentUUID</span></span>, <span name="position">position: <span class="extype" name="scala.Int">Int</span></span>, <span name="chainRule">chainRule: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ChainRule">omf.ChainRule</span>]</span>, <span name="previousSegment">previousSegment: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.RuleBodySegment">omf.RuleBodySegment</span>]</span>)</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.RuleBodySegmentSignature@&lt;init&gt;(uuid:java.util.UUID,position:Int,chainRule:Option[omf#ChainRule],previousSegment:Option[omf#RuleBodySegment]):gov.nasa.jpl.omf.scala.core.RuleBodySegmentSignature[omf]" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.RuleBodySegmentSignature@&lt;init&gt;(uuid:gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.RuleBodySegmentUUID,position:Int,chainRule:Option[omf#ChainRule],previousSegment:Option[omf#RuleBodySegment]):gov.nasa.jpl.omf.scala.core.RuleBodySegmentSignature[omf]" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -399,18 +399,18 @@
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
     </li><li name="gov.nasa.jpl.omf.scala.core.RuleBodySegmentSignature#uuid" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="uuid:java.util.UUID"></a>
-      <a id="uuid:UUID"></a>
+      <a id="uuid:gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.RuleBodySegmentUUID"></a>
+      <a id="uuid:RuleBodySegmentUUID"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">uuid</span><span class="result">: <span class="extype" name="java.util.UUID">UUID</span></span>
+        <span class="name">uuid</span><span class="result">: <span class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.RuleBodySegmentUUID">RuleBodySegmentUUID</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.RuleBodySegmentSignature@uuid:java.util.UUID" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.RuleBodySegmentSignature@uuid:gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.RuleBodySegmentUUID" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
