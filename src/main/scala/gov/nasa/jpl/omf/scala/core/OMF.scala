@@ -62,14 +62,14 @@ trait OMFiri {
 // Corresponds to OMLCommon.xcore
 trait OMFcbox {
 
-  type Element
+  type LogicalElement
   type Resource
-  type ModuleElement <: Element
-  type ModuleEdge <: Element
+  type ModuleElement <: LogicalElement
+  type ModuleEdge <: LogicalElement
 
   type AnnotationProperty
   type Annotation
-  type Module <: Element with Resource
+  type Module <: LogicalElement with Resource
   type ImmutableModule <: Module
   type MutableModule <: Module
 
@@ -279,8 +279,8 @@ trait OMFtbox extends OMFcbox {
   type Rule <: Term
   type ChainRule <: Rule
 
-  type RuleBodySegment <: Element
-  type SegmentPredicate <: Element
+  type RuleBodySegment <: LogicalElement
+  type SegmentPredicate <: LogicalElement
 
   type UnarySegmentPredicate <: SegmentPredicate
   type AspectPredicate <: UnarySegmentPredicate
@@ -354,7 +354,7 @@ trait OMFtbox extends OMFcbox {
 
   type RestrictionStructuredDataPropertyTuple <: RestrictionStructuredDataPropertyContext
 
-  type RestrictionScalarDataPropertyValue <: Element
+  type RestrictionScalarDataPropertyValue <: LogicalElement
 
   type SpecializationAxiom <: TermAxiom
 
@@ -387,7 +387,7 @@ trait OMFtbox extends OMFcbox {
 
   type RootConceptTaxonomyAxiom <: TerminologyBundleStatement with ConceptTreeDisjunction
 
-  type ConceptTreeDisjunction <: Element
+  type ConceptTreeDisjunction <: LogicalElement
 
   type DisjointUnionOfConceptsAxiom <: TerminologyBundleStatement
   type SpecificDisjointConceptAxiom <: DisjointUnionOfConceptsAxiom
@@ -480,13 +480,13 @@ trait OMFdbox extends OMFcbox {
 
   type SingletonInstanceScalarDataPropertyValue <: ModuleElement
 
-  type SingletonInstanceStructuredDataPropertyContext <: Element
+  type SingletonInstanceStructuredDataPropertyContext <: LogicalElement
 
   type SingletonInstanceStructuredDataPropertyValue <: SingletonInstanceStructuredDataPropertyContext with ModuleElement
 
   type StructuredDataPropertyTuple <: SingletonInstanceStructuredDataPropertyContext
 
-  type ScalarDataPropertyValue <: Element
+  type ScalarDataPropertyValue <: LogicalElement
 
   type ConceptualEntitySingletonInstance <: TerminologyInstanceAssertion with Resource
 

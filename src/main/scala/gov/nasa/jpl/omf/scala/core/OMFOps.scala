@@ -163,9 +163,9 @@ trait OMFStoreOps[omf <: OMF] { self : IRIOps[omf] =>
   implicit val bTag: ClassTag[omf#ImmutableBundle]
   implicit val dTag: ClassTag[omf#ImmutableDescriptionBox]
 
-  def getElementUUID
-  (e: omf#Element)
-  : resolver.api.taggedTypes.ElementUUID
+  def getLogicalElementUUID
+  (e: omf#LogicalElement)
+  : resolver.api.taggedTypes.LogicalElementUUID
 
   def getModuleIRI
   (m: omf#Module)
@@ -1228,7 +1228,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
 
   def addTerminologyAnnotation
   (graph: omf#MutableTerminologyBox,
-   subject: omf#Element,
+   subject: omf#LogicalElement,
    property: AnnotationProperty,
    value: taggedTypes.StringDataType)
   (implicit store: omf#Store)
@@ -1236,7 +1236,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
 
   def removeTerminologyAnnotations
   (graph: omf#MutableTerminologyBox,
-   subject: omf#Element,
+   subject: omf#LogicalElement,
    property: AnnotationProperty)
   (implicit store: omf#Store)
   : Throwables \/ Set[AnnotationPropertyValue]
@@ -1552,12 +1552,14 @@ trait MutableTerminologyGraphOps[omf <: OMF]
 
   def scalarOneOfLiteralAxiomUUID
   (graph: omf#MutableTerminologyBox,
-   scalarOneOfRestriction: omf#ScalarOneOfRestriction)
+   scalarOneOfRestriction: omf#ScalarOneOfRestriction,
+   value: LiteralValue)
   : Throwables \/ resolver.api.taggedTypes.ScalarOneOfLiteralAxiomUUID
-  = resolver.api.taggedTypes.scalarOneOfLiteralAxiomUUID(generateUUIDFromUUID(
+  = resolver.api.taggedTypes.scalarOneOfLiteralAxiomUUID(generateUUIDFromString(
       "ScalarOneOfLiteralAxiom",
-      "tbox" -> getModuleUUID(graph),
-      "axiom" -> getTermUUID(scalarOneOfRestriction))).right
+      "tbox" -> getModuleUUID(graph).toString,
+      "axiom" -> getTermUUID(scalarOneOfRestriction).toString,
+      "value" -> value.value)).right
 
   protected def addScalarOneOfLiteralAxiom
   (graph: omf#MutableTerminologyBox,
@@ -1576,7 +1578,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   (implicit store: omf#Store)
   : Throwables \/ omf#ScalarOneOfLiteralAxiom
   = for {
-    axiomUUID <- scalarOneOfLiteralAxiomUUID(graph, scalarOneOfRestriction)
+    axiomUUID <- scalarOneOfLiteralAxiomUUID(graph, scalarOneOfRestriction, value)
     ax <- addScalarOneOfLiteralAxiom(graph, axiomUUID, scalarOneOfRestriction, value, valueType)
   } yield ax
 
@@ -2710,14 +2712,16 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   def entityScalarDataPropertyParticularRestrictionAxiomUUID
   (graph: omf#MutableTerminologyBox,
    restrictedEntity: omf#Entity,
-   scalarProperty: omf#EntityScalarDataProperty)
+   scalarProperty: omf#EntityScalarDataProperty,
+   literalValue: LiteralValue)
   (implicit store: omf#Store)
   : Throwables \/ resolver.api.taggedTypes.EntityScalarDataPropertyParticularRestrictionAxiomUUID
-  = resolver.api.taggedTypes.entityScalarDataPropertyParticularRestrictionAxiomUUID(generateUUIDFromUUID(
+  = resolver.api.taggedTypes.entityScalarDataPropertyParticularRestrictionAxiomUUID(generateUUIDFromString(
       "EntityScalarDataPropertyParticularRestrictionAxiom",
-      "tbox" -> getModuleUUID(graph),
-      "restrictedEntity" -> getTermUUID(restrictedEntity),
-      "scalarProperty" -> getTermUUID(scalarProperty))).right
+      "tbox" -> getModuleUUID(graph).toString,
+      "restrictedEntity" -> getTermUUID(restrictedEntity).toString,
+      "scalarProperty" -> getTermUUID(scalarProperty).toString,
+      "literalValue" -> literalValue.value)).right
 
   final def addEntityScalarDataPropertyParticularRestrictionAxiom
   (graph: omf#MutableTerminologyBox,
@@ -2728,10 +2732,10 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   (implicit store: omf#Store)
   : Throwables \/ omf#EntityScalarDataPropertyParticularRestrictionAxiom
   = for {
-    uuid <- entityScalarDataPropertyParticularRestrictionAxiomUUID(graph, restrictedEntity, scalarProperty)
+    uuid <- entityScalarDataPropertyParticularRestrictionAxiomUUID(graph, restrictedEntity, scalarProperty, literalValue)
     ax <- addEntityScalarDataPropertyParticularRestrictionAxiom(graph, uuid, restrictedEntity, scalarProperty, literalValue, valueType)
   } yield ax
-  
+
   protected def addEntityStructuredDataPropertyParticularRestrictionAxiom
   (graph: omf#MutableTerminologyBox,
    uuid: resolver.api.taggedTypes.EntityStructuredDataPropertyParticularRestrictionAxiomUUID,
@@ -2779,7 +2783,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   : Throwables \/ resolver.api.taggedTypes.RestrictionStructuredDataPropertyTupleUUID
   = resolver.api.taggedTypes.restrictionStructuredDataPropertyTupleUUID(generateUUIDFromUUID(
     "RestrictionStructuredDataPropertyTuple",
-    "structuredDataPropertyContext" -> getElementUUID(structuredDataPropertyContext),
+    "structuredDataPropertyContext" -> getLogicalElementUUID(structuredDataPropertyContext),
     "structuredDataProperty" -> getTermUUID(structuredProperty))).right
 
   final def addRestrictionStructuredDataPropertyTuple
@@ -2806,13 +2810,15 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   def restrictionScalarDataPropertyValueUUID
   (graph: omf#MutableTerminologyBox,
    structuredDataPropertyContext: omf#RestrictionStructuredDataPropertyContext,
-   scalarProperty: omf#DataRelationshipToScalar)
+   scalarProperty: omf#DataRelationshipToScalar,
+   literalValue: LiteralValue)
   (implicit store: omf#Store)
   : Throwables \/ resolver.api.taggedTypes.RestrictionScalarDataPropertyValueUUID
-  = resolver.api.taggedTypes.restrictionScalarDataPropertyValueUUID(generateUUIDFromUUID(
+  = resolver.api.taggedTypes.restrictionScalarDataPropertyValueUUID(generateUUIDFromString(
     "RestrictionScalarDataPropertyValue",
-    "structuredDataPropertyContext" -> getElementUUID(structuredDataPropertyContext),
-    "scalarProperty" -> getTermUUID(scalarProperty))).right
+    "structuredDataPropertyContext" -> getLogicalElementUUID(structuredDataPropertyContext).toString,
+    "scalarPropertyValue" -> literalValue.value,
+    "scalarProperty" -> getTermUUID(scalarProperty).toString)).right
 
   final def addRestrictionScalarDataPropertyValue
   (graph: omf#MutableTerminologyBox,
@@ -2823,7 +2829,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   (implicit store: omf#Store)
   : Throwables \/ omf#RestrictionScalarDataPropertyValue
   = for {
-    uuid <- restrictionScalarDataPropertyValueUUID(graph, structuredDataPropertyContext, scalarProperty)
+    uuid <- restrictionScalarDataPropertyValueUUID(graph, structuredDataPropertyContext, scalarProperty, literalValue)
     ax <- addRestrictionScalarDataPropertyValue(graph, uuid, structuredDataPropertyContext, scalarProperty, literalValue, valueType)
   } yield ax
 
@@ -3109,7 +3115,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   (implicit store: omf#Store)
   : Throwables \/ resolver.api.taggedTypes.AnonymousConceptUnionAxiomUUID
   = resolver.api.taggedTypes.anonymousConceptUnionAxiomUUID(generateUUIDFromString(
-    getElementUUID(disjointTerminologyParent),
+    getLogicalElementUUID(disjointTerminologyParent),
     "name" -> name)).right
 
   /**
@@ -3163,7 +3169,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   : Throwables \/ resolver.api.taggedTypes.SpecificDisjointConceptAxiomUUID
   = resolver.api.taggedTypes.specificDisjointConceptAxiomUUID(generateUUIDFromUUID(
       "SpecificDisjointConceptAxiom",
-      "disjointTaxonomyParent" -> getElementUUID(disjointTerminologyParent),
+      "disjointTaxonomyParent" -> getLogicalElementUUID(disjointTerminologyParent),
       "disjointLeaf" -> getTermUUID(disjointLeaf))).right
 
   /**
@@ -3306,7 +3312,7 @@ trait MutableDescriptionBoxOps[omf <: OMF]
 
   def addDescriptionAnnotation
   (dbox: omf#MutableDescriptionBox,
-   subject: omf#Element,
+   subject: omf#LogicalElement,
    property: AnnotationProperty,
    value: taggedTypes.StringDataType)
   (implicit store: omf#Store)
@@ -3314,7 +3320,7 @@ trait MutableDescriptionBoxOps[omf <: OMF]
 
   def removeDescriptionAnnotations
   (dbox: omf#MutableDescriptionBox,
-   subject: omf#Element,
+   subject: omf#LogicalElement,
    property: AnnotationProperty)
   (implicit store: omf#Store)
   : Throwables \/ Set[AnnotationPropertyValue]
@@ -3446,8 +3452,8 @@ trait MutableDescriptionBoxOps[omf <: OMF]
   = resolver.api.taggedTypes.reifiedRelationshipInstanceDomainUUID(generateUUIDFromUUID(
     "ReifiedRelationshipInstanceDomain",
     "descriptionBox" -> getModuleUUID(dbox),
-    "reifiedRelationshipInstance" -> getElementUUID(relationshipInstance),
-    "domain" -> getElementUUID(source))).right
+    "reifiedRelationshipInstance" -> getLogicalElementUUID(relationshipInstance),
+    "domain" -> getLogicalElementUUID(source))).right
 
   protected def addReifiedRelationshipInstanceDomain
   (uuid: resolver.api.taggedTypes.ReifiedRelationshipInstanceDomainUUID,
@@ -3477,8 +3483,8 @@ trait MutableDescriptionBoxOps[omf <: OMF]
   = resolver.api.taggedTypes.reifiedRelationshipInstanceRangeUUID(generateUUIDFromUUID(
     "ReifiedRelationshipInstanceRange",
     "descriptionBox" -> getModuleUUID(dbox),
-    "reifiedRelationshipInstance" -> getElementUUID(relationshipInstance),
-    "range" -> getElementUUID(target))).right
+    "reifiedRelationshipInstance" -> getLogicalElementUUID(relationshipInstance),
+    "range" -> getLogicalElementUUID(target))).right
 
   protected def addReifiedRelationshipInstanceRange
   (uuid: resolver.api.taggedTypes.ReifiedRelationshipInstanceRangeUUID,
@@ -3509,9 +3515,9 @@ trait MutableDescriptionBoxOps[omf <: OMF]
   = resolver.api.taggedTypes.unreifiedRelationshipInstanceTupleUUID(generateUUIDFromUUID(
     "UnreifiedRelationshipInstanceTuple",
     "descriptionBox" -> getModuleUUID(dbox),
-    "unreifiedRelationship" -> getElementUUID(unreifiedRelationship),
-    "romain" -> getElementUUID(source),
-    "range" -> getElementUUID(target))).right
+    "unreifiedRelationship" -> getLogicalElementUUID(unreifiedRelationship),
+    "romain" -> getLogicalElementUUID(source),
+    "range" -> getLogicalElementUUID(target))).right
 
   protected def addUnreifiedRelationshipInstanceTuple
   (uuid: resolver.api.taggedTypes.UnreifiedRelationshipInstanceTupleUUID,
@@ -3537,14 +3543,16 @@ trait MutableDescriptionBoxOps[omf <: OMF]
   def singletonInstanceScalarDataPropertyValueUUID
   (dbox: omf#MutableDescriptionBox,
    ei: omf#ConceptualEntitySingletonInstance,
-   e2sc: omf#EntityScalarDataProperty)
+   e2sc: omf#EntityScalarDataProperty,
+   value: LiteralValue)
   (implicit store: omf#Store)
   : Throwables \/ resolver.api.taggedTypes.SingletonInstanceScalarDataPropertyValueUUID
-  = resolver.api.taggedTypes.singletonInstanceScalarDataPropertyValueUUID(generateUUIDFromUUID(
+  = resolver.api.taggedTypes.singletonInstanceScalarDataPropertyValueUUID(generateUUIDFromString(
     "SingletonInstanceScalarDataPropertyValue",
-    "descriptionBox" -> getModuleUUID(dbox),
-    "singletonInstance" -> getElementUUID(ei),
-    "scalarDataProperty" -> getElementUUID(e2sc))).right
+    "descriptionBox" -> getModuleUUID(dbox).toString,
+    "singletonInstance" -> getLogicalElementUUID(ei).toString,
+    "scalarDataProperty" -> getLogicalElementUUID(e2sc).toString,
+    "scalarPropertyValue" -> value.value)).right
 
   protected def addSingletonInstanceScalarDataPropertyValue
   (uuid: resolver.api.taggedTypes.SingletonInstanceScalarDataPropertyValueUUID,
@@ -3565,7 +3573,7 @@ trait MutableDescriptionBoxOps[omf <: OMF]
   (implicit store: omf#Store)
   : Throwables \/ omf#SingletonInstanceScalarDataPropertyValue
   = for {
-    uuid <- singletonInstanceScalarDataPropertyValueUUID(dbox, ei, e2sc)
+    uuid <- singletonInstanceScalarDataPropertyValueUUID(dbox, ei, e2sc, value)
     ax <- addSingletonInstanceScalarDataPropertyValue(uuid, dbox, ei, e2sc, value, valueType)
   } yield ax
 
@@ -3578,8 +3586,8 @@ trait MutableDescriptionBoxOps[omf <: OMF]
   = resolver.api.taggedTypes.singletonInstanceStructuredDataPropertyValueUUID(generateUUIDFromUUID(
     "SingletonInstanceStructuredDataPropertyValue",
     "descriptionBox" -> getModuleUUID(dbox),
-    "singletonInstance" -> getElementUUID(ei),
-    "structuredDataProperty" -> getElementUUID(e2st)
+    "singletonInstance" -> getLogicalElementUUID(ei),
+    "structuredDataProperty" -> getLogicalElementUUID(e2st)
   )).right
 
   protected def addSingletonInstanceStructuredDataPropertyValue
@@ -3603,13 +3611,15 @@ trait MutableDescriptionBoxOps[omf <: OMF]
 
   def scalarDataPropertyValueUUID
   (structuredDataPropertyContext: omf#SingletonInstanceStructuredDataPropertyContext,
-   scalarDataProperty: omf#ScalarDataProperty)
+   scalarDataProperty: omf#ScalarDataProperty,
+   value: LiteralValue)
   (implicit store: omf#Store)
   : Throwables \/ resolver.api.taggedTypes.ScalarDataPropertyValueUUID
-  = resolver.api.taggedTypes.scalarDataPropertyValueUUID(generateUUIDFromUUID(
+  = resolver.api.taggedTypes.scalarDataPropertyValueUUID(generateUUIDFromString(
     "ScalarDataPropertyValue",
-    "scalarDataProperty" -> getElementUUID(scalarDataProperty),
-    "structuredDataPropertyContext" -> getElementUUID(structuredDataPropertyContext)
+    "structuredDataPropertyContext" -> getLogicalElementUUID(structuredDataPropertyContext).toString,
+    "scalarPropertyValue" -> value.value,
+    "scalarDataProperty" -> getLogicalElementUUID(scalarDataProperty).toString
   )).right
 
   protected def makeScalarDataPropertyValue
@@ -3631,7 +3641,7 @@ trait MutableDescriptionBoxOps[omf <: OMF]
   (implicit store: omf#Store)
   : Throwables \/ omf#ScalarDataPropertyValue
   = for {
-    uuid <- scalarDataPropertyValueUUID(structuredDataPropertyContext, scalarDataProperty)
+    uuid <- scalarDataPropertyValueUUID(structuredDataPropertyContext, scalarDataProperty, value)
     ax <- makeScalarDataPropertyValue(uuid, dbox, structuredDataPropertyContext,
       scalarDataProperty, value, valueType)
   } yield ax
@@ -3643,8 +3653,8 @@ trait MutableDescriptionBoxOps[omf <: OMF]
   : Throwables \/ resolver.api.taggedTypes.StructuredDataPropertyTupleUUID
   = resolver.api.taggedTypes.structuredDataPropertyTupleUUID(generateUUIDFromUUID(
     "StructuredDataPropertyTuple",
-    "structuredDataProperty" -> getElementUUID(structuredDataProperty),
-    "structuredDataPropertyContext" -> getElementUUID(structuredDataPropertyContext)
+    "structuredDataProperty" -> getLogicalElementUUID(structuredDataProperty),
+    "structuredDataPropertyContext" -> getLogicalElementUUID(structuredDataPropertyContext)
   )).right
 
   protected def makeStructuredDataPropertyTuple
