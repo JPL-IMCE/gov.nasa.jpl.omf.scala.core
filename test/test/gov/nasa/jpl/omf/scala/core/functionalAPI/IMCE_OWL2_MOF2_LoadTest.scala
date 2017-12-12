@@ -74,7 +74,7 @@ abstract class IMCE_OWL2_MOF2_LoadTest[omf <: OMF](
           (owl2_mof2, table1) = owl2_mof2_tbox
           binaryAssociationEndType_iri <- withFragment(owl2_mof2_iri, localName("BinaryAssociationEndType"))
           binaryAssociation_iri <- withFragment(owl2_mof2_iri, localName("BinaryAssociation"))
-          binaryAssociationEndType = lookupConcept(owl2_mof2, binaryAssociationEndType_iri, recursively = false)
+          binaryAssociationEndType = lookupAspect(owl2_mof2, binaryAssociationEndType_iri, recursively = false)
           binaryAssociation = lookupReifiedRelationship( owl2_mof2, binaryAssociation_iri, recursively=false  )
         } yield {
           binaryAssociationEndType.isDefined should be(true)
