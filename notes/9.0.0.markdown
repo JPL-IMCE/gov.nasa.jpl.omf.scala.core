@@ -25,3 +25,5 @@ gov.nasa.jpl.omf.scala.core 9.0.0 is a major update
 - [#20 Update for the tagged type resolver API](https://github.com/JPL-IMCE/gov.nasa.jpl.omf.scala.core/issues/20)
 
 - [#21 Update due to OML LogicalElement & ValueCrossReferenceTuple abstractions](https://github.com/JPL-IMCE/gov.nasa.jpl.omf.scala.core/issues/21)
+
+- [#22 Switch from '*.oml.json.zip' to '*.omlzip'](https://github.com/JPL-IMCE/gov.nasa.jpl.omf.scala.core/issues/22)

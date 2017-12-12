@@ -245,7 +245,7 @@ abstract class OMFNestedGraphTest[omf <: OMF]
 
           for {
           _ <- acc
-          tablesIRI <- makeIRI(getModuleIRI(im).toString + ".oml.json.zip")
+          tablesIRI <- makeIRI(getModuleIRI(im).toString + ".omlzip")
           tablesFile <- resolveIRIAsLocalFile(tablesIRI)
 
           _ = java.nio.file.Files.createDirectories(tablesFile.getParentFile.toPath)
@@ -353,7 +353,7 @@ abstract class OMFNestedGraphTest[omf <: OMF]
 
           for {
             _ <- acc
-            tablesIRI <- makeIRI(getModuleIRI(im).toString + ".oml.json.zip")
+            tablesIRI <- makeIRI(getModuleIRI(im).toString + ".omlzip")
             tablesFile <- resolveIRIAsLocalFile(tablesIRI)
 
             _ = java.nio.file.Files.createDirectories(tablesFile.getParentFile.toPath)
