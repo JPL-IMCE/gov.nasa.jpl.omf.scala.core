@@ -1017,6 +1017,10 @@ trait ImmutableTerminologyGraphOps[omf <: OMF] { self: OMFStoreOps[omf] with IRI
    : omf#ConceptSpecializationAxiom => T,
    funReifiedRelationshipSpecializationAxiom
    : omf#ReifiedRelationshipSpecializationAxiom => T,
+   funSubDataPropertyOfAxiom
+   : omf#SubDataPropertyOfAxiom => T,
+   funSubObjectPropertyOfAxiom
+   : omf#SubObjectPropertyOfAxiom => T,
    funEntityExistentialRestrictionAxiom
    : omf#EntityExistentialRestrictionAxiom => T,
    funEntityUniversalRestrictionAxiom
@@ -1061,6 +1065,14 @@ trait ImmutableTerminologyGraphOps[omf <: OMF] { self: OMFStoreOps[omf] with IRI
   def fromReifiedRelationshipSpecializationAxiom
   (ax: omf#ReifiedRelationshipSpecializationAxiom)
   : ReifiedRelationshipSpecializationSignature[omf]
+
+  def fromSubDataPropertyOfAxiom
+  (ax: omf#SubDataPropertyOfAxiom)
+  : SubDataPropertyOfAxiomSignature[omf]
+
+  def fromSubObjectPropertyOfAxiom
+  (ax: omf#SubObjectPropertyOfAxiom)
+  : SubObjectPropertyOfAxiomSignature[omf]
 
   def fromEntityExistentialRestrictionAxiom
   (ax: omf#EntityExistentialRestrictionAxiom)
@@ -2505,6 +2517,116 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   = for {
     uuid <- reifiedRelationshipSpecializationAxiomUUID(graph, sub, sup)
     ax <- addReifiedRelationshipSpecializationAxiom(graph, uuid, sub, sup)
+  } yield ax
+
+  def subDataPropertyOfAxiomUUID
+  (graph: omf#MutableTerminologyBox,
+   sub: omf#EntityScalarDataProperty,
+   sup: omf#EntityScalarDataProperty)
+  (implicit store: omf#Store)
+  : Throwables \/ resolver.api.taggedTypes.SubDataPropertyOfAxiomUUID
+  = resolver.api.taggedTypes.subDataPropertyOfAxiomUUID(generateUUIDFromUUID(
+    "SubDataPropertyOfAxiom",
+    "tbox" -> getModuleUUID(graph),
+    "subProperty" -> getTermUUID(sub),
+    "superProperty" -> getTermUUID(sup))).right
+
+  /**
+    * Add to a terminology graph a new OMF SubDataPropertyOfAxiom.
+    *
+    * @see https://jpl-imce.github.io/jpl.omf.schema.tables/latest/api/index.html#gov.nasa.jpl.imce.omf.schema.tables.SubDataPropertyOfAxiom
+    *
+    * @param graph
+    * @param uuid
+    * @param sub
+    * @param sup
+    * @param store
+    * @return
+    */
+  protected def addSubDataPropertyOfAxiom
+  (graph: omf#MutableTerminologyBox,
+   uuid: resolver.api.taggedTypes.SubDataPropertyOfAxiomUUID,
+   sub: omf#EntityScalarDataProperty,
+   sup: omf#EntityScalarDataProperty)
+  (implicit store: omf#Store)
+  : Throwables \/ omf#SubDataPropertyOfAxiom
+
+  /**
+    * Add to a terminology graph a new OMF SubDataPropertyOfAxiom
+    * with a version 5 UUID based on the `graph`, `sub`, `sup` IRIs.
+    *
+    * @see https://jpl-imce.github.io/jpl.omf.schema.tables/latest/api/index.html#gov.nasa.jpl.imce.omf.schema.tables.SubDataPropertyOfAxiom
+    *
+    * @param graph
+    * @param sub
+    * @param sup
+    * @param store
+    * @return
+    */
+  final def addSubDataPropertyOfAxiom
+  (graph: omf#MutableTerminologyBox,
+   sub: omf#EntityScalarDataProperty,
+   sup: omf#EntityScalarDataProperty)
+  (implicit store: omf#Store)
+  : Throwables \/ omf#SubDataPropertyOfAxiom
+  = for {
+    uuid <- subDataPropertyOfAxiomUUID(graph, sub, sup)
+    ax <- addSubDataPropertyOfAxiom(graph, uuid, sub, sup)
+  } yield ax
+
+  def subObjectPropertyOfAxiomUUID
+  (graph: omf#MutableTerminologyBox,
+   sub: omf#UnreifiedRelationship,
+   sup: omf#UnreifiedRelationship)
+  (implicit store: omf#Store)
+  : Throwables \/ resolver.api.taggedTypes.SubObjectPropertyOfAxiomUUID
+  = resolver.api.taggedTypes.subObjectPropertyOfAxiomUUID(generateUUIDFromUUID(
+    "SubObjectPropertyOfAxiom",
+    "tbox" -> getModuleUUID(graph),
+    "subProperty" -> getTermUUID(sub),
+    "superProperty" -> getTermUUID(sup))).right
+
+  /**
+    * Add to a terminology graph a new OMF SubObjectPropertyOfAxiom.
+    *
+    * @see https://jpl-imce.github.io/jpl.omf.schema.tables/latest/api/index.html#gov.nasa.jpl.imce.omf.schema.tables.SubObjectPropertyOfAxiom
+    *
+    * @param graph
+    * @param uuid
+    * @param sub
+    * @param sup
+    * @param store
+    * @return
+    */
+  protected def addSubObjectPropertyOfAxiom
+  (graph: omf#MutableTerminologyBox,
+   uuid: resolver.api.taggedTypes.SubObjectPropertyOfAxiomUUID,
+   sub: omf#UnreifiedRelationship,
+   sup: omf#UnreifiedRelationship)
+  (implicit store: omf#Store)
+  : Throwables \/ omf#SubObjectPropertyOfAxiom
+
+  /**
+    * Add to a terminology graph a new OMF SubObjectPropertyOfAxiom
+    * with a version 5 UUID based on the `graph`, `sub`, `sup` IRIs.
+    *
+    * @see https://jpl-imce.github.io/jpl.omf.schema.tables/latest/api/index.html#gov.nasa.jpl.imce.omf.schema.tables.SubObjectPropertyOfAxiom
+    *
+    * @param graph
+    * @param sub
+    * @param sup
+    * @param store
+    * @return
+    */
+  final def addSubObjectPropertyOfAxiom
+  (graph: omf#MutableTerminologyBox,
+   sub: omf#UnreifiedRelationship,
+   sup: omf#UnreifiedRelationship)
+  (implicit store: omf#Store)
+  : Throwables \/ omf#SubObjectPropertyOfAxiom
+  = for {
+    uuid <- subObjectPropertyOfAxiomUUID(graph, sub, sup)
+    ax <- addSubObjectPropertyOfAxiom(graph, uuid, sub, sup)
   } yield ax
 
   /**

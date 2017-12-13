@@ -376,6 +376,10 @@ trait OMFtbox extends OMFcbox {
     */
   type ReifiedRelationshipSpecializationAxiom <: SpecializationAxiom
 
+  type SubObjectPropertyOfAxiom <: TermAxiom
+
+  type SubDataPropertyOfAxiom <: TermAxiom
+
   /**
     * A TerminologyGraphAxiom is the abstraction for statements about
     * ModelTerminologyGraphs

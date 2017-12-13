@@ -499,6 +499,10 @@ object OMFTabularExportFromTerminologyGraph {
           allAxioms.conceptSpecializationAxioms.sorted,
         reifiedRelationshipSpecializationAxioms =
           allAxioms.reifiedRelationshipSpecializationAxioms.sorted,
+        subDataPropertyOfAxioms =
+          allAxioms.subDataPropertyOfAxioms.sorted,
+        subObjectPropertyOfAxioms =
+          allAxioms.subObjectPropertyOfAxioms.sorted,
         entityExistentialRestrictionAxioms =
           allAxioms.entityExistentialRestrictionAxioms.sorted,
         entityUniversalRestrictionAxioms =

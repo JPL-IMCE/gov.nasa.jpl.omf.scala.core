@@ -29,3 +29,5 @@ gov.nasa.jpl.omf.scala.core 9.0.0 is a major update
 - [#22 Switch from '*.oml.json.zip' to '*.omlzip'](https://github.com/JPL-IMCE/gov.nasa.jpl.omf.scala.core/issues/22)
 
 - [#23 Update unit test w.r.t. IMCE ontology changes.](https://github.com/JPL-IMCE/gov.nasa.jpl.omf.scala.core/issues/23)
+
+- [#24 Support for OML SubObjectPropertyOf and SubDataPropertyOf](https://github.com/JPL-IMCE/gov.nasa.jpl.omf.scala.core/issues/24)

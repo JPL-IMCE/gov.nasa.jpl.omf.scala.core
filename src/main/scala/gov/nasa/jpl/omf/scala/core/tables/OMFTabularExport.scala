@@ -40,6 +40,11 @@ case class Axioms
   reifiedRelationshipSpecializationAxioms
   : Seq[oml.tables.ReifiedRelationshipSpecializationAxiom] = Seq.empty,
 
+  subDataPropertyOfAxioms
+  : Seq[oml.tables.SubDataPropertyOfAxiom] = Seq.empty,
+  subObjectPropertyOfAxioms
+  : Seq[oml.tables.SubObjectPropertyOfAxiom] = Seq.empty,
+
   entityExistentialRestrictionAxioms
   : Seq[oml.tables.EntityExistentialRestrictionAxiom] = Seq.empty,
   entityUniversalRestrictionAxioms
@@ -134,6 +139,34 @@ object Axioms {
         uuid = info.uuid,
         subRelationshipUUID = ops.getReifiedRelationshipUUID(info.sub),
         superRelationshipUUID = ops.getReifiedRelationshipUUID(info.sup)))
+  }
+
+  def funSubDataPropertyOfAxiom[omf <: OMF]
+  (guuid: tables.taggedTypes.TerminologyBoxUUID, ops: OMFOps[omf], acc: Axioms)
+  (ax: omf#SubDataPropertyOfAxiom)
+  : Axioms
+  = {
+    val info = ops.fromSubDataPropertyOfAxiom(ax)
+    acc.copy(subDataPropertyOfAxioms = acc.subDataPropertyOfAxioms :+
+      oml.tables.SubDataPropertyOfAxiom(
+        tboxUUID = guuid,
+        uuid = info.uuid,
+        subPropertyUUID = ops.getEntityScalarDataPropertyUUID(info.sub),
+        superPropertyUUID = ops.getEntityScalarDataPropertyUUID(info.sup)))
+  }
+
+  def funSubObjectPropertyOfAxiom[omf <: OMF]
+  (guuid: tables.taggedTypes.TerminologyBoxUUID, ops: OMFOps[omf], acc: Axioms)
+  (ax: omf#SubObjectPropertyOfAxiom)
+  : Axioms
+  = {
+    val info = ops.fromSubObjectPropertyOfAxiom(ax)
+    acc.copy(subObjectPropertyOfAxioms = acc.subObjectPropertyOfAxioms :+
+      oml.tables.SubObjectPropertyOfAxiom(
+        tboxUUID = guuid,
+        uuid = info.uuid,
+        subPropertyUUID = ops.getUnreifiedRelationshipUUID(info.sub),
+        superPropertyUUID = ops.getUnreifiedRelationshipUUID(info.sup)))
   }
 
   def funEntityExistentialRestrictionAxiom[omf <: OMF]
@@ -253,6 +286,10 @@ object Axioms {
       Axioms.funConceptSpecializationAxiom(guuid, ops, acc),
     funReifiedRelationshipSpecializationAxiom =
       Axioms.funReifiedRelationshipSpecializationAxiom(guuid, ops, acc),
+    funSubDataPropertyOfAxiom =
+      Axioms.funSubDataPropertyOfAxiom(guuid, ops, acc),
+    funSubObjectPropertyOfAxiom =
+      Axioms.funSubObjectPropertyOfAxiom(guuid, ops, acc),
     funEntityExistentialRestrictionAxiom =
       Axioms.funEntityExistentialRestrictionAxiom(guuid, ops, acc),
     funEntityUniversalRestrictionAxiom =
