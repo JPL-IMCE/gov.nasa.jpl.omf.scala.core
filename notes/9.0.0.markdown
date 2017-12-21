@@ -31,3 +31,5 @@ gov.nasa.jpl.omf.scala.core 9.0.0 is a major update
 - [#23 Update unit test w.r.t. IMCE ontology changes.](https://github.com/JPL-IMCE/gov.nasa.jpl.omf.scala.core/issues/23)
 
 - [#24 Support for OML SubObjectPropertyOf and SubDataPropertyOf](https://github.com/JPL-IMCE/gov.nasa.jpl.omf.scala.core/issues/24)
+
+- [#25 OML AnnotationProperty refactoring](https://github.com/JPL-IMCE/gov.nasa.jpl.omf.scala.core/issues/25)

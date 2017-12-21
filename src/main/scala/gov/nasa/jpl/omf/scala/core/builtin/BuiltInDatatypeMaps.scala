@@ -369,6 +369,8 @@ object BuiltInDatatypeMaps {
   = {
     import ops._
 
+    import gov.nasa.jpl.imce.oml.resolver.toUUIDString
+
     val uuidGen = JVMUUIDGenerator()
 
     for {
@@ -636,6 +638,7 @@ object BuiltInDatatypeMaps {
         rdf_mgraph,
         new AnnotationProperty(
           uuidGen,
+          getModuleUUID(rdf_mgraph),
           iri("http://www.w3.org/1999/02/22-rdf-syntax-ns#about"),
           abbrevIRI("rdf:about")))
 
@@ -669,6 +672,7 @@ object BuiltInDatatypeMaps {
         owl_mgraph,
         new AnnotationProperty(
           uuidGen,
+          getModuleUUID(owl_mgraph),
           abbrevIRI = abbrevIRI("owl:backwardCompatibleWith"),
           iri = iri("http://www.w3.org/2002/07/owl#backwardCompatibleWith")))
 
@@ -676,6 +680,7 @@ object BuiltInDatatypeMaps {
         owl_mgraph,
         new AnnotationProperty(
           uuidGen,
+          getModuleUUID(owl_mgraph),
           abbrevIRI = abbrevIRI("owl:incompatibleWith"),
           iri = iri("http://www.w3.org/2002/07/owl#incompatibleWith")))
 
@@ -683,6 +688,7 @@ object BuiltInDatatypeMaps {
         owl_mgraph,
         new AnnotationProperty(
           uuidGen,
+          getModuleUUID(owl_mgraph),
           abbrevIRI = abbrevIRI("owl:deprecated"),
           iri = iri("http://www.w3.org/2002/07/owl#deprecated")))
 
@@ -690,8 +696,17 @@ object BuiltInDatatypeMaps {
         owl_mgraph,
         new AnnotationProperty(
           uuidGen,
+          getModuleUUID(owl_mgraph),
           abbrevIRI = abbrevIRI("owl:priorVersion"),
           iri = iri("http://www.w3.org/2002/07/owl#priorVersion")))
+
+      _ <- addTerminologyAnnotationProperty(
+        owl_mgraph,
+        new AnnotationProperty(
+          uuidGen,
+          getModuleUUID(owl_mgraph),
+          abbrevIRI = abbrevIRI("owl:versionInfo"),
+          iri = iri("http://www.w3.org/2002/07/owl#versionInfo")))
 
       rdfs_iri <- makeIRI("http://www.w3.org/2000/01/rdf-schema")
       rdfs_mgraph <- makeW3CTerminologyGraphDefinition(rdfs_iri)
@@ -700,6 +715,7 @@ object BuiltInDatatypeMaps {
         rdfs_mgraph,
         new AnnotationProperty(
           uuidGen,
+          getModuleUUID(rdfs_mgraph),
           abbrevIRI = abbrevIRI("rdfs:isDefinedBy"),
           iri = iri("http://www.w3.org/2000/01/rdf-schema#isDefinedBy")))
 
@@ -707,6 +723,7 @@ object BuiltInDatatypeMaps {
         rdfs_mgraph,
         new AnnotationProperty(
           uuidGen,
+          getModuleUUID(rdfs_mgraph),
           abbrevIRI = abbrevIRI("rdfs:comment"),
           iri = iri("http://www.w3.org/2000/01/rdf-schema#comment")))
 
@@ -714,6 +731,7 @@ object BuiltInDatatypeMaps {
         rdfs_mgraph,
         new AnnotationProperty(
           uuidGen,
+          getModuleUUID(rdfs_mgraph),
           abbrevIRI = abbrevIRI("rdfs:seeAlso"),
           iri = iri("http://www.w3.org/2000/01/rdf-schema#seeAlso")))
 
@@ -721,6 +739,7 @@ object BuiltInDatatypeMaps {
         rdfs_mgraph,
         new AnnotationProperty(
           uuidGen,
+          getModuleUUID(rdfs_mgraph),
           abbrevIRI = abbrevIRI("rdfs:label"),
           iri = iri("http://www.w3.org/2000/01/rdf-schema#label")))
 
@@ -750,6 +769,7 @@ object BuiltInDatatypeMaps {
             dc_mgraph,
             new AnnotationProperty(
               uuidGen,
+              getModuleUUID(dc_mgraph),
               abbrevIRI = abbrevIRI("dc:" + name),
               iri = iri("http://purl.org/dc/elements/1.1/" + name)))
             .map(_ => ())
