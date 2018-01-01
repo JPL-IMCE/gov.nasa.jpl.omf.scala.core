@@ -6,4 +6,6 @@ object Versions {
   // this project
   val version = "9.0.0"
 
+  // spark requirements
+  val spark_jackson="2.8.10"
 }
