@@ -1,9 +1,9 @@
 <!DOCTYPE html >
 <html>
         <head>
-          <title>DataRangeCategories - gov.nasa.jpl.omf.scala.core.builtin.BuiltInDatatypeMaps.DataRangeCategories</title>
-          <meta name="description" content="DataRangeCategories - gov.nasa.jpl.omf.scala.core.builtin.BuiltInDatatypeMaps.DataRangeCategories" />
-          <meta name="keywords" content="DataRangeCategories gov.nasa.jpl.omf.scala.core.builtin.BuiltInDatatypeMaps.DataRangeCategories" />
+          <title>DataRangeCategories - gov.nasa.jpl.omf.scala.core - gov.nasa.jpl.omf.scala.core.builtin.BuiltInDatatypeMaps.DataRangeCategories</title>
+          <meta name="description" content="DataRangeCategories - gov.nasa.jpl.omf.scala.core - gov.nasa.jpl.omf.scala.core.builtin.BuiltInDatatypeMaps.DataRangeCategories" />
+          <meta name="keywords" content="DataRangeCategories gov.nasa.jpl.omf.scala.core gov.nasa.jpl.omf.scala.core.builtin.BuiltInDatatypeMaps.DataRangeCategories" />
           <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
           
       <link href="../../../../../../../lib/template.css" media="screen" type="text/css" rel="stylesheet" />
@@ -12,7 +12,7 @@
       <script type="text/javascript" src="../../../../../../../lib/jquery-ui.js"></script>
       <script type="text/javascript" src="../../../../../../../lib/template.js"></script>
       <script type="text/javascript" src="../../../../../../../lib/tools.tooltip.js"></script>
-      
+      <script type="text/javascript" src="../../../../../../../lib/modernizr.custom.js"></script><script type="text/javascript" src="../../../../../../../lib/diagrams.js" id="diagrams-js"></script>
       <script type="text/javascript">
          if(top === self) {
             var url = '../../../../../../../index.html';
@@ -45,14 +45,17 @@
         <span class="kind">case class</span>
       </span>
       <span class="symbol">
-        <span class="name">DataRangeCategories</span><span class="tparams">[<span name="omf">omf &lt;: <a href="../OMF.html" class="extype" name="gov.nasa.jpl.omf.scala.core.OMF">OMF</a></span>]</span><span class="params">(<span name="builtInImport">builtInImport: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.TerminologyBox">omf.TerminologyBox</span>] = <span class="symbol">None</span></span>, <span name="builtInDatatypeModules">builtInDatatypeModules: <span class="extype" name="scala.collection.immutable.Set">Set</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFcbox.Module">omf.Module</span>] = <span class="symbol">Set.empty[omf#Module]</span></span>, <span name="anyAtomicType">anyAtomicType: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span>] = <span class="symbol">None</span></span>, <span name="boolean">boolean: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span>] = <span class="symbol">None</span></span>, <span name="numeric">numeric: <span class="extype" name="scala.collection.immutable.Set">Set</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span>] = <span class="symbol">Set.empty[omf#DataRange]</span></span>, <span name="string">string: <span class="extype" name="scala.collection.immutable.Set">Set</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span>] = <span class="symbol">Set.empty[omf#DataRange]</span></span>, <span name="plainLiteral">plainLiteral: <span class="extype" name="scala.collection.immutable.Set">Set</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span>] = <span class="symbol">Set.empty[omf#DataRange]</span></span>, <span name="xmlLiteral">xmlLiteral: <span class="extype" name="scala.collection.immutable.Set">Set</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span>] = <span class="symbol">Set.empty[omf#DataRange]</span></span>, <span name="binary">binary: <span class="extype" name="scala.collection.immutable.Set">Set</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span>] = <span class="symbol">Set.empty[omf#DataRange]</span></span>, <span name="iri">iri: <span class="extype" name="scala.collection.immutable.Set">Set</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span>] = <span class="symbol">Set.empty[omf#DataRange]</span></span>, <span name="time">time: <span class="extype" name="scala.collection.immutable.Set">Set</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span>] = <span class="symbol">Set.empty[omf#DataRange]</span></span>, <span name="nonNormative">nonNormative: <span class="extype" name="scala.collection.immutable.Set">Set</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span>] = <span class="symbol">Set.empty[omf#DataRange]</span></span>)</span><span class="result"> extends <span class="extype" name="scala.Product">Product</span> with <span class="extype" name="scala.Serializable">Serializable</span></span>
+        <span class="name">DataRangeCategories</span><span class="tparams">[<span name="omf">omf &lt;: <a href="../OMF.html" class="extype" name="gov.nasa.jpl.omf.scala.core.OMF">OMF</a></span>]</span><span class="params">(<span name="builtInImport">builtInImport: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.Option" class="extype" target="_top">Option</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.TerminologyBox">omf.TerminologyBox</span>] = <span class="symbol">None</span></span>, <span name="builtInDatatypeModules">builtInDatatypeModules: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.collection.immutable.Set" class="extype" target="_top">Set</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFcbox.Module">omf.Module</span>] = <span class="symbol">Set.empty[omf#Module]</span></span>, <span name="anyAtomicType">anyAtomicType: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.Option" class="extype" target="_top">Option</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span>] = <span class="symbol">None</span></span>, <span name="boolean">boolean: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.Option" class="extype" target="_top">Option</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span>] = <span class="symbol">None</span></span>, <span name="numeric">numeric: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.collection.immutable.Set" class="extype" target="_top">Set</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span>] = <span class="symbol">Set.empty[omf#DataRange]</span></span>, <span name="string">string: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.collection.immutable.Set" class="extype" target="_top">Set</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span>] = <span class="symbol">Set.empty[omf#DataRange]</span></span>, <span name="plainLiteral">plainLiteral: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.collection.immutable.Set" class="extype" target="_top">Set</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span>] = <span class="symbol">Set.empty[omf#DataRange]</span></span>, <span name="xmlLiteral">xmlLiteral: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.collection.immutable.Set" class="extype" target="_top">Set</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span>] = <span class="symbol">Set.empty[omf#DataRange]</span></span>, <span name="binary">binary: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.collection.immutable.Set" class="extype" target="_top">Set</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span>] = <span class="symbol">Set.empty[omf#DataRange]</span></span>, <span name="iri">iri: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.collection.immutable.Set" class="extype" target="_top">Set</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span>] = <span class="symbol">Set.empty[omf#DataRange]</span></span>, <span name="time">time: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.collection.immutable.Set" class="extype" target="_top">Set</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span>] = <span class="symbol">Set.empty[omf#DataRange]</span></span>, <span name="nonNormative">nonNormative: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.collection.immutable.Set" class="extype" target="_top">Set</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span>] = <span class="symbol">Set.empty[omf#DataRange]</span></span>)</span><span class="result"> extends <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.Product" class="extype" target="_top">Product</a> with <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.Serializable" class="extype" target="_top">Serializable</a></span>
       </span>
       </h4>
       
           <div id="comment" class="fullcommenttop"><div class="toggleContainer block">
           <span class="toggle">Linear Supertypes</span>
-          <div class="superTypes hiddenContent"><span class="extype" name="scala.Serializable">Serializable</span>, <span class="extype" name="java.io.Serializable">Serializable</span>, <span class="extype" name="scala.Product">Product</span>, <span class="extype" name="scala.Equals">Equals</span>, <span class="extype" name="scala.AnyRef">AnyRef</span>, <span class="extype" name="scala.Any">Any</span></div>
-        </div></div>
+          <div class="superTypes hiddenContent"><a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.Serializable" class="extype" target="_top">Serializable</a>, <span class="extype" name="java.io.Serializable">Serializable</span>, <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.Product" class="extype" target="_top">Product</a>, <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.Equals" class="extype" target="_top">Equals</a>, <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a>, <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.Any" class="extype" target="_top">Any</a></div>
+        </div><div class="toggleContainer block diagram-container" id="inheritance-diagram-container">
+                <span class="toggle diagram-link">Type Hierarchy</span>
+                <div class="diagram" id="inheritance-diagram"><svg class="class-diagram" id="graph1" viewBox="0.00 0.00 218.00 120.00" height="120pt" width="218pt" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"><g transform="scale(1 1) rotate(0) translate(4 116)" class="graph" id="graph0"><polygon points="-4,4 -4,-116 214,-116 214,4 -4,4" stroke="none" fill="white"></polygon><g class="cluster" id="clust1"></g><g class="cluster" id="clust2"></g><!-- node0 --><g class="node this class" id="graph1_0"><g id="a_this class|graph1_0"><a xlink:title="gov.nasa.jpl.omf.scala.core.builtin.BuiltInDatatypeMaps.DataRangeCategories (this class)" xlink:href="#inheritance-diagram"><polygon points="186,-50 24,-50 24,-24 186,-24 186,-50" stroke="#115f3b" fill="#0a955b"></polygon><image xlink:href="../../../../../../../lib/class_diagram.png" y="-43" x="36" preserveAspectRatio="xMinYMin meet" height="12px" width="12px"></image><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-34.5" x="56" text-anchor="start">DataRangeCategories[omf]</text></a></g></g><!-- node1 --><g class="node trait" id="graph1_1"><g id="a_trait|graph1_1"><a xlink:title="scala.Product"><polygon points="91.25,-112 12.75,-112 12.75,-86 91.25,-86 91.25,-112" stroke="#37657d" fill="#498aad"></polygon><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-96.5" x="45" text-anchor="start">Product</text></a></g></g><!-- node1&#45;&gt;node0 --><g class="edge inheritance" id="graph1_1_0"><g id="a_inheritance|graph1_1_0"><a xlink:title="DataRangeCategories[omf] is a subtype of Product"><path d="M66.1094,-82.0271C74.9547,-72.0135 86.177,-59.3091 94.2906,-50.1238" stroke="#d4d4d4" fill="none"></path><polygon points="64.724,-80.9521 62.7253,-85.8581 67.3471,-83.2693 64.724,-80.9521" stroke="#d4d4d4" fill="none"></polygon></a></g></g><!-- node2 --><g class="node trait" id="graph1_2"><g id="a_trait|graph1_2"><a xlink:title="scala.Serializable"><polygon points="206,-112 110,-112 110,-86 206,-86 206,-112" stroke="#37657d" fill="#498aad"></polygon><text fill="#ffffff" font-size="10.00" font-family="Arial" y="-96.5" x="142" text-anchor="start">Serializable</text></a></g></g><!-- node2&#45;&gt;node0 --><g class="edge inheritance" id="graph1_2_0"><g id="a_inheritance|graph1_2_0"><a xlink:title="DataRangeCategories[omf] is a subtype of Serializable"><path d="M143.891,-82.0271C135.045,-72.0135 123.823,-59.3091 115.709,-50.1238" stroke="#d4d4d4" fill="none"></path><polygon points="142.653,-83.2693 147.275,-85.8581 145.276,-80.9521 142.653,-83.2693" stroke="#d4d4d4" fill="none"></polygon></a></g></g></g></svg></div>
+              </div></div>
         
 
       <div id="mbrsel">
@@ -97,7 +100,7 @@
         <span class="kind">new</span>
       </span>
       <span class="symbol">
-        <span class="name">DataRangeCategories</span><span class="params">(<span name="builtInImport">builtInImport: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.TerminologyBox">omf.TerminologyBox</span>] = <span class="symbol">None</span></span>, <span name="builtInDatatypeModules">builtInDatatypeModules: <span class="extype" name="scala.collection.immutable.Set">Set</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFcbox.Module">omf.Module</span>] = <span class="symbol">Set.empty[omf#Module]</span></span>, <span name="anyAtomicType">anyAtomicType: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span>] = <span class="symbol">None</span></span>, <span name="boolean">boolean: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span>] = <span class="symbol">None</span></span>, <span name="numeric">numeric: <span class="extype" name="scala.collection.immutable.Set">Set</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span>] = <span class="symbol">Set.empty[omf#DataRange]</span></span>, <span name="string">string: <span class="extype" name="scala.collection.immutable.Set">Set</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span>] = <span class="symbol">Set.empty[omf#DataRange]</span></span>, <span name="plainLiteral">plainLiteral: <span class="extype" name="scala.collection.immutable.Set">Set</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span>] = <span class="symbol">Set.empty[omf#DataRange]</span></span>, <span name="xmlLiteral">xmlLiteral: <span class="extype" name="scala.collection.immutable.Set">Set</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span>] = <span class="symbol">Set.empty[omf#DataRange]</span></span>, <span name="binary">binary: <span class="extype" name="scala.collection.immutable.Set">Set</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span>] = <span class="symbol">Set.empty[omf#DataRange]</span></span>, <span name="iri">iri: <span class="extype" name="scala.collection.immutable.Set">Set</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span>] = <span class="symbol">Set.empty[omf#DataRange]</span></span>, <span name="time">time: <span class="extype" name="scala.collection.immutable.Set">Set</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span>] = <span class="symbol">Set.empty[omf#DataRange]</span></span>, <span name="nonNormative">nonNormative: <span class="extype" name="scala.collection.immutable.Set">Set</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span>] = <span class="symbol">Set.empty[omf#DataRange]</span></span>)</span>
+        <span class="name">DataRangeCategories</span><span class="params">(<span name="builtInImport">builtInImport: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.Option" class="extype" target="_top">Option</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.TerminologyBox">omf.TerminologyBox</span>] = <span class="symbol">None</span></span>, <span name="builtInDatatypeModules">builtInDatatypeModules: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.collection.immutable.Set" class="extype" target="_top">Set</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFcbox.Module">omf.Module</span>] = <span class="symbol">Set.empty[omf#Module]</span></span>, <span name="anyAtomicType">anyAtomicType: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.Option" class="extype" target="_top">Option</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span>] = <span class="symbol">None</span></span>, <span name="boolean">boolean: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.Option" class="extype" target="_top">Option</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span>] = <span class="symbol">None</span></span>, <span name="numeric">numeric: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.collection.immutable.Set" class="extype" target="_top">Set</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span>] = <span class="symbol">Set.empty[omf#DataRange]</span></span>, <span name="string">string: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.collection.immutable.Set" class="extype" target="_top">Set</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span>] = <span class="symbol">Set.empty[omf#DataRange]</span></span>, <span name="plainLiteral">plainLiteral: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.collection.immutable.Set" class="extype" target="_top">Set</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span>] = <span class="symbol">Set.empty[omf#DataRange]</span></span>, <span name="xmlLiteral">xmlLiteral: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.collection.immutable.Set" class="extype" target="_top">Set</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span>] = <span class="symbol">Set.empty[omf#DataRange]</span></span>, <span name="binary">binary: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.collection.immutable.Set" class="extype" target="_top">Set</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span>] = <span class="symbol">Set.empty[omf#DataRange]</span></span>, <span name="iri">iri: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.collection.immutable.Set" class="extype" target="_top">Set</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span>] = <span class="symbol">Set.empty[omf#DataRange]</span></span>, <span name="time">time: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.collection.immutable.Set" class="extype" target="_top">Set</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span>] = <span class="symbol">Set.empty[omf#DataRange]</span></span>, <span name="nonNormative">nonNormative: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.collection.immutable.Set" class="extype" target="_top">Set</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span>] = <span class="symbol">Set.empty[omf#DataRange]</span></span>)</span>
       </span>
       </h4><span class="permalink">
       <a href="../../../../../../../index.html#gov.nasa.jpl.omf.scala.core.builtin.BuiltInDatatypeMaps$$DataRangeCategories@&lt;init&gt;(builtInImport:Option[omf#TerminologyBox],builtInDatatypeModules:scala.collection.immutable.Set[omf#Module],anyAtomicType:Option[omf#DataRange],boolean:Option[omf#DataRange],numeric:scala.collection.immutable.Set[omf#DataRange],string:scala.collection.immutable.Set[omf#DataRange],plainLiteral:scala.collection.immutable.Set[omf#DataRange],xmlLiteral:scala.collection.immutable.Set[omf#DataRange],binary:scala.collection.immutable.Set[omf#DataRange],iri:scala.collection.immutable.Set[omf#DataRange],time:scala.collection.immutable.Set[omf#DataRange],nonNormative:scala.collection.immutable.Set[omf#DataRange]):gov.nasa.jpl.omf.scala.core.builtin.BuiltInDatatypeMaps.DataRangeCategories[omf]" title="Permalink" target="_top">
@@ -123,7 +126,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span title="gt4s: $bang$eq" class="name">!=</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+        <span title="gt4s: $bang$eq" class="name">!=</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../../../../../index.html#gov.nasa.jpl.omf.scala.core.builtin.BuiltInDatatypeMaps$$DataRangeCategories@!=(x$1:Any):Boolean" title="Permalink" target="_top">
@@ -140,7 +143,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span title="gt4s: $hash$hash" class="name">##</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Int">Int</span></span>
+        <span title="gt4s: $hash$hash" class="name">##</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.Int" class="extype" target="_top">Int</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../../../../../index.html#gov.nasa.jpl.omf.scala.core.builtin.BuiltInDatatypeMaps$$DataRangeCategories@##():Int" title="Permalink" target="_top">
@@ -157,7 +160,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span title="gt4s: $eq$eq" class="name">==</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Any">Any</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+        <span title="gt4s: $eq$eq" class="name">==</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.Any" class="extype" target="_top">Any</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../../../../../index.html#gov.nasa.jpl.omf.scala.core.builtin.BuiltInDatatypeMaps$$DataRangeCategories@==(x$1:Any):Boolean" title="Permalink" target="_top">
@@ -174,7 +177,7 @@
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">anyAtomicType</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span>]</span>
+        <span class="name">anyAtomicType</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.Option" class="extype" target="_top">Option</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span>]</span>
       </span>
       </h4><span class="permalink">
       <a href="../../../../../../../index.html#gov.nasa.jpl.omf.scala.core.builtin.BuiltInDatatypeMaps$$DataRangeCategories@anyAtomicType:Option[omf#DataRange]" title="Permalink" target="_top">
@@ -208,7 +211,7 @@
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">binary</span><span class="result">: <span class="extype" name="scala.collection.immutable.Set">Set</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span>]</span>
+        <span class="name">binary</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.collection.immutable.Set" class="extype" target="_top">Set</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span>]</span>
       </span>
       </h4><span class="permalink">
       <a href="../../../../../../../index.html#gov.nasa.jpl.omf.scala.core.builtin.BuiltInDatatypeMaps$$DataRangeCategories@binary:scala.collection.immutable.Set[omf#DataRange]" title="Permalink" target="_top">
@@ -225,7 +228,7 @@
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">boolean</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span>]</span>
+        <span class="name">boolean</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.Option" class="extype" target="_top">Option</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span>]</span>
       </span>
       </h4><span class="permalink">
       <a href="../../../../../../../index.html#gov.nasa.jpl.omf.scala.core.builtin.BuiltInDatatypeMaps$$DataRangeCategories@boolean:Option[omf#DataRange]" title="Permalink" target="_top">
@@ -242,7 +245,7 @@
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">builtInDatatypeModules</span><span class="result">: <span class="extype" name="scala.collection.immutable.Set">Set</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFcbox.Module">omf.Module</span>]</span>
+        <span class="name">builtInDatatypeModules</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.collection.immutable.Set" class="extype" target="_top">Set</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFcbox.Module">omf.Module</span>]</span>
       </span>
       </h4><span class="permalink">
       <a href="../../../../../../../index.html#gov.nasa.jpl.omf.scala.core.builtin.BuiltInDatatypeMaps$$DataRangeCategories@builtInDatatypeModules:scala.collection.immutable.Set[omf#Module]" title="Permalink" target="_top">
@@ -259,7 +262,7 @@
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">builtInImport</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.TerminologyBox">omf.TerminologyBox</span>]</span>
+        <span class="name">builtInImport</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.Option" class="extype" target="_top">Option</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.TerminologyBox">omf.TerminologyBox</span>]</span>
       </span>
       </h4><span class="permalink">
       <a href="../../../../../../../index.html#gov.nasa.jpl.omf.scala.core.builtin.BuiltInDatatypeMaps$$DataRangeCategories@builtInImport:Option[omf#TerminologyBox]" title="Permalink" target="_top">
@@ -276,7 +279,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">clone</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.AnyRef">AnyRef</span></span>
+        <span class="name">clone</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../../../../../index.html#gov.nasa.jpl.omf.scala.core.builtin.BuiltInDatatypeMaps$$DataRangeCategories@clone():Object" title="Permalink" target="_top">
@@ -299,7 +302,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">dataRanges</span><span class="result">: <span class="extype" name="scala.collection.immutable.Set">Set</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span>]</span>
+        <span class="name">dataRanges</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.collection.immutable.Set" class="extype" target="_top">Set</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span>]</span>
       </span>
       </h4><span class="permalink">
       <a href="../../../../../../../index.html#gov.nasa.jpl.omf.scala.core.builtin.BuiltInDatatypeMaps$$DataRangeCategories@dataRanges:scala.collection.immutable.Set[omf#DataRange]" title="Permalink" target="_top">
@@ -316,7 +319,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">eq</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+        <span class="name">eq</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../../../../../index.html#gov.nasa.jpl.omf.scala.core.builtin.BuiltInDatatypeMaps$$DataRangeCategories@eq(x$1:AnyRef):Boolean" title="Permalink" target="_top">
@@ -333,7 +336,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">finalize</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">finalize</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../../../../../index.html#gov.nasa.jpl.omf.scala.core.builtin.BuiltInDatatypeMaps$$DataRangeCategories@finalize():Unit" title="Permalink" target="_top">
@@ -373,7 +376,7 @@
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">iri</span><span class="result">: <span class="extype" name="scala.collection.immutable.Set">Set</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span>]</span>
+        <span class="name">iri</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.collection.immutable.Set" class="extype" target="_top">Set</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span>]</span>
       </span>
       </h4><span class="permalink">
       <a href="../../../../../../../index.html#gov.nasa.jpl.omf.scala.core.builtin.BuiltInDatatypeMaps$$DataRangeCategories@iri:scala.collection.immutable.Set[omf#DataRange]" title="Permalink" target="_top">
@@ -390,7 +393,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">isAnyAtomicType</span><span class="params">(<span name="dr">dr: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+        <span class="name">isAnyAtomicType</span><span class="params">(<span name="dr">dr: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../../../../../index.html#gov.nasa.jpl.omf.scala.core.builtin.BuiltInDatatypeMaps$$DataRangeCategories@isAnyAtomicType(dr:omf#DataRange):Boolean" title="Permalink" target="_top">
@@ -407,7 +410,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">isBinaryKind</span><span class="params">(<span name="dr">dr: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="ops">ops: <a href="../OMFOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps">OMFOps</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.builtin.BuiltInDatatypeMaps.DataRangeCategories.omf">omf</span>]</span>, <span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+        <span class="name">isBinaryKind</span><span class="params">(<span name="dr">dr: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="ops">ops: <a href="../OMFOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps">OMFOps</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.builtin.BuiltInDatatypeMaps.DataRangeCategories.omf">omf</span>]</span>, <span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../../../../../index.html#gov.nasa.jpl.omf.scala.core.builtin.BuiltInDatatypeMaps$$DataRangeCategories@isBinaryKind(dr:omf#DataRange)(implicitops:gov.nasa.jpl.omf.scala.core.OMFOps[omf],implicitstore:omf#Store):Boolean" title="Permalink" target="_top">
@@ -424,7 +427,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">isBoolean</span><span class="params">(<span name="dr">dr: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+        <span class="name">isBoolean</span><span class="params">(<span name="dr">dr: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../../../../../index.html#gov.nasa.jpl.omf.scala.core.builtin.BuiltInDatatypeMaps$$DataRangeCategories@isBoolean(dr:omf#DataRange):Boolean" title="Permalink" target="_top">
@@ -441,7 +444,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">isBuiltInModule</span><span class="params">(<span name="iri">iri: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFiri.IRI">omf.IRI</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="ops">ops: <a href="../OMFOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps">OMFOps</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.builtin.BuiltInDatatypeMaps.DataRangeCategories.omf">omf</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+        <span class="name">isBuiltInModule</span><span class="params">(<span name="iri">iri: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFiri.IRI">omf.IRI</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="ops">ops: <a href="../OMFOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps">OMFOps</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.builtin.BuiltInDatatypeMaps.DataRangeCategories.omf">omf</span>]</span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../../../../../index.html#gov.nasa.jpl.omf.scala.core.builtin.BuiltInDatatypeMaps$$DataRangeCategories@isBuiltInModule(iri:omf#IRI)(implicitops:gov.nasa.jpl.omf.scala.core.OMFOps[omf]):Boolean" title="Permalink" target="_top">
@@ -458,7 +461,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">isCategoryRestriction</span><span class="params">(<span name="category">category: <span class="extype" name="scala.collection.immutable.Set">Set</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span>]</span>, <span name="dr">dr: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="ops">ops: <a href="../OMFOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps">OMFOps</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.builtin.BuiltInDatatypeMaps.DataRangeCategories.omf">omf</span>]</span>, <span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+        <span class="name">isCategoryRestriction</span><span class="params">(<span name="category">category: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.collection.immutable.Set" class="extype" target="_top">Set</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span>]</span>, <span name="dr">dr: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="ops">ops: <a href="../OMFOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps">OMFOps</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.builtin.BuiltInDatatypeMaps.DataRangeCategories.omf">omf</span>]</span>, <span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../../../../../index.html#gov.nasa.jpl.omf.scala.core.builtin.BuiltInDatatypeMaps$$DataRangeCategories@isCategoryRestriction(category:scala.collection.immutable.Set[omf#DataRange],dr:omf#DataRange)(implicitops:gov.nasa.jpl.omf.scala.core.OMFOps[omf],implicitstore:omf#Store):Boolean" title="Permalink" target="_top">
@@ -475,7 +478,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">isIRIKind</span><span class="params">(<span name="dr">dr: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="ops">ops: <a href="../OMFOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps">OMFOps</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.builtin.BuiltInDatatypeMaps.DataRangeCategories.omf">omf</span>]</span>, <span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+        <span class="name">isIRIKind</span><span class="params">(<span name="dr">dr: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="ops">ops: <a href="../OMFOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps">OMFOps</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.builtin.BuiltInDatatypeMaps.DataRangeCategories.omf">omf</span>]</span>, <span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../../../../../index.html#gov.nasa.jpl.omf.scala.core.builtin.BuiltInDatatypeMaps$$DataRangeCategories@isIRIKind(dr:omf#DataRange)(implicitops:gov.nasa.jpl.omf.scala.core.OMFOps[omf],implicitstore:omf#Store):Boolean" title="Permalink" target="_top">
@@ -492,7 +495,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">isInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+        <span class="name">isInstanceOf</span><span class="tparams">[<span name="T0">T0</span>]</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../../../../../index.html#gov.nasa.jpl.omf.scala.core.builtin.BuiltInDatatypeMaps$$DataRangeCategories@isInstanceOf[T0]:Boolean" title="Permalink" target="_top">
@@ -509,7 +512,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">isNonNormativeKind</span><span class="params">(<span name="dr">dr: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="ops">ops: <a href="../OMFOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps">OMFOps</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.builtin.BuiltInDatatypeMaps.DataRangeCategories.omf">omf</span>]</span>, <span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+        <span class="name">isNonNormativeKind</span><span class="params">(<span name="dr">dr: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="ops">ops: <a href="../OMFOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps">OMFOps</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.builtin.BuiltInDatatypeMaps.DataRangeCategories.omf">omf</span>]</span>, <span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../../../../../index.html#gov.nasa.jpl.omf.scala.core.builtin.BuiltInDatatypeMaps$$DataRangeCategories@isNonNormativeKind(dr:omf#DataRange)(implicitops:gov.nasa.jpl.omf.scala.core.OMFOps[omf],implicitstore:omf#Store):Boolean" title="Permalink" target="_top">
@@ -526,7 +529,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">isNumericKind</span><span class="params">(<span name="dr">dr: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="ops">ops: <a href="../OMFOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps">OMFOps</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.builtin.BuiltInDatatypeMaps.DataRangeCategories.omf">omf</span>]</span>, <span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+        <span class="name">isNumericKind</span><span class="params">(<span name="dr">dr: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="ops">ops: <a href="../OMFOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps">OMFOps</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.builtin.BuiltInDatatypeMaps.DataRangeCategories.omf">omf</span>]</span>, <span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../../../../../index.html#gov.nasa.jpl.omf.scala.core.builtin.BuiltInDatatypeMaps$$DataRangeCategories@isNumericKind(dr:omf#DataRange)(implicitops:gov.nasa.jpl.omf.scala.core.OMFOps[omf],implicitstore:omf#Store):Boolean" title="Permalink" target="_top">
@@ -543,7 +546,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">isPlainLiteralKind</span><span class="params">(<span name="dr">dr: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="ops">ops: <a href="../OMFOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps">OMFOps</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.builtin.BuiltInDatatypeMaps.DataRangeCategories.omf">omf</span>]</span>, <span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+        <span class="name">isPlainLiteralKind</span><span class="params">(<span name="dr">dr: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="ops">ops: <a href="../OMFOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps">OMFOps</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.builtin.BuiltInDatatypeMaps.DataRangeCategories.omf">omf</span>]</span>, <span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../../../../../index.html#gov.nasa.jpl.omf.scala.core.builtin.BuiltInDatatypeMaps$$DataRangeCategories@isPlainLiteralKind(dr:omf#DataRange)(implicitops:gov.nasa.jpl.omf.scala.core.OMFOps[omf],implicitstore:omf#Store):Boolean" title="Permalink" target="_top">
@@ -560,7 +563,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">isStringKind</span><span class="params">(<span name="dr">dr: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="ops">ops: <a href="../OMFOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps">OMFOps</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.builtin.BuiltInDatatypeMaps.DataRangeCategories.omf">omf</span>]</span>, <span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+        <span class="name">isStringKind</span><span class="params">(<span name="dr">dr: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="ops">ops: <a href="../OMFOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps">OMFOps</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.builtin.BuiltInDatatypeMaps.DataRangeCategories.omf">omf</span>]</span>, <span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../../../../../index.html#gov.nasa.jpl.omf.scala.core.builtin.BuiltInDatatypeMaps$$DataRangeCategories@isStringKind(dr:omf#DataRange)(implicitops:gov.nasa.jpl.omf.scala.core.OMFOps[omf],implicitstore:omf#Store):Boolean" title="Permalink" target="_top">
@@ -577,7 +580,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">isTimeKind</span><span class="params">(<span name="dr">dr: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="ops">ops: <a href="../OMFOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps">OMFOps</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.builtin.BuiltInDatatypeMaps.DataRangeCategories.omf">omf</span>]</span>, <span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+        <span class="name">isTimeKind</span><span class="params">(<span name="dr">dr: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="ops">ops: <a href="../OMFOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps">OMFOps</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.builtin.BuiltInDatatypeMaps.DataRangeCategories.omf">omf</span>]</span>, <span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../../../../../index.html#gov.nasa.jpl.omf.scala.core.builtin.BuiltInDatatypeMaps$$DataRangeCategories@isTimeKind(dr:omf#DataRange)(implicitops:gov.nasa.jpl.omf.scala.core.OMFOps[omf],implicitstore:omf#Store):Boolean" title="Permalink" target="_top">
@@ -594,7 +597,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">isXMLLiteralKind</span><span class="params">(<span name="dr">dr: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="ops">ops: <a href="../OMFOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps">OMFOps</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.builtin.BuiltInDatatypeMaps.DataRangeCategories.omf">omf</span>]</span>, <span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+        <span class="name">isXMLLiteralKind</span><span class="params">(<span name="dr">dr: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="ops">ops: <a href="../OMFOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps">OMFOps</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.builtin.BuiltInDatatypeMaps.DataRangeCategories.omf">omf</span>]</span>, <span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../../../../../index.html#gov.nasa.jpl.omf.scala.core.builtin.BuiltInDatatypeMaps$$DataRangeCategories@isXMLLiteralKind(dr:omf#DataRange)(implicitops:gov.nasa.jpl.omf.scala.core.OMFOps[omf],implicitstore:omf#Store):Boolean" title="Permalink" target="_top">
@@ -611,7 +614,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">lookupBuiltInDataRange</span><span class="params">(<span name="drIRI">drIRI: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFiri.IRI">omf.IRI</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="ops">ops: <a href="../OMFOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps">OMFOps</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.builtin.BuiltInDatatypeMaps.DataRangeCategories.omf">omf</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span>]</span>
+        <span class="name">lookupBuiltInDataRange</span><span class="params">(<span name="drIRI">drIRI: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFiri.IRI">omf.IRI</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="ops">ops: <a href="../OMFOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps">OMFOps</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.builtin.BuiltInDatatypeMaps.DataRangeCategories.omf">omf</span>]</span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.Option" class="extype" target="_top">Option</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span>]</span>
       </span>
       </h4><span class="permalink">
       <a href="../../../../../../../index.html#gov.nasa.jpl.omf.scala.core.builtin.BuiltInDatatypeMaps$$DataRangeCategories@lookupBuiltInDataRange(drIRI:omf#IRI)(implicitops:gov.nasa.jpl.omf.scala.core.OMFOps[omf]):Option[omf#DataRange]" title="Permalink" target="_top">
@@ -628,7 +631,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">lookupBuiltInModule</span><span class="params">(<span name="iri">iri: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFiri.IRI">omf.IRI</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="ops">ops: <a href="../OMFOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps">OMFOps</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.builtin.BuiltInDatatypeMaps.DataRangeCategories.omf">omf</span>]</span>)</span><span class="result">: <span class="extype" name="scala.Option">Option</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFcbox.Module">omf.Module</span>]</span>
+        <span class="name">lookupBuiltInModule</span><span class="params">(<span name="iri">iri: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFiri.IRI">omf.IRI</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="ops">ops: <a href="../OMFOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps">OMFOps</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.builtin.BuiltInDatatypeMaps.DataRangeCategories.omf">omf</span>]</span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.Option" class="extype" target="_top">Option</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFcbox.Module">omf.Module</span>]</span>
       </span>
       </h4><span class="permalink">
       <a href="../../../../../../../index.html#gov.nasa.jpl.omf.scala.core.builtin.BuiltInDatatypeMaps$$DataRangeCategories@lookupBuiltInModule(iri:omf#IRI)(implicitops:gov.nasa.jpl.omf.scala.core.OMFOps[omf]):Option[omf#Module]" title="Permalink" target="_top">
@@ -645,7 +648,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">ne</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.AnyRef">AnyRef</span></span>)</span><span class="result">: <span class="extype" name="scala.Boolean">Boolean</span></span>
+        <span class="name">ne</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.Boolean" class="extype" target="_top">Boolean</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../../../../../index.html#gov.nasa.jpl.omf.scala.core.builtin.BuiltInDatatypeMaps$$DataRangeCategories@ne(x$1:AnyRef):Boolean" title="Permalink" target="_top">
@@ -662,7 +665,7 @@
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">nonNormative</span><span class="result">: <span class="extype" name="scala.collection.immutable.Set">Set</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span>]</span>
+        <span class="name">nonNormative</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.collection.immutable.Set" class="extype" target="_top">Set</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span>]</span>
       </span>
       </h4><span class="permalink">
       <a href="../../../../../../../index.html#gov.nasa.jpl.omf.scala.core.builtin.BuiltInDatatypeMaps$$DataRangeCategories@nonNormative:scala.collection.immutable.Set[omf#DataRange]" title="Permalink" target="_top">
@@ -679,7 +682,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">notify</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">notify</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../../../../../index.html#gov.nasa.jpl.omf.scala.core.builtin.BuiltInDatatypeMaps$$DataRangeCategories@notify():Unit" title="Permalink" target="_top">
@@ -696,7 +699,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">notifyAll</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">notifyAll</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../../../../../index.html#gov.nasa.jpl.omf.scala.core.builtin.BuiltInDatatypeMaps$$DataRangeCategories@notifyAll():Unit" title="Permalink" target="_top">
@@ -713,7 +716,7 @@
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">numeric</span><span class="result">: <span class="extype" name="scala.collection.immutable.Set">Set</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span>]</span>
+        <span class="name">numeric</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.collection.immutable.Set" class="extype" target="_top">Set</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span>]</span>
       </span>
       </h4><span class="permalink">
       <a href="../../../../../../../index.html#gov.nasa.jpl.omf.scala.core.builtin.BuiltInDatatypeMaps$$DataRangeCategories@numeric:scala.collection.immutable.Set[omf#DataRange]" title="Permalink" target="_top">
@@ -730,7 +733,7 @@
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">plainLiteral</span><span class="result">: <span class="extype" name="scala.collection.immutable.Set">Set</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span>]</span>
+        <span class="name">plainLiteral</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.collection.immutable.Set" class="extype" target="_top">Set</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span>]</span>
       </span>
       </h4><span class="permalink">
       <a href="../../../../../../../index.html#gov.nasa.jpl.omf.scala.core.builtin.BuiltInDatatypeMaps$$DataRangeCategories@plainLiteral:scala.collection.immutable.Set[omf#DataRange]" title="Permalink" target="_top">
@@ -747,7 +750,7 @@
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">string</span><span class="result">: <span class="extype" name="scala.collection.immutable.Set">Set</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span>]</span>
+        <span class="name">string</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.collection.immutable.Set" class="extype" target="_top">Set</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span>]</span>
       </span>
       </h4><span class="permalink">
       <a href="../../../../../../../index.html#gov.nasa.jpl.omf.scala.core.builtin.BuiltInDatatypeMaps$$DataRangeCategories@string:scala.collection.immutable.Set[omf#DataRange]" title="Permalink" target="_top">
@@ -781,7 +784,7 @@
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">time</span><span class="result">: <span class="extype" name="scala.collection.immutable.Set">Set</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span>]</span>
+        <span class="name">time</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.collection.immutable.Set" class="extype" target="_top">Set</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span>]</span>
       </span>
       </h4><span class="permalink">
       <a href="../../../../../../../index.html#gov.nasa.jpl.omf.scala.core.builtin.BuiltInDatatypeMaps$$DataRangeCategories@time:scala.collection.immutable.Set[omf#DataRange]" title="Permalink" target="_top">
@@ -798,7 +801,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">wait</span><span class="params">()</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">wait</span><span class="params">()</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../../../../../index.html#gov.nasa.jpl.omf.scala.core.builtin.BuiltInDatatypeMaps$$DataRangeCategories@wait():Unit" title="Permalink" target="_top">
@@ -821,7 +824,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>, <span name="arg1">arg1: <span class="extype" name="scala.Int">Int</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.Long" class="extype" target="_top">Long</a></span>, <span name="arg1">arg1: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.Int" class="extype" target="_top">Int</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../../../../../index.html#gov.nasa.jpl.omf.scala.core.builtin.BuiltInDatatypeMaps$$DataRangeCategories@wait(x$1:Long,x$2:Int):Unit" title="Permalink" target="_top">
@@ -844,7 +847,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <span class="extype" name="scala.Long">Long</span></span>)</span><span class="result">: <span class="extype" name="scala.Unit">Unit</span></span>
+        <span class="name">wait</span><span class="params">(<span name="arg0">arg0: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.Long" class="extype" target="_top">Long</a></span>)</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.Unit" class="extype" target="_top">Unit</a></span>
       </span>
       </h4><span class="permalink">
       <a href="../../../../../../../index.html#gov.nasa.jpl.omf.scala.core.builtin.BuiltInDatatypeMaps$$DataRangeCategories@wait(x$1:Long):Unit" title="Permalink" target="_top">
@@ -1071,7 +1074,7 @@
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">xmlLiteral</span><span class="result">: <span class="extype" name="scala.collection.immutable.Set">Set</span>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span>]</span>
+        <span class="name">xmlLiteral</span><span class="result">: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.collection.immutable.Set" class="extype" target="_top">Set</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.DataRange">omf.DataRange</span>]</span>
       </span>
       </h4><span class="permalink">
       <a href="../../../../../../../index.html#gov.nasa.jpl.omf.scala.core.builtin.BuiltInDatatypeMaps$$DataRangeCategories@xmlLiteral:scala.collection.immutable.Set[omf#DataRange]" title="Permalink" target="_top">
@@ -1089,17 +1092,17 @@
 
         <div id="inheritedMembers">
         <div class="parent" name="scala.Serializable">
-              <h3>Inherited from <span class="extype" name="scala.Serializable">Serializable</span></h3>
+              <h3>Inherited from <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.Serializable" class="extype" target="_top">Serializable</a></h3>
             </div><div class="parent" name="java.io.Serializable">
               <h3>Inherited from <span class="extype" name="java.io.Serializable">Serializable</span></h3>
             </div><div class="parent" name="scala.Product">
-              <h3>Inherited from <span class="extype" name="scala.Product">Product</span></h3>
+              <h3>Inherited from <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.Product" class="extype" target="_top">Product</a></h3>
             </div><div class="parent" name="scala.Equals">
-              <h3>Inherited from <span class="extype" name="scala.Equals">Equals</span></h3>
+              <h3>Inherited from <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.Equals" class="extype" target="_top">Equals</a></h3>
             </div><div class="parent" name="scala.AnyRef">
-              <h3>Inherited from <span class="extype" name="scala.AnyRef">AnyRef</span></h3>
+              <h3>Inherited from <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.AnyRef" class="extype" target="_top">AnyRef</a></h3>
             </div><div class="parent" name="scala.Any">
-              <h3>Inherited from <span class="extype" name="scala.Any">Any</span></h3>
+              <h3>Inherited from <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.Any" class="extype" target="_top">Any</a></h3>
             </div>
         
         </div>
