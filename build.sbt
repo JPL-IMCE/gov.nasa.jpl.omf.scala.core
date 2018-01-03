@@ -51,6 +51,14 @@ lazy val core = Project("omf-scala-core", file("."))
     scalacOptions in (Compile, doc) += "-Xplugin-disable:artima-supersafe",
     scalacOptions in (Test, doc) += "-Xplugin-disable:artima-supersafe",
 
+    scalacOptions in (Compile,doc) ++= Seq(
+      "-diagrams",
+      "-doc-title", name.value,
+      "-doc-root-content", baseDirectory.value + "/rootdoc.txt"),
+
+    autoAPIMappings := true,
+    apiURL := Some(url("https://jpl-imce.github.io/gov.nasa.jpl.omf.scala.core/latest/api/")),
+
     // Avoid unresolvable dependencies from old versions of log4j
     libraryDependencies ~= {
       _ map {

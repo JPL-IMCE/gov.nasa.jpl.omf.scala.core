@@ -26,6 +26,9 @@ import scala.{Int,Ordering,None,Some}
 import scala.collection.immutable._
 import scala.Predef.{ArrowAssoc,String}
 
+/**
+  * Ontological Modeling Framework API
+  */
 package object core {
 
   type ImmutableTerminologyBoxSignature[omf <: OMF] =

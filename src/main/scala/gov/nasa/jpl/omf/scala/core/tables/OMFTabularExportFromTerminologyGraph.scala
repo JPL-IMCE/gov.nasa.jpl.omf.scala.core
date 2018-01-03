@@ -21,7 +21,7 @@ package gov.nasa.jpl.omf.scala.core.tables
 import java.lang.System
 
 import gov.nasa.jpl.imce.oml
-import gov.nasa.jpl.imce.oml.resolver.toUUIDString
+import gov.nasa.jpl.imce.oml.resolver.ResolverUtilities.toUUIDString
 import gov.nasa.jpl.imce.oml.tables.taggedTypes
 import gov.nasa.jpl.omf.scala.core.OMFError.Throwables
 import gov.nasa.jpl.omf.scala.core.{OMF, OMFError, OMFOps, RelationshipCharacteristics, TerminologyKind}
