@@ -206,8 +206,7 @@ object OMFTabularExportFromDescriptionBox {
         rangeUUID = ops.getConceptualEntitySingletonInstanceUUID(info.range))
     }.to[Seq].sorted
 
-    table = oml.tables.OMLSpecificationTables.createEmptyOMLSpecificationTables()
-      .copy(
+    table = oml.tables.OMLSpecificationTables(
         descriptionBoxes = Seq(oml.tables.DescriptionBox(
           uuid = suuid,
           kind = if (DescriptionKind.isFinalKind(s.kind))

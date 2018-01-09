@@ -35,3 +35,5 @@ gov.nasa.jpl.omf.scala.core 9.0.0 is a major update
 - [#25 OML AnnotationProperty refactoring](https://github.com/JPL-IMCE/gov.nasa.jpl.omf.scala.core/issues/25)
 
 - [#27 Update for OML Resolver API refactoring.](https://github.com/JPL-IMCE/gov.nasa.jpl.omf.scala.core/issues/27)
+
+- [#28 Bizarre problem in OMLSpecificationTables construction.](https://github.com/JPL-IMCE/gov.nasa.jpl.omf.scala.core/issues/28)

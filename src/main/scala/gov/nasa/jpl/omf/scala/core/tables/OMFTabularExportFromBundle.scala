@@ -387,8 +387,7 @@ object OMFTabularExportFromBundle {
         name = info.name)
     }.to[Seq].sorted
 
-    table = oml.tables.OMLSpecificationTables.createEmptyOMLSpecificationTables()
-      .copy(
+    table = oml.tables.OMLSpecificationTables(
 
         bundles = Seq(oml.tables.Bundle(
           uuid = suuid,

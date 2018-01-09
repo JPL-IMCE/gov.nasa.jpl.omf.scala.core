@@ -62,62 +62,62 @@ object OMFTabularExportFromTerminologyGraph {
         val common = s_common_aps.to[Seq].sortBy(_.abbrevIRI.toString)
         System.out.println(
           s"TerminologyGraph ${s.iri} duplicates ${common.size} Annotations defined in imported modules: " +
-            common.map(_.abbrevIRI).mkString("\n\t",", ","\n"))
+            common.map(_.abbrevIRI).mkString("\n\t", ", ", "\n"))
       }
     }
 
     allConceptDesignationTerminologyAxioms <-
-    s.conceptDesignation.foldLeft(
-      Seq.empty[oml.tables.ConceptDesignationTerminologyAxiom].right[Throwables]
-    ) { case ( acc1, omf_ax) =>
-      for {
-        axs <- acc1
-        omf_info = ops.fromConceptDesignationTerminologyAxiom(omf_ax)
-        _ <- if (all_tboxes.exists(i => ops.getModuleUUID(i) == ops.getModuleUUID(omf_info.designatedTerminology)))
-          ().right[Throwables]
-        else
-          Set[java.lang.Throwable](OMFError.omfError(
-            s"TerminologyGraph ${s.iri} has a ConceptDesignationTerminologyAxiom (uuid=${omf_info.uuid}) "+
-              s" whose designated terminology is not imported: ${ops.getModuleIRI(omf_info.designatedTerminology)}"))
-            .left[Unit]
-        ax = oml.tables.ConceptDesignationTerminologyAxiom(
-          uuid = omf_info.uuid,
-          tboxUUID = omf_info.graphUUID,
-          designatedConceptUUID = ops.getConceptUUID(omf_info.designatedConcept),
-          designatedTerminologyIRI = ops.getModuleIRI(omf_info.designatedTerminology))
+      s.conceptDesignation.foldLeft(
+        Seq.empty[oml.tables.ConceptDesignationTerminologyAxiom].right[Throwables]
+      ) { case (acc1, omf_ax) =>
+        for {
+          axs <- acc1
+          omf_info = ops.fromConceptDesignationTerminologyAxiom(omf_ax)
+          _ <- if (all_tboxes.exists(i => ops.getModuleUUID(i) == ops.getModuleUUID(omf_info.designatedTerminology)))
+            ().right[Throwables]
+          else
+            Set[java.lang.Throwable](OMFError.omfError(
+              s"TerminologyGraph ${s.iri} has a ConceptDesignationTerminologyAxiom (uuid=${omf_info.uuid}) " +
+                s" whose designated terminology is not imported: ${ops.getModuleIRI(omf_info.designatedTerminology)}"))
+              .left[Unit]
+          ax = oml.tables.ConceptDesignationTerminologyAxiom(
+            uuid = omf_info.uuid,
+            tboxUUID = omf_info.graphUUID,
+            designatedConceptUUID = ops.getConceptUUID(omf_info.designatedConcept),
+            designatedTerminologyIRI = ops.getModuleIRI(omf_info.designatedTerminology))
 
-      } yield axs :+ ax
-    }
+        } yield axs :+ ax
+      }
 
     allExtensionAxioms <-
-    s.extensions.foldLeft(
-      Seq.empty[oml.tables.TerminologyExtensionAxiom].right[Throwables]
-    ) { case (acc1, omf_ax) =>
-      for {
-        axs <- acc1
-        omf_info = ops.fromTerminologyExtensionAxiom(omf_ax)
-        ax = oml.tables.TerminologyExtensionAxiom(
-          uuid = omf_info.uuid,
-          tboxUUID = suuid, extendedTerminologyIRI = ops.getModuleIRI(omf_info.extendedTerminology))
+      s.extensions.foldLeft(
+        Seq.empty[oml.tables.TerminologyExtensionAxiom].right[Throwables]
+      ) { case (acc1, omf_ax) =>
+        for {
+          axs <- acc1
+          omf_info = ops.fromTerminologyExtensionAxiom(omf_ax)
+          ax = oml.tables.TerminologyExtensionAxiom(
+            uuid = omf_info.uuid,
+            tboxUUID = suuid, extendedTerminologyIRI = ops.getModuleIRI(omf_info.extendedTerminology))
 
-      } yield axs :+ ax
-    }
+        } yield axs :+ ax
+      }
 
     allNestingAxioms <-
-    s.nesting.foldLeft(
-      Seq.empty[oml.tables.TerminologyNestingAxiom].right[Throwables]
-    ) { case (acc1, omf_ax) =>
-      for {
-        axs <- acc1
-        omf_info = ops.fromTerminologyNestingAxiom(omf_ax)
-        ax = oml.tables.TerminologyNestingAxiom(
-          uuid = omf_info.uuid,
-          tboxUUID = suuid,
-          nestingTerminologyIRI = ops.getModuleIRI(omf_info.nestingTerminology),
-          nestingContextUUID = ops.getConceptUUID(omf_info.nestingContext))
+      s.nesting.foldLeft(
+        Seq.empty[oml.tables.TerminologyNestingAxiom].right[Throwables]
+      ) { case (acc1, omf_ax) =>
+        for {
+          axs <- acc1
+          omf_info = ops.fromTerminologyNestingAxiom(omf_ax)
+          ax = oml.tables.TerminologyNestingAxiom(
+            uuid = omf_info.uuid,
+            tboxUUID = suuid,
+            nestingTerminologyIRI = ops.getModuleIRI(omf_info.nestingTerminology),
+            nestingContextUUID = ops.getConceptUUID(omf_info.nestingContext))
 
-      } yield axs :+ ax
-    }
+        } yield axs :+ ax
+      }
 
     allAspects = s.aspects.map { a =>
       oml.tables.Aspect(
@@ -466,79 +466,83 @@ object OMFTabularExportFromTerminologyGraph {
         )).left[Unit]
     }
 
-    table = oml.tables.OMLSpecificationTables.createEmptyOMLSpecificationTables()
-      .copy(
-        terminologyGraphs = Seq(tg),
+    table = oml.tables.OMLSpecificationTables(
+      terminologyGraphs = Seq(tg),
+      bundles = Seq.empty,
+      descriptionBoxes = Seq.empty,
 
-        conceptDesignationTerminologyAxioms = allConceptDesignationTerminologyAxioms.sorted,
-        terminologyExtensionAxioms = allExtensionAxioms.sorted,
-        terminologyNestingAxioms = allNestingAxioms.sorted,
+      annotationProperties = s_ap.to[Seq].sorted,
 
-        aspects = allAspects,
-        concepts = allConcepts,
-        reifiedRelationships = allReifiedRelationships,
-        unreifiedRelationships = allUnreifiedRelationships,
-        scalars = allScalars,
-        structures = allStructures,
-        binaryScalarRestrictions = allBinaryScalarRestrictions,
-        iriScalarRestrictions = allIRIScalarRestrictions,
-        numericScalarRestrictions = allNumericScalarRestrictions,
-        plainLiteralScalarRestrictions = allPlainLiteralScalarRestrictions,
-        scalarOneOfRestrictions = allScalarOneOfRestrictions,
-        stringScalarRestrictions = allStringScalarRestrictions,
-        synonymScalarRestrictions = allSynonymScalarRestrictions,
-        timeScalarRestrictions = allTimeScalarRestrictions,
-        entityScalarDataProperties = allEntity2ScalarProperties,
-        entityStructuredDataProperties = allEntity2StructureProperties,
-        scalarDataProperties = allScalarProperties,
-        structuredDataProperties = allStructuredProperties,
+      aspects = allAspects,
+      concepts = allConcepts,
+      scalars = allScalars,
+      structures = allStructures,
 
-        aspectSpecializationAxioms =
-          allAxioms.aspectSpecializationAxioms.sorted,
-        conceptSpecializationAxioms =
-          allAxioms.conceptSpecializationAxioms.sorted,
-        reifiedRelationshipSpecializationAxioms =
-          allAxioms.reifiedRelationshipSpecializationAxioms.sorted,
-        subDataPropertyOfAxioms =
-          allAxioms.subDataPropertyOfAxioms.sorted,
-        subObjectPropertyOfAxioms =
-          allAxioms.subObjectPropertyOfAxioms.sorted,
-        entityExistentialRestrictionAxioms =
-          allAxioms.entityExistentialRestrictionAxioms.sorted,
-        entityUniversalRestrictionAxioms =
-          allAxioms.entityUniversalRestrictionAxioms.sorted,
-        entityScalarDataPropertyExistentialRestrictionAxioms =
-          allAxioms.entityScalarDataPropertyExistentialRestrictionAxioms.sorted,
-        entityScalarDataPropertyParticularRestrictionAxioms =
-          allAxioms.entityScalarDataPropertyParticularRestrictionAxioms.sorted,
-        entityScalarDataPropertyUniversalRestrictionAxioms =
-          allAxioms.entityScalarDataPropertyUniversalRestrictionAxioms.sorted,
-        scalarOneOfLiteralAxioms =
-          allScalarOneOfLiteralAxioms,
+      conceptDesignationTerminologyAxioms = allConceptDesignationTerminologyAxioms.sorted,
+      terminologyExtensionAxioms = allExtensionAxioms.sorted,
+      terminologyNestingAxioms = allNestingAxioms.sorted,
+      bundledTerminologyAxioms = Seq.empty,
+      descriptionBoxExtendsClosedWorldDefinitions = Seq.empty,
+      descriptionBoxRefinements = Seq.empty,
 
-        chainRules = allChainRules,
-        ruleBodySegments = allRuleBodySegments,
+      binaryScalarRestrictions = allBinaryScalarRestrictions,
+      iriScalarRestrictions = allIRIScalarRestrictions,
+      numericScalarRestrictions = allNumericScalarRestrictions,
+      plainLiteralScalarRestrictions = allPlainLiteralScalarRestrictions,
+      scalarOneOfRestrictions = allScalarOneOfRestrictions,
+      scalarOneOfLiteralAxioms = allScalarOneOfLiteralAxioms,
+      stringScalarRestrictions = allStringScalarRestrictions,
+      synonymScalarRestrictions = allSynonymScalarRestrictions,
+      timeScalarRestrictions = allTimeScalarRestrictions,
 
-        aspectPredicates = allAspectPredicates,
-        conceptPredicates = allConceptPredicates,
-        reifiedRelationshipPredicates = allReifiedRelationshipPredicates,
+      entityScalarDataProperties = allEntity2ScalarProperties,
+      entityStructuredDataProperties = allEntity2StructureProperties,
+      scalarDataProperties = allScalarProperties,
+      structuredDataProperties = allStructuredProperties,
 
-        reifiedRelationshipPropertyPredicates = allReifiedRelationshipPropertyPredicates,
-        reifiedRelationshipInversePropertyPredicates = allReifiedRelationshipInversePropertyPredicates,
+      reifiedRelationships = allReifiedRelationships,
+      unreifiedRelationships = allUnreifiedRelationships,
 
-        reifiedRelationshipSourcePropertyPredicates = allReifiedRelationshipSourcePropertyPredicates,
-        reifiedRelationshipSourceInversePropertyPredicates = allReifiedRelationshipSourceInversePropertyPredicates,
+      chainRules = allChainRules,
+      ruleBodySegments = allRuleBodySegments,
 
-        reifiedRelationshipTargetPropertyPredicates = allReifiedRelationshipTargetPropertyPredicates,
-        reifiedRelationshipTargetInversePropertyPredicates = allReifiedRelationshipTargetInversePropertyPredicates,
+      aspectSpecializationAxioms =
+        allAxioms.aspectSpecializationAxioms.sorted,
+      conceptSpecializationAxioms =
+        allAxioms.conceptSpecializationAxioms.sorted,
+      reifiedRelationshipSpecializationAxioms =
+        allAxioms.reifiedRelationshipSpecializationAxioms.sorted,
+      subDataPropertyOfAxioms =
+        allAxioms.subDataPropertyOfAxioms.sorted,
+      subObjectPropertyOfAxioms =
+        allAxioms.subObjectPropertyOfAxioms.sorted,
+      entityExistentialRestrictionAxioms =
+        allAxioms.entityExistentialRestrictionAxioms.sorted,
+      entityUniversalRestrictionAxioms =
+        allAxioms.entityUniversalRestrictionAxioms.sorted,
+      entityScalarDataPropertyExistentialRestrictionAxioms =
+        allAxioms.entityScalarDataPropertyExistentialRestrictionAxioms.sorted,
+      entityScalarDataPropertyParticularRestrictionAxioms =
+        allAxioms.entityScalarDataPropertyParticularRestrictionAxioms.sorted,
+      entityScalarDataPropertyUniversalRestrictionAxioms =
+        allAxioms.entityScalarDataPropertyUniversalRestrictionAxioms.sorted,
 
-        unreifiedRelationshipPropertyPredicates = allUnreifiedRelationshipPropertyPredicates,
-        unreifiedRelationshipInversePropertyPredicates = allUnreifiedRelationshipInversePropertyPredicates,
+      aspectPredicates = allAspectPredicates,
+      conceptPredicates = allConceptPredicates,
+      reifiedRelationshipPredicates = allReifiedRelationshipPredicates,
 
-        annotationProperties = s_ap.to[Seq].sorted,
+      reifiedRelationshipPropertyPredicates = allReifiedRelationshipPropertyPredicates,
+      reifiedRelationshipSourcePropertyPredicates = allReifiedRelationshipSourcePropertyPredicates,
+      reifiedRelationshipTargetPropertyPredicates = allReifiedRelationshipTargetPropertyPredicates,
+      unreifiedRelationshipPropertyPredicates = allUnreifiedRelationshipPropertyPredicates,
 
-        annotationPropertyValues = s.annotationPropertyValues.to[Seq].sorted
-      )
+      reifiedRelationshipInversePropertyPredicates = allReifiedRelationshipInversePropertyPredicates,
+      reifiedRelationshipSourceInversePropertyPredicates = allReifiedRelationshipSourceInversePropertyPredicates,
+      reifiedRelationshipTargetInversePropertyPredicates = allReifiedRelationshipTargetInversePropertyPredicates,
+      unreifiedRelationshipInversePropertyPredicates = allUnreifiedRelationshipInversePropertyPredicates,
+
+      annotationPropertyValues = s.annotationPropertyValues.to[Seq].sorted
+    )
 
   } yield im2st :+ (tbox -> table)
 
