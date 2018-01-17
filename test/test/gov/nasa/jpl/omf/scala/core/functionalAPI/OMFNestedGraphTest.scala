@@ -153,9 +153,17 @@ abstract class OMFNestedGraphTest[omf <: OMF]
           source = component,
           target = function,
           characteristics = List(isAsymmetric, isIrreflexive, isInverseFunctional),
-          reifiedRelationshipName = localName("Performs"),
-          unreifiedRelationshipName = localName("performs"),
-          unreifiedInverseRelationshipName = localName("isPerformedBy").some)
+          reifiedRelationshipName = localName("Performs"))
+
+        performs <- addForwardProperty(
+          graph = mission,
+          name = localName("performs"),
+          reifiedRelationship = component_performs_function)
+
+        isPerformedBy <- addInverseProperty(
+          graph = mission,
+          name = localName("isPerformedBy"),
+          reifiedRelationship = component_performs_function)
 
         project_iri <- makeIRI(s"http://imce.jpl.nasa.gov/test/$testName/foundation/project/project")
         project <- makeTerminologyGraph(project_iri, isOpenWorld)
@@ -186,9 +194,18 @@ abstract class OMFNestedGraphTest[omf <: OMF]
           source = g_A,
           target = g_C,
           characteristics = List(isAsymmetric, isIrreflexive, isInverseFunctional),
-          reifiedRelationshipName = localName("Performs"),
-          unreifiedRelationshipName = localName("performs"),
-          unreifiedInverseRelationshipName = localName("isPerformedBy").some)
+          reifiedRelationshipName = localName("Performs"))
+
+        p1_performs <- addForwardProperty(
+          graph = p1,
+          name = localName("performs"),
+          reifiedRelationship = p1_asserts_A_performs_C)
+
+        p1_isPerfomredBy <- addInverseProperty(
+          graph = p1,
+          name = localName("isPerformedBy"),
+          reifiedRelationship = p1_asserts_A_performs_C)
+
         p1_asserts_A_performsFunction_C <-
         addReifiedRelationshipSpecializationAxiom(graph=p1, sub=p1_asserts_A_performs_C, sup=component_performs_function)
 
@@ -205,9 +222,18 @@ abstract class OMFNestedGraphTest[omf <: OMF]
           source = g_B,
           target = g_C,
           characteristics = List(isAsymmetric, isIrreflexive, isInverseFunctional),
-          reifiedRelationshipName = localName("Performs"),
-          unreifiedRelationshipName = localName("performs"),
-          unreifiedInverseRelationshipName = localName("isPerformedBy").some)
+          reifiedRelationshipName = localName("Performs"))
+
+        p2_performs <- addForwardProperty(
+          graph = p2,
+          name = localName("performs"),
+          reifiedRelationship = p2_asserts_B_performs_C)
+
+        p2_isPerfomredBy <- addInverseProperty(
+          graph = p2,
+          name = localName("isPerformedBy"),
+          reifiedRelationship = p2_asserts_B_performs_C)
+
         p2_asserts_B_performsFunction_C <-
         addReifiedRelationshipSpecializationAxiom(graph=p2, sub=p2_asserts_B_performs_C, sup=component_performs_function)
 
@@ -266,12 +292,34 @@ abstract class OMFNestedGraphTest[omf <: OMF]
 
         lookupNestingAxiomForNestedChildIfAny(nestedG = p1).contains(g_nests_p1) should be(true)
         lookupNestingAxiomForNestedChildIfAny(nestedG = ip1).foreach { ax =>
-          fromTerminologyNestingAxiom(ax).nestingContext should be(g_authorizes_p1)
+
+          // TODO: Investigate...
+          // Error:(269, 68) [Artima SuperSafe] Values of type omf#ConceptualEntity and _37.Term with _37.Predicate forSome { val _37: omf } may not be compared for equality with ScalaTest's be matcher syntax. If you really want this expression to compile, configure Artima SuperSafe to allow omf#ConceptualEntity and _37.Term with _37.Predicate forSome { val _37: omf } to be compared for equality.  For more information on this kind of error, see: http://www.artima.com/supersafe_user_guide.html#safer-equality
+          // fromTerminologyNestingAxiom(ax).nestingContext should be(g_authorizes_p1)
+          val _c1: omf#Concept = fromTerminologyNestingAxiom(ax).nestingContext
+          val _c2: omf#Concept = g_authorizes_p1
+
+          // TODO: Investigate
+          // Error:(273, 25) [Artima SuperSafe] Values of type omf#ConceptualEntity and _37.Term with _37.Predicate forSome { val _37: omf } may not be compared for equality with ScalaTest's be matcher syntax. If you really want this expression to compile, configure Artima SuperSafe to allow omf#ConceptualEntity and _37.Term with _37.Predicate forSome { val _37: omf } to be compared for equality.  For more information on this kind of error, see: http://www.artima.com/supersafe_user_guide.html#safer-equality
+          // _c1 should be(_c2)
+
+          fromEntity(_c1) should be(fromEntity(_c2))
         }
 
         lookupNestingAxiomForNestedChildIfAny(nestedG = p2).contains(g_nests_p2) should be(true)
         lookupNestingAxiomForNestedChildIfAny(nestedG = ip2).foreach { ax =>
-          fromTerminologyNestingAxiom(ax).nestingContext should be(g_authorizes_p2)
+
+          // TODO: Investigate...
+          // Error:(284, 68) [Artima SuperSafe] Values of type omf#ConceptualEntity and _37.Term with _37.Predicate forSome { val _37: omf } may not be compared for equality with ScalaTest's be matcher syntax. If you really want this expression to compile, configure Artima SuperSafe to allow omf#ConceptualEntity and _37.Term with _37.Predicate forSome { val _37: omf } to be compared for equality.  For more information on this kind of error, see: http://www.artima.com/supersafe_user_guide.html#safer-equality
+          // fromTerminologyNestingAxiom(ax).nestingContext should be(g_authorizes_p2)
+          val _c1: omf#Concept = fromTerminologyNestingAxiom(ax).nestingContext
+          val _c2: omf#Concept = g_authorizes_p2
+
+          // TODO: Investigate
+          // Error:(273, 25) [Artima SuperSafe] Values of type omf#ConceptualEntity and _37.Term with _37.Predicate forSome { val _37: omf } may not be compared for equality with ScalaTest's be matcher syntax. If you really want this expression to compile, configure Artima SuperSafe to allow omf#ConceptualEntity and _37.Term with _37.Predicate forSome { val _37: omf } to be compared for equality.  For more information on this kind of error, see: http://www.artima.com/supersafe_user_guide.html#safer-equality
+          // _c1 should be(_c2)
+
+          fromEntity(_c1) should be(fromEntity(_c2))
         }
 
         lookupNestingAxiomsForNestingContext(nestingC = component).isEmpty should be(true)
@@ -377,11 +425,19 @@ abstract class OMFNestedGraphTest[omf <: OMF]
         lookupNestingAxiomForNestedChildIfAny(nestedG = p1).nonEmpty should be(true)
         lookupNestingAxiomForNestedChildIfAny(nestedG = g).isEmpty should be(true)
         lookupNestingAxiomForNestedChildIfAny(nestedG = p1).foreach { ax =>
-          fromTerminologyNestingAxiom(ax).nestingContext should be(g_authorizes_p1.get)
+          val _c1: omf#Concept = g_authorizes_p1.get
+          val _c2: omf#Concept = fromTerminologyNestingAxiom(ax).nestingContext
+          // _c1 should be(_c2)
+          fromConcept(_c2).uuid should be(fromConcept(_c1).uuid)
         }
         lookupNestingAxiomForNestedChildIfAny(nestedG = p2).nonEmpty should be(true)
         lookupNestingAxiomForNestedChildIfAny(nestedG = p2).foreach { ax =>
-          fromTerminologyNestingAxiom(ax).nestingContext should be(g_authorizes_p2.get)
+          val _c1: omf#Concept = g_authorizes_p2.get
+          val _c2: omf#Concept = fromTerminologyNestingAxiom(ax).nestingContext
+
+          //_c1 should be(_c2)
+          fromConcept(_c2).uuid should be(fromConcept(_c1).uuid)
+          //fromTerminologyNestingAxiom(ax).nestingContext should be(g_authorizes_p2.get)
         }
 
         lookupNestingAxiomsForNestingContext(nestingC = component.get).isEmpty should be(true)

@@ -4,7 +4,7 @@ object Versions {
   val scala = "2.11.11"
 
   // this project
-  val version = "9.0.2"
+  val version = "9.1.0"
 
   // spark requirements
   val spark_jackson="2.8.10"

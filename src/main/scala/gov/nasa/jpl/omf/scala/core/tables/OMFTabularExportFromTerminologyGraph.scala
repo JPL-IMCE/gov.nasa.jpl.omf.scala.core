@@ -21,7 +21,7 @@ package gov.nasa.jpl.omf.scala.core.tables
 import java.lang.System
 
 import gov.nasa.jpl.imce.oml
-import gov.nasa.jpl.imce.oml.resolver.ResolverUtilities.toUUIDString
+import gov.nasa.jpl.imce.oml.resolver.Extent2Tables.toUUIDString
 import gov.nasa.jpl.imce.oml.tables.taggedTypes
 import gov.nasa.jpl.omf.scala.core.OMFError.Throwables
 import gov.nasa.jpl.omf.scala.core.{OMF, OMFError, OMFOps, RelationshipCharacteristics, TerminologyKind}
@@ -139,8 +139,6 @@ object OMFTabularExportFromTerminologyGraph {
         tboxUUID = suuid,
         uuid = sig.uuid,
         name = sig.name,
-        unreifiedPropertyName = sig.unreifiedPropertyName,
-        unreifiedInversePropertyName = sig.unreifiedInversePropertyName,
         isAsymmetric = sig.characteristics.exists(RelationshipCharacteristics.isAsymmetric == _),
         isEssential = sig.characteristics.exists(RelationshipCharacteristics.isEssential == _),
         isFunctional = sig.characteristics.exists(RelationshipCharacteristics.isFunctional == _),
@@ -152,6 +150,22 @@ object OMFTabularExportFromTerminologyGraph {
         isTransitive = sig.characteristics.exists(RelationshipCharacteristics.isTransitive == _),
         sourceUUID = ops.getEntityUUID(sig.source),
         targetUUID = ops.getEntityUUID(sig.target))
+    }.to[Seq].sorted
+
+    allForwardProperties = s.forwardProperties.map { p =>
+      val sig = ops.fromForwardProperty(p)
+      oml.tables.ForwardProperty(
+        uuid = sig.uuid,
+        name = sig.name,
+        reifiedRelationshipUUID = ops.getReifiedRelationshipUUID(sig.reifiedRelationship))
+    }.to[Seq].sorted
+
+    allInverseProperties = s.inverseProperties.map { p =>
+      val sig = ops.fromInverseProperty(p)
+      oml.tables.InverseProperty(
+        uuid = sig.uuid,
+        name = sig.name,
+        reifiedRelationshipUUID = ops.getReifiedRelationshipUUID(sig.reifiedRelationship))
     }.to[Seq].sorted
 
     allUnreifiedRelationships = s.unreifiedRelationships.map { ur =>
@@ -358,92 +372,17 @@ object OMFTabularExportFromTerminologyGraph {
       )
     }.to[Seq].sorted
 
-    allAspectPredicates = s.aspectPredicates.map { p =>
-      val info = ops.fromAspectPredicate(p)
-      oml.tables.AspectPredicate(
+    allSegmentPredicates = s.segmentPredicates.map { p =>
+      val info = ops.fromSegmentPredicate(p)
+      oml.tables.SegmentPredicate(
         uuid = info.uuid,
-        aspectUUID = ops.getAspectUUID(info.predicate),
-        bodySegmentUUID = ops.fromRuleBodySegment(info.bodySegment).uuid)
-    }.to[Seq].sorted
-
-    allConceptPredicates = s.conceptPredicates.map { p =>
-      val info = ops.fromConceptPredicate(p)
-      oml.tables.ConceptPredicate(
-        uuid = info.uuid,
-        conceptUUID = ops.getConceptUUID(info.predicate),
-        bodySegmentUUID = ops.fromRuleBodySegment(info.bodySegment).uuid)
-    }.to[Seq].sorted
-
-    allReifiedRelationshipPredicates = s.reifiedRelationshipPredicates.map { p =>
-      val info = ops.fromReifiedRelationshipPredicate(p)
-      oml.tables.ReifiedRelationshipPredicate(
-        uuid = info.uuid,
-        reifiedRelationshipUUID = ops.getReifiedRelationshipUUID(info.predicate),
-        bodySegmentUUID = ops.fromRuleBodySegment(info.bodySegment).uuid)
-    }.to[Seq].sorted
-
-    allReifiedRelationshipPropertyPredicates = s.reifiedRelationshipPropertyPredicates.map { p =>
-      val info = ops.fromReifiedRelationshipPropertyPredicate(p)
-      oml.tables.ReifiedRelationshipPropertyPredicate(
-        uuid = info.uuid,
-        reifiedRelationshipUUID = ops.getReifiedRelationshipUUID(info.predicate),
-        bodySegmentUUID = ops.fromRuleBodySegment(info.bodySegment).uuid)
-    }.to[Seq].sorted
-
-    allReifiedRelationshipInversePropertyPredicates = s.reifiedRelationshipInversePropertyPredicates.map { p =>
-      val info = ops.fromReifiedRelationshipInversePropertyPredicate(p)
-      oml.tables.ReifiedRelationshipInversePropertyPredicate(
-        uuid = info.uuid,
-        reifiedRelationshipUUID = ops.getReifiedRelationshipUUID(info.predicate),
-        bodySegmentUUID = ops.fromRuleBodySegment(info.bodySegment).uuid)
-    }.to[Seq].sorted
-
-    allReifiedRelationshipSourcePropertyPredicates = s.reifiedRelationshipSourcePropertyPredicates.map { p =>
-      val info = ops.fromReifiedRelationshipSourcePropertyPredicate(p)
-      oml.tables.ReifiedRelationshipSourcePropertyPredicate(
-        uuid = info.uuid,
-        reifiedRelationshipUUID = ops.getReifiedRelationshipUUID(info.predicate),
-        bodySegmentUUID = ops.fromRuleBodySegment(info.bodySegment).uuid)
-    }.to[Seq].sorted
-
-    allReifiedRelationshipSourceInversePropertyPredicates = s.reifiedRelationshipSourceInversePropertyPredicates.map { p =>
-      val info = ops.fromReifiedRelationshipSourceInversePropertyPredicate(p)
-      oml.tables.ReifiedRelationshipSourceInversePropertyPredicate(
-        uuid = info.uuid,
-        reifiedRelationshipUUID = ops.getReifiedRelationshipUUID(info.predicate),
-        bodySegmentUUID = ops.fromRuleBodySegment(info.bodySegment).uuid)
-    }.to[Seq].sorted
-
-    allReifiedRelationshipTargetPropertyPredicates = s.reifiedRelationshipTargetPropertyPredicates.map { p =>
-      val info = ops.fromReifiedRelationshipTargetPropertyPredicate(p)
-      oml.tables.ReifiedRelationshipTargetPropertyPredicate(
-        uuid = info.uuid,
-        reifiedRelationshipUUID = ops.getReifiedRelationshipUUID(info.predicate),
-        bodySegmentUUID = ops.fromRuleBodySegment(info.bodySegment).uuid)
-    }.to[Seq].sorted
-
-    allReifiedRelationshipTargetInversePropertyPredicates = s.reifiedRelationshipTargetInversePropertyPredicates.map { p =>
-      val info = ops.fromReifiedRelationshipTargetInversePropertyPredicate(p)
-      oml.tables.ReifiedRelationshipTargetInversePropertyPredicate(
-        uuid = info.uuid,
-        reifiedRelationshipUUID = ops.getReifiedRelationshipUUID(info.predicate),
-        bodySegmentUUID = ops.fromRuleBodySegment(info.bodySegment).uuid)
-    }.to[Seq].sorted
-
-    allUnreifiedRelationshipPropertyPredicates = s.unreifiedRelationshipPropertyPredicates.map { p =>
-      val info = ops.fromUnreifiedRelationshipPropertyPredicate(p)
-      oml.tables.UnreifiedRelationshipPropertyPredicate(
-        uuid = info.uuid,
-        unreifiedRelationshipUUID = ops.getUnreifiedRelationshipUUID(info.predicate),
-        bodySegmentUUID = ops.fromRuleBodySegment(info.bodySegment).uuid)
-    }.to[Seq].sorted
-
-    allUnreifiedRelationshipInversePropertyPredicates = s.unreifiedRelationshipInversePropertyPredicates.map { p =>
-      val info = ops.fromUnreifiedRelationshipInversePropertyPredicate(p)
-      oml.tables.UnreifiedRelationshipInversePropertyPredicate(
-        uuid = info.uuid,
-        unreifiedRelationshipUUID = ops.getUnreifiedRelationshipUUID(info.predicate),
-        bodySegmentUUID = ops.fromRuleBodySegment(info.bodySegment).uuid)
+        bodySegmentUUID = ops.fromRuleBodySegment(info.bodySegment).uuid,
+        predicateUUID = info.predicate.map(p => ops.fromPredicate(p).uuid),
+        reifiedRelationshipSourceUUID = info.reifiedRelationshipSource.map(rr => ops.fromReifiedRelationship(rr).uuid),
+        reifiedRelationshipInverseSourceUUID = info.reifiedRelationshipInverseSource.map(rr => ops.fromReifiedRelationship(rr).uuid),
+        reifiedRelationshipTargetUUID = info.reifiedRelationshipTarget.map(rr => ops.fromReifiedRelationship(rr).uuid),
+        reifiedRelationshipInverseTargetUUID = info.reifiedRelationshipInverseTarget.map(rr => ops.fromReifiedRelationship(rr).uuid),
+        unreifiedRelationshipInverseUUID = info.unreifiedRelationshipInverse.map(rr => ops.fromUnreifiedRelationship(rr).uuid))
     }.to[Seq].sorted
 
     allAxioms = s.axioms.foldLeft(Axioms())(Axioms.combine(suuid, ops))
@@ -501,10 +440,13 @@ object OMFTabularExportFromTerminologyGraph {
       structuredDataProperties = allStructuredProperties,
 
       reifiedRelationships = allReifiedRelationships,
+      forwardProperties = allForwardProperties,
+      inverseProperties = allInverseProperties,
       unreifiedRelationships = allUnreifiedRelationships,
 
       chainRules = allChainRules,
       ruleBodySegments = allRuleBodySegments,
+      segmentPredicates = allSegmentPredicates,
 
       aspectSpecializationAxioms =
         allAxioms.aspectSpecializationAxioms.sorted,
@@ -526,20 +468,6 @@ object OMFTabularExportFromTerminologyGraph {
         allAxioms.entityScalarDataPropertyParticularRestrictionAxioms.sorted,
       entityScalarDataPropertyUniversalRestrictionAxioms =
         allAxioms.entityScalarDataPropertyUniversalRestrictionAxioms.sorted,
-
-      aspectPredicates = allAspectPredicates,
-      conceptPredicates = allConceptPredicates,
-      reifiedRelationshipPredicates = allReifiedRelationshipPredicates,
-
-      reifiedRelationshipPropertyPredicates = allReifiedRelationshipPropertyPredicates,
-      reifiedRelationshipSourcePropertyPredicates = allReifiedRelationshipSourcePropertyPredicates,
-      reifiedRelationshipTargetPropertyPredicates = allReifiedRelationshipTargetPropertyPredicates,
-      unreifiedRelationshipPropertyPredicates = allUnreifiedRelationshipPropertyPredicates,
-
-      reifiedRelationshipInversePropertyPredicates = allReifiedRelationshipInversePropertyPredicates,
-      reifiedRelationshipSourceInversePropertyPredicates = allReifiedRelationshipSourceInversePropertyPredicates,
-      reifiedRelationshipTargetInversePropertyPredicates = allReifiedRelationshipTargetInversePropertyPredicates,
-      unreifiedRelationshipInversePropertyPredicates = allUnreifiedRelationshipInversePropertyPredicates,
 
       annotationPropertyValues = s.annotationPropertyValues.to[Seq].sorted
     )

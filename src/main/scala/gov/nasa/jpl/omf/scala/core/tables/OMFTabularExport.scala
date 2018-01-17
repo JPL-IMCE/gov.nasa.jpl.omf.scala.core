@@ -181,7 +181,7 @@ object Axioms {
         uuid = info.uuid,
         restrictedDomainUUID = ops.getEntityUUID(info.domain),
         restrictedRangeUUID = ops.getEntityUUID(info.range),
-        restrictedRelationUUID = ops.getEntityRelationshipUUID(info.restrictedRelation)))
+        restrictedRelationshipUUID = ops.getRestrictableRelationshipUUID(info.restrictedRelationship)))
   }
 
   def funEntityUniversalRestrictionAxiom[omf <: OMF]
@@ -196,7 +196,7 @@ object Axioms {
         uuid = info.uuid,
         restrictedDomainUUID = ops.getEntityUUID(info.domain),
         restrictedRangeUUID = ops.getEntityUUID(info.range),
-        restrictedRelationUUID = ops.getEntityRelationshipUUID(info.restrictedRelation)))
+        restrictedRelationshipUUID = ops.getRestrictableRelationshipUUID(info.restrictedRelationship)))
   }
 
   def funEntityScalarDataPropertyExistentialRestrictionAxiom[omf <: OMF]

@@ -22,7 +22,7 @@ import java.lang.System
 
 import gov.nasa.jpl.imce.oml
 import gov.nasa.jpl.imce.oml.resolver
-import gov.nasa.jpl.imce.oml.resolver.ResolverUtilities.toUUIDString
+import gov.nasa.jpl.imce.oml.resolver.Extent2Tables.toUUIDString
 import gov.nasa.jpl.imce.oml.tables.taggedTypes
 import gov.nasa.jpl.omf.scala.core.OMFError.Throwables
 import gov.nasa.jpl.omf.scala.core.{OMF, OMFError, OMFOps, RelationshipCharacteristics, TerminologyKind}
@@ -175,8 +175,6 @@ object OMFTabularExportFromBundle {
         tboxUUID = suuid,
         uuid = sig.uuid,
         name = sig.name,
-        unreifiedPropertyName = sig.unreifiedPropertyName,
-        unreifiedInversePropertyName = sig.unreifiedInversePropertyName,
         isAsymmetric = sig.characteristics.exists(RelationshipCharacteristics.isAsymmetric == _),
         isEssential = sig.characteristics.exists(RelationshipCharacteristics.isEssential == _),
         isFunctional = sig.characteristics.exists(RelationshipCharacteristics.isFunctional == _),
@@ -188,6 +186,22 @@ object OMFTabularExportFromBundle {
         isTransitive = sig.characteristics.exists(RelationshipCharacteristics.isTransitive == _),
         sourceUUID = ops.getEntityUUID(sig.source),
         targetUUID = ops.getEntityUUID(sig.target))
+    }.to[Seq].sorted
+
+    allForwardProperties = s.forwardProperties.map { p =>
+      val sig = ops.fromForwardProperty(p)
+      oml.tables.ForwardProperty(
+        uuid = sig.uuid,
+        name = sig.name,
+        reifiedRelationshipUUID = ops.getReifiedRelationshipUUID(sig.reifiedRelationship))
+    }.to[Seq].sorted
+
+    allInverseProperties = s.inverseProperties.map { p =>
+      val sig = ops.fromInverseProperty(p)
+      oml.tables.InverseProperty(
+        uuid = sig.uuid,
+        name = sig.name,
+        reifiedRelationshipUUID = ops.getReifiedRelationshipUUID(sig.reifiedRelationship))
     }.to[Seq].sorted
 
     allUnreifiedRelationships = s.unreifiedRelationships.map { ur =>
@@ -361,6 +375,41 @@ object OMFTabularExportFromBundle {
         rangeUUID = ops.getStructureUUID(info.range))
     }.to[Seq].sorted
 
+    allChainRules = s.chainRules.map { cr =>
+      val info = ops.fromChainRule(cr)
+      oml.tables.ChainRule(
+        uuid = info.uuid,
+        tboxUUID = suuid,
+        name = info.name,
+        headUUID = ops.getUnreifiedRelationshipUUID(info.head))
+    }.to[Seq].sorted
+
+    allRuleBodySegments = s.ruleBodySegments.map { rbs =>
+      val info = ops.fromRuleBodySegment(rbs)
+      oml.tables.RuleBodySegment(
+        uuid = info.uuid,
+        previousSegmentUUID = info.previousSegment.map { prev =>
+          ops.fromRuleBodySegment(prev).uuid
+        },
+        ruleUUID = info.chainRule.map { rule =>
+          ops.fromChainRule(rule).uuid
+        }
+      )
+    }.to[Seq].sorted
+
+    allSegmentPredicates = s.segmentPredicates.map { p =>
+      val info = ops.fromSegmentPredicate(p)
+      oml.tables.SegmentPredicate(
+        uuid = info.uuid,
+        bodySegmentUUID = ops.fromRuleBodySegment(info.bodySegment).uuid,
+        predicateUUID = info.predicate.map(p => ops.fromPredicate(p).uuid),
+        reifiedRelationshipSourceUUID = info.reifiedRelationshipSource.map(rr => ops.fromReifiedRelationship(rr).uuid),
+        reifiedRelationshipInverseSourceUUID = info.reifiedRelationshipInverseSource.map(rr => ops.fromReifiedRelationship(rr).uuid),
+        reifiedRelationshipTargetUUID = info.reifiedRelationshipTarget.map(rr => ops.fromReifiedRelationship(rr).uuid),
+        reifiedRelationshipInverseTargetUUID = info.reifiedRelationshipInverseTarget.map(rr => ops.fromReifiedRelationship(rr).uuid),
+        unreifiedRelationshipInverseUUID = info.unreifiedRelationshipInverse.map(rr => ops.fromUnreifiedRelationship(rr).uuid))
+    }.to[Seq].sorted
+
     allAxioms = s.axioms.foldLeft(Axioms())(Axioms.combine(suuid, ops))
 
     allRootConceptTaxonomyAxioms = s.rTAxioms.map { ax =>
@@ -405,7 +454,14 @@ object OMFTabularExportFromBundle {
         aspects = allAspects,
         concepts = allConcepts,
         reifiedRelationships = allReifiedRelationships,
+        forwardProperties = allForwardProperties,
+        inverseProperties = allInverseProperties,
         unreifiedRelationships = allUnreifiedRelationships,
+
+        chainRules = allChainRules,
+        ruleBodySegments = allRuleBodySegments,
+        segmentPredicates = allSegmentPredicates,
+
         scalars = allScalars,
         structures = allStructures,
         binaryScalarRestrictions = allBinaryScalarRestrictions,

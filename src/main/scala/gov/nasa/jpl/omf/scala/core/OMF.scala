@@ -64,6 +64,8 @@ trait OMFcbox {
 
   type LogicalElement
   type Resource
+  type Predicate <: Resource
+  type RestrictableRelationship <: Predicate
   type ModuleElement <: LogicalElement
   type ModuleEdge <: LogicalElement
 
@@ -126,7 +128,7 @@ trait OMFtbox extends OMFcbox {
     * - ModelEntityConcept
     * - ModelEntityReifiedRelationship
     */
-  type Entity <: Term
+  type Entity <: Term with Predicate
 
   /**
     * A ModelEntityAspect defines an abstraction that can be the superclass of other
@@ -149,7 +151,7 @@ trait OMFtbox extends OMFcbox {
 
   type EntityRelationship <: Term
 
-  type UnreifiedRelationship <: EntityRelationship
+  type UnreifiedRelationship <: EntityRelationship with Predicate
 
   /**
     * A ModelEntityReifiedRelationship defines a binary, directed relationship in the conceptual modeling of a domain.
@@ -157,6 +159,10 @@ trait OMFtbox extends OMFcbox {
     * The relationship domain (aka source) and range (aka target) can be any kind of ModelEntityDefinition
     */
   type ReifiedRelationship <: EntityRelationship with ConceptualEntity
+
+  type ForwardProperty <: RestrictableRelationship
+
+  type InverseProperty <: RestrictableRelationship
 
   /**
     * A ModelDataTypeDefinition defines the vocabulary for the conceptual modeling
@@ -281,27 +287,6 @@ trait OMFtbox extends OMFcbox {
 
   type RuleBodySegment <: LogicalElement
   type SegmentPredicate <: LogicalElement
-
-  type UnarySegmentPredicate <: SegmentPredicate
-  type AspectPredicate <: UnarySegmentPredicate
-  type ConceptPredicate <: UnarySegmentPredicate
-  type ReifiedRelationshipPredicate <: UnarySegmentPredicate
-
-  type BinarySegmentPropertyPredicate <: SegmentPredicate
-  type BinarySegmentForwardPropertyPredicate <: BinarySegmentPropertyPredicate
-  type BinarySegmentReversePropertyPredicate <: BinarySegmentPropertyPredicate
-
-  type ReifiedRelationshipPropertyPredicate <: BinarySegmentForwardPropertyPredicate
-  type ReifiedRelationshipInversePropertyPredicate <: BinarySegmentReversePropertyPredicate
-
-  type ReifiedRelationshipSourcePropertyPredicate <: BinarySegmentForwardPropertyPredicate
-  type ReifiedRelationshipSourceInversePropertyPredicate <: BinarySegmentReversePropertyPredicate
-
-  type ReifiedRelationshipTargetPropertyPredicate <: BinarySegmentForwardPropertyPredicate
-  type ReifiedRelationshipTargetInversePropertyPredicate <: BinarySegmentReversePropertyPredicate
-
-  type UnreifiedRelationshipPropertyPredicate <: BinarySegmentForwardPropertyPredicate
-  type UnreifiedRelationshipInversePropertyPredicate <: BinarySegmentReversePropertyPredicate
 
   /**
     * A ModelTermAxiom is the abstraction for statements about

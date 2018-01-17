@@ -27,7 +27,7 @@ import org.scalatest._, exceptions._
 import scala.Some
 import scala.{StringContext,Unit}
 import scala.util.control.Exception._
-import scalaz._, Scalaz._
+import scalaz._
 import scala.collection.immutable.{List,Set}
 
 abstract class OMFVocabularyMutabilityTest[omf <: OMF]
@@ -144,9 +144,18 @@ abstract class OMFVocabularyMutabilityTest[omf <: OMF]
           source = component,
           target = function,
           characteristics = List(isAsymmetric, isIrreflexive, isInverseFunctional),
-          reifiedRelationshipName = localName("Performs"),
-          unreifiedRelationshipName = localName("performs"),
-          unreifiedInverseRelationshipName = localName("isPerformedBy").some)
+          reifiedRelationshipName = localName("Performs"))
+
+        performs <- addForwardProperty(
+          graph = mission,
+          name = localName("performs"),
+          reifiedRelationship = component_performs_function)
+
+        isPerfomredBy <- addInverseProperty(
+          graph = mission,
+          name = localName("isPerformedBy"),
+          reifiedRelationship = component_performs_function)
+
         item <- addConcept(mission, localName("Item"))
 
         message <- addConcept(mission, localName("Message"))
@@ -223,8 +232,16 @@ abstract class OMFVocabularyMutabilityTest[omf <: OMF]
           lookupEntityScalarDataProperty(base, hasIdentifier_iri, recursively = false)
         hasIdentifier.isDefined should be(true)
 
-        val prop = fromEntityScalarDataProperty(hasIdentifier.get)
-        identifiedElement.get should be(prop.domain)
+        val prop
+        : EntityScalarDataPropertySignature[omf]
+        = fromEntityScalarDataProperty(hasIdentifier.get)
+
+        // TODO Investigate
+        // Error:(230, 46) [Artima SuperSafe] Values of type omf#Entity and _38.Term with _38.Predicate forSome { val _38: omf } may not be compared for equality with ScalaTest's be matcher syntax. If you really want this expression to compile, configure Artima SuperSafe to allow omf#Entity and _38.Term with _38.Predicate forSome { val _38: omf } to be compared for equality.  For more information on this kind of error, see: http://www.artima.com/supersafe_user_guide.html#safer-equality
+        // identifiedElement.get should be(prop.domain)
+
+        prop.domain should be(identifiedElement.get)
+
         string.get should be(prop.range)
 
         {

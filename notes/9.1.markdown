@@ -1,0 +1,61 @@
+gov.nasa.jpl.omf.scala.core 9.1 is an API-breaking update from 9.0
+
+## Issues Resolved
+
+### [#29 Update for oml.resolver API changes](https://github.com/JPL-IMCE/gov.nasa.jpl.omf.scala.core/issues/29)
+
+#### 1) Changes pertaining to OML `SegmentPredicate` 
+
+- The following APIs from [9.0.2 in `gov.nasa.jpl.omf.scala.core`](https://github.com/JPL-IMCE/gov.nasa.jpl.omf.scala.core/tree/9.0.2) are replaced in 9.1
+
+  - [AspectPredicateSignature](https://github.com/JPL-IMCE/gov.nasa.jpl.omf.scala.core/blob/9.0.2/src/main/scala/gov/nasa/jpl/omf/scala/core/AspectPredicateSignature.scala)
+  - [ConceptPredicateSignature](https://github.com/JPL-IMCE/gov.nasa.jpl.omf.scala.core/blob/9.0.2/src/main/scala/gov/nasa/jpl/omf/scala/core/ConceptPredicateSignature.scala)
+  - [ReifiedRelationshipPredicateSignature](https://github.com/JPL-IMCE/gov.nasa.jpl.omf.scala.core/blob/9.0.2/src/main/scala/gov/nasa/jpl/omf/scala/core/ReifiedRelationshipPredicateSignature.scala)
+ 
+  - [ReifiedRelationshipPropertyPredicateSignature](https://github.com/JPL-IMCE/gov.nasa.jpl.omf.scala.core/blob/9.0.2/src/main/scala/gov/nasa/jpl/omf/scala/core/ReifiedRelationshipPropertyPredicateSignature.scala)
+  - [ReifiedRelationshipSourcePropertyPredicateSignature](https://github.com/JPL-IMCE/gov.nasa.jpl.omf.scala.core/blob/9.0.2/src/main/scala/gov/nasa/jpl/omf/scala/core/ReifiedRelationshipSourcePropertyPredicateSignature.scala)
+  - [ReifiedRelationshipTargetPropertyPredicateSignature](https://github.com/JPL-IMCE/gov.nasa.jpl.omf.scala.core/blob/9.0.2/src/main/scala/gov/nasa/jpl/omf/scala/core/ReifiedRelationshipTargetPropertyPredicateSignature.scala)
+  - [UnreifiedRelationshipPropertyPredicateSignature](https://github.com/JPL-IMCE/gov.nasa.jpl.omf.scala.core/blob/9.0.2/src/main/scala/gov/nasa/jpl/omf/scala/core/UnreifiedRelationshipPropertyPredicateSignature.scala)
+
+  - [ReifiedRelationshipInversePropertyPredicateSignature](https://github.com/JPL-IMCE/gov.nasa.jpl.omf.scala.core/blob/9.0.2/src/main/scala/gov/nasa/jpl/omf/scala/core/ReifiedRelationshipInversePropertyPredicateSignature.scala)
+  - [ReifiedRelationshipSourceInversePropertyPredicateSignature](https://github.com/JPL-IMCE/gov.nasa.jpl.omf.scala.core/blob/9.0.2/src/main/scala/gov/nasa/jpl/omf/scala/core/ReifiedRelationshipSourceInversePropertyPredicateSignature.scala)
+  - [ReifiedRelationshipTargetInversePropertyPredicateSignature](https://github.com/JPL-IMCE/gov.nasa.jpl.omf.scala.core/blob/9.0.2/src/main/scala/gov/nasa/jpl/omf/scala/core/ReifiedRelationshipTargetInversePropertyPredicateSignature.scala)
+  - [UnreifiedRelationshipInversePropertyPredicateSignature](https://github.com/JPL-IMCE/gov.nasa.jpl.omf.scala.core/blob/9.0.2/src/main/scala/gov/nasa/jpl/omf/scala/core/UnreifiedRelationshipInversePropertyPredicateSignature.scala)
+  
+- The 9.1 replacement involves new, simpler APIs as described in the [OML API 0.9.1 change notes about OML SegmentPredicate](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml/blob/releases/0.9.1.0/notes/0.9.1.markdown#17-significant-changes-about-oml-segmentpredicate)
+
+  - [SegmentPredicateSignature](../src/main/scala/gov/nasa/jpl/omf/scala/core/SegmentPredicateSignature.scala)
+  
+#### 2) Changes pertaining to OML `ReifiedRelationship`
+
+- [ReifiedRelationshipSignature](../src/main/scala/gov/nasa/jpl/omf/scala/core/ReifiedRelationshipSignature.scala) changed relative to [9.0.2 ReifiedRelationshipSignature](https://github.com/JPL-IMCE/gov.nasa.jpl.omf.scala.core/blob/9.0.2/src/main/scala/gov/nasa/jpl/omf/scala/core/ReifiedRelationshipSignature.scala#L28)
+
+  - Deleted the field [unreifiedPropertyName](https://github.com/JPL-IMCE/gov.nasa.jpl.omf.scala.core/blob/9.0.2/src/main/scala/gov/nasa/jpl/omf/scala/core/ReifiedRelationshipSignature.scala#L31)
+    
+    This field is replaced with a new API: [ForwardProperty](../src/main/scala/gov/nasa/jpl/omf/scala/core/ForwardProperty.scala)
+
+  - Deleted the field [unreifiedInversePropertyName](https://github.com/JPL-IMCE/gov.nasa.jpl.omf.scala.core/blob/9.0.2/src/main/scala/gov/nasa/jpl/omf/scala/core/ReifiedRelationshipSignature.scala#L32)
+  
+    This optional field is replaced with a new API: [InverseProperty](../src/main/scala/gov/nasa/jpl/omf/scala/core/InverseProperty.scala)
+    
+#### 3) Changes pertaining to OML [TerminologyBoxSignature](../src/main/scala/gov/nasa/jpl/omf/scala/core/TerminologyBoxSignature.scala)
+
+  - Added `forwardProperties`
+  - Added `inverseProperties`
+  - Added `segmentPredicates`
+  
+  - Deleted `aspectPredicates`
+  - Deleted `conceptPredicates`
+  - Deleted `reifiedRelationshipPredicates`
+  
+  - Deleted `reifiedRelationshipPropertyPredicates`
+  - Deleted `reifiedRelationshipInversePropertyPredicates`
+  
+  - Deleted `reifiedRelationshipSourcePropertyPredicates`
+  - Deleted `reifiedRelationshipSourceInversePropertyPredicates`
+  
+  - Deleted `reifiedRelationshipTargetPropertyPredicates`
+  - Deleted `reifiedRelationshipTargetInversePropertyPredicates`
+  
+  - Deleted `unreifiedRelationshipPropertyPredicates`
+  - Deleted `unreifiedRelationshipInversePropertyPredicates`

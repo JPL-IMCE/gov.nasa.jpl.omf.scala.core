@@ -81,6 +81,8 @@ case class TerminologyBoxSignature[omf <: OMF, +S[A] <: scala.collection.Iterabl
   aspects: S[omf#Aspect],
   concepts: S[omf#Concept],
   reifiedRelationships: S[omf#ReifiedRelationship],
+  forwardProperties: S[omf#ForwardProperty],
+  inverseProperties: S[omf#InverseProperty],
   unreifiedRelationships: S[omf#UnreifiedRelationship],
   scalarDataTypes: S[omf#Scalar],
   structuredDataTypes: S[omf#Structure],
@@ -106,21 +108,7 @@ case class TerminologyBoxSignature[omf <: OMF, +S[A] <: scala.collection.Iterabl
 
   chainRules: S[omf#ChainRule],
   ruleBodySegments: S[omf#RuleBodySegment],
-  aspectPredicates: S[omf#AspectPredicate],
-  conceptPredicates: S[omf#ConceptPredicate],
-  reifiedRelationshipPredicates: S[omf#ReifiedRelationshipPredicate],
-
-  reifiedRelationshipPropertyPredicates: S[omf#ReifiedRelationshipPropertyPredicate],
-  reifiedRelationshipInversePropertyPredicates: S[omf#ReifiedRelationshipInversePropertyPredicate],
-
-  reifiedRelationshipSourcePropertyPredicates: S[omf#ReifiedRelationshipSourcePropertyPredicate],
-  reifiedRelationshipSourceInversePropertyPredicates: S[omf#ReifiedRelationshipSourceInversePropertyPredicate],
-
-  reifiedRelationshipTargetPropertyPredicates: S[omf#ReifiedRelationshipTargetPropertyPredicate],
-  reifiedRelationshipTargetInversePropertyPredicates: S[omf#ReifiedRelationshipTargetInversePropertyPredicate],
-
-  unreifiedRelationshipPropertyPredicates: S[omf#UnreifiedRelationshipPropertyPredicate],
-  unreifiedRelationshipInversePropertyPredicates: S[omf#UnreifiedRelationshipInversePropertyPredicate],
+  segmentPredicates: S[omf#SegmentPredicate],
 
   axioms: S[omf#Axiom],
 

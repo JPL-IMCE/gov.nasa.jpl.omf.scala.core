@@ -837,6 +837,10 @@ trait ImmutableTerminologyGraphOps[omf <: OMF] { self: OMFStoreOps[omf] with IRI
   (term: omf#Concept)
   : resolver.api.taggedTypes.ConceptUUID
 
+  def getRestrictableRelationshipUUID
+  (term: omf#RestrictableRelationship)
+  : resolver.api.taggedTypes.RestrictableRelationshipUUID
+
   def getEntityRelationshipUUID
   (term: omf#EntityRelationship)
   : resolver.api.taggedTypes.EntityRelationshipUUID
@@ -920,6 +924,14 @@ trait ImmutableTerminologyGraphOps[omf <: OMF] { self: OMFStoreOps[omf] with IRI
   (implicit store: omf#Store)
   : Set[omf#TerminologyNestingAxiom]
 
+  def fromEntity
+  (r: omf#Entity)
+  : EntitySignature[omf]
+
+  def fromAspect
+  (r: omf#Aspect)
+  : AspectSignature[omf]
+
   // entity concept
 
   /**
@@ -959,6 +971,14 @@ trait ImmutableTerminologyGraphOps[omf <: OMF] { self: OMFStoreOps[omf] with IRI
   def fromReifiedRelationship
   (r: omf#ReifiedRelationship)
   : ReifiedRelationshipSignature[omf]
+
+  def fromForwardProperty
+  (r: omf#ForwardProperty)
+  : ForwardPropertySignature[omf]
+
+  def fromInverseProperty
+  (r: omf#InverseProperty)
+  : InversePropertySignature[omf]
 
   def fromUnreifiedRelationship
   (r: omf#UnreifiedRelationship)
@@ -1178,53 +1198,21 @@ trait ImmutableTerminologyGraphOps[omf <: OMF] { self: OMFStoreOps[omf] with IRI
   (ax: omf#RuleBodySegment)
   : Throwables \/ omf#ChainRule
 
+  def fromPredicate
+  (p: omf#Predicate)
+  : PredicateSignature[omf]
+
+  def fromRestrictableRelationship
+  (r: omf#RestrictableRelationship)
+  : RestrictableRelationshipSignature[omf]
+
   def fromRuleBodySegment
   (ax: omf#RuleBodySegment)
   : RuleBodySegmentSignature[omf]
 
-  def fromAspectPredicate
-  (ax: omf#AspectPredicate)
-  : AspectPredicateSignature[omf]
-
-  def fromConceptPredicate
-  (ax: omf#ConceptPredicate)
-  : ConceptPredicateSignature[omf]
-
-  def fromReifiedRelationshipPredicate
-  (ax: omf#ReifiedRelationshipPredicate)
-  : ReifiedRelationshipPredicateSignature[omf]
-
-  def fromReifiedRelationshipPropertyPredicate
-  (ax: omf#ReifiedRelationshipPropertyPredicate)
-  : ReifiedRelationshipPropertyPredicateSignature[omf]
-
-  def fromReifiedRelationshipInversePropertyPredicate
-  (ax: omf#ReifiedRelationshipInversePropertyPredicate)
-  : ReifiedRelationshipInversePropertyPredicateSignature[omf]
-
-  def fromReifiedRelationshipSourcePropertyPredicate
-  (ax: omf#ReifiedRelationshipSourcePropertyPredicate)
-  : ReifiedRelationshipSourcePropertyPredicateSignature[omf]
-
-  def fromReifiedRelationshipSourceInversePropertyPredicate
-  (ax: omf#ReifiedRelationshipSourceInversePropertyPredicate)
-  : ReifiedRelationshipSourceInversePropertyPredicateSignature[omf]
-
-  def fromReifiedRelationshipTargetPropertyPredicate
-  (ax: omf#ReifiedRelationshipTargetPropertyPredicate)
-  : ReifiedRelationshipTargetPropertyPredicateSignature[omf]
-
-  def fromReifiedRelationshipTargetInversePropertyPredicate
-  (ax: omf#ReifiedRelationshipTargetInversePropertyPredicate)
-  : ReifiedRelationshipTargetInversePropertyPredicateSignature[omf]
-
-  def fromUnreifiedRelationshipPropertyPredicate
-  (ax: omf#UnreifiedRelationshipPropertyPredicate)
-  : UnreifiedRelationshipPropertyPredicateSignature[omf]
-
-  def fromUnreifiedRelationshipInversePropertyPredicate
-  (ax: omf#UnreifiedRelationshipInversePropertyPredicate)
-  : UnreifiedRelationshipInversePropertyPredicateSignature[omf]
+  def fromSegmentPredicate
+  (ax: omf#SegmentPredicate)
+  : SegmentPredicateSignature[omf]
 
 }
 
@@ -1344,8 +1332,6 @@ trait MutableTerminologyGraphOps[omf <: OMF]
     * @param target
     * @param characteristics
     * @param reifiedRelationshipName
-    * @param unreifiedRelationshipName
-    * @param unreifiedInverseRelationshipName
     * @param store
     * @return
     */
@@ -1356,9 +1342,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
    source: omf#Entity,
    target: omf#Entity,
    characteristics: Iterable[RelationshipCharacteristics],
-   reifiedRelationshipName: taggedTypes.LocalName,
-   unreifiedRelationshipName: taggedTypes.LocalName,
-   unreifiedInverseRelationshipName: Option[taggedTypes.LocalName])
+   reifiedRelationshipName: taggedTypes.LocalName)
   (implicit store: omf#Store)
   : Throwables \/ omf#ReifiedRelationship
 
@@ -1376,30 +1360,69 @@ trait MutableTerminologyGraphOps[omf <: OMF]
     * @param characteristics                  the characteristics of the new entity relationship
     * @param reifiedRelationshipName          the name of the new entity relationship
     *                                         from the perspective of a reified concept-like entity
-    * @param unreifiedRelationshipName        the name of the entity relationship from the perspective
-    *                                         of a directed property from the source to the target
-    * @param unreifiedInverseRelationshipName if applicable, the name of the entity relationship from
-    *                                         the perspective of a directed inverse property
-    *                                         from the target to the source
     */
   final def addReifiedRelationship
   (graph: omf#MutableTerminologyBox,
    source: omf#Entity,
    target: omf#Entity,
    characteristics: Iterable[RelationshipCharacteristics],
-   reifiedRelationshipName: taggedTypes.LocalName,
-   unreifiedRelationshipName: taggedTypes.LocalName,
-   unreifiedInverseRelationshipName: Option[taggedTypes.LocalName])
+   reifiedRelationshipName: taggedTypes.LocalName)
   (implicit store: omf#Store)
   : Throwables \/ omf#ReifiedRelationship
   = for {
     iri <- withFragment(getModuleIRI(graph), reifiedRelationshipName)
     uuid = resolver.api.taggedTypes.reifiedRelationshipUUID(
       generateUUIDFromString(getModuleUUID(graph), "name" -> reifiedRelationshipName))
-    ax <- addReifiedRelationship(
-      graph, uuid, iri, source, target, characteristics,
-      reifiedRelationshipName, unreifiedRelationshipName, unreifiedInverseRelationshipName)
+    ax <- addReifiedRelationship(graph, uuid, iri, source, target, characteristics, reifiedRelationshipName)
   } yield ax
+
+  protected def addForwardProperty
+  (graph: omf#MutableTerminologyBox,
+   uuid: resolver.api.taggedTypes.ForwardPropertyUUID,
+   name: taggedTypes.LocalName,
+   reifiedRelationship: omf#ReifiedRelationship)
+  (implicit store: omf#Store)
+  : Throwables \/ omf#ForwardProperty
+
+  final def addForwardProperty
+  (graph: omf#MutableTerminologyBox,
+   name: taggedTypes.LocalName,
+   reifiedRelationship: omf#ReifiedRelationship)
+  (implicit store: omf#Store)
+  : Throwables \/ omf#ForwardProperty
+  = {
+    val uuid = resolver.api.taggedTypes.forwardPropertyUUID(
+      generateUUIDFromString(
+        "ForwardProperty",
+        "name" -> name,
+        "reifiedRelationship" -> getReifiedRelationshipUUID(reifiedRelationship).toString
+      ))
+    addForwardProperty(graph, uuid, name, reifiedRelationship)
+  }
+
+  protected def addInverseProperty
+  (graph: omf#MutableTerminologyBox,
+   uuid: resolver.api.taggedTypes.InversePropertyUUID,
+   name: taggedTypes.LocalName,
+   reifiedRelationship: omf#ReifiedRelationship)
+  (implicit store: omf#Store)
+  : Throwables \/ omf#InverseProperty
+
+  final def addInverseProperty
+  (graph: omf#MutableTerminologyBox,
+   name: taggedTypes.LocalName,
+   reifiedRelationship: omf#ReifiedRelationship)
+  (implicit store: omf#Store)
+  : Throwables \/ omf#InverseProperty
+  = {
+    val uuid = resolver.api.taggedTypes.inversePropertyUUID(
+      generateUUIDFromString(
+        "InverseProperty",
+        "name" -> name,
+        "reifiedRelationship" -> getReifiedRelationshipUUID(reifiedRelationship).toString
+      ))
+    addInverseProperty(graph, uuid, name, reifiedRelationship)
+  }
 
   /**
     * Add to a terminology graph a new OMF UnreifiedRelationship.
@@ -2088,268 +2111,51 @@ trait MutableTerminologyGraphOps[omf <: OMF]
       ax <- addRuleBodySegment(graph, uuid, chainRule, previousSegment)
   } yield ax
 
-  protected def addAspectPredicate
+  protected def addSegmentPredicate
   (graph: omf#MutableTerminologyBox,
-   uuid: resolver.api.taggedTypes.AspectPredicateUUID,
+   uuid: resolver.api.taggedTypes.SegmentPredicateUUID,
    bodySegment: omf#RuleBodySegment,
-   aspect: omf#Aspect)
+   predicate: Option[omf#Predicate],
+   reifiedRelationshipSource: Option[omf#ReifiedRelationship],
+   reifiedRelationshipInverseSource: Option[omf#ReifiedRelationship],
+   reifiedRelationshipTarget: Option[omf#ReifiedRelationship],
+   reifiedRelationshipInverseTarget: Option[omf#ReifiedRelationship],
+   unreifiedRelationshipInverse: Option[omf#UnreifiedRelationship])
   (implicit store: omf#Store)
-  : Throwables \/ omf#AspectPredicate
+  : Throwables \/ omf#SegmentPredicate
 
-  final def addAspectPredicate
+  protected def addSegmentPredicate
   (graph: omf#MutableTerminologyBox,
    bodySegment: omf#RuleBodySegment,
-   aspect: omf#Aspect)
+   predicate: Option[omf#Predicate],
+   reifiedRelationshipSource: Option[omf#ReifiedRelationship],
+   reifiedRelationshipInverseSource: Option[omf#ReifiedRelationship],
+   reifiedRelationshipTarget: Option[omf#ReifiedRelationship],
+   reifiedRelationshipInverseTarget: Option[omf#ReifiedRelationship],
+   unreifiedRelationshipInverse: Option[omf#UnreifiedRelationship])
   (implicit store: omf#Store)
-  : Throwables \/ omf#AspectPredicate
+  : Throwables \/ omf#SegmentPredicate
   = {
-    val termUUID = getTermUUID(aspect).toString
-    val bodySegmentUUID = fromRuleBodySegment(bodySegment).uuid.toString
-    val uuid = resolver.api.taggedTypes.aspectPredicateUUID(generateUUIDFromString(
-      "AspectPredicate",
-      "aspect" -> termUUID,
-      "bodySegment" -> bodySegmentUUID))
-    addAspectPredicate(graph, uuid, bodySegment, aspect)
-  }
+    val factors: Seq[(String, String)]
+    = Seq.empty[(String, String)] ++
+      Seq("bodySegment" -> fromRuleBodySegment(bodySegment).uuid.toString) ++
+      predicate.map { vt => "predicate" -> fromPredicate(vt).uuid.toString } ++
+      reifiedRelationshipSource.map { vt => "reifiedRelationshipSource" -> fromReifiedRelationship(vt).uuid.toString } ++
+      reifiedRelationshipInverseSource.map { vt => "reifiedRelationshipInverseSource" -> fromReifiedRelationship(vt).uuid.toString } ++
+      reifiedRelationshipTarget.map { vt => "reifiedRelationshipTarget" -> fromReifiedRelationship(vt).uuid.toString } ++
+      reifiedRelationshipInverseTarget.map { vt => "reifiedRelationshipInverseTarget" -> fromReifiedRelationship(vt).uuid.toString } ++
+      unreifiedRelationshipInverse.map { vt => "unreifiedRelationshipInverse" -> fromUnreifiedRelationship(vt).uuid.toString }
 
-  protected def addConceptPredicate
-  (graph: omf#MutableTerminologyBox,
-   uuid: resolver.api.taggedTypes.ConceptPredicateUUID,
-   bodySegment: omf#RuleBodySegment,
-   concept: omf#Concept)
-  (implicit store: omf#Store)
-  : Throwables \/ omf#ConceptPredicate
+    val uuid = resolver.api.taggedTypes.segmentPredicateUUID(generateUUIDFromString("SegmentPredicate", factors: _*))
 
-  final def addConceptPredicate
-  (graph: omf#MutableTerminologyBox,
-   bodySegment: omf#RuleBodySegment,
-   concept: omf#Concept)
-  (implicit store: omf#Store)
-  : Throwables \/ omf#ConceptPredicate
-  = {
-    val termUUID = getTermUUID(concept)
-    val bodySegmentUUID = fromRuleBodySegment(bodySegment).uuid
-    val uuid = resolver.api.taggedTypes.conceptPredicateUUID(generateUUIDFromUUID(
-      "ConceptPredicate",
-      "bodySegment" -> bodySegmentUUID,
-      "concept" -> termUUID))
-    addConceptPredicate(graph, uuid, bodySegment, concept)
-  }
-
-  protected def addReifiedRelationshipPredicate
-  (graph: omf#MutableTerminologyBox,
-   uuid: resolver.api.taggedTypes.ReifiedRelationshipPredicateUUID,
-   bodySegment: omf#RuleBodySegment,
-   reifiedRelationship: omf#ReifiedRelationship)
-  (implicit store: omf#Store)
-  : Throwables \/ omf#ReifiedRelationshipPredicate
-
-  final def addReifiedRelationshipPredicate
-  (graph: omf#MutableTerminologyBox,
-   bodySegment: omf#RuleBodySegment,
-   reifiedRelationship: omf#ReifiedRelationship)
-  (implicit store: omf#Store)
-  : Throwables \/ omf#ReifiedRelationshipPredicate
-  = {
-    val termUUID = getTermUUID(reifiedRelationship)
-    val bodySegmentUUID = fromRuleBodySegment(bodySegment).uuid
-    val uuid = resolver.api.taggedTypes.reifiedRelationshipPredicateUUID(generateUUIDFromUUID(
-      "ReifiedRelationshipPredicate",
-      "bodySegment" -> bodySegmentUUID,
-      "reifiedRelationship" -> termUUID))
-    addReifiedRelationshipPredicate(graph, uuid, bodySegment, reifiedRelationship)
-  }
-
-  protected def addReifiedRelationshipPropertyPredicate
-  (graph: omf#MutableTerminologyBox,
-   uuid: resolver.api.taggedTypes.ReifiedRelationshipPropertyPredicateUUID,
-   bodySegment: omf#RuleBodySegment,
-   reifiedRelationship: omf#ReifiedRelationship)
-  (implicit store: omf#Store)
-  : Throwables \/ omf#ReifiedRelationshipPropertyPredicate
-
-  final def addReifiedRelationshipPropertyPredicate
-  (graph: omf#MutableTerminologyBox,
-   bodySegment: omf#RuleBodySegment,
-   reifiedRelationship: omf#ReifiedRelationship)
-  (implicit store: omf#Store)
-  : Throwables \/ omf#ReifiedRelationshipPropertyPredicate
-  = {
-    val termUUID = getTermUUID(reifiedRelationship)
-    val bodySegmentUUID = fromRuleBodySegment(bodySegment).uuid
-    val uuid = resolver.api.taggedTypes.reifiedRelationshipPropertyPredicateUUID(generateUUIDFromUUID(
-      "ReifiedRelationshipPropertyPredicate",
-      "bodySegment" -> bodySegmentUUID,
-      "reifiedRelationship" -> termUUID))
-    addReifiedRelationshipPropertyPredicate(graph, uuid, bodySegment, reifiedRelationship)
-  }
-
-  protected def addReifiedRelationshipInversePropertyPredicate
-  (graph: omf#MutableTerminologyBox,
-   uuid: resolver.api.taggedTypes.ReifiedRelationshipInversePropertyPredicateUUID,
-   bodySegment: omf#RuleBodySegment,
-   reifiedRelationship: omf#ReifiedRelationship)
-  (implicit store: omf#Store)
-  : Throwables \/ omf#ReifiedRelationshipInversePropertyPredicate
-
-  final def addReifiedRelationshipInversePropertyPredicate
-  (graph: omf#MutableTerminologyBox,
-   bodySegment: omf#RuleBodySegment,
-   reifiedRelationship: omf#ReifiedRelationship)
-  (implicit store: omf#Store)
-  : Throwables \/ omf#ReifiedRelationshipInversePropertyPredicate
-  = {
-    val termUUID = getTermUUID(reifiedRelationship)
-    val bodySegmentUUID = fromRuleBodySegment(bodySegment).uuid
-    val uuid = resolver.api.taggedTypes.reifiedRelationshipInversePropertyPredicateUUID(generateUUIDFromUUID(
-      "ReifiedRelationshipInversePropertyPredicate",
-      "bodySegment" -> bodySegmentUUID,
-      "reifiedRelationship" -> termUUID))
-    addReifiedRelationshipInversePropertyPredicate(graph, uuid, bodySegment, reifiedRelationship)
-  }
-
-  protected def addReifiedRelationshipSourcePropertyPredicate
-  (graph: omf#MutableTerminologyBox,
-   uuid: resolver.api.taggedTypes.ReifiedRelationshipSourcePropertyPredicateUUID,
-   bodySegment: omf#RuleBodySegment,
-   reifiedRelationship: omf#ReifiedRelationship)
-  (implicit store: omf#Store)
-  : Throwables \/ omf#ReifiedRelationshipSourcePropertyPredicate
-
-  final def addReifiedRelationshipSourcePropertyPredicate
-  (graph: omf#MutableTerminologyBox,
-   bodySegment: omf#RuleBodySegment,
-   reifiedRelationship: omf#ReifiedRelationship)
-  (implicit store: omf#Store)
-  : Throwables \/ omf#ReifiedRelationshipSourcePropertyPredicate
-  = {
-    val termUUID = getTermUUID(reifiedRelationship)
-    val bodySegmentUUID = fromRuleBodySegment(bodySegment).uuid
-    val uuid = resolver.api.taggedTypes.reifiedRelationshipSourcePropertyPredicateUUID(generateUUIDFromUUID(
-      "ReifiedRelationshipSourcePropertyPredicate",
-      "bodySegment" -> bodySegmentUUID,
-      "reifiedRelationship" -> termUUID))
-    addReifiedRelationshipSourcePropertyPredicate(graph, uuid, bodySegment, reifiedRelationship)
-  }
-
-  protected def addReifiedRelationshipSourceInversePropertyPredicate
-  (graph: omf#MutableTerminologyBox,
-   uuid: resolver.api.taggedTypes.ReifiedRelationshipSourceInversePropertyPredicateUUID,
-   bodySegment: omf#RuleBodySegment,
-   reifiedRelationship: omf#ReifiedRelationship)
-  (implicit store: omf#Store)
-  : Throwables \/ omf#ReifiedRelationshipSourceInversePropertyPredicate
-
-  final def addReifiedRelationshipSourceInversePropertyPredicate
-  (graph: omf#MutableTerminologyBox,
-   bodySegment: omf#RuleBodySegment,
-   reifiedRelationship: omf#ReifiedRelationship)
-  (implicit store: omf#Store)
-  : Throwables \/ omf#ReifiedRelationshipSourceInversePropertyPredicate
-  = {
-    val termUUID = getTermUUID(reifiedRelationship)
-    val bodySegmentUUID = fromRuleBodySegment(bodySegment).uuid
-    val uuid = resolver.api.taggedTypes.reifiedRelationshipSourceInversePropertyPredicateUUID(generateUUIDFromUUID(
-      "ReifiedRelationshipSourceInversePropertyPredicate",
-      "bodySegment" -> bodySegmentUUID,
-      "reifiedRelationship" -> termUUID))
-    addReifiedRelationshipSourceInversePropertyPredicate(graph, uuid, bodySegment, reifiedRelationship)
-  }
-
-  protected def addReifiedRelationshipTargetPropertyPredicate
-  (graph: omf#MutableTerminologyBox,
-   uuid: resolver.api.taggedTypes.ReifiedRelationshipTargetPropertyPredicateUUID,
-   bodySegment: omf#RuleBodySegment,
-   reifiedRelationship: omf#ReifiedRelationship)
-  (implicit store: omf#Store)
-  : Throwables \/ omf#ReifiedRelationshipTargetPropertyPredicate
-
-  final def addReifiedRelationshipTargetPropertyPredicate
-  (graph: omf#MutableTerminologyBox,
-   bodySegment: omf#RuleBodySegment,
-   reifiedRelationship: omf#ReifiedRelationship)
-  (implicit store: omf#Store)
-  : Throwables \/ omf#ReifiedRelationshipTargetPropertyPredicate
-  = {
-    val termUUID = getTermUUID(reifiedRelationship)
-    val bodySegmentUUID = fromRuleBodySegment(bodySegment).uuid
-    val uuid = resolver.api.taggedTypes.reifiedRelationshipTargetPropertyPredicateUUID(generateUUIDFromUUID(
-      "ReifiedRelationshipTargetPropertyPredicate",
-      "bodySegment" -> bodySegmentUUID,
-      "reifiedRelationship" -> termUUID))
-    addReifiedRelationshipTargetPropertyPredicate(graph, uuid, bodySegment, reifiedRelationship)
-  }
-
-  protected def addReifiedRelationshipTargetInversePropertyPredicate
-  (graph: omf#MutableTerminologyBox,
-   uuid: resolver.api.taggedTypes.ReifiedRelationshipTargetInversePropertyPredicateUUID,
-   bodySegment: omf#RuleBodySegment,
-   reifiedRelationship: omf#ReifiedRelationship)
-  (implicit store: omf#Store)
-  : Throwables \/ omf#ReifiedRelationshipTargetInversePropertyPredicate
-
-  final def addReifiedRelationshipTargetInversePropertyPredicate
-  (graph: omf#MutableTerminologyBox,
-   bodySegment: omf#RuleBodySegment,
-   reifiedRelationship: omf#ReifiedRelationship)
-  (implicit store: omf#Store)
-  : Throwables \/ omf#ReifiedRelationshipTargetInversePropertyPredicate
-  = {
-    val termUUID = getTermUUID(reifiedRelationship)
-    val bodySegmentUUID = fromRuleBodySegment(bodySegment).uuid
-    val uuid = resolver.api.taggedTypes.reifiedRelationshipTargetInversePropertyPredicateUUID(generateUUIDFromUUID(
-      "ReifiedRelationshipTargetInversePropertyPredicate",
-      "bodySegment" -> bodySegmentUUID,
-      "reifiedRelationship" -> termUUID))
-    addReifiedRelationshipTargetInversePropertyPredicate(graph, uuid, bodySegment, reifiedRelationship)
-  }
-
-  protected def addUnreifiedRelationshipPropertyPredicate
-  (graph: omf#MutableTerminologyBox,
-   uuid: resolver.api.taggedTypes.UnreifiedRelationshipPropertyPredicateUUID,
-   bodySegment: omf#RuleBodySegment,
-   unreifiedRelationship: omf#UnreifiedRelationship)
-  (implicit store: omf#Store)
-  : Throwables \/ omf#UnreifiedRelationshipPropertyPredicate
-
-  final def addUnreifiedRelationshipPropertyPredicate
-  (graph: omf#MutableTerminologyBox,
-   bodySegment: omf#RuleBodySegment,
-   unreifiedRelationship: omf#UnreifiedRelationship)
-  (implicit store: omf#Store)
-  : Throwables \/ omf#UnreifiedRelationshipPropertyPredicate
-  = {
-    val termUUID = getTermUUID(unreifiedRelationship)
-    val bodySegmentUUID = fromRuleBodySegment(bodySegment).uuid
-    val uuid = resolver.api.taggedTypes.unreifiedRelationshipPropertyPredicateUUID(generateUUIDFromUUID(
-      "UnreifiedRelationshipPropertyPredicate",
-      "bodySegment" -> bodySegmentUUID,
-      "unreifiedRelationship" -> termUUID))
-    addUnreifiedRelationshipPropertyPredicate(graph, uuid, bodySegment, unreifiedRelationship)
-  }
-
-  protected def addUnreifiedRelationshipInversePropertyPredicate
-  (graph: omf#MutableTerminologyBox,
-   uuid: resolver.api.taggedTypes.UnreifiedRelationshipInversePropertyPredicateUUID,
-   bodySegment: omf#RuleBodySegment,
-   unreifiedRelationship: omf#UnreifiedRelationship)
-  (implicit store: omf#Store)
-  : Throwables \/ omf#UnreifiedRelationshipInversePropertyPredicate
-
-  final def addUnreifiedRelationshipInversePropertyPredicate
-  (graph: omf#MutableTerminologyBox,
-   bodySegment: omf#RuleBodySegment,
-   unreifiedRelationship: omf#UnreifiedRelationship)
-  (implicit store: omf#Store)
-  : Throwables \/ omf#UnreifiedRelationshipInversePropertyPredicate
-  = {
-    val termUUID = getTermUUID(unreifiedRelationship)
-    val bodySegmentUUID = fromRuleBodySegment(bodySegment).uuid
-    val uuid = resolver.api.taggedTypes.unreifiedRelationshipInversePropertyPredicateUUID(generateUUIDFromUUID(
-      "UnreifiedRelationshipInversePropertyPredicate",
-      "bodySegment" -> bodySegmentUUID,
-      "unreifiedRelationship" -> termUUID))
-    addUnreifiedRelationshipInversePropertyPredicate(graph, uuid, bodySegment, unreifiedRelationship)
+    addSegmentPredicate(
+      graph, uuid, bodySegment,
+      predicate,
+      reifiedRelationshipSource,
+      reifiedRelationshipInverseSource,
+      reifiedRelationshipTarget,
+      reifiedRelationshipInverseTarget,
+      unreifiedRelationshipInverse)
   }
 
   // model term axioms
@@ -2637,7 +2443,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
     * @param graph
     * @param uuid
     * @param sub
-    * @param rel
+    * @param restrictedRelationship
     * @param range
     * @param store
     * @return
@@ -2646,7 +2452,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   (graph: omf#MutableTerminologyBox,
    uuid: resolver.api.taggedTypes.EntityUniversalRestrictionAxiomUUID,
    sub: omf#Entity,
-   rel: omf#EntityRelationship,
+   restrictedRelationship: omf#RestrictableRelationship,
    range: omf#Entity)
   (implicit store: omf#Store)
   : Throwables \/ omf#EntityUniversalRestrictionAxiom
@@ -2654,16 +2460,16 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   def entityUniversalRestrictionAxiomUUID
   (graph: omf#MutableTerminologyBox,
    sub: omf#Entity,
-   rel: omf#EntityRelationship,
+   restrictedRelationship: omf#RestrictableRelationship,
    range: omf#Entity)
   (implicit store: omf#Store)
   : Throwables \/ resolver.api.taggedTypes.EntityUniversalRestrictionAxiomUUID
   = resolver.api.taggedTypes.entityUniversalRestrictionAxiomUUID(generateUUIDFromUUID(
-      "EntityUniversalRestrictionAxiom",
-      "tbox" -> getModuleUUID(graph),
-      "restrictedRelation" -> getTermUUID(rel),
-      "restrictedDomain" -> getTermUUID(sub),
-      "restrictedRange" -> getTermUUID(range))).right
+    "EntityUniversalRestrictionAxiom",
+    "tbox" -> getModuleUUID(graph),
+    "restrictedDomain" -> getTermUUID(sub),
+    "restrictedRange" -> getTermUUID(range),
+    "restrictedRelationship" -> getRestrictableRelationshipUUID(restrictedRelationship))).right
 
   /**
     * Add to a terminology graph a new OMF EntityUniversalRestrictionAxiom
@@ -2673,7 +2479,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
     *
     * @param graph
     * @param sub
-    * @param rel
+    * @param restrictedRelationship
     * @param range
     * @param store
     * @return
@@ -2681,13 +2487,13 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   final def addEntityUniversalRestrictionAxiom
   (graph: omf#MutableTerminologyBox,
    sub: omf#Entity,
-   rel: omf#EntityRelationship,
+   restrictedRelationship: omf#RestrictableRelationship,
    range: omf#Entity)
   (implicit store: omf#Store)
   : Throwables \/ omf#EntityUniversalRestrictionAxiom
   = for {
-    uuid <- entityUniversalRestrictionAxiomUUID(graph, sub, rel, range)
-    ax <- addEntityUniversalRestrictionAxiom(graph, uuid, sub, rel, range)
+    uuid <- entityUniversalRestrictionAxiomUUID(graph, sub, restrictedRelationship, range)
+    ax <- addEntityUniversalRestrictionAxiom(graph, uuid, sub, restrictedRelationship, range)
   } yield ax
 
   /**
@@ -2698,7 +2504,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
     * @param graph
     * @param uuid
     * @param sub
-    * @param rel
+    * @param restrictedRelationship
     * @param range
     * @param store
     * @return
@@ -2707,7 +2513,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   (graph: omf#MutableTerminologyBox,
    uuid: resolver.api.taggedTypes.EntityExistentialRestrictionAxiomUUID,
    sub: omf#Entity,
-   rel: omf#EntityRelationship,
+   restrictedRelationship: omf#RestrictableRelationship,
    range: omf#Entity)
   (implicit store: omf#Store)
   : Throwables \/ omf#EntityExistentialRestrictionAxiom
@@ -2715,16 +2521,16 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   def entityExistentialRestrictionAxiomUUID
   (graph: omf#MutableTerminologyBox,
    sub: omf#Entity,
-   rel: omf#EntityRelationship,
+   restrictedRelationship: omf#RestrictableRelationship,
    range: omf#Entity)
   (implicit store: omf#Store)
   : Throwables \/ resolver.api.taggedTypes.EntityExistentialRestrictionAxiomUUID
   = resolver.api.taggedTypes.entityExistentialRestrictionAxiomUUID(generateUUIDFromUUID(
-      "EntityExistentialRestrictionAxiom",
-      "tbox" -> getModuleUUID(graph),
-      "restrictedRelation" -> getTermUUID(rel),
-      "restrictedDomain" -> getTermUUID(sub),
-      "restrictedRange" -> getTermUUID(range))).right
+    "EntityExistentialRestrictionAxiom",
+    "tbox" -> getModuleUUID(graph),
+    "restrictedDomain" -> getTermUUID(sub),
+    "restrictedRange" -> getTermUUID(range),
+    "restrictedRelationship" -> getRestrictableRelationshipUUID(restrictedRelationship))).right
 
   /**
     * Add to a terminology graph a new OMF EntityExistentialRestrictionAxiom
@@ -2734,7 +2540,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
     *
     * @param graph
     * @param sub
-    * @param rel
+    * @param restrictedRelationship
     * @param range
     * @param store
     * @return
@@ -2742,13 +2548,13 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   final def addEntityExistentialRestrictionAxiom
   (graph: omf#MutableTerminologyBox,
    sub: omf#Entity,
-   rel: omf#EntityRelationship,
+   restrictedRelationship: omf#RestrictableRelationship,
    range: omf#Entity)
   (implicit store: omf#Store)
   : Throwables \/ omf#EntityExistentialRestrictionAxiom
   = for {
-    uuid <- entityExistentialRestrictionAxiomUUID(graph, sub, rel, range)
-    ax <- addEntityExistentialRestrictionAxiom(graph, uuid, sub, rel, range)
+    uuid <- entityExistentialRestrictionAxiomUUID(graph, sub, restrictedRelationship, range)
+    ax <- addEntityExistentialRestrictionAxiom(graph, uuid, sub, restrictedRelationship, range)
   } yield ax
 
   protected def addEntityScalarDataPropertyExistentialRestrictionAxiom
@@ -3740,8 +3546,8 @@ trait MutableDescriptionBoxOps[omf <: OMF]
   = resolver.api.taggedTypes.scalarDataPropertyValueUUID(generateUUIDFromString(
     "ScalarDataPropertyValue",
     "structuredDataPropertyContext" -> getLogicalElementUUID(structuredDataPropertyContext).toString,
-    "scalarPropertyValue" -> value.value,
-    "scalarDataProperty" -> getLogicalElementUUID(scalarDataProperty).toString
+    "scalarDataProperty" -> getLogicalElementUUID(scalarDataProperty).toString,
+    "scalarPropertyValue" -> value.value
   )).right
 
   protected def makeScalarDataPropertyValue
@@ -3775,8 +3581,8 @@ trait MutableDescriptionBoxOps[omf <: OMF]
   : Throwables \/ resolver.api.taggedTypes.StructuredDataPropertyTupleUUID
   = resolver.api.taggedTypes.structuredDataPropertyTupleUUID(generateUUIDFromUUID(
     "StructuredDataPropertyTuple",
-    "structuredDataProperty" -> getLogicalElementUUID(structuredDataProperty),
-    "structuredDataPropertyContext" -> getLogicalElementUUID(structuredDataPropertyContext)
+    "structuredDataPropertyContext" -> getLogicalElementUUID(structuredDataPropertyContext),
+    "structuredDataProperty" -> getLogicalElementUUID(structuredDataProperty)
   )).right
 
   protected def makeStructuredDataPropertyTuple

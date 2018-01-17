@@ -31,7 +31,6 @@ import scala.util.control.Exception._
 import scala.{None, Option, Some, StringContext, Unit}
 import scala.Predef.ArrowAssoc
 import scalaz._
-import Scalaz._
 
 abstract class OMFVocabularyImmutabilityTest[omf <: OMF]
 (val saveStore: omf#Store, saveOps: OMFOps[omf],
@@ -145,9 +144,18 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF]
           source = component,
           target = function,
           characteristics = List(isAsymmetric, isIrreflexive, isInverseFunctional),
-          reifiedRelationshipName = localName("Performs"),
-          unreifiedRelationshipName = localName("performs"),
-          unreifiedInverseRelationshipName = localName("isPerformedBy").some)
+          reifiedRelationshipName = localName("Performs"))
+
+        performs <- addForwardProperty(
+          graph = mission,
+          name = localName("performs"),
+          reifiedRelationship = component_performs_function)
+
+        isPerfomredBy <- addInverseProperty(
+          graph = mission,
+          name = localName("isPerformedBy"),
+          reifiedRelationship = component_performs_function)
+
         item <- addConcept(mission, localName("Item"))
         message <- addConcept(mission, localName("Message"))
         materialItem <- addConcept(mission, localName("MaterialItem"))
@@ -167,13 +175,13 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF]
         determinesDeltaV_is_function <- addConceptSpecializationAxiom(library, determinesDeltaV, function)
 
         starTracker_performs_determinesAttitude <- addEntityExistentialRestrictionAxiom(
-          library, starTracker, component_performs_function, determinesAttitude)
+          library, starTracker, performs, determinesAttitude)
 
         starTracker_determinesDeltaV_context <- addEntityExistentialRestrictionAxiom(
-          library, starTracker, component_performs_function, determinesDeltaV)
+          library, starTracker, performs, determinesDeltaV)
 
         starTracker_determinesAttitudeFast_context <- addEntityExistentialRestrictionAxiom(
-          library, starTracker, component_performs_function, determinesAttitude)
+          library, starTracker, performs, determinesAttitude)
 
         system_iri <- makeIRI("http://imce.jpl.nasa.gov/test/immutability/system")
         system <- makeTerminologyGraph(system_iri, isOpenWorld)
@@ -318,7 +326,22 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF]
         hasIdentifier.isDefined should be(true)
 
         val prop = fromEntityScalarDataProperty(hasIdentifier.get)
-        identifiedElement.get should be(prop.domain)
+
+        fromEntity(identifiedElement.get).uuid should be(fromEntity(prop.domain).uuid)
+        fromEntity(identifiedElement.get) should be(fromEntity(prop.domain))
+
+        // TODO Investigate...
+        // Error:(324, 46) [Artima SuperSafe] Values of type omf#Entity and _38.Term with _38.Predicate forSome { val _38: omf } may not be compared for equality with ScalaTest's be matcher syntax. If you really want this expression to compile, configure Artima SuperSafe to allow omf#Entity and _38.Term with _38.Predicate forSome { val _38: omf } to be compared for equality.  For more information on this kind of error, see: http://www.artima.com/supersafe_user_guide.html#safer-equality
+        //identifiedElement.get should be(prop.domain)
+
+        val _a: omf#Aspect = identifiedElement.get
+        val _e: omf#Entity = prop.domain
+
+        // TODO Investigate...
+        // Error:(331, 22) [Artima SuperSafe] Values of type omf#Entity and _38.Term with _38.Predicate forSome { val _38: omf } may not be compared for equality with ScalaTest's be matcher syntax. If you really want this expression to compile, configure Artima SuperSafe to allow omf#Entity and _38.Term with _38.Predicate forSome { val _38: omf } to be compared for equality.  For more information on this kind of error, see: http://www.artima.com/supersafe_user_guide.html#safer-equality
+        //_a should be(_e)
+        _e should be(_a)
+
         string.get should be(prop.range)
 
         {

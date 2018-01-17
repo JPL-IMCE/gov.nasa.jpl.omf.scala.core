@@ -13,14 +13,14 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * License Terms
  */
 
 package gov.nasa.jpl.omf.scala.core
 
 import gov.nasa.jpl.imce.oml.resolver
+import gov.nasa.jpl.imce.oml.tables.taggedTypes
 
-case class ConceptPredicateSignature[omf <: OMF]
-(uuid: resolver.api.taggedTypes.ConceptPredicateUUID,
- bodySegment: omf#RuleBodySegment,
- predicate: omf#Concept)
+case class ForwardPropertySignature[omf <: OMF]
+(uuid: resolver.api.taggedTypes.ForwardPropertyUUID,
+ name: taggedTypes.LocalName,
+ reifiedRelationship: omf#ReifiedRelationship)

@@ -19,8 +19,9 @@
 package gov.nasa.jpl.omf.scala.core
 
 import gov.nasa.jpl.imce.oml.resolver
+import gov.nasa.jpl.imce.oml.tables.taggedTypes
 
-case class ReifiedRelationshipInversePropertyPredicateSignature[omf <: OMF]
-(uuid: resolver.api.taggedTypes.ReifiedRelationshipInversePropertyPredicateUUID,
- bodySegment: omf#RuleBodySegment,
- predicate: omf#ReifiedRelationship)
+case class AspectSignature[omf <: OMF]
+(uuid: resolver.api.taggedTypes.AspectUUID,
+ name: taggedTypes.LocalName,
+ iri: omf#IRI)

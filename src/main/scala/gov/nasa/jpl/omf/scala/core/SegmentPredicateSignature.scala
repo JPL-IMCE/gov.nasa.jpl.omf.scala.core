@@ -13,14 +13,19 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * License Terms
  */
 
 package gov.nasa.jpl.omf.scala.core
 
 import gov.nasa.jpl.imce.oml.resolver
+import scala.Option
 
-case class ReifiedRelationshipTargetPropertyPredicateSignature[omf <: OMF]
-(uuid: resolver.api.taggedTypes.ReifiedRelationshipTargetPropertyPredicateUUID,
+case class SegmentPredicateSignature[omf <: OMF]
+(uuid: resolver.api.taggedTypes.SegmentPredicateUUID,
  bodySegment: omf#RuleBodySegment,
- predicate: omf#ReifiedRelationship)
+ predicate: Option[omf#Predicate],
+ reifiedRelationshipSource: Option[omf#ReifiedRelationship],
+ reifiedRelationshipInverseSource: Option[omf#ReifiedRelationship],
+ reifiedRelationshipTarget: Option[omf#ReifiedRelationship],
+ reifiedRelationshipInverseTarget: Option[omf#ReifiedRelationship],
+ unreifiedRelationshipInverse: Option[omf#UnreifiedRelationship])

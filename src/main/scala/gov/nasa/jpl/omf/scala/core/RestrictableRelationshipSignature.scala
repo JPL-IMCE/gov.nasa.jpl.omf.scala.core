@@ -13,14 +13,12 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * License Terms
  */
 
 package gov.nasa.jpl.omf.scala.core
 
 import gov.nasa.jpl.imce.oml.resolver
 
-case class AspectPredicateSignature[omf <: OMF]
-(uuid: resolver.api.taggedTypes.AspectPredicateUUID,
- bodySegment: omf#RuleBodySegment,
- predicate: omf#Aspect)
+case class RestrictableRelationshipSignature[omf <: OMF]
+(uuid: resolver.api.taggedTypes.RestrictableRelationshipUUID,
+ relation: omf#EntityRelationship)
