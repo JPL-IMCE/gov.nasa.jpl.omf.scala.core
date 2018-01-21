@@ -22,5 +22,4 @@ import gov.nasa.jpl.imce.oml.tables.taggedTypes
 
 case class PredicateSignature[omf <: OMF]
 (uuid: resolver.api.taggedTypes.PredicateUUID,
- name: taggedTypes.LocalName,
- term: omf#Term)
+ name: taggedTypes.LocalName)

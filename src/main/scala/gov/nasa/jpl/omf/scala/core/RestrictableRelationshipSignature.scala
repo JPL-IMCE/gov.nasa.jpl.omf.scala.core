@@ -18,7 +18,8 @@
 package gov.nasa.jpl.omf.scala.core
 
 import gov.nasa.jpl.imce.oml.resolver
+import gov.nasa.jpl.imce.oml.tables.taggedTypes
 
-case class RestrictableRelationshipSignature[omf <: OMF]
+case class RestrictableRelationshipSignature
 (uuid: resolver.api.taggedTypes.RestrictableRelationshipUUID,
- relation: omf#EntityRelationship)
+ name: taggedTypes.LocalName)

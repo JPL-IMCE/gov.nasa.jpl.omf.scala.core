@@ -152,20 +152,22 @@ object OMFTabularExportFromTerminologyGraph {
         targetUUID = ops.getEntityUUID(sig.target))
     }.to[Seq].sorted
 
-    allForwardProperties = s.forwardProperties.map { p =>
-      val sig = ops.fromForwardProperty(p)
+    allForwardProperties = s.reifiedRelationships.map { rr =>
+      val sig = ops.fromReifiedRelationship(rr)
       oml.tables.ForwardProperty(
-        uuid = sig.uuid,
-        name = sig.name,
-        reifiedRelationshipUUID = ops.getReifiedRelationshipUUID(sig.reifiedRelationship))
+        uuid = sig.forwardPropertyInfo.uuid,
+        name = sig.forwardPropertyInfo.name,
+        reifiedRelationshipUUID = sig.uuid)
     }.to[Seq].sorted
 
-    allInverseProperties = s.inverseProperties.map { p =>
-      val sig = ops.fromInverseProperty(p)
-      oml.tables.InverseProperty(
-        uuid = sig.uuid,
-        name = sig.name,
-        reifiedRelationshipUUID = ops.getReifiedRelationshipUUID(sig.reifiedRelationship))
+    allInverseProperties = s.reifiedRelationships.flatMap { rr =>
+      val sig = ops.fromReifiedRelationship(rr)
+      sig.inversePropertyInfo.map { inv =>
+        oml.tables.InverseProperty(
+          uuid = inv.uuid,
+          name = inv.name,
+          reifiedRelationshipUUID = sig.uuid)
+      }
     }.to[Seq].sorted
 
     allUnreifiedRelationships = s.unreifiedRelationships.map { ur =>

@@ -76,6 +76,11 @@ object Axioms {
     reifiedRelationshipSpecializationAxioms =
       a1.reifiedRelationshipSpecializationAxioms ++ a2.reifiedRelationshipSpecializationAxioms,
 
+    subDataPropertyOfAxioms =
+      a1.subDataPropertyOfAxioms ++ a2.subDataPropertyOfAxioms,
+    subObjectPropertyOfAxioms =
+      a1.subObjectPropertyOfAxioms ++ a2.subObjectPropertyOfAxioms,
+
     entityExistentialRestrictionAxioms =
       a1.entityExistentialRestrictionAxioms ++ a2.entityExistentialRestrictionAxioms,
     entityUniversalRestrictionAxioms =

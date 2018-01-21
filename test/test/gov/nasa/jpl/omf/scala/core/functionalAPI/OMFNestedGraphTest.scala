@@ -153,17 +153,13 @@ abstract class OMFNestedGraphTest[omf <: OMF]
           source = component,
           target = function,
           characteristics = List(isAsymmetric, isIrreflexive, isInverseFunctional),
-          reifiedRelationshipName = localName("Performs"))
+          reifiedRelationshipName = localName("Performs"),
+          unreifiedRelationshipName = localName("performs"),
+          unreifiedInverseRelationshipName = Some(localName("isPerformedBy")))
 
-        performs <- addForwardProperty(
-          graph = mission,
-          name = localName("performs"),
-          reifiedRelationship = component_performs_function)
+        performs = fromReifiedRelationship(component_performs_function).forwardProperty
 
-        isPerformedBy <- addInverseProperty(
-          graph = mission,
-          name = localName("isPerformedBy"),
-          reifiedRelationship = component_performs_function)
+        isPerformedBy = fromReifiedRelationship(component_performs_function).inverseProperty.get
 
         project_iri <- makeIRI(s"http://imce.jpl.nasa.gov/test/$testName/foundation/project/project")
         project <- makeTerminologyGraph(project_iri, isOpenWorld)
@@ -194,17 +190,13 @@ abstract class OMFNestedGraphTest[omf <: OMF]
           source = g_A,
           target = g_C,
           characteristics = List(isAsymmetric, isIrreflexive, isInverseFunctional),
-          reifiedRelationshipName = localName("Performs"))
+          reifiedRelationshipName = localName("Performs"),
+          unreifiedRelationshipName = localName("performs"),
+          unreifiedInverseRelationshipName = Some(localName("isPerformedBy")))
 
-        p1_performs <- addForwardProperty(
-          graph = p1,
-          name = localName("performs"),
-          reifiedRelationship = p1_asserts_A_performs_C)
+        p1_performs = fromReifiedRelationship(p1_asserts_A_performs_C).forwardProperty
 
-        p1_isPerfomredBy <- addInverseProperty(
-          graph = p1,
-          name = localName("isPerformedBy"),
-          reifiedRelationship = p1_asserts_A_performs_C)
+        p1_isPerfomredBy = fromReifiedRelationship(p1_asserts_A_performs_C).inverseProperty.get
 
         p1_asserts_A_performsFunction_C <-
         addReifiedRelationshipSpecializationAxiom(graph=p1, sub=p1_asserts_A_performs_C, sup=component_performs_function)
@@ -222,17 +214,13 @@ abstract class OMFNestedGraphTest[omf <: OMF]
           source = g_B,
           target = g_C,
           characteristics = List(isAsymmetric, isIrreflexive, isInverseFunctional),
-          reifiedRelationshipName = localName("Performs"))
+          reifiedRelationshipName = localName("Performs"),
+          unreifiedRelationshipName = localName("performs"),
+          unreifiedInverseRelationshipName = Some(localName("isPerformedBy")))
 
-        p2_performs <- addForwardProperty(
-          graph = p2,
-          name = localName("performs"),
-          reifiedRelationship = p2_asserts_B_performs_C)
+        p2_performs = fromReifiedRelationship(p2_asserts_B_performs_C).forwardProperty
 
-        p2_isPerfomredBy <- addInverseProperty(
-          graph = p2,
-          name = localName("isPerformedBy"),
-          reifiedRelationship = p2_asserts_B_performs_C)
+        p2_isPerfomredBy = fromReifiedRelationship(p2_asserts_B_performs_C).inverseProperty.get
 
         p2_asserts_B_performsFunction_C <-
         addReifiedRelationshipSpecializationAxiom(graph=p2, sub=p2_asserts_B_performs_C, sup=component_performs_function)

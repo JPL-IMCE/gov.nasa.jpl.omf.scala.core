@@ -144,17 +144,13 @@ abstract class OMFVocabularyMutabilityTest[omf <: OMF]
           source = component,
           target = function,
           characteristics = List(isAsymmetric, isIrreflexive, isInverseFunctional),
-          reifiedRelationshipName = localName("Performs"))
+          reifiedRelationshipName = localName("Performs"),
+          unreifiedRelationshipName = localName("performs"),
+          unreifiedInverseRelationshipName = Some(localName("isPerformedBy")))
 
-        performs <- addForwardProperty(
-          graph = mission,
-          name = localName("performs"),
-          reifiedRelationship = component_performs_function)
+        performs = fromReifiedRelationship(component_performs_function).forwardProperty
 
-        isPerfomredBy <- addInverseProperty(
-          graph = mission,
-          name = localName("isPerformedBy"),
-          reifiedRelationship = component_performs_function)
+        isPerformedBy = fromReifiedRelationship(component_performs_function).inverseProperty.get
 
         item <- addConcept(mission, localName("Item"))
 

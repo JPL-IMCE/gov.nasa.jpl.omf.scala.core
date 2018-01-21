@@ -59,3 +59,40 @@ gov.nasa.jpl.omf.scala.core 9.1 is an API-breaking update from 9.0
   
   - Deleted `unreifiedRelationshipPropertyPredicates`
   - Deleted `unreifiedRelationshipInversePropertyPredicates`
+   
+### [#30 OMF API for ReifiedRelationship needs to include the info about Forward & Inverse Properties](https://github.com/JPL-IMCE/gov.nasa.jpl.omf.scala.core/issues/30)
+
+- [ReifiedRelationshipSignature](../src/main/scala/gov/nasa/jpl/omf/scala/core/ReifiedRelationshipSignature.scala)
+  
+  - Added `forwardProperty` and `forwardPropertyInfo`
+  - Added `inverseProperty` and `inversePropertyInfo`
+  
+- [PredicateSignature](../src/main/scala/gov/nasa/jpl/omf/scala/core/PredicateSignature.scala)
+
+  - Deleted `term`
+  
+- [RestrictableRelationshipSignature](../src/main/scala/gov/nasa/jpl/omf/scala/core/RestrictableRelationshipSignature.scala)
+
+  - Added `name`
+  - Deleted `relation`
+  
+- [OMFOps](../src/main/scala/gov/nasa/jpl/omf/scala/core/OMFOps.scala)
+
+  - Signature info queries:
+  
+    - Deleted `fromForwardProperty`, `fromInverseProperty`
+    
+  - Construction:
+  
+    - Deleted `addForwardProeprty` and `addInverseProperty`
+      (these are essential to constructing a `ReifiedRelationship` and shouldn't be decoupled from it)
+      
+    - Restored the 0.9.0 API for `addReifiedRelationship`
+      (the implementation constructs the `ForwardProperty` and `InverseProperty`)
+      
+    - All optional characteristics of `addSegmentPredicate` have a default: `None`
+      This simplifies constructing variants of `SegmentPredicate` by specifying a single characteristic.
+      Check that exactly one optional characteristic is specified.
+      
+    
+   

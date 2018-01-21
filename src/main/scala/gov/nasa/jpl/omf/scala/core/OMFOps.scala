@@ -26,7 +26,7 @@ import gov.nasa.jpl.omf.scala.core.OMFError.Throwables
 import gov.nasa.jpl.omf.scala.core.RelationshipCharacteristics._
 import gov.nasa.jpl.omf.scala.core.builtin.BuiltInDatatypeMaps.DataRangeCategories
 
-import scala.{Boolean, None, Option, Some, StringContext, Unit}
+import scala.{Boolean, Int, None, Option, Some, StringContext, Unit}
 import scala.Predef.{ArrowAssoc, String}
 import scala.collection.immutable.{Iterable, Seq, Set}
 import scalaz._
@@ -972,14 +972,6 @@ trait ImmutableTerminologyGraphOps[omf <: OMF] { self: OMFStoreOps[omf] with IRI
   (r: omf#ReifiedRelationship)
   : ReifiedRelationshipSignature[omf]
 
-  def fromForwardProperty
-  (r: omf#ForwardProperty)
-  : ForwardPropertySignature[omf]
-
-  def fromInverseProperty
-  (r: omf#InverseProperty)
-  : InversePropertySignature[omf]
-
   def fromUnreifiedRelationship
   (r: omf#UnreifiedRelationship)
   : UnreifiedRelationshipSignature[omf]
@@ -1332,6 +1324,8 @@ trait MutableTerminologyGraphOps[omf <: OMF]
     * @param target
     * @param characteristics
     * @param reifiedRelationshipName
+    * @param unreifiedRelationshipName
+    * @param unreifiedInverseRelationshipName
     * @param store
     * @return
     */
@@ -1342,7 +1336,9 @@ trait MutableTerminologyGraphOps[omf <: OMF]
    source: omf#Entity,
    target: omf#Entity,
    characteristics: Iterable[RelationshipCharacteristics],
-   reifiedRelationshipName: taggedTypes.LocalName)
+   reifiedRelationshipName: taggedTypes.LocalName,
+   unreifiedRelationshipName: taggedTypes.LocalName,
+   unreifiedInverseRelationshipName: Option[taggedTypes.LocalName])
   (implicit store: omf#Store)
   : Throwables \/ omf#ReifiedRelationship
 
@@ -1360,69 +1356,30 @@ trait MutableTerminologyGraphOps[omf <: OMF]
     * @param characteristics                  the characteristics of the new entity relationship
     * @param reifiedRelationshipName          the name of the new entity relationship
     *                                         from the perspective of a reified concept-like entity
+    * @param unreifiedRelationshipName        the name of the entity relationship from the perspective
+    *                                         of a directed property from the source to the target
+    * @param unreifiedInverseRelationshipName if applicable, the name of the entity relationship from
+    *                                         the perspective of a directed inverse property
+    *                                         from the target to the source
     */
   final def addReifiedRelationship
   (graph: omf#MutableTerminologyBox,
    source: omf#Entity,
    target: omf#Entity,
    characteristics: Iterable[RelationshipCharacteristics],
-   reifiedRelationshipName: taggedTypes.LocalName)
+   reifiedRelationshipName: taggedTypes.LocalName,
+   unreifiedRelationshipName: taggedTypes.LocalName,
+   unreifiedInverseRelationshipName: Option[taggedTypes.LocalName])
   (implicit store: omf#Store)
   : Throwables \/ omf#ReifiedRelationship
   = for {
     iri <- withFragment(getModuleIRI(graph), reifiedRelationshipName)
     uuid = resolver.api.taggedTypes.reifiedRelationshipUUID(
       generateUUIDFromString(getModuleUUID(graph), "name" -> reifiedRelationshipName))
-    ax <- addReifiedRelationship(graph, uuid, iri, source, target, characteristics, reifiedRelationshipName)
+    ax <- addReifiedRelationship(
+      graph, uuid, iri, source, target, characteristics,
+      reifiedRelationshipName, unreifiedRelationshipName, unreifiedInverseRelationshipName)
   } yield ax
-
-  protected def addForwardProperty
-  (graph: omf#MutableTerminologyBox,
-   uuid: resolver.api.taggedTypes.ForwardPropertyUUID,
-   name: taggedTypes.LocalName,
-   reifiedRelationship: omf#ReifiedRelationship)
-  (implicit store: omf#Store)
-  : Throwables \/ omf#ForwardProperty
-
-  final def addForwardProperty
-  (graph: omf#MutableTerminologyBox,
-   name: taggedTypes.LocalName,
-   reifiedRelationship: omf#ReifiedRelationship)
-  (implicit store: omf#Store)
-  : Throwables \/ omf#ForwardProperty
-  = {
-    val uuid = resolver.api.taggedTypes.forwardPropertyUUID(
-      generateUUIDFromString(
-        "ForwardProperty",
-        "name" -> name,
-        "reifiedRelationship" -> getReifiedRelationshipUUID(reifiedRelationship).toString
-      ))
-    addForwardProperty(graph, uuid, name, reifiedRelationship)
-  }
-
-  protected def addInverseProperty
-  (graph: omf#MutableTerminologyBox,
-   uuid: resolver.api.taggedTypes.InversePropertyUUID,
-   name: taggedTypes.LocalName,
-   reifiedRelationship: omf#ReifiedRelationship)
-  (implicit store: omf#Store)
-  : Throwables \/ omf#InverseProperty
-
-  final def addInverseProperty
-  (graph: omf#MutableTerminologyBox,
-   name: taggedTypes.LocalName,
-   reifiedRelationship: omf#ReifiedRelationship)
-  (implicit store: omf#Store)
-  : Throwables \/ omf#InverseProperty
-  = {
-    val uuid = resolver.api.taggedTypes.inversePropertyUUID(
-      generateUUIDFromString(
-        "InverseProperty",
-        "name" -> name,
-        "reifiedRelationship" -> getReifiedRelationshipUUID(reifiedRelationship).toString
-      ))
-    addInverseProperty(graph, uuid, name, reifiedRelationship)
-  }
 
   /**
     * Add to a terminology graph a new OMF UnreifiedRelationship.
@@ -2124,38 +2081,52 @@ trait MutableTerminologyGraphOps[omf <: OMF]
   (implicit store: omf#Store)
   : Throwables \/ omf#SegmentPredicate
 
-  protected def addSegmentPredicate
+  final def addSegmentPredicate
   (graph: omf#MutableTerminologyBox,
    bodySegment: omf#RuleBodySegment,
-   predicate: Option[omf#Predicate],
-   reifiedRelationshipSource: Option[omf#ReifiedRelationship],
-   reifiedRelationshipInverseSource: Option[omf#ReifiedRelationship],
-   reifiedRelationshipTarget: Option[omf#ReifiedRelationship],
-   reifiedRelationshipInverseTarget: Option[omf#ReifiedRelationship],
-   unreifiedRelationshipInverse: Option[omf#UnreifiedRelationship])
+   predicate: Option[omf#Predicate]=None,
+   reifiedRelationshipSource: Option[omf#ReifiedRelationship]=None,
+   reifiedRelationshipInverseSource: Option[omf#ReifiedRelationship]=None,
+   reifiedRelationshipTarget: Option[omf#ReifiedRelationship]=None,
+   reifiedRelationshipInverseTarget: Option[omf#ReifiedRelationship]=None,
+   unreifiedRelationshipInverse: Option[omf#UnreifiedRelationship]=None)
   (implicit store: omf#Store)
   : Throwables \/ omf#SegmentPredicate
   = {
-    val factors: Seq[(String, String)]
-    = Seq.empty[(String, String)] ++
-      Seq("bodySegment" -> fromRuleBodySegment(bodySegment).uuid.toString) ++
-      predicate.map { vt => "predicate" -> fromPredicate(vt).uuid.toString } ++
-      reifiedRelationshipSource.map { vt => "reifiedRelationshipSource" -> fromReifiedRelationship(vt).uuid.toString } ++
-      reifiedRelationshipInverseSource.map { vt => "reifiedRelationshipInverseSource" -> fromReifiedRelationship(vt).uuid.toString } ++
-      reifiedRelationshipTarget.map { vt => "reifiedRelationshipTarget" -> fromReifiedRelationship(vt).uuid.toString } ++
-      reifiedRelationshipInverseTarget.map { vt => "reifiedRelationshipInverseTarget" -> fromReifiedRelationship(vt).uuid.toString } ++
-      unreifiedRelationshipInverse.map { vt => "unreifiedRelationshipInverse" -> fromUnreifiedRelationship(vt).uuid.toString }
+    val n = predicate.fold[Int](0) { _ => 1 } +
+      reifiedRelationshipSource.fold[Int](0) { _ => 1 } +
+      reifiedRelationshipInverseSource.fold[Int](0) { _ => 1 } +
+      reifiedRelationshipTarget.fold[Int](0) { _ => 1 } +
+      reifiedRelationshipInverseTarget.fold[Int](0) { _ => 1 } +
+      unreifiedRelationshipInverse.fold[Int](0) { _ => 1 }
 
-    val uuid = resolver.api.taggedTypes.segmentPredicateUUID(generateUUIDFromString("SegmentPredicate", factors: _*))
+    if (1 != n)
+      Set[java.lang.Throwable](
+        OMFError.omfError(
+          s"addSegmentPredicate: there must be exactly 1 option specified, got $n"
+        )).left
+    else {
+      val factors: Seq[(String, String)]
+      = Seq.empty[(String, String)] ++
+        Seq("bodySegment" -> fromRuleBodySegment(bodySegment).uuid.toString) ++
+        predicate.map { vt => "predicate" -> fromPredicate(vt).uuid.toString } ++
+        reifiedRelationshipSource.map { vt => "reifiedRelationshipSource" -> fromReifiedRelationship(vt).uuid.toString } ++
+        reifiedRelationshipInverseSource.map { vt => "reifiedRelationshipInverseSource" -> fromReifiedRelationship(vt).uuid.toString } ++
+        reifiedRelationshipTarget.map { vt => "reifiedRelationshipTarget" -> fromReifiedRelationship(vt).uuid.toString } ++
+        reifiedRelationshipInverseTarget.map { vt => "reifiedRelationshipInverseTarget" -> fromReifiedRelationship(vt).uuid.toString } ++
+        unreifiedRelationshipInverse.map { vt => "unreifiedRelationshipInverse" -> fromUnreifiedRelationship(vt).uuid.toString }
 
-    addSegmentPredicate(
-      graph, uuid, bodySegment,
-      predicate,
-      reifiedRelationshipSource,
-      reifiedRelationshipInverseSource,
-      reifiedRelationshipTarget,
-      reifiedRelationshipInverseTarget,
-      unreifiedRelationshipInverse)
+      val uuid = resolver.api.taggedTypes.segmentPredicateUUID(generateUUIDFromString("SegmentPredicate", factors: _*))
+
+      addSegmentPredicate(
+        graph, uuid, bodySegment,
+        predicate,
+        reifiedRelationshipSource,
+        reifiedRelationshipInverseSource,
+        reifiedRelationshipTarget,
+        reifiedRelationshipInverseTarget,
+        unreifiedRelationshipInverse)
+    }
   }
 
   // model term axioms

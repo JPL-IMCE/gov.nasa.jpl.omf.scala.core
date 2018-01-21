@@ -23,6 +23,8 @@ import gov.nasa.jpl.imce.oml.tables.taggedTypes
 import gov.nasa.jpl.omf.scala.core.RelationshipCharacteristics.RelationshipCharacteristics
 
 import scala.collection.immutable.Iterable
+import scala.Option
+
 
 case class ReifiedRelationshipSignature[omf <: OMF]
 (uuid: resolver.api.taggedTypes.ReifiedRelationshipUUID,
@@ -30,4 +32,21 @@ case class ReifiedRelationshipSignature[omf <: OMF]
  iri: omf#IRI,
  source: omf#Entity,
  target: omf#Entity,
- characteristics: Iterable[RelationshipCharacteristics])
+ characteristics: Iterable[RelationshipCharacteristics],
+ forwardProperty: omf#ForwardProperty,
+ forwardPropertyInfo: ReifiedRelationshipSignature.ForwardPropertySignature[omf],
+ inverseProperty: Option[omf#InverseProperty],
+ inversePropertyInfo: Option[ReifiedRelationshipSignature.InversePropertySignature[omf]])
+
+object ReifiedRelationshipSignature {
+
+  case class ForwardPropertySignature[omf <: OMF]
+  (uuid: resolver.api.taggedTypes.ForwardPropertyUUID,
+   iri: omf#IRI,
+   name: taggedTypes.LocalName)
+
+  case class InversePropertySignature[omf <: OMF]
+  (uuid: resolver.api.taggedTypes.InversePropertyUUID,
+   iri: omf#IRI,
+   name: taggedTypes.LocalName)
+}
