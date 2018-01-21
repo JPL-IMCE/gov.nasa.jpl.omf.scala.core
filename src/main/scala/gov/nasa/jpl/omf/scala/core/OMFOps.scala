@@ -1196,7 +1196,7 @@ trait ImmutableTerminologyGraphOps[omf <: OMF] { self: OMFStoreOps[omf] with IRI
 
   def fromRestrictableRelationship
   (r: omf#RestrictableRelationship)
-  : RestrictableRelationshipSignature[omf]
+  : RestrictableRelationshipSignature
 
   def fromRuleBodySegment
   (ax: omf#RuleBodySegment)
