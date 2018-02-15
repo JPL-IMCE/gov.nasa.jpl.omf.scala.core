@@ -36,7 +36,7 @@ trait OMF[omf <: OMF[omf]]
   extends OMFstore
     with OMFiri
     with OMFtbox
-    with OMFdbox { self: omf =>
+    with OMFdbox {
 
   type OntologyMapping <: Mutable2ImmutableModuleTable[omf]
 
