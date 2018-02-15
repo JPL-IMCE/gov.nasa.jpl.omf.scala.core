@@ -491,7 +491,7 @@ trait OMFStoreOps[omf <: OMF[omf]] { self : IRIOps[omf] =>
   (m2i: omf#OntologyMapping,
    iri: omf#IRI)
   (implicit store: omf#Store)
-  : Throwables \/ (omf#ImmutableModule, omf#OntologyMapping)
+  : Throwables \/ (omf#Module, omf#OntologyMapping)
 
   final def loadTerminology
   (m2i: omf#OntologyMapping,

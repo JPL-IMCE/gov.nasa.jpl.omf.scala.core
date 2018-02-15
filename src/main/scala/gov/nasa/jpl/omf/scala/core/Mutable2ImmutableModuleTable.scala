@@ -23,7 +23,7 @@ import gov.nasa.jpl.omf.scala.core.OMFError.Throwables
 import gov.nasa.jpl.omf.scala.core.builtin.BuiltInDatatypeMaps.DataRangeCategories
 
 import scala.collection.immutable._
-import scala.{Boolean, Int, Option, Some, StringContext}
+import scala.{Boolean, Int, None, Option, Some, StringContext}
 import scalaz._
 import Scalaz._
 
@@ -110,6 +110,38 @@ trait Mutable2ImmutableModuleTable[omf <: OMF[omf]] {
   : Option[omf#ImmutableModule]
   = values.find(ops.getModuleIRI(_) == iri)
 
+  def lookupImmutableModule
+  (iri: omf#IRI)
+  (implicit ops: OMFOps[omf])
+  : Option[omf#ImmutableModule]
+  = lookupValue(iri) orElse drc.lookupBuiltInModule(iri) flatMap
+    ops.foldModule(
+      funImmutableTerminologyGraph = Some.apply,
+      funMutableTerminologyGraph = _ => None,
+      funImmutableTerminologyBundle = Some.apply,
+      funMutableTerminologyBundle = _ => None,
+      funImmutableDescriptionBox = Some.apply,
+      funMutableDescriptionBox = _ => None)
+
+  def lookupMutableModule
+  (iri: omf#IRI)
+  (implicit ops: OMFOps[omf])
+  : Option[omf#MutableModule]
+  = lookupKey(iri) orElse drc.lookupBuiltInModule(iri) flatMap
+    ops.foldModule(
+      funImmutableTerminologyGraph = _ => None,
+      funMutableTerminologyGraph = Some.apply,
+      funImmutableTerminologyBundle = _ => None,
+      funMutableTerminologyBundle = Some.apply,
+      funImmutableDescriptionBox = _ => None,
+      funMutableDescriptionBox = Some.apply)
+
+  def lookupModule
+  (iri: omf#IRI)
+  (implicit ops: OMFOps[omf])
+  : Option[omf#Module]
+  = lookupImmutableModule(iri) orElse lookupMutableModule(iri)
+
   def getImmutableModule
   (iri: omf#IRI)
   (implicit ops: OMFOps[omf])
@@ -122,6 +154,39 @@ trait Mutable2ImmutableModuleTable[omf <: OMF[omf]] {
         s"getImmutableModule: $iri not found"
       )).left
   }
+
+  def lookupImmutableTerminologyBox
+  (iri: omf#IRI)
+  (implicit ops: OMFOps[omf])
+  : Option[omf#ImmutableTerminologyBox]
+  = lookupValue(iri) orElse drc.lookupBuiltInModule(iri) flatMap
+    ops.foldModule(
+      funImmutableTerminologyGraph = Some.apply,
+      funMutableTerminologyGraph = _ => None,
+      funImmutableTerminologyBundle = Some.apply,
+      funMutableTerminologyBundle = _ => None,
+      funImmutableDescriptionBox = _ => None,
+      funMutableDescriptionBox = _ => None)
+
+  def lookupMutableTerminologyBox
+  (iri: omf#IRI)
+  (implicit ops: OMFOps[omf])
+  : Option[omf#MutableTerminologyBox]
+  = lookupKey(iri) orElse drc.lookupBuiltInModule(iri) flatMap
+    ops.foldModule(
+      funImmutableTerminologyGraph = _ => None,
+      funMutableTerminologyGraph = Some.apply,
+      funImmutableTerminologyBundle = _ => None,
+      funMutableTerminologyBundle = Some.apply,
+      funImmutableDescriptionBox = _ => None,
+      funMutableDescriptionBox = _ => None)
+
+
+  def lookupTerminologyBox
+  (iri: omf#IRI)
+  (implicit ops: OMFOps[omf])
+  : Option[omf#TerminologyBox]
+  = lookupImmutableTerminologyBox(iri) orElse lookupMutableTerminologyBox(iri)
 
   def getImmutableTerminologyBox
   (iri: omf#IRI)
