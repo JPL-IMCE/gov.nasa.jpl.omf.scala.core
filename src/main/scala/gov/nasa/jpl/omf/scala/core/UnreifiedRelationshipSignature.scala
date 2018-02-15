@@ -25,7 +25,7 @@ import gov.nasa.jpl.omf.scala.core.RelationshipCharacteristics.RelationshipChara
 
 import scala.collection.immutable.Iterable
 
-case class UnreifiedRelationshipSignature[omf <: OMF]
+case class UnreifiedRelationshipSignature[omf <: OMF[omf]]
 (uuid: resolver.api.taggedTypes.UnreifiedRelationshipUUID,
  name: taggedTypes.LocalName,
  iri: omf#IRI,

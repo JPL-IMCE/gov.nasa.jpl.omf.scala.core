@@ -25,7 +25,7 @@ import scala.collection.immutable.Set
 import scala.Option
 import org.scalatest._
 
-abstract class IMCE_OWL2_MOF2_LoadTest[omf <: OMF](
+abstract class IMCE_OWL2_MOF2_LoadTest[omf <: OMF[omf]](
   val loadStore: omf#Store,
   val loadOps: OMFOps[omf] )
   extends WordSpec with Matchers {
@@ -41,7 +41,8 @@ abstract class IMCE_OWL2_MOF2_LoadTest[omf <: OMF](
       val result =
         for {
           xsd_iri <- makeIRI( "http://www.w3.org/2001/XMLSchema" )
-          xsd_tbox <- loadTerminology(Mutable2ImmutableModuleTable.empty[omf], xsd_iri)
+          drc <- loadBuiltinDatatypeMap()
+          xsd_tbox <- loadTerminology(initializeOntologyMapping(drc), xsd_iri)
           (xsd, table1) = xsd_tbox
           integer_iri <- withFragment(xsd_iri, localName("integer"))
           string_iri <- withFragment(xsd_iri, localName("string"))
@@ -58,8 +59,9 @@ abstract class IMCE_OWL2_MOF2_LoadTest[omf <: OMF](
     "load annotation" in {
 
       val result = for {
+        drc <- loadBuiltinDatatypeMap()
         annotation_iri <- makeIRI( "http://imce.jpl.nasa.gov/foundation/annotation/annotation" )
-        annotation_tbox <- loadTerminology( Mutable2ImmutableModuleTable.empty[omf], annotation_iri )
+        annotation_tbox <- loadTerminology( initializeOntologyMapping(drc), annotation_iri )
       } yield ()
       result.isRight should be(true)
 
@@ -69,8 +71,9 @@ abstract class IMCE_OWL2_MOF2_LoadTest[omf <: OMF](
 
       val result =
         for {
+          drc <- loadBuiltinDatatypeMap()
           owl2_mof2_iri <- makeIRI( "http://imce.jpl.nasa.gov/foundation/owl2-mof2/owl2-mof2" )
-          owl2_mof2_tbox <- loadTerminology(Mutable2ImmutableModuleTable.empty[omf], owl2_mof2_iri)
+          owl2_mof2_tbox <- loadTerminology(initializeOntologyMapping(drc), owl2_mof2_iri)
           (owl2_mof2, table1) = owl2_mof2_tbox
           binaryAssociationEndType_iri <- withFragment(owl2_mof2_iri, localName("BinaryAssociationEndType"))
           binaryAssociation_iri <- withFragment(owl2_mof2_iri, localName("BinaryAssociation"))

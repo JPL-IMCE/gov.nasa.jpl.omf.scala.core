@@ -20,13 +20,13 @@ package gov.nasa.jpl.omf.scala.core
 
 import gov.nasa.jpl.imce.oml.resolver
 
-case class ConceptDesignationTerminologySignature[omf <: OMF]
+case class ConceptDesignationTerminologySignature[omf <: OMF[omf]]
 (uuid: resolver.api.taggedTypes.ConceptDesignationTerminologyAxiomUUID,
  graphUUID: resolver.api.taggedTypes.TerminologyBoxUUID,
  designatedConcept: omf#Concept,
- designatedTerminology: omf#TerminologyBox)
+ designatedTerminology: omf#IRI)
   extends TerminologyAxiomSignature[omf] {
 
-  override val importedTerminologyBox: omf#TerminologyBox = designatedTerminology
-  override val importedModule: omf#Module = designatedTerminology
+  override val importedTerminologyBox: omf#IRI = designatedTerminology
+  override val importedModule: omf#IRI = designatedTerminology
 }

@@ -20,7 +20,7 @@ package gov.nasa.jpl.omf.scala.core
 
 import gov.nasa.jpl.imce.oml.resolver
 
-case class EntityStructuredDataPropertyParticularRestrictionSignature[omf <: OMF]
+case class EntityStructuredDataPropertyParticularRestrictionSignature[omf <: OMF[omf]]
 ( uuid: resolver.api.taggedTypes.EntityStructuredDataPropertyParticularRestrictionAxiomUUID,
   restrictedEntity: omf#Entity,
   structuredDataProperty: omf#EntityStructuredDataProperty)

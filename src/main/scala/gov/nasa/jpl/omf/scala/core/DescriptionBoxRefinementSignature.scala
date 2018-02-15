@@ -20,12 +20,12 @@ package gov.nasa.jpl.omf.scala.core
 
 import gov.nasa.jpl.imce.oml.resolver
 
-case class DescriptionBoxRefinementSignature[omf <: OMF]
+case class DescriptionBoxRefinementSignature[omf <: OMF[omf]]
 (uuid: resolver.api.taggedTypes.DescriptionBoxRefinementUUID,
  descriptionBox: resolver.api.taggedTypes.DescriptionBoxUUID,
- refinedDescriptionBox: omf#DescriptionBox)
+ refinedDescriptionBox: omf#IRI)
   extends ModuleEdgeSignature[omf] {
 
-  override val importedModule: omf#Module = refinedDescriptionBox
+  override val importedModule: omf#IRI = refinedDescriptionBox
 
 }

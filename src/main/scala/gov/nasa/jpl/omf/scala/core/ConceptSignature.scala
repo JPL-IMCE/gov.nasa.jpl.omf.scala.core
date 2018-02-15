@@ -21,7 +21,7 @@ package gov.nasa.jpl.omf.scala.core
 import gov.nasa.jpl.imce.oml.resolver
 import gov.nasa.jpl.imce.oml.tables.taggedTypes
 
-case class ConceptSignature[omf <: OMF]
+case class ConceptSignature[omf <: OMF[omf]]
 (uuid: resolver.api.taggedTypes.ConceptUUID,
  name: taggedTypes.LocalName,
  iri: omf#IRI)

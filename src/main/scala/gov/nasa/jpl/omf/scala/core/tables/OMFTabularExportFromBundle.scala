@@ -35,9 +35,9 @@ import Scalaz._
 
 object OMFTabularExportFromBundle {
 
-  implicit def toIRI[omf <: OMF](iri: omf#IRI): taggedTypes.IRI = taggedTypes.iri(iri.toString)
+  implicit def toIRI[omf <: OMF[omf]](iri: omf#IRI): taggedTypes.IRI = taggedTypes.iri(iri.toString)
 
-  def toTables[omf <: OMF]
+  def toTables[omf <: OMF[omf]]
   (acc: Throwables \/ Seq[(omf#ImmutableModule, oml.tables.OMLSpecificationTables)])
   (bundle: omf#ImmutableBundle)
   (implicit store: omf#Store, ops: OMFOps[omf])
@@ -72,18 +72,18 @@ object OMFTabularExportFromBundle {
       for {
         axs <- acc1
         omf_info = ops.fromConceptDesignationTerminologyAxiom(omf_ax)
-        _ <- if (all_tboxes.contains(omf_info.designatedTerminology))
+        _ <- if (all_tboxes.exists { m => ops.getModuleIRI(m) == omf_info.designatedTerminology })
           ().right[Throwables]
         else
           Set[java.lang.Throwable](OMFError.omfError(
             s"TerminologyGraph ${s.iri} has a ConceptDesignationTerminologyAxiom (uuid=${omf_info.uuid}) "+
-              s" whose designated terminology is not imported: ${ops.getModuleIRI(omf_info.designatedTerminology)}"))
+              s" whose designated terminology is not imported: ${omf_info.designatedTerminology}"))
             .left[Unit]
         ax = oml.tables.ConceptDesignationTerminologyAxiom(
           uuid = omf_info.uuid,
           tboxUUID = omf_info.graphUUID,
           designatedConceptUUID = ops.getConceptUUID(omf_info.designatedConcept),
-          designatedTerminologyIRI = ops.getModuleIRI(omf_info.designatedTerminology))
+          designatedTerminologyIRI = omf_info.designatedTerminology)
 
       } yield axs :+ ax
     }
@@ -95,17 +95,17 @@ object OMFTabularExportFromBundle {
       for {
         axs <- acc1
         omf_info = ops.fromTerminologyExtensionAxiom(omf_ax)
-        _ <- if (all_tboxes.contains(omf_info.extendedTerminology))
+        _ <- if (all_tboxes.exists { m => ops.getModuleIRI(m) == omf_info.extendedTerminology })
           ().right[Throwables]
         else
           Set[java.lang.Throwable](OMFError.omfError(
             s"TerminologyGraph ${s.iri} has a TerminologyExtensionAxiom (uuid=${omf_info.uuid}) "+
-              s" whose extended terminology is not imported: ${ops.getModuleIRI(omf_info.extendedTerminology)}"))
+              s" whose extended terminology is not imported: ${omf_info.extendedTerminology}"))
             .left[Unit]
         ax = oml.tables.TerminologyExtensionAxiom(
           uuid = omf_info.uuid,
           tboxUUID = suuid,
-          extendedTerminologyIRI = ops.getModuleIRI(omf_info.extendedTerminology))
+          extendedTerminologyIRI = omf_info.extendedTerminology)
 
       } yield axs :+ ax
     }
@@ -117,17 +117,17 @@ object OMFTabularExportFromBundle {
       for {
         axs <- acc1
         omf_info = ops.fromTerminologyNestingAxiom(omf_ax)
-        _ <- if (all_tboxes.contains(omf_info.nestingTerminology))
+        _ <- if (all_tboxes.exists { m => ops.getModuleIRI(m) == omf_info.nestingTerminology })
           ().right[Throwables]
         else
           Set[java.lang.Throwable](OMFError.omfError(
             s"TerminologyGraph ${s.iri} has a TerminologyNestingAxiom (uuid=${omf_info.uuid}) "+
-              s" whose nesting terminology is not imported: ${ops.getModuleIRI(omf_info.nestingTerminology)}"))
+              s" whose nesting terminology is not imported: ${omf_info.nestingTerminology}"))
             .left[Unit]
         ax = oml.tables.TerminologyNestingAxiom(
           uuid = omf_info.uuid,
           tboxUUID = suuid,
-          nestingTerminologyIRI = ops.getModuleIRI(omf_info.nestingTerminology),
+          nestingTerminologyIRI = omf_info.nestingTerminology,
           nestingContextUUID = ops.getConceptUUID(omf_info.nestingContext))
 
       } yield axs :+ ax
@@ -140,17 +140,17 @@ object OMFTabularExportFromBundle {
       for {
         axs <- acc1
         omf_info = ops.fromBundledTerminologyAxiom(omf_ax)
-        _ <- if (all_tboxes.contains(omf_info.bundledTerminology))
+        _ <- if (all_tboxes.exists { m => ops.getModuleIRI(m) == omf_info.bundledTerminology })
           ().right[Throwables]
         else
           Set[java.lang.Throwable](OMFError.omfError(
             s"Bundle ${s.iri} has a BundledTerminologyAxiom (uuid=${omf_info.uuid}) "+
-              s" whose bundled terminology is not imported: ${ops.getModuleIRI(omf_info.bundledTerminology)}"))
+              s" whose bundled terminology is not imported: ${omf_info.bundledTerminology}"))
             .left[Unit]
         ax = oml.tables.BundledTerminologyAxiom(
           uuid = omf_info.uuid,
           bundleUUID = suuid,
-          bundledTerminologyIRI = ops.getModuleIRI(omf_info.bundledTerminology))
+          bundledTerminologyIRI = omf_info.bundledTerminology)
 
       } yield axs :+ ax
     }

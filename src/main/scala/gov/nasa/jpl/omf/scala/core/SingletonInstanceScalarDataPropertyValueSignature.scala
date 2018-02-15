@@ -22,7 +22,7 @@ import gov.nasa.jpl.imce.oml.resolver
 import gov.nasa.jpl.imce.oml.tables.LiteralValue
 import scala.Option
 
-case class SingletonInstanceScalarDataPropertyValueSignature[omf <: OMF]
+case class SingletonInstanceScalarDataPropertyValueSignature[omf <: OMF[omf]]
 ( uuid: resolver.api.taggedTypes.SingletonInstanceScalarDataPropertyValueUUID,
   singletonInstance: omf#ConceptualEntitySingletonInstance,
   scalarDataProperty: omf#EntityScalarDataProperty,

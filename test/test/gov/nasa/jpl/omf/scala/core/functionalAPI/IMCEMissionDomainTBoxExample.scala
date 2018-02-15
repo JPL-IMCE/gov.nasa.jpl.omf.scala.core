@@ -23,7 +23,7 @@ import gov.nasa.jpl.omf.scala.core._
 import gov.nasa.jpl.omf.scala.core.TerminologyKind._
 import org.scalatest.{Matchers, WordSpec}
 
-abstract class IMCEMissionDomainTBoxExample[omf <: OMF]()(
+abstract class IMCEMissionDomainTBoxExample[omf <: OMF[omf]]()(
   implicit val ops: OMFOps[omf],
   implicit val store: omf#Store )
   extends WordSpec with Matchers {

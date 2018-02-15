@@ -23,7 +23,7 @@ import gov.nasa.jpl.imce.oml.tables.{taggedTypes, AnnotationProperty, Annotation
 
 import scala.collection.immutable.Set
 
-trait ModuleSignature[omf <: OMF] {
+trait ModuleSignature[omf <: OMF[omf]] {
   val uuid: resolver.api.taggedTypes.ModuleUUID
   val name: taggedTypes.LocalName
   /**
@@ -38,9 +38,9 @@ trait ModuleSignature[omf <: OMF] {
 
   def importedTerminologies
   (implicit ops: OMFOps[omf])
-  : Set[omf#TerminologyBox]
+  : Set[omf#IRI]
 
   def importedDescriptions
   (implicit ops: OMFOps[omf])
-  : Set[omf#DescriptionBox]
+  : Set[omf#IRI]
 }

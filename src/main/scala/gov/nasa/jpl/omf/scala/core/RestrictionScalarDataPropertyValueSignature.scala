@@ -23,7 +23,7 @@ import gov.nasa.jpl.imce.oml.resolver
 import gov.nasa.jpl.imce.oml.tables.LiteralValue
 import scala.Option
 
-case class RestrictionScalarDataPropertyValueSignature[omf <: OMF]
+case class RestrictionScalarDataPropertyValueSignature[omf <: OMF[omf]]
 ( uuid: resolver.api.taggedTypes.RestrictionScalarDataPropertyValueUUID,
   structuredDataPropertyContext: omf#RestrictionStructuredDataPropertyContext,
   scalarDataProperty: omf#DataRelationshipToScalar,

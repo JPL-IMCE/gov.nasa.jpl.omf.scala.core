@@ -22,7 +22,7 @@ package gov.nasa.jpl.omf.scala.core
  * @author Nicolas.F.Rouquette@jpl.nasa.gov
  */
 trait OMFModule {
-  type omf <: OMF
+  type omf <: OMF[omf]
 }
 
 trait OMFOpsModule extends OMFModule {

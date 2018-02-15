@@ -32,7 +32,7 @@ import scala.{None, Option, Some, StringContext, Unit}
 import scala.Predef.ArrowAssoc
 import scalaz._
 
-abstract class OMFVocabularyImmutabilityTest[omf <: OMF]
+abstract class OMFVocabularyImmutabilityTest[omf <: OMF[omf]]
 (val saveStore: omf#Store, saveOps: OMFOps[omf],
  val loadStore: omf#Store, loadOps: OMFOps[omf]
 ) extends WordSpec with Matchers {
@@ -105,8 +105,9 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF]
       import ops._
 
       for {
+        drc <- loadBuiltinDatatypeMap()
         xsd_iri <- makeIRI("http://www.w3.org/2001/XMLSchema")
-        xsd_table <- loadTerminology(Mutable2ImmutableModuleTable.empty[omf], xsd_iri)
+        xsd_table <- loadTerminology(initializeOntologyMapping(drc), xsd_iri)
         (xsd, table1) = xsd_table
 
         int_iri <- makeIRI("http://www.w3.org/2001/XMLSchema#integer")
@@ -247,8 +248,9 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF]
       import ops._
 
       for {
+        drc <- loadBuiltinDatatypeMap()
         xsd_iri <- makeIRI("http://www.w3.org/2001/XMLSchema")
-        xsd_table <- loadTerminology(Mutable2ImmutableModuleTable.empty[omf], xsd_iri)
+        xsd_table <- loadTerminology(initializeOntologyMapping(drc), xsd_iri)
         (xsd, table1) = xsd_table
 
         base_iri <- makeIRI("http://imce.jpl.nasa.gov/test/immutability/foundation/base/base")
@@ -287,7 +289,7 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF]
         {
           val s = ops.fromImmutableTerminology(base)
           s.importedTerminologies.isEmpty should be(false)
-          s.importedTerminologies.contains(xsd) should be(false)
+          s.importedTerminologies.contains(xsd_iri) should be(false)
           s.aspects.isEmpty should be(false)
           s.concepts.isEmpty should be(true)
           s.reifiedRelationships.isEmpty should be(true)

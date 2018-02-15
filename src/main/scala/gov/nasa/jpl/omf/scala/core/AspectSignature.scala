@@ -21,7 +21,7 @@ package gov.nasa.jpl.omf.scala.core
 import gov.nasa.jpl.imce.oml.resolver
 import gov.nasa.jpl.imce.oml.tables.taggedTypes
 
-case class AspectSignature[omf <: OMF]
+case class AspectSignature[omf <: OMF[omf]]
 (uuid: resolver.api.taggedTypes.AspectUUID,
  name: taggedTypes.LocalName,
  iri: omf#IRI)

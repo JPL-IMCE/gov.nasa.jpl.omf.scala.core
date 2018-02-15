@@ -22,7 +22,7 @@ import gov.nasa.jpl.imce.oml.resolver
 import gov.nasa.jpl.imce.oml.tables.{taggedTypes,LiteralDateTime}
 import scala.Option
 
-case class TimeScalarRestrictionSignature[omf <: OMF]
+case class TimeScalarRestrictionSignature[omf <: OMF[omf]]
 ( uuid: resolver.api.taggedTypes.TimeScalarRestrictionUUID,
   name: taggedTypes.LocalName,
   iri: omf#IRI,

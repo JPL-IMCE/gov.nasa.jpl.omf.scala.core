@@ -65,7 +65,7 @@ import scala.Boolean
   * @tparam omf OMF Adaptation/Binding.
   * @tparam S A container type (either scala.collection.immutable.Set or scala.collection.mutable.HashSet)
   */
-case class TerminologyBoxSignature[omf <: OMF, +S[A] <: scala.collection.Iterable[A]]
+case class TerminologyBoxSignature[omf <: OMF[omf], +S[A] <: scala.collection.Iterable[A]]
 ( isBundle: Boolean,
   override val uuid: resolver.api.taggedTypes.TerminologyBoxUUID,
   override val name: taggedTypes.LocalName,
@@ -123,15 +123,15 @@ case class TerminologyBoxSignature[omf <: OMF, +S[A] <: scala.collection.Iterabl
 
   override def importedTerminologies
   (implicit ops: OMFOps[omf])
-  : Set[omf#TerminologyBox]
-  = Set.empty[omf#TerminologyBox] ++
+  : Set[omf#IRI]
+  = Set.empty[omf#IRI] ++
     extensions.map(ops.fromTerminologyExtensionAxiom(_).importedTerminologyBox) ++
     conceptDesignation.map(ops.fromConceptDesignationTerminologyAxiom(_).importedTerminologyBox) ++
     bundledTerminologies.map(ops.fromBundledTerminologyAxiom(_).importedTerminologyBox)
 
   override def importedDescriptions
   (implicit ops: OMFOps[omf])
-  : Set[omf#DescriptionBox]
+  : Set[omf#IRI]
   = Set.empty
 
   def terms

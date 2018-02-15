@@ -39,7 +39,7 @@ import scalaz._
 import Scalaz._
 import scala.collection.immutable.{List, Set}
 
-abstract class OMFNestedGraphTest[omf <: OMF]
+abstract class OMFNestedGraphTest[omf <: OMF[omf]]
 ( testName: String,
   val saveStore: omf#Store, saveOps: OMFOps[omf],
   val loadStore: omf#Store, loadOps: OMFOps[omf]
@@ -116,8 +116,9 @@ abstract class OMFNestedGraphTest[omf <: OMF]
       import ops._
 
       for {
+        drc <- loadBuiltinDatatypeMap()
         xsd_iri <- makeIRI("http://www.w3.org/2001/XMLSchema")
-        xsd_table <- loadTerminology(Mutable2ImmutableModuleTable.empty[omf], xsd_iri)
+        xsd_table <- loadTerminology(initializeOntologyMapping(drc), xsd_iri)
         (xsd, table1) = xsd_table
         int_iri <- makeIRI("http://www.w3.org/2001/XMLSchema#integer")
         integer = lookupDataRange(xsd, int_iri, recursively = false)
@@ -327,8 +328,9 @@ abstract class OMFNestedGraphTest[omf <: OMF]
       import ops._
 
       for {
+        drc <- loadBuiltinDatatypeMap()
         xsd_iri <- makeIRI("http://www.w3.org/2001/XMLSchema")
-        xsd_table <- loadTerminology(Mutable2ImmutableModuleTable.empty[omf], xsd_iri)
+        xsd_table <- loadTerminology(initializeOntologyMapping(drc), xsd_iri)
         (xsd, table1) = xsd_table
         int_iri <- makeIRI("http://www.w3.org/2001/XMLSchema#integer")
         integer = lookupDataRange(xsd, int_iri, recursively = false)

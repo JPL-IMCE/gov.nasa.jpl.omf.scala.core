@@ -19,8 +19,8 @@
 package gov.nasa.jpl.omf.scala.core.builtin
 
 import gov.nasa.jpl.omf.scala.core.OMFError.Throwables
-import gov.nasa.jpl.omf.scala.core.{Mutable2ImmutableModuleTable, OMF, OMFOps}
-import gov.nasa.jpl.imce.oml.tables.taggedTypes.{abbrevIRI, iri, localName,literalPattern}
+import gov.nasa.jpl.omf.scala.core.{OMF, OMFOps}
+import gov.nasa.jpl.imce.oml.tables.taggedTypes.{abbrevIRI, iri, localName, literalPattern, ModuleUUID}
 import gov.nasa.jpl.imce.oml.tables.{AnnotationProperty,LiteralDecimalType,LiteralNumber,LiteralPositiveIntegerType}
 import gov.nasa.jpl.imce.oml.uuid.JVMUUIDGenerator
 
@@ -31,7 +31,7 @@ import Scalaz._
 
 object BuiltInDatatypeMaps {
 
-  case class DataRangeCategories[omf <: OMF]
+  case class DataRangeCategories[omf <: OMF[omf]]
   ( builtInImport: Option[omf#TerminologyBox] = None,
     builtInDatatypeModules: Set[omf#Module] = Set.empty[omf#Module],
     anyAtomicType: Option[omf#DataRange] = None,
@@ -49,7 +49,25 @@ object BuiltInDatatypeMaps {
     (iri: omf#IRI)
     (implicit ops: OMFOps[omf])
     : Option[omf#Module]
-    = builtInDatatypeModules.find { m => ops.getModuleIRI(m) == iri }
+    = builtInDatatypeModules.find { m => ops.getModuleIRI(m) == iri } orElse
+      builtInImport.flatMap { tbox =>
+        if (ops.getModuleIRI(tbox) == iri)
+          Some(tbox)
+        else
+          None
+      }
+
+    def lookupBuiltInModuleByUUID
+    (uuid: ModuleUUID)
+    (implicit ops: OMFOps[omf])
+    : Option[omf#Module]
+    = builtInDatatypeModules.find { m => ops.getModuleUUID(m) == uuid } orElse
+      builtInImport.flatMap { tbox =>
+        if (ops.getModuleUUID(tbox) == uuid)
+          Some(tbox)
+        else
+          None
+      }
 
     def isBuiltInModule
     (iri: omf#IRI)
@@ -203,8 +221,8 @@ object BuiltInDatatypeMaps {
 
   }
 
-  def resolveBuiltInDatatypeMaps[omf <: OMF]
-  (m2i: Mutable2ImmutableModuleTable[omf])
+  def resolveBuiltInDatatypeMaps[omf <: OMF[omf]]
+  (m2i: omf#OntologyMapping)
   (implicit store: omf#Store, ops: OMFOps[omf])
   : Throwables \/ DataRangeCategories[omf]
   = {
@@ -212,7 +230,7 @@ object BuiltInDatatypeMaps {
 
     for {
       xsd_iri <- makeIRI("http://www.w3.org/2001/XMLSchema")
-      xsd <- m2i.getImmutableTerminologyGraph(xsd_iri)
+      xsd <- m2i.getImmutableTerminologyGraph(xsd_iri)(ops)
 
       anyAtomicType <- getDataRange(xsd, localName("anyAtomicType"))
       dcr0 = DataRangeCategories[omf]().withAnyAtomicType(anyAtomicType)
@@ -335,7 +353,7 @@ object BuiltInDatatypeMaps {
       dcr39 = dcr38.withTime(time)
 
       rdfs_iri <- makeIRI("http://www.w3.org/1999/02/22-rdf-syntax-ns")
-      rdfs <- m2i.getImmutableTerminologyGraph(rdfs_iri)
+      rdfs <- m2i.getImmutableTerminologyGraph(rdfs_iri)(ops)
 
       xmlLiteral <- getDataRange(xsd, localName("XMLLiteral"))
       dcr40 = dcr39.withXMLLiteral(xmlLiteral)
@@ -344,7 +362,7 @@ object BuiltInDatatypeMaps {
       dcr41 = dcr40.withPlainLiteral(plainLiteral)
 
       owl_iri <- makeIRI("http://www.w3.org/2002/07/owl")
-      owl <- m2i.getImmutableTerminologyGraph(owl_iri)
+      owl <- m2i.getImmutableTerminologyGraph(owl_iri)(ops)
 
       owl_real <- getDataRange(xsd, localName("real"))
       dcr42 = dcr41.withNumeric(owl_real)
@@ -360,7 +378,7 @@ object BuiltInDatatypeMaps {
     } yield dcr
   }
 
-  def createBuiltInDatatypeMaps[omf <: OMF]
+  def createBuiltInDatatypeMaps[omf <: OMF[omf]]
   (makeW3CTerminologyGraphDefinition: omf#IRI => Throwables \/ omf#MutableTerminologyBox)
   (implicit
    ops: OMFOps[omf],

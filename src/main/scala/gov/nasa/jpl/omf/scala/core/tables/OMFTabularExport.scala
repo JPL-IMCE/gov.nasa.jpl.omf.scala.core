@@ -104,7 +104,7 @@ object Axioms {
   : String @@ Tag
   = covariantTag[Tag][String](uuid.toString)
 
-  def funAspectSpecializationAxiom[omf <: OMF]
+  def funAspectSpecializationAxiom[omf <: OMF[omf]]
   (guuid: tables.taggedTypes.TerminologyBoxUUID, ops: OMFOps[omf], acc: Axioms)
   (ax: omf#AspectSpecializationAxiom)
   : Axioms
@@ -118,7 +118,7 @@ object Axioms {
         superAspectUUID = ops.getAspectUUID(info.sup)))
   }
 
-  def funConceptSpecializationAxiom[omf <: OMF]
+  def funConceptSpecializationAxiom[omf <: OMF[omf]]
   (guuid: tables.taggedTypes.TerminologyBoxUUID, ops: OMFOps[omf], acc: Axioms)
   (ax: omf#ConceptSpecializationAxiom)
   : Axioms
@@ -132,7 +132,7 @@ object Axioms {
         superConceptUUID = ops.getConceptUUID(info.sup)))
   }
 
-  def funReifiedRelationshipSpecializationAxiom[omf <: OMF]
+  def funReifiedRelationshipSpecializationAxiom[omf <: OMF[omf]]
   (guuid: tables.taggedTypes.TerminologyBoxUUID, ops: OMFOps[omf], acc: Axioms)
   (ax: omf#ReifiedRelationshipSpecializationAxiom)
   : Axioms
@@ -146,7 +146,7 @@ object Axioms {
         superRelationshipUUID = ops.getReifiedRelationshipUUID(info.sup)))
   }
 
-  def funSubDataPropertyOfAxiom[omf <: OMF]
+  def funSubDataPropertyOfAxiom[omf <: OMF[omf]]
   (guuid: tables.taggedTypes.TerminologyBoxUUID, ops: OMFOps[omf], acc: Axioms)
   (ax: omf#SubDataPropertyOfAxiom)
   : Axioms
@@ -160,7 +160,7 @@ object Axioms {
         superPropertyUUID = ops.getEntityScalarDataPropertyUUID(info.sup)))
   }
 
-  def funSubObjectPropertyOfAxiom[omf <: OMF]
+  def funSubObjectPropertyOfAxiom[omf <: OMF[omf]]
   (guuid: tables.taggedTypes.TerminologyBoxUUID, ops: OMFOps[omf], acc: Axioms)
   (ax: omf#SubObjectPropertyOfAxiom)
   : Axioms
@@ -174,7 +174,7 @@ object Axioms {
         superPropertyUUID = ops.getUnreifiedRelationshipUUID(info.sup)))
   }
 
-  def funEntityExistentialRestrictionAxiom[omf <: OMF]
+  def funEntityExistentialRestrictionAxiom[omf <: OMF[omf]]
   (guuid: tables.taggedTypes.TerminologyBoxUUID, ops: OMFOps[omf], acc: Axioms)
   (ax: omf#EntityExistentialRestrictionAxiom)
   : Axioms
@@ -189,7 +189,7 @@ object Axioms {
         restrictedRelationshipUUID = ops.getRestrictableRelationshipUUID(info.restrictedRelationship)))
   }
 
-  def funEntityUniversalRestrictionAxiom[omf <: OMF]
+  def funEntityUniversalRestrictionAxiom[omf <: OMF[omf]]
   (guuid: tables.taggedTypes.TerminologyBoxUUID, ops: OMFOps[omf], acc: Axioms)
   (ax: omf#EntityUniversalRestrictionAxiom)
   : Axioms
@@ -204,7 +204,7 @@ object Axioms {
         restrictedRelationshipUUID = ops.getRestrictableRelationshipUUID(info.restrictedRelationship)))
   }
 
-  def funEntityScalarDataPropertyExistentialRestrictionAxiom[omf <: OMF]
+  def funEntityScalarDataPropertyExistentialRestrictionAxiom[omf <: OMF[omf]]
   (guuid: tables.taggedTypes.TerminologyBoxUUID, ops: OMFOps[omf], acc: Axioms)
   (ax: omf#EntityScalarDataPropertyExistentialRestrictionAxiom)
   : Axioms
@@ -219,7 +219,7 @@ object Axioms {
         scalarRestrictionUUID = ops.getDataRangeUUID(info.restrictedRange)))
   }
 
-  def funEntityScalarDataPropertyParticularRestrictionAxiom[omf <: OMF]
+  def funEntityScalarDataPropertyParticularRestrictionAxiom[omf <: OMF[omf]]
   (guuid: tables.taggedTypes.TerminologyBoxUUID, ops: OMFOps[omf], acc: Axioms)
   (ax: omf#EntityScalarDataPropertyParticularRestrictionAxiom)
   : Axioms
@@ -235,7 +235,7 @@ object Axioms {
         valueTypeUUID = info.valueType.map { vt => ops.getDataRangeUUID(vt) }))
   }
 
-  def funEntityScalarDataPropertyUniversalRestrictionAxiom[omf <: OMF]
+  def funEntityScalarDataPropertyUniversalRestrictionAxiom[omf <: OMF[omf]]
   (guuid: tables.taggedTypes.TerminologyBoxUUID, ops: OMFOps[omf], acc: Axioms)
   (ax: omf#EntityScalarDataPropertyUniversalRestrictionAxiom)
   : Axioms
@@ -250,7 +250,7 @@ object Axioms {
         scalarRestrictionUUID = ops.getDataRangeUUID(info.restrictedRange)))
   }
 
-  def funEntityStructuredDataPropertyParticularRestrictionAxiom[omf <: OMF]
+  def funEntityStructuredDataPropertyParticularRestrictionAxiom[omf <: OMF[omf]]
   (guuid: tables.taggedTypes.TerminologyBoxUUID, ops: OMFOps[omf], acc: Axioms)
   (ax: omf#EntityStructuredDataPropertyParticularRestrictionAxiom)
   : Axioms
@@ -264,7 +264,7 @@ object Axioms {
         structuredDataPropertyUUID = ops.getEntityStructuredDataPropertyUUID(info.structuredDataProperty)))
   }
 
-  def funScalarOneOfLiteralAxiom[omf <: OMF]
+  def funScalarOneOfLiteralAxiom[omf <: OMF[omf]]
   (guuid: tables.taggedTypes.TerminologyBoxUUID, ops: OMFOps[omf], acc: Axioms)
   (ax: omf#ScalarOneOfLiteralAxiom)
   : Axioms
@@ -279,7 +279,7 @@ object Axioms {
         valueTypeUUID = info.valueType.map { vt => ops.getDataRangeUUID(vt) }))
   }
 
-  def combine[omf <: OMF]
+  def combine[omf <: OMF[omf]]
   (guuid: tables.taggedTypes.TerminologyBoxUUID, ops: OMFOps[omf])
   (acc: Axioms,
    ax: omf#Axiom)
@@ -357,7 +357,7 @@ object OMFTabularExport {
     else 1
   }
 
-  def toTables[omf <: OMF]
+  def toTables[omf <: OMF[omf]]
   (ims: Seq[omf#ImmutableModule])
   (implicit store: omf#Store, ops: OMFOps[omf])
   : Throwables \/ Seq[(omf#ImmutableModule, oml.tables.OMLSpecificationTables)]

@@ -21,7 +21,7 @@ package gov.nasa.jpl.omf.scala.core
 import gov.nasa.jpl.imce.oml.resolver
 import gov.nasa.jpl.imce.oml.tables.taggedTypes
 
-case class StructuredDataPropertySignature[omf <: OMF]
+case class StructuredDataPropertySignature[omf <: OMF[omf]]
 ( uuid: resolver.api.taggedTypes.StructuredDataPropertyUUID,
   name: taggedTypes.LocalName,
   iri: omf#IRI,

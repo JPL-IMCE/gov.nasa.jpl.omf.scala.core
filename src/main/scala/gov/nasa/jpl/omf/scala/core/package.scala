@@ -25,22 +25,23 @@ import gov.nasa.jpl.imce.oml.tables.AnnotationProperty
 import scala.{Int,Ordering,None,Some}
 import scala.collection.immutable._
 import scala.Predef.{ArrowAssoc,String}
+import scalaz._
 
 /**
   * Ontological Modeling Framework API
   */
 package object core {
 
-  type ImmutableTerminologyBoxSignature[omf <: OMF] =
+  type ImmutableTerminologyBoxSignature[omf <: OMF[omf]] =
     TerminologyBoxSignature[omf, scala.collection.immutable.Set]
 
-  type MutableTerminologyBoxSignature[omf <: OMF] =
+  type MutableTerminologyBoxSignature[omf <: OMF[omf]] =
     TerminologyBoxSignature[omf, scala.collection.mutable.HashSet]
 
-  type ImmutableDescriptionBoxSignature[omf <: OMF] =
+  type ImmutableDescriptionBoxSignature[omf <: OMF[omf]] =
     DescriptionBoxSignature[omf, scala.collection.immutable.Set]
 
-  type MutableDescriptionBoxSignature[omf <: OMF] =
+  type MutableDescriptionBoxSignature[omf <: OMF[omf]] =
     DescriptionBoxSignature[omf, scala.collection.mutable.HashSet]
 
   implicit def annotationPropertyOrdering
@@ -87,69 +88,74 @@ package object core {
   : UUID
   = generateUUIDFromString(parentUUID.toString, factors.map(f => f._1 -> f._2.toString) : _*)
 
-  def importedTerminologies[omf <: OMF]
+  def importedTerminologies[omf <: OMF[omf]]
   (m: omf#Module)
   ( implicit ops: OMFOps[omf], store: omf#Store )
-  : Set[omf#TerminologyBox]
-  = ops.foldModule[Set[omf#TerminologyBox]](
+  : OMFError.Throwables \/ Set[omf#TerminologyBox]
+  = ops.foldModule[OMFError.Throwables \/ Set[omf#TerminologyBox]](
     funImmutableTerminologyGraph =
       (ig: omf#ImmutableTerminologyGraph) =>
-        ops.immutableTerminologyGraphSignature(ig).importedTerminologies,
+        ops.lookupTerminologyBoxes(ops.immutableTerminologyGraphSignature(ig).importedTerminologies),
     funMutableTerminologyGraph =
       (ig: omf#MutableTerminologyGraph) =>
-        ops.mutableTerminologyGraphSignature(ig).importedTerminologies,
+        ops.lookupTerminologyBoxes(ops.mutableTerminologyGraphSignature(ig).importedTerminologies),
     funImmutableTerminologyBundle =
       (ib: omf#ImmutableBundle) =>
-        ops.immutableBundleSignature(ib).importedTerminologies,
+        ops.lookupTerminologyBoxes(ops.immutableBundleSignature(ib).importedTerminologies),
     funMutableTerminologyBundle =
       (ib: omf#MutableBundle) =>
-        ops.mutableBundleSignature(ib).importedTerminologies,
+        ops.lookupTerminologyBoxes(ops.mutableBundleSignature(ib).importedTerminologies),
     funImmutableDescriptionBox =
       (id: omf#ImmutableDescriptionBox) =>
-        ops.immutableDescriptionBoxSignature(id).importedTerminologies,
+        ops.lookupTerminologyBoxes(ops.immutableDescriptionBoxSignature(id).importedTerminologies),
     funMutableDescriptionBox =
       (id: omf#MutableDescriptionBox) =>
-        ops.mutableDescriptionBoxSignature(id).importedTerminologies
+        ops.lookupTerminologyBoxes(ops.mutableDescriptionBoxSignature(id).importedTerminologies)
   )(m)
 
-  def importedDescriptions[omf <: OMF]
+  def importedDescriptions[omf <: OMF[omf]]
   (m: omf#Module)
   ( implicit ops: OMFOps[omf], store: omf#Store )
-  : Set[omf#DescriptionBox]
-  = ops.foldModule[Set[omf#DescriptionBox]](
+  : OMFError.Throwables \/ Set[omf#DescriptionBox]
+  = ops.foldModule[OMFError.Throwables \/ Set[omf#DescriptionBox]](
     funImmutableTerminologyGraph =
       (_: omf#ImmutableTerminologyGraph) =>
-        Set.empty[omf#DescriptionBox],
+        \/-(Set.empty[omf#DescriptionBox]),
     funMutableTerminologyGraph =
       (_: omf#MutableTerminologyGraph) =>
-        Set.empty[omf#DescriptionBox],
+        \/-(Set.empty[omf#DescriptionBox]),
     funImmutableTerminologyBundle =
       (_: omf#ImmutableBundle) =>
-        Set.empty[omf#DescriptionBox],
+        \/-(Set.empty[omf#DescriptionBox]),
     funMutableTerminologyBundle =
       (_: omf#MutableBundle) =>
-        Set.empty[omf#DescriptionBox],
+        \/-(Set.empty[omf#DescriptionBox]),
     funImmutableDescriptionBox =
       (id: omf#ImmutableDescriptionBox) =>
-        ops.immutableDescriptionBoxSignature(id).importedDescriptions,
+        ops.lookupDescriptionBoxes(ops.immutableDescriptionBoxSignature(id).importedDescriptions),
     funMutableDescriptionBox =
       (id: omf#MutableDescriptionBox) =>
-        ops.mutableDescriptionBoxSignature(id).importedDescriptions
+        ops.lookupDescriptionBoxes(ops.mutableDescriptionBoxSignature(id).importedDescriptions)
   )(m)
 
-  def terminologyBoxImportClosure[omf <: OMF]
+  def terminologyBoxImportClosure[omf <: OMF[omf]]
   ( m: omf#Module )
   ( implicit ops: OMFOps[omf], store: omf#Store )
   : Set[omf#TerminologyBox] = {
 
     def step
     (mi: omf#Module)
-    : Set[omf#TerminologyBox]
+    : OMFError.Throwables \/ Set[omf#TerminologyBox]
     = importedTerminologies(mi)
 
     val result
     : Set[omf#TerminologyBox]
-    = OMFOps.closure[omf#Module, omf#TerminologyBox](m, step)
+    = OMFOps.closureCheck[omf#Module, omf#TerminologyBox](m, step) match {
+      case \/-(cls) =>
+        cls
+      case -\/(errors) =>
+        throw errors.head
+    }
 
     ops.toTerminologyBox(m) match {
       case Some(t) =>
@@ -159,19 +165,24 @@ package object core {
     }
   }
 
-  def descriptionBoxImportClosure[omf <: OMF]
+  def descriptionBoxImportClosure[omf <: OMF[omf]]
   ( m: omf#Module )
   ( implicit ops: OMFOps[omf], store: omf#Store )
   : Set[omf#DescriptionBox] = {
 
     def step
     (mi: omf#Module)
-    : Set[omf#DescriptionBox]
+    : OMFError.Throwables \/ Set[omf#DescriptionBox]
     = importedDescriptions(mi)
 
     val result
     : Set[omf#DescriptionBox]
-    = OMFOps.closure[omf#Module, omf#DescriptionBox](m, step)
+    = OMFOps.closureCheck[omf#Module, omf#DescriptionBox](m, step) match {
+      case \/-(cls) =>
+        cls
+      case -\/(errors) =>
+        throw errors.head
+    }
 
     ops.toDescriptionBox(m) match {
       case Some(d) =>

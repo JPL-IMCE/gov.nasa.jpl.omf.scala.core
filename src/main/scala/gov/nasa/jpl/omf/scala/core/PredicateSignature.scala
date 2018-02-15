@@ -20,6 +20,6 @@ package gov.nasa.jpl.omf.scala.core
 import gov.nasa.jpl.imce.oml.resolver
 import gov.nasa.jpl.imce.oml.tables.taggedTypes
 
-case class PredicateSignature[omf <: OMF]
+case class PredicateSignature[omf <: OMF[omf]]
 (uuid: resolver.api.taggedTypes.PredicateUUID,
  name: taggedTypes.LocalName)

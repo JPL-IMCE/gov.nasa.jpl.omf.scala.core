@@ -21,7 +21,7 @@ package gov.nasa.jpl.omf.scala.core
 import gov.nasa.jpl.imce.oml.resolver
 import gov.nasa.jpl.imce.oml.tables.taggedTypes
 
-case class ChainRuleSignature[omf <: OMF]
+case class ChainRuleSignature[omf <: OMF[omf]]
 (name: taggedTypes.LocalName,
  uuid: resolver.api.taggedTypes.ChainRuleUUID,
  head: omf#UnreifiedRelationship)
