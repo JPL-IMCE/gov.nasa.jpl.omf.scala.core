@@ -148,18 +148,18 @@
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
     </li><li name="gov.nasa.jpl.omf.scala.core.OMFOps#apply" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="apply[omf&lt;:gov.nasa.jpl.omf.scala.core.OMF](implicitops:gov.nasa.jpl.omf.scala.core.OMFOps[omf]):gov.nasa.jpl.omf.scala.core.OMFOps[omf]"></a>
-      <a id="apply[omf&lt;:OMF](OMFOps[omf]):OMFOps[omf]"></a>
+      <a id="apply[omf&lt;:gov.nasa.jpl.omf.scala.core.OMF[omf]](implicitops:gov.nasa.jpl.omf.scala.core.OMFOps[omf]):gov.nasa.jpl.omf.scala.core.OMFOps[omf]"></a>
+      <a id="apply[omf&lt;:OMF[omf]](OMFOps[omf]):OMFOps[omf]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">apply</span><span class="tparams">[<span name="omf">omf &lt;: <a href="OMF.html" class="extype" name="gov.nasa.jpl.omf.scala.core.OMF">OMF</a></span>]</span><span class="params">(<span class="implicit">implicit </span><span name="ops">ops: <a href="OMFOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps">OMFOps</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps.apply.omf">omf</span>]</span>)</span><span class="result">: <a href="OMFOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps">OMFOps</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps.apply.omf">omf</span>]</span>
+        <span class="name">apply</span><span class="tparams">[<span name="omf">omf &lt;: <a href="OMF.html" class="extype" name="gov.nasa.jpl.omf.scala.core.OMF">OMF</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps.apply.omf">omf</span>]</span>]</span><span class="params">(<span class="implicit">implicit </span><span name="ops">ops: <a href="OMFOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps">OMFOps</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps.apply.omf">omf</span>]</span>)</span><span class="result">: <a href="OMFOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps">OMFOps</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps.apply.omf">omf</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFOps$@apply[omf&lt;:gov.nasa.jpl.omf.scala.core.OMF](implicitops:gov.nasa.jpl.omf.scala.core.OMFOps[omf]):gov.nasa.jpl.omf.scala.core.OMFOps[omf]" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFOps$@apply[omf&lt;:gov.nasa.jpl.omf.scala.core.OMF[omf]](implicitops:gov.nasa.jpl.omf.scala.core.OMFOps[omf]):gov.nasa.jpl.omf.scala.core.OMFOps[omf]" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -221,6 +221,23 @@
       </a>
     </span>
       <p class="shortcomment cmt"></p><div class="fullcomment"><div class="comment cmt"></div><dl class="paramcmts block"><dt class="param">x</dt><dd class="cmt"><p>initial object of type U</p></dd><dt class="param">relation</dt><dd class="cmt"><p>a function from U to V</p></dd><dt>returns</dt><dd class="cmt"><p>the closure, f(x)+, i.e., f(x), f(f(x)), f(f(f(x))), ...</p></dd></dl><dl class="attributes block"> <dt>To do</dt><dd><span class="cmt"><p>a stream-based closure method</p></span></dd></dl></div>
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMFOps#closureCheck" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
+      <a id="closureCheck[U,V&lt;:U](x:U,relation:U=&gt;scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,scala.collection.immutable.Iterable[V]]):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,scala.collection.immutable.Set[V]]"></a>
+      <a id="closureCheck[U,V&lt;:U](U,(U)⇒\/[Throwables,Iterable[V]]):\/[Throwables,Set[V]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">closureCheck</span><span class="tparams">[<span name="U">U</span>, <span name="V">V &lt;: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps.closureCheck.U">U</span></span>]</span><span class="params">(<span name="x">x: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps.closureCheck.U">U</span></span>, <span name="relation">relation: (<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps.closureCheck.U">U</span>) ⇒ <span class="extype" name="scalaz.\/">\/</span>[<a href="OMFError$.html#Throwables=scala.collection.immutable.Set[Throwable]" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFError.Throwables">Throwables</a>, <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.collection.immutable.Iterable" class="extype" target="_top">Iterable</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps.closureCheck.V">V</span>]]</span>)</span><span class="result">: <span class="extype" name="scalaz.\/">\/</span>[<a href="OMFError$.html#Throwables=scala.collection.immutable.Set[Throwable]" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFError.Throwables">Throwables</a>, <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.collection.immutable.Set" class="extype" target="_top">Set</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps.closureCheck.V">V</span>]]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFOps$@closureCheck[U,V&lt;:U](x:U,relation:U=&gt;scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,scala.collection.immutable.Iterable[V]]):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,scala.collection.immutable.Set[V]]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
     </li><li name="scala.AnyRef#eq" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="eq(x$1:AnyRef):Boolean"></a>
       <a id="eq(AnyRef):Boolean"></a>

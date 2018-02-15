@@ -47,7 +47,7 @@
         <span class="kind">trait</span>
       </span>
       <span class="symbol">
-        <span class="name">OMFOps</span><span class="tparams">[<span name="omf">omf &lt;: <a href="OMF.html" class="extype" name="gov.nasa.jpl.omf.scala.core.OMF">OMF</a></span>]</span><span class="result"> extends <a href="IRIOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.IRIOps">IRIOps</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps.omf">omf</span>] with <a href="MutableTerminologyGraphOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.MutableTerminologyGraphOps">MutableTerminologyGraphOps</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps.omf">omf</span>] with <a href="MutableDescriptionBoxOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.MutableDescriptionBoxOps">MutableDescriptionBoxOps</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps.omf">omf</span>] with <a href="OMFStoreOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.OMFStoreOps">OMFStoreOps</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps.omf">omf</span>]</span>
+        <span class="name">OMFOps</span><span class="tparams">[<span name="omf">omf &lt;: <a href="OMF.html" class="extype" name="gov.nasa.jpl.omf.scala.core.OMF">OMF</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps.omf">omf</span>]</span>]</span><span class="result"> extends <a href="IRIOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.IRIOps">IRIOps</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps.omf">omf</span>] with <a href="MutableTerminologyGraphOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.MutableTerminologyGraphOps">MutableTerminologyGraphOps</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps.omf">omf</span>] with <a href="MutableDescriptionBoxOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.MutableDescriptionBoxOps">MutableDescriptionBoxOps</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps.omf">omf</span>] with <a href="OMFStoreOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.OMFStoreOps">OMFStoreOps</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps.omf">omf</span>]</span>
       </span>
       </h4>
       
@@ -1092,18 +1092,18 @@
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="OMFStoreOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.OMFStoreOps">OMFStoreOps</a></dd></dl></div>
     </li><li name="gov.nasa.jpl.omf.scala.core.OMFStoreOps#asImmutableModule" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
-      <a id="asImmutableModule(m:omf#MutableModule,m2i:gov.nasa.jpl.omf.scala.core.Mutable2ImmutableModuleTable[omf])(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,(omf#ImmutableModule,gov.nasa.jpl.omf.scala.core.Mutable2ImmutableModuleTable[omf])]"></a>
-      <a id="asImmutableModule(omf.MutableModule,Mutable2ImmutableModuleTable[omf])(omf.Store):\/[Throwables,(omf.ImmutableModule,Mutable2ImmutableModuleTable[omf])]"></a>
+      <a id="asImmutableModule(m:omf#MutableModule,m2i:omf#OntologyMapping)(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,(omf#ImmutableModule,omf#OntologyMapping)]"></a>
+      <a id="asImmutableModule(omf.MutableModule,omf.OntologyMapping)(omf.Store):\/[Throwables,(omf.ImmutableModule,omf.OntologyMapping)]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">abstract </span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">asImmutableModule</span><span class="params">(<span name="m">m: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFcbox.MutableModule">omf.MutableModule</span></span>, <span name="m2i">m2i: <a href="Mutable2ImmutableModuleTable.html" class="extype" name="gov.nasa.jpl.omf.scala.core.Mutable2ImmutableModuleTable">Mutable2ImmutableModuleTable</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps.omf">omf</span>]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <span class="extype" name="scalaz.\/">\/</span>[<a href="OMFError$.html#Throwables=scala.collection.immutable.Set[Throwable]" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFError.Throwables">Throwables</a>, (<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFcbox.ImmutableModule">omf.ImmutableModule</span>, <a href="Mutable2ImmutableModuleTable.html" class="extype" name="gov.nasa.jpl.omf.scala.core.Mutable2ImmutableModuleTable">Mutable2ImmutableModuleTable</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps.omf">omf</span>])]</span>
+        <span class="name">asImmutableModule</span><span class="params">(<span name="m">m: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFcbox.MutableModule">omf.MutableModule</span></span>, <span name="m2i">m2i: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMF.OntologyMapping">omf.OntologyMapping</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <span class="extype" name="scalaz.\/">\/</span>[<a href="OMFError$.html#Throwables=scala.collection.immutable.Set[Throwable]" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFError.Throwables">Throwables</a>, (<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFcbox.ImmutableModule">omf.ImmutableModule</span>, <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMF.OntologyMapping">omf.OntologyMapping</span>)]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFOps@asImmutableModule(m:omf#MutableModule,m2i:gov.nasa.jpl.omf.scala.core.Mutable2ImmutableModuleTable[omf])(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,(omf#ImmutableModule,gov.nasa.jpl.omf.scala.core.Mutable2ImmutableModuleTable[omf])]" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFOps@asImmutableModule(m:omf#MutableModule,m2i:omf#OntologyMapping)(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,(omf#ImmutableModule,omf#OntologyMapping)]" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -1678,7 +1678,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">fromImmutableDescriptionBox</span><span class="params">(<span name="dbox">dbox: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFdbox.ImmutableDescriptionBox">omf.ImmutableDescriptionBox</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <a href="package.html#ImmutableDescriptionBoxSignature[omf&lt;:gov.nasa.jpl.omf.scala.core.OMF]=gov.nasa.jpl.omf.scala.core.DescriptionBoxSignature[omf,scala.collection.immutable.Set]" class="extmbr" name="gov.nasa.jpl.omf.scala.core.ImmutableDescriptionBoxSignature">ImmutableDescriptionBoxSignature</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps.omf">omf</span>]</span>
+        <span class="name">fromImmutableDescriptionBox</span><span class="params">(<span name="dbox">dbox: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFdbox.ImmutableDescriptionBox">omf.ImmutableDescriptionBox</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <a href="package.html#ImmutableDescriptionBoxSignature[omf&lt;:gov.nasa.jpl.omf.scala.core.OMF[omf]]=gov.nasa.jpl.omf.scala.core.DescriptionBoxSignature[omf,scala.collection.immutable.Set]" class="extmbr" name="gov.nasa.jpl.omf.scala.core.ImmutableDescriptionBoxSignature">ImmutableDescriptionBoxSignature</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps.omf">omf</span>]</span>
       </span>
       </h4><span class="permalink">
       <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFOps@fromImmutableDescriptionBox(dbox:omf#ImmutableDescriptionBox)(implicitstore:omf#Store):gov.nasa.jpl.omf.scala.core.ImmutableDescriptionBoxSignature[omf]" title="Permalink" target="_top">
@@ -1695,7 +1695,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">fromImmutableTerminology</span><span class="params">(<span name="tbox">tbox: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ImmutableTerminologyBox">omf.ImmutableTerminologyBox</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <a href="package.html#ImmutableTerminologyBoxSignature[omf&lt;:gov.nasa.jpl.omf.scala.core.OMF]=gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature[omf,scala.collection.immutable.Set]" class="extmbr" name="gov.nasa.jpl.omf.scala.core.ImmutableTerminologyBoxSignature">ImmutableTerminologyBoxSignature</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps.omf">omf</span>]</span>
+        <span class="name">fromImmutableTerminology</span><span class="params">(<span name="tbox">tbox: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ImmutableTerminologyBox">omf.ImmutableTerminologyBox</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <a href="package.html#ImmutableTerminologyBoxSignature[omf&lt;:gov.nasa.jpl.omf.scala.core.OMF[omf]]=gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature[omf,scala.collection.immutable.Set]" class="extmbr" name="gov.nasa.jpl.omf.scala.core.ImmutableTerminologyBoxSignature">ImmutableTerminologyBoxSignature</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps.omf">omf</span>]</span>
       </span>
       </h4><span class="permalink">
       <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFOps@fromImmutableTerminology(tbox:omf#ImmutableTerminologyBox)(implicitstore:omf#Store):gov.nasa.jpl.omf.scala.core.ImmutableTerminologyBoxSignature[omf]" title="Permalink" target="_top">
@@ -1712,7 +1712,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">fromMutableDescriptionBox</span><span class="params">(<span name="dbox">dbox: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFdbox.MutableDescriptionBox">omf.MutableDescriptionBox</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <a href="package.html#MutableDescriptionBoxSignature[omf&lt;:gov.nasa.jpl.omf.scala.core.OMF]=gov.nasa.jpl.omf.scala.core.DescriptionBoxSignature[omf,scala.collection.mutable.HashSet]" class="extmbr" name="gov.nasa.jpl.omf.scala.core.MutableDescriptionBoxSignature">MutableDescriptionBoxSignature</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps.omf">omf</span>]</span>
+        <span class="name">fromMutableDescriptionBox</span><span class="params">(<span name="dbox">dbox: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFdbox.MutableDescriptionBox">omf.MutableDescriptionBox</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <a href="package.html#MutableDescriptionBoxSignature[omf&lt;:gov.nasa.jpl.omf.scala.core.OMF[omf]]=gov.nasa.jpl.omf.scala.core.DescriptionBoxSignature[omf,scala.collection.mutable.HashSet]" class="extmbr" name="gov.nasa.jpl.omf.scala.core.MutableDescriptionBoxSignature">MutableDescriptionBoxSignature</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps.omf">omf</span>]</span>
       </span>
       </h4><span class="permalink">
       <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFOps@fromMutableDescriptionBox(dbox:omf#MutableDescriptionBox)(implicitstore:omf#Store):gov.nasa.jpl.omf.scala.core.MutableDescriptionBoxSignature[omf]" title="Permalink" target="_top">
@@ -1729,7 +1729,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">fromMutableTerminology</span><span class="params">(<span name="tbox">tbox: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.MutableTerminologyBox">omf.MutableTerminologyBox</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <a href="package.html#MutableTerminologyBoxSignature[omf&lt;:gov.nasa.jpl.omf.scala.core.OMF]=gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature[omf,scala.collection.mutable.HashSet]" class="extmbr" name="gov.nasa.jpl.omf.scala.core.MutableTerminologyBoxSignature">MutableTerminologyBoxSignature</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps.omf">omf</span>]</span>
+        <span class="name">fromMutableTerminology</span><span class="params">(<span name="tbox">tbox: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.MutableTerminologyBox">omf.MutableTerminologyBox</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <a href="package.html#MutableTerminologyBoxSignature[omf&lt;:gov.nasa.jpl.omf.scala.core.OMF[omf]]=gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature[omf,scala.collection.mutable.HashSet]" class="extmbr" name="gov.nasa.jpl.omf.scala.core.MutableTerminologyBoxSignature">MutableTerminologyBoxSignature</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps.omf">omf</span>]</span>
       </span>
       </h4><span class="permalink">
       <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFOps@fromMutableTerminology(tbox:omf#MutableTerminologyBox)(implicitstore:omf#Store):gov.nasa.jpl.omf.scala.core.MutableTerminologyBoxSignature[omf]" title="Permalink" target="_top">
@@ -3140,7 +3140,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">immutableBundleSignature</span><span class="params">(<span name="ib">ib: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ImmutableBundle">omf.ImmutableBundle</span></span>)</span><span class="result">: <a href="package.html#ImmutableTerminologyBoxSignature[omf&lt;:gov.nasa.jpl.omf.scala.core.OMF]=gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature[omf,scala.collection.immutable.Set]" class="extmbr" name="gov.nasa.jpl.omf.scala.core.ImmutableTerminologyBoxSignature">ImmutableTerminologyBoxSignature</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps.omf">omf</span>]</span>
+        <span class="name">immutableBundleSignature</span><span class="params">(<span name="ib">ib: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ImmutableBundle">omf.ImmutableBundle</span></span>)</span><span class="result">: <a href="package.html#ImmutableTerminologyBoxSignature[omf&lt;:gov.nasa.jpl.omf.scala.core.OMF[omf]]=gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature[omf,scala.collection.immutable.Set]" class="extmbr" name="gov.nasa.jpl.omf.scala.core.ImmutableTerminologyBoxSignature">ImmutableTerminologyBoxSignature</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps.omf">omf</span>]</span>
       </span>
       </h4><span class="permalink">
       <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFOps@immutableBundleSignature(ib:omf#ImmutableBundle):gov.nasa.jpl.omf.scala.core.ImmutableTerminologyBoxSignature[omf]" title="Permalink" target="_top">
@@ -3157,7 +3157,7 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">immutableDescriptionBoxSignature</span><span class="params">(<span name="id">id: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFdbox.ImmutableDescriptionBox">omf.ImmutableDescriptionBox</span></span>)</span><span class="result">: <a href="package.html#ImmutableDescriptionBoxSignature[omf&lt;:gov.nasa.jpl.omf.scala.core.OMF]=gov.nasa.jpl.omf.scala.core.DescriptionBoxSignature[omf,scala.collection.immutable.Set]" class="extmbr" name="gov.nasa.jpl.omf.scala.core.ImmutableDescriptionBoxSignature">ImmutableDescriptionBoxSignature</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps.omf">omf</span>]</span>
+        <span class="name">immutableDescriptionBoxSignature</span><span class="params">(<span name="id">id: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFdbox.ImmutableDescriptionBox">omf.ImmutableDescriptionBox</span></span>)</span><span class="result">: <a href="package.html#ImmutableDescriptionBoxSignature[omf&lt;:gov.nasa.jpl.omf.scala.core.OMF[omf]]=gov.nasa.jpl.omf.scala.core.DescriptionBoxSignature[omf,scala.collection.immutable.Set]" class="extmbr" name="gov.nasa.jpl.omf.scala.core.ImmutableDescriptionBoxSignature">ImmutableDescriptionBoxSignature</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps.omf">omf</span>]</span>
       </span>
       </h4><span class="permalink">
       <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFOps@immutableDescriptionBoxSignature(id:omf#ImmutableDescriptionBox):gov.nasa.jpl.omf.scala.core.ImmutableDescriptionBoxSignature[omf]" title="Permalink" target="_top">
@@ -3174,10 +3174,27 @@
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">immutableTerminologyGraphSignature</span><span class="params">(<span name="ig">ig: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ImmutableTerminologyGraph">omf.ImmutableTerminologyGraph</span></span>)</span><span class="result">: <a href="package.html#ImmutableTerminologyBoxSignature[omf&lt;:gov.nasa.jpl.omf.scala.core.OMF]=gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature[omf,scala.collection.immutable.Set]" class="extmbr" name="gov.nasa.jpl.omf.scala.core.ImmutableTerminologyBoxSignature">ImmutableTerminologyBoxSignature</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps.omf">omf</span>]</span>
+        <span class="name">immutableTerminologyGraphSignature</span><span class="params">(<span name="ig">ig: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ImmutableTerminologyGraph">omf.ImmutableTerminologyGraph</span></span>)</span><span class="result">: <a href="package.html#ImmutableTerminologyBoxSignature[omf&lt;:gov.nasa.jpl.omf.scala.core.OMF[omf]]=gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature[omf,scala.collection.immutable.Set]" class="extmbr" name="gov.nasa.jpl.omf.scala.core.ImmutableTerminologyBoxSignature">ImmutableTerminologyBoxSignature</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps.omf">omf</span>]</span>
       </span>
       </h4><span class="permalink">
       <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFOps@immutableTerminologyGraphSignature(ig:omf#ImmutableTerminologyGraph):gov.nasa.jpl.omf.scala.core.ImmutableTerminologyBoxSignature[omf]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="OMFStoreOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.OMFStoreOps">OMFStoreOps</a></dd></dl></div>
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMFStoreOps#initializeOntologyMapping" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="initializeOntologyMapping(drc:gov.nasa.jpl.omf.scala.core.builtin.BuiltInDatatypeMaps.DataRangeCategories[omf]):omf#OntologyMapping"></a>
+      <a id="initializeOntologyMapping(DataRangeCategories[omf]):omf.OntologyMapping"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">initializeOntologyMapping</span><span class="params">(<span name="drc">drc: <a href="builtin/BuiltInDatatypeMaps$$DataRangeCategories.html" class="extype" name="gov.nasa.jpl.omf.scala.core.builtin.BuiltInDatatypeMaps.DataRangeCategories">DataRangeCategories</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps.omf">omf</span>]</span>)</span><span class="result">: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMF.OntologyMapping">omf.OntologyMapping</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFOps@initializeOntologyMapping(drc:gov.nasa.jpl.omf.scala.core.builtin.BuiltInDatatypeMaps.DataRangeCategories[omf]):omf#OntologyMapping" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -3289,18 +3306,18 @@
 </p><div class="fullcomment"><div class="comment cmt"><p>If supported, load the built-in datatype maps corresponding to OWL, RDFS, XML Schema 1.1 as a terminology graph
 </p></div><dl class="paramcmts block"><dt class="param">store</dt><dd class="cmt"><p>OMF storage provider</p></dd><dt>returns</dt><dd class="cmt"><p>The DataRangeCategories corresponding to the OWL2-DL datatype map.</p></dd></dl><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="OMFStoreOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.OMFStoreOps">OMFStoreOps</a></dd></dl></div>
     </li><li name="gov.nasa.jpl.omf.scala.core.OMFStoreOps#loadModule" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
-      <a id="loadModule(m2i:gov.nasa.jpl.omf.scala.core.Mutable2ImmutableModuleTable[omf],iri:omf#IRI)(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,(omf#ImmutableModule,gov.nasa.jpl.omf.scala.core.Mutable2ImmutableModuleTable[omf])]"></a>
-      <a id="loadModule(Mutable2ImmutableModuleTable[omf],omf.IRI)(omf.Store):\/[Throwables,(omf.ImmutableModule,Mutable2ImmutableModuleTable[omf])]"></a>
+      <a id="loadModule(m2i:omf#OntologyMapping,iri:omf#IRI)(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,(omf#ImmutableModule,omf#OntologyMapping)]"></a>
+      <a id="loadModule(omf.OntologyMapping,omf.IRI)(omf.Store):\/[Throwables,(omf.ImmutableModule,omf.OntologyMapping)]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">abstract </span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">loadModule</span><span class="params">(<span name="m2i">m2i: <a href="Mutable2ImmutableModuleTable.html" class="extype" name="gov.nasa.jpl.omf.scala.core.Mutable2ImmutableModuleTable">Mutable2ImmutableModuleTable</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps.omf">omf</span>]</span>, <span name="iri">iri: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFiri.IRI">omf.IRI</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <span class="extype" name="scalaz.\/">\/</span>[<a href="OMFError$.html#Throwables=scala.collection.immutable.Set[Throwable]" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFError.Throwables">Throwables</a>, (<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFcbox.ImmutableModule">omf.ImmutableModule</span>, <a href="Mutable2ImmutableModuleTable.html" class="extype" name="gov.nasa.jpl.omf.scala.core.Mutable2ImmutableModuleTable">Mutable2ImmutableModuleTable</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps.omf">omf</span>])]</span>
+        <span class="name">loadModule</span><span class="params">(<span name="m2i">m2i: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMF.OntologyMapping">omf.OntologyMapping</span></span>, <span name="iri">iri: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFiri.IRI">omf.IRI</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <span class="extype" name="scalaz.\/">\/</span>[<a href="OMFError$.html#Throwables=scala.collection.immutable.Set[Throwable]" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFError.Throwables">Throwables</a>, (<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFcbox.ImmutableModule">omf.ImmutableModule</span>, <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMF.OntologyMapping">omf.OntologyMapping</span>)]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFOps@loadModule(m2i:gov.nasa.jpl.omf.scala.core.Mutable2ImmutableModuleTable[omf],iri:omf#IRI)(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,(omf#ImmutableModule,gov.nasa.jpl.omf.scala.core.Mutable2ImmutableModuleTable[omf])]" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFOps@loadModule(m2i:omf#OntologyMapping,iri:omf#IRI)(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,(omf#ImmutableModule,omf#OntologyMapping)]" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -3356,6 +3373,23 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="ImmutableTerminologyGraphOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.ImmutableTerminologyGraphOps">ImmutableTerminologyGraphOps</a></dd></dl></div>
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMFStoreOps#lookupDescriptionBox" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="lookupDescriptionBox(iri:omf#IRI)(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,omf#DescriptionBox]"></a>
+      <a id="lookupDescriptionBox(omf.IRI)(omf.Store):\/[Throwables,omf.DescriptionBox]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">lookupDescriptionBox</span><span class="params">(<span name="iri">iri: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFiri.IRI">omf.IRI</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <span class="extype" name="scalaz.\/">\/</span>[<a href="OMFError$.html#Throwables=scala.collection.immutable.Set[Throwable]" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFError.Throwables">Throwables</a>, <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFdbox.DescriptionBox">omf.DescriptionBox</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFOps@lookupDescriptionBox(iri:omf#IRI)(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,omf#DescriptionBox]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="OMFStoreOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.OMFStoreOps">OMFStoreOps</a></dd></dl></div>
     </li><li name="gov.nasa.jpl.omf.scala.core.ImmutableTerminologyGraphOps#lookupEntity" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
       <a id="lookupEntity(tbox:omf#TerminologyBox,iri:omf#IRI,recursively:Boolean)(implicitstore:omf#Store):Option[omf#Entity]"></a>
       <a id="lookupEntity(omf.TerminologyBox,omf.IRI,Boolean)(omf.Store):Option[omf.Entity]"></a>
@@ -3407,6 +3441,23 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="ImmutableTerminologyGraphOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.ImmutableTerminologyGraphOps">ImmutableTerminologyGraphOps</a></dd></dl></div>
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMFStoreOps#lookupModule" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="lookupModule(iri:omf#IRI)(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,omf#Module]"></a>
+      <a id="lookupModule(omf.IRI)(omf.Store):\/[Throwables,omf.Module]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">lookupModule</span><span class="params">(<span name="iri">iri: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFiri.IRI">omf.IRI</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <span class="extype" name="scalaz.\/">\/</span>[<a href="OMFError$.html#Throwables=scala.collection.immutable.Set[Throwable]" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFError.Throwables">Throwables</a>, <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFcbox.Module">omf.Module</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFOps@lookupModule(iri:omf#IRI)(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,omf#Module]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="OMFStoreOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.OMFStoreOps">OMFStoreOps</a></dd></dl></div>
     </li><li name="gov.nasa.jpl.omf.scala.core.ImmutableTerminologyGraphOps#lookupNestingAxiomForNestedChildIfAny" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
       <a id="lookupNestingAxiomForNestedChildIfAny(nestedG:omf#TerminologyBox)(implicitstore:omf#Store):Option[omf#TerminologyNestingAxiom]"></a>
       <a id="lookupNestingAxiomForNestedChildIfAny(omf.TerminologyBox)(omf.Store):Option[omf.TerminologyNestingAxiom]"></a>
@@ -3528,6 +3579,23 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="ImmutableTerminologyGraphOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.ImmutableTerminologyGraphOps">ImmutableTerminologyGraphOps</a></dd></dl></div>
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMFStoreOps#lookupTerminologyBox" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="lookupTerminologyBox(iri:omf#IRI)(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,omf#TerminologyBox]"></a>
+      <a id="lookupTerminologyBox(omf.IRI)(omf.Store):\/[Throwables,omf.TerminologyBox]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">lookupTerminologyBox</span><span class="params">(<span name="iri">iri: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFiri.IRI">omf.IRI</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <span class="extype" name="scalaz.\/">\/</span>[<a href="OMFError$.html#Throwables=scala.collection.immutable.Set[Throwable]" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFError.Throwables">Throwables</a>, <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.TerminologyBox">omf.TerminologyBox</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFOps@lookupTerminologyBox(iri:omf#IRI)(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,omf#TerminologyBox]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="OMFStoreOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.OMFStoreOps">OMFStoreOps</a></dd></dl></div>
     </li><li name="gov.nasa.jpl.omf.scala.core.ImmutableTerminologyGraphOps#lookupUnreifiedRelationship" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
       <a id="lookupUnreifiedRelationship(tbox:omf#TerminologyBox,iri:omf#IRI,recursively:Boolean)(implicitstore:omf#Store):Option[omf#UnreifiedRelationship]"></a>
       <a id="lookupUnreifiedRelationship(omf.TerminologyBox,omf.IRI,Boolean)(omf.Store):Option[omf.UnreifiedRelationship]"></a>
@@ -3676,7 +3744,7 @@ via <code>addTerminologyGraphExtension</code>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">mutableBundleSignature</span><span class="params">(<span name="mb">mb: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.MutableBundle">omf.MutableBundle</span></span>)</span><span class="result">: <a href="package.html#MutableTerminologyBoxSignature[omf&lt;:gov.nasa.jpl.omf.scala.core.OMF]=gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature[omf,scala.collection.mutable.HashSet]" class="extmbr" name="gov.nasa.jpl.omf.scala.core.MutableTerminologyBoxSignature">MutableTerminologyBoxSignature</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps.omf">omf</span>]</span>
+        <span class="name">mutableBundleSignature</span><span class="params">(<span name="mb">mb: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.MutableBundle">omf.MutableBundle</span></span>)</span><span class="result">: <a href="package.html#MutableTerminologyBoxSignature[omf&lt;:gov.nasa.jpl.omf.scala.core.OMF[omf]]=gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature[omf,scala.collection.mutable.HashSet]" class="extmbr" name="gov.nasa.jpl.omf.scala.core.MutableTerminologyBoxSignature">MutableTerminologyBoxSignature</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps.omf">omf</span>]</span>
       </span>
       </h4><span class="permalink">
       <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFOps@mutableBundleSignature(mb:omf#MutableBundle):gov.nasa.jpl.omf.scala.core.MutableTerminologyBoxSignature[omf]" title="Permalink" target="_top">
@@ -3693,7 +3761,7 @@ via <code>addTerminologyGraphExtension</code>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">mutableDescriptionBoxSignature</span><span class="params">(<span name="md">md: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFdbox.MutableDescriptionBox">omf.MutableDescriptionBox</span></span>)</span><span class="result">: <a href="package.html#MutableDescriptionBoxSignature[omf&lt;:gov.nasa.jpl.omf.scala.core.OMF]=gov.nasa.jpl.omf.scala.core.DescriptionBoxSignature[omf,scala.collection.mutable.HashSet]" class="extmbr" name="gov.nasa.jpl.omf.scala.core.MutableDescriptionBoxSignature">MutableDescriptionBoxSignature</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps.omf">omf</span>]</span>
+        <span class="name">mutableDescriptionBoxSignature</span><span class="params">(<span name="md">md: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFdbox.MutableDescriptionBox">omf.MutableDescriptionBox</span></span>)</span><span class="result">: <a href="package.html#MutableDescriptionBoxSignature[omf&lt;:gov.nasa.jpl.omf.scala.core.OMF[omf]]=gov.nasa.jpl.omf.scala.core.DescriptionBoxSignature[omf,scala.collection.mutable.HashSet]" class="extmbr" name="gov.nasa.jpl.omf.scala.core.MutableDescriptionBoxSignature">MutableDescriptionBoxSignature</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps.omf">omf</span>]</span>
       </span>
       </h4><span class="permalink">
       <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFOps@mutableDescriptionBoxSignature(md:omf#MutableDescriptionBox):gov.nasa.jpl.omf.scala.core.MutableDescriptionBoxSignature[omf]" title="Permalink" target="_top">
@@ -3710,7 +3778,7 @@ via <code>addTerminologyGraphExtension</code>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">mutableTerminologyGraphSignature</span><span class="params">(<span name="mg">mg: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.MutableTerminologyGraph">omf.MutableTerminologyGraph</span></span>)</span><span class="result">: <a href="package.html#MutableTerminologyBoxSignature[omf&lt;:gov.nasa.jpl.omf.scala.core.OMF]=gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature[omf,scala.collection.mutable.HashSet]" class="extmbr" name="gov.nasa.jpl.omf.scala.core.MutableTerminologyBoxSignature">MutableTerminologyBoxSignature</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps.omf">omf</span>]</span>
+        <span class="name">mutableTerminologyGraphSignature</span><span class="params">(<span name="mg">mg: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.MutableTerminologyGraph">omf.MutableTerminologyGraph</span></span>)</span><span class="result">: <a href="package.html#MutableTerminologyBoxSignature[omf&lt;:gov.nasa.jpl.omf.scala.core.OMF[omf]]=gov.nasa.jpl.omf.scala.core.TerminologyBoxSignature[omf,scala.collection.mutable.HashSet]" class="extmbr" name="gov.nasa.jpl.omf.scala.core.MutableTerminologyBoxSignature">MutableTerminologyBoxSignature</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps.omf">omf</span>]</span>
       </span>
       </h4><span class="permalink">
       <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFOps@mutableTerminologyGraphSignature(mg:omf#MutableTerminologyGraph):gov.nasa.jpl.omf.scala.core.MutableTerminologyBoxSignature[omf]" title="Permalink" target="_top">
@@ -5144,69 +5212,69 @@ with a version 5 UUID based on the <code>graph</code> IRI and <code>unreifiedRel
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="MutableTerminologyGraphOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.MutableTerminologyGraphOps">MutableTerminologyGraphOps</a></dd></dl></div>
     </li><li name="gov.nasa.jpl.omf.scala.core.OMFStoreOps#asImmutableBundle" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="asImmutableBundle(m:omf#MutableModule,m2i:gov.nasa.jpl.omf.scala.core.Mutable2ImmutableModuleTable[omf])(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,(omf#ImmutableBundle,gov.nasa.jpl.omf.scala.core.Mutable2ImmutableModuleTable[omf])]"></a>
-      <a id="asImmutableBundle(omf.MutableModule,Mutable2ImmutableModuleTable[omf])(omf.Store):\/[Throwables,(omf.ImmutableBundle,Mutable2ImmutableModuleTable[omf])]"></a>
+      <a id="asImmutableBundle(m:omf#MutableModule,m2i:omf#OntologyMapping)(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,(omf#ImmutableBundle,omf#OntologyMapping)]"></a>
+      <a id="asImmutableBundle(omf.MutableModule,omf.OntologyMapping)(omf.Store):\/[Throwables,(omf.ImmutableBundle,omf.OntologyMapping)]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">final </span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">asImmutableBundle</span><span class="params">(<span name="m">m: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFcbox.MutableModule">omf.MutableModule</span></span>, <span name="m2i">m2i: <a href="Mutable2ImmutableModuleTable.html" class="extype" name="gov.nasa.jpl.omf.scala.core.Mutable2ImmutableModuleTable">Mutable2ImmutableModuleTable</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps.omf">omf</span>]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <span class="extype" name="scalaz.\/">\/</span>[<a href="OMFError$.html#Throwables=scala.collection.immutable.Set[Throwable]" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFError.Throwables">Throwables</a>, (<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ImmutableBundle">omf.ImmutableBundle</span>, <a href="Mutable2ImmutableModuleTable.html" class="extype" name="gov.nasa.jpl.omf.scala.core.Mutable2ImmutableModuleTable">Mutable2ImmutableModuleTable</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps.omf">omf</span>])]</span>
+        <span class="name">asImmutableBundle</span><span class="params">(<span name="m">m: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFcbox.MutableModule">omf.MutableModule</span></span>, <span name="m2i">m2i: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMF.OntologyMapping">omf.OntologyMapping</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <span class="extype" name="scalaz.\/">\/</span>[<a href="OMFError$.html#Throwables=scala.collection.immutable.Set[Throwable]" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFError.Throwables">Throwables</a>, (<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ImmutableBundle">omf.ImmutableBundle</span>, <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMF.OntologyMapping">omf.OntologyMapping</span>)]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFOps@asImmutableBundle(m:omf#MutableModule,m2i:gov.nasa.jpl.omf.scala.core.Mutable2ImmutableModuleTable[omf])(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,(omf#ImmutableBundle,gov.nasa.jpl.omf.scala.core.Mutable2ImmutableModuleTable[omf])]" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFOps@asImmutableBundle(m:omf#MutableModule,m2i:omf#OntologyMapping)(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,(omf#ImmutableBundle,omf#OntologyMapping)]" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="OMFStoreOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.OMFStoreOps">OMFStoreOps</a></dd></dl></div>
     </li><li name="gov.nasa.jpl.omf.scala.core.OMFStoreOps#asImmutableDescription" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="asImmutableDescription(m:omf#MutableModule,m2i:gov.nasa.jpl.omf.scala.core.Mutable2ImmutableModuleTable[omf])(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,(omf#ImmutableDescriptionBox,gov.nasa.jpl.omf.scala.core.Mutable2ImmutableModuleTable[omf])]"></a>
-      <a id="asImmutableDescription(omf.MutableModule,Mutable2ImmutableModuleTable[omf])(omf.Store):\/[Throwables,(omf.ImmutableDescriptionBox,Mutable2ImmutableModuleTable[omf])]"></a>
+      <a id="asImmutableDescription(m:omf#MutableModule,m2i:omf#OntologyMapping)(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,(omf#ImmutableDescriptionBox,omf#OntologyMapping)]"></a>
+      <a id="asImmutableDescription(omf.MutableModule,omf.OntologyMapping)(omf.Store):\/[Throwables,(omf.ImmutableDescriptionBox,omf.OntologyMapping)]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">final </span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">asImmutableDescription</span><span class="params">(<span name="m">m: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFcbox.MutableModule">omf.MutableModule</span></span>, <span name="m2i">m2i: <a href="Mutable2ImmutableModuleTable.html" class="extype" name="gov.nasa.jpl.omf.scala.core.Mutable2ImmutableModuleTable">Mutable2ImmutableModuleTable</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps.omf">omf</span>]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <span class="extype" name="scalaz.\/">\/</span>[<a href="OMFError$.html#Throwables=scala.collection.immutable.Set[Throwable]" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFError.Throwables">Throwables</a>, (<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFdbox.ImmutableDescriptionBox">omf.ImmutableDescriptionBox</span>, <a href="Mutable2ImmutableModuleTable.html" class="extype" name="gov.nasa.jpl.omf.scala.core.Mutable2ImmutableModuleTable">Mutable2ImmutableModuleTable</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps.omf">omf</span>])]</span>
+        <span class="name">asImmutableDescription</span><span class="params">(<span name="m">m: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFcbox.MutableModule">omf.MutableModule</span></span>, <span name="m2i">m2i: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMF.OntologyMapping">omf.OntologyMapping</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <span class="extype" name="scalaz.\/">\/</span>[<a href="OMFError$.html#Throwables=scala.collection.immutable.Set[Throwable]" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFError.Throwables">Throwables</a>, (<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFdbox.ImmutableDescriptionBox">omf.ImmutableDescriptionBox</span>, <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMF.OntologyMapping">omf.OntologyMapping</span>)]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFOps@asImmutableDescription(m:omf#MutableModule,m2i:gov.nasa.jpl.omf.scala.core.Mutable2ImmutableModuleTable[omf])(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,(omf#ImmutableDescriptionBox,gov.nasa.jpl.omf.scala.core.Mutable2ImmutableModuleTable[omf])]" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFOps@asImmutableDescription(m:omf#MutableModule,m2i:omf#OntologyMapping)(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,(omf#ImmutableDescriptionBox,omf#OntologyMapping)]" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="OMFStoreOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.OMFStoreOps">OMFStoreOps</a></dd></dl></div>
     </li><li name="gov.nasa.jpl.omf.scala.core.OMFStoreOps#asImmutableTerminologyBox" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="asImmutableTerminologyBox(m:omf#MutableModule,m2i:gov.nasa.jpl.omf.scala.core.Mutable2ImmutableModuleTable[omf])(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,(omf#ImmutableTerminologyBox,gov.nasa.jpl.omf.scala.core.Mutable2ImmutableModuleTable[omf])]"></a>
-      <a id="asImmutableTerminologyBox(omf.MutableModule,Mutable2ImmutableModuleTable[omf])(omf.Store):\/[Throwables,(omf.ImmutableTerminologyBox,Mutable2ImmutableModuleTable[omf])]"></a>
+      <a id="asImmutableTerminologyBox(m:omf#MutableModule,m2i:omf#OntologyMapping)(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,(omf#ImmutableTerminologyBox,omf#OntologyMapping)]"></a>
+      <a id="asImmutableTerminologyBox(omf.MutableModule,omf.OntologyMapping)(omf.Store):\/[Throwables,(omf.ImmutableTerminologyBox,omf.OntologyMapping)]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">final </span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">asImmutableTerminologyBox</span><span class="params">(<span name="m">m: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFcbox.MutableModule">omf.MutableModule</span></span>, <span name="m2i">m2i: <a href="Mutable2ImmutableModuleTable.html" class="extype" name="gov.nasa.jpl.omf.scala.core.Mutable2ImmutableModuleTable">Mutable2ImmutableModuleTable</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps.omf">omf</span>]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <span class="extype" name="scalaz.\/">\/</span>[<a href="OMFError$.html#Throwables=scala.collection.immutable.Set[Throwable]" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFError.Throwables">Throwables</a>, (<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ImmutableTerminologyBox">omf.ImmutableTerminologyBox</span>, <a href="Mutable2ImmutableModuleTable.html" class="extype" name="gov.nasa.jpl.omf.scala.core.Mutable2ImmutableModuleTable">Mutable2ImmutableModuleTable</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps.omf">omf</span>])]</span>
+        <span class="name">asImmutableTerminologyBox</span><span class="params">(<span name="m">m: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFcbox.MutableModule">omf.MutableModule</span></span>, <span name="m2i">m2i: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMF.OntologyMapping">omf.OntologyMapping</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <span class="extype" name="scalaz.\/">\/</span>[<a href="OMFError$.html#Throwables=scala.collection.immutable.Set[Throwable]" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFError.Throwables">Throwables</a>, (<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ImmutableTerminologyBox">omf.ImmutableTerminologyBox</span>, <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMF.OntologyMapping">omf.OntologyMapping</span>)]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFOps@asImmutableTerminologyBox(m:omf#MutableModule,m2i:gov.nasa.jpl.omf.scala.core.Mutable2ImmutableModuleTable[omf])(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,(omf#ImmutableTerminologyBox,gov.nasa.jpl.omf.scala.core.Mutable2ImmutableModuleTable[omf])]" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFOps@asImmutableTerminologyBox(m:omf#MutableModule,m2i:omf#OntologyMapping)(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,(omf#ImmutableTerminologyBox,omf#OntologyMapping)]" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="OMFStoreOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.OMFStoreOps">OMFStoreOps</a></dd></dl></div>
     </li><li name="gov.nasa.jpl.omf.scala.core.OMFStoreOps#asImmutableTerminologyGraph" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="asImmutableTerminologyGraph(m:omf#MutableModule,m2i:gov.nasa.jpl.omf.scala.core.Mutable2ImmutableModuleTable[omf])(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,(omf#ImmutableTerminologyGraph,gov.nasa.jpl.omf.scala.core.Mutable2ImmutableModuleTable[omf])]"></a>
-      <a id="asImmutableTerminologyGraph(omf.MutableModule,Mutable2ImmutableModuleTable[omf])(omf.Store):\/[Throwables,(omf.ImmutableTerminologyGraph,Mutable2ImmutableModuleTable[omf])]"></a>
+      <a id="asImmutableTerminologyGraph(m:omf#MutableModule,m2i:omf#OntologyMapping)(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,(omf#ImmutableTerminologyGraph,omf#OntologyMapping)]"></a>
+      <a id="asImmutableTerminologyGraph(omf.MutableModule,omf.OntologyMapping)(omf.Store):\/[Throwables,(omf.ImmutableTerminologyGraph,omf.OntologyMapping)]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">final </span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">asImmutableTerminologyGraph</span><span class="params">(<span name="m">m: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFcbox.MutableModule">omf.MutableModule</span></span>, <span name="m2i">m2i: <a href="Mutable2ImmutableModuleTable.html" class="extype" name="gov.nasa.jpl.omf.scala.core.Mutable2ImmutableModuleTable">Mutable2ImmutableModuleTable</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps.omf">omf</span>]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <span class="extype" name="scalaz.\/">\/</span>[<a href="OMFError$.html#Throwables=scala.collection.immutable.Set[Throwable]" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFError.Throwables">Throwables</a>, (<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ImmutableTerminologyGraph">omf.ImmutableTerminologyGraph</span>, <a href="Mutable2ImmutableModuleTable.html" class="extype" name="gov.nasa.jpl.omf.scala.core.Mutable2ImmutableModuleTable">Mutable2ImmutableModuleTable</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps.omf">omf</span>])]</span>
+        <span class="name">asImmutableTerminologyGraph</span><span class="params">(<span name="m">m: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFcbox.MutableModule">omf.MutableModule</span></span>, <span name="m2i">m2i: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMF.OntologyMapping">omf.OntologyMapping</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <span class="extype" name="scalaz.\/">\/</span>[<a href="OMFError$.html#Throwables=scala.collection.immutable.Set[Throwable]" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFError.Throwables">Throwables</a>, (<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ImmutableTerminologyGraph">omf.ImmutableTerminologyGraph</span>, <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMF.OntologyMapping">omf.OntologyMapping</span>)]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFOps@asImmutableTerminologyGraph(m:omf#MutableModule,m2i:gov.nasa.jpl.omf.scala.core.Mutable2ImmutableModuleTable[omf])(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,(omf#ImmutableTerminologyGraph,gov.nasa.jpl.omf.scala.core.Mutable2ImmutableModuleTable[omf])]" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFOps@asImmutableTerminologyGraph(m:omf#MutableModule,m2i:omf#OntologyMapping)(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,(omf#ImmutableTerminologyGraph,omf#OntologyMapping)]" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -5822,35 +5890,86 @@ Does not compare the graphs corresponding to each relationship, if any	.
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>Any</dd></dl></div>
     </li><li name="gov.nasa.jpl.omf.scala.core.OMFStoreOps#loadDescription" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="loadDescription(m2i:gov.nasa.jpl.omf.scala.core.Mutable2ImmutableModuleTable[omf],iri:omf#IRI)(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,(omf#ImmutableDescriptionBox,gov.nasa.jpl.omf.scala.core.Mutable2ImmutableModuleTable[omf])]"></a>
-      <a id="loadDescription(Mutable2ImmutableModuleTable[omf],omf.IRI)(omf.Store):\/[Throwables,(omf.ImmutableDescriptionBox,Mutable2ImmutableModuleTable[omf])]"></a>
+      <a id="loadDescription(m2i:omf#OntologyMapping,iri:omf#IRI)(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,(omf#ImmutableDescriptionBox,omf#OntologyMapping)]"></a>
+      <a id="loadDescription(omf.OntologyMapping,omf.IRI)(omf.Store):\/[Throwables,(omf.ImmutableDescriptionBox,omf.OntologyMapping)]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">final </span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">loadDescription</span><span class="params">(<span name="m2i">m2i: <a href="Mutable2ImmutableModuleTable.html" class="extype" name="gov.nasa.jpl.omf.scala.core.Mutable2ImmutableModuleTable">Mutable2ImmutableModuleTable</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps.omf">omf</span>]</span>, <span name="iri">iri: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFiri.IRI">omf.IRI</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <span class="extype" name="scalaz.\/">\/</span>[<a href="OMFError$.html#Throwables=scala.collection.immutable.Set[Throwable]" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFError.Throwables">Throwables</a>, (<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFdbox.ImmutableDescriptionBox">omf.ImmutableDescriptionBox</span>, <a href="Mutable2ImmutableModuleTable.html" class="extype" name="gov.nasa.jpl.omf.scala.core.Mutable2ImmutableModuleTable">Mutable2ImmutableModuleTable</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps.omf">omf</span>])]</span>
+        <span class="name">loadDescription</span><span class="params">(<span name="m2i">m2i: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMF.OntologyMapping">omf.OntologyMapping</span></span>, <span name="iri">iri: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFiri.IRI">omf.IRI</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <span class="extype" name="scalaz.\/">\/</span>[<a href="OMFError$.html#Throwables=scala.collection.immutable.Set[Throwable]" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFError.Throwables">Throwables</a>, (<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFdbox.ImmutableDescriptionBox">omf.ImmutableDescriptionBox</span>, <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMF.OntologyMapping">omf.OntologyMapping</span>)]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFOps@loadDescription(m2i:gov.nasa.jpl.omf.scala.core.Mutable2ImmutableModuleTable[omf],iri:omf#IRI)(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,(omf#ImmutableDescriptionBox,gov.nasa.jpl.omf.scala.core.Mutable2ImmutableModuleTable[omf])]" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFOps@loadDescription(m2i:omf#OntologyMapping,iri:omf#IRI)(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,(omf#ImmutableDescriptionBox,omf#OntologyMapping)]" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="OMFStoreOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.OMFStoreOps">OMFStoreOps</a></dd></dl></div>
     </li><li name="gov.nasa.jpl.omf.scala.core.OMFStoreOps#loadTerminology" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="loadTerminology(m2i:gov.nasa.jpl.omf.scala.core.Mutable2ImmutableModuleTable[omf],iri:omf#IRI)(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,(omf#ImmutableTerminologyBox,gov.nasa.jpl.omf.scala.core.Mutable2ImmutableModuleTable[omf])]"></a>
-      <a id="loadTerminology(Mutable2ImmutableModuleTable[omf],omf.IRI)(omf.Store):\/[Throwables,(omf.ImmutableTerminologyBox,Mutable2ImmutableModuleTable[omf])]"></a>
+      <a id="loadTerminology(m2i:omf#OntologyMapping,iri:omf#IRI)(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,(omf#ImmutableTerminologyBox,omf#OntologyMapping)]"></a>
+      <a id="loadTerminology(omf.OntologyMapping,omf.IRI)(omf.Store):\/[Throwables,(omf.ImmutableTerminologyBox,omf.OntologyMapping)]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">final </span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">loadTerminology</span><span class="params">(<span name="m2i">m2i: <a href="Mutable2ImmutableModuleTable.html" class="extype" name="gov.nasa.jpl.omf.scala.core.Mutable2ImmutableModuleTable">Mutable2ImmutableModuleTable</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps.omf">omf</span>]</span>, <span name="iri">iri: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFiri.IRI">omf.IRI</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <span class="extype" name="scalaz.\/">\/</span>[<a href="OMFError$.html#Throwables=scala.collection.immutable.Set[Throwable]" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFError.Throwables">Throwables</a>, (<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ImmutableTerminologyBox">omf.ImmutableTerminologyBox</span>, <a href="Mutable2ImmutableModuleTable.html" class="extype" name="gov.nasa.jpl.omf.scala.core.Mutable2ImmutableModuleTable">Mutable2ImmutableModuleTable</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps.omf">omf</span>])]</span>
+        <span class="name">loadTerminology</span><span class="params">(<span name="m2i">m2i: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMF.OntologyMapping">omf.OntologyMapping</span></span>, <span name="iri">iri: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFiri.IRI">omf.IRI</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <span class="extype" name="scalaz.\/">\/</span>[<a href="OMFError$.html#Throwables=scala.collection.immutable.Set[Throwable]" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFError.Throwables">Throwables</a>, (<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ImmutableTerminologyBox">omf.ImmutableTerminologyBox</span>, <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMF.OntologyMapping">omf.OntologyMapping</span>)]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFOps@loadTerminology(m2i:gov.nasa.jpl.omf.scala.core.Mutable2ImmutableModuleTable[omf],iri:omf#IRI)(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,(omf#ImmutableTerminologyBox,gov.nasa.jpl.omf.scala.core.Mutable2ImmutableModuleTable[omf])]" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFOps@loadTerminology(m2i:omf#OntologyMapping,iri:omf#IRI)(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,(omf#ImmutableTerminologyBox,omf#OntologyMapping)]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="OMFStoreOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.OMFStoreOps">OMFStoreOps</a></dd></dl></div>
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMFStoreOps#lookupDescriptionBoxes" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="lookupDescriptionBoxes(iris:scala.collection.immutable.Set[omf#IRI])(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,scala.collection.immutable.Set[omf#DescriptionBox]]"></a>
+      <a id="lookupDescriptionBoxes(Set[omf.IRI])(omf.Store):\/[Throwables,Set[omf.DescriptionBox]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">lookupDescriptionBoxes</span><span class="params">(<span name="iris">iris: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.collection.immutable.Set" class="extype" target="_top">Set</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFiri.IRI">omf.IRI</span>]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <span class="extype" name="scalaz.\/">\/</span>[<a href="OMFError$.html#Throwables=scala.collection.immutable.Set[Throwable]" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFError.Throwables">Throwables</a>, <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.collection.immutable.Set" class="extype" target="_top">Set</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFdbox.DescriptionBox">omf.DescriptionBox</span>]]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFOps@lookupDescriptionBoxes(iris:scala.collection.immutable.Set[omf#IRI])(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,scala.collection.immutable.Set[omf#DescriptionBox]]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="OMFStoreOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.OMFStoreOps">OMFStoreOps</a></dd></dl></div>
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMFStoreOps#lookupModules" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="lookupModules(iris:scala.collection.immutable.Set[omf#IRI])(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,scala.collection.immutable.Set[omf#Module]]"></a>
+      <a id="lookupModules(Set[omf.IRI])(omf.Store):\/[Throwables,Set[omf.Module]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">lookupModules</span><span class="params">(<span name="iris">iris: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.collection.immutable.Set" class="extype" target="_top">Set</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFiri.IRI">omf.IRI</span>]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <span class="extype" name="scalaz.\/">\/</span>[<a href="OMFError$.html#Throwables=scala.collection.immutable.Set[Throwable]" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFError.Throwables">Throwables</a>, <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.collection.immutable.Set" class="extype" target="_top">Set</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFcbox.Module">omf.Module</span>]]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFOps@lookupModules(iris:scala.collection.immutable.Set[omf#IRI])(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,scala.collection.immutable.Set[omf#Module]]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="OMFStoreOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.OMFStoreOps">OMFStoreOps</a></dd></dl></div>
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMFStoreOps#lookupTerminologyBoxes" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="lookupTerminologyBoxes(iris:scala.collection.immutable.Set[omf#IRI])(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,scala.collection.immutable.Set[omf#TerminologyBox]]"></a>
+      <a id="lookupTerminologyBoxes(Set[omf.IRI])(omf.Store):\/[Throwables,Set[omf.TerminologyBox]]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">lookupTerminologyBoxes</span><span class="params">(<span name="iris">iris: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.collection.immutable.Set" class="extype" target="_top">Set</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFiri.IRI">omf.IRI</span>]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <span class="extype" name="scalaz.\/">\/</span>[<a href="OMFError$.html#Throwables=scala.collection.immutable.Set[Throwable]" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFError.Throwables">Throwables</a>, <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.collection.immutable.Set" class="extype" target="_top">Set</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.TerminologyBox">omf.TerminologyBox</span>]]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFOps@lookupTerminologyBoxes(iris:scala.collection.immutable.Set[omf#IRI])(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,scala.collection.immutable.Set[omf#TerminologyBox]]" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
