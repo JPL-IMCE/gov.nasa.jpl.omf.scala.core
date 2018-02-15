@@ -20,7 +20,7 @@ package gov.nasa.jpl.omf.scala.core
 
 import gov.nasa.jpl.imce.oml.resolver
 
-case class SpecificDisjointConceptSignature[omf <: OMF]
+case class SpecificDisjointConceptSignature[omf <: OMF[omf]]
 (uuid: resolver.api.taggedTypes.SpecificDisjointConceptAxiomUUID,
  bundle: omf#Bundle,
  disjointTaxonomyParent: omf#ConceptTreeDisjunction,

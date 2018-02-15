@@ -22,7 +22,7 @@ import gov.nasa.jpl.imce.oml.resolver
 import gov.nasa.jpl.imce.oml.tables.taggedTypes
 import scala.Boolean
 
-case class EntityStructuredDataPropertySignature[omf <: OMF]
+case class EntityStructuredDataPropertySignature[omf <: OMF[omf]]
 ( uuid: resolver.api.taggedTypes.EntityStructuredDataPropertyUUID,
   name: taggedTypes.LocalName,
   iri: omf#IRI,

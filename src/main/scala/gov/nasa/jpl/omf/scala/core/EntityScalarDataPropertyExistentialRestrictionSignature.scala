@@ -20,7 +20,7 @@ package gov.nasa.jpl.omf.scala.core
 
 import gov.nasa.jpl.imce.oml.resolver
 
-case class EntityScalarDataPropertyExistentialRestrictionSignature[omf <: OMF]
+case class EntityScalarDataPropertyExistentialRestrictionSignature[omf <: OMF[omf]]
 ( uuid: resolver.api.taggedTypes.EntityScalarDataPropertyExistentialRestrictionAxiomUUID,
   restrictedEntity: omf#Entity,
   scalarDataProperty: omf#EntityScalarDataProperty,

@@ -42,8 +42,8 @@ object OMFError {
     override val cause: Throwables )
     extends OMFException(message, cause)
 
-  class OMFOpsException[Omf <: OMF]
-  ( val ops: OMFOps[Omf],
+  class OMFOpsException[omf <: OMF[omf]]
+  ( val ops: OMFOps[omf],
     override val message: String,
     override val cause: Throwables )
     extends OMFException(message, cause)
@@ -82,21 +82,21 @@ object OMFError {
   : java.lang.Throwable =
     new OMFBindingException( message, Set[java.lang.Throwable](cause))
 
-  def omfOpsError[Omf <: OMF]
-  ( ops: OMFOps[Omf],
+  def omfOpsError[omf <: OMF[omf]]
+  ( ops: OMFOps[omf],
     message: String )
   : java.lang.Throwable =
     new OMFOpsException( ops, message, emptyThrowables )
 
-  def omfOpsException[Omf <: OMF]
-  ( ops: OMFOps[Omf],
+  def omfOpsException[omf <: OMF[omf]]
+  ( ops: OMFOps[omf],
     message: String,
     cause: Throwables )
   : java.lang.Throwable =
     new OMFOpsException( ops, message, cause )
 
-  def omfOpsException[Omf <: OMF]
-  ( ops: OMFOps[Omf],
+  def omfOpsException[omf <: OMF[omf]]
+  ( ops: OMFOps[omf],
     message: String,
     cause: java.lang.Throwable  )
   : java.lang.Throwable =

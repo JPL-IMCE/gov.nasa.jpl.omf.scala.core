@@ -22,7 +22,7 @@ import gov.nasa.jpl.imce.oml.resolver
 import gov.nasa.jpl.imce.oml.tables.LiteralValue
 import scala.Option
 
-case class ScalarOneOfLiteralSignature[omf <: OMF]
+case class ScalarOneOfLiteralSignature[omf <: OMF[omf]]
 ( uuid: resolver.api.taggedTypes.ScalarOneOfLiteralAxiomUUID,
   restriction: omf#ScalarOneOfRestriction,
   value: LiteralValue,

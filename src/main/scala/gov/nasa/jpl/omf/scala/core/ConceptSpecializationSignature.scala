@@ -20,7 +20,7 @@ package gov.nasa.jpl.omf.scala.core
 
 import gov.nasa.jpl.imce.oml.resolver
 
-case class ConceptSpecializationSignature[omf <: OMF]
+case class ConceptSpecializationSignature[omf <: OMF[omf]]
 ( uuid: resolver.api.taggedTypes.ConceptSpecializationAxiomUUID,
   sub: omf#Concept,
   sup: omf#Concept

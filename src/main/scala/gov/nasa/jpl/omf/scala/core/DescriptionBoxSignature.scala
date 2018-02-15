@@ -23,7 +23,7 @@ import gov.nasa.jpl.imce.oml.tables.{taggedTypes,AnnotationProperty,AnnotationPr
 
 import scala.collection.immutable.Set
 
-case class DescriptionBoxSignature[omf <: OMF, +S[A] <: scala.collection.Iterable[A]]
+case class DescriptionBoxSignature[omf <: OMF[omf], +S[A] <: scala.collection.Iterable[A]]
 ( override val uuid: resolver.api.taggedTypes.DescriptionBoxUUID,
   override val name: taggedTypes.LocalName,
   override val iri: omf#IRI,
@@ -47,14 +47,14 @@ case class DescriptionBoxSignature[omf <: OMF, +S[A] <: scala.collection.Iterabl
 
   override def importedTerminologies
   (implicit ops: OMFOps[omf])
-  : Set[omf#TerminologyBox]
-  = Set.empty[omf#TerminologyBox] ++
+  : Set[omf#IRI]
+  = Set.empty[omf#IRI] ++
     closedWorldDefinitions.map(ops.fromClosedWorldDefinitionsAxiom(_).extendedClosedWorldDefinitions)
 
   override def importedDescriptions
   (implicit ops: OMFOps[omf])
-  : Set[omf#DescriptionBox]
-  = Set.empty[omf#DescriptionBox] ++
+  : Set[omf#IRI]
+  = Set.empty[omf#IRI] ++
     descriptionBoxRefinements.map(ops.fromDescriptionBoxRefinementAxiom(_).refinedDescriptionBox)
 
 }

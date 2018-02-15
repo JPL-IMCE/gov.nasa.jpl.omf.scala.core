@@ -22,7 +22,7 @@ import gov.nasa.jpl.imce.oml.resolver
 import gov.nasa.jpl.imce.oml.tables.taggedTypes
 import scala.Option
 
-case class IRIScalarRestrictionSignature[omf <: OMF]
+case class IRIScalarRestrictionSignature[omf <: OMF[omf]]
 ( uuid: resolver.api.taggedTypes.IRIScalarRestrictionUUID,
   name: taggedTypes.LocalName,
   iri: omf#IRI,

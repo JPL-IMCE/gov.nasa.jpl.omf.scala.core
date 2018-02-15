@@ -30,7 +30,7 @@ import scala.util.control.Exception._
 import scalaz._
 import scala.collection.immutable.{List,Set}
 
-abstract class OMFVocabularyMutabilityTest[omf <: OMF]
+abstract class OMFVocabularyMutabilityTest[omf <: OMF[omf]]
 ( val saveStore: omf#Store, saveOps: OMFOps[omf],
   val loadStore: omf#Store, loadOps: OMFOps[omf]
 ) extends WordSpec with Matchers {
@@ -103,8 +103,10 @@ abstract class OMFVocabularyMutabilityTest[omf <: OMF]
       import ops._
 
       for {
+        drc <- loadBuiltinDatatypeMap()
+
         xsd_iri <- makeIRI("http://www.w3.org/2001/XMLSchema")
-        xsd_table <- loadTerminology(Mutable2ImmutableModuleTable.empty[omf], xsd_iri)
+        xsd_table <- loadTerminology(initializeOntologyMapping(drc), xsd_iri)
         (xsd, table1) = xsd_table
 
         int_iri <- makeIRI("http://www.w3.org/2001/XMLSchema#integer")
@@ -183,7 +185,8 @@ abstract class OMFVocabularyMutabilityTest[omf <: OMF]
 
       for {
         xsd_iri <- makeIRI("http://www.w3.org/2001/XMLSchema")
-        xsd_table <- loadTerminology(Mutable2ImmutableModuleTable.empty[omf], xsd_iri)
+        drc <- loadBuiltinDatatypeMap()
+        xsd_table <- loadTerminology(initializeOntologyMapping(drc), xsd_iri)
         (xsd, table1) = xsd_table
 
         int_iri <- makeIRI("http://www.w3.org/2001/XMLSchema#integer")
@@ -205,7 +208,7 @@ abstract class OMFVocabularyMutabilityTest[omf <: OMF]
       } yield {
         val s = ops.fromImmutableTerminology(base)
         s.importedTerminologies.isEmpty should be(false)
-        s.importedTerminologies.contains(xsd) should be(false)
+        s.importedTerminologies.contains(xsd_iri) should be(false)
         s.aspects.isEmpty should be(false)
         s.concepts.isEmpty should be(true)
         s.reifiedRelationships.isEmpty should be(true)
@@ -243,7 +246,7 @@ abstract class OMFVocabularyMutabilityTest[omf <: OMF]
         {
           val s = ops.fromImmutableTerminology(mission)
           s.importedTerminologies.isEmpty should be(false)
-          s.importedTerminologies.contains(base) should be(true)
+          s.importedTerminologies.contains(base_iri) should be(true)
           s.aspects.isEmpty should be(true)
           s.concepts.isEmpty should be(false)
           s.reifiedRelationships.isEmpty should be(false)

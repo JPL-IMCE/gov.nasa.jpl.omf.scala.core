@@ -20,7 +20,7 @@ package gov.nasa.jpl.omf.scala.core
 
 import gov.nasa.jpl.imce.oml.resolver
 
-case class ReifiedRelationshipInstanceRangeSignature[omf <: OMF]
+case class ReifiedRelationshipInstanceRangeSignature[omf <: OMF[omf]]
 ( uuid: resolver.api.taggedTypes.ReifiedRelationshipInstanceRangeUUID,
   reifiedRelationshipInstance: omf#ReifiedRelationshipInstance,
   range: omf#ConceptualEntitySingletonInstance )

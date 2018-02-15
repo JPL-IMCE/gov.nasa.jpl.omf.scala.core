@@ -20,7 +20,7 @@ package gov.nasa.jpl.omf.scala.core
 
 import gov.nasa.jpl.imce.oml.resolver
 
-case class StructuredDataPropertyTupleSignature[omf <: OMF]
+case class StructuredDataPropertyTupleSignature[omf <: OMF[omf]]
 (uuid: resolver.api.taggedTypes.StructuredDataPropertyTupleUUID,
  singletonInstanceStructuredDataPropertyContext: omf#SingletonInstanceStructuredDataPropertyContext,
  structuredataProperty: omf#DataRelationshipToStructure)

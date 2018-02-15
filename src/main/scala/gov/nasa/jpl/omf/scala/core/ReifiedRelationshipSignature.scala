@@ -26,7 +26,7 @@ import scala.collection.immutable.Iterable
 import scala.Option
 
 
-case class ReifiedRelationshipSignature[omf <: OMF]
+case class ReifiedRelationshipSignature[omf <: OMF[omf]]
 (uuid: resolver.api.taggedTypes.ReifiedRelationshipUUID,
  name: taggedTypes.LocalName,
  iri: omf#IRI,
@@ -40,12 +40,12 @@ case class ReifiedRelationshipSignature[omf <: OMF]
 
 object ReifiedRelationshipSignature {
 
-  case class ForwardPropertySignature[omf <: OMF]
+  case class ForwardPropertySignature[omf <: OMF[omf]]
   (uuid: resolver.api.taggedTypes.ForwardPropertyUUID,
    iri: omf#IRI,
    name: taggedTypes.LocalName)
 
-  case class InversePropertySignature[omf <: OMF]
+  case class InversePropertySignature[omf <: OMF[omf]]
   (uuid: resolver.api.taggedTypes.InversePropertyUUID,
    iri: omf#IRI,
    name: taggedTypes.LocalName)

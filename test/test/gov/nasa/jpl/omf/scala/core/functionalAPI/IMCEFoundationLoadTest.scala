@@ -24,7 +24,7 @@ import gov.nasa.jpl.omf.scala.core._
 import scala.{Some, StringContext}
 import org.scalatest._
 
-abstract class IMCEFoundationLoadTest[omf <: OMF](
+abstract class IMCEFoundationLoadTest[omf <: OMF[omf]](
   val loadStore: omf#Store,
   val loadOps: OMFOps[omf] )
   extends WordSpec with Matchers {
@@ -40,7 +40,8 @@ abstract class IMCEFoundationLoadTest[omf <: OMF](
       val result1 =
         for {
           xsd_iri <- makeIRI( "http://www.w3.org/2001/XMLSchema" )
-          xsd_tbox <- loadTerminology( Mutable2ImmutableModuleTable.empty[omf], xsd_iri )
+          drc <- loadBuiltinDatatypeMap()
+          xsd_tbox <- loadTerminology( initializeOntologyMapping(drc), xsd_iri )
           (xsd, table1) = xsd_tbox
           integer_iri <- withFragment( xsd_iri, localName("integer") )
           string_iri <- withFragment( xsd_iri, localName("string") )

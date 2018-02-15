@@ -18,9 +18,9 @@
 
 package gov.nasa.jpl.omf.scala.core
 
-trait TerminologyAxiomSignature[omf <: OMF]
+trait TerminologyAxiomSignature[omf <: OMF[omf]]
   extends ModuleEdgeSignature[omf] {
 
-  val importedTerminologyBox: omf#TerminologyBox
-  override val importedModule: omf#Module = importedTerminologyBox
+  val importedTerminologyBox: omf#IRI
+  override val importedModule: omf#IRI = importedTerminologyBox
 }

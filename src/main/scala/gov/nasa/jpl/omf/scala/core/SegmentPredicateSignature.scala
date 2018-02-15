@@ -20,7 +20,7 @@ package gov.nasa.jpl.omf.scala.core
 import gov.nasa.jpl.imce.oml.resolver
 import scala.Option
 
-case class SegmentPredicateSignature[omf <: OMF]
+case class SegmentPredicateSignature[omf <: OMF[omf]]
 (uuid: resolver.api.taggedTypes.SegmentPredicateUUID,
  bodySegment: omf#RuleBodySegment,
  predicate: Option[omf#Predicate],

@@ -32,7 +32,13 @@ package gov.nasa.jpl.omf.scala.core
   * - OMFtbox for describing a conceptual model of a domain
   * - OMFabox for describing particular situations in that domain using the OMFtbox vocabulary for that domain
   */
-trait OMF extends OMFstore with OMFiri with OMFtbox with OMFdbox {
+trait OMF[omf <: OMF[omf]]
+  extends OMFstore
+    with OMFiri
+    with OMFtbox
+    with OMFdbox {
+
+  type OntologyMapping <: Mutable2ImmutableModuleTable[omf]
 
 }
 
@@ -43,6 +49,7 @@ trait OMFstore {
     * An instance of a Store is an implicit parameter for the construction-related operations in OMFDSL.
     */
   type Store
+
 
 }
 

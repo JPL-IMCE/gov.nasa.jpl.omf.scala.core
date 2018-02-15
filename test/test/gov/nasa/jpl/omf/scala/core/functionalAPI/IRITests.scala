@@ -26,7 +26,7 @@ import scala.collection.immutable.{Map,Seq}
 import scalaz._, Scalaz._, Kleisli._
 import org.scalatest._
 
-abstract class IRITests[omf <: OMF]()( implicit ops: OMFOps[omf] )
+abstract class IRITests[omf <: OMF[omf]]()( implicit ops: OMFOps[omf] )
 extends WordSpec with Matchers {
 
   import ops._

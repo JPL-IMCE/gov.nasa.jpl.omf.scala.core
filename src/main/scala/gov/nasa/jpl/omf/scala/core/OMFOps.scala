@@ -35,7 +35,7 @@ import scala.reflect.ClassTag
 
 object OMFOps {
 
-  def apply[omf <: OMF](implicit ops: OMFOps[omf])
+  def apply[omf <: OMF[omf]](implicit ops: OMFOps[omf])
   : OMFOps[omf] = ops
 
   /**
@@ -75,9 +75,52 @@ object OMFOps {
 
   }
 
+  def closureCheck[U, V <: U]
+  (x: U, relation: U => OMFError.Throwables \/ Iterable[V])
+  : OMFError.Throwables \/ Set[V] = {
+
+    case class RelationClosureVisitor
+    (errors: scala.collection.mutable.Set[java.lang.Throwable],
+     result: scala.collection.mutable.Set[V],
+     visit: scala.collection.mutable.Buffer[V],
+     visited: scala.collection.mutable.Set[V])
+
+    relation(x).flatMap { xs =>
+
+      val visitor = RelationClosureVisitor(
+        scala.collection.mutable.Set[java.lang.Throwable](),
+        scala.collection.mutable.Set[V](),
+        xs.toBuffer,
+        scala.collection.mutable.Set[V]())
+
+      while (visitor.errors.isEmpty && visitor.visit.nonEmpty) {
+        val y = visitor.visit.remove(0)
+        visitor.visited += y
+        visitor.result += y
+        relation(y) match {
+          case \/-(ys) =>
+            ys.foreach { yi =>
+              visitor.result += yi
+              if (!visitor.visited.contains(yi)) {
+                visitor.visit += yi
+              }
+            }
+          case -\/(errs) =>
+            visitor.errors ++= errs
+        }
+      }
+
+      if (visitor.errors.isEmpty)
+        \/-(visitor.result.toSet)
+      else
+        -\/(visitor.errors.toSet)
+
+    }
+  }
+
 }
 
-trait IRIOps[omf <: OMF] {
+trait IRIOps[omf <: OMF[omf]] {
 
   // IRI
 
@@ -156,7 +199,7 @@ trait IRIOps[omf <: OMF] {
 
 }
 
-trait OMFStoreOps[omf <: OMF] { self : IRIOps[omf] =>
+trait OMFStoreOps[omf <: OMF[omf]] { self : IRIOps[omf] =>
 
   implicit val itbTag: ClassTag[omf#ImmutableTerminologyBox]
   implicit val itgTag: ClassTag[omf#ImmutableTerminologyGraph]
@@ -166,6 +209,54 @@ trait OMFStoreOps[omf <: OMF] { self : IRIOps[omf] =>
   def getLogicalElementUUID
   (e: omf#LogicalElement)
   : resolver.api.taggedTypes.LogicalElementUUID
+
+  def lookupModule
+  (iri: omf#IRI)
+  (implicit store: omf#Store)
+  : Throwables \/ omf#Module
+
+  def lookupModules
+  (iris: Set[omf#IRI])
+  (implicit store: omf#Store)
+  : Throwables \/ Set[omf#Module]
+  = iris.foldLeft[Throwables \/ Set[omf#Module]](\/-(Set.empty[omf#Module])) { case (acc, iri) =>
+    for {
+      prev <- acc
+      inc <- lookupModule(iri)
+    } yield prev + inc
+  }
+
+  def lookupTerminologyBox
+  (iri: omf#IRI)
+  (implicit store: omf#Store)
+  : Throwables \/ omf#TerminologyBox
+
+  def lookupTerminologyBoxes
+  (iris: Set[omf#IRI])
+  (implicit store: omf#Store)
+  : Throwables \/ Set[omf#TerminologyBox]
+  = iris.foldLeft[Throwables \/ Set[omf#TerminologyBox]](\/-(Set.empty[omf#TerminologyBox])) { case (acc, iri) =>
+    for {
+      prev <- acc
+      inc <- lookupTerminologyBox(iri)
+    } yield prev + inc
+  }
+
+  def lookupDescriptionBox
+  (iri: omf#IRI)
+  (implicit store: omf#Store)
+  : Throwables \/ omf#DescriptionBox
+
+  def lookupDescriptionBoxes
+  (iris: Set[omf#IRI])
+  (implicit store: omf#Store)
+  : Throwables \/ Set[omf#DescriptionBox]
+  = iris.foldLeft[Throwables \/ Set[omf#DescriptionBox]](\/-(Set.empty[omf#DescriptionBox])) { case (acc, iri) =>
+    for {
+      prev <- acc
+      inc <- lookupDescriptionBox(iri)
+    } yield prev + inc
+  }
 
   def getModuleIRI
   (m: omf#Module)
@@ -392,17 +483,21 @@ trait OMFStoreOps[omf <: OMF] { self : IRIOps[omf] =>
   (implicit store: omf#Store)
   : Throwables \/ DataRangeCategories[omf]
 
+  def initializeOntologyMapping
+  (drc: DataRangeCategories[omf])
+  : omf#OntologyMapping
+
   def loadModule
-  (m2i: Mutable2ImmutableModuleTable[omf],
+  (m2i: omf#OntologyMapping,
    iri: omf#IRI)
   (implicit store: omf#Store)
-  : Throwables \/ (omf#ImmutableModule, Mutable2ImmutableModuleTable[omf])
+  : Throwables \/ (omf#ImmutableModule, omf#OntologyMapping)
 
   final def loadTerminology
-  (m2i: Mutable2ImmutableModuleTable[omf],
+  (m2i: omf#OntologyMapping,
    iri: omf#IRI)
   (implicit store: omf#Store)
-  : Throwables \/ (omf#ImmutableTerminologyBox, Mutable2ImmutableModuleTable[omf])
+  : Throwables \/ (omf#ImmutableTerminologyBox,omf#OntologyMapping)
   = loadModule(m2i, iri).flatMap {
     case (tbox: omf#ImmutableTerminologyBox, table) =>
       (tbox -> table).right
@@ -413,10 +508,10 @@ trait OMFStoreOps[omf <: OMF] { self : IRIOps[omf] =>
   }
 
   final def loadDescription
-  (m2i: Mutable2ImmutableModuleTable[omf],
+  (m2i: omf#OntologyMapping,
    iri: omf#IRI)
   (implicit store: omf#Store)
-  : Throwables \/ (omf#ImmutableDescriptionBox, Mutable2ImmutableModuleTable[omf])
+  : Throwables \/ (omf#ImmutableDescriptionBox, omf#OntologyMapping)
   = loadModule(m2i, iri).flatMap {
     case (dbox: omf#ImmutableDescriptionBox, table) =>
       (dbox -> table).right
@@ -436,17 +531,15 @@ trait OMFStoreOps[omf <: OMF] { self : IRIOps[omf] =>
    */
   def asImmutableModule
   (m: omf#MutableModule,
-   m2i: Mutable2ImmutableModuleTable[omf])
+   m2i: omf#OntologyMapping)
   (implicit store: omf#Store)
-  : Throwables \/
-    (omf#ImmutableModule, Mutable2ImmutableModuleTable[omf])
+  : Throwables \/ (omf#ImmutableModule, omf#OntologyMapping)
 
   final def asImmutableTerminologyBox
   (m: omf#MutableModule,
-   m2i: Mutable2ImmutableModuleTable[omf])
+   m2i: omf#OntologyMapping)
   (implicit store: omf#Store)
-  : Throwables \/
-    (omf#ImmutableTerminologyBox, Mutable2ImmutableModuleTable[omf])
+  : Throwables \/ (omf#ImmutableTerminologyBox, omf#OntologyMapping)
   = asImmutableModule(m, m2i).flatMap {
     case (tbox: omf#ImmutableTerminologyBox, table) =>
       (tbox -> table).right
@@ -458,10 +551,9 @@ trait OMFStoreOps[omf <: OMF] { self : IRIOps[omf] =>
 
   final def asImmutableBundle
   (m: omf#MutableModule,
-   m2i: Mutable2ImmutableModuleTable[omf])
+   m2i: omf#OntologyMapping)
   (implicit store: omf#Store)
-  : Throwables \/
-    (omf#ImmutableBundle, Mutable2ImmutableModuleTable[omf])
+  : Throwables \/ (omf#ImmutableBundle, omf#OntologyMapping)
   = asImmutableModule(m, m2i).flatMap {
     case (bundle: omf#ImmutableBundle, table) =>
       (bundle -> table).right
@@ -477,10 +569,9 @@ trait OMFStoreOps[omf <: OMF] { self : IRIOps[omf] =>
 
   final def asImmutableTerminologyGraph
   (m: omf#MutableModule,
-   m2i: Mutable2ImmutableModuleTable[omf])
+   m2i: omf#OntologyMapping)
   (implicit store: omf#Store)
-  : Throwables \/
-    (omf#ImmutableTerminologyGraph, Mutable2ImmutableModuleTable[omf])
+  : Throwables \/ (omf#ImmutableTerminologyGraph, omf#OntologyMapping)
   = asImmutableModule(m, m2i).flatMap {
     case (tbox: omf#ImmutableTerminologyGraph, table) =>
       (tbox -> table).right
@@ -496,10 +587,9 @@ trait OMFStoreOps[omf <: OMF] { self : IRIOps[omf] =>
 
   final def asImmutableDescription
   (m: omf#MutableModule,
-   m2i: Mutable2ImmutableModuleTable[omf])
+   m2i: omf#OntologyMapping)
   (implicit store: omf#Store)
-  : Throwables \/
-    (omf#ImmutableDescriptionBox, Mutable2ImmutableModuleTable[omf])
+  : Throwables \/ (omf#ImmutableDescriptionBox, omf#OntologyMapping)
   = asImmutableModule(m, m2i).flatMap {
     case (dbox: omf#ImmutableDescriptionBox, table) =>
       (dbox -> table).right
@@ -688,7 +778,7 @@ trait OMFStoreOps[omf <: OMF] { self : IRIOps[omf] =>
   : Throwables \/ File
 }
 
-trait ImmutableTerminologyGraphOps[omf <: OMF] { self: OMFStoreOps[omf] with IRIOps[omf] =>
+trait ImmutableTerminologyGraphOps[omf <: OMF[omf]] { self: OMFStoreOps[omf] with IRIOps[omf] =>
 
   def getAnnotations
   (tbox: omf#TerminologyBox)
@@ -1208,7 +1298,7 @@ trait ImmutableTerminologyGraphOps[omf <: OMF] { self: OMFStoreOps[omf] with IRI
 
 }
 
-trait MutableTerminologyGraphOps[omf <: OMF]
+trait MutableTerminologyGraphOps[omf <: OMF[omf]]
   extends ImmutableTerminologyGraphOps[omf] {
   self: OMFStoreOps[omf] with IRIOps[omf] =>
 
@@ -3095,7 +3185,7 @@ trait MutableTerminologyGraphOps[omf <: OMF]
 
 }
 
-trait ImmutableDescriptionBoxOps[omf <: OMF] { self: OMFStoreOps[omf] with IRIOps[omf] =>
+trait ImmutableDescriptionBoxOps[omf <: OMF[omf]] { self: OMFStoreOps[omf] with IRIOps[omf] =>
 
   def getImmutableDescriptionBoxIRI
   (graph: omf#ImmutableDescriptionBox)
@@ -3199,7 +3289,7 @@ trait ImmutableDescriptionBoxOps[omf <: OMF] { self: OMFStoreOps[omf] with IRIOp
 
 }
 
-trait MutableDescriptionBoxOps[omf <: OMF]
+trait MutableDescriptionBoxOps[omf <: OMF[omf]]
   extends ImmutableDescriptionBoxOps[omf] {
   self: OMFStoreOps[omf] with IRIOps[omf] =>
 
@@ -3577,7 +3667,7 @@ trait MutableDescriptionBoxOps[omf <: OMF]
 
 }
 
-trait OMFOps[omf <: OMF]
+trait OMFOps[omf <: OMF[omf]]
   extends IRIOps[omf]
     with MutableTerminologyGraphOps[omf]
     with MutableDescriptionBoxOps[omf]

@@ -21,7 +21,7 @@ package gov.nasa.jpl.omf.scala.core
 import gov.nasa.jpl.imce.oml.resolver
 import gov.nasa.jpl.imce.oml.tables.taggedTypes
 
-case class SynonymScalarRestrictionSignature[omf <: OMF]
+case class SynonymScalarRestrictionSignature[omf <: OMF[omf]]
 ( uuid: resolver.api.taggedTypes.SynonymScalarRestrictionUUID,
   name: taggedTypes.LocalName,
   iri: omf#IRI,

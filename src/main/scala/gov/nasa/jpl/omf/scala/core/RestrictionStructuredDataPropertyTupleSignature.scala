@@ -38,7 +38,7 @@ package gov.nasa.jpl.omf.scala.core
 
 import gov.nasa.jpl.imce.oml.resolver
 
-case class RestrictionStructuredDataPropertyTupleSignature[omf <: OMF]
+case class RestrictionStructuredDataPropertyTupleSignature[omf <: OMF[omf]]
 ( uuid: resolver.api.taggedTypes.RestrictionStructuredDataPropertyTupleUUID,
   structuredDataPropertyContext: omf#RestrictionStructuredDataPropertyContext,
   structuredDataProperty: omf#DataRelationshipToStructure)

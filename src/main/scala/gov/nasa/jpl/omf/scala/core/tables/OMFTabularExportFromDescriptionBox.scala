@@ -34,9 +34,9 @@ import Scalaz._
 
 object OMFTabularExportFromDescriptionBox {
 
-  implicit def toIRI[omf <: OMF](iri: omf#IRI): taggedTypes.IRI = taggedTypes.iri(iri.toString)
+  implicit def toIRI[omf <: OMF[omf]](iri: omf#IRI): taggedTypes.IRI = taggedTypes.iri(iri.toString)
 
-  def toTables[omf <: OMF]
+  def toTables[omf <: OMF[omf]]
   (acc: Throwables \/ Seq[(omf#ImmutableModule, oml.tables.OMLSpecificationTables)])
   (dbox: omf#ImmutableDescriptionBox)
   (implicit store: omf#Store, ops: OMFOps[omf])
@@ -73,18 +73,18 @@ object OMFTabularExportFromDescriptionBox {
       for {
         axs <- acc1
         omf_info = ops.fromClosedWorldDefinitionsAxiom(omf_ax)
-        _ <- if (all_tboxes.contains(omf_info.extendedClosedWorldDefinitions))
+        _ <- if (all_tboxes.exists { m => ops.getModuleIRI(m) == omf_info.extendedClosedWorldDefinitions })
           ().right[Throwables]
         else
           Set[java.lang.Throwable](OMFError.omfError(
             s"DescriptionBox ${s.iri} has a DescriptionBoxExtendsClosedWorldDefinitions (uuid=${omf_info.uuid}) "+
               s" whose extended closed-world definitions terminology is not imported: "+
-              ops.getModuleIRI(omf_info.extendedClosedWorldDefinitions)))
+              omf_info.extendedClosedWorldDefinitions))
             .left[Unit]
         ax = oml.tables.DescriptionBoxExtendsClosedWorldDefinitions(
           uuid = omf_info.uuid,
           descriptionBoxUUID = suuid,
-          closedWorldDefinitionsIRI = ops.getModuleIRI(omf_info.extendedClosedWorldDefinitions))
+          closedWorldDefinitionsIRI = omf_info.extendedClosedWorldDefinitions)
 
       } yield axs :+ ax
     }
@@ -96,17 +96,17 @@ object OMFTabularExportFromDescriptionBox {
       for {
         axs <- acc1
         omf_info = ops.fromDescriptionBoxRefinementAxiom(omf_ax)
-        _ <- if (all_dboxes.contains(omf_info.refinedDescriptionBox))
+        _ <- if (all_dboxes.exists { m => ops.getModuleIRI(m) == omf_info.refinedDescriptionBox })
           ().right[Throwables]
         else
           Set[java.lang.Throwable](OMFError.omfError(
             s"DescriptionBox ${s.iri} has a DescriptionBoxRefinement (uuid=${omf_info.uuid}) "+
-              s" whose refined description is not imported: ${ops.getModuleIRI(omf_info.refinedDescriptionBox)}"))
+              s" whose refined description is not imported: ${omf_info.refinedDescriptionBox}"))
             .left[Unit]
         ax = oml.tables.DescriptionBoxRefinement(
           uuid = omf_info.uuid,
           refiningDescriptionBoxUUID = omf_info.descriptionBox,
-          refinedDescriptionBoxIRI = ops.getModuleIRI(omf_info.refinedDescriptionBox))
+          refinedDescriptionBoxIRI = omf_info.refinedDescriptionBox)
 
       } yield axs :+ ax
     }

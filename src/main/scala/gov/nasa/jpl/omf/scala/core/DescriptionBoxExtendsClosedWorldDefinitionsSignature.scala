@@ -20,12 +20,12 @@ package gov.nasa.jpl.omf.scala.core
 
 import gov.nasa.jpl.imce.oml.resolver
 
-case class DescriptionBoxExtendsClosedWorldDefinitionsSignature[omf <: OMF]
+case class DescriptionBoxExtendsClosedWorldDefinitionsSignature[omf <: OMF[omf]]
 (uuid: resolver.api.taggedTypes.DescriptionBoxExtendsClosedWorldDefinitionsUUID,
  descriptionBox: resolver.api.taggedTypes.DescriptionBoxUUID,
- extendedClosedWorldDefinitions: omf#TerminologyBox)
+ extendedClosedWorldDefinitions: omf#IRI)
   extends ModuleEdgeSignature[omf] {
 
-  override val importedModule: omf#Module = extendedClosedWorldDefinitions
+  override val importedModule: omf#IRI = extendedClosedWorldDefinitions
 
 }
