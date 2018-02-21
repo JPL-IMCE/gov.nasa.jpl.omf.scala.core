@@ -204,7 +204,7 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF[omf]]
         identifiedElement.isDefined should be(true)
 
         val mission_extends_base = addTerminologyExtension(mission, ibase)
-        mission_extends_base.isRight should equal(false)
+        mission_extends_base.isRight should equal(true)
 
         val component_extends_identifiedElement = addAspectSpecializationAxiom(
           graph = mission,
