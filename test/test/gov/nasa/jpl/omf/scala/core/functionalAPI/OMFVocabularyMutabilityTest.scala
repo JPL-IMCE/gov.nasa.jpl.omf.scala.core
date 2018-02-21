@@ -104,9 +104,10 @@ abstract class OMFVocabularyMutabilityTest[omf <: OMF[omf]]
 
       for {
         drc <- loadBuiltinDatatypeMap()
+        om <- initializeOntologyMapping(drc)
 
         xsd_iri <- makeIRI("http://www.w3.org/2001/XMLSchema")
-        xsd_table <- loadTerminology(initializeOntologyMapping(drc), xsd_iri)
+        xsd_table <- loadTerminology(om, xsd_iri)
         (xsd, table1) = xsd_table
 
         int_iri <- makeIRI("http://www.w3.org/2001/XMLSchema#integer")
@@ -186,7 +187,8 @@ abstract class OMFVocabularyMutabilityTest[omf <: OMF[omf]]
       for {
         xsd_iri <- makeIRI("http://www.w3.org/2001/XMLSchema")
         drc <- loadBuiltinDatatypeMap()
-        xsd_table <- loadTerminology(initializeOntologyMapping(drc), xsd_iri)
+        om <- initializeOntologyMapping(drc)
+        xsd_table <- loadTerminology(om, xsd_iri)
         (xsd, table1) = xsd_table
 
         int_iri <- makeIRI("http://www.w3.org/2001/XMLSchema#integer")

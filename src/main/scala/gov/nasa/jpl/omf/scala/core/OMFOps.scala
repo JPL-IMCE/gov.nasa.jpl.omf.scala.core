@@ -206,6 +206,16 @@ trait OMFStoreOps[omf <: OMF[omf]] { self : IRIOps[omf] =>
   implicit val bTag: ClassTag[omf#ImmutableBundle]
   implicit val dTag: ClassTag[omf#ImmutableDescriptionBox]
 
+  def terminologyBoxImportClosure
+  (m: omf#Module)
+  (implicit store: omf#Store)
+  : Set[omf#TerminologyBox]
+
+  def descriptionBoxImportClosure
+  (m: omf#Module)
+  (implicit store: omf#Store)
+  : Set[omf#DescriptionBox]
+
   def getLogicalElementUUID
   (e: omf#LogicalElement)
   : resolver.api.taggedTypes.LogicalElementUUID
@@ -485,7 +495,8 @@ trait OMFStoreOps[omf <: OMF[omf]] { self : IRIOps[omf] =>
 
   def initializeOntologyMapping
   (drc: DataRangeCategories[omf])
-  : omf#OntologyMapping
+  (implicit store: omf#Store)
+  : Throwables \/ omf#OntologyMapping
 
   def loadModule
   (m2i: omf#OntologyMapping,

@@ -42,7 +42,8 @@ abstract class IMCE_OWL2_MOF2_LoadTest[omf <: OMF[omf]](
         for {
           xsd_iri <- makeIRI( "http://www.w3.org/2001/XMLSchema" )
           drc <- loadBuiltinDatatypeMap()
-          xsd_tbox <- loadTerminology(initializeOntologyMapping(drc), xsd_iri)
+          om <- initializeOntologyMapping(drc)
+          xsd_tbox <- loadTerminology(om, xsd_iri)
           (xsd, table1) = xsd_tbox
           integer_iri <- withFragment(xsd_iri, localName("integer"))
           string_iri <- withFragment(xsd_iri, localName("string"))
@@ -60,8 +61,9 @@ abstract class IMCE_OWL2_MOF2_LoadTest[omf <: OMF[omf]](
 
       val result = for {
         drc <- loadBuiltinDatatypeMap()
+        om <- initializeOntologyMapping(drc)
         annotation_iri <- makeIRI( "http://imce.jpl.nasa.gov/foundation/annotation/annotation" )
-        annotation_tbox <- loadTerminology( initializeOntologyMapping(drc), annotation_iri )
+        annotation_tbox <- loadTerminology(om, annotation_iri )
       } yield ()
       result.isRight should be(true)
 
@@ -72,8 +74,9 @@ abstract class IMCE_OWL2_MOF2_LoadTest[omf <: OMF[omf]](
       val result =
         for {
           drc <- loadBuiltinDatatypeMap()
+          om <- initializeOntologyMapping(drc)
           owl2_mof2_iri <- makeIRI( "http://imce.jpl.nasa.gov/foundation/owl2-mof2/owl2-mof2" )
-          owl2_mof2_tbox <- loadTerminology(initializeOntologyMapping(drc), owl2_mof2_iri)
+          owl2_mof2_tbox <- loadTerminology(om, owl2_mof2_iri)
           (owl2_mof2, table1) = owl2_mof2_tbox
           binaryAssociationEndType_iri <- withFragment(owl2_mof2_iri, localName("BinaryAssociationEndType"))
           binaryAssociation_iri <- withFragment(owl2_mof2_iri, localName("BinaryAssociation"))

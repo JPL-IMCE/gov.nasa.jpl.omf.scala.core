@@ -138,7 +138,7 @@ package object core {
         ops.lookupDescriptionBoxes(ops.mutableDescriptionBoxSignature(id).importedDescriptions)
   )(m)
 
-  def terminologyBoxImportClosure[omf <: OMF[omf]]
+  def computeTerminologyBoxImportClosure[omf <: OMF[omf]]
   ( m: omf#Module )
   ( implicit ops: OMFOps[omf], store: omf#Store )
   : Set[omf#TerminologyBox] = {
@@ -165,7 +165,13 @@ package object core {
     }
   }
 
-  def descriptionBoxImportClosure[omf <: OMF[omf]]
+  def terminologyBoxImportClosure[omf <: OMF[omf]]
+  ( m: omf#Module )
+  ( implicit ops: OMFOps[omf], store: omf#Store )
+  : Set[omf#TerminologyBox]
+  = ops.terminologyBoxImportClosure(m)
+
+  def computeDescriptionBoxImportClosure[omf <: OMF[omf]]
   ( m: omf#Module )
   ( implicit ops: OMFOps[omf], store: omf#Store )
   : Set[omf#DescriptionBox] = {
@@ -191,5 +197,11 @@ package object core {
         result
     }
   }
+
+  def descriptionBoxImportClosure[omf <: OMF[omf]]
+  ( m: omf#Module )
+  ( implicit ops: OMFOps[omf], store: omf#Store )
+  : Set[omf#DescriptionBox]
+  = ops.descriptionBoxImportClosure(m)
 
 }

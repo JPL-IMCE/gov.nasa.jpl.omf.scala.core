@@ -129,7 +129,8 @@ abstract class IMCECircularExample[omf <: OMF[omf]](val saveStore: omf#Store,
         a_iri <- makeIRI("http://imce.jpl.nasa.gov/example/A")
         b_iri <- makeIRI("http://imce.jpl.nasa.gov/example/B")
         drc <- loadBuiltinDatatypeMap()
-        a_table <- loadTerminology(initializeOntologyMapping(drc), a_iri)
+        om <- initializeOntologyMapping(drc)
+        a_table <- loadTerminology(om, a_iri)
 
       } yield ()
     }

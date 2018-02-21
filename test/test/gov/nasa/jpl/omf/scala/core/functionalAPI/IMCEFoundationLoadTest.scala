@@ -41,7 +41,8 @@ abstract class IMCEFoundationLoadTest[omf <: OMF[omf]](
         for {
           xsd_iri <- makeIRI( "http://www.w3.org/2001/XMLSchema" )
           drc <- loadBuiltinDatatypeMap()
-          xsd_tbox <- loadTerminology( initializeOntologyMapping(drc), xsd_iri )
+          om <- initializeOntologyMapping(drc)
+          xsd_tbox <- loadTerminology(om, xsd_iri )
           (xsd, table1) = xsd_tbox
           integer_iri <- withFragment( xsd_iri, localName("integer") )
           string_iri <- withFragment( xsd_iri, localName("string") )

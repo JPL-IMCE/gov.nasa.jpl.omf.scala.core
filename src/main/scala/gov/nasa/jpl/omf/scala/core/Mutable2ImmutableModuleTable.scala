@@ -43,8 +43,8 @@ trait Mutable2ImmutableModuleTable[omf <: OMF[omf]] {
 
   def modules: Iterable[omf#Module]
   = Iterable.empty[omf#Module] ++
-    ms.filter { case (uuid, _) => is.contains(uuid) }.values ++
-    is.values
+    is.values ++
+    ms.filter { case (uuid, _) => is.contains(uuid) }.values
 
   def terminologyBoxValues
   (implicit ops: OMFOps[omf])
@@ -96,7 +96,7 @@ trait Mutable2ImmutableModuleTable[omf <: OMF[omf]] {
   (iri: omf#IRI)
   (implicit ops: OMFOps[omf])
   : Option[omf#MutableModule]
-  = keys.find(ops.getModuleIRI(_) == iri)
+  = ms.find { case (_, mm) => ops.getModuleIRI(mm) == iri }.map(_._2)
 
   def containsValue
   (im: omf#ImmutableModule)
@@ -181,12 +181,107 @@ trait Mutable2ImmutableModuleTable[omf <: OMF[omf]] {
       funImmutableDescriptionBox = _ => None,
       funMutableDescriptionBox = _ => None)
 
-
   def lookupTerminologyBox
   (iri: omf#IRI)
   (implicit ops: OMFOps[omf])
   : Option[omf#TerminologyBox]
   = lookupImmutableTerminologyBox(iri) orElse lookupMutableTerminologyBox(iri)
+
+  def lookupImmutableTerminologyGraph
+  (iri: omf#IRI)
+  (implicit ops: OMFOps[omf])
+  : Option[omf#ImmutableTerminologyGraph]
+  = lookupValue(iri) orElse drc.lookupBuiltInModule(iri) flatMap
+    ops.foldModule(
+      funImmutableTerminologyGraph = Some.apply,
+      funMutableTerminologyGraph = _ => None,
+      funImmutableTerminologyBundle = _ => None,
+      funMutableTerminologyBundle = _ => None,
+      funImmutableDescriptionBox = _ => None,
+      funMutableDescriptionBox = _ => None)
+
+  def lookupMutableTerminologyGraph
+  (iri: omf#IRI)
+  (implicit ops: OMFOps[omf])
+  : Option[omf#MutableTerminologyGraph]
+  = lookupKey(iri) orElse drc.lookupBuiltInModule(iri) flatMap
+    ops.foldModule(
+      funImmutableTerminologyGraph = _ => None,
+      funMutableTerminologyGraph = Some.apply,
+      funImmutableTerminologyBundle = _ => None,
+      funMutableTerminologyBundle = _ => None,
+      funImmutableDescriptionBox = _ => None,
+      funMutableDescriptionBox = _ => None)
+
+  def lookupTerminologyGraph
+  (iri: omf#IRI)
+  (implicit ops: OMFOps[omf])
+  : Option[omf#TerminologyGraph]
+  = lookupImmutableTerminologyGraph(iri) orElse lookupMutableTerminologyGraph(iri)
+
+  def lookupImmutableBundle
+  (iri: omf#IRI)
+  (implicit ops: OMFOps[omf])
+  : Option[omf#ImmutableBundle]
+  = lookupValue(iri) orElse drc.lookupBuiltInModule(iri) flatMap
+    ops.foldModule(
+      funImmutableTerminologyGraph = _ => None,
+      funMutableTerminologyGraph = _ => None,
+      funImmutableTerminologyBundle = Some.apply,
+      funMutableTerminologyBundle = _ => None,
+      funImmutableDescriptionBox = _ => None,
+      funMutableDescriptionBox = _ => None)
+
+  def lookupMutableBundle
+  (iri: omf#IRI)
+  (implicit ops: OMFOps[omf])
+  : Option[omf#MutableBundle]
+  = lookupKey(iri) orElse drc.lookupBuiltInModule(iri) flatMap
+    ops.foldModule(
+      funImmutableTerminologyGraph = _ => None,
+      funMutableTerminologyGraph = _ => None,
+      funImmutableTerminologyBundle = _ => None,
+      funMutableTerminologyBundle = Some.apply,
+      funImmutableDescriptionBox = _ => None,
+      funMutableDescriptionBox = _ => None)
+
+  def lookupBundle
+  (iri: omf#IRI)
+  (implicit ops: OMFOps[omf])
+  : Option[omf#Bundle]
+  = lookupImmutableBundle(iri) orElse lookupMutableBundle(iri)
+
+  def lookupImmutableDescriptionBox
+  (iri: omf#IRI)
+  (implicit ops: OMFOps[omf])
+  : Option[omf#ImmutableDescriptionBox]
+  = lookupValue(iri) orElse drc.lookupBuiltInModule(iri) flatMap
+    ops.foldModule(
+      funImmutableTerminologyGraph = _ => None,
+      funMutableTerminologyGraph = _ => None,
+      funImmutableTerminologyBundle = _ => None,
+      funMutableTerminologyBundle = _ => None,
+      funImmutableDescriptionBox = Some.apply,
+      funMutableDescriptionBox = _ => None)
+
+  def lookupMutableDescriptionBox
+  (iri: omf#IRI)
+  (implicit ops: OMFOps[omf])
+  : Option[omf#MutableDescriptionBox]
+  = lookupKey(iri) orElse drc.lookupBuiltInModule(iri) flatMap
+    ops.foldModule(
+      funImmutableTerminologyGraph = _ => None,
+      funMutableTerminologyGraph = _ => None,
+      funImmutableTerminologyBundle = _ => None,
+      funMutableTerminologyBundle = _ => None,
+      funImmutableDescriptionBox = _ => None,
+      funMutableDescriptionBox = Some.apply)
+
+  def lookupDescriptionBox
+  (iri: omf#IRI)
+  (implicit ops: OMFOps[omf])
+  : Option[omf#DescriptionBox]
+  = lookupImmutableDescriptionBox(iri) orElse lookupMutableDescriptionBox(iri)
 
   def getImmutableTerminologyBox
   (iri: omf#IRI)

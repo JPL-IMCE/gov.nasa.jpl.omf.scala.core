@@ -117,8 +117,9 @@ abstract class OMFNestedGraphTest[omf <: OMF[omf]]
 
       for {
         drc <- loadBuiltinDatatypeMap()
+        om <- initializeOntologyMapping(drc)
         xsd_iri <- makeIRI("http://www.w3.org/2001/XMLSchema")
-        xsd_table <- loadTerminology(initializeOntologyMapping(drc), xsd_iri)
+        xsd_table <- loadTerminology(om, xsd_iri)
         (xsd, table1) = xsd_table
         int_iri <- makeIRI("http://www.w3.org/2001/XMLSchema#integer")
         integer = lookupDataRange(xsd, int_iri, recursively = false)
@@ -329,8 +330,9 @@ abstract class OMFNestedGraphTest[omf <: OMF[omf]]
 
       for {
         drc <- loadBuiltinDatatypeMap()
+        om <- initializeOntologyMapping(drc)
         xsd_iri <- makeIRI("http://www.w3.org/2001/XMLSchema")
-        xsd_table <- loadTerminology(initializeOntologyMapping(drc), xsd_iri)
+        xsd_table <- loadTerminology(om, xsd_iri)
         (xsd, table1) = xsd_table
         int_iri <- makeIRI("http://www.w3.org/2001/XMLSchema#integer")
         integer = lookupDataRange(xsd, int_iri, recursively = false)

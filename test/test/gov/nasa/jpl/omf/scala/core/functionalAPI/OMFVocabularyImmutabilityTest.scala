@@ -106,8 +106,9 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF[omf]]
 
       for {
         drc <- loadBuiltinDatatypeMap()
+        om <- initializeOntologyMapping(drc)
         xsd_iri <- makeIRI("http://www.w3.org/2001/XMLSchema")
-        xsd_table <- loadTerminology(initializeOntologyMapping(drc), xsd_iri)
+        xsd_table <- loadTerminology(om, xsd_iri)
         (xsd, table1) = xsd_table
 
         int_iri <- makeIRI("http://www.w3.org/2001/XMLSchema#integer")
@@ -131,7 +132,7 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF[omf]]
           dataPropertyName = localName("hasIdentifier"),
           isIdentityCriteria = false)
 
-        m2i_base <- asImmutableTerminologyGraph(base, table1)
+        m2i_base <- asImmutableTerminologyGraph(base, table2)
         (ibase, table2) = m2i_base
 
         mission_iri <- makeIRI("http://imce.jpl.nasa.gov/test/immutability/foundation/mission/mission")
@@ -249,8 +250,9 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF[omf]]
 
       for {
         drc <- loadBuiltinDatatypeMap()
+        om <- initializeOntologyMapping(drc)
         xsd_iri <- makeIRI("http://www.w3.org/2001/XMLSchema")
-        xsd_table <- loadTerminology(initializeOntologyMapping(drc), xsd_iri)
+        xsd_table <- loadTerminology(om, xsd_iri)
         (xsd, table1) = xsd_table
 
         base_iri <- makeIRI("http://imce.jpl.nasa.gov/test/immutability/foundation/base/base")
@@ -345,7 +347,7 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF[omf]]
         {
           val s = ops.fromImmutableTerminology(mission)
           s.importedTerminologies.isEmpty should be(false)
-          s.importedTerminologies.toSet.contains(base) should be(true)
+          s.importedTerminologies.contains(base_iri) should be(true)
           s.aspects.isEmpty should be(true)
           s.concepts.isEmpty should be(false)
           s.reifiedRelationships.isEmpty should be(false)

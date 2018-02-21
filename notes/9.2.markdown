@@ -1,0 +1,102 @@
+gov.nasa.jpl.omf.scala.core 9.2 is an API-breaking update from 9.1
+
+## Issues Resolved
+
+### [#33 Refactoring/cleanup of API for layered resolution](https://github.com/JPL-IMCE/gov.nasa.jpl.omf.scala.core/issues/33)
+ 
+- [OMF](../src/main/scala/gov/nasa/jpl/omf/scala/core/OMF.scala)
+
+Previously, OMF was a non-parametric trait with several type members.
+Now, OMF is a trait with a self-recursive type parameter.
+
+```
+trait OMF[omf <: OMF[omf]]
+  extends OMFstore
+    with OMFiri
+    with OMFtbox
+    with OMFdbox {
+
+  type OntologyMapping <: Mutable2ImmutableModuleTable[omf]
+
+}
+```
+
+This enables defining an implementation of `Mutable2ImmutableModuleTable` by specializing this traint.
+
+- [OMFOps](../src/main/scala/gov/nasa/jpl/omf/scala/core/OMFOps.scala)
+    
+  Calculating the import closure changes from global functions in the `gov.nasa.jpl.omf.scala.core` package
+  to functions defined in `OMFStoreOps`:
+  
+  ```scala
+  trait OMFStoreOps[omf <: OMF[omf]] { self : IRIOps[omf] =>
+
+    def terminologyBoxImportClosure 
+    (m: omf#Module) 
+    (implicit store: omf#Store) 
+    : Set[omf#TerminologyBox] 
+  
+    def descriptionBoxImportClosure
+    (m: omf#Module)
+    (implicit store: omf#Store)
+    : Set[omf#DescriptionBox]
+  }
+  ```
+  
+- [core](../src/main/scala/gov/nasa/jpl/omf/scala/core/package.scala)
+
+  Renamed APIs:
+  
+  Before:
+  
+  ```
+  // no caching
+  def terminologyBoxImportClosure[omf <: OMF[omf]]
+  ( m: omf#Module )
+  ( implicit ops: OMFOps[omf], store: omf#Store )
+  : Set[omf#TerminologyBox]
+    
+  // no caching
+  def descriptionBoxImportClosure[omf <: OMF[omf]]
+  ( m: omf#Module )
+  ( implicit ops: OMFOps[omf], store: omf#Store )
+  : Set[omf#DescriptionBox]
+  ```
+  
+  After:
+  
+  ```
+  // computes the value for a key
+  def computeTerminologyBoxImportClosure[omf <: OMF[omf]]
+  ( m: omf#Module )
+  ( implicit ops: OMFOps[omf], store: omf#Store )
+  : Set[omf#TerminologyBox] 
+  
+  // computes the value for a key
+  def computeDescriptionBoxImportClosure[omf <: OMF[omf]]
+  ( m: omf#Module )
+  ( implicit ops: OMFOps[omf], store: omf#Store )
+  : Set[omf#DescriptionBox]
+  ```
+  
+  New APIs:
+  
+  ```
+  // uses a cache to speed up queries
+  def terminologyBoxImportClosure[omf <: OMF[omf]]
+  ( m: omf#Module )
+  ( implicit ops: OMFOps[omf], store: omf#Store )
+  : Set[omf#TerminologyBox]
+    
+  // uses a cache to speed up queries
+  def descriptionBoxImportClosure[omf <: OMF[omf]]
+  ( m: omf#Module )
+  ( implicit ops: OMFOps[omf], store: omf#Store )
+  : Set[omf#DescriptionBox]
+  ```
+  
+- [Mutable2ImmutableModuleTable](../src/main/scala/gov/nasa/jpl/omf/scala/core/Mutable2ImmutableModuleTable.scala)
+
+This was previously a case class; it is now a trait so that it can be extended in an implementation of the OMF API.
+Lookup operations available for all combinations of OML Modules (mutable & immutable).
+
