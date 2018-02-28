@@ -80,6 +80,7 @@ case class TerminologyBoxSignature[omf <: OMF[omf], +S[A] <: scala.collection.It
 
   aspects: S[omf#Aspect],
   concepts: S[omf#Concept],
+  partialReifiedRelationships: S[omf#PartialReifiedRelationship],
   reifiedRelationships: S[omf#ReifiedRelationship],
   forwardProperties: S[omf#ForwardProperty],
   inverseProperties: S[omf#InverseProperty],

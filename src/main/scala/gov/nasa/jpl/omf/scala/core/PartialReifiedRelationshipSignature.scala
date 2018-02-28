@@ -19,9 +19,12 @@
 package gov.nasa.jpl.omf.scala.core
 
 import gov.nasa.jpl.imce.oml.resolver
+import gov.nasa.jpl.imce.oml.tables.taggedTypes
 
-case class ReifiedRelationshipSpecializationSignature[omf <: OMF[omf]]
-( uuid: resolver.api.taggedTypes.ReifiedRelationshipSpecializationAxiomUUID,
-  sub: omf#ConceptualRelationship,
-  sup: omf#ConceptualRelationship
+case class PartialReifiedRelationshipSignature[omf <: OMF[omf]]
+( uuid: resolver.api.taggedTypes.PartialReifiedRelationshipUUID,
+  name: taggedTypes.LocalName,
+  iri: omf#IRI,
+  source: omf#Entity,
+  target: omf#Entity
 )

@@ -21,6 +21,7 @@ package gov.nasa.jpl.omf.scala.core.tables
 import java.lang.System
 
 import gov.nasa.jpl.imce.oml
+import gov.nasa.jpl.imce.oml.parallelSort
 import gov.nasa.jpl.imce.oml.resolver.Extent2Tables.toUUIDString
 import gov.nasa.jpl.imce.oml.tables.taggedTypes
 import gov.nasa.jpl.omf.scala.core.OMFError.Throwables
@@ -54,19 +55,21 @@ object OMFTabularExportFromTerminologyGraph {
     oug = oml.uuid.JVMUUIDGenerator()
 
     s_common_aps = s.annotationProperties intersect all_aps
-    s_ap = s.annotationProperties -- s_common_aps
+    allAnnotationProperties = parallelSort.parSortBy(
+      (s.annotationProperties -- s_common_aps).to[Seq],
+      (x: oml.tables.AnnotationProperty) => x.uuid)(taggedTypes.orderingAnnotationPropertyUUID)
 
     // Check that there are no overlaping annotation properties
     _ = {
       if (s_common_aps.nonEmpty) {
-        val common = s_common_aps.to[Seq].sortBy(_.abbrevIRI.toString)
+        val common = parallelSort.parSortBy(s_common_aps.to[Seq], (ap: oml.tables.AnnotationProperty) => ap.abbrevIRI.toString)
         System.out.println(
           s"TerminologyGraph ${s.iri} duplicates ${common.size} Annotations defined in imported modules: " +
             common.map(_.abbrevIRI).mkString("\n\t", ", ", "\n"))
       }
     }
 
-    allConceptDesignationTerminologyAxioms <-
+    conceptDesignationTerminologyAxioms <-
       s.conceptDesignation.foldLeft(
         Seq.empty[oml.tables.ConceptDesignationTerminologyAxiom].right[Throwables]
       ) { case (acc1, omf_ax) =>
@@ -89,7 +92,11 @@ object OMFTabularExportFromTerminologyGraph {
         } yield axs :+ ax
       }
 
-    allExtensionAxioms <-
+    allConceptDesignationTerminologyAxioms = parallelSort.parSortBy(
+      conceptDesignationTerminologyAxioms,
+      (x: oml.tables.ConceptDesignationTerminologyAxiom) => x.uuid)(taggedTypes.orderingConceptDesignationTerminologyAxiomUUID)
+
+    extensionAxioms <-
       s.extensions.foldLeft(
         Seq.empty[oml.tables.TerminologyExtensionAxiom].right[Throwables]
       ) { case (acc1, omf_ax) =>
@@ -103,7 +110,11 @@ object OMFTabularExportFromTerminologyGraph {
         } yield axs :+ ax
       }
 
-    allNestingAxioms <-
+    allExtensionAxioms = parallelSort.parSortBy(
+      extensionAxioms,
+      (x: oml.tables.TerminologyExtensionAxiom) => x.uuid)(taggedTypes.orderingTerminologyExtensionAxiomUUID)
+
+    nestingAxioms <-
       s.nesting.foldLeft(
         Seq.empty[oml.tables.TerminologyNestingAxiom].right[Throwables]
       ) { case (acc1, omf_ax) =>
@@ -119,273 +130,337 @@ object OMFTabularExportFromTerminologyGraph {
         } yield axs :+ ax
       }
 
-    allAspects = s.aspects.map { a =>
-      oml.tables.Aspect(
-        tboxUUID = suuid,
-        uuid = ops.getAspectUUID(a),
-        name = ops.getTermName(a))
-    }.to[Seq].sorted
+    allNestingAxioms = parallelSort.parSortBy(
+      nestingAxioms,
+      (x: oml.tables.TerminologyNestingAxiom) => x.uuid)(taggedTypes.orderingTerminologyNestingAxiomUUID)
 
-    allConcepts = s.concepts.map { c =>
-      oml.tables.Concept(
-        tboxUUID = suuid,
-        uuid = ops.getConceptUUID(c),
-        name = ops.getTermName(c))
-    }.to[Seq].sorted
+    allAspects = parallelSort.parSortBy(
+      s.aspects.map { a =>
+        oml.tables.Aspect(
+          tboxUUID = suuid,
+          uuid = ops.getAspectUUID(a),
+          name = ops.getTermName(a))
+      }.to[Seq],
+      (a: oml.tables.Aspect) => a.uuid)(taggedTypes.orderingAspectUUID)
 
-    allReifiedRelationships = s.reifiedRelationships.map { rr =>
-      val sig = ops.fromReifiedRelationship(rr)
-      oml.tables.ReifiedRelationship(
-        tboxUUID = suuid,
-        uuid = sig.uuid,
-        name = sig.name,
-        isAsymmetric = sig.characteristics.exists(RelationshipCharacteristics.isAsymmetric == _),
-        isEssential = sig.characteristics.exists(RelationshipCharacteristics.isEssential == _),
-        isFunctional = sig.characteristics.exists(RelationshipCharacteristics.isFunctional == _),
-        isInverseEssential = sig.characteristics.exists(RelationshipCharacteristics.isInverseEssential == _),
-        isInverseFunctional = sig.characteristics.exists(RelationshipCharacteristics.isInverseFunctional == _),
-        isIrreflexive = sig.characteristics.exists(RelationshipCharacteristics.isIrreflexive == _),
-        isReflexive = sig.characteristics.exists(RelationshipCharacteristics.isReflexive == _),
-        isSymmetric = sig.characteristics.exists(RelationshipCharacteristics.isSymmetric == _),
-        isTransitive = sig.characteristics.exists(RelationshipCharacteristics.isTransitive == _),
-        sourceUUID = ops.getEntityUUID(sig.source),
-        targetUUID = ops.getEntityUUID(sig.target))
-    }.to[Seq].sorted
+    allConcepts = parallelSort.parSortBy(
+      s.concepts.map { c =>
+        oml.tables.Concept(
+          tboxUUID = suuid,
+          uuid = ops.getConceptUUID(c),
+          name = ops.getTermName(c))
+      }.to[Seq],
+      (c: oml.tables.Concept) => c.uuid)(taggedTypes.orderingConceptUUID)
 
-    allForwardProperties = s.reifiedRelationships.map { rr =>
-      val sig = ops.fromReifiedRelationship(rr)
-      oml.tables.ForwardProperty(
-        uuid = sig.forwardPropertyInfo.uuid,
-        name = sig.forwardPropertyInfo.name,
-        reifiedRelationshipUUID = sig.uuid)
-    }.to[Seq].sorted
+    allPartialReifiedRelationships = parallelSort.parSortBy(
+      s.partialReifiedRelationships.map { rr =>
+        val sig = ops.fromPartialReifiedRelationship(rr)
+        oml.tables.PartialReifiedRelationship(
+          tboxUUID = suuid,
+          uuid = sig.uuid,
+          name = sig.name,
+          sourceUUID = ops.getEntityUUID(sig.source),
+          targetUUID = ops.getEntityUUID(sig.target))
+      }.to[Seq],
+      (rr: oml.tables.PartialReifiedRelationship) => rr.uuid)(taggedTypes.orderingPartialReifiedRelationshipUUID)
 
-    allInverseProperties = s.reifiedRelationships.flatMap { rr =>
-      val sig = ops.fromReifiedRelationship(rr)
-      sig.inversePropertyInfo.map { inv =>
-        oml.tables.InverseProperty(
-          uuid = inv.uuid,
-          name = inv.name,
+    allReifiedRelationships = parallelSort.parSortBy(
+      s.reifiedRelationships.map { rr =>
+        val sig = ops.fromReifiedRelationship(rr)
+        oml.tables.ReifiedRelationship(
+          tboxUUID = suuid,
+          uuid = sig.uuid,
+          name = sig.name,
+          isAsymmetric = sig.characteristics.exists(RelationshipCharacteristics.isAsymmetric == _),
+          isEssential = sig.characteristics.exists(RelationshipCharacteristics.isEssential == _),
+          isFunctional = sig.characteristics.exists(RelationshipCharacteristics.isFunctional == _),
+          isInverseEssential = sig.characteristics.exists(RelationshipCharacteristics.isInverseEssential == _),
+          isInverseFunctional = sig.characteristics.exists(RelationshipCharacteristics.isInverseFunctional == _),
+          isIrreflexive = sig.characteristics.exists(RelationshipCharacteristics.isIrreflexive == _),
+          isReflexive = sig.characteristics.exists(RelationshipCharacteristics.isReflexive == _),
+          isSymmetric = sig.characteristics.exists(RelationshipCharacteristics.isSymmetric == _),
+          isTransitive = sig.characteristics.exists(RelationshipCharacteristics.isTransitive == _),
+          sourceUUID = ops.getEntityUUID(sig.source),
+          targetUUID = ops.getEntityUUID(sig.target))
+      }.to[Seq],
+      (rr: oml.tables.ReifiedRelationship) => rr.uuid)(taggedTypes.orderingReifiedRelationshipUUID)
+
+    allForwardProperties = parallelSort.parSortBy(
+      s.reifiedRelationships.map { rr =>
+        val sig = ops.fromReifiedRelationship(rr)
+        oml.tables.ForwardProperty(
+          uuid = sig.forwardPropertyInfo.uuid,
+          name = sig.forwardPropertyInfo.name,
           reifiedRelationshipUUID = sig.uuid)
-      }
-    }.to[Seq].sorted
+      }.to[Seq],
+      (f: oml.tables.ForwardProperty) => f.uuid)(taggedTypes.orderingForwardPropertyUUID)
 
-    allUnreifiedRelationships = s.unreifiedRelationships.map { ur =>
-      val sig = ops.fromUnreifiedRelationship(ur)
-      oml.tables.UnreifiedRelationship(
-        tboxUUID = suuid,
-        uuid = sig.uuid,
-        name = sig.name,
-        isAsymmetric = sig.characteristics.exists(RelationshipCharacteristics.isAsymmetric == _),
-        isEssential = sig.characteristics.exists(RelationshipCharacteristics.isEssential == _),
-        isFunctional = sig.characteristics.exists(RelationshipCharacteristics.isFunctional == _),
-        isInverseEssential = sig.characteristics.exists(RelationshipCharacteristics.isInverseEssential == _),
-        isInverseFunctional = sig.characteristics.exists(RelationshipCharacteristics.isInverseFunctional == _),
-        isIrreflexive = sig.characteristics.exists(RelationshipCharacteristics.isIrreflexive == _),
-        isReflexive = sig.characteristics.exists(RelationshipCharacteristics.isReflexive == _),
-        isSymmetric = sig.characteristics.exists(RelationshipCharacteristics.isSymmetric == _),
-        isTransitive = sig.characteristics.exists(RelationshipCharacteristics.isTransitive == _),
-        sourceUUID = ops.getEntityUUID(sig.source),
-        targetUUID = ops.getEntityUUID(sig.target))
-    }.to[Seq].sorted
-
-    allScalars = s.scalarDataTypes.map { sc =>
-      oml.tables.Scalar(
-        tboxUUID = suuid,
-        uuid = ops.getScalarUUID(sc),
-        name = ops.getTermName(sc))
-    }.to[Seq].sorted
-
-    allStructures = s.structuredDataTypes.map { st =>
-      oml.tables.Structure(
-        tboxUUID = suuid,
-        uuid = ops.getStructureUUID(st),
-        name = ops.getTermName(st))
-    }.to[Seq].sorted
-
-    allBinaryScalarRestrictions = s.binaryScalarRestrictions.map { dr =>
-      val info = ops.fromBinaryScalarRestriction(dr)
-      oml.tables.BinaryScalarRestriction(
-        tboxUUID = suuid,
-        uuid = info.uuid,
-        name = info.name,
-        length = info.length,
-        maxLength = info.maxLength,
-        minLength = info.minLength,
-        restrictedRangeUUID = ops.getDataRangeUUID(info.restrictedRange))
-    }.to[Seq].sorted
-
-    allIRIScalarRestrictions = s.iriScalarRestrictions.map { dr =>
-      val info = ops.fromIRIScalarRestriction(dr)
-      oml.tables.IRIScalarRestriction(
-        tboxUUID = suuid,
-        uuid = info.uuid,
-        name = info.name,
-        length = info.length,
-        maxLength = info.maxLength,
-        minLength = info.minLength,
-        pattern = info.pattern.map(canonicalLiteralPattern),
-        restrictedRangeUUID = ops.getDataRangeUUID(info.restrictedRange))
-    }.to[Seq].sorted
-
-    allNumericScalarRestrictions = s.numericScalarRestrictions.map { dr =>
-      val info = ops.fromNumericScalarRestriction(dr)
-      oml.tables.NumericScalarRestriction(
-        tboxUUID = suuid,
-        uuid = info.uuid,
-        name = info.name,
-        maxExclusive = info.maxExclusive,
-        maxInclusive = info.maxInclusive,
-        minExclusive = info.minExclusive,
-        minInclusive = info.minInclusive,
-        restrictedRangeUUID = ops.getDataRangeUUID(info.restrictedRange))
-    }.to[Seq].sorted
-
-    allPlainLiteralScalarRestrictions = s.plainLiteralScalarRestrictions.map { dr =>
-      val info = ops.fromPlainLiteralScalarRestriction(dr)
-      oml.tables.PlainLiteralScalarRestriction(
-        tboxUUID = suuid,
-        uuid = info.uuid,
-        name = info.name,
-        langRange = info.langRange,
-        length = info.length,
-        maxLength = info.maxLength,
-        minLength = info.minLength,
-        pattern = info.pattern.map(canonicalLiteralPattern),
-        restrictedRangeUUID = ops.getDataRangeUUID(info.restrictedRange))
-    }.to[Seq].sorted
-
-    allScalarOneOfRestrictions = s.scalarOneOfRestrictions.map { dr =>
-      val info = ops.fromScalarOneOfRestriction(dr)
-      oml.tables.ScalarOneOfRestriction(
-        tboxUUID = suuid,
-        uuid = info.uuid,
-        name = info.name,
-        restrictedRangeUUID = ops.getDataRangeUUID(info.restrictedRange))
-    }.to[Seq].sorted
-
-    allScalarOneOfLiteralAxioms = s.scalarOneOfLiterals.map { ax =>
-      val info = ops.fromScalarOneOfLiteralAxiom(ax)
-      oml.tables.ScalarOneOfLiteralAxiom(
-        tboxUUID = suuid,
-        uuid = info.uuid,
-        axiomUUID = ops.getScalarOneOfRestrictionUUID(info.restriction),
-        value = info.value,
-        valueTypeUUID = info.valueType.map(ops.getDataRangeUUID(_))
-      )
-    }.to[Seq].sorted
-
-    allStringScalarRestrictions = s.stringScalarRestrictions.map { dr =>
-      val info = ops.fromStringScalarRestriction(dr)
-      oml.tables.StringScalarRestriction(
-        tboxUUID = suuid,
-        uuid = info.uuid,
-        name = info.name,
-        length = info.length,
-        maxLength = info.maxLength,
-        minLength = info.minLength,
-        pattern = info.pattern.map(canonicalLiteralPattern),
-        restrictedRangeUUID = ops.getDataRangeUUID(info.restrictedRange))
-    }.to[Seq].sorted
-
-    allSynonymScalarRestrictions = s.synonymScalarRestrictions.map { dr =>
-      val info = ops.fromSynonymScalarRestriction(dr)
-      oml.tables.SynonymScalarRestriction(
-        tboxUUID = suuid,
-        uuid = info.uuid,
-        name = info.name,
-        restrictedRangeUUID = ops.getDataRangeUUID(info.restrictedRange))
-    }.to[Seq].sorted
-
-    allTimeScalarRestrictions = s.timeScalarRestrictions.map { dr =>
-      val info = ops.fromTimeScalarRestriction(dr)
-      oml.tables.TimeScalarRestriction(
-        tboxUUID = suuid,
-        uuid = info.uuid,
-        name = info.name,
-        maxExclusive = info.maxExclusive,
-        maxInclusive = info.maxInclusive,
-        minExclusive = info.minExclusive,
-        minInclusive = info.minInclusive,
-        restrictedRangeUUID = ops.getDataRangeUUID(info.restrictedRange))
-    }.to[Seq].sorted
-
-    allEntity2ScalarProperties = s.entityScalarDataProperties.map { e2sc =>
-      val info = ops.fromEntityScalarDataProperty(e2sc)
-      oml.tables.EntityScalarDataProperty(
-        tboxUUID = suuid,
-        uuid = info.uuid,
-        domainUUID = ops.getEntityUUID(info.domain),
-        rangeUUID = ops.getDataRangeUUID(info.range),
-        isIdentityCriteria = info.isIdentityCriteria,
-        name = info.name)
-    }.to[Seq].sorted
-
-    allEntity2StructureProperties = s.entityStructuredDataProperties.map { e2sc =>
-      val info = ops.fromEntityStructuredDataProperty(e2sc)
-      oml.tables.EntityStructuredDataProperty(
-        tboxUUID = suuid,
-        uuid = info.uuid,
-        domainUUID = ops.getEntityUUID(info.domain),
-        rangeUUID = ops.getStructureUUID(info.range),
-        isIdentityCriteria = info.isIdentityCriteria,
-        name = info.name)
-    }.to[Seq].sorted
-
-    allScalarProperties = s.scalarDataProperties.map { s2sc =>
-      val info = ops.fromScalarDataProperty(s2sc)
-      oml.tables.ScalarDataProperty(
-        tboxUUID = suuid,
-        uuid = info.uuid,
-        name = info.name,
-        domainUUID = ops.getStructureUUID(info.domain),
-        rangeUUID = ops.getDataRangeUUID(info.range))
-    }.to[Seq].sorted
-
-    allStructuredProperties = s.structuredDataProperties.map { s2sc =>
-      val info = ops.fromStructuredDataProperty(s2sc)
-      oml.tables.StructuredDataProperty(
-        tboxUUID = suuid,
-        uuid = info.uuid,
-        name = info.name,
-        domainUUID = ops.getStructureUUID(info.domain),
-        rangeUUID = ops.getStructureUUID(info.range))
-    }.to[Seq].sorted
-
-    allChainRules = s.chainRules.map { cr =>
-      val info = ops.fromChainRule(cr)
-      oml.tables.ChainRule(
-        uuid = info.uuid,
-        tboxUUID = suuid,
-        name = info.name,
-        headUUID = ops.getUnreifiedRelationshipUUID(info.head))
-    }.to[Seq].sorted
-
-    allRuleBodySegments = s.ruleBodySegments.map { rbs =>
-      val info = ops.fromRuleBodySegment(rbs)
-      oml.tables.RuleBodySegment(
-        uuid = info.uuid,
-        previousSegmentUUID = info.previousSegment.map { prev =>
-          ops.fromRuleBodySegment(prev).uuid
-        },
-        ruleUUID = info.chainRule.map { rule =>
-          ops.fromChainRule(rule).uuid
+    allInverseProperties = parallelSort.parSortBy(
+      s.reifiedRelationships.flatMap { rr =>
+        val sig = ops.fromReifiedRelationship(rr)
+        sig.inversePropertyInfo.map { inv =>
+          oml.tables.InverseProperty(
+            uuid = inv.uuid,
+            name = inv.name,
+            reifiedRelationshipUUID = sig.uuid)
         }
-      )
-    }.to[Seq].sorted
+      }.to[Seq],
+      (i: oml.tables.InverseProperty) => i.uuid)(taggedTypes.orderingInversePropertyUUID)
 
-    allSegmentPredicates = s.segmentPredicates.map { p =>
-      val info = ops.fromSegmentPredicate(p)
-      oml.tables.SegmentPredicate(
-        uuid = info.uuid,
-        bodySegmentUUID = ops.fromRuleBodySegment(info.bodySegment).uuid,
-        predicateUUID = info.predicate.map(p => ops.fromPredicate(p).uuid),
-        reifiedRelationshipSourceUUID = info.reifiedRelationshipSource.map(rr => ops.fromReifiedRelationship(rr).uuid),
-        reifiedRelationshipInverseSourceUUID = info.reifiedRelationshipInverseSource.map(rr => ops.fromReifiedRelationship(rr).uuid),
-        reifiedRelationshipTargetUUID = info.reifiedRelationshipTarget.map(rr => ops.fromReifiedRelationship(rr).uuid),
-        reifiedRelationshipInverseTargetUUID = info.reifiedRelationshipInverseTarget.map(rr => ops.fromReifiedRelationship(rr).uuid),
-        unreifiedRelationshipInverseUUID = info.unreifiedRelationshipInverse.map(rr => ops.fromUnreifiedRelationship(rr).uuid))
-    }.to[Seq].sorted
+    allUnreifiedRelationships = parallelSort.parSortBy(
+      s.unreifiedRelationships.map { ur =>
+        val sig = ops.fromUnreifiedRelationship(ur)
+        oml.tables.UnreifiedRelationship(
+          tboxUUID = suuid,
+          uuid = sig.uuid,
+          name = sig.name,
+          isAsymmetric = sig.characteristics.exists(RelationshipCharacteristics.isAsymmetric == _),
+          isEssential = sig.characteristics.exists(RelationshipCharacteristics.isEssential == _),
+          isFunctional = sig.characteristics.exists(RelationshipCharacteristics.isFunctional == _),
+          isInverseEssential = sig.characteristics.exists(RelationshipCharacteristics.isInverseEssential == _),
+          isInverseFunctional = sig.characteristics.exists(RelationshipCharacteristics.isInverseFunctional == _),
+          isIrreflexive = sig.characteristics.exists(RelationshipCharacteristics.isIrreflexive == _),
+          isReflexive = sig.characteristics.exists(RelationshipCharacteristics.isReflexive == _),
+          isSymmetric = sig.characteristics.exists(RelationshipCharacteristics.isSymmetric == _),
+          isTransitive = sig.characteristics.exists(RelationshipCharacteristics.isTransitive == _),
+          sourceUUID = ops.getEntityUUID(sig.source),
+          targetUUID = ops.getEntityUUID(sig.target))
+      }.to[Seq],
+      (u: oml.tables.UnreifiedRelationship) => u.uuid)(taggedTypes.orderingUnreifiedRelationshipUUID)
+
+    allScalars = parallelSort.parSortBy(
+      s.scalarDataTypes.map { sc =>
+        oml.tables.Scalar(
+          tboxUUID = suuid,
+          uuid = ops.getScalarUUID(sc),
+          name = ops.getTermName(sc))
+      }.to[Seq],
+      (x: oml.tables.Scalar) => x.uuid)(taggedTypes.orderingScalarUUID)
+
+    allStructures = parallelSort.parSortBy(
+      s.structuredDataTypes.map { st =>
+        oml.tables.Structure(
+          tboxUUID = suuid,
+          uuid = ops.getStructureUUID(st),
+          name = ops.getTermName(st))
+      }.to[Seq],
+      (x: oml.tables.Structure) => x.uuid)(taggedTypes.orderingStructureUUID)
+
+    allBinaryScalarRestrictions = parallelSort.parSortBy(
+      s.binaryScalarRestrictions.map { dr =>
+        val info = ops.fromBinaryScalarRestriction(dr)
+        oml.tables.BinaryScalarRestriction(
+          tboxUUID = suuid,
+          uuid = info.uuid,
+          name = info.name,
+          length = info.length,
+          maxLength = info.maxLength,
+          minLength = info.minLength,
+          restrictedRangeUUID = ops.getDataRangeUUID(info.restrictedRange))
+      }.to[Seq],
+      (x: oml.tables.BinaryScalarRestriction) => x.uuid)(taggedTypes.orderingBinaryScalarRestrictionUUID)
+
+    allIRIScalarRestrictions = parallelSort.parSortBy(
+      s.iriScalarRestrictions.map { dr =>
+        val info = ops.fromIRIScalarRestriction(dr)
+        oml.tables.IRIScalarRestriction(
+          tboxUUID = suuid,
+          uuid = info.uuid,
+          name = info.name,
+          length = info.length,
+          maxLength = info.maxLength,
+          minLength = info.minLength,
+          pattern = info.pattern.map(canonicalLiteralPattern),
+          restrictedRangeUUID = ops.getDataRangeUUID(info.restrictedRange))
+      }.to[Seq],
+      (x: oml.tables.IRIScalarRestriction) => x.uuid)(taggedTypes.orderingIRIScalarRestrictionUUID)
+
+    allNumericScalarRestrictions = parallelSort.parSortBy(
+      s.numericScalarRestrictions.map { dr =>
+        val info = ops.fromNumericScalarRestriction(dr)
+        oml.tables.NumericScalarRestriction(
+          tboxUUID = suuid,
+          uuid = info.uuid,
+          name = info.name,
+          maxExclusive = info.maxExclusive,
+          maxInclusive = info.maxInclusive,
+          minExclusive = info.minExclusive,
+          minInclusive = info.minInclusive,
+          restrictedRangeUUID = ops.getDataRangeUUID(info.restrictedRange))
+      }.to[Seq],
+      (x: oml.tables.NumericScalarRestriction) => x.uuid)(taggedTypes.orderingNumericScalarRestrictionUUID)
+
+    allPlainLiteralScalarRestrictions = parallelSort.parSortBy(
+      s.plainLiteralScalarRestrictions.map { dr =>
+        val info = ops.fromPlainLiteralScalarRestriction(dr)
+        oml.tables.PlainLiteralScalarRestriction(
+          tboxUUID = suuid,
+          uuid = info.uuid,
+          name = info.name,
+          langRange = info.langRange,
+          length = info.length,
+          maxLength = info.maxLength,
+          minLength = info.minLength,
+          pattern = info.pattern.map(canonicalLiteralPattern),
+          restrictedRangeUUID = ops.getDataRangeUUID(info.restrictedRange))
+      }.to[Seq],
+      (x: oml.tables.PlainLiteralScalarRestriction) => x.uuid)(taggedTypes.orderingPlainLiteralScalarRestrictionUUID)
+
+    allScalarOneOfRestrictions = parallelSort.parSortBy(
+      s.scalarOneOfRestrictions.map { dr =>
+        val info = ops.fromScalarOneOfRestriction(dr)
+        oml.tables.ScalarOneOfRestriction(
+          tboxUUID = suuid,
+          uuid = info.uuid,
+          name = info.name,
+          restrictedRangeUUID = ops.getDataRangeUUID(info.restrictedRange))
+      }.to[Seq],
+      (x: oml.tables.ScalarOneOfRestriction) => x.uuid)(taggedTypes.orderingScalarOneOfRestrictionUUID)
+
+    allScalarOneOfLiteralAxioms = parallelSort.parSortBy(
+      s.scalarOneOfLiterals.map { ax =>
+        val info = ops.fromScalarOneOfLiteralAxiom(ax)
+        oml.tables.ScalarOneOfLiteralAxiom(
+          tboxUUID = suuid,
+          uuid = info.uuid,
+          axiomUUID = ops.getScalarOneOfRestrictionUUID(info.restriction),
+          value = info.value,
+          valueTypeUUID = info.valueType.map(ops.getDataRangeUUID(_))
+        )
+      }.to[Seq],
+      (x: oml.tables.ScalarOneOfLiteralAxiom) => x.uuid)(taggedTypes.orderingScalarOneOfLiteralAxiomUUID)
+
+    allStringScalarRestrictions = parallelSort.parSortBy(
+      s.stringScalarRestrictions.map { dr =>
+        val info = ops.fromStringScalarRestriction(dr)
+        oml.tables.StringScalarRestriction(
+          tboxUUID = suuid,
+          uuid = info.uuid,
+          name = info.name,
+          length = info.length,
+          maxLength = info.maxLength,
+          minLength = info.minLength,
+          pattern = info.pattern.map(canonicalLiteralPattern),
+          restrictedRangeUUID = ops.getDataRangeUUID(info.restrictedRange))
+      }.to[Seq],
+      (x: oml.tables.StringScalarRestriction) => x.uuid)(taggedTypes.orderingStringScalarRestrictionUUID)
+
+    allSynonymScalarRestrictions = parallelSort.parSortBy(
+      s.synonymScalarRestrictions.map { dr =>
+        val info = ops.fromSynonymScalarRestriction(dr)
+        oml.tables.SynonymScalarRestriction(
+          tboxUUID = suuid,
+          uuid = info.uuid,
+          name = info.name,
+          restrictedRangeUUID = ops.getDataRangeUUID(info.restrictedRange))
+      }.to[Seq],
+      (x: oml.tables.SynonymScalarRestriction) => x.uuid)(taggedTypes.orderingSynonymScalarRestrictionUUID)
+
+    allTimeScalarRestrictions = parallelSort.parSortBy(
+      s.timeScalarRestrictions.map { dr =>
+        val info = ops.fromTimeScalarRestriction(dr)
+        oml.tables.TimeScalarRestriction(
+          tboxUUID = suuid,
+          uuid = info.uuid,
+          name = info.name,
+          maxExclusive = info.maxExclusive,
+          maxInclusive = info.maxInclusive,
+          minExclusive = info.minExclusive,
+          minInclusive = info.minInclusive,
+          restrictedRangeUUID = ops.getDataRangeUUID(info.restrictedRange))
+      }.to[Seq],
+      (x: oml.tables.TimeScalarRestriction) => x.uuid)(taggedTypes.orderingTimeScalarRestrictionUUID)
+
+    allEntity2ScalarProperties = parallelSort.parSortBy(
+      s.entityScalarDataProperties.map { e2sc =>
+        val info = ops.fromEntityScalarDataProperty(e2sc)
+        oml.tables.EntityScalarDataProperty(
+          tboxUUID = suuid,
+          uuid = info.uuid,
+          domainUUID = ops.getEntityUUID(info.domain),
+          rangeUUID = ops.getDataRangeUUID(info.range),
+          isIdentityCriteria = info.isIdentityCriteria,
+          name = info.name)
+      }.to[Seq],
+      (x: oml.tables.EntityScalarDataProperty) => x.uuid)(taggedTypes.orderingEntityScalarDataPropertyUUID)
+
+    allEntity2StructureProperties = parallelSort.parSortBy(
+      s.entityStructuredDataProperties.map { e2sc =>
+        val info = ops.fromEntityStructuredDataProperty(e2sc)
+        oml.tables.EntityStructuredDataProperty(
+          tboxUUID = suuid,
+          uuid = info.uuid,
+          domainUUID = ops.getEntityUUID(info.domain),
+          rangeUUID = ops.getStructureUUID(info.range),
+          isIdentityCriteria = info.isIdentityCriteria,
+          name = info.name)
+      }.to[Seq],
+      (x: oml.tables.EntityStructuredDataProperty) => x.uuid)(taggedTypes.orderingEntityStructuredDataPropertyUUID)
+
+    allScalarProperties = parallelSort.parSortBy(
+      s.scalarDataProperties.map { s2sc =>
+        val info = ops.fromScalarDataProperty(s2sc)
+        oml.tables.ScalarDataProperty(
+          tboxUUID = suuid,
+          uuid = info.uuid,
+          name = info.name,
+          domainUUID = ops.getStructureUUID(info.domain),
+          rangeUUID = ops.getDataRangeUUID(info.range))
+      }.to[Seq],
+      (x: oml.tables.ScalarDataProperty) => x.uuid)(taggedTypes.orderingScalarDataPropertyUUID)
+
+    allStructuredProperties = parallelSort.parSortBy(
+      s.structuredDataProperties.map { s2sc =>
+        val info = ops.fromStructuredDataProperty(s2sc)
+        oml.tables.StructuredDataProperty(
+          tboxUUID = suuid,
+          uuid = info.uuid,
+          name = info.name,
+          domainUUID = ops.getStructureUUID(info.domain),
+          rangeUUID = ops.getStructureUUID(info.range))
+      }.to[Seq],
+      (x: oml.tables.StructuredDataProperty) => x.uuid)(taggedTypes.orderingStructuredDataPropertyUUID)
+
+    allChainRules = parallelSort.parSortBy(
+      s.chainRules.map { cr =>
+        val info = ops.fromChainRule(cr)
+        oml.tables.ChainRule(
+          uuid = info.uuid,
+          tboxUUID = suuid,
+          name = info.name,
+          headUUID = ops.getUnreifiedRelationshipUUID(info.head))
+      }.to[Seq],
+      (x: oml.tables.ChainRule) => x.uuid)(taggedTypes.orderingChainRuleUUID)
+
+    allRuleBodySegments = parallelSort.parSortBy(
+      s.ruleBodySegments.map { rbs =>
+        val info = ops.fromRuleBodySegment(rbs)
+        oml.tables.RuleBodySegment(
+          uuid = info.uuid,
+          previousSegmentUUID = info.previousSegment.map { prev =>
+            ops.fromRuleBodySegment(prev).uuid
+          },
+          ruleUUID = info.chainRule.map { rule =>
+            ops.fromChainRule(rule).uuid
+          }
+        )
+      }.to[Seq],
+      (x: oml.tables.RuleBodySegment) => x.uuid)(taggedTypes.orderingRuleBodySegmentUUID)
+
+    allSegmentPredicates = parallelSort.parSortBy(
+      s.segmentPredicates.map { p =>
+        val info = ops.fromSegmentPredicate(p)
+        oml.tables.SegmentPredicate(
+          uuid = info.uuid,
+          bodySegmentUUID = ops.fromRuleBodySegment(info.bodySegment).uuid,
+          predicateUUID = info.predicate.map(p => ops.fromPredicate(p).uuid),
+          reifiedRelationshipSourceUUID = info.reifiedRelationshipSource.map(rr => ops.fromReifiedRelationship(rr).uuid),
+          reifiedRelationshipInverseSourceUUID = info.reifiedRelationshipInverseSource.map(rr => ops.fromReifiedRelationship(rr).uuid),
+          reifiedRelationshipTargetUUID = info.reifiedRelationshipTarget.map(rr => ops.fromReifiedRelationship(rr).uuid),
+          reifiedRelationshipInverseTargetUUID = info.reifiedRelationshipInverseTarget.map(rr => ops.fromReifiedRelationship(rr).uuid),
+          unreifiedRelationshipInverseUUID = info.unreifiedRelationshipInverse.map(rr => ops.fromUnreifiedRelationship(rr).uuid))
+      }.to[Seq],
+      (x: oml.tables.SegmentPredicate) => x.uuid)(taggedTypes.orderingSegmentPredicateUUID)
 
     allAxioms = s.axioms.foldLeft(Axioms())(Axioms.combine(suuid, ops))
 
@@ -403,7 +478,7 @@ object OMFTabularExportFromTerminologyGraph {
         ().right[Throwables]
       else
         Set[java.lang.Throwable](new java.lang.IllegalArgumentException(
-          s"tables.TerminologyGraph(kind=${tg.kind}, iri=${tg.iri}) UUID mismatch:\n input=$suuid\n derived=${tg.uuid}"
+          s"tables.TerminologyGraph(kind=${tg.kind}, iri=${tg.iri}) UUID mismatch:\n input=$suuid\n derived=$tuuid"
         )).left[Unit]
     }
 
@@ -412,16 +487,17 @@ object OMFTabularExportFromTerminologyGraph {
       bundles = Seq.empty,
       descriptionBoxes = Seq.empty,
 
-      annotationProperties = s_ap.to[Seq].sorted,
+      annotationProperties = allAnnotationProperties,
 
       aspects = allAspects,
       concepts = allConcepts,
+
       scalars = allScalars,
       structures = allStructures,
 
-      conceptDesignationTerminologyAxioms = allConceptDesignationTerminologyAxioms.sorted,
-      terminologyExtensionAxioms = allExtensionAxioms.sorted,
-      terminologyNestingAxioms = allNestingAxioms.sorted,
+      conceptDesignationTerminologyAxioms = allConceptDesignationTerminologyAxioms,
+      terminologyExtensionAxioms = allExtensionAxioms,
+      terminologyNestingAxioms = allNestingAxioms,
       bundledTerminologyAxioms = Seq.empty,
       descriptionBoxExtendsClosedWorldDefinitions = Seq.empty,
       descriptionBoxRefinements = Seq.empty,
@@ -451,27 +527,59 @@ object OMFTabularExportFromTerminologyGraph {
       segmentPredicates = allSegmentPredicates,
 
       aspectSpecializationAxioms =
-        allAxioms.aspectSpecializationAxioms.sorted,
-      conceptSpecializationAxioms =
-        allAxioms.conceptSpecializationAxioms.sorted,
-      reifiedRelationshipSpecializationAxioms =
-        allAxioms.reifiedRelationshipSpecializationAxioms.sorted,
-      subDataPropertyOfAxioms =
-        allAxioms.subDataPropertyOfAxioms.sorted,
-      subObjectPropertyOfAxioms =
-        allAxioms.subObjectPropertyOfAxioms.sorted,
-      entityExistentialRestrictionAxioms =
-        allAxioms.entityExistentialRestrictionAxioms.sorted,
-      entityUniversalRestrictionAxioms =
-        allAxioms.entityUniversalRestrictionAxioms.sorted,
-      entityScalarDataPropertyExistentialRestrictionAxioms =
-        allAxioms.entityScalarDataPropertyExistentialRestrictionAxioms.sorted,
-      entityScalarDataPropertyParticularRestrictionAxioms =
-        allAxioms.entityScalarDataPropertyParticularRestrictionAxioms.sorted,
-      entityScalarDataPropertyUniversalRestrictionAxioms =
-        allAxioms.entityScalarDataPropertyUniversalRestrictionAxioms.sorted,
+        parallelSort.parSortBy(
+          allAxioms.aspectSpecializationAxioms,
+          (x: oml.tables.AspectSpecializationAxiom) => x.uuid)(taggedTypes.orderingAspectSpecializationAxiomUUID),
 
-      annotationPropertyValues = s.annotationPropertyValues.to[Seq].sorted
+      conceptSpecializationAxioms =
+        parallelSort.parSortBy(
+          allAxioms.conceptSpecializationAxioms,
+          (x: oml.tables.ConceptSpecializationAxiom) => x.uuid)(taggedTypes.orderingConceptSpecializationAxiomUUID),
+
+      reifiedRelationshipSpecializationAxioms =
+        parallelSort.parSortBy(
+          allAxioms.reifiedRelationshipSpecializationAxioms,
+          (x: oml.tables.ReifiedRelationshipSpecializationAxiom) => x.uuid)(taggedTypes.orderingReifiedRelationshipSpecializationAxiomUUID),
+
+      subDataPropertyOfAxioms =
+        parallelSort.parSortBy(
+          allAxioms.subDataPropertyOfAxioms,
+          (x: oml.tables.SubDataPropertyOfAxiom) => x.uuid)(taggedTypes.orderingSubDataPropertyOfAxiomUUID),
+
+      subObjectPropertyOfAxioms =
+        parallelSort.parSortBy(
+          allAxioms.subObjectPropertyOfAxioms,
+          (x: oml.tables.SubObjectPropertyOfAxiom) => x.uuid)(taggedTypes.orderingSubObjectPropertyOfAxiomUUID),
+
+      entityExistentialRestrictionAxioms =
+        parallelSort.parSortBy(
+          allAxioms.entityExistentialRestrictionAxioms,
+          (x: oml.tables.EntityExistentialRestrictionAxiom) => x.uuid)(taggedTypes.orderingEntityExistentialRestrictionAxiomUUID),
+
+      entityUniversalRestrictionAxioms =
+        parallelSort.parSortBy(
+          allAxioms.entityUniversalRestrictionAxioms,
+          (x: oml.tables.EntityUniversalRestrictionAxiom) => x.uuid)(taggedTypes.orderingEntityUniversalRestrictionAxiomUUID),
+
+      entityScalarDataPropertyExistentialRestrictionAxioms =
+        parallelSort.parSortBy(
+          allAxioms.entityScalarDataPropertyExistentialRestrictionAxioms,
+          (x: oml.tables.EntityScalarDataPropertyExistentialRestrictionAxiom) => x.uuid)(taggedTypes.orderingEntityScalarDataPropertyExistentialRestrictionAxiomUUID),
+
+      entityScalarDataPropertyParticularRestrictionAxioms =
+        parallelSort.parSortBy(
+          allAxioms.entityScalarDataPropertyParticularRestrictionAxioms,
+          (x: oml.tables.EntityScalarDataPropertyParticularRestrictionAxiom) => x.uuid)(taggedTypes.orderingEntityScalarDataPropertyParticularRestrictionAxiomUUID),
+
+      entityScalarDataPropertyUniversalRestrictionAxioms =
+        parallelSort.parSortBy(
+          allAxioms.entityScalarDataPropertyUniversalRestrictionAxioms,
+          (x: oml.tables.EntityScalarDataPropertyUniversalRestrictionAxiom) => x.uuid)(taggedTypes.orderingEntityScalarDataPropertyUniversalRestrictionAxiomUUID),
+
+      annotationPropertyValues =
+        parallelSort.parSortBy(
+          s.annotationPropertyValues.to[Seq],
+          (x: oml.tables.AnnotationPropertyValue) => x.uuid)(taggedTypes.orderingAnnotationPropertyValueUUID)
     )
 
   } yield im2st :+ (tbox -> table)

@@ -33,34 +33,34 @@ import scalaz._
 import Scalaz._
 
 case class Axioms
-( aspectSpecializationAxioms
+(aspectSpecializationAxioms
   : Seq[oml.tables.AspectSpecializationAxiom] = Seq.empty,
-  conceptSpecializationAxioms
+ conceptSpecializationAxioms
   : Seq[oml.tables.ConceptSpecializationAxiom] = Seq.empty,
-  reifiedRelationshipSpecializationAxioms
+ reifiedRelationshipSpecializationAxioms
   : Seq[oml.tables.ReifiedRelationshipSpecializationAxiom] = Seq.empty,
 
-  subDataPropertyOfAxioms
+ subDataPropertyOfAxioms
   : Seq[oml.tables.SubDataPropertyOfAxiom] = Seq.empty,
-  subObjectPropertyOfAxioms
+ subObjectPropertyOfAxioms
   : Seq[oml.tables.SubObjectPropertyOfAxiom] = Seq.empty,
 
-  entityExistentialRestrictionAxioms
+ entityExistentialRestrictionAxioms
   : Seq[oml.tables.EntityExistentialRestrictionAxiom] = Seq.empty,
-  entityUniversalRestrictionAxioms
+ entityUniversalRestrictionAxioms
   : Seq[oml.tables.EntityUniversalRestrictionAxiom] = Seq.empty,
 
-  entityScalarDataPropertyExistentialRestrictionAxioms
+ entityScalarDataPropertyExistentialRestrictionAxioms
   : Seq[oml.tables.EntityScalarDataPropertyExistentialRestrictionAxiom] = Seq.empty,
-  entityScalarDataPropertyParticularRestrictionAxioms
+ entityScalarDataPropertyParticularRestrictionAxioms
   : Seq[oml.tables.EntityScalarDataPropertyParticularRestrictionAxiom] = Seq.empty,
-  entityScalarDataPropertyUniversalRestrictionAxioms
+ entityScalarDataPropertyUniversalRestrictionAxioms
   : Seq[oml.tables.EntityScalarDataPropertyUniversalRestrictionAxiom] = Seq.empty,
 
-  entityStructuredDataPropertyParticularRestrictionAxioms
+ entityStructuredDataPropertyParticularRestrictionAxioms
   : Seq[oml.tables.EntityStructuredDataPropertyParticularRestrictionAxiom] = Seq.empty,
 
-  scalarOneOfLiteralAxioms
+ scalarOneOfLiteralAxioms
   : Seq[oml.tables.ScalarOneOfLiteralAxiom] = Seq.empty )
 
 object Axioms {
@@ -142,8 +142,8 @@ object Axioms {
       oml.tables.ReifiedRelationshipSpecializationAxiom(
         tboxUUID = guuid,
         uuid = info.uuid,
-        subRelationshipUUID = ops.getReifiedRelationshipUUID(info.sub),
-        superRelationshipUUID = ops.getReifiedRelationshipUUID(info.sup)))
+        superRelationshipUUID = ops.getConceptualRelationshipUUID(info.sup),
+        subRelationshipUUID = ops.getConceptualRelationshipUUID(info.sub)))
   }
 
   def funSubDataPropertyOfAxiom[omf <: OMF[omf]]

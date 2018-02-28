@@ -21,5 +21,5 @@ package gov.nasa.jpl.omf.scala.core
 import gov.nasa.jpl.imce.oml.resolver
 
 case class ReifiedRelationshipInstanceSignature[omf <: OMF[omf]]
-( uuid: resolver.api.taggedTypes.ReifiedRelationshipInstanceUUID,
-  reifiedRelationshipClassifier: omf#ReifiedRelationship )
+(uuid: resolver.api.taggedTypes.ReifiedRelationshipInstanceUUID,
+ singletonConceptualRelationshipClassifier: omf#ConceptualRelationship )

@@ -819,6 +819,16 @@ trait ImmutableTerminologyGraphOps[omf <: OMF[omf]] { self: OMFStoreOps[omf] wit
   (implicit store: omf#Store)
   : Option[omf#Concept]
 
+  def lookupConceptualRelationship
+  (tbox: omf#TerminologyBox, iri: omf#IRI, recursively: Boolean)
+  (implicit store: omf#Store)
+  : Option[omf#ConceptualRelationship]
+
+  def lookupPartialReifiedRelationship
+  (tbox: omf#TerminologyBox, iri: omf#IRI, recursively: Boolean)
+  (implicit store: omf#Store)
+  : Option[omf#PartialReifiedRelationship]
+
   def lookupReifiedRelationship
   (tbox: omf#TerminologyBox, iri: omf#IRI, recursively: Boolean)
   (implicit store: omf#Store)
@@ -895,6 +905,7 @@ trait ImmutableTerminologyGraphOps[omf <: OMF[omf]] { self: OMFStoreOps[omf] wit
   def foldTerm[T]
   (funAspect: omf#Aspect => T,
    funConcept: omf#Concept => T,
+   funPartialReifiedRelationship: omf#PartialReifiedRelationship => T,
    funReifiedRelationship: omf#ReifiedRelationship => T,
    funUnreifiedRelationship: omf#UnreifiedRelationship => T,
    funScalar: omf#Scalar => T,
@@ -942,9 +953,21 @@ trait ImmutableTerminologyGraphOps[omf <: OMF[omf]] { self: OMFStoreOps[omf] wit
   (term: omf#RestrictableRelationship)
   : resolver.api.taggedTypes.RestrictableRelationshipUUID
 
+  def getConceptualEntityUUID
+  (term: omf#ConceptualEntity)
+  : resolver.api.taggedTypes.ConceptualEntityUUID
+
+  def getConceptualRelationshipUUID
+  (term: omf#ConceptualRelationship)
+  : resolver.api.taggedTypes.ConceptualRelationshipUUID
+
   def getEntityRelationshipUUID
   (term: omf#EntityRelationship)
   : resolver.api.taggedTypes.EntityRelationshipUUID
+
+  def getPartialReifiedRelationshipUUID
+  (term: omf#PartialReifiedRelationship)
+  : resolver.api.taggedTypes.PartialReifiedRelationshipUUID
 
   def getReifiedRelationshipUUID
   (term: omf#ReifiedRelationship)
@@ -1069,6 +1092,10 @@ trait ImmutableTerminologyGraphOps[omf <: OMF[omf]] { self: OMFStoreOps[omf] wit
     *         - the characteristics of the relationship
     *         - a flag indicating whether the relationship is abstract or not.
     */
+  def fromPartialReifiedRelationship
+  (r: omf#PartialReifiedRelationship)
+  : PartialReifiedRelationshipSignature[omf]
+
   def fromReifiedRelationship
   (r: omf#ReifiedRelationship)
   : ReifiedRelationshipSignature[omf]
@@ -1412,6 +1439,30 @@ trait MutableTerminologyGraphOps[omf <: OMF[omf]]
     uuid = resolver.api.taggedTypes.conceptUUID(
       generateUUIDFromString(getModuleUUID(graph), "name" -> conceptName))
     ax <- addConcept(graph, uuid, iri, conceptName)
+  } yield ax
+
+  protected def addPartialReifiedRelationship
+  (graph: omf#MutableTerminologyBox,
+   uuid: resolver.api.taggedTypes.PartialReifiedRelationshipUUID,
+   iri: omf#IRI,
+   name: taggedTypes.LocalName,
+   source: omf#Entity,
+   target: omf#Entity)
+  (implicit store: omf#Store)
+  : Throwables \/ omf#PartialReifiedRelationship
+
+  final def addPartialReifiedRelationship
+  (graph: omf#MutableTerminologyBox,
+   name: taggedTypes.LocalName,
+   source: omf#Entity,
+   target: omf#Entity)
+  (implicit store: omf#Store)
+  : Throwables \/ omf#PartialReifiedRelationship
+  = for {
+    iri <- withFragment(getModuleIRI(graph), name)
+    uuid = resolver.api.taggedTypes.partialReifiedRelationshipUUID(
+      generateUUIDFromString(getModuleUUID(graph), "name" -> name))
+    ax <- addPartialReifiedRelationship(graph, uuid, iri, name, source, target)
   } yield ax
 
   /**
@@ -2344,58 +2395,35 @@ trait MutableTerminologyGraphOps[omf <: OMF[omf]]
 
   def reifiedRelationshipSpecializationAxiomUUID
   (graph: omf#MutableTerminologyBox,
-   sub: omf#ReifiedRelationship,
-   sup: omf#ReifiedRelationship)
+   sub: omf#ConceptualRelationship,
+   sup: omf#ConceptualRelationship)
   (implicit store: omf#Store)
   : Throwables \/ resolver.api.taggedTypes.ReifiedRelationshipSpecializationAxiomUUID
   = resolver.api.taggedTypes.reifiedRelationshipSpecializationAxiomUUID(generateUUIDFromUUID(
-      "ReifiedRelationshipSpecializationAxiom",
-      "tbox" -> getModuleUUID(graph),
-      "superRelationship" -> getTermUUID(sup),
-      "subRelationship" -> getTermUUID(sub))).right
+    "ReifiedRelationshipSpecializationAxiom",
+    "tbox" -> getModuleUUID(graph),
+    "superRelationship" -> getTermUUID(sup),
+    "subRelationship" -> getTermUUID(sub))).right
 
-  /**
-    * Add to a terminology graph a new OMF ReifiedRelationshipSpecializationAxiom.
-    *
-    * @see https://jpl-imce.github.io/jpl.omf.schema.tables/latest/api/index.html#gov.nasa.jpl.imce.omf.schema.tables.ReifiedRelationshipSpecializationAxiom
-    *
-    * @param graph
-    * @param uuid
-    * @param sub
-    * @param sup
-    * @param store
-    * @return
-    */
   protected def addReifiedRelationshipSpecializationAxiom
   (graph: omf#MutableTerminologyBox,
    uuid: resolver.api.taggedTypes.ReifiedRelationshipSpecializationAxiomUUID,
-   sub: omf#ReifiedRelationship,
-   sup: omf#ReifiedRelationship)
+   sub: omf#ConceptualRelationship,
+   sup: omf#ConceptualRelationship)
   (implicit store: omf#Store)
   : Throwables \/ omf#ReifiedRelationshipSpecializationAxiom
 
-  /**
-    * Add to a terminology graph a new OMF ReifiedRelationshipSpecializationAxiom
-    * with a version 5 UUID based on the `graph`, `sub`, `sup` IRIs.
-    *
-    * @see https://jpl-imce.github.io/jpl.omf.schema.tables/latest/api/index.html#gov.nasa.jpl.imce.omf.schema.tables.ReifiedRelationshipSpecializationAxiom
-    *
-    * @param graph
-    * @param sub
-    * @param sup
-    * @param store
-    * @return
-    */
   final def addReifiedRelationshipSpecializationAxiom
   (graph: omf#MutableTerminologyBox,
-   sub: omf#ReifiedRelationship,
-   sup: omf#ReifiedRelationship)
+   sub: omf#ConceptualRelationship,
+   sup: omf#ConceptualRelationship)
   (implicit store: omf#Store)
   : Throwables \/ omf#ReifiedRelationshipSpecializationAxiom
   = for {
     uuid <- reifiedRelationshipSpecializationAxiomUUID(graph, sub, sup)
     ax <- addReifiedRelationshipSpecializationAxiom(graph, uuid, sub, sup)
   } yield ax
+
 
   def subDataPropertyOfAxiomUUID
   (graph: omf#MutableTerminologyBox,
@@ -3426,14 +3454,14 @@ trait MutableDescriptionBoxOps[omf <: OMF[omf]]
   (uuid: resolver.api.taggedTypes.ReifiedRelationshipInstanceUUID,
    dbox: omf#MutableDescriptionBox,
    iri: omf#IRI,
-   relationshipType: omf#ReifiedRelationship,
+   relationshipType: omf#ConceptualRelationship,
    fragment: taggedTypes.LocalName)
   (implicit store: omf#Store)
   : Throwables \/ omf#ReifiedRelationshipInstance
 
   def addReifiedRelationshipInstance
   (dbox: omf#MutableDescriptionBox,
-   relationshipType: omf#ReifiedRelationship,
+   relationshipType: omf#ConceptualRelationship,
    fragment: taggedTypes.LocalName)
   (implicit store: omf#Store)
   : Throwables \/ omf#ReifiedRelationshipInstance

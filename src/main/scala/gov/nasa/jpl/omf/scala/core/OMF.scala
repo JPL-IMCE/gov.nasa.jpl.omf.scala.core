@@ -158,14 +158,20 @@ trait OMFtbox extends OMFcbox {
 
   type EntityRelationship <: Term
 
-  type UnreifiedRelationship <: EntityRelationship with Predicate
+  type CharacterizedEntityRelationship <: EntityRelationship
+
+  type ConceptualRelationship <: ConceptualEntity with EntityRelationship
+
+  type UnreifiedRelationship <: CharacterizedEntityRelationship with Predicate
 
   /**
     * A ModelEntityReifiedRelationship defines a binary, directed relationship in the conceptual modeling of a domain.
     *
     * The relationship domain (aka source) and range (aka target) can be any kind of ModelEntityDefinition
     */
-  type ReifiedRelationship <: EntityRelationship with ConceptualEntity
+  type ReifiedRelationship <: CharacterizedEntityRelationship with ConceptualRelationship
+
+  type PartialReifiedRelationship <: ConceptualRelationship
 
   type ForwardProperty <: RestrictableRelationship
 
@@ -350,22 +356,10 @@ trait OMFtbox extends OMFcbox {
 
   type SpecializationAxiom <: TermAxiom
 
-  /**
-    * An EntityDefinitionAspectSubClassAxiom is a ModelTermAxion assertion
-    * about a ModelEntityDefinition as a subclass for a superclass ModelEntityAspect
-    */
   type AspectSpecializationAxiom <: SpecializationAxiom
 
-  /**
-    * An EntityConceptSubClassAxiom is a ModelTermAxiom assertion about
-    * a subclass/superclass relationship between two ModelEntityConcepts
-    */
   type ConceptSpecializationAxiom <: SpecializationAxiom
 
-  /**
-    * An EntityReifiedRelationshipSubClassAxiom is a ModelTermAxiom assertion about
-    * a subclass/superclass relationship between two ModelEntityReifiedRelationships
-    */
   type ReifiedRelationshipSpecializationAxiom <: SpecializationAxiom
 
   type SubObjectPropertyOfAxiom <: TermAxiom

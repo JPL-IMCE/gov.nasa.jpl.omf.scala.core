@@ -187,21 +187,13 @@ abstract class OMFNestedGraphTest[omf <: OMF[omf]]
         g_authorizes_p1 <- addConcept(g, localName("P1"))
         g_authorizes_p1_WP <- addConceptSpecializationAxiom(g, g_authorizes_p1, workPackage)
 
-        p1_asserts_A_performs_C <- addReifiedRelationship(
-          graph = p1,
+        p1_asserts_A_performsFunction_C <- addPartialReifiedRelationship(
+          graph=p1,
+          name = localName("A_performs_C"),
           source = g_A,
-          target = g_C,
-          characteristics = List(isAsymmetric, isIrreflexive, isInverseFunctional),
-          reifiedRelationshipName = localName("Performs"),
-          unreifiedRelationshipName = localName("performs"),
-          unreifiedInverseRelationshipName = Some(localName("isPerformedBy")))
+          target = g_C)
 
-        p1_performs = fromReifiedRelationship(p1_asserts_A_performs_C).forwardProperty
-
-        p1_isPerfomredBy = fromReifiedRelationship(p1_asserts_A_performs_C).inverseProperty.get
-
-        p1_asserts_A_performsFunction_C <-
-        addReifiedRelationshipSpecializationAxiom(graph=p1, sub=p1_asserts_A_performs_C, sup=component_performs_function)
+        _ <- addReifiedRelationshipSpecializationAxiom(g, p1_asserts_A_performsFunction_C, component_performs_function)
 
         g_nests_p1 <- addNestedTerminology(nestingGraph=g, nestingContext=g_authorizes_p1, nestedGraph=p1)
 
@@ -211,21 +203,13 @@ abstract class OMFNestedGraphTest[omf <: OMF[omf]]
         g_authorizes_p2 <- addConcept(g, localName("P2"))
         g_authorizes_p2_WP <- addConceptSpecializationAxiom(g, g_authorizes_p2, workPackage)
 
-        p2_asserts_B_performs_C <- addReifiedRelationship(
-          graph = p2,
-          source = g_B,
-          target = g_C,
-          characteristics = List(isAsymmetric, isIrreflexive, isInverseFunctional),
-          reifiedRelationshipName = localName("Performs"),
-          unreifiedRelationshipName = localName("performs"),
-          unreifiedInverseRelationshipName = Some(localName("isPerformedBy")))
+        p2_asserts_B_performsFunction_C <- addPartialReifiedRelationship(
+            graph=p2,
+            name = localName("B_performs_C"),
+            source = g_B,
+            target = g_C)
 
-        p2_performs = fromReifiedRelationship(p2_asserts_B_performs_C).forwardProperty
-
-        p2_isPerfomredBy = fromReifiedRelationship(p2_asserts_B_performs_C).inverseProperty.get
-
-        p2_asserts_B_performsFunction_C <-
-        addReifiedRelationshipSpecializationAxiom(graph=p2, sub=p2_asserts_B_performs_C, sup=component_performs_function)
+        _ <- addReifiedRelationshipSpecializationAxiom(g, p2_asserts_B_performsFunction_C, component_performs_function)
 
         g_nests_p2 <- addNestedTerminology(nestingGraph=g, nestingContext=g_authorizes_p2, nestedGraph=p2)
 
