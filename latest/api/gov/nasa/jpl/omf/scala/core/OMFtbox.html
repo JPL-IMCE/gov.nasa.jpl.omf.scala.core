@@ -186,9 +186,7 @@ of a ModelEntityAspect can be explicitly instantiated.
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">An EntityDefinitionAspectSubClassAxiom is a ModelTermAxion assertion
-about a ModelEntityDefinition as a subclass for a superclass ModelEntityAspect
-</p>
+      
     </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.Axiom" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
       <a id="Axiom&lt;:OMFtbox.this.TerminologyBoxStatement"></a>
       <a id="Axiom:Axiom"></a>
@@ -276,6 +274,23 @@ ModelTypeTerms in an ModelTerminologyGraph
       </a>
     </span>
       
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.CharacterizedEntityRelationship" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="CharacterizedEntityRelationship&lt;:OMFtbox.this.EntityRelationship"></a>
+      <a id="CharacterizedEntityRelationship:CharacterizedEntityRelationship"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">CharacterizedEntityRelationship</span><span class="result"> &lt;: <a href="#EntityRelationship&lt;:OMFtbox.this.Term" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.EntityRelationship">EntityRelationship</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@CharacterizedEntityRelationship&lt;:OMFtbox.this.EntityRelationship" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
     </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.Concept" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
       <a id="Concept&lt;:OMFtbox.this.ConceptualEntity"></a>
       <a id="Concept:Concept"></a>
@@ -329,9 +344,7 @@ is specified in a designation ModelTerminologyGraph.</p>
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">An EntityConceptSubClassAxiom is a ModelTermAxiom assertion about
-a subclass/superclass relationship between two ModelEntityConcepts
-</p>
+      
     </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.ConceptTreeDisjunction" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
       <a id="ConceptTreeDisjunction&lt;:OMFtbox.this.LogicalElement"></a>
       <a id="ConceptTreeDisjunction:ConceptTreeDisjunction"></a>
@@ -362,6 +375,23 @@ a subclass/superclass relationship between two ModelEntityConcepts
       </span>
       </h4><span class="permalink">
       <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@ConceptualEntity&lt;:OMFtbox.this.Entity" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.ConceptualRelationship" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="ConceptualRelationship&lt;:OMFtbox.this.ConceptualEntitywithOMFtbox.this.EntityRelationship"></a>
+      <a id="ConceptualRelationship:ConceptualRelationship"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">ConceptualRelationship</span><span class="result"> &lt;: <a href="#ConceptualEntity&lt;:OMFtbox.this.Entity" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ConceptualEntity">ConceptualEntity</a> with <a href="#EntityRelationship&lt;:OMFtbox.this.Term" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.EntityRelationship">EntityRelationship</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@ConceptualRelationship&lt;:OMFtbox.this.ConceptualEntitywithOMFtbox.this.EntityRelationship" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -1071,6 +1101,23 @@ to be related to only a restricted sub-range ModelEntityDefinition.</p>
       </a>
     </span>
       
+    </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.PartialReifiedRelationship" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
+      <a id="PartialReifiedRelationship&lt;:OMFtbox.this.ConceptualRelationship"></a>
+      <a id="PartialReifiedRelationship:PartialReifiedRelationship"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">type</span>
+      </span>
+      <span class="symbol">
+        <span class="name">PartialReifiedRelationship</span><span class="result"> &lt;: <a href="#ConceptualRelationship&lt;:OMFtbox.this.ConceptualEntitywithOMFtbox.this.EntityRelationship" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ConceptualRelationship">ConceptualRelationship</a></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@PartialReifiedRelationship&lt;:OMFtbox.this.ConceptualRelationship" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      
     </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.PlainLiteralScalarRestriction" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
       <a id="PlainLiteralScalarRestriction&lt;:OMFtbox.this.RestrictedDataRange"></a>
       <a id="PlainLiteralScalarRestriction:PlainLiteralScalarRestriction"></a>
@@ -1106,7 +1153,7 @@ to be related to only a restricted sub-range ModelEntityDefinition.</p>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="OMFcbox.html" class="extype" name="gov.nasa.jpl.omf.scala.core.OMFcbox">OMFcbox</a></dd></dl></div>
     </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.ReifiedRelationship" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
-      <a id="ReifiedRelationship&lt;:OMFtbox.this.EntityRelationshipwithOMFtbox.this.ConceptualEntity"></a>
+      <a id="ReifiedRelationship&lt;:OMFtbox.this.CharacterizedEntityRelationshipwithOMFtbox.this.ConceptualRelationship"></a>
       <a id="ReifiedRelationship:ReifiedRelationship"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -1114,10 +1161,10 @@ to be related to only a restricted sub-range ModelEntityDefinition.</p>
         <span class="kind">type</span>
       </span>
       <span class="symbol">
-        <span class="name">ReifiedRelationship</span><span class="result"> &lt;: <a href="#EntityRelationship&lt;:OMFtbox.this.Term" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.EntityRelationship">EntityRelationship</a> with <a href="#ConceptualEntity&lt;:OMFtbox.this.Entity" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ConceptualEntity">ConceptualEntity</a></span>
+        <span class="name">ReifiedRelationship</span><span class="result"> &lt;: <a href="#CharacterizedEntityRelationship&lt;:OMFtbox.this.EntityRelationship" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.CharacterizedEntityRelationship">CharacterizedEntityRelationship</a> with <a href="#ConceptualRelationship&lt;:OMFtbox.this.ConceptualEntitywithOMFtbox.this.EntityRelationship" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ConceptualRelationship">ConceptualRelationship</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@ReifiedRelationship&lt;:OMFtbox.this.EntityRelationshipwithOMFtbox.this.ConceptualEntity" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@ReifiedRelationship&lt;:OMFtbox.this.CharacterizedEntityRelationshipwithOMFtbox.this.ConceptualRelationship" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -1139,9 +1186,7 @@ to be related to only a restricted sub-range ModelEntityDefinition.</p>
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
-      <p class="shortcomment cmt">An EntityReifiedRelationshipSubClassAxiom is a ModelTermAxiom assertion about
-a subclass/superclass relationship between two ModelEntityReifiedRelationships
-</p>
+      
     </li><li name="gov.nasa.jpl.omf.scala.core.OMFcbox.Resource" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
       <a id="Resource"></a>
       <a id="Resource:Resource"></a>
@@ -1786,7 +1831,7 @@ G3 has nested children G1,G2
     </span>
       
     </li><li name="gov.nasa.jpl.omf.scala.core.OMFtbox.UnreifiedRelationship" visbl="pub" data-isabs="true" fullComment="no" group="Ungrouped">
-      <a id="UnreifiedRelationship&lt;:OMFtbox.this.EntityRelationshipwithOMFtbox.this.Predicate"></a>
+      <a id="UnreifiedRelationship&lt;:OMFtbox.this.CharacterizedEntityRelationshipwithOMFtbox.this.Predicate"></a>
       <a id="UnreifiedRelationship:UnreifiedRelationship"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -1794,10 +1839,10 @@ G3 has nested children G1,G2
         <span class="kind">type</span>
       </span>
       <span class="symbol">
-        <span class="name">UnreifiedRelationship</span><span class="result"> &lt;: <a href="#EntityRelationship&lt;:OMFtbox.this.Term" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.EntityRelationship">EntityRelationship</a> with <a href="#Predicate&lt;:OMFcbox.this.Resource" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.Predicate">Predicate</a></span>
+        <span class="name">UnreifiedRelationship</span><span class="result"> &lt;: <a href="#CharacterizedEntityRelationship&lt;:OMFtbox.this.EntityRelationship" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.CharacterizedEntityRelationship">CharacterizedEntityRelationship</a> with <a href="#Predicate&lt;:OMFcbox.this.Resource" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFtbox.Predicate">Predicate</a></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@UnreifiedRelationship&lt;:OMFtbox.this.EntityRelationshipwithOMFtbox.this.Predicate" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFtbox@UnreifiedRelationship&lt;:OMFtbox.this.CharacterizedEntityRelationshipwithOMFtbox.this.Predicate" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
