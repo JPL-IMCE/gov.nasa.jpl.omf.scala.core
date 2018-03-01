@@ -193,7 +193,7 @@ abstract class OMFNestedGraphTest[omf <: OMF[omf]]
           source = g_A,
           target = g_C)
 
-        _ <- addReifiedRelationshipSpecializationAxiom(g, p1_asserts_A_performsFunction_C, component_performs_function)
+        _ <- addReifiedRelationshipSpecializationAxiom(p1, p1_asserts_A_performsFunction_C, component_performs_function)
 
         g_nests_p1 <- addNestedTerminology(nestingGraph=g, nestingContext=g_authorizes_p1, nestedGraph=p1)
 
@@ -209,7 +209,7 @@ abstract class OMFNestedGraphTest[omf <: OMF[omf]]
             source = g_B,
             target = g_C)
 
-        _ <- addReifiedRelationshipSpecializationAxiom(g, p2_asserts_B_performsFunction_C, component_performs_function)
+        _ <- addReifiedRelationshipSpecializationAxiom(p2, p2_asserts_B_performsFunction_C, component_performs_function)
 
         g_nests_p2 <- addNestedTerminology(nestingGraph=g, nestingContext=g_authorizes_p2, nestedGraph=p2)
 

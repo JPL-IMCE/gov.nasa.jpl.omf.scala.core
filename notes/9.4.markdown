@@ -3,3 +3,5 @@ gov.nasa.jpl.omf.scala.core 9.4 is an API-breaking update from 9.3
 ## Issues Resolved
 
 ### [#37 PartialReifiedRelationship to ReifiedRelationshipRestriction update](https://github.com/JPL-IMCE/gov.nasa.jpl.omf.scala.core/issues/37)
+
+### [#38 Fix nested graph topology](https://github.com/JPL-IMCE/gov.nasa.jpl.omf.scala.core/issues/38)
