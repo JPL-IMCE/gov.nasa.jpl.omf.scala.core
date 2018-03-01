@@ -824,10 +824,10 @@ trait ImmutableTerminologyGraphOps[omf <: OMF[omf]] { self: OMFStoreOps[omf] wit
   (implicit store: omf#Store)
   : Option[omf#ConceptualRelationship]
 
-  def lookupPartialReifiedRelationship
+  def lookupReifiedRelationshipRestriction
   (tbox: omf#TerminologyBox, iri: omf#IRI, recursively: Boolean)
   (implicit store: omf#Store)
-  : Option[omf#PartialReifiedRelationship]
+  : Option[omf#ReifiedRelationshipRestriction]
 
   def lookupReifiedRelationship
   (tbox: omf#TerminologyBox, iri: omf#IRI, recursively: Boolean)
@@ -905,7 +905,7 @@ trait ImmutableTerminologyGraphOps[omf <: OMF[omf]] { self: OMFStoreOps[omf] wit
   def foldTerm[T]
   (funAspect: omf#Aspect => T,
    funConcept: omf#Concept => T,
-   funPartialReifiedRelationship: omf#PartialReifiedRelationship => T,
+   funReifiedRelationshipRestriction: omf#ReifiedRelationshipRestriction => T,
    funReifiedRelationship: omf#ReifiedRelationship => T,
    funUnreifiedRelationship: omf#UnreifiedRelationship => T,
    funScalar: omf#Scalar => T,
@@ -965,9 +965,9 @@ trait ImmutableTerminologyGraphOps[omf <: OMF[omf]] { self: OMFStoreOps[omf] wit
   (term: omf#EntityRelationship)
   : resolver.api.taggedTypes.EntityRelationshipUUID
 
-  def getPartialReifiedRelationshipUUID
-  (term: omf#PartialReifiedRelationship)
-  : resolver.api.taggedTypes.PartialReifiedRelationshipUUID
+  def getReifiedRelationshipRestrictionUUID
+  (term: omf#ReifiedRelationshipRestriction)
+  : resolver.api.taggedTypes.ReifiedRelationshipRestrictionUUID
 
   def getReifiedRelationshipUUID
   (term: omf#ReifiedRelationship)
@@ -1092,9 +1092,9 @@ trait ImmutableTerminologyGraphOps[omf <: OMF[omf]] { self: OMFStoreOps[omf] wit
     *         - the characteristics of the relationship
     *         - a flag indicating whether the relationship is abstract or not.
     */
-  def fromPartialReifiedRelationship
-  (r: omf#PartialReifiedRelationship)
-  : PartialReifiedRelationshipSignature[omf]
+  def fromReifiedRelationshipRestriction
+  (r: omf#ReifiedRelationshipRestriction)
+  : ReifiedRelationshipRestrictionSignature[omf]
 
   def fromReifiedRelationship
   (r: omf#ReifiedRelationship)
@@ -1441,28 +1441,28 @@ trait MutableTerminologyGraphOps[omf <: OMF[omf]]
     ax <- addConcept(graph, uuid, iri, conceptName)
   } yield ax
 
-  protected def addPartialReifiedRelationship
+  protected def addReifiedRelationshipRestriction
   (graph: omf#MutableTerminologyBox,
-   uuid: resolver.api.taggedTypes.PartialReifiedRelationshipUUID,
+   uuid: resolver.api.taggedTypes.ReifiedRelationshipRestrictionUUID,
    iri: omf#IRI,
    name: taggedTypes.LocalName,
    source: omf#Entity,
    target: omf#Entity)
   (implicit store: omf#Store)
-  : Throwables \/ omf#PartialReifiedRelationship
+  : Throwables \/ omf#ReifiedRelationshipRestriction
 
-  final def addPartialReifiedRelationship
+  final def addReifiedRelationshipRestriction
   (graph: omf#MutableTerminologyBox,
    name: taggedTypes.LocalName,
    source: omf#Entity,
    target: omf#Entity)
   (implicit store: omf#Store)
-  : Throwables \/ omf#PartialReifiedRelationship
+  : Throwables \/ omf#ReifiedRelationshipRestriction
   = for {
     iri <- withFragment(getModuleIRI(graph), name)
-    uuid = resolver.api.taggedTypes.partialReifiedRelationshipUUID(
+    uuid = resolver.api.taggedTypes.reifiedRelationshipRestrictionUUID(
       generateUUIDFromString(getModuleUUID(graph), "name" -> name))
-    ax <- addPartialReifiedRelationship(graph, uuid, iri, name, source, target)
+    ax <- addReifiedRelationshipRestriction(graph, uuid, iri, name, source, target)
   } yield ax
 
   /**

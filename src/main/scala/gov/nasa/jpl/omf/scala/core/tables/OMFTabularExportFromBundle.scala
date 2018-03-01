@@ -194,17 +194,17 @@ object OMFTabularExportFromBundle {
       }.to[Seq],
       (c: oml.tables.Concept) => c.uuid)(taggedTypes.orderingConceptUUID)
 
-    allPartialReifiedRelationships = parallelSort.parSortBy(
-      s.partialReifiedRelationships.map { rr =>
-        val sig = ops.fromPartialReifiedRelationship(rr)
-        oml.tables.PartialReifiedRelationship(
+    allReifiedRelationshipRestrictions = parallelSort.parSortBy(
+      s.reifiedRelationshipRestrictions.map { rr =>
+        val sig = ops.fromReifiedRelationshipRestriction(rr)
+        oml.tables.ReifiedRelationshipRestriction(
           tboxUUID = suuid,
           uuid = sig.uuid,
           name = sig.name,
           sourceUUID = ops.getEntityUUID(sig.source),
           targetUUID = ops.getEntityUUID(sig.target))
       }.to[Seq],
-      (rr: oml.tables.PartialReifiedRelationship) => rr.uuid)(taggedTypes.orderingPartialReifiedRelationshipUUID)
+      (rr: oml.tables.ReifiedRelationshipRestriction) => rr.uuid)(taggedTypes.orderingReifiedRelationshipRestrictionUUID)
 
     allReifiedRelationships = parallelSort.parSortBy(
       s.reifiedRelationships.map { rr =>
@@ -589,7 +589,7 @@ object OMFTabularExportFromBundle {
       scalarDataProperties = allScalarProperties,
       structuredDataProperties = allStructuredProperties,
 
-      partialReifiedRelationships = allPartialReifiedRelationships,
+      reifiedRelationshipRestrictions = allReifiedRelationshipRestrictions,
       reifiedRelationships = allReifiedRelationships,
       forwardProperties = allForwardProperties,
       inverseProperties = allInverseProperties,

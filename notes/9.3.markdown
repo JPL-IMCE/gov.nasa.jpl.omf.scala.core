@@ -3,3 +3,5 @@ gov.nasa.jpl.omf.scala.core 9.3 is an API-breaking update from 9.2
 ## Issues Resolved
 
 ### [#34 Update for new SpecializedReifiedRelationship pattern](https://github.com/JPL-IMCE/gov.nasa.jpl.omf.scala.core/issues/34)
+
+### [#36 Enable Supersafe 1.1.4](https://github.com/JPL-IMCE/gov.nasa.jpl.omf.scala.core/issues/36)

@@ -171,7 +171,7 @@ trait OMFtbox extends OMFcbox {
     */
   type ReifiedRelationship <: CharacterizedEntityRelationship with ConceptualRelationship
 
-  type PartialReifiedRelationship <: ConceptualRelationship
+  type ReifiedRelationshipRestriction <: ConceptualRelationship
 
   type ForwardProperty <: RestrictableRelationship
 

@@ -187,7 +187,7 @@ abstract class OMFNestedGraphTest[omf <: OMF[omf]]
         g_authorizes_p1 <- addConcept(g, localName("P1"))
         g_authorizes_p1_WP <- addConceptSpecializationAxiom(g, g_authorizes_p1, workPackage)
 
-        p1_asserts_A_performsFunction_C <- addPartialReifiedRelationship(
+        p1_asserts_A_performsFunction_C <- addReifiedRelationshipRestriction(
           graph=p1,
           name = localName("A_performs_C"),
           source = g_A,
@@ -203,7 +203,7 @@ abstract class OMFNestedGraphTest[omf <: OMF[omf]]
         g_authorizes_p2 <- addConcept(g, localName("P2"))
         g_authorizes_p2_WP <- addConceptSpecializationAxiom(g, g_authorizes_p2, workPackage)
 
-        p2_asserts_B_performsFunction_C <- addPartialReifiedRelationship(
+        p2_asserts_B_performsFunction_C <- addReifiedRelationshipRestriction(
             graph=p2,
             name = localName("B_performs_C"),
             source = g_B,
