@@ -45,14 +45,11 @@ lazy val core = Project("omf-scala-core", file("."))
 
     resolvers += Resolver.bintrayRepo("jpl-imce", "gov.nasa.jpl.imce"),
 
-    //resolvers += "Artima Maven Repository" at "http://repo.artima.com/releases",
-    //scalacOptions in (Compile, compile) += s"-P:artima-supersafe:config-file:${baseDirectory.value}/project/supersafe.cfg",
-    // disable supersafe 1.1.3 in test because it blows up the stack!
-    //scalacOptions in (Test, compile) += "-Xplugin-disable:artima-supersafe",
-    // before issue-31, supersafe could handle this...
-    // scalacOptions in (Test, compile) += s"-P:artima-supersafe:config-file:${baseDirectory.value}/project/supersafe.cfg",
-    //scalacOptions in (Compile, doc) += "-Xplugin-disable:artima-supersafe",
-    //scalacOptions in (Test, doc) += "-Xplugin-disable:artima-supersafe",
+    resolvers += "Artima Maven Repository" at "http://repo.artima.com/releases",
+    scalacOptions in (Compile, compile) += s"-P:artima-supersafe:config-file:${baseDirectory.value}/project/supersafe.cfg",
+    scalacOptions in (Test, compile) += s"-P:artima-supersafe:config-file:${baseDirectory.value}/project/supersafe.cfg",
+    scalacOptions in (Compile, doc) += "-Xplugin-disable:artima-supersafe",
+    scalacOptions in (Test, doc) += "-Xplugin-disable:artima-supersafe",
 
     scalacOptions in (Compile,doc) ++= Seq(
       "-diagrams",
