@@ -1,0 +1,6 @@
+gov.nasa.jpl.omf.scala.core 9.5 is a dependency-change update from 0.93
+
+# Issues Resolved
+                                    
+- The [oml.tables 0.94](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.tables/tree/0.94.0) update add
+  new dependencies for caching.
