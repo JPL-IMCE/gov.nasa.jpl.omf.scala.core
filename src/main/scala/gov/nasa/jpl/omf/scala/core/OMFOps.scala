@@ -21,7 +21,7 @@ package gov.nasa.jpl.omf.scala.core
 import java.io.File
 
 import gov.nasa.jpl.imce.oml.resolver
-import gov.nasa.jpl.imce.oml.tables.{taggedTypes, AnnotationProperty, AnnotationPropertyValue, LiteralDateTime, LiteralNumber, LiteralValue}
+import gov.nasa.jpl.imce.oml.tables.{AnnotationProperty, AnnotationPropertyValue, CardinalityRestrictionKind, LiteralDateTime, LiteralNumber, LiteralValue, taggedTypes}
 import gov.nasa.jpl.omf.scala.core.OMFError.Throwables
 import gov.nasa.jpl.omf.scala.core.RelationshipCharacteristics._
 import gov.nasa.jpl.omf.scala.core.builtin.BuiltInDatatypeMaps.DataRangeCategories
@@ -31,6 +31,7 @@ import scala.Predef.{ArrowAssoc, String}
 import scala.collection.immutable.{Iterable, Seq, Set}
 import scalaz._
 import Scalaz._
+
 import scala.reflect.ClassTag
 
 object OMFOps {
@@ -809,6 +810,11 @@ trait ImmutableTerminologyGraphOps[omf <: OMF[omf]] { self: OMFStoreOps[omf] wit
   (implicit store: omf#Store)
   : Option[omf#Entity]
 
+  def lookupAspectKind
+  (tbox: omf#TerminologyBox, iri: omf#IRI, recursively: Boolean)
+  (implicit store: omf#Store)
+  : Option[omf#AspectKind]
+
   def lookupAspect
   (tbox: omf#TerminologyBox, iri: omf#IRI, recursively: Boolean)
   (implicit store: omf#Store)
@@ -818,6 +824,11 @@ trait ImmutableTerminologyGraphOps[omf <: OMF[omf]] { self: OMFStoreOps[omf] wit
   (tbox: omf#TerminologyBox, iri: omf#IRI, recursively: Boolean)
   (implicit store: omf#Store)
   : Option[omf#Concept]
+
+  def lookupConceptKind
+  (tbox: omf#TerminologyBox, iri: omf#IRI, recursively: Boolean)
+  (implicit store: omf#Store)
+  : Option[omf#ConceptKind]
 
   def lookupConceptualRelationship
   (tbox: omf#TerminologyBox, iri: omf#IRI, recursively: Boolean)
@@ -941,13 +952,29 @@ trait ImmutableTerminologyGraphOps[omf <: OMF[omf]] { self: OMFStoreOps[omf] wit
   (term: omf#Entity)
   : resolver.api.taggedTypes.EntityUUID
 
+  def getAspectKindUUID
+  (term: omf#AspectKind)
+  : resolver.api.taggedTypes.AspectKindUUID
+
   def getAspectUUID
   (term: omf#Aspect)
   : resolver.api.taggedTypes.AspectUUID
 
+  def getCardinalityRestrictedAspectUUID
+  (term: omf#CardinalityRestrictedAspect)
+  : resolver.api.taggedTypes.CardinalityRestrictedAspectUUID
+
+  def getConceptKindUUID
+  (term: omf#ConceptKind)
+  : resolver.api.taggedTypes.ConceptKindUUID
+
   def getConceptUUID
   (term: omf#Concept)
   : resolver.api.taggedTypes.ConceptUUID
+
+  def getCardinalityRestrictedConceptUUID
+  (term: omf#CardinalityRestrictedConcept)
+  : resolver.api.taggedTypes.CardinalityRestrictedConceptUUID
 
   def getRestrictableRelationshipUUID
   (term: omf#RestrictableRelationship)
@@ -972,6 +999,10 @@ trait ImmutableTerminologyGraphOps[omf <: OMF[omf]] { self: OMFStoreOps[omf] wit
   def getReifiedRelationshipUUID
   (term: omf#ReifiedRelationship)
   : resolver.api.taggedTypes.ReifiedRelationshipUUID
+
+  def getCardinalityRestrictedReifiedRelationshipUUID
+  (term: omf#CardinalityRestrictedReifiedRelationship)
+  : resolver.api.taggedTypes.CardinalityRestrictedReifiedRelationshipUUID
 
   def getUnreifiedRelationshipUUID
   (term: omf#UnreifiedRelationship)
@@ -1056,6 +1087,11 @@ trait ImmutableTerminologyGraphOps[omf <: OMF[omf]] { self: OMFStoreOps[omf] wit
   (r: omf#Aspect)
   : AspectSignature[omf]
 
+  def fromCardinalityRestrictedAspect
+  (ca: omf#CardinalityRestrictedAspect)
+  : CardinalityRestrictedAspectSignature[omf]
+
+
   // entity concept
 
   /**
@@ -1069,6 +1105,10 @@ trait ImmutableTerminologyGraphOps[omf <: OMF[omf]] { self: OMFStoreOps[omf] wit
   def fromConcept
   (c: omf#Concept)
   : ConceptSignature[omf]
+
+  def fromCardinalityRestrictedConcept
+  (ca: omf#CardinalityRestrictedConcept)
+  : CardinalityRestrictedConceptSignature[omf]
 
   def equivalentEntityConcepts
   (c1: Iterable[omf#Concept], c2: Iterable[omf#Concept])
@@ -1099,6 +1139,10 @@ trait ImmutableTerminologyGraphOps[omf <: OMF[omf]] { self: OMFStoreOps[omf] wit
   def fromReifiedRelationship
   (r: omf#ReifiedRelationship)
   : ReifiedRelationshipSignature[omf]
+
+  def fromCardinalityRestrictedReifiedRelationship
+  (ca: omf#CardinalityRestrictedReifiedRelationship)
+  : CardinalityRestrictedReifiedRelationshipSignature[omf]
 
   def fromUnreifiedRelationship
   (r: omf#UnreifiedRelationship)
@@ -1401,6 +1445,36 @@ trait MutableTerminologyGraphOps[omf <: OMF[omf]]
     ax <- addAspect(graph, uuid, iri, aspectName)
   } yield ax
 
+  protected def addCardinalityRestrictedAspectInternal
+  (graph: omf#MutableTerminologyBox,
+   uuid: resolver.api.taggedTypes.CardinalityRestrictedAspectUUID,
+   iri: omf#IRI,
+   aspectName: taggedTypes.LocalName,
+   restrictionKind: CardinalityRestrictionKind,
+   restrictedRelationship: omf#RestrictableRelationship,
+   restrictedRange: Option[omf#Entity],
+   restrictedCardinality: taggedTypes.PositiveIntegerLiteral)
+  (implicit store: omf#Store)
+  : Throwables \/ omf#CardinalityRestrictedAspect
+
+  final def addCardinalityRestrictedAspect
+  (graph: omf#MutableTerminologyBox,
+   aspectName: taggedTypes.LocalName,
+   restrictionKind: CardinalityRestrictionKind,
+   restrictedRelationship: omf#RestrictableRelationship,
+   restrictedRange: Option[omf#Entity],
+   restrictedCardinality: taggedTypes.PositiveIntegerLiteral)
+  (implicit store: omf#Store)
+  : Throwables \/ omf#CardinalityRestrictedAspect
+  = for {
+    iri <- withFragment(getModuleIRI(graph), aspectName)
+    uuid = resolver.api.taggedTypes.cardinalityRestrictedAspectUUID(
+      generateUUIDFromString(getModuleUUID(graph), "name" -> aspectName))
+    ax <- addCardinalityRestrictedAspectInternal(
+      graph, uuid, iri, aspectName,
+      restrictionKind, restrictedRelationship, restrictedRange, restrictedCardinality)
+  } yield ax
+
   /**
     * Add to a terminology graph a new OMF Concept.
     *
@@ -1413,8 +1487,7 @@ trait MutableTerminologyGraphOps[omf <: OMF[omf]]
     */
   protected def addConcept
   (graph: omf#MutableTerminologyBox,
-   uuid: resolver.api.taggedTypes.ConceptUUID
-   ,
+   uuid: resolver.api.taggedTypes.ConceptUUID,
    iri: omf#IRI,
    conceptName: taggedTypes.LocalName)
   (implicit store: omf#Store)
@@ -1441,6 +1514,36 @@ trait MutableTerminologyGraphOps[omf <: OMF[omf]]
     ax <- addConcept(graph, uuid, iri, conceptName)
   } yield ax
 
+  protected def addCardinalityRestrictedConceptInternal
+  (graph: omf#MutableTerminologyBox,
+   uuid: resolver.api.taggedTypes.CardinalityRestrictedConceptUUID,
+   iri: omf#IRI,
+   conceptName: taggedTypes.LocalName,
+   restrictionKind: CardinalityRestrictionKind,
+   restrictedRelationship: omf#RestrictableRelationship,
+   restrictedRange: Option[omf#Entity],
+   restrictedCardinality: taggedTypes.PositiveIntegerLiteral)
+  (implicit store: omf#Store)
+  : Throwables \/ omf#CardinalityRestrictedConcept
+
+  final def addCardinalityRestrictedConcept
+  (graph: omf#MutableTerminologyBox,
+   conceptName: taggedTypes.LocalName,
+   restrictionKind: CardinalityRestrictionKind,
+   restrictedRelationship: omf#RestrictableRelationship,
+   restrictedRange: Option[omf#Entity],
+   restrictedCardinality: taggedTypes.PositiveIntegerLiteral)
+  (implicit store: omf#Store)
+  : Throwables \/ omf#CardinalityRestrictedConcept
+  = for {
+    iri <- withFragment(getModuleIRI(graph), conceptName)
+    uuid = resolver.api.taggedTypes.cardinalityRestrictedConceptUUID(
+      generateUUIDFromString(getModuleUUID(graph), "name" -> conceptName))
+    ax <- addCardinalityRestrictedConceptInternal(
+      graph, uuid, iri, conceptName,
+      restrictionKind, restrictedRelationship, restrictedRange, restrictedCardinality)
+  } yield ax
+  
   protected def addReifiedRelationshipRestriction
   (graph: omf#MutableTerminologyBox,
    uuid: resolver.api.taggedTypes.ReifiedRelationshipRestrictionUUID,
@@ -1531,6 +1634,36 @@ trait MutableTerminologyGraphOps[omf <: OMF[omf]]
     ax <- addReifiedRelationship(
       graph, uuid, iri, source, target, characteristics,
       reifiedRelationshipName, unreifiedRelationshipName, unreifiedInverseRelationshipName)
+  } yield ax
+
+  protected def addCardinalityRestrictedReifiedRelationshipInternal
+  (graph: omf#MutableTerminologyBox,
+   uuid: resolver.api.taggedTypes.CardinalityRestrictedReifiedRelationshipUUID,
+   iri: omf#IRI,
+   reifiedRelationshipName: taggedTypes.LocalName,
+   restrictionKind: CardinalityRestrictionKind,
+   restrictedRelationship: omf#RestrictableRelationship,
+   restrictedRange: Option[omf#Entity],
+   restrictedCardinality: taggedTypes.PositiveIntegerLiteral)
+  (implicit store: omf#Store)
+  : Throwables \/ omf#CardinalityRestrictedReifiedRelationship
+
+  final def addCardinalityRestrictedReifiedRelationship
+  (graph: omf#MutableTerminologyBox,
+   reifiedRelationshipName: taggedTypes.LocalName,
+   restrictionKind: CardinalityRestrictionKind,
+   restrictedRelationship: omf#RestrictableRelationship,
+   restrictedRange: Option[omf#Entity],
+   restrictedCardinality: taggedTypes.PositiveIntegerLiteral)
+  (implicit store: omf#Store)
+  : Throwables \/ omf#CardinalityRestrictedReifiedRelationship
+  = for {
+    iri <- withFragment(getModuleIRI(graph), reifiedRelationshipName)
+    uuid = resolver.api.taggedTypes.cardinalityRestrictedReifiedRelationshipUUID(
+      generateUUIDFromString(getModuleUUID(graph), "name" -> reifiedRelationshipName))
+    ax <- addCardinalityRestrictedReifiedRelationshipInternal(
+      graph, uuid, iri, reifiedRelationshipName,
+      restrictionKind, restrictedRelationship, restrictedRange, restrictedCardinality)
   } yield ax
 
   /**
@@ -2299,14 +2432,14 @@ trait MutableTerminologyGraphOps[omf <: OMF[omf]]
   (graph: omf#MutableTerminologyBox,
    uuid: resolver.api.taggedTypes.AspectSpecializationAxiomUUID,
    sub: omf#Entity,
-   sup: omf#Aspect)
+   sup: omf#AspectKind)
   (implicit store: omf#Store)
   : Throwables \/ omf#AspectSpecializationAxiom
 
   def aspectSpecializationAxiomUUID
   (graph: omf#MutableTerminologyBox,
    sub: omf#Entity,
-   sup: omf#Aspect)
+   sup: omf#AspectKind)
   (implicit store: omf#Store)
   : Throwables \/ resolver.api.taggedTypes.AspectSpecializationAxiomUUID
   = resolver.api.taggedTypes.aspectSpecializationAxiomUUID(generateUUIDFromUUID(
@@ -2330,7 +2463,7 @@ trait MutableTerminologyGraphOps[omf <: OMF[omf]]
   final def addAspectSpecializationAxiom
   (graph: omf#MutableTerminologyBox,
    sub: omf#Entity,
-   sup: omf#Aspect)
+   sup: omf#AspectKind)
   (implicit store: omf#Store)
   : Throwables \/ omf#AspectSpecializationAxiom
   = for {
@@ -2340,8 +2473,8 @@ trait MutableTerminologyGraphOps[omf <: OMF[omf]]
 
   def conceptSpecializationAxiomUUID
   (graph: omf#MutableTerminologyBox,
-   sub: omf#Concept,
-   sup: omf#Concept)
+   sub: omf#ConceptKind,
+   sup: omf#ConceptKind)
   (implicit store: omf#Store)
   : Throwables \/ resolver.api.taggedTypes.ConceptSpecializationAxiomUUID
   = resolver.api.taggedTypes.conceptSpecializationAxiomUUID(generateUUIDFromUUID(
@@ -2365,8 +2498,8 @@ trait MutableTerminologyGraphOps[omf <: OMF[omf]]
   protected def addConceptSpecializationAxiom
   (graph: omf#MutableTerminologyBox,
    uuid: resolver.api.taggedTypes.ConceptSpecializationAxiomUUID,
-   sub: omf#Concept,
-   sup: omf#Concept)
+   sub: omf#ConceptKind,
+   sup: omf#ConceptKind)
   (implicit store: omf#Store)
   : Throwables \/ omf#ConceptSpecializationAxiom
 
@@ -2384,8 +2517,8 @@ trait MutableTerminologyGraphOps[omf <: OMF[omf]]
     */
   final def addConceptSpecializationAxiom
   (graph: omf#MutableTerminologyBox,
-   sub: omf#Concept,
-   sup: omf#Concept)
+   sub: omf#ConceptKind,
+   sup: omf#ConceptKind)
   (implicit store: omf#Store)
   : Throwables \/ omf#ConceptSpecializationAxiom
   = for {

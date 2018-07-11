@@ -22,6 +22,6 @@ import gov.nasa.jpl.imce.oml.resolver
 
 case class ConceptSpecializationSignature[omf <: OMF[omf]]
 ( uuid: resolver.api.taggedTypes.ConceptSpecializationAxiomUUID,
-  sub: omf#Concept,
-  sup: omf#Concept
+  sub: omf#ConceptKind,
+  sup: omf#ConceptKind
 )

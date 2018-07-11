@@ -23,5 +23,5 @@ import gov.nasa.jpl.imce.oml.resolver
 case class AspectSpecializationSignature[omf <: OMF[omf]]
 ( uuid: resolver.api.taggedTypes.AspectSpecializationAxiomUUID,
   sub: omf#Entity,
-  sup: omf#Aspect
+  sup: omf#AspectKind
 )

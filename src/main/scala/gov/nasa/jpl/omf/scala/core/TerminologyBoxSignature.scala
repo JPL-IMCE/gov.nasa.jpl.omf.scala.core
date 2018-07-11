@@ -79,9 +79,12 @@ case class TerminologyBoxSignature[omf <: OMF[omf], +S[A] <: scala.collection.It
   bundledTerminologies: S[omf#BundledTerminologyAxiom],
 
   aspects: S[omf#Aspect],
+  cardinalityRestrictedAspects: S[omf#CardinalityRestrictedAspect],
   concepts: S[omf#Concept],
+  cardinalityRestrictedConcepts: S[omf#CardinalityRestrictedConcept],
   reifiedRelationshipRestrictions: S[omf#ReifiedRelationshipRestriction],
   reifiedRelationships: S[omf#ReifiedRelationship],
+  cardinalityRestrictedReifiedRelationships: S[omf#CardinalityRestrictedReifiedRelationship],
   forwardProperties: S[omf#ForwardProperty],
   inverseProperties: S[omf#InverseProperty],
   unreifiedRelationships: S[omf#UnreifiedRelationship],
@@ -139,8 +142,12 @@ case class TerminologyBoxSignature[omf <: OMF[omf], +S[A] <: scala.collection.It
   : Set[omf#Term]
   = Set.empty[omf#Term] ++
       aspects ++
+      cardinalityRestrictedAspects ++
       concepts ++
+      cardinalityRestrictedConcepts ++
       reifiedRelationships ++
+      reifiedRelationshipRestrictions ++
+      cardinalityRestrictedReifiedRelationships ++
       scalarDataTypes ++
       structuredDataTypes ++
       scalarOneOfRestrictions ++
