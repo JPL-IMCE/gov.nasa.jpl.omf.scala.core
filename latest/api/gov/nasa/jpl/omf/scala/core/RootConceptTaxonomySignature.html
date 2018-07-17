@@ -45,7 +45,7 @@
         <span class="kind">case class</span>
       </span>
       <span class="symbol">
-        <span class="name">RootConceptTaxonomySignature</span><span class="tparams">[<span name="omf">omf &lt;: <a href="OMF.html" class="extype" name="gov.nasa.jpl.omf.scala.core.OMF">OMF</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.RootConceptTaxonomySignature.omf">omf</span>]</span>]</span><span class="params">(<span name="uuid">uuid: <span class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.RootConceptTaxonomyAxiomUUID">RootConceptTaxonomyAxiomUUID</span></span>, <span name="bundle">bundle: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.Bundle">omf.Bundle</span></span>, <span name="root">root: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.Concept">omf.Concept</span></span>)</span><span class="result"> extends <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.Product" class="extype" target="_top">Product</a> with <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.Serializable" class="extype" target="_top">Serializable</a></span>
+        <span class="name">RootConceptTaxonomySignature</span><span class="tparams">[<span name="omf">omf &lt;: <a href="OMF.html" class="extype" name="gov.nasa.jpl.omf.scala.core.OMF">OMF</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.RootConceptTaxonomySignature.omf">omf</span>]</span>]</span><span class="params">(<span name="uuid">uuid: <span class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.RootConceptTaxonomyAxiomUUID">RootConceptTaxonomyAxiomUUID</span></span>, <span name="bundle">bundle: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.Bundle">omf.Bundle</span></span>, <span name="root">root: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ConceptKind">omf.ConceptKind</span></span>)</span><span class="result"> extends <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.Product" class="extype" target="_top">Product</a> with <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.Serializable" class="extype" target="_top">Serializable</a></span>
       </span>
       </h4>
       
@@ -92,7 +92,7 @@
         <div id="constructors" class="members">
               <h3>Instance Constructors</h3>
               <ol><li name="gov.nasa.jpl.omf.scala.core.RootConceptTaxonomySignature#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="&lt;init&gt;(uuid:gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.RootConceptTaxonomyAxiomUUID,bundle:omf#Bundle,root:omf#Concept):gov.nasa.jpl.omf.scala.core.RootConceptTaxonomySignature[omf]"></a>
+      <a id="&lt;init&gt;(uuid:gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.RootConceptTaxonomyAxiomUUID,bundle:omf#Bundle,root:omf#ConceptKind):gov.nasa.jpl.omf.scala.core.RootConceptTaxonomySignature[omf]"></a>
       <a id="&lt;init&gt;:RootConceptTaxonomySignature[omf]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -100,10 +100,10 @@
         <span class="kind">new</span>
       </span>
       <span class="symbol">
-        <span class="name">RootConceptTaxonomySignature</span><span class="params">(<span name="uuid">uuid: <span class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.RootConceptTaxonomyAxiomUUID">RootConceptTaxonomyAxiomUUID</span></span>, <span name="bundle">bundle: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.Bundle">omf.Bundle</span></span>, <span name="root">root: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.Concept">omf.Concept</span></span>)</span>
+        <span class="name">RootConceptTaxonomySignature</span><span class="params">(<span name="uuid">uuid: <span class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.RootConceptTaxonomyAxiomUUID">RootConceptTaxonomyAxiomUUID</span></span>, <span name="bundle">bundle: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.Bundle">omf.Bundle</span></span>, <span name="root">root: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ConceptKind">omf.ConceptKind</span></span>)</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.RootConceptTaxonomySignature@&lt;init&gt;(uuid:gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.RootConceptTaxonomyAxiomUUID,bundle:omf#Bundle,root:omf#Concept):gov.nasa.jpl.omf.scala.core.RootConceptTaxonomySignature[omf]" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.RootConceptTaxonomySignature@&lt;init&gt;(uuid:gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.RootConceptTaxonomyAxiomUUID,bundle:omf#Bundle,root:omf#ConceptKind):gov.nasa.jpl.omf.scala.core.RootConceptTaxonomySignature[omf]" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -351,18 +351,18 @@
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
     </li><li name="gov.nasa.jpl.omf.scala.core.RootConceptTaxonomySignature#root" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="root:omf#Concept"></a>
-      <a id="root:omf.Concept"></a>
+      <a id="root:omf#ConceptKind"></a>
+      <a id="root:omf.ConceptKind"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">root</span><span class="result">: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.Concept">omf.Concept</span></span>
+        <span class="name">root</span><span class="result">: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ConceptKind">omf.ConceptKind</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.RootConceptTaxonomySignature@root:omf#Concept" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.RootConceptTaxonomySignature@root:omf#ConceptKind" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
