@@ -45,7 +45,7 @@
         <span class="kind">case class</span>
       </span>
       <span class="symbol">
-        <span class="name">ConceptSpecializationSignature</span><span class="tparams">[<span name="omf">omf &lt;: <a href="OMF.html" class="extype" name="gov.nasa.jpl.omf.scala.core.OMF">OMF</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.ConceptSpecializationSignature.omf">omf</span>]</span>]</span><span class="params">(<span name="uuid">uuid: <span class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.ConceptSpecializationAxiomUUID">ConceptSpecializationAxiomUUID</span></span>, <span name="sub">sub: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.Concept">omf.Concept</span></span>, <span name="sup">sup: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.Concept">omf.Concept</span></span>)</span><span class="result"> extends <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.Product" class="extype" target="_top">Product</a> with <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.Serializable" class="extype" target="_top">Serializable</a></span>
+        <span class="name">ConceptSpecializationSignature</span><span class="tparams">[<span name="omf">omf &lt;: <a href="OMF.html" class="extype" name="gov.nasa.jpl.omf.scala.core.OMF">OMF</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.ConceptSpecializationSignature.omf">omf</span>]</span>]</span><span class="params">(<span name="uuid">uuid: <span class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.ConceptSpecializationAxiomUUID">ConceptSpecializationAxiomUUID</span></span>, <span name="sub">sub: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ConceptKind">omf.ConceptKind</span></span>, <span name="sup">sup: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ConceptKind">omf.ConceptKind</span></span>)</span><span class="result"> extends <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.Product" class="extype" target="_top">Product</a> with <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.Serializable" class="extype" target="_top">Serializable</a></span>
       </span>
       </h4>
       
@@ -92,7 +92,7 @@
         <div id="constructors" class="members">
               <h3>Instance Constructors</h3>
               <ol><li name="gov.nasa.jpl.omf.scala.core.ConceptSpecializationSignature#&lt;init&gt;" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="&lt;init&gt;(uuid:gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.ConceptSpecializationAxiomUUID,sub:omf#Concept,sup:omf#Concept):gov.nasa.jpl.omf.scala.core.ConceptSpecializationSignature[omf]"></a>
+      <a id="&lt;init&gt;(uuid:gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.ConceptSpecializationAxiomUUID,sub:omf#ConceptKind,sup:omf#ConceptKind):gov.nasa.jpl.omf.scala.core.ConceptSpecializationSignature[omf]"></a>
       <a id="&lt;init&gt;:ConceptSpecializationSignature[omf]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -100,10 +100,10 @@
         <span class="kind">new</span>
       </span>
       <span class="symbol">
-        <span class="name">ConceptSpecializationSignature</span><span class="params">(<span name="uuid">uuid: <span class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.ConceptSpecializationAxiomUUID">ConceptSpecializationAxiomUUID</span></span>, <span name="sub">sub: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.Concept">omf.Concept</span></span>, <span name="sup">sup: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.Concept">omf.Concept</span></span>)</span>
+        <span class="name">ConceptSpecializationSignature</span><span class="params">(<span name="uuid">uuid: <span class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.ConceptSpecializationAxiomUUID">ConceptSpecializationAxiomUUID</span></span>, <span name="sub">sub: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ConceptKind">omf.ConceptKind</span></span>, <span name="sup">sup: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ConceptKind">omf.ConceptKind</span></span>)</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.ConceptSpecializationSignature@&lt;init&gt;(uuid:gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.ConceptSpecializationAxiomUUID,sub:omf#Concept,sup:omf#Concept):gov.nasa.jpl.omf.scala.core.ConceptSpecializationSignature[omf]" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.ConceptSpecializationSignature@&lt;init&gt;(uuid:gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.ConceptSpecializationAxiomUUID,sub:omf#ConceptKind,sup:omf#ConceptKind):gov.nasa.jpl.omf.scala.core.ConceptSpecializationSignature[omf]" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -334,35 +334,35 @@
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef</dd></dl></div>
     </li><li name="gov.nasa.jpl.omf.scala.core.ConceptSpecializationSignature#sub" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="sub:omf#Concept"></a>
-      <a id="sub:omf.Concept"></a>
+      <a id="sub:omf#ConceptKind"></a>
+      <a id="sub:omf.ConceptKind"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">sub</span><span class="result">: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.Concept">omf.Concept</span></span>
+        <span class="name">sub</span><span class="result">: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ConceptKind">omf.ConceptKind</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.ConceptSpecializationSignature@sub:omf#Concept" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.ConceptSpecializationSignature@sub:omf#ConceptKind" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
       
     </li><li name="gov.nasa.jpl.omf.scala.core.ConceptSpecializationSignature#sup" visbl="pub" data-isabs="false" fullComment="no" group="Ungrouped">
-      <a id="sup:omf#Concept"></a>
-      <a id="sup:omf.Concept"></a>
+      <a id="sup:omf#ConceptKind"></a>
+      <a id="sup:omf.ConceptKind"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">val</span>
       </span>
       <span class="symbol">
-        <span class="name">sup</span><span class="result">: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.Concept">omf.Concept</span></span>
+        <span class="name">sup</span><span class="result">: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ConceptKind">omf.ConceptKind</span></span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.ConceptSpecializationSignature@sup:omf#Concept" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.ConceptSpecializationSignature@sup:omf#ConceptKind" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
