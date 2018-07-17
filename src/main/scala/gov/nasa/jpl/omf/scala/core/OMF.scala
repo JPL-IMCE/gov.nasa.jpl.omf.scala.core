@@ -137,24 +137,14 @@ trait OMFtbox extends OMFcbox {
     */
   type Entity <: Term with Predicate
 
-  /**
-    * A ModelEntityAspect defines an abstraction that can be the superclass of other
-    * ModelEntityAspects, ModelEntityConcepts or ModelEntityReifiedRelationships.
-    *
-    * In an OMF ABox graph, a ModelEntityAspect cannot be explicitly instantiated;
-    * however, a ModelEntityConcept or ModelEntityReifiedRelationship specialization
-    * of a ModelEntityAspect can be explicitly instantiated.
-    */
-  type Aspect <: Entity
+  type AspectKind <: Entity
+  type Aspect <: AspectKind
+  type CardinalityRestrictedAspect <: AspectKind
 
   type ConceptualEntity <: Entity
-
-  /**
-    * A ModelEntityConcept defines a concept in the conceptual modeling of a domain.
-    *
-    * In an OMF ABox, each instance of a ModelEntityConcept has a unique identity.
-    */
-  type Concept <: ConceptualEntity
+  type ConceptKind <: ConceptualEntity
+  type Concept <: ConceptKind
+  type CardinalityRestrictedConcept <: ConceptKind
 
   type EntityRelationship <: Term
 
@@ -164,14 +154,11 @@ trait OMFtbox extends OMFcbox {
 
   type UnreifiedRelationship <: CharacterizedEntityRelationship with Predicate
 
-  /**
-    * A ModelEntityReifiedRelationship defines a binary, directed relationship in the conceptual modeling of a domain.
-    *
-    * The relationship domain (aka source) and range (aka target) can be any kind of ModelEntityDefinition
-    */
   type ReifiedRelationship <: CharacterizedEntityRelationship with ConceptualRelationship
 
   type ReifiedRelationshipRestriction <: ConceptualRelationship
+
+  type CardinalityRestrictedReifiedRelationship <: ConceptualRelationship
 
   type ForwardProperty <: RestrictableRelationship
 

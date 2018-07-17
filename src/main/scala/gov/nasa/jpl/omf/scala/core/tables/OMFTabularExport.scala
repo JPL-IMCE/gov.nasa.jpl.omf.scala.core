@@ -115,7 +115,7 @@ object Axioms {
         uuid = info.uuid,
         tboxUUID = guuid,
         subEntityUUID = ops.getEntityUUID(info.sub),
-        superAspectUUID = ops.getAspectUUID(info.sup)))
+        superAspectUUID = ops.getAspectKindUUID(info.sup)))
   }
 
   def funConceptSpecializationAxiom[omf <: OMF[omf]]
@@ -128,8 +128,8 @@ object Axioms {
       oml.tables.ConceptSpecializationAxiom(
         uuid = info.uuid,
         tboxUUID = guuid,
-        subConceptUUID = ops.getConceptUUID(info.sub),
-        superConceptUUID = ops.getConceptUUID(info.sup)))
+        subConceptUUID = ops.getConceptKindUUID(info.sub),
+        superConceptUUID = ops.getConceptKindUUID(info.sup)))
   }
 
   def funReifiedRelationshipSpecializationAxiom[omf <: OMF[omf]]

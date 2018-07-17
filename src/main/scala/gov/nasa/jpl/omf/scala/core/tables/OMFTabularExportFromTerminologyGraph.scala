@@ -143,6 +143,20 @@ object OMFTabularExportFromTerminologyGraph {
       }.to[Seq],
       (a: oml.tables.Aspect) => a.uuid)(taggedTypes.orderingAspectUUID)
 
+    allCardinalityRestrictedAspects = parallelSort.parSortBy(
+      s.cardinalityRestrictedAspects.map { a =>
+        val as = ops.fromCardinalityRestrictedAspect(a)
+        oml.tables.CardinalityRestrictedAspect(
+          tboxUUID = suuid,
+          uuid = ops.getCardinalityRestrictedAspectUUID(a),
+          name = ops.getTermName(a),
+          restrictedRangeUUID = as.restrictedRange.map(ops.getEntityUUID),
+          restrictedCardinality = as.restrictedCardinality,
+          restrictedRelationshipUUID = ops.getRestrictableRelationshipUUID(as.restrictedRelationship),
+          restrictionKind = as.restrictionKind)
+      }.to[Seq],
+      (a: oml.tables.CardinalityRestrictedAspect) => a.uuid)(taggedTypes.orderingCardinalityRestrictedAspectUUID)
+
     allConcepts = parallelSort.parSortBy(
       s.concepts.map { c =>
         oml.tables.Concept(
@@ -151,6 +165,20 @@ object OMFTabularExportFromTerminologyGraph {
           name = ops.getTermName(c))
       }.to[Seq],
       (c: oml.tables.Concept) => c.uuid)(taggedTypes.orderingConceptUUID)
+
+    allCardinalityRestrictedConcepts = parallelSort.parSortBy(
+      s.cardinalityRestrictedConcepts.map { c =>
+        val cs = ops.fromCardinalityRestrictedConcept(c)
+        oml.tables.CardinalityRestrictedConcept(
+          tboxUUID = suuid,
+          uuid = ops.getCardinalityRestrictedConceptUUID(c),
+          name = ops.getTermName(c),
+          restrictedRangeUUID = cs.restrictedRange.map(ops.getEntityUUID),
+          restrictedCardinality = cs.restrictedCardinality,
+          restrictedRelationshipUUID = ops.getRestrictableRelationshipUUID(cs.restrictedRelationship),
+          restrictionKind = cs.restrictionKind)
+      }.to[Seq],
+      (c: oml.tables.CardinalityRestrictedConcept) => c.uuid)(taggedTypes.orderingCardinalityRestrictedConceptUUID)
 
     allReifiedRelationshipRestrictions = parallelSort.parSortBy(
       s.reifiedRelationshipRestrictions.map { rr =>
@@ -206,6 +234,20 @@ object OMFTabularExportFromTerminologyGraph {
         }
       }.to[Seq],
       (i: oml.tables.InverseProperty) => i.uuid)(taggedTypes.orderingInversePropertyUUID)
+
+    allCardinalityRestrictedReifiedRelationships = parallelSort.parSortBy(
+      s.cardinalityRestrictedReifiedRelationships.map { rr =>
+        val rrs = ops.fromCardinalityRestrictedReifiedRelationship(rr)
+        oml.tables.CardinalityRestrictedReifiedRelationship(
+          tboxUUID = suuid,
+          uuid = ops.getCardinalityRestrictedReifiedRelationshipUUID(rr),
+          name = ops.getTermName(rr),
+          restrictedRangeUUID = rrs.restrictedRange.map(ops.getEntityUUID),
+          restrictedCardinality = rrs.restrictedCardinality,
+          restrictedRelationshipUUID = ops.getRestrictableRelationshipUUID(rrs.restrictedRelationship),
+          restrictionKind = rrs.restrictionKind)
+      }.to[Seq],
+      (rr: oml.tables.CardinalityRestrictedReifiedRelationship) => rr.uuid)(taggedTypes.orderingCardinalityRestrictedReifiedRelationshipUUID)
 
     allUnreifiedRelationships = parallelSort.parSortBy(
       s.unreifiedRelationships.map { ur =>
@@ -490,7 +532,10 @@ object OMFTabularExportFromTerminologyGraph {
       annotationProperties = allAnnotationProperties,
 
       aspects = allAspects,
+      cardinalityRestrictedAspects = allCardinalityRestrictedAspects,
+
       concepts = allConcepts,
+      cardinalityRestrictedConcepts = allCardinalityRestrictedConcepts,
 
       scalars = allScalars,
       structures = allStructures,
@@ -520,6 +565,7 @@ object OMFTabularExportFromTerminologyGraph {
       reifiedRelationships = allReifiedRelationships,
       forwardProperties = allForwardProperties,
       inverseProperties = allInverseProperties,
+      cardinalityRestrictedReifiedRelationships = allCardinalityRestrictedReifiedRelationships,
       unreifiedRelationships = allUnreifiedRelationships,
 
       chainRules = allChainRules,
