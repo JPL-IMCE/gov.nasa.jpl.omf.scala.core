@@ -22,7 +22,7 @@ import gov.nasa.jpl.imce.oml.resolver
 
 case class TerminologyNestingSignature[omf <: OMF[omf]]
 (uuid: resolver.api.taggedTypes.TerminologyNestingAxiomUUID,
- nestingContext: omf#Concept,
+ nestingContext: omf#ConceptKind,
  nestingTerminology: omf#IRI)
   extends TerminologyAxiomSignature[omf] {
 

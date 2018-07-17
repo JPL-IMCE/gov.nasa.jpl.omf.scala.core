@@ -22,4 +22,4 @@ import gov.nasa.jpl.imce.oml.resolver
 
 case class ConceptInstanceSignature[omf <: OMF[omf]]
 ( uuid: resolver.api.taggedTypes.ConceptInstanceUUID,
-  concept: omf#Concept )
+  concept: omf#ConceptKind )

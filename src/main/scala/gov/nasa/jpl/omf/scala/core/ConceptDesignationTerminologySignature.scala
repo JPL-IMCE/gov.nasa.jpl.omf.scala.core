@@ -23,7 +23,7 @@ import gov.nasa.jpl.imce.oml.resolver
 case class ConceptDesignationTerminologySignature[omf <: OMF[omf]]
 (uuid: resolver.api.taggedTypes.ConceptDesignationTerminologyAxiomUUID,
  graphUUID: resolver.api.taggedTypes.TerminologyBoxUUID,
- designatedConcept: omf#Concept,
+ designatedConcept: omf#ConceptKind,
  designatedTerminology: omf#IRI)
   extends TerminologyAxiomSignature[omf] {
 

@@ -23,5 +23,5 @@ import gov.nasa.jpl.imce.oml.resolver
 case class RootConceptTaxonomySignature[omf <: OMF[omf]]
 ( uuid: resolver.api.taggedTypes.RootConceptTaxonomyAxiomUUID,
   bundle: omf#Bundle,
-  root: omf#Concept
+  root: omf#ConceptKind
 )

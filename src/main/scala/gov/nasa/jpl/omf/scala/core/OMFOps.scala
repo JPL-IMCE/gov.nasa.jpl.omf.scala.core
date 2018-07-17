@@ -915,7 +915,10 @@ trait ImmutableTerminologyGraphOps[omf <: OMF[omf]] { self: OMFStoreOps[omf] wit
 
   def foldTerm[T]
   (funAspect: omf#Aspect => T,
+   funCardinalityRestrictedAspect: omf#CardinalityRestrictedAspect => T,
    funConcept: omf#Concept => T,
+   funCardinalityRestrictedConcept: omf#CardinalityRestrictedConcept => T,
+   funCardinalityRestrictedReifiedRelationship: omf#CardinalityRestrictedReifiedRelationship => T,
    funReifiedRelationshipRestriction: omf#ReifiedRelationshipRestriction => T,
    funReifiedRelationship: omf#ReifiedRelationship => T,
    funUnreifiedRelationship: omf#UnreifiedRelationship => T,
@@ -1075,7 +1078,7 @@ trait ImmutableTerminologyGraphOps[omf <: OMF[omf]] { self: OMFStoreOps[omf] wit
     * Find the axioms TerminologyGraphDirectNestingAxiom(nestingContext=nestingC).
     */
   def lookupNestingAxiomsForNestingContext
-  (nestingC: omf#Concept)
+  (nestingC: omf#ConceptKind)
   (implicit store: omf#Store)
   : Set[omf#TerminologyNestingAxiom]
 
@@ -3058,14 +3061,14 @@ trait MutableTerminologyGraphOps[omf <: OMF[omf]]
   protected def addNestedTerminology
   (uuid: resolver.api.taggedTypes.TerminologyNestingAxiomUUID,
    nestingTerminology: omf#TerminologyBox,
-   nestingContext: omf#Concept,
+   nestingContext: omf#ConceptKind,
    nestedTerminology: omf#MutableTerminologyGraph)
   (implicit store: omf#Store)
   : Throwables \/ omf#TerminologyNestingAxiom
 
   def terminologyNestingAxiomUUID
   (nestingGraph: omf#TerminologyBox,
-   nestingContext: omf#Concept,
+   nestingContext: omf#ConceptKind,
    nestedGraph: omf#TerminologyBox)
   (implicit store: omf#Store)
   : Throwables \/ resolver.api.taggedTypes.TerminologyNestingAxiomUUID
@@ -3089,7 +3092,7 @@ trait MutableTerminologyGraphOps[omf <: OMF[omf]]
     */
   final def addNestedTerminology
   (nestingGraph: omf#TerminologyBox,
-   nestingContext: omf#Concept,
+   nestingContext: omf#ConceptKind,
    nestedGraph: omf#MutableTerminologyGraph)
   (implicit store: omf#Store)
   : Throwables \/ omf#TerminologyNestingAxiom
@@ -3113,7 +3116,7 @@ trait MutableTerminologyGraphOps[omf <: OMF[omf]]
   protected def addEntityConceptDesignationTerminologyAxiom
   (graph: omf#MutableTerminologyBox,
    uuid: resolver.api.taggedTypes.ConceptDesignationTerminologyAxiomUUID,
-   designatedConcept: omf#Concept,
+   designatedConcept: omf#ConceptKind,
    designatedTerminology: omf#TerminologyBox)
   (implicit store: omf#Store)
   : Throwables \/ omf#ConceptDesignationTerminologyAxiom
@@ -3133,7 +3136,7 @@ trait MutableTerminologyGraphOps[omf <: OMF[omf]]
     */
   final def addEntityConceptDesignationTerminologyAxiom
   (graph: omf#MutableTerminologyBox,
-   entityConceptDesignation: omf#Concept,
+   entityConceptDesignation: omf#ConceptKind,
    designationTerminologyGraph: omf#TerminologyBox)
   (implicit store: omf#Store)
   : Throwables \/ omf#ConceptDesignationTerminologyAxiom
@@ -3214,13 +3217,13 @@ trait MutableTerminologyGraphOps[omf <: OMF[omf]]
   protected def addRootConceptTaxonomyAxiom
   (uuid: resolver.api.taggedTypes.RootConceptTaxonomyAxiomUUID,
    terminologyBundle: omf#MutableBundle,
-   root: omf#Concept)
+   root: omf#ConceptKind)
   (implicit store: omf#Store)
   : Throwables \/ omf#RootConceptTaxonomyAxiom
 
   def rootConceptTaxonomyAxiomUUID
   (terminologyBundle: omf#MutableBundle,
-   root: omf#Concept)
+   root: omf#ConceptKind)
   (implicit store: omf#Store)
   : Throwables \/ resolver.api.taggedTypes.RootConceptTaxonomyAxiomUUID
   = resolver.api.taggedTypes.rootConceptTaxonomyAxiomUUID(generateUUIDFromUUID(
@@ -3240,7 +3243,7 @@ trait MutableTerminologyGraphOps[omf <: OMF[omf]]
     */
   final def addRootConceptTaxonomyAxiom
   (terminologyBundle: omf#MutableBundle,
-   root: omf#Concept)
+   root: omf#ConceptKind)
   (implicit store: omf#Store)
   : Throwables \/ omf#RootConceptTaxonomyAxiom
   = for {
@@ -3318,14 +3321,14 @@ trait MutableTerminologyGraphOps[omf <: OMF[omf]]
   (uuid: resolver.api.taggedTypes.SpecificDisjointConceptAxiomUUID,
    terminologyBundle: omf#MutableBundle,
    disjointTerminologyParent: omf#ConceptTreeDisjunction,
-   disjointLeaf: omf#Concept)
+   disjointLeaf: omf#ConceptKind)
   (implicit store: omf#Store)
   : Throwables \/ omf#SpecificDisjointConceptAxiom
 
   def specificDisjointConceptAxiomUUID
   (terminologyBundle: omf#MutableBundle,
    disjointTerminologyParent: omf#ConceptTreeDisjunction,
-   disjointLeaf: omf#Concept)
+   disjointLeaf: omf#ConceptKind)
   (implicit store: omf#Store)
   : Throwables \/ resolver.api.taggedTypes.SpecificDisjointConceptAxiomUUID
   = resolver.api.taggedTypes.specificDisjointConceptAxiomUUID(generateUUIDFromUUID(
@@ -3347,7 +3350,7 @@ trait MutableTerminologyGraphOps[omf <: OMF[omf]]
   final def addSpecificDisjointConceptAxiom
   (terminologyBundle: omf#MutableBundle,
    disjointTerminologyParent: omf#ConceptTreeDisjunction,
-   disjointLeaf: omf#Concept)
+   disjointLeaf: omf#ConceptKind)
   (implicit store: omf#Store)
   : Throwables \/ omf#SpecificDisjointConceptAxiom
   = for {
@@ -3557,14 +3560,14 @@ trait MutableDescriptionBoxOps[omf <: OMF[omf]]
   (uuid: resolver.api.taggedTypes.ConceptInstanceUUID,
    dbox: omf#MutableDescriptionBox,
    iri: omf#IRI,
-   conceptType: omf#Concept,
+   conceptType: omf#ConceptKind,
    fragment: taggedTypes.LocalName)
   (implicit store: omf#Store)
   : Throwables \/ omf#ConceptInstance
 
   def addConceptInstance
   (dbox: omf#MutableDescriptionBox,
-   conceptType: omf#Concept,
+   conceptType: omf#ConceptKind,
    fragment: taggedTypes.LocalName)
   (implicit store: omf#Store)
   : Throwables \/ omf#ConceptInstance
