@@ -24,4 +24,4 @@ case class SpecificDisjointConceptSignature[omf <: OMF[omf]]
 (uuid: resolver.api.taggedTypes.SpecificDisjointConceptAxiomUUID,
  bundle: omf#Bundle,
  disjointTaxonomyParent: omf#ConceptTreeDisjunction,
- disjointLeaf: omf#Concept)
+ disjointLeaf: omf#ConceptKind)

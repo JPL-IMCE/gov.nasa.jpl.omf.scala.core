@@ -270,8 +270,8 @@ abstract class OMFNestedGraphTest[omf <: OMF[omf]]
           // TODO: Investigate...
           // Error:(269, 68) [Artima SuperSafe] Values of type omf#ConceptualEntity and _37.Term with _37.Predicate forSome { val _37: omf } may not be compared for equality with ScalaTest's be matcher syntax. If you really want this expression to compile, configure Artima SuperSafe to allow omf#ConceptualEntity and _37.Term with _37.Predicate forSome { val _37: omf } to be compared for equality.  For more information on this kind of error, see: http://www.artima.com/supersafe_user_guide.html#safer-equality
           // fromTerminologyNestingAxiom(ax).nestingContext should be(g_authorizes_p1)
-          val _c1: omf#Concept = fromTerminologyNestingAxiom(ax).nestingContext
-          val _c2: omf#Concept = g_authorizes_p1
+          val _c1: omf#ConceptKind = fromTerminologyNestingAxiom(ax).nestingContext
+          val _c2: omf#ConceptKind = g_authorizes_p1
 
           // TODO: Investigate
           // Error:(273, 25) [Artima SuperSafe] Values of type omf#ConceptualEntity and _37.Term with _37.Predicate forSome { val _37: omf } may not be compared for equality with ScalaTest's be matcher syntax. If you really want this expression to compile, configure Artima SuperSafe to allow omf#ConceptualEntity and _37.Term with _37.Predicate forSome { val _37: omf } to be compared for equality.  For more information on this kind of error, see: http://www.artima.com/supersafe_user_guide.html#safer-equality
@@ -286,8 +286,8 @@ abstract class OMFNestedGraphTest[omf <: OMF[omf]]
           // TODO: Investigate...
           // Error:(284, 68) [Artima SuperSafe] Values of type omf#ConceptualEntity and _37.Term with _37.Predicate forSome { val _37: omf } may not be compared for equality with ScalaTest's be matcher syntax. If you really want this expression to compile, configure Artima SuperSafe to allow omf#ConceptualEntity and _37.Term with _37.Predicate forSome { val _37: omf } to be compared for equality.  For more information on this kind of error, see: http://www.artima.com/supersafe_user_guide.html#safer-equality
           // fromTerminologyNestingAxiom(ax).nestingContext should be(g_authorizes_p2)
-          val _c1: omf#Concept = fromTerminologyNestingAxiom(ax).nestingContext
-          val _c2: omf#Concept = g_authorizes_p2
+          val _c1: omf#ConceptKind = fromTerminologyNestingAxiom(ax).nestingContext
+          val _c2: omf#ConceptKind = g_authorizes_p2
 
           // TODO: Investigate
           // Error:(273, 25) [Artima SuperSafe] Values of type omf#ConceptualEntity and _37.Term with _37.Predicate forSome { val _37: omf } may not be compared for equality with ScalaTest's be matcher syntax. If you really want this expression to compile, configure Artima SuperSafe to allow omf#ConceptualEntity and _37.Term with _37.Predicate forSome { val _37: omf } to be compared for equality.  For more information on this kind of error, see: http://www.artima.com/supersafe_user_guide.html#safer-equality
@@ -401,18 +401,18 @@ abstract class OMFNestedGraphTest[omf <: OMF[omf]]
         lookupNestingAxiomForNestedChildIfAny(nestedG = p1).nonEmpty should be(true)
         lookupNestingAxiomForNestedChildIfAny(nestedG = g).isEmpty should be(true)
         lookupNestingAxiomForNestedChildIfAny(nestedG = p1).foreach { ax =>
-          val _c1: omf#Concept = g_authorizes_p1.get
-          val _c2: omf#Concept = fromTerminologyNestingAxiom(ax).nestingContext
+          val _c1: omf#ConceptKind = g_authorizes_p1.get
+          val _c2: omf#ConceptKind = fromTerminologyNestingAxiom(ax).nestingContext
           // _c1 should be(_c2)
-          fromConcept(_c2).uuid should be(fromConcept(_c1).uuid)
+          getConceptKindUUID(_c2) should be(getConceptKindUUID(_c1))
         }
         lookupNestingAxiomForNestedChildIfAny(nestedG = p2).nonEmpty should be(true)
         lookupNestingAxiomForNestedChildIfAny(nestedG = p2).foreach { ax =>
-          val _c1: omf#Concept = g_authorizes_p2.get
-          val _c2: omf#Concept = fromTerminologyNestingAxiom(ax).nestingContext
+          val _c1: omf#ConceptKind = g_authorizes_p2.get
+          val _c2: omf#ConceptKind = fromTerminologyNestingAxiom(ax).nestingContext
 
           //_c1 should be(_c2)
-          fromConcept(_c2).uuid should be(fromConcept(_c1).uuid)
+          getConceptKindUUID(_c2) should be(getConceptKindUUID(_c1))
           //fromTerminologyNestingAxiom(ax).nestingContext should be(g_authorizes_p2.get)
         }
 

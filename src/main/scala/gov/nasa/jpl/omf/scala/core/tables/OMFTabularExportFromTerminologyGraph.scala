@@ -86,7 +86,7 @@ object OMFTabularExportFromTerminologyGraph {
           ax = oml.tables.ConceptDesignationTerminologyAxiom(
             uuid = omf_info.uuid,
             tboxUUID = omf_info.graphUUID,
-            designatedConceptUUID = ops.getConceptUUID(omf_info.designatedConcept),
+            designatedConceptUUID = ops.getConceptKindUUID(omf_info.designatedConcept),
             designatedTerminologyIRI = omf_info.designatedTerminology)
 
         } yield axs :+ ax
@@ -125,7 +125,7 @@ object OMFTabularExportFromTerminologyGraph {
             uuid = omf_info.uuid,
             tboxUUID = suuid,
             nestingTerminologyIRI = omf_info.nestingTerminology,
-            nestingContextUUID = ops.getConceptUUID(omf_info.nestingContext))
+            nestingContextUUID = ops.getConceptKindUUID(omf_info.nestingContext))
 
         } yield axs :+ ax
       }

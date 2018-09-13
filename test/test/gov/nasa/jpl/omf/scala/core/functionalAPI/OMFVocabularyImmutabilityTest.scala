@@ -334,7 +334,7 @@ abstract class OMFVocabularyImmutabilityTest[omf <: OMF[omf]]
         // Error:(324, 46) [Artima SuperSafe] Values of type omf#Entity and _38.Term with _38.Predicate forSome { val _38: omf } may not be compared for equality with ScalaTest's be matcher syntax. If you really want this expression to compile, configure Artima SuperSafe to allow omf#Entity and _38.Term with _38.Predicate forSome { val _38: omf } to be compared for equality.  For more information on this kind of error, see: http://www.artima.com/supersafe_user_guide.html#safer-equality
         //identifiedElement.get should be(prop.domain)
 
-        val _a: omf#Aspect = identifiedElement.get
+        val _a: omf#AspectKind = identifiedElement.get
         val _e: omf#Entity = prop.domain
 
         // TODO Investigate...

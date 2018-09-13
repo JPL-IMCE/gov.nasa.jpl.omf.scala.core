@@ -128,7 +128,7 @@ object OMFTabularExportFromDescriptionBox {
         oml.tables.ConceptInstance(
           uuid = s.uuid,
           descriptionBoxUUID = suuid,
-          singletonConceptClassifierUUID = ops.getConceptUUID(s.concept),
+          singletonConceptClassifierUUID = ops.getConceptKindUUID(s.concept),
           name = ops.getTermName(s.concept))
       }.to[Seq],
       (x: oml.tables.ConceptInstance) => x.uuid)(taggedTypes.orderingConceptInstanceUUID)

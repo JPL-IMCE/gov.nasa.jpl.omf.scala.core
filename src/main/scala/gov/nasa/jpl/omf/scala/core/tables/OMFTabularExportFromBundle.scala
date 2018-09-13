@@ -87,7 +87,7 @@ object OMFTabularExportFromBundle {
           ax = oml.tables.ConceptDesignationTerminologyAxiom(
             uuid = omf_info.uuid,
             tboxUUID = omf_info.graphUUID,
-            designatedConceptUUID = ops.getConceptUUID(omf_info.designatedConcept),
+            designatedConceptUUID = ops.getConceptKindUUID(omf_info.designatedConcept),
             designatedTerminologyIRI = omf_info.designatedTerminology)
 
         } yield axs :+ ax
@@ -141,7 +141,7 @@ object OMFTabularExportFromBundle {
             uuid = omf_info.uuid,
             tboxUUID = suuid,
             nestingTerminologyIRI = omf_info.nestingTerminology,
-            nestingContextUUID = ops.getConceptUUID(omf_info.nestingContext))
+            nestingContextUUID = ops.getConceptKindUUID(omf_info.nestingContext))
 
         } yield axs :+ ax
       }
@@ -512,7 +512,7 @@ object OMFTabularExportFromBundle {
         oml.tables.RootConceptTaxonomyAxiom(
           uuid = info.uuid,
           bundleUUID = suuid,
-          rootUUID = ops.getConceptUUID(info.root))
+          rootUUID = ops.getConceptKindUUID(info.root))
       }.to[Seq],
       (x: oml.tables.RootConceptTaxonomyAxiom) => x.uuid)(taggedTypes.orderingRootConceptTaxonomyAxiomUUID)
 
@@ -521,7 +521,7 @@ object OMFTabularExportFromBundle {
         val info = ops.fromSpecificDisjointConceptAxiom(ax)
         oml.tables.SpecificDisjointConceptAxiom(
           uuid = info.uuid,
-          disjointLeafUUID = ops.getConceptUUID(info.disjointLeaf),
+          disjointLeafUUID = ops.getConceptKindUUID(info.disjointLeaf),
           disjointTaxonomyParentUUID = ops.getConceptTreeDisjunctionUUID(info.disjointTaxonomyParent))
       }.to[Seq],
       (x: oml.tables.SpecificDisjointConceptAxiom) => x.uuid)(taggedTypes.orderingSpecificDisjointConceptAxiomUUID)
