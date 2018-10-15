@@ -238,18 +238,18 @@
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="MutableTerminologyGraphOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.MutableTerminologyGraphOps">MutableTerminologyGraphOps</a></dd></dl></div>
     </li><li name="gov.nasa.jpl.omf.scala.core.MutableTerminologyGraphOps#addChainRule" visbl="prt" data-isabs="true" fullComment="yes" group="Ungrouped">
-      <a id="addChainRule(graph:omf#MutableTerminologyBox,uuid:gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.ChainRuleUUID,iri:omf#IRI,head:omf#UnreifiedRelationship)(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,omf#ChainRule]"></a>
-      <a id="addChainRule(omf.MutableTerminologyBox,ChainRuleUUID,omf.IRI,omf.UnreifiedRelationship)(omf.Store):\/[Throwables,omf.ChainRule]"></a>
+      <a id="addChainRule(graph:omf#MutableTerminologyBox,uuid:gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.ChainRuleUUID,iri:omf#IRI,head:omf#RestrictableRelationship)(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,omf#ChainRule]"></a>
+      <a id="addChainRule(omf.MutableTerminologyBox,ChainRuleUUID,omf.IRI,omf.RestrictableRelationship)(omf.Store):\/[Throwables,omf.ChainRule]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">abstract </span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">addChainRule</span><span class="params">(<span name="graph">graph: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.MutableTerminologyBox">omf.MutableTerminologyBox</span></span>, <span name="uuid">uuid: <span class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.ChainRuleUUID">ChainRuleUUID</span></span>, <span name="iri">iri: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFiri.IRI">omf.IRI</span></span>, <span name="head">head: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.UnreifiedRelationship">omf.UnreifiedRelationship</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <span class="extype" name="scalaz.\/">\/</span>[<a href="OMFError$.html#Throwables=scala.collection.immutable.Set[Throwable]" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFError.Throwables">Throwables</a>, <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ChainRule">omf.ChainRule</span>]</span>
+        <span class="name">addChainRule</span><span class="params">(<span name="graph">graph: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.MutableTerminologyBox">omf.MutableTerminologyBox</span></span>, <span name="uuid">uuid: <span class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.ChainRuleUUID">ChainRuleUUID</span></span>, <span name="iri">iri: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFiri.IRI">omf.IRI</span></span>, <span name="head">head: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFcbox.RestrictableRelationship">omf.RestrictableRelationship</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <span class="extype" name="scalaz.\/">\/</span>[<a href="OMFError$.html#Throwables=scala.collection.immutable.Set[Throwable]" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFError.Throwables">Throwables</a>, <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ChainRule">omf.ChainRule</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFOps@addChainRule(graph:omf#MutableTerminologyBox,uuid:gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.ChainRuleUUID,iri:omf#IRI,head:omf#UnreifiedRelationship)(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,omf#ChainRule]" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFOps@addChainRule(graph:omf#MutableTerminologyBox,uuid:gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.ChainRuleUUID,iri:omf#IRI,head:omf#RestrictableRelationship)(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,omf#ChainRule]" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -551,6 +551,74 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="MutableTerminologyGraphOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.MutableTerminologyGraphOps">MutableTerminologyGraphOps</a></dd></dl></div>
+    </li><li name="gov.nasa.jpl.omf.scala.core.MutableDescriptionBoxOps#addInstanceRelationshipEnumerationRestriction" visbl="prt" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="addInstanceRelationshipEnumerationRestriction(uuid:gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.InstanceRelationshipEnumerationRestrictionUUID,dbox:omf#MutableDescriptionBox,restrictedRelationship:omf#RestrictableRelationshipwithomf#LogicalElement,domain:omf#ConceptualEntitySingletonInstance,references:scala.collection.immutable.Vector[omf#ConceptualEntitySingletonInstance])(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,omf#InstanceRelationshipEnumerationRestriction]"></a>
+      <a id="addInstanceRelationshipEnumerationRestriction(InstanceRelationshipEnumerationRestrictionUUID,omf.MutableDescriptionBox,omf.RestrictableRelationshipwithomf.LogicalElement,omf.ConceptualEntitySingletonInstance,Vector[omf.ConceptualEntitySingletonInstance])(omf.Store):\/[Throwables,omf.InstanceRelationshipEnumerationRestriction]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">addInstanceRelationshipEnumerationRestriction</span><span class="params">(<span name="uuid">uuid: <span class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.InstanceRelationshipEnumerationRestrictionUUID">InstanceRelationshipEnumerationRestrictionUUID</span></span>, <span name="dbox">dbox: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFdbox.MutableDescriptionBox">omf.MutableDescriptionBox</span></span>, <span name="restrictedRelationship">restrictedRelationship: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFcbox.RestrictableRelationship">omf.RestrictableRelationship</span> with <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFcbox.LogicalElement">omf.LogicalElement</span></span>, <span name="domain">domain: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFdbox.ConceptualEntitySingletonInstance">omf.ConceptualEntitySingletonInstance</span></span>, <span name="references">references: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.collection.immutable.Vector" class="extype" target="_top">Vector</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFdbox.ConceptualEntitySingletonInstance">omf.ConceptualEntitySingletonInstance</span>]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <span class="extype" name="scalaz.\/">\/</span>[<a href="OMFError$.html#Throwables=scala.collection.immutable.Set[Throwable]" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFError.Throwables">Throwables</a>, <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFdbox.InstanceRelationshipEnumerationRestriction">omf.InstanceRelationshipEnumerationRestriction</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFOps@addInstanceRelationshipEnumerationRestriction(uuid:gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.InstanceRelationshipEnumerationRestrictionUUID,dbox:omf#MutableDescriptionBox,restrictedRelationship:omf#RestrictableRelationshipwithomf#LogicalElement,domain:omf#ConceptualEntitySingletonInstance,references:scala.collection.immutable.Vector[omf#ConceptualEntitySingletonInstance])(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,omf#InstanceRelationshipEnumerationRestriction]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="MutableDescriptionBoxOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.MutableDescriptionBoxOps">MutableDescriptionBoxOps</a></dd></dl></div>
+    </li><li name="gov.nasa.jpl.omf.scala.core.MutableDescriptionBoxOps#addInstanceRelationshipExistentialRangeRestriction" visbl="prt" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="addInstanceRelationshipExistentialRangeRestriction(uuid:gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.InstanceRelationshipExistentialRangeRestrictionUUID,dbox:omf#MutableDescriptionBox,restrictedRelationship:omf#RestrictableRelationshipwithomf#LogicalElement,domain:omf#ConceptualEntitySingletonInstance,range:omf#Entity)(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,omf#InstanceRelationshipExistentialRangeRestriction]"></a>
+      <a id="addInstanceRelationshipExistentialRangeRestriction(InstanceRelationshipExistentialRangeRestrictionUUID,omf.MutableDescriptionBox,omf.RestrictableRelationshipwithomf.LogicalElement,omf.ConceptualEntitySingletonInstance,omf.Entity)(omf.Store):\/[Throwables,omf.InstanceRelationshipExistentialRangeRestriction]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">addInstanceRelationshipExistentialRangeRestriction</span><span class="params">(<span name="uuid">uuid: <span class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.InstanceRelationshipExistentialRangeRestrictionUUID">InstanceRelationshipExistentialRangeRestrictionUUID</span></span>, <span name="dbox">dbox: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFdbox.MutableDescriptionBox">omf.MutableDescriptionBox</span></span>, <span name="restrictedRelationship">restrictedRelationship: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFcbox.RestrictableRelationship">omf.RestrictableRelationship</span> with <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFcbox.LogicalElement">omf.LogicalElement</span></span>, <span name="domain">domain: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFdbox.ConceptualEntitySingletonInstance">omf.ConceptualEntitySingletonInstance</span></span>, <span name="range">range: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.Entity">omf.Entity</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <span class="extype" name="scalaz.\/">\/</span>[<a href="OMFError$.html#Throwables=scala.collection.immutable.Set[Throwable]" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFError.Throwables">Throwables</a>, <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFdbox.InstanceRelationshipExistentialRangeRestriction">omf.InstanceRelationshipExistentialRangeRestriction</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFOps@addInstanceRelationshipExistentialRangeRestriction(uuid:gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.InstanceRelationshipExistentialRangeRestrictionUUID,dbox:omf#MutableDescriptionBox,restrictedRelationship:omf#RestrictableRelationshipwithomf#LogicalElement,domain:omf#ConceptualEntitySingletonInstance,range:omf#Entity)(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,omf#InstanceRelationshipExistentialRangeRestriction]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="MutableDescriptionBoxOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.MutableDescriptionBoxOps">MutableDescriptionBoxOps</a></dd></dl></div>
+    </li><li name="gov.nasa.jpl.omf.scala.core.MutableDescriptionBoxOps#addInstanceRelationshipUniversalRangeRestriction" visbl="prt" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="addInstanceRelationshipUniversalRangeRestriction(uuid:gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.InstanceRelationshipUniversalRangeRestrictionUUID,dbox:omf#MutableDescriptionBox,restrictedRelationship:omf#RestrictableRelationshipwithomf#LogicalElement,domain:omf#ConceptualEntitySingletonInstance,range:omf#Entity)(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,omf#InstanceRelationshipUniversalRangeRestriction]"></a>
+      <a id="addInstanceRelationshipUniversalRangeRestriction(InstanceRelationshipUniversalRangeRestrictionUUID,omf.MutableDescriptionBox,omf.RestrictableRelationshipwithomf.LogicalElement,omf.ConceptualEntitySingletonInstance,omf.Entity)(omf.Store):\/[Throwables,omf.InstanceRelationshipUniversalRangeRestriction]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">addInstanceRelationshipUniversalRangeRestriction</span><span class="params">(<span name="uuid">uuid: <span class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.InstanceRelationshipUniversalRangeRestrictionUUID">InstanceRelationshipUniversalRangeRestrictionUUID</span></span>, <span name="dbox">dbox: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFdbox.MutableDescriptionBox">omf.MutableDescriptionBox</span></span>, <span name="restrictedRelationship">restrictedRelationship: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFcbox.RestrictableRelationship">omf.RestrictableRelationship</span> with <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFcbox.LogicalElement">omf.LogicalElement</span></span>, <span name="domain">domain: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFdbox.ConceptualEntitySingletonInstance">omf.ConceptualEntitySingletonInstance</span></span>, <span name="range">range: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.Entity">omf.Entity</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <span class="extype" name="scalaz.\/">\/</span>[<a href="OMFError$.html#Throwables=scala.collection.immutable.Set[Throwable]" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFError.Throwables">Throwables</a>, <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFdbox.InstanceRelationshipUniversalRangeRestriction">omf.InstanceRelationshipUniversalRangeRestriction</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFOps@addInstanceRelationshipUniversalRangeRestriction(uuid:gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.InstanceRelationshipUniversalRangeRestrictionUUID,dbox:omf#MutableDescriptionBox,restrictedRelationship:omf#RestrictableRelationshipwithomf#LogicalElement,domain:omf#ConceptualEntitySingletonInstance,range:omf#Entity)(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,omf#InstanceRelationshipUniversalRangeRestriction]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="MutableDescriptionBoxOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.MutableDescriptionBoxOps">MutableDescriptionBoxOps</a></dd></dl></div>
+    </li><li name="gov.nasa.jpl.omf.scala.core.MutableDescriptionBoxOps#addInstanceRelationshipValueRestriction" visbl="prt" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="addInstanceRelationshipValueRestriction(uuid:gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.InstanceRelationshipValueRestrictionUUID,dbox:omf#MutableDescriptionBox,restrictedRelationship:omf#RestrictableRelationshipwithomf#LogicalElement,domain:omf#ConceptualEntitySingletonInstance,range:omf#ConceptualEntitySingletonInstance)(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,omf#InstanceRelationshipValueRestriction]"></a>
+      <a id="addInstanceRelationshipValueRestriction(InstanceRelationshipValueRestrictionUUID,omf.MutableDescriptionBox,omf.RestrictableRelationshipwithomf.LogicalElement,omf.ConceptualEntitySingletonInstance,omf.ConceptualEntitySingletonInstance)(omf.Store):\/[Throwables,omf.InstanceRelationshipValueRestriction]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">addInstanceRelationshipValueRestriction</span><span class="params">(<span name="uuid">uuid: <span class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.InstanceRelationshipValueRestrictionUUID">InstanceRelationshipValueRestrictionUUID</span></span>, <span name="dbox">dbox: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFdbox.MutableDescriptionBox">omf.MutableDescriptionBox</span></span>, <span name="restrictedRelationship">restrictedRelationship: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFcbox.RestrictableRelationship">omf.RestrictableRelationship</span> with <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFcbox.LogicalElement">omf.LogicalElement</span></span>, <span name="domain">domain: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFdbox.ConceptualEntitySingletonInstance">omf.ConceptualEntitySingletonInstance</span></span>, <span name="range">range: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFdbox.ConceptualEntitySingletonInstance">omf.ConceptualEntitySingletonInstance</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <span class="extype" name="scalaz.\/">\/</span>[<a href="OMFError$.html#Throwables=scala.collection.immutable.Set[Throwable]" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFError.Throwables">Throwables</a>, <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFdbox.InstanceRelationshipValueRestriction">omf.InstanceRelationshipValueRestriction</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFOps@addInstanceRelationshipValueRestriction(uuid:gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.InstanceRelationshipValueRestrictionUUID,dbox:omf#MutableDescriptionBox,restrictedRelationship:omf#RestrictableRelationshipwithomf#LogicalElement,domain:omf#ConceptualEntitySingletonInstance,range:omf#ConceptualEntitySingletonInstance)(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,omf#InstanceRelationshipValueRestriction]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Attributes</dt><dd>protected </dd><dt>Definition Classes</dt><dd><a href="MutableDescriptionBoxOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.MutableDescriptionBoxOps">MutableDescriptionBoxOps</a></dd></dl></div>
     </li><li name="gov.nasa.jpl.omf.scala.core.MutableTerminologyGraphOps#addNestedTerminology" visbl="prt" data-isabs="true" fullComment="yes" group="Ungrouped">
       <a id="addNestedTerminology(uuid:gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.TerminologyNestingAxiomUUID,nestingTerminology:omf#TerminologyBox,nestingContext:omf#ConceptKind,nestedTerminology:omf#MutableTerminologyGraph)(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,omf#TerminologyNestingAxiom]"></a>
       <a id="addNestedTerminology(TerminologyNestingAxiomUUID,omf.TerminologyBox,omf.ConceptKind,omf.MutableTerminologyGraph)(omf.Store):\/[Throwables,omf.TerminologyNestingAxiom]"></a>
@@ -1838,6 +1906,74 @@
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="OMFStoreOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.OMFStoreOps">OMFStoreOps</a></dd></dl></div>
+    </li><li name="gov.nasa.jpl.omf.scala.core.ImmutableDescriptionBoxOps#fromInstanceRelationshipEnumerationRestriction" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="fromInstanceRelationshipEnumerationRestriction(ur:omf#InstanceRelationshipEnumerationRestriction):gov.nasa.jpl.omf.scala.core.InstanceRelationshipEnumerationRestrictionSignature[omf]"></a>
+      <a id="fromInstanceRelationshipEnumerationRestriction(omf.InstanceRelationshipEnumerationRestriction):InstanceRelationshipEnumerationRestrictionSignature[omf]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">fromInstanceRelationshipEnumerationRestriction</span><span class="params">(<span name="ur">ur: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFdbox.InstanceRelationshipEnumerationRestriction">omf.InstanceRelationshipEnumerationRestriction</span></span>)</span><span class="result">: <a href="InstanceRelationshipEnumerationRestrictionSignature.html" class="extype" name="gov.nasa.jpl.omf.scala.core.InstanceRelationshipEnumerationRestrictionSignature">InstanceRelationshipEnumerationRestrictionSignature</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps.omf">omf</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFOps@fromInstanceRelationshipEnumerationRestriction(ur:omf#InstanceRelationshipEnumerationRestriction):gov.nasa.jpl.omf.scala.core.InstanceRelationshipEnumerationRestrictionSignature[omf]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="ImmutableDescriptionBoxOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.ImmutableDescriptionBoxOps">ImmutableDescriptionBoxOps</a></dd></dl></div>
+    </li><li name="gov.nasa.jpl.omf.scala.core.ImmutableDescriptionBoxOps#fromInstanceRelationshipExistentialRangeRestriction" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="fromInstanceRelationshipExistentialRangeRestriction(ur:omf#InstanceRelationshipExistentialRangeRestriction):gov.nasa.jpl.omf.scala.core.InstanceRelationshipExistentialRangeRestrictionSignature[omf]"></a>
+      <a id="fromInstanceRelationshipExistentialRangeRestriction(omf.InstanceRelationshipExistentialRangeRestriction):InstanceRelationshipExistentialRangeRestrictionSignature[omf]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">fromInstanceRelationshipExistentialRangeRestriction</span><span class="params">(<span name="ur">ur: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFdbox.InstanceRelationshipExistentialRangeRestriction">omf.InstanceRelationshipExistentialRangeRestriction</span></span>)</span><span class="result">: <a href="InstanceRelationshipExistentialRangeRestrictionSignature.html" class="extype" name="gov.nasa.jpl.omf.scala.core.InstanceRelationshipExistentialRangeRestrictionSignature">InstanceRelationshipExistentialRangeRestrictionSignature</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps.omf">omf</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFOps@fromInstanceRelationshipExistentialRangeRestriction(ur:omf#InstanceRelationshipExistentialRangeRestriction):gov.nasa.jpl.omf.scala.core.InstanceRelationshipExistentialRangeRestrictionSignature[omf]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="ImmutableDescriptionBoxOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.ImmutableDescriptionBoxOps">ImmutableDescriptionBoxOps</a></dd></dl></div>
+    </li><li name="gov.nasa.jpl.omf.scala.core.ImmutableDescriptionBoxOps#fromInstanceRelationshipUniversalRangeRestriction" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="fromInstanceRelationshipUniversalRangeRestriction(ur:omf#InstanceRelationshipUniversalRangeRestriction):gov.nasa.jpl.omf.scala.core.InstanceRelationshipUniversalRangeRestrictionSignature[omf]"></a>
+      <a id="fromInstanceRelationshipUniversalRangeRestriction(omf.InstanceRelationshipUniversalRangeRestriction):InstanceRelationshipUniversalRangeRestrictionSignature[omf]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">fromInstanceRelationshipUniversalRangeRestriction</span><span class="params">(<span name="ur">ur: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFdbox.InstanceRelationshipUniversalRangeRestriction">omf.InstanceRelationshipUniversalRangeRestriction</span></span>)</span><span class="result">: <a href="InstanceRelationshipUniversalRangeRestrictionSignature.html" class="extype" name="gov.nasa.jpl.omf.scala.core.InstanceRelationshipUniversalRangeRestrictionSignature">InstanceRelationshipUniversalRangeRestrictionSignature</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps.omf">omf</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFOps@fromInstanceRelationshipUniversalRangeRestriction(ur:omf#InstanceRelationshipUniversalRangeRestriction):gov.nasa.jpl.omf.scala.core.InstanceRelationshipUniversalRangeRestrictionSignature[omf]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="ImmutableDescriptionBoxOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.ImmutableDescriptionBoxOps">ImmutableDescriptionBoxOps</a></dd></dl></div>
+    </li><li name="gov.nasa.jpl.omf.scala.core.ImmutableDescriptionBoxOps#fromInstanceRelationshipValueRestriction" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="fromInstanceRelationshipValueRestriction(ur:omf#InstanceRelationshipValueRestriction):gov.nasa.jpl.omf.scala.core.InstanceRelationshipValueRestrictionSignature[omf]"></a>
+      <a id="fromInstanceRelationshipValueRestriction(omf.InstanceRelationshipValueRestriction):InstanceRelationshipValueRestrictionSignature[omf]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">fromInstanceRelationshipValueRestriction</span><span class="params">(<span name="ur">ur: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFdbox.InstanceRelationshipValueRestriction">omf.InstanceRelationshipValueRestriction</span></span>)</span><span class="result">: <a href="InstanceRelationshipValueRestrictionSignature.html" class="extype" name="gov.nasa.jpl.omf.scala.core.InstanceRelationshipValueRestrictionSignature">InstanceRelationshipValueRestrictionSignature</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFOps.omf">omf</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFOps@fromInstanceRelationshipValueRestriction(ur:omf#InstanceRelationshipValueRestriction):gov.nasa.jpl.omf.scala.core.InstanceRelationshipValueRestrictionSignature[omf]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="ImmutableDescriptionBoxOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.ImmutableDescriptionBoxOps">ImmutableDescriptionBoxOps</a></dd></dl></div>
     </li><li name="gov.nasa.jpl.omf.scala.core.OMFStoreOps#fromMutableDescriptionBox" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
       <a id="fromMutableDescriptionBox(dbox:omf#MutableDescriptionBox)(implicitstore:omf#Store):gov.nasa.jpl.omf.scala.core.MutableDescriptionBoxSignature[omf]"></a>
       <a id="fromMutableDescriptionBox(omf.MutableDescriptionBox)(omf.Store):MutableDescriptionBoxSignature[omf]"></a>
@@ -2922,6 +3058,74 @@
       </span>
       </h4><span class="permalink">
       <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFOps@getImmutableDescriptionBoxIRI(graph:omf#ImmutableDescriptionBox):omf#IRI" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="ImmutableDescriptionBoxOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.ImmutableDescriptionBoxOps">ImmutableDescriptionBoxOps</a></dd></dl></div>
+    </li><li name="gov.nasa.jpl.omf.scala.core.ImmutableDescriptionBoxOps#getInstanceRelationshipEnumerationRestrictionUUID" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="getInstanceRelationshipEnumerationRestrictionUUID(i:omf#InstanceRelationshipEnumerationRestriction):gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.InstanceRelationshipEnumerationRestrictionUUID"></a>
+      <a id="getInstanceRelationshipEnumerationRestrictionUUID(omf.InstanceRelationshipEnumerationRestriction):InstanceRelationshipEnumerationRestrictionUUID"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getInstanceRelationshipEnumerationRestrictionUUID</span><span class="params">(<span name="i">i: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFdbox.InstanceRelationshipEnumerationRestriction">omf.InstanceRelationshipEnumerationRestriction</span></span>)</span><span class="result">: <span class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.InstanceRelationshipEnumerationRestrictionUUID">InstanceRelationshipEnumerationRestrictionUUID</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFOps@getInstanceRelationshipEnumerationRestrictionUUID(i:omf#InstanceRelationshipEnumerationRestriction):gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.InstanceRelationshipEnumerationRestrictionUUID" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="ImmutableDescriptionBoxOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.ImmutableDescriptionBoxOps">ImmutableDescriptionBoxOps</a></dd></dl></div>
+    </li><li name="gov.nasa.jpl.omf.scala.core.ImmutableDescriptionBoxOps#getInstanceRelationshipExistentialRangeRestrictionUUID" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="getInstanceRelationshipExistentialRangeRestrictionUUID(i:omf#InstanceRelationshipExistentialRangeRestriction):gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.InstanceRelationshipExistentialRangeRestrictionUUID"></a>
+      <a id="getInstanceRelationshipExistentialRangeRestrictionUUID(omf.InstanceRelationshipExistentialRangeRestriction):InstanceRelationshipExistentialRangeRestrictionUUID"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getInstanceRelationshipExistentialRangeRestrictionUUID</span><span class="params">(<span name="i">i: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFdbox.InstanceRelationshipExistentialRangeRestriction">omf.InstanceRelationshipExistentialRangeRestriction</span></span>)</span><span class="result">: <span class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.InstanceRelationshipExistentialRangeRestrictionUUID">InstanceRelationshipExistentialRangeRestrictionUUID</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFOps@getInstanceRelationshipExistentialRangeRestrictionUUID(i:omf#InstanceRelationshipExistentialRangeRestriction):gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.InstanceRelationshipExistentialRangeRestrictionUUID" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="ImmutableDescriptionBoxOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.ImmutableDescriptionBoxOps">ImmutableDescriptionBoxOps</a></dd></dl></div>
+    </li><li name="gov.nasa.jpl.omf.scala.core.ImmutableDescriptionBoxOps#getInstanceRelationshipUniversalRangeRestrictionUUID" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="getInstanceRelationshipUniversalRangeRestrictionUUID(i:omf#InstanceRelationshipUniversalRangeRestriction):gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.InstanceRelationshipUniversalRangeRestrictionUUID"></a>
+      <a id="getInstanceRelationshipUniversalRangeRestrictionUUID(omf.InstanceRelationshipUniversalRangeRestriction):InstanceRelationshipUniversalRangeRestrictionUUID"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getInstanceRelationshipUniversalRangeRestrictionUUID</span><span class="params">(<span name="i">i: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFdbox.InstanceRelationshipUniversalRangeRestriction">omf.InstanceRelationshipUniversalRangeRestriction</span></span>)</span><span class="result">: <span class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.InstanceRelationshipUniversalRangeRestrictionUUID">InstanceRelationshipUniversalRangeRestrictionUUID</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFOps@getInstanceRelationshipUniversalRangeRestrictionUUID(i:omf#InstanceRelationshipUniversalRangeRestriction):gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.InstanceRelationshipUniversalRangeRestrictionUUID" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="ImmutableDescriptionBoxOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.ImmutableDescriptionBoxOps">ImmutableDescriptionBoxOps</a></dd></dl></div>
+    </li><li name="gov.nasa.jpl.omf.scala.core.ImmutableDescriptionBoxOps#getInstanceRelationshipValueRestrictionUUID" visbl="pub" data-isabs="true" fullComment="yes" group="Ungrouped">
+      <a id="getInstanceRelationshipValueRestrictionUUID(i:omf#InstanceRelationshipValueRestriction):gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.InstanceRelationshipValueRestrictionUUID"></a>
+      <a id="getInstanceRelationshipValueRestrictionUUID(omf.InstanceRelationshipValueRestriction):InstanceRelationshipValueRestrictionUUID"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier">abstract </span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">getInstanceRelationshipValueRestrictionUUID</span><span class="params">(<span name="i">i: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFdbox.InstanceRelationshipValueRestriction">omf.InstanceRelationshipValueRestriction</span></span>)</span><span class="result">: <span class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.InstanceRelationshipValueRestrictionUUID">InstanceRelationshipValueRestrictionUUID</span></span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFOps@getInstanceRelationshipValueRestrictionUUID(i:omf#InstanceRelationshipValueRestriction):gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.InstanceRelationshipValueRestrictionUUID" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -4769,18 +4973,18 @@ with a version 5 UUID based on the <code>bundlingG</code> and <code>bundledG</co
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="MutableTerminologyGraphOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.MutableTerminologyGraphOps">MutableTerminologyGraphOps</a></dd></dl></div>
     </li><li name="gov.nasa.jpl.omf.scala.core.MutableTerminologyGraphOps#addChainRule" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="addChainRule(graph:omf#MutableTerminologyBox,head:omf#UnreifiedRelationship,ruleName:gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName)(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,omf#ChainRule]"></a>
-      <a id="addChainRule(omf.MutableTerminologyBox,omf.UnreifiedRelationship,LocalName)(omf.Store):\/[Throwables,omf.ChainRule]"></a>
+      <a id="addChainRule(graph:omf#MutableTerminologyBox,head:omf#RestrictableRelationship,ruleName:gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName)(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,omf#ChainRule]"></a>
+      <a id="addChainRule(omf.MutableTerminologyBox,omf.RestrictableRelationship,LocalName)(omf.Store):\/[Throwables,omf.ChainRule]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier">final </span>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">addChainRule</span><span class="params">(<span name="graph">graph: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.MutableTerminologyBox">omf.MutableTerminologyBox</span></span>, <span name="head">head: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.UnreifiedRelationship">omf.UnreifiedRelationship</span></span>, <span name="ruleName">ruleName: <span class="extype" name="gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName">LocalName</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <span class="extype" name="scalaz.\/">\/</span>[<a href="OMFError$.html#Throwables=scala.collection.immutable.Set[Throwable]" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFError.Throwables">Throwables</a>, <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ChainRule">omf.ChainRule</span>]</span>
+        <span class="name">addChainRule</span><span class="params">(<span name="graph">graph: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.MutableTerminologyBox">omf.MutableTerminologyBox</span></span>, <span name="head">head: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFcbox.RestrictableRelationship">omf.RestrictableRelationship</span></span>, <span name="ruleName">ruleName: <span class="extype" name="gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName">LocalName</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <span class="extype" name="scalaz.\/">\/</span>[<a href="OMFError$.html#Throwables=scala.collection.immutable.Set[Throwable]" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFError.Throwables">Throwables</a>, <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.ChainRule">omf.ChainRule</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFOps@addChainRule(graph:omf#MutableTerminologyBox,head:omf#UnreifiedRelationship,ruleName:gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName)(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,omf#ChainRule]" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFOps@addChainRule(graph:omf#MutableTerminologyBox,head:omf#RestrictableRelationship,ruleName:gov.nasa.jpl.imce.oml.tables.taggedTypes.LocalName)(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,omf#ChainRule]" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
@@ -5062,6 +5266,74 @@ with a version 5 UUID based on the <code>graph</code>, <code>sub</code>, 'rel<co
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="MutableTerminologyGraphOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.MutableTerminologyGraphOps">MutableTerminologyGraphOps</a></dd></dl></div>
+    </li><li name="gov.nasa.jpl.omf.scala.core.MutableDescriptionBoxOps#addInstanceRelationshipEnumerationRestriction" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="addInstanceRelationshipEnumerationRestriction(dbox:omf#MutableDescriptionBox,restrictedRelationship:omf#RestrictableRelationshipwithomf#LogicalElement,domain:omf#ConceptualEntitySingletonInstance,references:scala.collection.immutable.Vector[omf#ConceptualEntitySingletonInstance])(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,omf#InstanceRelationshipEnumerationRestriction]"></a>
+      <a id="addInstanceRelationshipEnumerationRestriction(omf.MutableDescriptionBox,omf.RestrictableRelationshipwithomf.LogicalElement,omf.ConceptualEntitySingletonInstance,Vector[omf.ConceptualEntitySingletonInstance])(omf.Store):\/[Throwables,omf.InstanceRelationshipEnumerationRestriction]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">addInstanceRelationshipEnumerationRestriction</span><span class="params">(<span name="dbox">dbox: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFdbox.MutableDescriptionBox">omf.MutableDescriptionBox</span></span>, <span name="restrictedRelationship">restrictedRelationship: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFcbox.RestrictableRelationship">omf.RestrictableRelationship</span> with <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFcbox.LogicalElement">omf.LogicalElement</span></span>, <span name="domain">domain: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFdbox.ConceptualEntitySingletonInstance">omf.ConceptualEntitySingletonInstance</span></span>, <span name="references">references: <a href="http://www.scala-lang.org/api/2.11.11/index.html#scala.collection.immutable.Vector" class="extype" target="_top">Vector</a>[<span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFdbox.ConceptualEntitySingletonInstance">omf.ConceptualEntitySingletonInstance</span>]</span>)</span><span class="params">(<span class="implicit">implicit </span><span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <span class="extype" name="scalaz.\/">\/</span>[<a href="OMFError$.html#Throwables=scala.collection.immutable.Set[Throwable]" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFError.Throwables">Throwables</a>, <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFdbox.InstanceRelationshipEnumerationRestriction">omf.InstanceRelationshipEnumerationRestriction</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFOps@addInstanceRelationshipEnumerationRestriction(dbox:omf#MutableDescriptionBox,restrictedRelationship:omf#RestrictableRelationshipwithomf#LogicalElement,domain:omf#ConceptualEntitySingletonInstance,references:scala.collection.immutable.Vector[omf#ConceptualEntitySingletonInstance])(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,omf#InstanceRelationshipEnumerationRestriction]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="MutableDescriptionBoxOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.MutableDescriptionBoxOps">MutableDescriptionBoxOps</a></dd></dl></div>
+    </li><li name="gov.nasa.jpl.omf.scala.core.MutableDescriptionBoxOps#addInstanceRelationshipExistentialRangeRestriction" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="addInstanceRelationshipExistentialRangeRestriction(dbox:omf#MutableDescriptionBox,restrictedRelationship:omf#RestrictableRelationshipwithomf#LogicalElement,domain:omf#ConceptualEntitySingletonInstance,range:omf#Entity)(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,omf#InstanceRelationshipExistentialRangeRestriction]"></a>
+      <a id="addInstanceRelationshipExistentialRangeRestriction(omf.MutableDescriptionBox,omf.RestrictableRelationshipwithomf.LogicalElement,omf.ConceptualEntitySingletonInstance,omf.Entity)(omf.Store):\/[Throwables,omf.InstanceRelationshipExistentialRangeRestriction]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">addInstanceRelationshipExistentialRangeRestriction</span><span class="params">(<span name="dbox">dbox: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFdbox.MutableDescriptionBox">omf.MutableDescriptionBox</span></span>, <span name="restrictedRelationship">restrictedRelationship: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFcbox.RestrictableRelationship">omf.RestrictableRelationship</span> with <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFcbox.LogicalElement">omf.LogicalElement</span></span>, <span name="domain">domain: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFdbox.ConceptualEntitySingletonInstance">omf.ConceptualEntitySingletonInstance</span></span>, <span name="range">range: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.Entity">omf.Entity</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <span class="extype" name="scalaz.\/">\/</span>[<a href="OMFError$.html#Throwables=scala.collection.immutable.Set[Throwable]" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFError.Throwables">Throwables</a>, <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFdbox.InstanceRelationshipExistentialRangeRestriction">omf.InstanceRelationshipExistentialRangeRestriction</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFOps@addInstanceRelationshipExistentialRangeRestriction(dbox:omf#MutableDescriptionBox,restrictedRelationship:omf#RestrictableRelationshipwithomf#LogicalElement,domain:omf#ConceptualEntitySingletonInstance,range:omf#Entity)(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,omf#InstanceRelationshipExistentialRangeRestriction]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="MutableDescriptionBoxOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.MutableDescriptionBoxOps">MutableDescriptionBoxOps</a></dd></dl></div>
+    </li><li name="gov.nasa.jpl.omf.scala.core.MutableDescriptionBoxOps#addInstanceRelationshipUniversalRangeRestriction" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="addInstanceRelationshipUniversalRangeRestriction(dbox:omf#MutableDescriptionBox,restrictedRelationship:omf#RestrictableRelationshipwithomf#LogicalElement,domain:omf#ConceptualEntitySingletonInstance,range:omf#Entity)(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,omf#InstanceRelationshipUniversalRangeRestriction]"></a>
+      <a id="addInstanceRelationshipUniversalRangeRestriction(omf.MutableDescriptionBox,omf.RestrictableRelationshipwithomf.LogicalElement,omf.ConceptualEntitySingletonInstance,omf.Entity)(omf.Store):\/[Throwables,omf.InstanceRelationshipUniversalRangeRestriction]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">addInstanceRelationshipUniversalRangeRestriction</span><span class="params">(<span name="dbox">dbox: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFdbox.MutableDescriptionBox">omf.MutableDescriptionBox</span></span>, <span name="restrictedRelationship">restrictedRelationship: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFcbox.RestrictableRelationship">omf.RestrictableRelationship</span> with <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFcbox.LogicalElement">omf.LogicalElement</span></span>, <span name="domain">domain: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFdbox.ConceptualEntitySingletonInstance">omf.ConceptualEntitySingletonInstance</span></span>, <span name="range">range: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.Entity">omf.Entity</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <span class="extype" name="scalaz.\/">\/</span>[<a href="OMFError$.html#Throwables=scala.collection.immutable.Set[Throwable]" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFError.Throwables">Throwables</a>, <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFdbox.InstanceRelationshipUniversalRangeRestriction">omf.InstanceRelationshipUniversalRangeRestriction</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFOps@addInstanceRelationshipUniversalRangeRestriction(dbox:omf#MutableDescriptionBox,restrictedRelationship:omf#RestrictableRelationshipwithomf#LogicalElement,domain:omf#ConceptualEntitySingletonInstance,range:omf#Entity)(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,omf#InstanceRelationshipUniversalRangeRestriction]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="MutableDescriptionBoxOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.MutableDescriptionBoxOps">MutableDescriptionBoxOps</a></dd></dl></div>
+    </li><li name="gov.nasa.jpl.omf.scala.core.MutableDescriptionBoxOps#addInstanceRelationshipValueRestriction" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="addInstanceRelationshipValueRestriction(dbox:omf#MutableDescriptionBox,restrictedRelationship:omf#RestrictableRelationshipwithomf#LogicalElement,domain:omf#ConceptualEntitySingletonInstance,range:omf#ConceptualEntitySingletonInstance)(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,omf#InstanceRelationshipValueRestriction]"></a>
+      <a id="addInstanceRelationshipValueRestriction(omf.MutableDescriptionBox,omf.RestrictableRelationshipwithomf.LogicalElement,omf.ConceptualEntitySingletonInstance,omf.ConceptualEntitySingletonInstance)(omf.Store):\/[Throwables,omf.InstanceRelationshipValueRestriction]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">addInstanceRelationshipValueRestriction</span><span class="params">(<span name="dbox">dbox: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFdbox.MutableDescriptionBox">omf.MutableDescriptionBox</span></span>, <span name="restrictedRelationship">restrictedRelationship: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFcbox.RestrictableRelationship">omf.RestrictableRelationship</span> with <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFcbox.LogicalElement">omf.LogicalElement</span></span>, <span name="domain">domain: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFdbox.ConceptualEntitySingletonInstance">omf.ConceptualEntitySingletonInstance</span></span>, <span name="range">range: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFdbox.ConceptualEntitySingletonInstance">omf.ConceptualEntitySingletonInstance</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <span class="extype" name="scalaz.\/">\/</span>[<a href="OMFError$.html#Throwables=scala.collection.immutable.Set[Throwable]" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFError.Throwables">Throwables</a>, <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFdbox.InstanceRelationshipValueRestriction">omf.InstanceRelationshipValueRestriction</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFOps@addInstanceRelationshipValueRestriction(dbox:omf#MutableDescriptionBox,restrictedRelationship:omf#RestrictableRelationshipwithomf#LogicalElement,domain:omf#ConceptualEntitySingletonInstance,range:omf#ConceptualEntitySingletonInstance)(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,omf#InstanceRelationshipValueRestriction]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="MutableDescriptionBoxOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.MutableDescriptionBoxOps">MutableDescriptionBoxOps</a></dd></dl></div>
     </li><li name="gov.nasa.jpl.omf.scala.core.MutableTerminologyGraphOps#addNestedTerminology" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="addNestedTerminology(nestingGraph:omf#TerminologyBox,nestingContext:omf#ConceptKind,nestedGraph:omf#MutableTerminologyGraph)(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,omf#TerminologyNestingAxiom]"></a>
       <a id="addNestedTerminology(omf.TerminologyBox,omf.ConceptKind,omf.MutableTerminologyGraph)(omf.Store):\/[Throwables,omf.TerminologyNestingAxiom]"></a>
@@ -6310,6 +6582,74 @@ Does not compare the graphs corresponding to each relationship, if any	.
       </a>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
+    </li><li name="gov.nasa.jpl.omf.scala.core.MutableDescriptionBoxOps#instanceRelationshipEnumerationRestrictionUUID" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="instanceRelationshipEnumerationRestrictionUUID(dbox:omf#MutableDescriptionBox,restrictedRelationship:omf#RestrictableRelationshipwithomf#LogicalElement,domain:omf#ConceptualEntitySingletonInstance)(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.InstanceRelationshipEnumerationRestrictionUUID]"></a>
+      <a id="instanceRelationshipEnumerationRestrictionUUID(omf.MutableDescriptionBox,omf.RestrictableRelationshipwithomf.LogicalElement,omf.ConceptualEntitySingletonInstance)(omf.Store):\/[Throwables,InstanceRelationshipEnumerationRestrictionUUID]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">instanceRelationshipEnumerationRestrictionUUID</span><span class="params">(<span name="dbox">dbox: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFdbox.MutableDescriptionBox">omf.MutableDescriptionBox</span></span>, <span name="restrictedRelationship">restrictedRelationship: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFcbox.RestrictableRelationship">omf.RestrictableRelationship</span> with <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFcbox.LogicalElement">omf.LogicalElement</span></span>, <span name="domain">domain: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFdbox.ConceptualEntitySingletonInstance">omf.ConceptualEntitySingletonInstance</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <span class="extype" name="scalaz.\/">\/</span>[<a href="OMFError$.html#Throwables=scala.collection.immutable.Set[Throwable]" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFError.Throwables">Throwables</a>, <span class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.InstanceRelationshipEnumerationRestrictionUUID">InstanceRelationshipEnumerationRestrictionUUID</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFOps@instanceRelationshipEnumerationRestrictionUUID(dbox:omf#MutableDescriptionBox,restrictedRelationship:omf#RestrictableRelationshipwithomf#LogicalElement,domain:omf#ConceptualEntitySingletonInstance)(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.InstanceRelationshipEnumerationRestrictionUUID]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="MutableDescriptionBoxOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.MutableDescriptionBoxOps">MutableDescriptionBoxOps</a></dd></dl></div>
+    </li><li name="gov.nasa.jpl.omf.scala.core.MutableDescriptionBoxOps#instanceRelationshipExistentialRangeRestrictionUUID" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="instanceRelationshipExistentialRangeRestrictionUUID(dbox:omf#MutableDescriptionBox,restrictedRelationship:omf#RestrictableRelationshipwithomf#LogicalElement,domain:omf#ConceptualEntitySingletonInstance,range:omf#Entity)(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.InstanceRelationshipExistentialRangeRestrictionUUID]"></a>
+      <a id="instanceRelationshipExistentialRangeRestrictionUUID(omf.MutableDescriptionBox,omf.RestrictableRelationshipwithomf.LogicalElement,omf.ConceptualEntitySingletonInstance,omf.Entity)(omf.Store):\/[Throwables,InstanceRelationshipExistentialRangeRestrictionUUID]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">instanceRelationshipExistentialRangeRestrictionUUID</span><span class="params">(<span name="dbox">dbox: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFdbox.MutableDescriptionBox">omf.MutableDescriptionBox</span></span>, <span name="restrictedRelationship">restrictedRelationship: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFcbox.RestrictableRelationship">omf.RestrictableRelationship</span> with <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFcbox.LogicalElement">omf.LogicalElement</span></span>, <span name="domain">domain: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFdbox.ConceptualEntitySingletonInstance">omf.ConceptualEntitySingletonInstance</span></span>, <span name="range">range: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.Entity">omf.Entity</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <span class="extype" name="scalaz.\/">\/</span>[<a href="OMFError$.html#Throwables=scala.collection.immutable.Set[Throwable]" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFError.Throwables">Throwables</a>, <span class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.InstanceRelationshipExistentialRangeRestrictionUUID">InstanceRelationshipExistentialRangeRestrictionUUID</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFOps@instanceRelationshipExistentialRangeRestrictionUUID(dbox:omf#MutableDescriptionBox,restrictedRelationship:omf#RestrictableRelationshipwithomf#LogicalElement,domain:omf#ConceptualEntitySingletonInstance,range:omf#Entity)(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.InstanceRelationshipExistentialRangeRestrictionUUID]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="MutableDescriptionBoxOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.MutableDescriptionBoxOps">MutableDescriptionBoxOps</a></dd></dl></div>
+    </li><li name="gov.nasa.jpl.omf.scala.core.MutableDescriptionBoxOps#instanceRelationshipUniversalRangeRestrictionUUID" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="instanceRelationshipUniversalRangeRestrictionUUID(dbox:omf#MutableDescriptionBox,restrictedRelationship:omf#RestrictableRelationshipwithomf#LogicalElement,domain:omf#ConceptualEntitySingletonInstance,range:omf#Entity)(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.InstanceRelationshipUniversalRangeRestrictionUUID]"></a>
+      <a id="instanceRelationshipUniversalRangeRestrictionUUID(omf.MutableDescriptionBox,omf.RestrictableRelationshipwithomf.LogicalElement,omf.ConceptualEntitySingletonInstance,omf.Entity)(omf.Store):\/[Throwables,InstanceRelationshipUniversalRangeRestrictionUUID]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">instanceRelationshipUniversalRangeRestrictionUUID</span><span class="params">(<span name="dbox">dbox: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFdbox.MutableDescriptionBox">omf.MutableDescriptionBox</span></span>, <span name="restrictedRelationship">restrictedRelationship: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFcbox.RestrictableRelationship">omf.RestrictableRelationship</span> with <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFcbox.LogicalElement">omf.LogicalElement</span></span>, <span name="domain">domain: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFdbox.ConceptualEntitySingletonInstance">omf.ConceptualEntitySingletonInstance</span></span>, <span name="range">range: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.Entity">omf.Entity</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <span class="extype" name="scalaz.\/">\/</span>[<a href="OMFError$.html#Throwables=scala.collection.immutable.Set[Throwable]" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFError.Throwables">Throwables</a>, <span class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.InstanceRelationshipUniversalRangeRestrictionUUID">InstanceRelationshipUniversalRangeRestrictionUUID</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFOps@instanceRelationshipUniversalRangeRestrictionUUID(dbox:omf#MutableDescriptionBox,restrictedRelationship:omf#RestrictableRelationshipwithomf#LogicalElement,domain:omf#ConceptualEntitySingletonInstance,range:omf#Entity)(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.InstanceRelationshipUniversalRangeRestrictionUUID]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="MutableDescriptionBoxOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.MutableDescriptionBoxOps">MutableDescriptionBoxOps</a></dd></dl></div>
+    </li><li name="gov.nasa.jpl.omf.scala.core.MutableDescriptionBoxOps#instanceRelationshipValueRestrictionUUID" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
+      <a id="instanceRelationshipValueRestrictionUUID(dbox:omf#MutableDescriptionBox,restrictedRelationship:omf#RestrictableRelationshipwithomf#LogicalElement,domain:omf#ConceptualEntitySingletonInstance,range:omf#ConceptualEntitySingletonInstance)(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.InstanceRelationshipValueRestrictionUUID]"></a>
+      <a id="instanceRelationshipValueRestrictionUUID(omf.MutableDescriptionBox,omf.RestrictableRelationshipwithomf.LogicalElement,omf.ConceptualEntitySingletonInstance,omf.ConceptualEntitySingletonInstance)(omf.Store):\/[Throwables,InstanceRelationshipValueRestrictionUUID]"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">def</span>
+      </span>
+      <span class="symbol">
+        <span class="name">instanceRelationshipValueRestrictionUUID</span><span class="params">(<span name="dbox">dbox: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFdbox.MutableDescriptionBox">omf.MutableDescriptionBox</span></span>, <span name="restrictedRelationship">restrictedRelationship: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFcbox.RestrictableRelationship">omf.RestrictableRelationship</span> with <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFcbox.LogicalElement">omf.LogicalElement</span></span>, <span name="domain">domain: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFdbox.ConceptualEntitySingletonInstance">omf.ConceptualEntitySingletonInstance</span></span>, <span name="range">range: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFdbox.ConceptualEntitySingletonInstance">omf.ConceptualEntitySingletonInstance</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <span class="extype" name="scalaz.\/">\/</span>[<a href="OMFError$.html#Throwables=scala.collection.immutable.Set[Throwable]" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFError.Throwables">Throwables</a>, <span class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.InstanceRelationshipValueRestrictionUUID">InstanceRelationshipValueRestrictionUUID</span>]</span>
+      </span>
+      </h4><span class="permalink">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFOps@instanceRelationshipValueRestrictionUUID(dbox:omf#MutableDescriptionBox,restrictedRelationship:omf#RestrictableRelationshipwithomf#LogicalElement,domain:omf#ConceptualEntitySingletonInstance,range:omf#ConceptualEntitySingletonInstance)(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.InstanceRelationshipValueRestrictionUUID]" title="Permalink" target="_top">
+        <img src="../../../../../../lib/permalink.png" alt="Permalink" />
+      </a>
+    </span>
+      <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd><a href="MutableDescriptionBoxOps.html" class="extype" name="gov.nasa.jpl.omf.scala.core.MutableDescriptionBoxOps">MutableDescriptionBoxOps</a></dd></dl></div>
     </li><li name="scala.Any#isInstanceOf" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
       <a id="isInstanceOf[T0]:Boolean"></a>
       <a id="isInstanceOf[T0]:Boolean"></a>
@@ -6876,7 +7216,7 @@ via <code>addTerminologyGraphExtension</code>
     </span>
       <div class="fullcomment"><dl class="attributes block"> <dt>Definition Classes</dt><dd>AnyRef → Any</dd></dl></div>
     </li><li name="gov.nasa.jpl.omf.scala.core.MutableDescriptionBoxOps#unreifiedRelationshipInstanceTupleUUID" visbl="pub" data-isabs="false" fullComment="yes" group="Ungrouped">
-      <a id="unreifiedRelationshipInstanceTupleUUID(dbox:omf#MutableDescriptionBox,unreifiedRelationship:omf#UnreifiedRelationship,source:omf#ConceptualEntitySingletonInstance,target:omf#ConceptualEntitySingletonInstance)(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.UnreifiedRelationshipInstanceTupleUUID]"></a>
+      <a id="unreifiedRelationshipInstanceTupleUUID(dbox:omf#MutableDescriptionBox,unreifiedRelationship:omf#UnreifiedRelationship,domain:omf#ConceptualEntitySingletonInstance,range:omf#ConceptualEntitySingletonInstance)(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.UnreifiedRelationshipInstanceTupleUUID]"></a>
       <a id="unreifiedRelationshipInstanceTupleUUID(omf.MutableDescriptionBox,omf.UnreifiedRelationship,omf.ConceptualEntitySingletonInstance,omf.ConceptualEntitySingletonInstance)(omf.Store):\/[Throwables,UnreifiedRelationshipInstanceTupleUUID]"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -6884,10 +7224,10 @@ via <code>addTerminologyGraphExtension</code>
         <span class="kind">def</span>
       </span>
       <span class="symbol">
-        <span class="name">unreifiedRelationshipInstanceTupleUUID</span><span class="params">(<span name="dbox">dbox: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFdbox.MutableDescriptionBox">omf.MutableDescriptionBox</span></span>, <span name="unreifiedRelationship">unreifiedRelationship: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.UnreifiedRelationship">omf.UnreifiedRelationship</span></span>, <span name="source">source: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFdbox.ConceptualEntitySingletonInstance">omf.ConceptualEntitySingletonInstance</span></span>, <span name="target">target: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFdbox.ConceptualEntitySingletonInstance">omf.ConceptualEntitySingletonInstance</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <span class="extype" name="scalaz.\/">\/</span>[<a href="OMFError$.html#Throwables=scala.collection.immutable.Set[Throwable]" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFError.Throwables">Throwables</a>, <span class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.UnreifiedRelationshipInstanceTupleUUID">UnreifiedRelationshipInstanceTupleUUID</span>]</span>
+        <span class="name">unreifiedRelationshipInstanceTupleUUID</span><span class="params">(<span name="dbox">dbox: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFdbox.MutableDescriptionBox">omf.MutableDescriptionBox</span></span>, <span name="unreifiedRelationship">unreifiedRelationship: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFtbox.UnreifiedRelationship">omf.UnreifiedRelationship</span></span>, <span name="domain">domain: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFdbox.ConceptualEntitySingletonInstance">omf.ConceptualEntitySingletonInstance</span></span>, <span name="range">range: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFdbox.ConceptualEntitySingletonInstance">omf.ConceptualEntitySingletonInstance</span></span>)</span><span class="params">(<span class="implicit">implicit </span><span name="store">store: <span class="extype" name="gov.nasa.jpl.omf.scala.core.OMFstore.Store">omf.Store</span></span>)</span><span class="result">: <span class="extype" name="scalaz.\/">\/</span>[<a href="OMFError$.html#Throwables=scala.collection.immutable.Set[Throwable]" class="extmbr" name="gov.nasa.jpl.omf.scala.core.OMFError.Throwables">Throwables</a>, <span class="extype" name="gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.UnreifiedRelationshipInstanceTupleUUID">UnreifiedRelationshipInstanceTupleUUID</span>]</span>
       </span>
       </h4><span class="permalink">
-      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFOps@unreifiedRelationshipInstanceTupleUUID(dbox:omf#MutableDescriptionBox,unreifiedRelationship:omf#UnreifiedRelationship,source:omf#ConceptualEntitySingletonInstance,target:omf#ConceptualEntitySingletonInstance)(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.UnreifiedRelationshipInstanceTupleUUID]" title="Permalink" target="_top">
+      <a href="../../../../../../index.html#gov.nasa.jpl.omf.scala.core.OMFOps@unreifiedRelationshipInstanceTupleUUID(dbox:omf#MutableDescriptionBox,unreifiedRelationship:omf#UnreifiedRelationship,domain:omf#ConceptualEntitySingletonInstance,range:omf#ConceptualEntitySingletonInstance)(implicitstore:omf#Store):scalaz.\/[gov.nasa.jpl.omf.scala.core.OMFError.Throwables,gov.nasa.jpl.imce.oml.resolver.api.taggedTypes.UnreifiedRelationshipInstanceTupleUUID]" title="Permalink" target="_top">
         <img src="../../../../../../lib/permalink.png" alt="Permalink" />
       </a>
     </span>
