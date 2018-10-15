@@ -11,4 +11,5 @@ t=$(git name-rev --tags --name-only $(git rev-parse HEAD))
 # Bypass the build if the tag is anything but 'undefined'.
 [ "undefined" != "$t" ] && exit 0;
 
-sbt -jvm-opts travis/jvmopts.compile compile test
+export JVM_OPTS=@travis/jvmopts.compile
+sbt -batch compile test
