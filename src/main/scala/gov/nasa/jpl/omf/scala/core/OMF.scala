@@ -152,7 +152,7 @@ trait OMFtbox extends OMFcbox {
 
   type ConceptualRelationship <: ConceptualEntity with EntityRelationship
 
-  type UnreifiedRelationship <: CharacterizedEntityRelationship with Predicate
+  type UnreifiedRelationship <: CharacterizedEntityRelationship with RestrictableRelationship
 
   type ReifiedRelationship <: CharacterizedEntityRelationship with ConceptualRelationship
 
@@ -160,9 +160,9 @@ trait OMFtbox extends OMFcbox {
 
   type CardinalityRestrictedReifiedRelationship <: ConceptualRelationship
 
-  type ForwardProperty <: RestrictableRelationship
+  type ForwardProperty <: RestrictableRelationship with LogicalElement
 
-  type InverseProperty <: RestrictableRelationship
+  type InverseProperty <: RestrictableRelationship with LogicalElement
 
   /**
     * A ModelDataTypeDefinition defines the vocabulary for the conceptual modeling
@@ -476,6 +476,14 @@ trait OMFdbox extends OMFcbox {
   type ReifiedRelationshipInstanceRange <: TerminologyInstanceAssertion
 
   type UnreifiedRelationshipInstanceTuple <: TerminologyInstanceAssertion
+
+  type InstanceRelationshipEnumerationRestriction <: TerminologyInstanceAssertion
+
+  type InstanceRelationshipExistentialRangeRestriction <: TerminologyInstanceAssertion
+
+  type InstanceRelationshipUniversalRangeRestriction <: TerminologyInstanceAssertion
+
+  type InstanceRelationshipValueRestriction <: TerminologyInstanceAssertion
 }
 
 

@@ -28,7 +28,7 @@ import gov.nasa.jpl.omf.scala.core.builtin.BuiltInDatatypeMaps.DataRangeCategori
 
 import scala.{Boolean, Int, None, Option, Some, StringContext, Unit}
 import scala.Predef.{ArrowAssoc, String}
-import scala.collection.immutable.{Iterable, Seq, Set}
+import scala.collection.immutable.{Iterable, Seq, Set, Vector}
 import scalaz._
 import Scalaz._
 
@@ -2297,13 +2297,13 @@ trait MutableTerminologyGraphOps[omf <: OMF[omf]]
   (graph: omf#MutableTerminologyBox,
    uuid: resolver.api.taggedTypes.ChainRuleUUID,
    iri: omf#IRI,
-   head: omf#UnreifiedRelationship)
+   head: omf#RestrictableRelationship)
   (implicit store: omf#Store)
   : Throwables \/ omf#ChainRule
 
   final def addChainRule
   (graph: omf#MutableTerminologyBox,
-   head: omf#UnreifiedRelationship,
+   head: omf#RestrictableRelationship,
    ruleName: taggedTypes.LocalName)
   (implicit store: omf#Store)
   : Throwables \/ omf#ChainRule
@@ -3410,6 +3410,38 @@ trait ImmutableDescriptionBoxOps[omf <: OMF[omf]] { self: OMFStoreOps[omf] with 
   (i: omf#UnreifiedRelationshipInstanceTuple)
   : resolver.api.taggedTypes.UnreifiedRelationshipInstanceTupleUUID
 
+  def fromInstanceRelationshipEnumerationRestriction
+  (ur: omf#InstanceRelationshipEnumerationRestriction)
+  : InstanceRelationshipEnumerationRestrictionSignature[omf]
+
+  def getInstanceRelationshipEnumerationRestrictionUUID
+  (i: omf#InstanceRelationshipEnumerationRestriction)
+  : resolver.api.taggedTypes.InstanceRelationshipEnumerationRestrictionUUID
+
+  def fromInstanceRelationshipValueRestriction
+  (ur: omf#InstanceRelationshipValueRestriction)
+  : InstanceRelationshipValueRestrictionSignature[omf]
+
+  def getInstanceRelationshipValueRestrictionUUID
+  (i: omf#InstanceRelationshipValueRestriction)
+  : resolver.api.taggedTypes.InstanceRelationshipValueRestrictionUUID
+
+  def fromInstanceRelationshipExistentialRangeRestriction
+  (ur: omf#InstanceRelationshipExistentialRangeRestriction)
+  : InstanceRelationshipExistentialRangeRestrictionSignature[omf]
+
+  def getInstanceRelationshipExistentialRangeRestrictionUUID
+  (i: omf#InstanceRelationshipExistentialRangeRestriction)
+  : resolver.api.taggedTypes.InstanceRelationshipExistentialRangeRestrictionUUID
+
+  def fromInstanceRelationshipUniversalRangeRestriction
+  (ur: omf#InstanceRelationshipUniversalRangeRestriction)
+  : InstanceRelationshipUniversalRangeRestrictionSignature[omf]
+
+  def getInstanceRelationshipUniversalRangeRestrictionUUID
+  (i: omf#InstanceRelationshipUniversalRangeRestriction)
+  : resolver.api.taggedTypes.InstanceRelationshipUniversalRangeRestrictionUUID
+
   def fromSingletonInstanceScalarDataPropertyValue
   (e2sc: omf#SingletonInstanceScalarDataPropertyValue)
   : SingletonInstanceScalarDataPropertyValueSignature[omf]
@@ -3672,16 +3704,16 @@ trait MutableDescriptionBoxOps[omf <: OMF[omf]]
   def unreifiedRelationshipInstanceTupleUUID
   (dbox: omf#MutableDescriptionBox,
    unreifiedRelationship: omf#UnreifiedRelationship,
-   source: omf#ConceptualEntitySingletonInstance,
-   target: omf#ConceptualEntitySingletonInstance)
+   domain: omf#ConceptualEntitySingletonInstance,
+   range: omf#ConceptualEntitySingletonInstance)
   (implicit store: omf#Store)
   : Throwables \/ resolver.api.taggedTypes.UnreifiedRelationshipInstanceTupleUUID
   = resolver.api.taggedTypes.unreifiedRelationshipInstanceTupleUUID(generateUUIDFromUUID(
     "UnreifiedRelationshipInstanceTuple",
     "descriptionBox" -> getModuleUUID(dbox),
     "unreifiedRelationship" -> getLogicalElementUUID(unreifiedRelationship),
-    "romain" -> getLogicalElementUUID(source),
-    "range" -> getLogicalElementUUID(target))).right
+    "domain" -> getLogicalElementUUID(domain),
+    "range" -> getLogicalElementUUID(range))).right
 
   protected def addUnreifiedRelationshipInstanceTuple
   (uuid: resolver.api.taggedTypes.UnreifiedRelationshipInstanceTupleUUID,
@@ -3703,6 +3735,154 @@ trait MutableDescriptionBoxOps[omf <: OMF[omf]]
     uuid <- unreifiedRelationshipInstanceTupleUUID(dbox, unreifiedRelationship, source, target)
     ax <- addUnreifiedRelationshipInstanceTuple(uuid, dbox, unreifiedRelationship, source, target)
   } yield ax
+
+  ///
+
+  def instanceRelationshipEnumerationRestrictionUUID
+  (dbox: omf#MutableDescriptionBox,
+   restrictedRelationship: omf#RestrictableRelationship with omf#LogicalElement,
+   domain: omf#ConceptualEntitySingletonInstance)
+  (implicit store: omf#Store)
+  : Throwables \/ resolver.api.taggedTypes.InstanceRelationshipEnumerationRestrictionUUID
+  = resolver.api.taggedTypes.instanceRelationshipEnumerationRestrictionUUID(generateUUIDFromUUID(
+    "InstanceRelationshipEnumerationRestriction",
+    "descriptionBox" -> getModuleUUID(dbox),
+    "domain" -> getLogicalElementUUID(domain),
+    "restrictedRelationship" -> getLogicalElementUUID(restrictedRelationship))).right
+
+  protected def addInstanceRelationshipEnumerationRestriction
+  (uuid: resolver.api.taggedTypes.InstanceRelationshipEnumerationRestrictionUUID,
+   dbox: omf#MutableDescriptionBox,
+   restrictedRelationship: omf#RestrictableRelationship with omf#LogicalElement,
+   domain: omf#ConceptualEntitySingletonInstance,
+   references: Vector[omf#ConceptualEntitySingletonInstance])
+  (implicit store: omf#Store)
+  : Throwables \/ omf#InstanceRelationshipEnumerationRestriction
+
+  def addInstanceRelationshipEnumerationRestriction
+  (dbox: omf#MutableDescriptionBox,
+   restrictedRelationship: omf#RestrictableRelationship with omf#LogicalElement,
+   domain: omf#ConceptualEntitySingletonInstance,
+   references: Vector[omf#ConceptualEntitySingletonInstance])
+  (implicit store: omf#Store)
+  : Throwables \/ omf#InstanceRelationshipEnumerationRestriction
+  = for {
+    uuid <- instanceRelationshipEnumerationRestrictionUUID(dbox, restrictedRelationship, domain)
+    ax <- addInstanceRelationshipEnumerationRestriction(uuid, dbox, restrictedRelationship, domain, references)
+  } yield ax
+
+  ///
+
+  def instanceRelationshipValueRestrictionUUID
+  (dbox: omf#MutableDescriptionBox,
+   restrictedRelationship: omf#RestrictableRelationship with omf#LogicalElement,
+   domain: omf#ConceptualEntitySingletonInstance,
+   range: omf#ConceptualEntitySingletonInstance)
+  (implicit store: omf#Store)
+  : Throwables \/ resolver.api.taggedTypes.InstanceRelationshipValueRestrictionUUID
+  = resolver.api.taggedTypes.instanceRelationshipValueRestrictionUUID(generateUUIDFromUUID(
+    "InstanceRelationshipValueRestriction",
+    "descriptionBox" -> getModuleUUID(dbox),
+    "domain" -> getLogicalElementUUID(domain),
+    "range" -> getLogicalElementUUID(range),
+    "restrictedRelationship" -> getLogicalElementUUID(restrictedRelationship))).right
+
+  protected def addInstanceRelationshipValueRestriction
+  (uuid: resolver.api.taggedTypes.InstanceRelationshipValueRestrictionUUID,
+   dbox: omf#MutableDescriptionBox,
+   restrictedRelationship: omf#RestrictableRelationship with omf#LogicalElement,
+   domain: omf#ConceptualEntitySingletonInstance,
+   range: omf#ConceptualEntitySingletonInstance)
+  (implicit store: omf#Store)
+  : Throwables \/ omf#InstanceRelationshipValueRestriction
+
+  def addInstanceRelationshipValueRestriction
+  (dbox: omf#MutableDescriptionBox,
+   restrictedRelationship: omf#RestrictableRelationship with omf#LogicalElement,
+   domain: omf#ConceptualEntitySingletonInstance,
+   range: omf#ConceptualEntitySingletonInstance)
+  (implicit store: omf#Store)
+  : Throwables \/ omf#InstanceRelationshipValueRestriction
+  = for {
+    uuid <- instanceRelationshipValueRestrictionUUID(dbox, restrictedRelationship, domain, range)
+    ax <- addInstanceRelationshipValueRestriction(uuid, dbox, restrictedRelationship, domain, range)
+  } yield ax
+
+  ///
+
+  def instanceRelationshipExistentialRangeRestrictionUUID
+  (dbox: omf#MutableDescriptionBox,
+   restrictedRelationship: omf#RestrictableRelationship with omf#LogicalElement,
+   domain: omf#ConceptualEntitySingletonInstance,
+   range: omf#Entity)
+  (implicit store: omf#Store)
+  : Throwables \/ resolver.api.taggedTypes.InstanceRelationshipExistentialRangeRestrictionUUID
+  = resolver.api.taggedTypes.instanceRelationshipExistentialRangeRestrictionUUID(generateUUIDFromUUID(
+    "InstanceRelationshipExistentialRangeRestriction",
+    "descriptionBox" -> getModuleUUID(dbox),
+    "domain" -> getLogicalElementUUID(domain),
+    "range" -> getLogicalElementUUID(range),
+    "restrictedRelationship" -> getLogicalElementUUID(restrictedRelationship))).right
+
+  protected def addInstanceRelationshipExistentialRangeRestriction
+  (uuid: resolver.api.taggedTypes.InstanceRelationshipExistentialRangeRestrictionUUID,
+   dbox: omf#MutableDescriptionBox,
+   restrictedRelationship: omf#RestrictableRelationship with omf#LogicalElement,
+   domain: omf#ConceptualEntitySingletonInstance,
+   range: omf#Entity)
+  (implicit store: omf#Store)
+  : Throwables \/ omf#InstanceRelationshipExistentialRangeRestriction
+
+  def addInstanceRelationshipExistentialRangeRestriction
+  (dbox: omf#MutableDescriptionBox,
+   restrictedRelationship: omf#RestrictableRelationship with omf#LogicalElement,
+   domain: omf#ConceptualEntitySingletonInstance,
+   range: omf#Entity)
+  (implicit store: omf#Store)
+  : Throwables \/ omf#InstanceRelationshipExistentialRangeRestriction
+  = for {
+    uuid <- instanceRelationshipExistentialRangeRestrictionUUID(dbox, restrictedRelationship, domain, range)
+    ax <- addInstanceRelationshipExistentialRangeRestriction(uuid, dbox, restrictedRelationship, domain, range)
+  } yield ax
+
+  ///
+
+  def instanceRelationshipUniversalRangeRestrictionUUID
+  (dbox: omf#MutableDescriptionBox,
+   restrictedRelationship: omf#RestrictableRelationship with omf#LogicalElement,
+   domain: omf#ConceptualEntitySingletonInstance,
+   range: omf#Entity)
+  (implicit store: omf#Store)
+  : Throwables \/ resolver.api.taggedTypes.InstanceRelationshipUniversalRangeRestrictionUUID
+  = resolver.api.taggedTypes.instanceRelationshipUniversalRangeRestrictionUUID(generateUUIDFromUUID(
+    "InstanceRelationshipUniversalRangeRestriction",
+    "descriptionBox" -> getModuleUUID(dbox),
+    "domain" -> getLogicalElementUUID(domain),
+    "range" -> getLogicalElementUUID(range),
+    "restrictedRelationship" -> getLogicalElementUUID(restrictedRelationship))).right
+
+  protected def addInstanceRelationshipUniversalRangeRestriction
+  (uuid: resolver.api.taggedTypes.InstanceRelationshipUniversalRangeRestrictionUUID,
+   dbox: omf#MutableDescriptionBox,
+   restrictedRelationship: omf#RestrictableRelationship with omf#LogicalElement,
+   domain: omf#ConceptualEntitySingletonInstance,
+   range: omf#Entity)
+  (implicit store: omf#Store)
+  : Throwables \/ omf#InstanceRelationshipUniversalRangeRestriction
+
+  def addInstanceRelationshipUniversalRangeRestriction
+  (dbox: omf#MutableDescriptionBox,
+   restrictedRelationship: omf#RestrictableRelationship with omf#LogicalElement,
+   domain: omf#ConceptualEntitySingletonInstance,
+   range: omf#Entity)
+  (implicit store: omf#Store)
+  : Throwables \/ omf#InstanceRelationshipUniversalRangeRestriction
+  = for {
+    uuid <- instanceRelationshipUniversalRangeRestrictionUUID(dbox, restrictedRelationship, domain, range)
+    ax <- addInstanceRelationshipUniversalRangeRestriction(uuid, dbox, restrictedRelationship, domain, range)
+  } yield ax
+
+  ///
 
   def singletonInstanceScalarDataPropertyValueUUID
   (dbox: omf#MutableDescriptionBox,

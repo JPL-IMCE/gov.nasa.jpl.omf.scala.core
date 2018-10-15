@@ -470,7 +470,7 @@ object OMFTabularExportFromTerminologyGraph {
           uuid = info.uuid,
           tboxUUID = suuid,
           name = info.name,
-          headUUID = ops.getUnreifiedRelationshipUUID(info.head))
+          headUUID = ops.getRestrictableRelationshipUUID(info.head))
       }.to[Seq],
       (x: oml.tables.ChainRule) => x.uuid)(taggedTypes.orderingChainRuleUUID)
 
