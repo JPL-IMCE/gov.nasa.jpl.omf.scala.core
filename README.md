@@ -86,7 +86,7 @@ see: [http://en.wikipedia.org/wiki/List_of_software_package_management_systems](
 
 ### SBT Plugins used in this project
 
-- [sbt-mbee-plugin](https://github.jpl.nasa.gov/secae/sbt.mbee.plugin)
+- [sbt-IMCE-plugin](https://github.com/JPL-IMCE/imce.sbt.plugin)
 
 ## Building the OMF Scala Core
 
