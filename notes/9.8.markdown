@@ -1,0 +1,9 @@
+gov.nasa.jpl.omf.scala.core 9.8 is a minor update from 9.7
+
+# Issues Resolved
+
+## [#44 sbt-mbee-plugin link broken](https://github.com/JPL-IMCE/gov.nasa.jpl.omf.scala.core/issues/44)
+
+## [#46 build error during jdk install](https://github.com/JPL-IMCE/gov.nasa.jpl.omf.scala.core/issues/46)
+
+## [oml.resolver 0.97 update](https://github.com/JPL-IMCE/gov.nasa.jpl.imce.oml.resolver/blob/master/notes/0.97.markdown)

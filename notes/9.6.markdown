@@ -1,0 +1,5 @@
+gov.nasa.jpl.omf.scala.core 9.6 is an API-breaking update from 9.5
+
+# Issues Resolved
+
+## [#39 WIP Add support for CardinalityRestrictions](https://github.com/JPL-IMCE/gov.nasa.jpl.omf.scala.core/issues/39)

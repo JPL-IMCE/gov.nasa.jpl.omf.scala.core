@@ -1,0 +1,8 @@
+gov.nasa.jpl.omf.scala.core 9.7 is an API-breaking update from 9.6
+
+# Issues Resolved
+
+## [#39 Add support for CardinalityRestrictions](https://github.com/JPL-IMCE/gov.nasa.jpl.omf.scala.core/issues/39)
+
+## [#42 Add support for OWLHasValue restriction on OWL individuals](https://github.com/JPL-IMCE/gov.nasa.jpl.omf.scala.core/issues/42)
+
